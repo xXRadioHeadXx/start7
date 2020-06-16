@@ -1,19 +1,19 @@
 <RCC>
-    <qresource prefix="/icons">
-        <file>../src/icon/square_black_cross_blue_20_20.png</file>
-        <file>../src/icon/square_black_cross_green_20_20.png</file>
-        <file>../src/icon/square_black_cross_red_20_20.png</file>
-        <file>../src/icon/square_black_cross_yellow_20_20.png</file>
-        <file>../src/icon/square_blue_20_20.png</file>
-        <file>../src/icon/square_gray_20_20.png</file>
-        <file>../src/icon/square_gray_question_20_20.png</file>
-        <file>../src/icon/square_green_20_20.png</file>
-        <file>../src/icon/square_green_cross2_red_20_20.png</file>
-        <file>../src/icon/square_green_minus_gray_20_20.png</file>
-        <file>../src/icon/square_red_20_20.png</file>
-        <file>../src/icon/square_yellow_20_20.png</file>
-        <file>../src/icon/folder_20_20.png</file>
-        <file>../src/icon/folder_empty_20_20.png</file>
-        <file>../src/icon/square_black_cross_gray_20_20.png</file>
+    <qresource prefix="/">
+        <file>icons/folder_20_20.png</file>
+        <file>icons/folder_empty_20_20.png</file>
+        <file>icons/square_black_cross_blue_20_20.png</file>
+        <file>icons/square_black_cross_gray_20_20.png</file>
+        <file>icons/square_black_cross_green_20_20.png</file>
+        <file>icons/square_black_cross_red_20_20.png</file>
+        <file>icons/square_black_cross_yellow_20_20.png</file>
+        <file>icons/square_blue_20_20.png</file>
+        <file>icons/square_gray_20_20.png</file>
+        <file>icons/square_gray_question_20_20.png</file>
+        <file>icons/square_green_20_20.png</file>
+        <file>icons/square_green_cross2_red_20_20.png</file>
+        <file>icons/square_green_minus_gray_20_20.png</file>
+        <file>icons/square_red_20_20.png</file>
+        <file>icons/square_yellow_20_20.png</file>
     </qresource>
 </RCC>
