@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <DataBaseManager.h>
 #include <QMainWindow>
+#include <TableModelMSG.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +19,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    DataBaseManager *m_dbManager = nullptr;
+    TableModelMSG *modelMSG = nullptr;
+    QTimer timerUpd;
+
 };
 #endif // MAINWINDOW_H

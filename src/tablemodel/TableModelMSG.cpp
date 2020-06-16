@@ -185,7 +185,10 @@ bool TableModelMSG::insertRows(int row, int count, const QModelIndex &parent)
 //обновление выборки
 void TableModelMSG::updateListRecords()
 {
-    int lastRecordMSG = m_listMSG.last()->getId();
+    int lastRecordMSG = -1;
+    if(!m_listMSG.isEmpty())
+        lastRecordMSG = m_listMSG.last()->getId();
+
 
     QList<JourEntity *> newRecords(DataBaseManager::getMSGRecordAfter(lastRecordMSG));
 

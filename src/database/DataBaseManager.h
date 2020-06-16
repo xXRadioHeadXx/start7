@@ -24,6 +24,8 @@ public:
     static int updateJourMsg(const JourEntity &msg);
     static QList<JourEntity *> getMSGRecordAfter(const int &id = 0);
     static QList<JourEntity *> getMSGRecord(const int &id = -1);
+    static QList<JourEntity *> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);
+    static QList<JourEntity *> getFltMSGRecord(const QString flt = "", const int &id = -1);
     static QList<QString> getReasonGroup();
     static QList<QString> getMeasuresGroup();
 

@@ -239,11 +239,100 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
 }
 
 QList<JourEntity *> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ {
+    return getFltMSGRecordAfter("", id);
+//    QList<JourEntity *> result;
+//    QString sql;
+//    sql = "SELECT * FROM jour ";
+//    if(id > 0)
+//        sql += " WHERE id > :id ";
+//    sql += " ORDER BY id ";
+
+//    QSqlQuery query(m_db());
+//    query.prepare(sql);
+
+//    query.bindValue(":id", id);
+
+//    if(query.exec())
+//    {
+//        while(query.next())
+//        {
+//            QSqlRecord rec = query.record();
+//            JourEntity * me = new JourEntity;
+//            me->setId(rec.value("id").toInt());
+//            me->setCdate(rec.value("cdate").toDateTime());
+
+//            me->setComment(rec.value("comment").toString());
+//            me->setObject(rec.value("object").toString());
+//            me->setReason(rec.value("reason").toString());
+//            me->setMeasures(rec.value("measures").toString());
+//            me->setOperatorid(rec.value("operatorid").toString());
+//            me->setStatus(rec.value("status").toString());
+//            me->setDirection(rec.value("direction").toString());
+
+//            me->setMdate(rec.value("mdate").toDateTime());
+
+//            result.append(me);
+//        }
+//    }
+
+//    return result;
+}
+
+QList<JourEntity *> DataBaseManager::getMSGRecord(const int &id) //const
+{
+    return getFltMSGRecord("", id);
+//    QList<JourEntity *> result;
+//    QString sql;
+//    sql = "SELECT * FROM jour ";
+//    if(id > 0)
+//        sql += " WHERE id = :id ";
+//    sql += " ORDER BY id ";
+
+//    QSqlQuery query(m_db());
+//    query.prepare(sql);
+
+//    query.bindValue(":id", id);
+
+//    if(query.exec())
+//    {
+//        while(query.next())
+//        {
+//            QSqlRecord rec = query.record();
+//            JourEntity * me = new JourEntity;
+//            me->setId(rec.value("id").toInt());
+//            me->setCdate(rec.value("cdate").toDateTime());
+
+//            me->setComment(rec.value("comment").toString());
+//            me->setObject(rec.value("object").toString());
+//            me->setReason(rec.value("reason").toString());
+//            me->setMeasures(rec.value("measures").toString());
+//            me->setOperatorid(rec.value("operatorid").toString());
+//            me->setStatus(rec.value("status").toString());
+//            me->setDirection(rec.value("direction").toString());
+
+//            me->setMdate(rec.value("mdate").toDateTime());
+
+//            result.append(me);
+//        }
+//    }
+
+//    return result;
+}
+
+QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
     QList<JourEntity *> result;
     QString sql;
     sql = "SELECT * FROM jour ";
-    if(id > 0)
-        sql += " WHERE id > :id ";
+    if(id > 0 || !flt.isEmpty()) {
+        sql += " WHERE ";
+        if(id > 0)
+            sql += " id > :id ";
+        if(!flt.isEmpty()) {
+            if(id > 0)
+                sql += " AND ";
+            sql += " ( " + flt + " ) ";
+        }
+    }
     sql += " ORDER BY id ";
 
     QSqlQuery query(m_db());
@@ -277,13 +366,20 @@ QList<JourEntity *> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ 
     return result;
 }
 
-QList<JourEntity *> DataBaseManager::getMSGRecord(const int &id) //const
-{
+QList<JourEntity *> DataBaseManager::getFltMSGRecord(const QString flt, const int &id) {
     QList<JourEntity *> result;
     QString sql;
     sql = "SELECT * FROM jour ";
-    if(id > 0)
-        sql += " WHERE id = :id ";
+    if(id > 0 || !flt.isEmpty()) {
+        sql += " WHERE ";
+        if(id > 0)
+            sql += " id = :id ";
+        if(!flt.isEmpty()) {
+            if(id > 0)
+                sql += " AND ";
+            sql += " ( " + flt + " ) ";
+        }
+    }
     sql += " ORDER BY id ";
 
     QSqlQuery query(m_db());

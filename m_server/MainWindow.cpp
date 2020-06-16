@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     this->ruTranslator = new QTranslator(this);
-    this->ruTranslator->load("app_ru");
+//    this->ruTranslator->load("app_ru");
 
     ui->actionDataBase->setShortcut(QKeySequence("F3"));
     ui->actionSoundReset->setShortcut(QKeySequence("Esc"));

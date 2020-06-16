@@ -17,7 +17,7 @@ AppTranslator::AppTranslator(QApplication *app,
             this,
             SLOT(removeTranslator(QTranslator*)));
 
-    QTranslator *tr = m_w->getRuTranslator();
+    QTranslator *tr = nullptr; //m_w->getRuTranslator();
     qDebug() << "installTranslator" << m_app->installTranslator(tr);
 }
 

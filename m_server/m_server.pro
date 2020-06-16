@@ -27,46 +27,11 @@ include(../src/utils/utils.pri)
 include(../src/database/database.pri)
 
 SOURCES += \
-#    AppTranslator.cpp \
-#    DataBaseManager.cpp \
-#    Icons.cpp \
-#    SettingUtils.cpp \
-#    Utils.cpp \
-#    entity/UnitNode.cpp \
-#    entity/MessageEntity.cpp \
     main.cpp \
-    MainWindow.cpp #\
-#    port/ConfirmationAdmissionWaiter.cpp \
-#    port/Port.cpp \
-#    port/PortFactory.cpp \
-#    port/PortManager.cpp \
-#    port/StatusRequester.cpp \
-#    SignalSlotCommutator.cpp #\
-#    tablemodel/TableModelMSG.cpp \
-#    proxyfunc.cpp \
-#    tablemodel/TreeModelUnitNode.cpp
+    MainWindow.cpp
 
 HEADERS += \
-#    AppTranslator.h \
-#    DataBaseManager.h \
-#    Icons.h \
-#    SettingUtils.h \
-#    Utils.h \
-#    entity/UnitNode.h \
-#    entity/MessageEntity.h \
-    MainWindow.h #\
-#    port/AbstractPort.h \
-#    port/AbstractPortFactory.h \
-#    port/ConfirmationAdmissionWaiter.h \
-#    port/DataQueueItem.h \
-#    port/Port.h \
-#    port/PortFactory.h \
-#    port/PortManager.h \
-##    proxyfunc.h \
-#    port/StatusRequester.h \
-#    SignalSlotCommutator.h #\
-#    tablemodel/TableModelMSG.h \
-#    tablemodel/TreeModelUnitNode.h
+    MainWindow.h
 
 FORMS += \
     mainwindow.ui
