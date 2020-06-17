@@ -159,56 +159,6 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     return listTreeUnitNodes;
 }
 
-//QList<AbstractPort *> SettingUtils::loadPorts(QString fileName) {
-//    QList<AbstractPort *> result;
-
-//    QSettings settings(fileName, QSettings::IniFormat);
-
-//    settings.beginGroup("TREE");
-//    int cntTrItm = settings.value( "Count", -1 ).toInt();
-//    settings.endGroup();
-
-//    qDebug() << "cntTrItm" << cntTrItm;
-//    if(0 >= cntTrItm)
-//        return result;
-
-//    settings.setIniCodec( "Windows-1251" );
-
-//    QSet<QPair<QString, QString> > stIpPort;
-//    QSet<QString> stPort;
-
-//    for(int index = 0; stIpPort.size() < cntTrItm && index < (100 + cntTrItm); index++)
-//    {
-//        QString strGroup("Obj_%1");
-//        strGroup = strGroup.arg(index);
-//        if(settings.childGroups().contains(strGroup))
-//        {
-//            settings.beginGroup(strGroup);
-//            int udpUse = settings.value( "UdpUse" , -1 ).toInt();
-//            QString udpAdress = settings.value( "UdpAdress" , -1 ).toString();
-//            QString updPort = settings.value( "UpdPort" , -1 ).toString();
-//            settings.endGroup();
-
-//            if (1 == udpUse && !udpAdress.isEmpty() && !updPort.isEmpty()){
-//                QPair<QString, QString> tmp(udpAdress, updPort);
-//                stIpPort.insert(tmp);
-//                stPort.insert(updPort);
-//            }
-//        }
-//    }
-
-//    for(QString prt : stPort) {
-//        result.append(PortFactory::create(AbstractPort::UDP, result.size()));
-//        Port::typeDefPort(result.last())->setStrPort(prt);
-//        for(QPair<QString, QString> tmp : stIpPort) {
-//            if(prt == tmp.second)
-//                Port::typeDefPort(result.last())->addToSetIpPort(tmp);
-//        }
-//    }
-
-//    return result;
-//}
-
 QList<UnitNode *> SettingUtils::getListTreeUnitNodes() {
     return SettingUtils::listTreeUnitNodes;
 }
