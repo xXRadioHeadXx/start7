@@ -2,7 +2,7 @@
 #define ABSTRACTREQUESTER_H
 
 #include "Utils.h"
-#include <AbstractPort.h>
+#include <Port.h>
 #include <DataQueueItem.h>
 #include <QTimer>
 #include <QDebug>
@@ -135,7 +135,7 @@ public slots:
 
         setFirstMsg(makeFirstMsg());
 
-        Utils::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
+        Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerFirstStart(getTimeIntervalRequest());
         qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <--";
@@ -208,7 +208,7 @@ public slots:
 
         setSecondMsg(makeSecondMsg());
 
-        Utils::typeDefPort(ptrPort)->write(getSecondMsg(), false);
+        Port::typeDefPort(ptrPort)->write(getSecondMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerSecondStart(getTimeIntervalRequest());
         qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <--";

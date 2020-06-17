@@ -50,6 +50,7 @@ public:
 
     void prepareUdpScoket(QString strIp, QString strPort);
 
+    static Port * typeDefPort(const AbstractPort * port);
 
     // getter setter -->
     QString getStrPort() const;

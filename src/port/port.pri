@@ -4,6 +4,7 @@ CONFIG += c++11
 INCLUDEPATH += $$PWD/
 
 SOURCES += \
+    $$PWD/DataQueueItem.cpp \
     $$PWD/Port.cpp \
     $$PWD/PortFactory.cpp \
     $$PWD/PortManager.cpp \

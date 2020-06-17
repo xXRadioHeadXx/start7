@@ -4,8 +4,6 @@
 #include <QHostAddress>
 #include <QTableWidget>
 
-#include <AbstractPort.h>
-#include <Port.h>
 #include <UnitNode.h>
 
 //enum BeatStatus {
@@ -19,13 +17,6 @@
 
 class Utils
 {
-private:
-    static QByteArray data0x21;
-    static QByteArray data0x22;
-    static QByteArray data0x23;
-    static QByteArray data0x24;
-    static QByteArray data0x20;
-
 public:
     static QColor cellRed;
     static QColor cellGreen;
@@ -43,22 +34,22 @@ public:
     static bool isSavedMsg(const QByteArray ba);
     template <typename T>
     static QList<T> reversed( const QList<T> & in );
-    static Port * typeDefPort(const AbstractPort * port);
-    static DataQueueItem makeOnOff0x20(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeOnOff0x20(const UnitNode * un = nullptr);
-    static DataQueueItem makeDK0x21(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeDK0x21(const UnitNode * un = nullptr);
-    static DataQueueItem makeStatusRequest0x22(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeStatusRequest0x22(const UnitNode * un = nullptr);
-    static DataQueueItem makeOnOff0x23(DataQueueItem &item, UnitNode *un = nullptr);
-    static QByteArray makeOnOff0x23(UnitNode *un = nullptr, bool onOff = true, UnitNode *pun = nullptr);
-    static DataQueueItem makeAlarmReset0x24(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeAlarmReset0x24(const UnitNode * un = nullptr);
-    static bool isValideDirectionI(DataQueueItem &item);
-    static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
+//    static Port * typeDefPort(const AbstractPort * port);
+//    static DataQueueItem makeOnOff0x20(DataQueueItem &item, const UnitNode * un = nullptr);
+//    static QByteArray makeOnOff0x20(const UnitNode * un = nullptr);
+//    static DataQueueItem makeDK0x21(DataQueueItem &item, const UnitNode * un = nullptr);
+//    static QByteArray makeDK0x21(const UnitNode * un = nullptr);
+//    static DataQueueItem makeStatusRequest0x22(DataQueueItem &item, const UnitNode * un = nullptr);
+//    static QByteArray makeStatusRequest0x22(const UnitNode * un = nullptr);
+//    static DataQueueItem makeOnOff0x23(DataQueueItem &item, UnitNode *un = nullptr);
+//    static QByteArray makeOnOff0x23(UnitNode *un = nullptr, bool onOff = true, UnitNode *pun = nullptr);
+//    static DataQueueItem makeAlarmReset0x24(DataQueueItem &item, const UnitNode * un = nullptr);
+//    static QByteArray makeAlarmReset0x24(const UnitNode * un = nullptr);
+//    static bool isValideDirectionI(DataQueueItem &item);
+//    static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
     static int calcDkStatus(int type, int status1, int status2);
     static void fillDiagnosticTable(QTableWidget * table, UnitNode *selUN);
-    static AbstractPort * portOfUN(UnitNode *un);
+//    static AbstractPort * portOfUN(UnitNode *un);
 
 
 };

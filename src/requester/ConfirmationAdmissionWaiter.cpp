@@ -32,9 +32,9 @@ void ConfirmationAdmissionWaiter::init()
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
     for(AbstractPort * pt : PortManager::getUdpPortsVector()) {
-        if(Utils::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
+        if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
-            setPortIndex(Utils::typeDefPort(getPtrPort())->getPortIndex());
+            setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
             break;
         }
     }
@@ -46,7 +46,7 @@ void ConfirmationAdmissionWaiter::init()
 
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    result.setPortIndex(Utils::typeDefPort(getPtrPort())->getPortIndex());
+    result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
     setFirstMsg(result);
 }

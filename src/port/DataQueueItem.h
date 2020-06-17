@@ -3,50 +3,60 @@
 
 #include <QByteArray>
 #include <QHostAddress>
+#include <UnitNode.h>
+#include <Utils.h>
 
-class /*Q_CORE_EXPORT*/ DataQueueItem
+class DataQueueItem
 {
 private:
     int m_port;
     QHostAddress m_address;
     QByteArray m_data;
     int m_portIndex;
+
+    static QByteArray data0x21;
+    static QByteArray data0x22;
+    static QByteArray data0x24;
+    static QByteArray data0x20;
+    static QByteArray data0x23;
 public:
-    explicit inline DataQueueItem() noexcept : m_port(0), m_data(QByteArray()), m_portIndex(0) {}
-    explicit inline DataQueueItem(const QByteArray data, QHostAddress address, int port, const int index) noexcept : m_port(port), m_address(address), m_data(data), m_portIndex(index) {}
-//    explicit inline DataQueueItem(const DataQueueItem & parent) noexcept : m_port(parent.port()), m_address(parent.address()), m_data(parent.data()), m_portIndex(parent.portIndex()) {}
-    QByteArray data() const {return m_data;}
-    void setData(const QByteArray &data) {m_data = data;};
-    void setData() {m_data.clear();};
-    int portIndex() const {return m_portIndex;}
-    QHostAddress address() const {return m_address;}
-    int port() const {return m_port;}
+    DataQueueItem() noexcept;
+    DataQueueItem(const QByteArray data, QHostAddress address, int port, const int index) noexcept;
 
-    bool isValid() {return !data().isEmpty() && !address().isNull() && 0 < port() && -1 < portIndex();}
-    DataQueueItem& operator=(const DataQueueItem& right) {
-        //проверка на самоприсваивание
-        if (this == &right) {
-            return *this;
-        }
-        m_data = right.data();
-        m_portIndex = right.portIndex();
-        m_address = right.address();
-        m_port = right.port();
-        return *this;
-    }
+    virtual ~DataQueueItem();
 
-    bool operator==(const DataQueueItem &right) const
-    {
-        if(this == &right)
-            return true;
-        return m_data == right.data() &&
-               m_portIndex == right.portIndex() &&
-               m_address == right.address() &&
-               m_port == right.port();
-    }
-    void setPort(int port) { m_port = port; }
-    void setAddress(const QHostAddress &address) { m_address = address; }
-    void setPortIndex(int portIndex) { m_portIndex = portIndex; }
+    QByteArray data() const;
+    void setData(const QByteArray &data);
+    void setData();
+    int portIndex() const;
+    QHostAddress address() const;
+    int port() const;
+    bool isValid();
+    DataQueueItem& operator=(const DataQueueItem& right);
+
+    bool operator==(const DataQueueItem &right) const;
+    void setPort(int port);
+    void setAddress(const QHostAddress &address);
+    void setPortIndex(int portIndex);
+
+    static DataQueueItem makeOnOff0x20(DataQueueItem &item, const UnitNode * un = nullptr);
+    static QByteArray makeOnOff0x20(const UnitNode * un = nullptr);
+
+    static DataQueueItem makeDK0x21(DataQueueItem &item, const UnitNode * un = nullptr);
+    static QByteArray makeDK0x21(const UnitNode * un = nullptr);
+
+
+    static DataQueueItem makeStatusRequest0x22(DataQueueItem &item, const UnitNode * un = nullptr);
+    static QByteArray makeStatusRequest0x22(const UnitNode * un = nullptr);
+
+
+    static DataQueueItem makeAlarmReset0x24(DataQueueItem &item, const UnitNode * un = nullptr);
+    static QByteArray makeAlarmReset0x24(const UnitNode * un = nullptr);
+
+    static QByteArray makeOnOff0x23(UnitNode *un = nullptr, bool onOff = true, UnitNode *pun = nullptr);
+    static DataQueueItem makeOnOff0x23(DataQueueItem &item, UnitNode *un = nullptr);
+
+    static bool isValideDirectionI(DataQueueItem &item);
 };
 
 #endif // DATAQUEUEITEM_H

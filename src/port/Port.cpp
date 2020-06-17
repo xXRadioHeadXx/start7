@@ -125,6 +125,13 @@ void Port::prepareUdpScoket(QString ip, QString port) {
     setStrPort(port);
 }
 
+Port * Port::typeDefPort(const AbstractPort * port) {
+    if(AbstractPort::UDP == port->getProtocol())
+        return (Port *)port;
+    else
+        return nullptr;
+}
+
 
 bool Port::openUdpScoket(QString port)
 {

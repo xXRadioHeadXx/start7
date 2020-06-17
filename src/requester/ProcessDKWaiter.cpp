@@ -12,7 +12,7 @@ ProcessDKWaiter::ProcessDKWaiter(UnitNode * target, RequesterType requesterType)
 ProcessDKWaiter::~ProcessDKWaiter()
 {
 //    qDebug() << "ProcessDKWaiter::~ProcessDKWaiter()";
-    Utils::typeDefPort(getPtrPort())->setProcDK(false);
+    Port::typeDefPort(getPtrPort())->setProcDK(false);
 }
 
 QList<UnitNode *> ProcessDKWaiter::getLsTrackedUN() const
@@ -35,10 +35,10 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
-    result.setData(Utils::makeDK0x21(getUnReciver()));
+    result.setData(DataQueueItem::makeDK0x21(getUnReciver()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    result.setPortIndex(Utils::typeDefPort(getPtrPort())->getPortIndex());
+    result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
     if(result.isValid())
         return result;
@@ -51,10 +51,10 @@ DataQueueItem ProcessDKWaiter::makeSecondMsg() {
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
-    result.setData(Utils::makeAlarmReset0x24(getUnReciver()));
+    result.setData(DataQueueItem::makeAlarmReset0x24(getUnReciver()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    result.setPortIndex(Utils::typeDefPort(getPtrPort())->getPortIndex());
+    result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
     if(result.isValid())
         return result;
@@ -80,9 +80,9 @@ void ProcessDKWaiter::init() {
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
     for(AbstractPort * pt : PortManager::getUdpPortsVector()) {
-        if(Utils::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
+        if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
-            setPortIndex(Utils::typeDefPort(getPtrPort())->getPortIndex());
+            setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
             break;
         }
     }

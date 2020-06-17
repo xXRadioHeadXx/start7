@@ -3,6 +3,7 @@
 
 #include "AbstractRequester.h"
 
+#include <DataQueueItem.h>
 #include <QObject>
 #include <Utils.h>
 
@@ -17,7 +18,7 @@ public:
 public:
     QTimer timerStatusRequest;
     UnitNode * unStatusRequest = nullptr;
-    const QByteArray msg = Utils::makeStatusRequest0x22();
+    QByteArray msg;// = DataQueueItem::makeStatusRequest0x22();
     QPair<QString, QString> ipPort;
     int portIndex;
     int timeIntervalStatusRequest = 100;

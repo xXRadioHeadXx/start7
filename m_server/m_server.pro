@@ -25,6 +25,7 @@ include(../src/entity/entity.pri)
 include(../src/tablemodel/tablemodel.pri)
 include(../src/utils/utils.pri)
 include(../src/database/database.pri)
+include(../src/requester/requester.pri)
 
 SOURCES += \
     main.cpp \

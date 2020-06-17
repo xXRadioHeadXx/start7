@@ -2,6 +2,7 @@
 
 StatusRequester::StatusRequester(QObject * parent) : QObject(parent)
 {
+    msg = DataQueueItem::makeStatusRequest0x22();
 
 }
 
@@ -19,7 +20,7 @@ void StatusRequester::startStatusRequest(){
 void StatusRequester::beatStatusRequest() {
     DataQueueItem itm(msg, QHostAddress(ipPort.first), QVariant(ipPort.second).toInt(), portIndex);
 
-    Utils::typeDefPort(ptrPort)->write(itm, false);
+    Port::typeDefPort(ptrPort)->write(itm, false);
     beatCount++;
 
     timerStatusRequest.singleShot(timeIntervalStatusRequest, this, SLOT(beatStatusRequest()));

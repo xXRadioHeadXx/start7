@@ -2,8 +2,8 @@
 #define SETTINGUTILS_H
 
 #include <UnitNode.h>
-#include <AbstractPort.h>
-#include <PortFactory.h>
+//#include <AbstractPort.h>
+//#include <PortFactory.h>
 
 
 
@@ -16,7 +16,7 @@ private:
 public:
     SettingUtils();
     static QList<UnitNode *> loadTreeUnitNodes(UnitNode * root, QString fileName = "rifx.ini");
-    static QList<AbstractPort *> loadPorts(QString fileName = "rifx.ini");
+//    static QList<AbstractPort *> loadPorts(QString fileName = "rifx.ini");
     static QList<UnitNode *> getListTreeUnitNodes();
     static QSet<UnitNode *> getSetMetaRealUnitNodes();
 };
