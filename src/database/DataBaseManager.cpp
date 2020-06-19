@@ -150,7 +150,7 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
         sql += "to_timestamp(:vCdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
     if(msg.getMdate().isValid())
         sql += "to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
-    sql += ":vComment, :vObject, :vReason, :vMeasures, :vOperatorid, :vStatus, :vDirection); ";
+    sql += ":vComment, :vObject, :vReason, :vMeasures, :vOperatorid, :vStatus, :vDirection, :vD1, :vD2, :vD3, :vD4, :vType, :vObjecttype, :vFlag); ";
 
     QSqlQuery query(m_db());
     query.prepare(sql);
@@ -166,6 +166,13 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     query.bindValue(":vOperatorid", msg.getOperatorid());
     query.bindValue(":vStatus", msg.getStatus());
     query.bindValue(":vDirection", msg.getDirection());
+    query.bindValue(":vD1", msg.getD1());
+    query.bindValue(":vD2", msg.getD2());
+    query.bindValue(":vD3", msg.getD3());
+    query.bindValue(":vD4", msg.getD4());
+    query.bindValue(":vType", msg.getType());
+    query.bindValue(":vObjecttype", msg.getObjecttype());
+    query.bindValue(":vFlag", msg.getFlag());
 
     if(query.exec())
     {
@@ -205,6 +212,13 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
              status=:vStatus, \
              mdate=to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS'), \
              direction=:vDirection \
+             d1=:vD1, \
+             d2=:vD2, \
+             d3=:vD3, \
+             d4=:vD4, \
+             type=:vType, \
+             objecttype=:vObjecttype, \
+             flag=:vFlag \
              WHERE id = :vId ";
 
     QSqlQuery query(m_db());
@@ -221,6 +235,13 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
     query.bindValue(":vStatus", msg.getStatus());
     query.bindValue(":vMdate", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.z"));
     query.bindValue(":vDirection", msg.getDirection());
+    query.bindValue(":vD1", msg.getD1());
+    query.bindValue(":vD2", msg.getD2());
+    query.bindValue(":vD3", msg.getD3());
+    query.bindValue(":vD4", msg.getD4());
+    query.bindValue(":vType", msg.getType());
+    query.bindValue(":vObjecttype", msg.getObjecttype());
+    query.bindValue(":vFlag", msg.getFlag());
     query.bindValue(":vId", msg.getId());
 
     if(query.exec())
@@ -240,83 +261,11 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
 
 QList<JourEntity *> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ {
     return getFltMSGRecordAfter("", id);
-//    QList<JourEntity *> result;
-//    QString sql;
-//    sql = "SELECT * FROM jour ";
-//    if(id > 0)
-//        sql += " WHERE id > :id ";
-//    sql += " ORDER BY id ";
-
-//    QSqlQuery query(m_db());
-//    query.prepare(sql);
-
-//    query.bindValue(":id", id);
-
-//    if(query.exec())
-//    {
-//        while(query.next())
-//        {
-//            QSqlRecord rec = query.record();
-//            JourEntity * me = new JourEntity;
-//            me->setId(rec.value("id").toInt());
-//            me->setCdate(rec.value("cdate").toDateTime());
-
-//            me->setComment(rec.value("comment").toString());
-//            me->setObject(rec.value("object").toString());
-//            me->setReason(rec.value("reason").toString());
-//            me->setMeasures(rec.value("measures").toString());
-//            me->setOperatorid(rec.value("operatorid").toString());
-//            me->setStatus(rec.value("status").toString());
-//            me->setDirection(rec.value("direction").toString());
-
-//            me->setMdate(rec.value("mdate").toDateTime());
-
-//            result.append(me);
-//        }
-//    }
-
-//    return result;
 }
 
 QList<JourEntity *> DataBaseManager::getMSGRecord(const int &id) //const
 {
     return getFltMSGRecord("", id);
-//    QList<JourEntity *> result;
-//    QString sql;
-//    sql = "SELECT * FROM jour ";
-//    if(id > 0)
-//        sql += " WHERE id = :id ";
-//    sql += " ORDER BY id ";
-
-//    QSqlQuery query(m_db());
-//    query.prepare(sql);
-
-//    query.bindValue(":id", id);
-
-//    if(query.exec())
-//    {
-//        while(query.next())
-//        {
-//            QSqlRecord rec = query.record();
-//            JourEntity * me = new JourEntity;
-//            me->setId(rec.value("id").toInt());
-//            me->setCdate(rec.value("cdate").toDateTime());
-
-//            me->setComment(rec.value("comment").toString());
-//            me->setObject(rec.value("object").toString());
-//            me->setReason(rec.value("reason").toString());
-//            me->setMeasures(rec.value("measures").toString());
-//            me->setOperatorid(rec.value("operatorid").toString());
-//            me->setStatus(rec.value("status").toString());
-//            me->setDirection(rec.value("direction").toString());
-
-//            me->setMdate(rec.value("mdate").toDateTime());
-
-//            result.append(me);
-//        }
-//    }
-
-//    return result;
 }
 
 QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
@@ -358,6 +307,17 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, con
             me->setDirection(rec.value("direction").toString());
 
             me->setMdate(rec.value("mdate").toDateTime());
+
+            me->setObjectid(rec.value("objectid").toInt());
+
+            me->setD1(rec.value("d1").toInt());
+            me->setD2(rec.value("d2").toInt());
+            me->setD3(rec.value("d3").toInt());
+            me->setD4(rec.value("d4").toInt());
+            me->setType(rec.value("type").toInt());
+            me->setObjecttype(rec.value("objecttype").toInt());
+            me->setFlag(rec.value("flag").toInt());
+
 
             result.append(me);
         }
@@ -405,6 +365,16 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecord(const QString flt, const in
             me->setDirection(rec.value("direction").toString());
 
             me->setMdate(rec.value("mdate").toDateTime());
+
+            me->setObjectid(rec.value("objectid").toInt());
+
+            me->setD1(rec.value("d1").toInt());
+            me->setD2(rec.value("d2").toInt());
+            me->setD3(rec.value("d3").toInt());
+            me->setD4(rec.value("d4").toInt());
+            me->setType(rec.value("type").toInt());
+            me->setObjecttype(rec.value("objecttype").toInt());
+            me->setFlag(rec.value("flag").toInt());
 
             result.append(me);
         }

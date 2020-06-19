@@ -2,41 +2,160 @@
 
 #include <Utils.h>
 
+QMap<int, QString> JourEntity::mapTypeObject = {{TypeObject::AllObject,"Все"},
+                                                {TypeObject::SD,"СД"},
+                                                {TypeObject::IU,"ИУ"},
+                                                {TypeObject::RIFRLM,"РИФ-РЛМ(КРЛ), Трасса"},
+                                                {TypeObject::SDCollector,"СД концентратора"},
+                                                {TypeObject::Toros,"Торос"},
+                                                {TypeObject::Nast,"Наст"},
+                                                {TypeObject::Radar,"Радар"},
+                                                {TypeObject::RazrivBO,"Разрыв БО"},
+                                                {TypeObject::TochkaGard,"Точка/Гарда"},
+                                                {TypeObject::Adam,"Адам-406x/4168"},
+                                                {TypeObject::SDBLIP,"СД БЛ-IP"},
+                                                {TypeObject::IUBLIP,"ИУ БЛ-IP"},
+                                                {TypeObject::RIFRLMS,"РИФ-РЛМ-С"},
+                                                {TypeObject::BODTochkaM,"БОД Точка-М/Гарда-М"},
+                                                {TypeObject::DDTochkaM,"ДД Точка-М/Гарда-М"},
+                                                {TypeObject::BODSota,"БОД Сота/Сота-М"},
+                                                {TypeObject::DDSota,"ДД Сота/Сота-М"}};
+
+QMap<int, QString> JourEntity::mapTypeEvent = {{TypeEvent::AllEvent, "Все"},
+                                               {TypeEvent::Alarm, "Тревоги"},
+                                               {TypeEvent::Fault, "Неисправности"},
+                                               {TypeEvent::Command, "Команды"}};
+
+
+QMap<int, QString> JourEntity::getMapTypeEvent()
+{
+    return mapTypeEvent;
+}
+
+QMap<int, QString> JourEntity::getMapTypeObject()
+{
+    return mapTypeObject;
+}
+
+int JourEntity::getD1() const
+{
+    return d1;
+}
+
+void JourEntity::setD1(int value)
+{
+    d1 = value;
+}
+
+int JourEntity::getD2() const
+{
+    return d2;
+}
+
+void JourEntity::setD2(int value)
+{
+    d2 = value;
+}
+
+int JourEntity::getD3() const
+{
+    return d3;
+}
+
+void JourEntity::setD3(int value)
+{
+    d3 = value;
+}
+
+int JourEntity::getD4() const
+{
+    return d4;
+}
+
+void JourEntity::setD4(int value)
+{
+    d4 = value;
+}
+
+int JourEntity::getType() const
+{
+    return type;
+}
+
+void JourEntity::setType(int value)
+{
+    type = value;
+}
+
+int JourEntity::getObjecttype() const
+{
+    return objecttype;
+}
+
+void JourEntity::setObjecttype(int value)
+{
+    objecttype = value;
+}
+
+int JourEntity::getFlag() const
+{
+    return flag;
+}
+
+void JourEntity::setFlag(int value)
+{
+    flag = value;
+}
+
 JourEntity::JourEntity(QObject *parent) : QObject(parent)
 {
-
+    
 }
 
 JourEntity::JourEntity(const JourEntity & parent) :
     QObject(nullptr),
-    id(parent.id),
-    cdate(parent.cdate),
-    mdate(parent.mdate),
-    comment(parent.comment),
-    object(parent.object),
-    objectid(parent.objectid),
-    reason(parent.reason),
-    measures(parent.measures),
-    operatorid(parent.operatorid),
-    status(parent.status),
-    direction(parent.direction)
+    id(parent.getId()),
+    cdate(parent.getCdate()),
+    mdate(parent.getMdate()),
+    comment(parent.getComment()),
+    object(parent.getObject()),
+    objectid(parent.getObjectid()),
+    reason(parent.getReason()),
+    measures(parent.getMeasures()),
+    operatorid(parent.getOperatorid()),
+    status(parent.getStatus()),
+    direction(parent.getDirection()),
+    d1(parent.getD1()),
+    d2(parent.getD2()),
+    d3(parent.getD3()),
+    d4(parent.getD4()),
+    type(parent.getType()),
+    objecttype(parent.getObjecttype()),
+    flag(parent.getFlag())
 {
 
 }
 
 JourEntity::JourEntity(JourEntity * parent) :
     QObject(parent),
-    id(parent->id),
-    cdate(parent->cdate),
-    mdate(parent->mdate),
-    comment(parent->comment),
-    object(parent->object),
-    objectid(parent->objectid),
-    reason(parent->reason),
-    measures(parent->measures),
-    operatorid(parent->operatorid),
-    status(parent->status),
-    direction(parent->direction)
+    id(parent->getId()),
+    cdate(parent->getCdate()),
+    mdate(parent->getMdate()),
+    comment(parent->getComment()),
+    object(parent->getObject()),
+    objectid(parent->getObjectid()),
+    reason(parent->getReason()),
+    measures(parent->getMeasures()),
+    operatorid(parent->getOperatorid()),
+    status(parent->getStatus()),
+    direction(parent->getDirection()),
+    d1(parent->getD1()),
+    d2(parent->getD2()),
+    d3(parent->getD3()),
+    d4(parent->getD4()),
+    type(parent->getType()),
+    objecttype(parent->getObjecttype()),
+    flag(parent->getFlag())
 {
 
 }
@@ -115,17 +234,24 @@ QVariant JourEntity::data(int column) const noexcept
 }
 
 JourEntity & JourEntity::operator=(const JourEntity& c) {
-    id = c.id;
-    cdate = c.cdate;
-    mdate = c.mdate;
-    comment = c.comment;
-    object = c.object;
-    objectid = c.objectid;
-    reason = c.reason;
-    measures = c.measures;
-    operatorid = c.operatorid;
-    status = c.status;
-    direction = c.direction;
+    setId(c.getId());
+    setCdate(c.getCdate());
+    setMdate(c.getMdate());
+    setComment(c.getComment());
+    setObject(c.getObject());
+    setObjectid(c.getObjectid());
+    setReason(c.getReason());
+    setMeasures(c.getMeasures());
+    setOperatorid(c.getOperatorid());
+    setStatus(c.getStatus());
+    setDirection(c.getDirection());
+    setD1(c.getD1());
+    setD2(c.getD2());
+    setD3(c.getD3());
+    setD4(c.getD4());
+    setType(c.getType());
+    setObjecttype(c.getObjecttype());
+    setFlag(c.getFlag());
 
     return *this;
 }
