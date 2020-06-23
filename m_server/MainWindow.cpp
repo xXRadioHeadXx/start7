@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     JourEntity msg;
     msg.setObject(trUtf8("Оператор"));
+    msg.setType(900);
     msg.setComment(trUtf8("Программа запущена"));
     DataBaseManager::insertJourMsg_wS(msg);
 
@@ -98,6 +99,7 @@ MainWindow::~MainWindow()
 {
     JourEntity msg;
     msg.setObject(trUtf8("Оператор"));
+    msg.setType(901);
     msg.setComment(trUtf8("Программа остановлена"));
     DataBaseManager::insertJourMsg(msg);
 
@@ -269,7 +271,8 @@ void MainWindow::on_pushButtonAlarmReset_clicked()
     this->m_portManager->requestAlarmReset();
     JourEntity msgOn;
     msgOn.setObject("Оператор");
-    msgOn.setComment(trUtf8("Выполнен сброс тревог"));
+    msgOn.setType(135);
+    msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
     DataBaseManager::insertJourMsg_wS(msgOn);
 
 }
@@ -430,6 +433,7 @@ void MainWindow::on_actionControl_triggered()
 
         JourEntity msgOn;
         msgOn.setObject(selUN->getName());
+        msgOn.setType((selUN->getControl() ? 137 : 136));
         msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);
     }

@@ -319,6 +319,7 @@ void PortManager::requestDK(UnitNode * selUN) {
     if(nullptr == selUN) {
         JourEntity msg;
         msg.setObject(trUtf8("РИФ Общий"));
+        msg.setType(133);
         msg.setComment(trUtf8("Послана ком. ДК"));
         DataBaseManager::insertJourMsg_wS(msg);
     }
@@ -337,6 +338,7 @@ void PortManager::requestDK(UnitNode * selUN) {
         }
         if(nullptr == selUN && !un->getName().isEmpty() && un->getControl()) {
             JourEntity msg;
+            msg.setType(133);
             msg.setComment(trUtf8("Послана ком. ДК"));
             msg.setObject(un->getName());
             DataBaseManager::insertJourMsg_wS(msg);
@@ -344,6 +346,7 @@ void PortManager::requestDK(UnitNode * selUN) {
     }
     if(nullptr != selUN && selUN->getControl()) {
         JourEntity msg;
+        msg.setType(133);
         msg.setComment(trUtf8("Послана ком. ДК"));
         msg.setObject(selUN->getName());
         DataBaseManager::insertJourMsg_wS(msg);
@@ -469,6 +472,7 @@ void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
         if(target->getControl()) {
             JourEntity msg;
             msg.setObject(target->getName());
+            msg.setType((value ? 130 : 131));
             msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
             DataBaseManager::insertJourMsg_wS(msg);
         }
@@ -682,6 +686,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     un->getControl())) {
                     JourEntity msgOn;
                     msgOn.setObject(un->getName());
+                    msgOn.setType(101);
                     msgOn.setComment(QObject::trUtf8("Вкл"));
                     DataBaseManager::insertJourMsg_wS(msgOn);
                   }
@@ -689,21 +694,21 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
                     //сохранение Тревога или Норма
                     msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
-
+                    msg.setType(20);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     //нужен сброс
                     resultRequest.setData(DataQueueItem::makeAlarmReset0x24());
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Norm)) {
                     msg.setComment(QObject::trUtf8("Норма"));
-
+                    msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus2() & Status::Off)) {
                     msg.setComment(QObject::trUtf8("Выкл"));
-
+                    msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (un->getStatus1() & Status::Off)) {
                     msg.setComment(QObject::trUtf8("Выкл"));
-
+                    msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 }
             }
@@ -806,8 +811,10 @@ void PortManager::manageOverallReadQueue()
                                     msg.setObject(un->getName());
                                     if(DKCiclStatus::DKDone == un->getDkStatus()) {
                                         msg.setComment(trUtf8("Ком. ДК выполнена"));
+                                        msg.setType(3);
                                     } else {
                                         msg.setComment(trUtf8("Ком. ДК не выполнена"));
+                                        msg.setType(11);
                                     }
                                     un->setDkInvolved(false);
                                     un->setDkStatus(DKCiclStatus::DKIgnore);

@@ -60,9 +60,18 @@ public:
     enum TypeEvent {
         AllEvent = 0,//"Все"
         Alarm = 1,//"Тревоги"
-        Fault = 2,//"Неисправности"
-        Command = 3//"Команды"
+        AlarmWorked = 2,//"Тревога - СРАБОТКА"
+        AlarmOpening = 3,//"Тревога - ВСКРЫТИЕ"
+        Fault = 4,//"Неисправности"
+        FaultNoConnect = 5,//"Нет связи"
+        FaultDK = 6,//"Ком. ДК не выполнена"
+        FaultCommand = 7,//"Ком. упр. не выполнена"
+        Command = 8,//"Команды"
+        CommandDK = 9,//"ДК"
+        CommandUZMonolit = 10,//"УЗ Монолит"
+        CommandOperator = 11//"Оператор"
     };
+
 
     explicit JourEntity(QObject *parent = nullptr);
     JourEntity(const JourEntity & parent);

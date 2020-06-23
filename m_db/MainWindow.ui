@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>794</width>
+    <height>625</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,62 +20,66 @@
       <property name="title">
        <string>Выбор данных</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="label">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="0" colspan="6">
+        <widget class="QComboBox" name="comboBox">
+         <item>
+          <property name="text">
+           <string>Все смены</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>По параметрам</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="12" column="0" colspan="6">
+        <widget class="QPushButton" name="pushButton_2">
          <property name="text">
-          <string>Тип данных</string>
+          <string>Предварительный просмотр</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QComboBox" name="comboBox"/>
+       <item row="7" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_6"/>
        </item>
-       <item>
-        <layout class="QFormLayout" name="formLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Период с</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>по</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QDateEdit" name="dateEdit"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDateEdit" name="dateEdit_2"/>
-         </item>
-        </layout>
+       <item row="15" column="5">
+        <widget class="QToolButton" name="toolButton_3">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
        </item>
-       <item>
+       <item row="17" column="4">
+        <widget class="QToolButton" name="toolButton_2">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="1" colspan="3">
+        <widget class="QComboBox" name="comboBox_4"/>
+       </item>
+       <item row="9" column="0" colspan="6">
+        <widget class="QComboBox" name="comboBox_3"/>
+       </item>
+       <item row="4" column="0" colspan="2">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Объект</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QComboBox" name="comboBox_2"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_5">
+       <item row="6" column="2" colspan="2">
+        <widget class="QLabel" name="label_9">
          <property name="text">
-          <string>Событие</string>
+          <string>БЛ</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QComboBox" name="comboBox_3"/>
-       </item>
-       <item>
+       <item row="10" column="1">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -88,83 +92,107 @@
          </property>
         </spacer>
        </item>
-       <item>
-        <widget class="QPushButton" name="pushButton">
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Выбрать</string>
+          <string>Период с</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_2">
+       <item row="7" column="5">
+        <widget class="QComboBox" name="comboBox_8"/>
+       </item>
+       <item row="6" column="5">
+        <widget class="QLabel" name="label_10">
          <property name="text">
-          <string>Предварительный просмотр</string>
+          <string>СД</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="2" column="4">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>по</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2" colspan="3">
+        <widget class="QComboBox" name="comboBox_7"/>
+       </item>
+       <item row="17" column="1" colspan="3">
+        <widget class="QComboBox" name="comboBox_5"/>
+       </item>
+       <item row="13" column="0" colspan="6">
         <widget class="QPushButton" name="pushButton_3">
          <property name="text">
           <string>Печать</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="15" column="4">
+        <widget class="QToolButton" name="toolButton">
+         <property name="text">
+          <string>...</string>
          </property>
         </widget>
        </item>
-       <item>
-        <layout class="QFormLayout" name="formLayout_2">
-         <property name="sizeConstraint">
-          <enum>QLayout::SetNoConstraint</enum>
+       <item row="3" column="4" colspan="2">
+        <widget class="QDateEdit" name="dateEdit_2"/>
+       </item>
+       <item row="14" column="1">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Причины</string>
          </property>
-         <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::ExpandingFieldsGrow</enum>
+        </widget>
+       </item>
+       <item row="16" column="1">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Принятые меры</string>
          </property>
-         <property name="labelAlignment">
-          <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Канал</string>
          </property>
-         <property name="formAlignment">
-          <set>Qt::AlignJustify|Qt::AlignTop</set>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="6">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Выбрать</string>
          </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>Причины</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QComboBox" name="comboBox_4"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="QToolButton" name="toolButton">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>Принятые меры</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QComboBox" name="comboBox_5"/>
-         </item>
-         <item row="3" column="1">
-          <widget class="QToolButton" name="toolButton_2">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        </widget>
+       </item>
+       <item row="17" column="5">
+        <widget class="QToolButton" name="toolButton_4">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="6">
+        <widget class="QComboBox" name="comboBox_2"/>
+       </item>
+       <item row="8" column="0" colspan="2">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Событие</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QDateEdit" name="dateEdit"/>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Тип данных</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -188,7 +216,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>794</width>
      <height>18</height>
     </rect>
    </property>
