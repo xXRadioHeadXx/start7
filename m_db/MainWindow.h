@@ -29,5 +29,11 @@ private:
     TableModelMSG *modelMSG = nullptr;
     QTimer timerUpd;
 
+    QString createCompositFilter();
+    QString createDateFilter();
+    QString createObjectFilter();
+
+
+
 };
 #endif // MAINWINDOW_H

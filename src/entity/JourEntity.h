@@ -33,45 +33,56 @@ private:
 
     static QMap<int, QString> mapTypeObject;
     static QMap<int, QString> mapTypeEvent;
+    static QMap<int, QString> mapTypeConnectObject;
 
 public:
 
     enum TypeObject {
-        AllObject = 0,//"Все",
-        SD = 1,//"СД",
-        IU = 2,//"ИУ",
-        RIFRLM = 3,//"РИФ-РЛМ(КРЛ), Трасса",
-        SDCollector = 4,//"СД концентратора",
-        Toros = 5,//"Торос",
-        Nast = 6,//"Наст",
-        Radar = 7,//"Радар",
-        RazrivBO = 8,//"Разрыв БО",
-        TochkaGard = 9,//"Точка/Гарда",
-        Adam = 10,//"Адам-406x/4168",
-        SDBLIP = 11,//"СД БЛ-IP",
-        IUBLIP = 12,//"ИУ БЛ-IP",
-        RIFRLMS = 13,//"РИФ-РЛМ-С",
-        BODTochkaM = 14,//"БОД Точка-М/Гарда-М",
-        DDTochkaM = 15,//"ДД Точка-М/Гарда-М",
-        BODSota = 16,//"БОД Сота/Сота-М",
-        DDSota = 17//"ДД Сота/Сота-М"
+        oAllObject = 0,//"Все",
+        oSD = 1,//"СД",
+        oIU = 2,//"ИУ",
+        oRIFRLM = 3,//"РИФ-РЛМ(КРЛ), Трасса",
+        oSDCollector = 4,//"СД концентратора",
+        oToros = 5,//"Торос",
+        oNast = 6,//"Наст",
+        oRadar = 7,//"Радар",
+        oRazrivBO = 8,//"Разрыв БО",
+        oTochkaGard = 9,//"Точка/Гарда",
+        oAdam = 10,//"Адам-406x/4168",
+        oSDBLIP = 11,//"СД БЛ-IP",
+        oIUBLIP = 12,//"ИУ БЛ-IP",
+        oRIFRLMS = 13,//"РИФ-РЛМ-С",
+        oBODTochkaM = 14,//"БОД Точка-М/Гарда-М",
+        oDDTochkaM = 15,//"ДД Точка-М/Гарда-М",
+        oBODSota = 16,//"БОД Сота/Сота-М",
+        oDDSota = 17//"ДД Сота/Сота-М"
     };
 
     enum TypeEvent {
-        AllEvent = 0,//"Все"
-        Alarm = 1,//"Тревоги"
-        AlarmWorked = 2,//"Тревога - СРАБОТКА"
-        AlarmOpening = 3,//"Тревога - ВСКРЫТИЕ"
-        Fault = 4,//"Неисправности"
-        FaultNoConnect = 5,//"Нет связи"
-        FaultDK = 6,//"Ком. ДК не выполнена"
-        FaultCommand = 7,//"Ком. упр. не выполнена"
-        Command = 8,//"Команды"
-        CommandDK = 9,//"ДК"
-        CommandUZMonolit = 10,//"УЗ Монолит"
-        CommandOperator = 11//"Оператор"
+        eAllEvent = 0,//"Все"
+        eAlarm = 1,//"Тревоги"
+        eAlarmWorked = 2,//"Тревога - СРАБОТКА"
+        eAlarmOpening = 3,//"Тревога - ВСКРЫТИЕ"
+        eFault = 4,//"Неисправности"
+        eFaultNoConnect = 5,//"Нет связи"
+        eFaultDK = 6,//"Ком. ДК не выполнена"
+        eFaultCommand = 7,//"Ком. упр. не выполнена"
+        eCommand = 8,//"Команды"
+        eCommandDK = 9,//"ДК"
+        eCommandUZMonolit = 10,//"УЗ Монолит"
+        eCommandOperator = 11//"Оператор"
     };
 
+    enum TypeConnectObject {
+        coAllConnectObject = 0,//"не указан"
+        coRIFRLM = 1,//"РИФ-РЛМ"
+        coRIFKRL = 2,//"РИФ-КРЛ"
+        coRIFKRLM = 3,//"РИФ-КРЛМ"
+        coRIFRLMS = 4,//"РИФ-РЛМ-С"
+        coTrassa = 5,//"Трасса"
+        coTochkaGard = 6,//"Точка/Гарда"
+        coRazryad = 7//"Разряд"
+    };
 
     explicit JourEntity(QObject *parent = nullptr);
     JourEntity(const JourEntity & parent);
@@ -136,6 +147,8 @@ public:
     static QMap<int, QString> getMapTypeEvent();
 
     static QMap<int, QString> getMapTypeObject();
+
+    static QMap<int, QString> getMapTypeConnectObject();
 
 private:
 
