@@ -26,11 +26,16 @@ public:
     static QList<JourEntity *> getMSGRecord(const int &id = -1);
     static QList<JourEntity *> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);
     static QList<JourEntity *> getFltMSGRecord(const QString flt = "", const int &id = -1);
+    static QList<JourEntity *> getQueryMSGRecord(QSqlQuery query);
+
     static QList<QString> getReasonGroup();
     static QList<QString> getMeasuresGroup();
 
-
     void loadSettings(QString fileName = "rifx.ini");
+
+    static QString dateFlt(QDate from, QDate to);
+    static QString objectFlt(JourEntity::TypeObject oType, int d1 = 0, int d2 = 0, int d3 = 0);
+    static QString eventFlt(JourEntity::TypeEvent eType, JourEntity::TypeObject oType);
 
 private:
     QString HostName;//("127.0.0.1");

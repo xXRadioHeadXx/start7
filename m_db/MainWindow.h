@@ -32,8 +32,7 @@ private:
     QString createCompositFilter();
     QString createDateFilter();
     QString createObjectFilter();
-
-
+    QString createEventFilter();
 
 };
 #endif // MAINWINDOW_H

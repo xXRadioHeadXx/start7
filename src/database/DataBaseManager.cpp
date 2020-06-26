@@ -259,6 +259,45 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
     }
 }
 
+QList<JourEntity *> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
+    QList<JourEntity *> result;
+
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            QSqlRecord rec = query.record();
+            JourEntity * me = new JourEntity;
+            me->setId(rec.value("id").toInt());
+            me->setCdate(rec.value("cdate").toDateTime());
+
+            me->setComment(rec.value("comment").toString());
+            me->setObject(rec.value("object").toString());
+            me->setReason(rec.value("reason").toString());
+            me->setMeasures(rec.value("measures").toString());
+            me->setOperatorid(rec.value("operatorid").toString());
+            me->setStatus(rec.value("status").toString());
+            me->setDirection(rec.value("direction").toString());
+
+            me->setMdate(rec.value("mdate").toDateTime());
+
+            me->setObjectid(rec.value("objectid").toInt());
+
+            me->setD1(rec.value("d1").toInt());
+            me->setD2(rec.value("d2").toInt());
+            me->setD3(rec.value("d3").toInt());
+            me->setD4(rec.value("d4").toInt());
+            me->setType(rec.value("type").toInt());
+            me->setObjecttype(rec.value("objecttype").toInt());
+            me->setFlag(rec.value("flag").toInt());
+
+            result.append(me);
+        }
+    }
+
+    return result;
+}
+
 QList<JourEntity *> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ {
     return getFltMSGRecordAfter("", id);
 }
@@ -289,42 +328,10 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, con
 
     query.bindValue(":id", id);
 
-    if(query.exec())
-    {
-        while(query.next())
-        {
-            QSqlRecord rec = query.record();
-            JourEntity * me = new JourEntity;
-            me->setId(rec.value("id").toInt());
-            me->setCdate(rec.value("cdate").toDateTime());
-
-            me->setComment(rec.value("comment").toString());
-            me->setObject(rec.value("object").toString());
-            me->setReason(rec.value("reason").toString());
-            me->setMeasures(rec.value("measures").toString());
-            me->setOperatorid(rec.value("operatorid").toString());
-            me->setStatus(rec.value("status").toString());
-            me->setDirection(rec.value("direction").toString());
-
-            me->setMdate(rec.value("mdate").toDateTime());
-
-            me->setObjectid(rec.value("objectid").toInt());
-
-            me->setD1(rec.value("d1").toInt());
-            me->setD2(rec.value("d2").toInt());
-            me->setD3(rec.value("d3").toInt());
-            me->setD4(rec.value("d4").toInt());
-            me->setType(rec.value("type").toInt());
-            me->setObjecttype(rec.value("objecttype").toInt());
-            me->setFlag(rec.value("flag").toInt());
-
-
-            result.append(me);
-        }
-    }
-
-    return result;
+    return DataBaseManager::getQueryMSGRecord(query);
 }
+
+
 
 QList<JourEntity *> DataBaseManager::getFltMSGRecord(const QString flt, const int &id) {
     QList<JourEntity *> result;
@@ -347,40 +354,7 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecord(const QString flt, const in
 
     query.bindValue(":id", id);
 
-    if(query.exec())
-    {
-        while(query.next())
-        {
-            QSqlRecord rec = query.record();
-            JourEntity * me = new JourEntity;
-            me->setId(rec.value("id").toInt());
-            me->setCdate(rec.value("cdate").toDateTime());
-
-            me->setComment(rec.value("comment").toString());
-            me->setObject(rec.value("object").toString());
-            me->setReason(rec.value("reason").toString());
-            me->setMeasures(rec.value("measures").toString());
-            me->setOperatorid(rec.value("operatorid").toString());
-            me->setStatus(rec.value("status").toString());
-            me->setDirection(rec.value("direction").toString());
-
-            me->setMdate(rec.value("mdate").toDateTime());
-
-            me->setObjectid(rec.value("objectid").toInt());
-
-            me->setD1(rec.value("d1").toInt());
-            me->setD2(rec.value("d2").toInt());
-            me->setD3(rec.value("d3").toInt());
-            me->setD4(rec.value("d4").toInt());
-            me->setType(rec.value("type").toInt());
-            me->setObjecttype(rec.value("objecttype").toInt());
-            me->setFlag(rec.value("flag").toInt());
-
-            result.append(me);
-        }
-    }
-
-    return result;
+    return DataBaseManager::getQueryMSGRecord(query);
 }
 
 QList<QString> DataBaseManager::getReasonGroup() {
@@ -445,4 +419,179 @@ void DataBaseManager::loadSettings(QString fileName)
     qDebug() << HostName << " " << DatabaseName << " " << UserName << " " << Password << " " << Port;
 
     settings.endGroup();
+}
+
+
+QString DataBaseManager::eventFlt(JourEntity::TypeEvent eType, JourEntity::TypeObject oType) {
+    QString sqlFlt;
+
+    switch( (JourEntity::TypeEvent)eType ) {
+//    case JourEntity::eAllEvent: {
+//        break;
+//    }
+    case JourEntity::eAlarm: {
+        sqlFlt += "(type >= 20 AND type < 30)";
+        break;
+    }
+    case JourEntity::eAlarmWorked: {
+        sqlFlt += "type=20";
+        break;
+    }
+    case JourEntity::eAlarmOpening: {
+        sqlFlt += "(type=21 OR type=25)";
+        break;
+    }
+    case JourEntity::eFault: {
+        if(JourEntity::oIU == (JourEntity::TypeObject)oType)
+            sqlFlt += "(type=10 OR type=11 OR type=200)";
+        else
+            sqlFlt += "((type >= 10 AND type < 20) OR type=200)";
+        break;
+    }
+    case JourEntity::eFaultNoConnect: {
+        sqlFlt += "(type=10 OR type=200)";
+        break;
+    }
+    case JourEntity::eFaultDK: {
+        sqlFlt += "(type=11 OR type=133 OR type=1002 OR type=3)";
+        break;
+    }
+    case JourEntity::eFaultCommand: {
+        sqlFlt += "type=13";
+        break;
+    }
+    case JourEntity::eCommand: {
+        if(JourEntity::oSD == (JourEntity::TypeObject)oType)
+            sqlFlt += "((type >= 2 AND type < 5) OR type=15 OR type=30 OR type=31\
+                                       OR (type >= 100 AND type < 200) OR type >= 900)";
+        else if(JourEntity::oIU == (JourEntity::TypeObject)oType)
+            sqlFlt += "type=13 OR type=100 OR type=111\
+                                               OR type=112 OR type=113 OR type=130\
+                                               OR type=131 OR type=140 OR type=141\
+                                               OR type=1000 OR type=1001";
+        else
+            sqlFlt += "((type >= 2 AND type < 5) OR type=15 OR type=30 OR type=31\
+                                               OR (type >= 100 AND type < 200) OR type >= 900)";
+        break;
+    }
+    case JourEntity::eCommandDK: {
+        sqlFlt += "(type=11 OR type=133 OR type=1002 OR type=3)";
+        break;
+    }
+    case JourEntity::eCommandUZMonolit: {
+        sqlFlt += "((type >= 110 AND type < 114) OR type=150 OR type=151 OR type=1003 OR type=1004 OR type=13)";
+        break;
+    }
+    case JourEntity::eCommandOperator: {
+        sqlFlt += "(type >= 900 OR type=135 OR type=136 OR type=137)";
+        break;
+    }
+    default:
+        break;
+    }
+
+    sqlFlt = "(" + sqlFlt + ")";
+    return sqlFlt;
+}
+
+QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2, int d3) {
+    QString sqlFlt;
+
+    switch( (JourEntity::TypeObject)oType ) {
+    case JourEntity::oAllObject: {
+        break;
+    }
+    case JourEntity::oSD: {
+        sqlFlt += " (objecttype=3 OR objecttype=33)";  /* СД */
+        if(0 != d1)
+            sqlFlt += " AND d1=" + QString::number(d1);
+        if(0 != d2)
+            sqlFlt += " AND d2=" + QString::number(d2);
+        if(0 != d3)
+            sqlFlt += " AND d3=" + QString::number(d3);
+        break;
+    }
+    case JourEntity::oIU: {
+        sqlFlt += " (objecttype=4 OR objecttype=43)";  /* ИУ */
+        if(0 != d1)
+            sqlFlt += " AND d1=" + QString::number(d1);
+        if(0 != d2)
+            sqlFlt += " AND d2=" + QString::number(d2);
+        if(0 != d3)
+            sqlFlt += " AND d3=" + QString::number(d3);
+        break;
+    }
+    case JourEntity::oRIFRLM: {
+        sqlFlt += "objecttype=1";
+        break;
+    }
+    case JourEntity::oSDCollector: {
+        sqlFlt += "objecttype=2";
+        break;
+    }
+    case JourEntity::oToros: {
+        sqlFlt += "objecttype=8";
+        break;
+    }
+    case JourEntity::oNast: {
+        sqlFlt += "objecttype=9";
+        break;
+    }
+    case JourEntity::oRadar: {
+        sqlFlt += "objecttype=91";
+        break;
+    }
+    case JourEntity::oRazrivBO: {
+        sqlFlt += "objecttype=21";
+        break;
+    }
+    case JourEntity::oTochkaGard: {
+        sqlFlt += "objecttype=10";
+        break;
+    }
+    case JourEntity::oAdam: {
+        sqlFlt += "objecttype=7";
+        break;
+    }
+    case JourEntity::oSDBLIP: {
+        sqlFlt += "objecttype=11";
+        break;
+    }
+    case JourEntity::oIUBLIP: {
+        sqlFlt += "objecttype=12";
+        break;
+    }
+//            case 13: sqlFlt += " AND objecttype=14"; break;
+//            case 14: sqlFlt += " AND objecttype=17"; break;
+    case JourEntity::oRIFRLMS: {
+        sqlFlt += "objecttype=111";
+        break;
+    }
+    case JourEntity::oBODTochkaM: {
+        sqlFlt += "objecttype=26";
+        break;
+    }
+    case JourEntity::oDDTochkaM: {
+        sqlFlt += "objecttype=28";
+        break;
+    }
+    case JourEntity::oBODSota: {
+        sqlFlt += "objecttype=29";
+        break;
+    }
+    case JourEntity::oDDSota: {
+        sqlFlt += "objecttype=31";
+        break;
+    }
+    default:
+        break;
+    }
+    sqlFlt = "(" + sqlFlt + ")";
+    return sqlFlt;
+}
+
+QString DataBaseManager::dateFlt(QDate from, QDate to) {
+    QString sqlFlt = "cdate >= to_timestamp(" + from.toString("YYYY-MM-DD 00:00:00.00") + ", 'YYYY-MM-DD HH24:MI:SS.MS') AND cdate <= to_timestamp(" + to.toString("YYYY-MM-DD 23:59:59.99") + ", 'YYYY-MM-DD HH24:MI:SS.MS')";
+    sqlFlt = "(" + sqlFlt + ")";
+    return sqlFlt;
 }
