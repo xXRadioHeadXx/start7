@@ -494,13 +494,53 @@ QString DataBaseManager::eventFlt(JourEntity::TypeEvent eType, JourEntity::TypeO
     return sqlFlt;
 }
 
+QString DataBaseManager::connectObjectFlt(JourEntity::TypeConnectObject coType) {
+    QString sqlFlt;
+
+    switch( (JourEntity::TypeConnectObject)coType ) {
+    case JourEntity::coAllConnectObject: {
+        break;
+    }
+    case JourEntity::coRIFRLM: {
+        break;
+    }
+    case JourEntity::coRIFKRL: {
+        break;
+    }
+    case JourEntity::coRIFKRLM: {
+        break;
+    }
+    case JourEntity::coRIFRLMS: {
+        break;
+    }
+    case JourEntity::coTrassa: {
+        break;
+    }
+    case JourEntity::coTochkaGard: {
+        break;
+    }
+    case JourEntity::coRazryad: {
+        break;
+    }
+    default: {
+        sqlFlt += " (out_dev_type =" + QString::number(coType) +")";
+        break;
+    }
+    }
+
+    sqlFlt = "(" + sqlFlt + ")";
+    return sqlFlt;
+
+}
+
+
 QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2, int d3) {
     QString sqlFlt;
 
     switch( (JourEntity::TypeObject)oType ) {
-    case JourEntity::oAllObject: {
-        break;
-    }
+//    case JourEntity::oAllObject: {
+//        break;
+//    }
     case JourEntity::oSD: {
         sqlFlt += " (objecttype=3 OR objecttype=33)";  /* СД */
         if(0 != d1)

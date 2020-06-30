@@ -1,6 +1,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <TablePrint.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -220,4 +222,9 @@ QString MainWindow::createCompositFilter() {
     sqlFlt += sqlEventFlt;
 
     return sqlFlt;
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    TablePrint::createHtmlTableFromModel(ui->tableView);
 }

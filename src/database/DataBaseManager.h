@@ -36,6 +36,7 @@ public:
     static QString dateFlt(QDate from, QDate to);
     static QString objectFlt(JourEntity::TypeObject oType, int d1 = 0, int d2 = 0, int d3 = 0);
     static QString eventFlt(JourEntity::TypeEvent eType, JourEntity::TypeObject oType);
+    static QString connectObjectFlt(JourEntity::TypeConnectObject coType);
 
 private:
     QString HostName;//("127.0.0.1");
