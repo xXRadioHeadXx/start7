@@ -26,6 +26,7 @@ public:
     static QList<JourEntity *> getMSGRecord(const int &id = -1);
     static QList<JourEntity *> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);
     static QList<JourEntity *> getFltMSGRecord(const QString flt = "", const int &id = -1);
+    static QList<JourEntity *> getQueryMSGRecord(QString sql);
     static QList<JourEntity *> getQueryMSGRecord(QSqlQuery query);
 
     static QList<QString> getReasonGroup();

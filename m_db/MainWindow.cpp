@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
             ui->tableView,
             SLOT(scrollToBottom()));
 
-    connect(&timerUpd, SIGNAL(timeout()), modelMSG, SLOT(updateListRecords()));
+    connect(&timerUpd, SIGNAL(timeout()), this, SLOT(updateListRecords()));
     timerUpd.setInterval(1000);
     timerUpd.start();
 }
@@ -165,7 +165,9 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
         ui->label_4->setVisible(true);
         ui->label_5->setVisible(true);
 
+        ui->dateEdit->setDate(QDate::currentDate());
         ui->dateEdit->setVisible(true);
+        ui->dateEdit_2->setDate(QDate::currentDate());
         ui->dateEdit_2->setVisible(true);
 
         ui->comboBox_2->setVisible(true);
@@ -182,11 +184,15 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 }
 
 QString MainWindow::createEventFilter() {
+    if(!ui->comboBox_3->isVisible())
+        return "";
     return DataBaseManager::eventFlt((JourEntity::TypeEvent)ui->comboBox_3->currentData().toInt(),
                                      (JourEntity::TypeObject)ui->comboBox_2->currentData().toInt());
 }
 
 QString MainWindow::createObjectFilter() {
+    if(!ui->comboBox_2->isVisible())
+        return "";
     return DataBaseManager::objectFlt((JourEntity::TypeObject)ui->comboBox_2->currentData().toInt(),
                                       ui->comboBox_6->currentIndex(),
                                       ui->comboBox_7->currentIndex(),
@@ -194,37 +200,58 @@ QString MainWindow::createObjectFilter() {
 }
 
 QString MainWindow::createDateFilter() {
+    if(!ui->dateEdit->isVisible() || !ui->dateEdit_2->isVisible())
+        return "";
     return DataBaseManager::dateFlt(ui->dateEdit->date(), ui->dateEdit_2->date());
 }
 
 QString MainWindow::createCompositFilter() {
-    QString sqlFlt = "SELECT * FROM jour WHERE type=902";
+    QString sqlFlt = "SELECT * FROM jour ";
 
-    if(0 != ui->comboBox->currentIndex())
+    if(0 == ui->comboBox->currentIndex())
         return sqlFlt;
-
-    sqlFlt = "SELECT * FROM jour WHERE ";
 
     QString sqlDateFlt = createDateFilter();
     QString sqlObjectFlt = createObjectFilter();
     QString sqlEventFlt = createEventFilter();
 
-    if(!sqlFlt.isEmpty() && !sqlDateFlt.isEmpty())
-        sqlFlt += " AND ";
-    sqlFlt += sqlDateFlt;
+    if(!sqlDateFlt.isEmpty() || !sqlObjectFlt.isEmpty() || !sqlEventFlt.isEmpty()) {
+        sqlFlt += " WHERE ";
 
-    if(!sqlFlt.isEmpty() && !sqlObjectFlt.isEmpty())
-        sqlFlt += " AND ";
-    sqlFlt += sqlObjectFlt;
+        QString sqlDopFlt;
 
-    if(!sqlFlt.isEmpty() && !sqlEventFlt.isEmpty())
-        sqlFlt += " AND ";
-    sqlFlt += sqlEventFlt;
+        if(!sqlDopFlt.isEmpty() && !sqlDateFlt.isEmpty())
+            sqlDopFlt += " AND ";
+        sqlDopFlt += sqlDateFlt;
+
+        if(!sqlDopFlt.isEmpty() && !sqlObjectFlt.isEmpty())
+            sqlDopFlt += " AND ";
+        sqlDopFlt += sqlObjectFlt;
+
+        if(!sqlDopFlt.isEmpty() && !sqlEventFlt.isEmpty())
+            sqlDopFlt += " AND ";
+        sqlDopFlt += sqlEventFlt;
+
+        sqlFlt += sqlDopFlt;
+    }
 
     return sqlFlt;
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    TablePrint::createHtmlTableFromModel(ui->tableView);
+    TablePrint::prepareTmpFileHtmlTableFromModel(ui->tableView);
+    TablePrint::print();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    TablePrint::prepareTmpFileHtmlTableFromModel(ui->tableView);
+    TablePrint::printPreview();
+}
+
+void MainWindow::updateListRecords()
+{
+    qDebug() << createCompositFilter();
+    modelMSG->castomUpdateListRecords(createCompositFilter());
 }

@@ -7,13 +7,14 @@
 #include <QPrinter>
 #include <QPrintPreviewDialog>
 #include <QPrintDialog>
+#include <QDateTime>
 
 TablePrint::TablePrint(QObject *parent) : QObject(parent)
 {
 
 }
 
-bool TablePrint::createHtmlTableFromModel(const QTableView *tableView) {
+bool TablePrint::prepareTmpFileHtmlTableFromModel(const QTableView *tableView) {
     QString strStream;
     QTextStream out(&strStream);
 
@@ -50,12 +51,64 @@ bool TablePrint::createHtmlTableFromModel(const QTableView *tableView) {
         "</body>\n"
         "</html>\n";
 
+    out << "<table border=\"0\" bordercolor=\"#ffffff\" cellspacing=\"1\" cellpadding= \"1\" align=\"right\" cols=\"2\" width=\"45%\">"
+           "    <tr>"
+           "        <td width=\"50%\">&nbsp;</td>"
+           "        <td width=\"50%\">&nbsp;</td>"
+           "    </tr>"
+           "    <tr>"
+           "        <td width=\"50%\"><hr></td>"
+           "        <td width=\"50%\"><hr></td>"
+           "    </tr>"
+           "    <tr>"
+           "        <td align=\"center\">" << trUtf8("подпись") << "</td>"
+           "        <td align=\"center\">" << trUtf8("ФИО") << "</td>"
+           "    </tr>"
+           "        <tr>"
+           "        <td width=\"50%\">" << QDateTime::currentDateTime().toString("dd.MM.yyyy \t hh:mm:ss") << "&nbsp;</td>"
+           "        <td width=\"50%\">&nbsp;</td>"
+           "    </tr>"
+           "    <tr>"
+           "        <td><hr></td>"
+           "        <td></td>"
+           "    </tr>"
+           "    <tr>"
+           "        <td align=\"center\">" << trUtf8("дата, время создания") << "</td>"
+           "        <td></td>"
+           "    </tr>"
+           "</table>";
+
     qDebug() << strStream;
 
+
+    if(QFile::exists("tmpprint"))
+        QFile::remove("tmpprint");
+
+    QFile tmpf("tmpprint");
+    if (!tmpf.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Can`t create file tmpprint";
+        return false;
+    } else {
+        QTextStream fout(&tmpf);
+        fout << strStream;
+        tmpf.close();
+    }
+
+    return true;
+}
+
+bool TablePrint::print()
+{
     QTextDocument *document = new QTextDocument();
-    document->setHtml(strStream);
-
-
+    QFile tmpf("tmpprint");
+    if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Can`t read file tmpprint";
+        return false;
+    } else {
+        QTextStream sin(&tmpf);
+        document->setHtml(sin.readAll());
+        tmpf.close();
+    }
 
     QPrinter printer;
 
@@ -64,23 +117,38 @@ bool TablePrint::createHtmlTableFromModel(const QTableView *tableView) {
         document->print(&printer);
     }
 
+    delete dialog;
     delete document;
     return true;
 }
 
-void TablePrint::print()
+bool TablePrint::printPreview()
 {
-//#ifndef QT_NO_PRINTER
-//    QTextBrowser *editor = static_cast<QTextBrowser* >(textBrowser);
-//    QPrinter printer;
+    QTextDocument *document = new QTextDocument();
+    QFile tmpf("tmpprint");
+    if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Can`t read file tmpprint";
+        return false;
+    } else {
+        QTextStream sin(&tmpf);
+        document->setHtml(sin.readAll());
+        tmpf.close();
+    }
 
-//    QPrintDialog *dialog = new QPrintDialog(&printer, this);
-//    dialog->setWindowTitle(tr("Print Document"));
-//    if (editor->textCursor().hasSelection())
-//        dialog->addEnabledOption(QAbstractPrintDialog::PrintSelection);
-//    if (dialog->exec() != QDialog::Accepted)
-//        return;
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setResolution(QPrinter::HighResolution);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOrientation(QPrinter::Portrait);
+    printer.setFullPage(true);
 
-//    editor->print(&printer);
-//#endif
+    document->print(&printer);
+
+    QPrintPreviewDialog *dialog = new QPrintPreviewDialog(&printer, NULL);
+    if (dialog->exec() == QDialog::Accepted) {
+        document->print(&printer);
+    }
+
+    delete dialog;
+    delete document;
+    return true;
 }

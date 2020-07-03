@@ -181,6 +181,25 @@ bool TableModelMSG::insertRows(int row, int count, const QModelIndex &parent)
     return false;
 }
 
+void TableModelMSG::castomUpdateListRecords(QString sql)
+{
+    int lastRecordMSG = -1;
+
+    QList<JourEntity *> newRecords(DataBaseManager::getQueryMSGRecord(sql));
+
+
+    this->beginResetModel();
+
+    m_listMSG = newRecords;
+    if(!newRecords.isEmpty()) {
+        lastRecordMSG = m_listMSG.last()->getId();
+    }
+
+    this->endResetModel();
+
+    emitNeedScrollToBottom();
+}
+
 
 //обновление выборки
 void TableModelMSG::updateListRecords()

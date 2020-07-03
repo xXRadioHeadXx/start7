@@ -259,6 +259,14 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
     }
 }
 
+QList<JourEntity *> DataBaseManager::getQueryMSGRecord(QString sql) {
+    QList<JourEntity *> result;
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+    result = DataBaseManager::getQueryMSGRecord(query);
+    return result;
+}
+
 QList<JourEntity *> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
     QList<JourEntity *> result;
 
@@ -490,7 +498,8 @@ QString DataBaseManager::eventFlt(JourEntity::TypeEvent eType, JourEntity::TypeO
         break;
     }
 
-    sqlFlt = "(" + sqlFlt + ")";
+    if(!sqlFlt.isEmpty())
+        sqlFlt = "(" + sqlFlt + ")";
     return sqlFlt;
 }
 
@@ -528,7 +537,8 @@ QString DataBaseManager::connectObjectFlt(JourEntity::TypeConnectObject coType) 
     }
     }
 
-    sqlFlt = "(" + sqlFlt + ")";
+    if(!sqlFlt.isEmpty())
+        sqlFlt = "(" + sqlFlt + ")";
     return sqlFlt;
 
 }
@@ -626,12 +636,14 @@ QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2,
     default:
         break;
     }
-    sqlFlt = "(" + sqlFlt + ")";
+    if(!sqlFlt.isEmpty())
+        sqlFlt = "(" + sqlFlt + ")";
     return sqlFlt;
 }
 
 QString DataBaseManager::dateFlt(QDate from, QDate to) {
-    QString sqlFlt = "cdate >= to_timestamp(" + from.toString("YYYY-MM-DD 00:00:00.00") + ", 'YYYY-MM-DD HH24:MI:SS.MS') AND cdate <= to_timestamp(" + to.toString("YYYY-MM-DD 23:59:59.99") + ", 'YYYY-MM-DD HH24:MI:SS.MS')";
-    sqlFlt = "(" + sqlFlt + ")";
+    QString sqlFlt = "cdate >= to_timestamp('" + from.toString("yyyy-MM-dd 00:00:00.00") + "', 'YYYY-MM-DD HH24:MI:SS.MS') AND cdate <= to_timestamp('" + to.toString("yyyy-MM-dd 23:59:59.99") + "', 'YYYY-MM-DD HH24:MI:SS.MS')";
+    if(!sqlFlt.isEmpty())
+        sqlFlt = "(" + sqlFlt + ")";
     return sqlFlt;
 }

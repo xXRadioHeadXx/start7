@@ -9,8 +9,10 @@ class TablePrint : public QObject
     Q_OBJECT
 public:
     explicit TablePrint(QObject *parent = nullptr);
-    static bool createHtmlTableFromModel(const QTableView * tableView);
-    static void print();
+    static bool prepareTmpFileHtmlTableFromModel(const QTableView * tableView);
+    static bool print();
+    static bool printPreview();
+
 
 
 signals:
