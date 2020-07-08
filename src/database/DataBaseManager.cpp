@@ -145,7 +145,7 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
         sql += "cdate, ";
     if(msg.getMdate().isValid())
         sql += "mdate, ";
-    sql += "comment, object, reason, measures, operatorid, status, direction) VALUES ( ";
+    sql += "comment, object, reason, measures, operatorid, status, direction, d1, d2, d3, d4, type, objecttype, flag) VALUES ( ";
     if(msg.getCdate().isValid())
         sql += "to_timestamp(:vCdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
     if(msg.getMdate().isValid())
@@ -211,7 +211,7 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
              operatorid=:vOperatorid, \
              status=:vStatus, \
              mdate=to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS'), \
-             direction=:vDirection \
+             direction=:vDirection, \
              d1=:vD1, \
              d2=:vD2, \
              d3=:vD3, \

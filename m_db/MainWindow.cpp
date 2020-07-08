@@ -9,6 +9,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    setBlockSignal(true);
+
+    ui->dateEdit->setDate(QDate::currentDate());
+//    ui->dateEdit->setTime(QTime::fromString("00:00.00", "hh:MM.ms"));
+
+    ui->dateEdit_2->setDate(QDate::currentDate());
+//    ui->dateEdit->setTime(QTime::fromString("23:59.99", "hh:MM.ms"));
+
+
     QMap<int, QString> mapObject = JourEntity::getMapTypeObject();
     for(int key : mapObject.keys()) {
         ui->comboBox_2->addItem(mapObject.value(key), key);
@@ -48,10 +57,12 @@ MainWindow::MainWindow(QWidget *parent)
             SIGNAL(needScrollToBottom()),
             ui->tableView,
             SLOT(scrollToBottom()));
+    setBlockSignal(false);
 
-    connect(&timerUpd, SIGNAL(timeout()), this, SLOT(updateListRecords()));
-    timerUpd.setInterval(1000);
-    timerUpd.start();
+    modelMSG->castomUpdateListRecords(createCompositFilter());
+
+    updComboBoxReason();
+    updComboBoxTakenMeasures();
 }
 
 MainWindow::~MainWindow()
@@ -208,8 +219,10 @@ QString MainWindow::createDateFilter() {
 QString MainWindow::createCompositFilter() {
     QString sqlFlt = "SELECT * FROM jour ";
 
-    if(0 == ui->comboBox->currentIndex())
+    if(0 == ui->comboBox->currentIndex()) {
+        sqlFlt += " ORDER BY id ";
         return sqlFlt;
+    }
 
     QString sqlDateFlt = createDateFilter();
     QString sqlObjectFlt = createObjectFilter();
@@ -235,6 +248,9 @@ QString MainWindow::createCompositFilter() {
         sqlFlt += sqlDopFlt;
     }
 
+    if(!sqlFlt.isEmpty())
+        sqlFlt += " ORDER BY id ";
+
     return sqlFlt;
 }
 
@@ -247,11 +263,117 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     TablePrint::prepareTmpFileHtmlTableFromModel(ui->tableView);
-    TablePrint::printPreview();
+    TablePrint tp;
+    tp.printPreview();
 }
 
 void MainWindow::updateListRecords()
 {
+    if(getBlockSignal())
+        return;
     qDebug() << createCompositFilter();
     modelMSG->castomUpdateListRecords(createCompositFilter());
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    this->updateListRecords();
+}
+
+bool MainWindow::getBlockSignal() const
+{
+    return blockSignal;
+}
+
+void MainWindow::setBlockSignal(bool value)
+{
+    blockSignal = value;
+}
+
+void MainWindow::updComboBoxReason() {
+    updComboBox(DataBaseManager::getReasonGroup(), ui->comboBoxReason);
+}
+
+void MainWindow::updComboBoxTakenMeasures() {
+    updComboBox(DataBaseManager::getMeasuresGroup(), ui->comboBoxTakenMeasures);
+}
+
+void MainWindow::updComboBox(QList<QString> lst, QComboBox * cmb) {
+    cmb->clear();
+    cmb->addItems(lst);
+    cmb->setCurrentIndex(-1);
+}
+
+void MainWindow::on_toolButtonAddReason_clicked()
+{
+    if(nullptr == selMsg) {
+        return;
+    }
+
+    selMsg->setReason(ui->comboBoxReason->currentText());
+    DataBaseManager::updateJourMsg_wS(*selMsg);
+    updComboBoxReason();
+}
+
+void MainWindow::on_toolButtonAddTakenMeasures_clicked()
+{
+    if(nullptr == selMsg) {
+        return;
+    }
+
+    selMsg->setMeasures(ui->comboBoxTakenMeasures->currentText());
+    DataBaseManager::updateJourMsg_wS(*selMsg);
+    updComboBoxTakenMeasures();
+}
+
+void MainWindow::on_tableView_clicked(const QModelIndex &index)
+{
+    JourEntity * sel = this->modelMSG->clickedMsg(index);
+
+    if(nullptr == sel) {
+        ui->comboBoxReason->setCurrentIndex(-1);
+        ui->comboBoxTakenMeasures->setCurrentIndex(-1);
+        return;
+    }
+
+    selMsg = sel;
+
+    if(sel->getReason().isEmpty() ) {
+        ui->comboBoxReason->setCurrentIndex(-1);
+    } else {
+        ui->comboBoxReason->setEditText(sel->getReason());
+    }
+
+    if(sel->getMeasures().isEmpty()) {
+        ui->comboBoxTakenMeasures->setCurrentIndex(-1);
+    } else {
+        ui->comboBoxTakenMeasures->setEditText(sel->getMeasures());
+    }
+}
+
+void MainWindow::on_toolButtonRemoveReason_clicked()
+{
+    if(nullptr == selMsg) {
+        return;
+    }
+
+    selMsg->setReason("");
+    DataBaseManager::updateJourMsg_wS(*selMsg);
+    updComboBoxReason();
+}
+
+void MainWindow::on_toolButtonRemoveTakenMeasures_clicked()
+{
+    if(nullptr == selMsg) {
+        return;
+    }
+
+    selMsg->setMeasures("");
+    DataBaseManager::updateJourMsg_wS(*selMsg);
+    updComboBoxTakenMeasures();
+}
+
+void MainWindow::on_action_triggered()
+{
+    this->close();
 }

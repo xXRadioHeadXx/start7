@@ -99,14 +99,14 @@ bool TablePrint::prepareTmpFileHtmlTableFromModel(const QTableView *tableView) {
 
 bool TablePrint::print()
 {
-    QTextDocument *document = new QTextDocument();
+    QTextDocument *loc_document = new QTextDocument();
     QFile tmpf("tmpprint");
     if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Can`t read file tmpprint";
         return false;
     } else {
         QTextStream sin(&tmpf);
-        document->setHtml(sin.readAll());
+        loc_document->setHtml(sin.readAll());
         tmpf.close();
     }
 
@@ -114,17 +114,17 @@ bool TablePrint::print()
 
     QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
     if (dialog->exec() == QDialog::Accepted) {
-        document->print(&printer);
+        loc_document->print(&printer);
     }
 
     delete dialog;
-    delete document;
+    delete loc_document;
     return true;
 }
 
 bool TablePrint::printPreview()
 {
-    QTextDocument *document = new QTextDocument();
+    document = new QTextDocument();
     QFile tmpf("tmpprint");
     if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Can`t read file tmpprint";
@@ -135,20 +135,31 @@ bool TablePrint::printPreview()
         tmpf.close();
     }
 
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setResolution(QPrinter::HighResolution);
+    QPrinter printer(QPrinter::ScreenResolution);
     printer.setPaperSize(QPrinter::A4);
-    printer.setOrientation(QPrinter::Portrait);
-    printer.setFullPage(true);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName( "tmpprint_out" );
+    // printer.setPageMargins(0.925, 0.8, 0.5, 0.8, QPrinter::Inch);
+
+    QSizeF paperSize;
+    paperSize.setWidth(printer.width());
+    paperSize.setHeight(printer.height());
+    document->setPageSize(paperSize); // the document needs a valid PageSize
 
     document->print(&printer);
 
     QPrintPreviewDialog *dialog = new QPrintPreviewDialog(&printer, NULL);
+
+    connect(dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(slotPreview(QPrinter *)));
+
     if (dialog->exec() == QDialog::Accepted) {
         document->print(&printer);
-    }
+    }    
 
-    delete dialog;
-    delete document;
     return true;
+}
+
+void TablePrint::slotPreview(QPrinter *p)
+{
+    document->print(p);
 }
