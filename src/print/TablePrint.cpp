@@ -1,0 +1,165 @@
+#include "TablePrint.h"
+
+#include <QCoreApplication>
+#include <QDebug>
+#include <QFile>
+#include <QTextBrowser>
+#include <QPrinter>
+#include <QPrintPreviewDialog>
+#include <QPrintDialog>
+#include <QDateTime>
+
+TablePrint::TablePrint(QObject *parent) : QObject(parent)
+{
+
+}
+
+bool TablePrint::prepareTmpFileHtmlTableFromModel(const QTableView *tableView) {
+    QString strStream;
+    QTextStream out(&strStream);
+
+    const int rowCount = tableView->model()->rowCount();
+    const int columnCount = tableView->model()->columnCount();
+
+    out <<  "<html>\n"
+        "<head>\n"
+        "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+        <<  QString("<title>%1</title>\n").arg(trUtf8("Отчёт"))
+        <<  "</head>\n"
+        "<body bgcolor=#ffffff link=#5000A0>\n"
+        "<table border=1 cellspacing=0 cellpadding=2>\n";
+
+    // headers
+    out << "<thead><tr bgcolor=#f0f0f0>";
+    for (int column = 0; column < columnCount; column++)
+        if (!tableView->isColumnHidden(column))
+            out << QString("<th>%1</th>").arg(tableView->model()->headerData(column, Qt::Horizontal).toString());
+    out << "</tr></thead>\n";
+
+    // data table
+    for (int row = 0; row < rowCount; row++) {
+        out << "<tr>";
+        for (int column = 0; column < columnCount; column++) {
+            if (!tableView->isColumnHidden(column)) {
+                QString data = tableView->model()->data(tableView->model()->index(row, column)).toString().simplified();
+                out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+            }
+        }
+        out << "</tr>\n";
+    }
+    out <<  "</table>\n"
+        "</body>\n"
+        "</html>\n";
+
+    out << "<table border=\"0\" bordercolor=\"#ffffff\" cellspacing=\"1\" cellpadding= \"1\" align=\"right\" cols=\"2\" width=\"45%\">"
+           "    <tr>"
+           "        <td width=\"50%\">&nbsp;</td>"
+           "        <td width=\"50%\">&nbsp;</td>"
+           "    </tr>"
+           "    <tr>"
+           "        <td width=\"50%\"><hr></td>"
+           "        <td width=\"50%\"><hr></td>"
+           "    </tr>"
+           "    <tr>"
+           "        <td align=\"center\">" << trUtf8("подпись") << "</td>"
+           "        <td align=\"center\">" << trUtf8("ФИО") << "</td>"
+           "    </tr>"
+           "        <tr>"
+           "        <td width=\"50%\">" << QDateTime::currentDateTime().toString("dd.MM.yyyy \t hh:mm:ss") << "&nbsp;</td>"
+           "        <td width=\"50%\">&nbsp;</td>"
+           "    </tr>"
+           "    <tr>"
+           "        <td><hr></td>"
+           "        <td></td>"
+           "    </tr>"
+           "    <tr>"
+           "        <td align=\"center\">" << trUtf8("дата, время создания") << "</td>"
+           "        <td></td>"
+           "    </tr>"
+           "</table>";
+
+    qDebug() << strStream;
+
+
+    if(QFile::exists("tmpprint"))
+        QFile::remove("tmpprint");
+
+    QFile tmpf("tmpprint");
+    if (!tmpf.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Can`t create file tmpprint";
+        return false;
+    } else {
+        QTextStream fout(&tmpf);
+        fout << strStream;
+        tmpf.close();
+    }
+
+    return true;
+}
+
+bool TablePrint::print()
+{
+    QTextDocument *loc_document = new QTextDocument();
+    QFile tmpf("tmpprint");
+    if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Can`t read file tmpprint";
+        return false;
+    } else {
+        QTextStream sin(&tmpf);
+        loc_document->setHtml(sin.readAll());
+        tmpf.close();
+    }
+
+    QPrinter printer;
+
+    QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+    if (dialog->exec() == QDialog::Accepted) {
+        loc_document->print(&printer);
+    }
+
+    delete dialog;
+    delete loc_document;
+    return true;
+}
+
+bool TablePrint::printPreview()
+{
+    document = new QTextDocument();
+    QFile tmpf("tmpprint");
+    if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Can`t read file tmpprint";
+        return false;
+    } else {
+        QTextStream sin(&tmpf);
+        document->setHtml(sin.readAll());
+        tmpf.close();
+    }
+
+    QPrinter printer(QPrinter::ScreenResolution);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName( "tmpprint_out" );
+    // printer.setPageMargins(0.925, 0.8, 0.5, 0.8, QPrinter::Inch);
+
+    QSizeF paperSize;
+    paperSize.setWidth(printer.width());
+    paperSize.setHeight(printer.height());
+    document->setPageSize(paperSize); // the document needs a valid PageSize
+
+    document->print(&printer);
+
+    QPrintPreviewDialog *dialog = new QPrintPreviewDialog(&printer, NULL);
+
+    connect(dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(slotPreview(QPrinter *)));
+
+    if (dialog->exec() == QDialog::Accepted) {
+        document->print(&printer);
+    }    
+
+    return true;
+}
+
+void TablePrint::slotPreview(QPrinter *p)
+{
+    document->print(p);
+}
