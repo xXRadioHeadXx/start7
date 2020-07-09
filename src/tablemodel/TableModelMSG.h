@@ -26,11 +26,11 @@ public:
     // функция для передачи данных пользователю
     virtual QVariant data(const QModelIndex &index, int role) const;
     // Функция для приёма данных от пользователя
-//    virtual  bool  setData(QModelIndex index, QVariant value, int role);
+    virtual  bool  setData(const QModelIndex &index, const QVariant &value, int role);
     // отображение   названий   столбцов
     virtual QVariant headerData( int section, Qt::Orientation orientation, int role) const;
     // возможность редактирования элемента
-    virtual Qt::ItemFlags flags(QModelIndex index);
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
     // добавление новой строки
     virtual bool insertRows(int row, int count = 1, const QModelIndex &parent = QModelIndex());
 
@@ -49,6 +49,8 @@ public slots:
     void emitNeedScrollToBottom();
     void needResetModel();
     JourEntity *clickedMsg(const QModelIndex &index);
+    inline QModelIndex index(int row, int column, const QModelIndex &parent) const { return hasIndex(row, column, parent) ? createIndex(row, column, m_listMSG[row]) : QModelIndex(); }
+    inline QModelIndex parent(const QModelIndex &) const { return QModelIndex(); }
 
 };
 

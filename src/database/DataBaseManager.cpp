@@ -371,7 +371,7 @@ QList<QString> DataBaseManager::getReasonGroup() {
     QString sql;
     sql = " SELECT reason \
             FROM public.jour \
-            WHERE reason is not null \
+            WHERE reason is not null and reason != '' \
             group by reason, mdate \
             order by mdate DESC, reason ASC ";
 
@@ -395,7 +395,7 @@ QList<QString> DataBaseManager::getMeasuresGroup() {
     QString sql;
     sql = " SELECT measures \
             FROM public.jour \
-            WHERE measures is not null \
+            WHERE measures is not null and measures != '' \
             group by measures, mdate \
             order by mdate DESC, measures ASC ";
 
@@ -407,7 +407,7 @@ QList<QString> DataBaseManager::getMeasuresGroup() {
         while(query.next())
         {
             QSqlRecord rec = query.record();
-            result.append(rec.value("reason").toString());
+            result.append(rec.value("measures").toString());
         }
     }
     return result;

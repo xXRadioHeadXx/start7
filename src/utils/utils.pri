@@ -1,4 +1,4 @@
-QT += core printsupport
+QT += core
 
 CONFIG += c++11
 
@@ -9,7 +9,7 @@ SOURCES += \
     $$PWD/Icons.cpp \
 #    $$PWD/ProcessDKWaiter.cpp \
     $$PWD/SettingUtils.cpp \
-    $$PWD/TablePrint.cpp \
+#    $$PWD/TablePrint.cpp \
     $$PWD/Utils.cpp \
 #    $$PWD/ConfirmationAdmissionWaiter.cpp \
 #    $$PWD/StatusRequester.cpp \
@@ -22,7 +22,7 @@ HEADERS += \
     $$PWD/Icons.h \
 #    $$PWD/ProcessDKWaiter.h \
     $$PWD/SettingUtils.h \
-    $$PWD/TablePrint.h \
+#    $$PWD/TablePrint.h \
     $$PWD/Utils.h \
 #    $$PWD/ConfirmationAdmissionWaiter.h \
 #    $$PWD/StatusRequester.h \

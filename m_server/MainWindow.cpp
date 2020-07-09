@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <ComboBoxDelegate.h>
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QNetworkDatagram>
@@ -45,6 +46,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     updComboBoxReason();
     updComboBoxTakenMeasures();
+
+    ui->tableView->setItemDelegateForColumn(4, new ComboBoxDelegate("reason", this));
+    ui->tableView->setItemDelegateForColumn(5, new ComboBoxDelegate("measures", this));
 
     m_portManager = new PortManager(this, this->m_dbManager);
     m_portManager->loadSettings();

@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <ComboBoxDelegate.h>
 #include <TablePrint.h>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -63,6 +64,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     updComboBoxReason();
     updComboBoxTakenMeasures();
+
+    ui->tableView->setItemDelegateForColumn(4, new ComboBoxDelegate("reason", this));
+    ui->tableView->setItemDelegateForColumn(5, new ComboBoxDelegate("measures", this));
 }
 
 MainWindow::~MainWindow()

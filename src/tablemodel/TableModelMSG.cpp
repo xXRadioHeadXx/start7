@@ -80,6 +80,7 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
         result = resultColor;
         return result;
     }
+
     // Если необходимо отобразить картинку - ловим роль Qt::DecorationRole
     if (index.isValid() && role == Qt::DecorationRole) {
         switch(index.column())
@@ -95,12 +96,12 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
                 return result;
         }
     }
-    // Если хотим отобразить CheckBox, используем роль Qt::CheckStateRole
-    // если текущий вызов не относится к роли отображения, завершаем
-    if (!index.isValid() || role != Qt::DisplayRole)
-        return result;
+//    // Если хотим отобразить CheckBox, используем роль Qt::CheckStateRole
+//    // если текущий вызов не относится к роли отображения, завершаем
+//    if (!index.isValid() || role != Qt::DisplayRole)
+//        return result;
 
-    if (index.isValid() && role == Qt::DisplayRole)
+    if ((role == Qt::DisplayRole || role == Qt::EditRole))
     {
         // устанавливаем соответствие между номером столбца и полем записи
         return msgRecord->data(index.column());
@@ -110,12 +111,27 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
 }
 
 // Функция для приёма данных от пользователя
-//bool TableModelArchiveMSG::setData(QModelIndex index, QVariant value, int role)
-//{
-//    if(index.isValid() && value.isValid() && (-1 != role))
-//        return false;
-//    return false;
-//}
+bool TableModelMSG::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+
+    if (role == Qt::EditRole) {
+        JourEntity *item = m_listMSG.at(index.row());
+
+        if (index.column() == 4)
+                item->setReason(value.toString());
+        else if (index.column() == 5)
+                item->setMeasures(value.toString());
+        else
+            return false;
+
+//        m_listMSG.replace(index.row(), item);
+
+        DataBaseManager::updateJourMsg(*item);
+        emit dataChanged(index, index, QVector<int>() << Qt::DisplayRole << Qt::EditRole);
+        return true;
+    }
+    return false;
+}
 
 // отображение   названий   столбцов
 QVariant TableModelMSG::headerData(int section, Qt::Orientation orientation, int role) const
@@ -152,15 +168,12 @@ QVariant TableModelMSG::headerData(int section, Qt::Orientation orientation, int
 };
 
 // возможность редактирования элемента
-Qt::ItemFlags TableModelMSG::flags(QModelIndex index)
+Qt::ItemFlags TableModelMSG::flags(const QModelIndex &index) const
 {
-    Qt::ItemFlags result;
-    if (!index.isValid())
-        return Qt::ItemIsEnabled;
-
-    // разрешаем редактирование всего, кроме первого столбца
-    result = QAbstractTableModel::flags(index);
-    result |= Qt::ItemIsEditable;
+    Qt::ItemFlags result = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    // разрешаем редактирование
+    if(4 == index.column() || 5 == index.column())
+        result |= Qt::ItemIsEditable;
     return result;
 }
 
@@ -245,7 +258,7 @@ void TableModelMSG::updateRecord(const quint32 idMSG)
         JourEntity * target = m_listMSG.at(i);
         if(target->getId() == updRecord.first()->getId()) {
             *target = *updRecord.first();
-            emit this->dataChanged(this->index(i, 0), this->index(i, 6));
+            emit this->dataChanged(this->index(i, 0, QModelIndex()), this->index(i, 6, QModelIndex()));
             break;
         }
     }
