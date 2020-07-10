@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "MainWindow.h"
 #include "ui_mainwindow.h"
 
 #include <ComboBoxDelegate.h>
@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
             SLOT(scrollToBottom()));
 
     this->modelTreeUN = new TreeModelUnitNode(this);
+    modelMSG->setFont(ui->tableView->font());
+
     ui->treeView->setModel(this->modelTreeUN);
 
     this->modelTreeUN->createProxySortTree();
@@ -468,4 +470,25 @@ void MainWindow::on_actionTest_triggered()
 void MainWindow::on_actionDiagnostics_triggered()
 {
     createDiagnosticTable();
+}
+
+void MainWindow::on_actionIncrease_triggered()
+{
+    QFont font = modelMSG->getFont();
+    font.setPointSize(font.pointSize() + 5);
+    modelMSG->setFont(font);
+    ui->tableView->update();
+
+    qDebug() << font;
+
+}
+
+void MainWindow::on_actionReduce_triggered()
+{
+    QFont font = modelMSG->getFont();
+    font.setPointSize(font.pointSize() - 5);
+    modelMSG->setFont(font);
+    ui->tableView->update();
+
+    qDebug() << font;
 }

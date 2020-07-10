@@ -73,6 +73,10 @@ private slots:
 
     void on_actionDiagnostics_triggered();
 
+    void on_actionIncrease_triggered();
+
+    void on_actionReduce_triggered();
+
 protected:
     void closeEvent(QCloseEvent * event);
 

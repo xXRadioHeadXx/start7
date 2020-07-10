@@ -3,6 +3,16 @@
 #include <TableModelMSG.h>
 #include <SignalSlotCommutator.h>
 
+QFont TableModelMSG::getFont() const
+{
+    return font;
+}
+
+void TableModelMSG::setFont(const QFont &value)
+{
+    font = value;
+}
+
 TableModelMSG::TableModelMSG(QObject *parent) :
     QAbstractTableModel(parent)
 {
@@ -61,8 +71,22 @@ int TableModelMSG::columnCount(const QModelIndex &index) const
 // функция для передачи данных пользователю
 QVariant TableModelMSG::data(const QModelIndex &index, int role) const
 {
-    int row(index.row());
+
     QVariant result;
+
+    if(Qt::FontRole == role) {
+        return getFont();
+    }
+
+    // закрасим строчку по io признаку
+    if (role == Qt::BackgroundRole)
+    {
+        QColor resultColor(Qt::white);
+        result = resultColor;
+        return result;
+    }
+
+    int row(index.row());
     if(row + 1 > m_listMSG.size())
     {
         return result;
@@ -73,13 +97,7 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
     // выводим в консоль текущие значения параметров и считаем, сколько
     // раз вызывается метод TableModelArchiveMSG::data и для каких ролей
 
-    // закрасим строчку по io признаку
-    if (role == Qt::BackgroundRole)
-    {
-        QColor resultColor(Qt::white);
-        result = resultColor;
-        return result;
-    }
+
 
     // Если необходимо отобразить картинку - ловим роль Qt::DecorationRole
     if (index.isValid() && role == Qt::DecorationRole) {

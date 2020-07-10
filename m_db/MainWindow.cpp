@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    qApp->setFont(qApp->font());
+
     setBlockSignal(true);
 
     ui->dateEdit->setDate(QDate::currentDate());
@@ -53,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_dbManager = new DataBaseManager(this);
 
     this->modelMSG = new TableModelMSG(this);
+
+    modelMSG->setFont(ui->tableView->font());
+
     ui->tableView->setModel(this->modelMSG);
     connect(this->modelMSG,
             SIGNAL(needScrollToBottom()),

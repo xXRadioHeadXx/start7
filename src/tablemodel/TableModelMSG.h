@@ -8,14 +8,16 @@
 class TableModelMSG : public QAbstractTableModel
 {
     Q_OBJECT
-public:
-    explicit TableModelMSG(QObject *parent = nullptr);
-    ~TableModelMSG();
 
     QList<JourEntity *> m_listMSG;
     quint32 newRecordMSG;
     quint32 updRecordMSG;
     bool needScroll;
+    QFont font;
+public:
+    explicit TableModelMSG(QObject *parent = nullptr);
+    ~TableModelMSG();
+
 
     void updateListRecordsMSG();
     void updateFilter();
@@ -33,6 +35,9 @@ public:
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
     // добавление новой строки
     virtual bool insertRows(int row, int count = 1, const QModelIndex &parent = QModelIndex());
+
+    QFont getFont() const;
+    void setFont(const QFont &value);
 
 signals:
     void needScrollToBottom();
