@@ -114,13 +114,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::write()
 {
-//    for(int i = 0, n = 1; i < n; i++)
-//        qDebug() << "tv h(" << i << ")=" << ui->treeView->columnWidth(i);
 
-//    for(int i = 0, n = 7; i < n; i++)
-//        qDebug() << "tv h(" << i << ")=" << ui->tableView->columnWidth(i);
+    this->on_actionIncrease_triggered();
 
-//    return;
+    return;
 
     m_portManager->startStatusRequest();
     return;
@@ -475,8 +472,31 @@ void MainWindow::on_actionDiagnostics_triggered()
 void MainWindow::on_actionIncrease_triggered()
 {
     QFont font = modelMSG->getFont();
-    font.setPointSize(font.pointSize() + 5);
+    int currentIndexFont = 0;
+
+    for(int n = fontSize.size(); currentIndexFont < n; currentIndexFont++)
+        if(font.pointSize() == fontSize.at(currentIndexFont).first)
+            break;
+
+    if(currentIndexFont + 1 >= fontSize.size())
+        return;
+
+    font.setPointSize(fontSize.at(currentIndexFont + 1).first);
     modelMSG->setFont(font);
+
+    ui->tableView->verticalHeader()->setMinimumHeight(fontSize.at(currentIndexFont + 1).second);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont + 1).second);
+
+    ui->treeView->resizeColumnToContents(0);
+
+    ui->tableView->resizeColumnToContents(0);
+    ui->tableView->resizeColumnToContents(1);
+    ui->tableView->resizeColumnToContents(2);
+    ui->tableView->resizeColumnToContents(3);
+    ui->tableView->resizeColumnToContents(4);
+    ui->tableView->resizeColumnToContents(5);
+    ui->tableView->resizeColumnToContents(6);
+
     ui->tableView->update();
 
     qDebug() << font;
@@ -486,8 +506,31 @@ void MainWindow::on_actionIncrease_triggered()
 void MainWindow::on_actionReduce_triggered()
 {
     QFont font = modelMSG->getFont();
-    font.setPointSize(font.pointSize() - 5);
+    int currentIndexFont = 0;
+
+    for(int n = fontSize.size(); currentIndexFont < n; currentIndexFont++)
+        if(font.pointSize() == fontSize.at(currentIndexFont).first)
+            break;
+
+    if(0 > currentIndexFont - 1)
+        return;
+
+    font.setPointSize(fontSize.at(currentIndexFont - 1).first);
     modelMSG->setFont(font);
+
+    ui->tableView->verticalHeader()->setMinimumHeight(fontSize.at(currentIndexFont - 1).second);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont - 1).second);
+
+    ui->treeView->resizeColumnToContents(0);
+
+    ui->tableView->resizeColumnToContents(0);
+    ui->tableView->resizeColumnToContents(1);
+    ui->tableView->resizeColumnToContents(2);
+    ui->tableView->resizeColumnToContents(3);
+    ui->tableView->resizeColumnToContents(4);
+    ui->tableView->resizeColumnToContents(5);
+    ui->tableView->resizeColumnToContents(6);
+
     ui->tableView->update();
 
     qDebug() << font;
