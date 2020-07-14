@@ -26,6 +26,13 @@ public:
     static QPixmap sqr_rd();
     static QPixmap sqr_ylw();
 
+    static QPixmap crcl_blu();
+    static QPixmap crcl_grn();
+    static QPixmap crcl_rd();
+    static QPixmap crcl_ylw();
+
+    static QPixmap chck_grn();
+
 };
 
 #endif // ICONS_H

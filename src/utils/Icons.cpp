@@ -16,6 +16,14 @@ QPixmap Icons::sqr_grn_mns_gry() { return QPixmap(":icons/square_green_minus_gra
 QPixmap Icons::sqr_rd() { return QPixmap(":icons/square_red_20_20.png"); }
 QPixmap Icons::sqr_ylw() { return QPixmap(":icons/square_yellow_20_20.png"); }
 
+QPixmap Icons::crcl_blu() { return QPixmap(":icons/circl_blue_20_20.png"); }
+QPixmap Icons::crcl_grn() { return QPixmap(":icons/circl_green_20_20.png"); }
+QPixmap Icons::crcl_rd() { return QPixmap(":icons/circl_red_20_20.png"); }
+QPixmap Icons::crcl_ylw() { return QPixmap(":icons/circl_yellow_20_20.png"); }
+
+QPixmap Icons::chck_grn() { return QPixmap(":icons/check_green_20_20.png"); }
+
+
 Icons::Icons()
 {
 

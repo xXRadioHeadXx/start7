@@ -15,5 +15,11 @@
         <file>icons/square_green_minus_gray_20_20.png</file>
         <file>icons/square_red_20_20.png</file>
         <file>icons/square_yellow_20_20.png</file>
+        <file>icons/check_green_20_20.png</file>
+        <file>icons/circl_black_20_20.png</file>
+        <file>icons/circl_blue_20_20.png</file>
+        <file>icons/circl_green_20_20.png</file>
+        <file>icons/circl_red_20_20.png</file>
+        <file>icons/circl_yellow_20_20.png</file>
     </qresource>
 </RCC>
