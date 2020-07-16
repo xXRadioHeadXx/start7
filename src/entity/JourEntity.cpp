@@ -1,5 +1,6 @@
 #include <JourEntity.h>
 
+#include <Icons.h>
 #include <Utils.h>
 
 QMap<int, QString> JourEntity::mapTypeObject = {{TypeObject::oAllObject, trUtf8("Все")},
@@ -126,6 +127,144 @@ void JourEntity::setFlag(int value)
 QMap<int, QString> JourEntity::getMapTypeConnectObject()
 {
     return mapTypeConnectObject;
+}
+
+QPixmap JourEntity::getPxm() const
+{
+    switch( this->getType() )
+    {
+       case   1:
+       case   2:
+       case   7:
+       case 101:
+       case 111:
+        return Icons::crcl_grn();
+       case   3:
+       case   4:
+       case 142:
+       case 130:
+       case 131:
+       case 132:
+       case 133:
+       case 134:
+       case 135:
+       case 136:
+       case 137:
+       case 138:
+       case 140:
+       case 141:
+       case 150:
+       case 160:
+       case 170:
+       case 171:
+       case 172:
+       case 173:
+       case 174:
+       case 175:
+       case 900:
+       case 901:
+        return Icons::chck_grn();
+       case   5:
+       case   6:
+       case  10:
+       case 200:
+        return Icons::crcl_ylw();
+       case  11:
+       case  12:
+       case  13:
+       case  15:
+       case  16:
+       case  17:
+       case  31:
+        return Icons::crcl_blu();
+       case  20:
+       case  21:
+       case  22:
+       case  23:
+       case  24:
+       case  25:
+       case  26:
+       case  27:
+        return Icons::crcl_rd();
+       case  30:
+       case 100:
+       case 110:
+        return Icons::crcl_blk();
+       default:
+        return QPixmap();
+    }
+}
+
+QColor JourEntity::getColor() const
+{
+    switch( this->getType() )
+    {
+       case   1:
+       case   2:
+       case   7:
+       case 101:
+       case 111:
+        return QColor(0, 0, 0);;
+//        return Icons::crcl_grn();
+       case   3:
+       case   4:
+       case 142:
+       case 130:
+       case 131:
+       case 132:
+       case 133:
+       case 134:
+       case 135:
+       case 136:
+       case 137:
+       case 138:
+       case 140:
+       case 141:
+       case 150:
+       case 160:
+       case 170:
+       case 171:
+       case 172:
+       case 173:
+       case 174:
+       case 175:
+       case 900:
+       case 901:
+        return QColor(0, 150, 64);
+//        return Icons::chck_grn();
+       case   5:
+       case   6:
+       case  10:
+       case 200:
+        return QColor(255, 221, 14);
+//        return Icons::crcl_ylw();
+       case  11:
+       case  12:
+       case  13:
+       case  15:
+       case  16:
+       case  17:
+       case  31:
+        return QColor(15, 122, 183);
+//        return Icons::crcl_blu();
+       case  20:
+       case  21:
+       case  22:
+       case  23:
+       case  24:
+       case  25:
+       case  26:
+       case  27:
+        return QColor(227, 6, 19);
+//        return Icons::crcl_rd();
+       case  30:
+       case 100:
+       case 110:
+        return QColor(0, 0, 0);
+//        return Icons::crcl_blk();
+       default:
+        return QColor(0, 0, 0);
+    }
 }
 
 JourEntity::JourEntity(QObject *parent) : QObject(parent)

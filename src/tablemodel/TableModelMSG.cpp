@@ -2,6 +2,7 @@
 
 #include <TableModelMSG.h>
 #include <SignalSlotCommutator.h>
+#include <Icons.h>
 
 QFont TableModelMSG::getFont() const
 {
@@ -74,9 +75,6 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
 
     QVariant result;
 
-    if(Qt::FontRole == role) {
-        return getFont();
-    }
 
     // закрасим строчку по io признаку
     if (role == Qt::BackgroundRole)
@@ -93,6 +91,17 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
     }
     JourEntity * msgRecord = m_listMSG.at(row);
 
+    if(Qt::FontRole == role) {
+        QFont font = getFont();
+
+        return font;
+    }
+
+    if (Qt::ForegroundRole == role) {
+        if(0 != msgRecord->getFlag() || 0 == msgRecord->getFlag()) {
+            return msgRecord->getColor();
+        }
+    }
 
     // выводим в консоль текущие значения параметров и считаем, сколько
     // раз вызывается метод TableModelArchiveMSG::data и для каких ролей
@@ -105,8 +114,8 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
         {
             case 0:
             {
-                if(msgRecord->getStatus().isEmpty()) {
-                    return result;
+                if(0 != msgRecord->getFlag() || 0 == msgRecord->getFlag()) {
+                    return msgRecord->getPxm();
                 }
                 return result;
             };

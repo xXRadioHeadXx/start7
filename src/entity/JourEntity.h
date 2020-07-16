@@ -150,6 +150,10 @@ public:
 
     static QMap<int, QString> getMapTypeConnectObject();
 
+    QPixmap getPxm() const;
+    QColor getColor() const;
+
+
 private:
 
 signals:

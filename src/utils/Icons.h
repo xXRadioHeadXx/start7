@@ -30,6 +30,7 @@ public:
     static QPixmap crcl_grn();
     static QPixmap crcl_rd();
     static QPixmap crcl_ylw();
+    static QPixmap crcl_blk();
 
     static QPixmap chck_grn();
 
