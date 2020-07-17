@@ -293,7 +293,7 @@ JourEntity::JourEntity(const JourEntity & parent) :
     objecttype(parent.getObjecttype()),
     flag(parent.getFlag())
 {
-
+    setFlag(1);
 }
 
 JourEntity::JourEntity(JourEntity * parent) :
@@ -317,7 +317,7 @@ JourEntity::JourEntity(JourEntity * parent) :
     objecttype(parent->getObjecttype()),
     flag(parent->getFlag())
 {
-
+    setFlag(1);
 }
 
 QVariant JourEntity::data(int column) const noexcept
