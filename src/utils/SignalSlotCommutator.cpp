@@ -33,6 +33,11 @@ void SignalSlotCommutator::emitInsNewJourMSG() const {
     emit this->insNewJourMSG();
 }
 
+void SignalSlotCommutator::emitUpdAllJourMSG() const
+{
+    emit this->updAllJourMSG();
+}
+
 void SignalSlotCommutator::emitUpdJourMSG(const quint32 id) const {
     emit this->updJourMSG(id);
 }

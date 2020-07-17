@@ -47,6 +47,7 @@ signals:
 public slots:
     //обновление выборки
     void castomUpdateListRecords(QString sql);
+    void updateAllRecords();
     void updateListRecords();
     void updateListRecords(const quint32 idMSG);
     void updateRecord(const quint32 idMSG);

@@ -22,6 +22,8 @@ public:
     static int insertJourMsg(const JourEntity &msg);
     static int updateJourMsg_wS(const JourEntity &msg);
     static int updateJourMsg(const JourEntity &msg);
+    static void resetAllFlags_wS();
+    static void resetAllFlags();
     static QList<JourEntity *> getMSGRecordAfter(const int &id = 0);
     static QList<JourEntity *> getMSGRecord(const int &id = -1);
     static QList<JourEntity *> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);

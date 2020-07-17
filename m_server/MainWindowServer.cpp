@@ -271,13 +271,14 @@ void MainWindowServer::createDiagnosticTable()
 
 void MainWindowServer::on_pushButtonAlarmReset_clicked()
 {
-    this->m_portManager->requestAlarmReset();
+//    this->m_portManager->requestAlarmReset();
     JourEntity msgOn;
-    msgOn.setObject("Оператор");
+    msgOn.setObject(trUtf8("Оператор"));
     msgOn.setType(135);
     msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
     DataBaseManager::insertJourMsg_wS(msgOn);
 
+    DataBaseManager::resetAllFlags_wS();
 }
 
 void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)

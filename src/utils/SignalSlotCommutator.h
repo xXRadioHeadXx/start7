@@ -18,6 +18,7 @@ public slots:
      void emitInsNewCommandMSG() const;
      void emitInsNewJourMSG(const quint32 id) const;
      void emitInsNewJourMSG() const;
+     void emitUpdAllJourMSG() const;
      void emitUpdJourMSG(const quint32 id) const;
      void emitUpdJourMSG() const;
      void emitUpdUN() const;
@@ -32,6 +33,7 @@ signals:
      void insNewCommandMSG() const;
      void insNewJourMSG(const quint32 id) const;
      void insNewJourMSG() const;
+     void updAllJourMSG() const;
      void updJourMSG(const quint32 id) const;
      void updJourMSG() const;
      void updUN() const;

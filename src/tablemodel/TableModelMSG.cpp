@@ -34,6 +34,17 @@ TableModelMSG::TableModelMSG(QObject *parent) :
             SIGNAL(updJourMSG(const quint32)),
             this,
             SLOT(updateRecord(const quint32)));
+
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(updJourMSG()),
+            this,
+            SLOT(updateListRecords()));
+
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(updAllJourMSG()),
+            this,
+            SLOT(updateAllRecords()));
+
 }
 
 void TableModelMSG::needResetModel()
@@ -98,7 +109,7 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
     }
 
     if (Qt::ForegroundRole == role) {
-        if(0 != msgRecord->getFlag() || 0 == msgRecord->getFlag()) {
+        if(0 != msgRecord->getFlag()) {
             return msgRecord->getColor();
         }
     }
@@ -114,7 +125,7 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
         {
             case 0:
             {
-                if(0 != msgRecord->getFlag() || 0 == msgRecord->getFlag()) {
+                if(0 != msgRecord->getFlag()) {
                     return msgRecord->getPxm();
                 }
                 return result;
@@ -234,6 +245,22 @@ void TableModelMSG::castomUpdateListRecords(QString sql)
     if(!newRecords.isEmpty()) {
         lastRecordMSG = m_listMSG.last()->getId();
     }
+
+    this->endResetModel();
+
+    emitNeedScrollToBottom();
+}
+
+void TableModelMSG::updateAllRecords()
+{
+    QList<JourEntity *> newRecords(DataBaseManager::getMSGRecordAfter(-1));
+
+    if(newRecords.isEmpty())
+        return;
+
+    this->beginResetModel();
+
+    m_listMSG = newRecords;
 
     this->endResetModel();
 

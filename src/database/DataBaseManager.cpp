@@ -172,7 +172,8 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     query.bindValue(":vD4", msg.getD4());
     query.bindValue(":vType", msg.getType());
     query.bindValue(":vObjecttype", msg.getObjecttype());
-    query.bindValue(":vFlag", msg.getFlag());
+    query.bindValue(":vFlag", 1);
+//    query.bindValue(":vFlag", msg.getFlag());
 
     if(query.exec())
     {
@@ -256,6 +257,36 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
         qDebug() << query.lastQuery();
         qDebug() << query.boundValues();
         return 0;
+    }
+}
+
+void DataBaseManager::resetAllFlags_wS()
+{
+    resetAllFlags();
+    SignalSlotCommutator::getInstance()->emitUpdAllJourMSG();
+}
+
+void DataBaseManager::resetAllFlags()
+{
+    QString sql;
+    sql =  " UPDATE public.jour \
+             SET flag = 0 \
+             WHERE flag != 0 ";
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    if(query.exec())
+    {
+        qDebug() << "DataBaseManager::resetAllFlags ";
+        return;
+    }
+    else
+    {
+        qDebug() << "DataBaseManager::resetAllFlags Error :" << query.lastError().text();
+        qDebug() << query.lastQuery();
+        qDebug() << query.boundValues();
+        return;
     }
 }
 
