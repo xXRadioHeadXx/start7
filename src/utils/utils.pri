@@ -5,7 +5,7 @@ CONFIG += c++11
 INCLUDEPATH += $$PWD/
 
 SOURCES += \
-    $$PWD/AppTranslator.cpp \
+#    $$PWD/AppTranslator.cpp \
     $$PWD/Icons.cpp \
 #    $$PWD/ProcessDKWaiter.cpp \
     $$PWD/SettingUtils.cpp \
@@ -18,7 +18,7 @@ SOURCES += \
 
 HEADERS += \
 #    $$PWD/AbstractRequester.h \
-    $$PWD/AppTranslator.h \
+#    $$PWD/AppTranslator.h \
     $$PWD/Icons.h \
 #    $$PWD/ProcessDKWaiter.h \
     $$PWD/SettingUtils.h \

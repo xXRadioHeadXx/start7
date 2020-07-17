@@ -28,14 +28,14 @@ include(../src/database/database.pri)
 include(../src/requester/requester.pri)
 
 SOURCES += \
-    main.cpp \
-    MainWindow.cpp
+    MainWindowServer.cpp \
+    main.cpp
 
 HEADERS += \
-    MainWindow.h
+    MainWindowServer.h
 
 FORMS += \
-    mainwindow.ui
+    MainWindowServer.ui
 
 #TRANSLATIONS += app_ru.ts \
 #                app_ru.qm

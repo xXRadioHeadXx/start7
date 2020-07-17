@@ -1,21 +1,21 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MAINWINDOWDB_H
+#define MAINWINDOWDB_H
 
 #include <DataBaseManager.h>
 #include <QMainWindow>
 #include <TableModelMSG.h>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class MainWindowDB; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainWindowDB : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    MainWindowDB(QWidget *parent = nullptr);
+    ~MainWindowDB();
 
 
 private slots:
@@ -44,7 +44,7 @@ private slots:
     void on_action_triggered();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindowDB *ui;
 
     bool blockSignal = true;
     DataBaseManager *m_dbManager = nullptr;
@@ -63,4 +63,4 @@ private:
     void updComboBox(QList<QString> lst, QComboBox * cmb);
 
 };
-#endif // MAINWINDOW_H
+#endif // MAINWINDOWDB_H

@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MAINWINDOWSERVER_H
+#define MAINWINDOWSERVER_H
 
 #include <QMainWindow>
 #include <QUdpSocket>
@@ -12,19 +12,19 @@
 #include <TableModelMSG.h>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class MainWindowServer; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainWindowServer : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    MainWindowServer(QWidget *parent = nullptr);
+    ~MainWindowServer();
     void setRussian();
 
-    QTranslator *getRuTranslator() const;
+//    QTranslator *getRuTranslator() const;
 
 public slots:
     void write();
@@ -83,7 +83,7 @@ protected:
 //    void resizeEvent(QResizeEvent *e = nullptr) noexcept;
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindowServer *ui;
 
     PortManager *m_portManager = nullptr;
     DataBaseManager *m_dbManager = nullptr;
@@ -93,7 +93,7 @@ private:
     UnitNode * selUN = nullptr;
     QModelIndex selIndex;
     JourEntity * selMsg = nullptr;
-    QTranslator *ruTranslator;
+//    QTranslator *ruTranslator;
 
     QTimer quasiProgressBeat;
     int dkWaitInterval;
@@ -101,8 +101,8 @@ private:
     QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
 
 signals:
-    void setTranslator(QTranslator *ts);
-    void resetTranslator(QTranslator *ts);
+//    void setTranslator(QTranslator *ts);
+//    void resetTranslator(QTranslator *ts);
 };
 
-#endif // MAINWINDOW_H
+#endif // MAINWINDOWSERVER_H

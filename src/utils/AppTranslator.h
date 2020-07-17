@@ -3,15 +3,15 @@
 
 #include <QObject>
 #include <QApplication>
-#include <mainwindow.h>
+#include <MainWindowServer.h>
 class AppTranslator : public QObject
 {
     Q_OBJECT
 public:
     QApplication *m_app;
-    MainWindow *m_w;
+    MainWindowServer *m_w;
     explicit AppTranslator(QApplication *app,
-                           MainWindow *w,
+                           MainWindowServer *w,
                            QObject *parent = nullptr);
     virtual ~AppTranslator();
 

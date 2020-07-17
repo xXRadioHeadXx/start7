@@ -2,12 +2,12 @@
 #include <QApplication>
 
 #include <AppTranslator.h>
-#include <MainWindow.h>
+#include <MainWindowServer.h>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    MainWindow w;
+    MainWindowServer w;
 
 //    AppTranslator tr(&app, &w);
 

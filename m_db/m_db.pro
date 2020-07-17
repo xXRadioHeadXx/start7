@@ -23,14 +23,14 @@ include(../src/database/database.pri)
 include(../src/print/print.pri)
 
 SOURCES += \
-    main.cpp \
-    MainWindow.cpp
+    MainWindowDB.cpp \
+    main.cpp
 
 HEADERS += \
-    MainWindow.h
+    MainWindowDB.h
 
 FORMS += \
-    MainWindow.ui
+    MainWindowDB.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

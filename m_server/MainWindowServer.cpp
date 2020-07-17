@@ -1,5 +1,5 @@
-#include "MainWindow.h"
-#include "ui_mainwindow.h"
+#include "MainWindowServer.h"
+#include "ui_MainWindowServer.h"
 
 #include <ComboBoxDelegate.h>
 #include <QCloseEvent>
@@ -11,13 +11,13 @@
 #include <SignalSlotCommutator.h>
 #include <Utils.h>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindowServer)
 {
     ui->setupUi(this);
 
-    this->ruTranslator = new QTranslator(this);
+//    this->ruTranslator = new QTranslator(this);
 //    this->ruTranslator->load("app_ru");
 
     ui->actionDataBase->setShortcut(QKeySequence("F3"));
@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_portManager->startStatusRequest();
 }
 
-MainWindow::~MainWindow()
+MainWindowServer::~MainWindowServer()
 {
     JourEntity msg;
     msg.setObject(trUtf8("Оператор"));
@@ -112,7 +112,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::write()
+void MainWindowServer::write()
 {
 
     this->on_actionIncrease_triggered();
@@ -135,22 +135,22 @@ void MainWindow::write()
     m_portManager->write();
 }
 
-void MainWindow::updComboBoxReason() {
+void MainWindowServer::updComboBoxReason() {
     updComboBox(DataBaseManager::getReasonGroup(), ui->comboBoxReason);
 }
 
-void MainWindow::updComboBoxTakenMeasures() {
+void MainWindowServer::updComboBoxTakenMeasures() {
     updComboBox(DataBaseManager::getMeasuresGroup(), ui->comboBoxTakenMeasures);
 }
 
-void MainWindow::updComboBox(QList<QString> lst, QComboBox * cmb) {
+void MainWindowServer::updComboBox(QList<QString> lst, QComboBox * cmb) {
     cmb->clear();
     cmb->addItems(lst);
     cmb->setCurrentIndex(-1);
 }
 
 
-void MainWindow::on_treeView_clicked(const QModelIndex &index)
+void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 {
     UnitNode * sel = this->modelTreeUN->clickedUN(index);
 
@@ -173,7 +173,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
 
 }
 
-void MainWindow::on_tableView_clicked(const QModelIndex &index)
+void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
 {
     JourEntity * sel = this->modelMSG->clickedMsg(index);
 
@@ -198,7 +198,7 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
     }
 }
 
-void MainWindow::on_toolButtonReason_clicked()
+void MainWindowServer::on_toolButtonReason_clicked()
 {
     if(nullptr == selMsg) {
         return;
@@ -209,7 +209,7 @@ void MainWindow::on_toolButtonReason_clicked()
     updComboBoxReason();
 }
 
-void MainWindow::on_toolButtonTakenMeasures_clicked()
+void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 {
     if(nullptr == selMsg) {
         return;
@@ -220,25 +220,25 @@ void MainWindow::on_toolButtonTakenMeasures_clicked()
     updComboBoxTakenMeasures();
 }
 
-QTranslator *MainWindow::getRuTranslator() const
-{
-    return ruTranslator;
-}
+//QTranslator *MainWindowServer::getRuTranslator() const
+//{
+//    return ruTranslator;
+//}
 
-void MainWindow::setRussian() /*noexcept*/
-{
-    emit this->setTranslator(ruTranslator);
-    ui->retranslateUi(this);
-}
+//void MainWindowServer::setRussian() /*noexcept*/
+//{
+//    emit this->setTranslator(ruTranslator);
+//    ui->retranslateUi(this);
+//}
 
-void MainWindow::on_pushButton_clicked()
+void MainWindowServer::on_pushButton_clicked()
 {
     createDiagnosticTable();
 
     write();
 }
 
-void MainWindow::createDiagnosticTable()
+void MainWindowServer::createDiagnosticTable()
 {
     if(nullptr == this->selUN)
         ui->actionDiagnostics->setChecked(false);
@@ -269,7 +269,7 @@ void MainWindow::createDiagnosticTable()
     Utils::fillDiagnosticTable(ui->tableWidget, this->selUN);
 }
 
-void MainWindow::on_pushButtonAlarmReset_clicked()
+void MainWindowServer::on_pushButtonAlarmReset_clicked()
 {
     this->m_portManager->requestAlarmReset();
     JourEntity msgOn;
@@ -280,7 +280,7 @@ void MainWindow::on_pushButtonAlarmReset_clicked()
 
 }
 
-void MainWindow::treeUNCustomMenuRequested(QPoint pos)
+void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 {
     QModelIndex index = ui->treeView->indexAt(pos);
     if (index.isValid()) {
@@ -342,19 +342,19 @@ void MainWindow::treeUNCustomMenuRequested(QPoint pos)
     }
 }
 
-void MainWindow::on_actionDK_triggered()
+void MainWindowServer::on_actionDK_triggered()
 {
     this->m_portManager->requestDK(this->selUN);
 }
 
-void MainWindow::stopDKWait()
+void MainWindowServer::stopDKWait()
 {
     quasiProgressBeat.stop();
     ui->progressBarDKWait->setValue(0);
     ui->progressBarDKWait->setVisible(false);
 }
 
-void MainWindow::beatDKWait()
+void MainWindowServer::beatDKWait()
 {
     ui->progressBarDKWait->setVisible(true);
     ui->progressBarDKWait->setValue((ui->progressBarDKWait->value() + (dkWaitInterval / (100 * 100))) % 101);
@@ -362,7 +362,7 @@ void MainWindow::beatDKWait()
         ui->progressBarDKWait->setVisible(false);
 }
 
-void MainWindow::startDKWait(int interval)
+void MainWindowServer::startDKWait(int interval)
 {
     stopDKWait();
     ui->progressBarDKWait->setVisible(true);
@@ -370,12 +370,12 @@ void MainWindow::startDKWait(int interval)
     quasiProgressBeat.start(100);
 }
 
-void MainWindow::on_actionRifDKOverall_triggered()
+void MainWindowServer::on_actionRifDKOverall_triggered()
 {
     this->m_portManager->requestDK();
 }
 
-void MainWindow::on_actionExpandUNTree_triggered()
+void MainWindowServer::on_actionExpandUNTree_triggered()
 {
     if(nullptr == selUN)
         return;
@@ -386,7 +386,7 @@ void MainWindow::on_actionExpandUNTree_triggered()
         ui->treeView->expand(index);
 }
 
-void MainWindow::on_actionCollapseUNTree_triggered()
+void MainWindowServer::on_actionCollapseUNTree_triggered()
 {
     if(nullptr == selUN)
         return;
@@ -397,21 +397,21 @@ void MainWindow::on_actionCollapseUNTree_triggered()
         ui->treeView->collapse(index);
 }
 
-void MainWindow::on_actionUNOn_triggered()
+void MainWindowServer::on_actionUNOn_triggered()
 {
     if(nullptr == selUN)
         return;
     this->m_portManager->requestOnOffCommand(selUN, true);
 }
 
-void MainWindow::on_actionUNOff_triggered()
+void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
     this->m_portManager->requestOnOffCommand(selUN, false);
 }
 
-void MainWindow::on_actionControl_triggered()
+void MainWindowServer::on_actionControl_triggered()
 {
     if(nullptr == selUN)
         return;
@@ -442,7 +442,7 @@ void MainWindow::on_actionControl_triggered()
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent * event)
+void MainWindowServer::closeEvent(QCloseEvent * event)
 {
     int ret = QMessageBox::warning(this, trUtf8("Предупреждение"),
                                    trUtf8("Завершить работу и выйти из программы?"),
@@ -457,19 +457,19 @@ void MainWindow::closeEvent(QCloseEvent * event)
     //Здесь код
 }
 
-void MainWindow::on_actionTest_triggered()
+void MainWindowServer::on_actionTest_triggered()
 {
     if(nullptr == selUN)
         return;
     this->m_portManager->requestAutoOnOffIUCommand(selUN);
 }
 
-void MainWindow::on_actionDiagnostics_triggered()
+void MainWindowServer::on_actionDiagnostics_triggered()
 {
     createDiagnosticTable();
 }
 
-void MainWindow::on_actionIncrease_triggered()
+void MainWindowServer::on_actionIncrease_triggered()
 {
     QFont font = modelMSG->getFont();
     int currentIndexFont = 0;
@@ -503,7 +503,7 @@ void MainWindow::on_actionIncrease_triggered()
 
 }
 
-void MainWindow::on_actionReduce_triggered()
+void MainWindowServer::on_actionReduce_triggered()
 {
     QFont font = modelMSG->getFont();
     int currentIndexFont = 0;

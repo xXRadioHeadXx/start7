@@ -1,12 +1,12 @@
-#include "MainWindow.h"
-#include "ui_MainWindow.h"
+#include "MainWindowDB.h"
+#include "ui_MainWindowDB.h"
 
 #include <ComboBoxDelegate.h>
 #include <TablePrint.h>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindowDB::MainWindowDB(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindowDB)
 {
     ui->setupUi(this);
 
@@ -74,13 +74,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableView->setItemDelegateForColumn(5, new ComboBoxDelegate("measures", this));
 }
 
-MainWindow::~MainWindow()
+MainWindowDB::~MainWindowDB()
 {
     delete ui;
 }
 
 
-void MainWindow::on_comboBox_2_currentIndexChanged(int index)
+void MainWindowDB::on_comboBox_2_currentIndexChanged(int index)
 {
     QMap<int, QString> mapEvent = JourEntity::getMapTypeEvent();
     switch((JourEntity::TypeObject)ui->comboBox_2->itemData(index).toInt()){
@@ -152,7 +152,7 @@ void MainWindow::on_comboBox_2_currentIndexChanged(int index)
     }
 }
 
-void MainWindow::on_comboBox_currentIndexChanged(int index)
+void MainWindowDB::on_comboBox_currentIndexChanged(int index)
 {
     switch (index) {
     case 0:{
@@ -203,14 +203,14 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     }
 }
 
-QString MainWindow::createEventFilter() {
+QString MainWindowDB::createEventFilter() {
     if(!ui->comboBox_3->isVisible())
         return "";
     return DataBaseManager::eventFlt((JourEntity::TypeEvent)ui->comboBox_3->currentData().toInt(),
                                      (JourEntity::TypeObject)ui->comboBox_2->currentData().toInt());
 }
 
-QString MainWindow::createObjectFilter() {
+QString MainWindowDB::createObjectFilter() {
     if(!ui->comboBox_2->isVisible())
         return "";
     return DataBaseManager::objectFlt((JourEntity::TypeObject)ui->comboBox_2->currentData().toInt(),
@@ -219,13 +219,13 @@ QString MainWindow::createObjectFilter() {
                                       ui->comboBox_8->currentIndex());
 }
 
-QString MainWindow::createDateFilter() {
+QString MainWindowDB::createDateFilter() {
     if(!ui->dateEdit->isVisible() || !ui->dateEdit_2->isVisible())
         return "";
     return DataBaseManager::dateFlt(ui->dateEdit->date(), ui->dateEdit_2->date());
 }
 
-QString MainWindow::createCompositFilter() {
+QString MainWindowDB::createCompositFilter() {
     QString sqlFlt = "SELECT * FROM jour ";
 
     if(0 == ui->comboBox->currentIndex()) {
@@ -263,20 +263,20 @@ QString MainWindow::createCompositFilter() {
     return sqlFlt;
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindowDB::on_pushButton_3_clicked()
 {
     TablePrint::prepareTmpFileHtmlTableFromModel(ui->tableView);
     TablePrint::print();
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindowDB::on_pushButton_2_clicked()
 {
     TablePrint::prepareTmpFileHtmlTableFromModel(ui->tableView);
     TablePrint tp;
     tp.printPreview();
 }
 
-void MainWindow::updateListRecords()
+void MainWindowDB::updateListRecords()
 {
     if(getBlockSignal())
         return;
@@ -284,36 +284,36 @@ void MainWindow::updateListRecords()
     modelMSG->castomUpdateListRecords(createCompositFilter());
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindowDB::on_pushButton_clicked()
 {
     this->updateListRecords();
 }
 
-bool MainWindow::getBlockSignal() const
+bool MainWindowDB::getBlockSignal() const
 {
     return blockSignal;
 }
 
-void MainWindow::setBlockSignal(bool value)
+void MainWindowDB::setBlockSignal(bool value)
 {
     blockSignal = value;
 }
 
-void MainWindow::updComboBoxReason() {
+void MainWindowDB::updComboBoxReason() {
     updComboBox(DataBaseManager::getReasonGroup(), ui->comboBoxReason);
 }
 
-void MainWindow::updComboBoxTakenMeasures() {
+void MainWindowDB::updComboBoxTakenMeasures() {
     updComboBox(DataBaseManager::getMeasuresGroup(), ui->comboBoxTakenMeasures);
 }
 
-void MainWindow::updComboBox(QList<QString> lst, QComboBox * cmb) {
+void MainWindowDB::updComboBox(QList<QString> lst, QComboBox * cmb) {
     cmb->clear();
     cmb->addItems(lst);
     cmb->setCurrentIndex(-1);
 }
 
-void MainWindow::on_toolButtonAddReason_clicked()
+void MainWindowDB::on_toolButtonAddReason_clicked()
 {
     if(nullptr == selMsg) {
         return;
@@ -324,7 +324,7 @@ void MainWindow::on_toolButtonAddReason_clicked()
     updComboBoxReason();
 }
 
-void MainWindow::on_toolButtonAddTakenMeasures_clicked()
+void MainWindowDB::on_toolButtonAddTakenMeasures_clicked()
 {
     if(nullptr == selMsg) {
         return;
@@ -335,7 +335,7 @@ void MainWindow::on_toolButtonAddTakenMeasures_clicked()
     updComboBoxTakenMeasures();
 }
 
-void MainWindow::on_tableView_clicked(const QModelIndex &index)
+void MainWindowDB::on_tableView_clicked(const QModelIndex &index)
 {
     JourEntity * sel = this->modelMSG->clickedMsg(index);
 
@@ -360,7 +360,7 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
     }
 }
 
-void MainWindow::on_toolButtonRemoveReason_clicked()
+void MainWindowDB::on_toolButtonRemoveReason_clicked()
 {
     if(nullptr == selMsg) {
         return;
@@ -371,7 +371,7 @@ void MainWindow::on_toolButtonRemoveReason_clicked()
     updComboBoxReason();
 }
 
-void MainWindow::on_toolButtonRemoveTakenMeasures_clicked()
+void MainWindowDB::on_toolButtonRemoveTakenMeasures_clicked()
 {
     if(nullptr == selMsg) {
         return;
@@ -382,7 +382,7 @@ void MainWindow::on_toolButtonRemoveTakenMeasures_clicked()
     updComboBoxTakenMeasures();
 }
 
-void MainWindow::on_action_triggered()
+void MainWindowDB::on_action_triggered()
 {
     this->close();
 }
