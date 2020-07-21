@@ -536,3 +536,19 @@ void MainWindowServer::on_actionReduce_triggered()
 
     qDebug() << font;
 }
+
+void MainWindowServer::on_actionNewScheme_triggered()
+{
+    int ret = QMessageBox::question(this, trUtf8("Предупреждение"),
+                                   trUtf8("Начать новую смену?"),
+                                   QMessageBox::Ok | QMessageBox::Cancel,
+                                   QMessageBox::Ok);
+
+    if(QMessageBox::Ok == ret) {
+        JourEntity msg;
+        msg.setObject(trUtf8("Оператор"));
+        msg.setType(902);
+        msg.setComment(trUtf8("Начата новая смена"));
+        DataBaseManager::insertJourMsg_wS(msg);
+    }
+}

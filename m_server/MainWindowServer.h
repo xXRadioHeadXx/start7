@@ -77,6 +77,8 @@ private slots:
 
     void on_actionReduce_triggered();
 
+    void on_actionNewScheme_triggered();
+
 protected:
     void closeEvent(QCloseEvent * event);
 

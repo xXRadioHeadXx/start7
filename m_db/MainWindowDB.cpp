@@ -386,3 +386,9 @@ void MainWindowDB::on_action_triggered()
 {
     this->close();
 }
+
+void MainWindowDB::on_pushButton_4_clicked()
+{
+    TablePrint::prepareTmpFileHtmlTableFromModel(ui->tableView);
+    TablePrint::printPdf();
+}

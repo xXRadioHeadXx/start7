@@ -3,11 +3,13 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QFile>
+#include <QFileDialog>
 #include <QTextBrowser>
 #include <QPrinter>
 #include <QPrintPreviewDialog>
 #include <QPrintDialog>
 #include <QDateTime>
+#include <QFileInfo>
 
 TablePrint::TablePrint(QObject *parent) : QObject(parent)
 {
@@ -122,6 +124,43 @@ bool TablePrint::print()
     return true;
 }
 
+bool TablePrint::printPdf()
+{
+    QTextDocument loc_document;
+    QFile tmpf("tmpprint");
+    if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Can`t read file tmpprint";
+        return false;
+    } else {
+        QTextStream sin(&tmpf);
+        loc_document.setHtml(sin.readAll());
+        tmpf.close();
+    }
+
+    QString filename = QFileDialog::getSaveFileName(nullptr, "Open File",QString(),"Pdf File(*.pdf)");
+    qDebug()<<"Print file name is "<<filename;
+    if(!filename.isEmpty()) {
+        if(QFileInfo(filename).suffix().isEmpty())
+            filename.append(".pdf");
+    } else
+        return false;
+
+
+//    printHtmlView = new QWebView;
+//    connect(printHtmlView, SIGNAL(loadFinished(bool)), this, SLOT(htmlRender()));
+
+//    printHtmlView->setHtml(html);
+
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFileName(filename);
+    printer.setPageMargins(QMarginsF(15, 15, 15, 15));
+
+    loc_document.print(&printer);
+}
+
 bool TablePrint::printPreview()
 {
     document = new QTextDocument();
@@ -163,3 +202,12 @@ void TablePrint::slotPreview(QPrinter *p)
 {
     document->print(p);
 }
+
+//void TablePrint::htmlRender()
+//{
+//   QPrinter printer;
+//   printer.setOutputFormat(QPrinter::PdfFormat);
+//   printer.setOutputFileName(pdfPath); // устанавливаем путь к pdf файлу
+//   printHtmlView->print(&printer);
+//   //printHtmlView->show(); // хотим ли мы посмотреть что вышло?
+//}

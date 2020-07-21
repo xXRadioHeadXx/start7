@@ -306,7 +306,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNewScheme">
    <property name="text">
-    <string>Новая схема</string>
+    <string>Новая смена</string>
    </property>
   </action>
   <action name="actionDataBase">

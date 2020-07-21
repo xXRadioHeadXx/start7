@@ -43,6 +43,8 @@ private slots:
 
     void on_action_triggered();
 
+    void on_pushButton_4_clicked();
+
 private:
     Ui::MainWindowDB *ui;
 
