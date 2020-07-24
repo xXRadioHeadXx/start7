@@ -65,7 +65,8 @@ MainWindowDB::MainWindowDB(QWidget *parent)
             SLOT(scrollToBottom()));
     setBlockSignal(false);
 
-    modelMSG->castomUpdateListRecords(createCompositFilter());
+    setCurrentSqlQueryStr(createCompositFilter());
+    modelMSG->castomUpdateListRecords(getCurrentSqlQueryStr());
 
     updComboBoxReason();
     updComboBoxTakenMeasures();
@@ -229,7 +230,7 @@ QString MainWindowDB::createCompositFilter() {
     QString sqlFlt = "SELECT * FROM jour ";
 
     if(0 == ui->comboBox->currentIndex()) {
-        sqlFlt += " ORDER BY id ";
+        sqlFlt += " WHERE type = 902 ORDER BY id ";
         return sqlFlt;
     }
 
@@ -280,12 +281,13 @@ void MainWindowDB::updateListRecords()
 {
     if(getBlockSignal())
         return;
-    qDebug() << createCompositFilter();
-    modelMSG->castomUpdateListRecords(createCompositFilter());
+    qDebug() << getCurrentSqlQueryStr();
+    modelMSG->castomUpdateListRecords(getCurrentSqlQueryStr());
 }
 
 void MainWindowDB::on_pushButton_clicked()
 {
+    setCurrentSqlQueryStr(createCompositFilter());
     this->updateListRecords();
 }
 
@@ -391,4 +393,54 @@ void MainWindowDB::on_pushButton_4_clicked()
 {
     TablePrint::prepareTmpFileHtmlTableFromModel(ui->tableView);
     TablePrint::printPdf();
+}
+
+void MainWindowDB::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    JourEntity * sel = this->modelMSG->clickedMsg(index);
+
+    if(nullptr == sel) {
+        return;
+    }
+
+    selMsg = sel;
+
+    if(0 != ui->comboBox->currentIndex() || 902 != selMsg->getType())
+        return;
+
+    setBlockSignal(true);
+
+    QString sqlFlt = "SELECT * FROM jour WHERE id >= %1";
+
+    sqlFlt = sqlFlt.arg(selMsg->getId());
+
+    QList<JourEntity *> tmpLs = this->modelMSG->getListMSG();
+    if(selMsg != tmpLs.last()) {
+        int indexCurrentMsg = tmpLs.indexOf(selMsg);
+        JourEntity * nextMsg = tmpLs.at(indexCurrentMsg + 1);
+        if(nullptr != nextMsg && 902 == nextMsg->getType()) {
+            sqlFlt += " AND id < %1 ";
+            sqlFlt = sqlFlt.arg(nextMsg->getId());
+        } else {
+            sqlFlt = "SELECT * FROM jour WHERE type = 902 ";
+        }
+    }
+
+    sqlFlt += " ORDER BY id ";
+
+    setCurrentSqlQueryStr(sqlFlt);
+
+    setBlockSignal(false);
+
+    this->updateListRecords();
+}
+
+QString MainWindowDB::getCurrentSqlQueryStr() const
+{
+    return currentSqlQueryStr;
+}
+
+void MainWindowDB::setCurrentSqlQueryStr(const QString &value)
+{
+    currentSqlQueryStr = value;
 }

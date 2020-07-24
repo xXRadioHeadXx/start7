@@ -14,6 +14,11 @@ void TableModelMSG::setFont(const QFont &value)
     font = value;
 }
 
+QList<JourEntity *> TableModelMSG::getListMSG() const
+{
+    return m_listMSG;
+}
+
 TableModelMSG::TableModelMSG(QObject *parent) :
     QAbstractTableModel(parent)
 {

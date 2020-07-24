@@ -39,6 +39,8 @@ public:
     QFont getFont() const;
     void setFont(const QFont &value);
 
+    QList<JourEntity *> getListMSG() const;
+
 signals:
     void needScrollToBottom();
     void selectedMsg(QList<JourEntity *> listUN);

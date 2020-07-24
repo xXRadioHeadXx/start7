@@ -18,6 +18,8 @@ public:
     ~MainWindowDB();
 
 
+    QString getCurrentSqlQueryStr() const;
+
 private slots:
     void on_comboBox_2_currentIndexChanged(int index);
 
@@ -45,6 +47,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindowDB *ui;
 
@@ -53,7 +57,9 @@ private:
     TableModelMSG *modelMSG = nullptr;
     QTimer timerUpd;
     JourEntity * selMsg = nullptr;
+    QString currentSqlQueryStr;
 
+    void setCurrentSqlQueryStr(const QString &value);
     QString createCompositFilter();
     QString createDateFilter();
     QString createObjectFilter();
