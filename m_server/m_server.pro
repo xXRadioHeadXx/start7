@@ -28,13 +28,16 @@ include(../src/database/database.pri)
 include(../src/requester/requester.pri)
 
 SOURCES += \
+    AuthenticationDialog.cpp \
     MainWindowServer.cpp \
     main.cpp
 
 HEADERS += \
+    AuthenticationDialog.h \
     MainWindowServer.h
 
 FORMS += \
+    AuthenticationDialog.ui \
     MainWindowServer.ui
 
 #TRANSLATIONS += app_ru.ts \

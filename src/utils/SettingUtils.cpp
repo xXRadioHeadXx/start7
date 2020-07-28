@@ -166,3 +166,21 @@ QList<UnitNode *> SettingUtils::getListTreeUnitNodes() {
 QSet<UnitNode *> SettingUtils::getSetMetaRealUnitNodes() {
     return SettingUtils::listMetaRealUnitNodes;
 }
+
+QVariant SettingUtils::getValueSettings(const QString key, const QString group, const QString fileName)
+{
+    QVariant result;
+
+    QSettings settings(fileName, QSettings::IniFormat);
+
+    if(!settings.childGroups().contains(group))
+        return result;
+
+    settings.beginGroup(group);
+    if(!settings.childKeys().contains(key))
+        return result;
+    result = settings.value( key, -1 );
+    settings.endGroup();
+
+    return result;
+}

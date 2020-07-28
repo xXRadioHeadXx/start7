@@ -422,7 +422,8 @@ void MainWindowDB::on_tableView_doubleClicked(const QModelIndex &index)
             sqlFlt += " AND id < %1 ";
             sqlFlt = sqlFlt.arg(nextMsg->getId());
         } else {
-            sqlFlt = "SELECT * FROM jour WHERE type = 902 ";
+            ui->comboBox->setCurrentIndex(0);
+            sqlFlt = " SELECT * FROM jour WHERE type = 902 ";
         }
     }
 

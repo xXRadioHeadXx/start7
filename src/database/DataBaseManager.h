@@ -31,6 +31,9 @@ public:
     static QList<JourEntity *> getQueryMSGRecord(QString sql);
     static QList<JourEntity *> getQueryMSGRecord(QSqlQuery query);
 
+    static int executeQuery(QString sql);
+    static int executeQuery(QSqlQuery query);
+
     static QList<QString> getReasonGroup();
     static QList<QString> getMeasuresGroup();
 

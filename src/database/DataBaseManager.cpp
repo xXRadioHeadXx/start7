@@ -337,6 +337,26 @@ QList<JourEntity *> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
     return result;
 }
 
+int DataBaseManager::executeQuery(QString sql)
+{
+    int result;
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+    result = DataBaseManager::executeQuery(query);
+    return result;
+}
+
+int DataBaseManager::executeQuery(QSqlQuery query)
+{
+    if(query.exec()) {
+        return 0;
+    } else {
+        qDebug() << query.lastError().text();
+    }
+
+    return -1;
+}
+
 QList<JourEntity *> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ {
     return getFltMSGRecordAfter("", id);
 }

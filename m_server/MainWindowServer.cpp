@@ -10,6 +10,7 @@
 #include <Port.h>
 #include <SignalSlotCommutator.h>
 #include <Utils.h>
+#include <SettingUtils.h>
 
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
@@ -545,10 +546,30 @@ void MainWindowServer::on_actionNewScheme_triggered()
                                    QMessageBox::Ok);
 
     if(QMessageBox::Ok == ret) {
+
+        if(0 != SettingUtils::getValueSettings("P1", "MYSQL").toInt() || 0 != SettingUtils::getValueSettings("P2", "MYSQL").toInt()) {
+            QString sql = " select * from jour where flag != 0 ";
+            QList<JourEntity *> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
+
+            if(tmpLs.size()) {
+                QMessageBox::warning(this, trUtf8("Ошибка"),
+                                     trUtf8("Не заполнены все обязательные поля в базе данных!"));
+                return;
+            }
+
+        }
+
         JourEntity msg;
         msg.setObject(trUtf8("Оператор"));
         msg.setType(902);
         msg.setComment(trUtf8("Начата новая смена"));
+        msg.setFlag(0);
+
+        QString sql = " update public.jour set flag = 0 where flag != 0 ;";
+        DataBaseManager::executeQuery(sql);
+
         DataBaseManager::insertJourMsg_wS(msg);
+
+        modelMSG->updateAllRecords();
     }
 }
