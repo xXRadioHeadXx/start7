@@ -36,6 +36,8 @@ public:
     static QList<T> reversed( const QList<T> & in );
     static int calcDkStatus(int type, int status1, int status2);
     static void fillDiagnosticTable(QTableWidget * table, UnitNode *selUN);
+    static QByteArray XOR_Crypt(const QByteArray in, const QByteArray pass);
+
 };
 
 #endif // UTILS_H

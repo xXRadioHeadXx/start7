@@ -332,3 +332,12 @@ void Utils::fillDiagnosticTable(QTableWidget *table, UnitNode * selUN)
         qDebug() << "fillDiagnosticTable catch exception ...";
     }
 }
+
+QByteArray Utils::XOR_Crypt(const QByteArray in, const QByteArray pass)
+{
+   QByteArray out;
+   for (int x = 1; x < in.size() + 1; x++) {
+      out.append(((quint8)in.at(x) ^ (quint8)pass.at(x % pass.size() + 1) * 2));  /// ??????? * 2 ? ????? ?????????? ?????????
+   }
+   return out;
+}

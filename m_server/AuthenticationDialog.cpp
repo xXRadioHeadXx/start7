@@ -8,6 +8,8 @@ AuthenticationDialog::AuthenticationDialog(QWidget *parent) :
     ui(new Ui::AuthenticationDialog)
 {
     ui->setupUi(this);
+    this->setResult(QDialog::Rejected);
+    initialForm();
 }
 
 AuthenticationDialog::~AuthenticationDialog()
@@ -18,6 +20,7 @@ AuthenticationDialog::~AuthenticationDialog()
 void AuthenticationDialog::initialForm(const QString fileName)
 {
     QSettings settings(fileName, QSettings::IniFormat);
+    settings.setIniCodec( "Windows-1251" );
 
     if(!settings.childGroups().contains("OPERATORS")) {
         this->setResult(QDialog::Rejected);
@@ -60,7 +63,18 @@ void AuthenticationDialog::initialForm(const QString fileName)
         listUser.append(newUser);
     }
 
+    ui->comboBox->clear();
     for(int i = 0; i < listUser.size(); i++) {
-
+        QString str;
+        if(!listUser.at(i).FN.isEmpty()) {
+            str.append(listUser.at(i).FN);
+        }
+        if(!listUser.at(i).N1.isEmpty()) {
+            str.append(" " + listUser.at(i).N1);
+        }
+        if(!listUser.at(i).N2.isEmpty()) {
+            str.append(" " + listUser.at(i).N2);
+        }
+        ui->comboBox->addItem(str);
     }
 }

@@ -172,6 +172,7 @@ QVariant SettingUtils::getValueSettings(const QString key, const QString group, 
     QVariant result;
 
     QSettings settings(fileName, QSettings::IniFormat);
+    settings.setIniCodec( "Windows-1251" );
 
     if(!settings.childGroups().contains(group))
         return result;

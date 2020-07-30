@@ -3,10 +3,17 @@
 
 #include <AppTranslator.h>
 #include <MainWindowServer.h>
+#include <AuthenticationDialog.h>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    AuthenticationDialog ad;
+
+    if(QDialog::Accepted == ad.exec())
+        ad.close();
+
     MainWindowServer w;
 
 //    AppTranslator tr(&app, &w);
