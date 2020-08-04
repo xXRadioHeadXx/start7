@@ -2,7 +2,7 @@ QT       += core gui widgets network sql
 
 #greaterThan(QT_MAJOR_VERSION, 4): QT +=
 
-CONFIG += c++11
+CONFIG += c++17
 #CONFIG += console
 
 OBJECTS_DIR = obj
@@ -12,7 +12,9 @@ MOC_DIR = moc
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS #\
+#           QT_NO_CAST_FROM_ASCII \
+#           QT_NO_CAST_TO_ASCII
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

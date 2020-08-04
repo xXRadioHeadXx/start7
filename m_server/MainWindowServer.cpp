@@ -459,6 +459,16 @@ void MainWindowServer::closeEvent(QCloseEvent * event)
     //Здесь код
 }
 
+Operator MainWindowServer::getApprovedOperator() const
+{
+    return approvedOperator;
+}
+
+void MainWindowServer::setApprovedOperator(const Operator &value)
+{
+    approvedOperator = value;
+}
+
 void MainWindowServer::on_actionTest_triggered()
 {
     if(nullptr == selUN)

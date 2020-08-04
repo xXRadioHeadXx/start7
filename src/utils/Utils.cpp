@@ -333,11 +333,17 @@ void Utils::fillDiagnosticTable(QTableWidget *table, UnitNode * selUN)
     }
 }
 
-QByteArray Utils::XOR_Crypt(const QByteArray in, const QByteArray pass)
+QByteArray Utils::XOR_Crypt(const QByteArray in, const QByteArray key)
 {
    QByteArray out;
-   for (int x = 1; x < in.size() + 1; x++) {
-      out.append(((quint8)in.at(x) ^ (quint8)pass.at(x % pass.size() + 1) * 2));  /// ??????? * 2 ? ????? ?????????? ?????????
+   for (int x = 0; x < in.size(); x++) {
+      out.append(((quint8)in.at(x) ^ (quint8)key.at((x + 1) % key.size()) * 2));  /// ??????? * 2 ? ????? ?????????? ?????????
    }
    return out;
 }
+
+QString Utils::XOR_Crypt(const QString in, const QString key)
+{
+    return QString::fromLocal8Bit(Utils::XOR_Crypt(in.toLocal8Bit(),  key.toLocal8Bit()));
+}
+

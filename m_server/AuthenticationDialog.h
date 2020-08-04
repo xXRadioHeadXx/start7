@@ -12,6 +12,9 @@ struct Operator {
     QString N1;
     QString N2;
     QString PW;
+    bool isNull() {
+        return FN.isEmpty() && N1.isEmpty() && N2.isEmpty() && PW.isEmpty();
+    };
 };
 
 class AuthenticationDialog : public QDialog
@@ -22,10 +25,18 @@ public:
     explicit AuthenticationDialog(QWidget *parent = nullptr);
     ~AuthenticationDialog();
 
+
+    Operator getApprovedOperator() const;
+    void setApprovedOperator(const Operator &value);
+
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::AuthenticationDialog *ui;
 
     QList<Operator> listUser;
+    Operator approvedOperator;
 
     void initialForm(const QString fileName = "rifx.ini");
 };

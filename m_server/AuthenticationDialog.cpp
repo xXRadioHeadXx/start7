@@ -2,6 +2,9 @@
 #include "ui_AuthenticationDialog.h"
 
 #include <QSettings>
+#include <QDebug>
+#include <Utils.h>
+#include <QTextCodec>
 
 AuthenticationDialog::AuthenticationDialog(QWidget *parent) :
     QDialog(parent),
@@ -15,6 +18,16 @@ AuthenticationDialog::AuthenticationDialog(QWidget *parent) :
 AuthenticationDialog::~AuthenticationDialog()
 {
     delete ui;
+}
+
+Operator AuthenticationDialog::getApprovedOperator() const
+{
+    return approvedOperator;
+}
+
+void AuthenticationDialog::setApprovedOperator(const Operator &value)
+{
+    approvedOperator = value;
 }
 
 void AuthenticationDialog::initialForm(const QString fileName)
@@ -76,5 +89,23 @@ void AuthenticationDialog::initialForm(const QString fileName)
             str.append(" " + listUser.at(i).N2);
         }
         ui->comboBox->addItem(str);
+    }
+}
+
+void AuthenticationDialog::on_pushButton_clicked()
+{
+    QString in = ui->lineEdit->text();
+    QString key = "start7";
+
+    QString crPW = Utils::XOR_Crypt(in,  key);
+    QString PW = listUser.at(ui->comboBox->currentIndex()).PW;
+
+    if(PW == crPW) {
+        setApprovedOperator(listUser.at(ui->comboBox->currentIndex()));
+        this->setResult(QDialog::Accepted);
+        this->accept();
+    } else {
+        this->setResult(QDialog::Rejected);
+        this->reject();
     }
 }

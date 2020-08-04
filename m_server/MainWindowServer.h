@@ -10,6 +10,7 @@
 #include <PortManager.h>
 #include <DataBaseManager.h>
 #include <TableModelMSG.h>
+#include <AuthenticationDialog.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowServer; }
@@ -25,6 +26,9 @@ public:
     void setRussian();
 
 //    QTranslator *getRuTranslator() const;
+
+    Operator getApprovedOperator() const;
+    void setApprovedOperator(const Operator &value);
 
 public slots:
     void write();
@@ -101,6 +105,8 @@ private:
     int dkWaitInterval;
 
     QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
+
+    Operator approvedOperator;
 
 signals:
 //    void setTranslator(QTranslator *ts);
