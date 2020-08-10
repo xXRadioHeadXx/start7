@@ -27,9 +27,6 @@ public:
 
 //    QTranslator *getRuTranslator() const;
 
-    Operator getApprovedOperator() const;
-    void setApprovedOperator(const Operator &value);
-
 public slots:
     void write();
     void updComboBoxReason();
@@ -105,8 +102,6 @@ private:
     int dkWaitInterval;
 
     QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
-
-    Operator approvedOperator;
 
 signals:
 //    void setTranslator(QTranslator *ts);

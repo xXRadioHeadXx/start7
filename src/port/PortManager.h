@@ -34,7 +34,7 @@ private:
 
     void setupPort(const int index = 0);
     void setupPort(AbstractPort *port);
-    ProcessDKWaiter * addProcessDKWaiter(QHostAddress address, int port, int index);
+//    ProcessDKWaiter * addProcessDKWaiter(QHostAddress address, int port, int index);
     static QList<AbstractPort *> loadPorts(QString fileName = "rifx.ini");
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
 

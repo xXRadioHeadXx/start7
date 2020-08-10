@@ -12,7 +12,7 @@
 
 #include <UnitNode.h>
 
-class OnOffIUWaiter : public AbstractRequester
+class OnOffIUWaiter final : public AbstractRequester
 {
 public:
     explicit OnOffIUWaiter(UnitNode * target, RequesterType requesterType = RequesterType::AutoOnOffWaiter);

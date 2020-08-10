@@ -6,10 +6,14 @@
 
 #include <JourEntity.h>
 #include <MessageEntity.h>
+#include <Operator.h>
 
 class DataBaseManager : public QObject
 {
     Q_OBJECT
+
+    static qint64 idStartLastDuty;
+
 public:
     explicit DataBaseManager(QObject *parent = nullptr) noexcept;
     ~DataBaseManager() noexcept;
@@ -25,9 +29,11 @@ public:
     static void resetAllFlags_wS();
     static void resetAllFlags();
     static QList<JourEntity *> getMSGRecordAfter(const int &id = 0);
-    static QList<JourEntity *> getMSGRecord(const int &id = -1);
+    static QList<JourEntity *> getOneMSGRecord(const int &id = -1);
+//    static QList<JourEntity *> getMSGRecords();
     static QList<JourEntity *> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);
-    static QList<JourEntity *> getFltMSGRecord(const QString flt = "", const int &id = -1);
+    static QList<JourEntity *> getFltOneMSGRecord(const QString flt = "", const int &id = -1);
+//    static QList<JourEntity *> getFltMSGRecords(const QString flt = "");
     static QList<JourEntity *> getQueryMSGRecord(QString sql);
     static QList<JourEntity *> getQueryMSGRecord(QSqlQuery query);
 
@@ -43,6 +49,10 @@ public:
     static QString objectFlt(JourEntity::TypeObject oType, int d1 = 0, int d2 = 0, int d3 = 0);
     static QString eventFlt(JourEntity::TypeEvent eType, JourEntity::TypeObject oType);
     static QString connectObjectFlt(JourEntity::TypeConnectObject coType);
+
+    static qint64 getIdStartLastDuty();
+    static void setIdStartLastDuty(qint64 value);
+    static void setIdStartLastDuty();
 
 private:
     QString HostName;//("127.0.0.1");

@@ -7,6 +7,7 @@ INCLUDEPATH += $$PWD/
 SOURCES += \
     $$PWD/ProcessDKWaiter.cpp \
     $$PWD/ConfirmationAdmissionWaiter.cpp \
+    $$PWD/StatusConnectRequester.cpp \
     $$PWD/StatusRequester.cpp \
     $$PWD/OnOffIUWaiter.cpp
 
@@ -14,5 +15,6 @@ HEADERS += \
     $$PWD/AbstractRequester.h \
     $$PWD/ProcessDKWaiter.h \
     $$PWD/ConfirmationAdmissionWaiter.h \
+    $$PWD/StatusConnectRequester.h \
     $$PWD/StatusRequester.h \
     $$PWD/OnOffIUWaiter.h

@@ -26,6 +26,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     ui->actionControl->setShortcut(QKeySequence("Ins"));//Qt::Key_Insert));
 
     m_dbManager = new DataBaseManager(this);
+    DataBaseManager::setIdStartLastDuty();
 
     this->modelMSG = new TableModelMSG(this);
     ui->tableView->setModel(this->modelMSG);
@@ -41,11 +42,15 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     this->modelTreeUN->createProxySortTree();
 
+    DataBaseManager::setIdStartLastDuty();
+
     JourEntity msg;
     msg.setObject(trUtf8("Оператор"));
     msg.setType(900);
     msg.setComment(trUtf8("Программа запущена"));
-    DataBaseManager::insertJourMsg_wS(msg);
+    DataBaseManager::insertJourMsg(msg);
+
+    modelMSG->updateAllRecords();
 
     updComboBoxReason();
     updComboBoxTakenMeasures();
@@ -459,16 +464,6 @@ void MainWindowServer::closeEvent(QCloseEvent * event)
     //Здесь код
 }
 
-Operator MainWindowServer::getApprovedOperator() const
-{
-    return approvedOperator;
-}
-
-void MainWindowServer::setApprovedOperator(const Operator &value)
-{
-    approvedOperator = value;
-}
-
 void MainWindowServer::on_actionTest_triggered()
 {
     if(nullptr == selUN)
@@ -569,6 +564,15 @@ void MainWindowServer::on_actionNewScheme_triggered()
 
         }
 
+        AuthenticationDialog ad;
+        if(0 != ad.getInitialResult()) {
+            if(QDialog::Accepted != ad.exec()) {
+                QMessageBox::warning(this, QObject::trUtf8("Ошибка"),
+                                     QObject::trUtf8("Ошибка выбора оператора комплекса!"));
+                return;
+            }
+        }
+
         JourEntity msg;
         msg.setObject(trUtf8("Оператор"));
         msg.setType(902);
@@ -579,6 +583,8 @@ void MainWindowServer::on_actionNewScheme_triggered()
         DataBaseManager::executeQuery(sql);
 
         DataBaseManager::insertJourMsg_wS(msg);
+
+        DataBaseManager::setIdStartLastDuty();
 
         modelMSG->updateAllRecords();
     }

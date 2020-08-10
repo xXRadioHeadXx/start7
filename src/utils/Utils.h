@@ -6,15 +6,6 @@
 
 #include <UnitNode.h>
 
-//enum BeatStatus {
-//    Start = 0,
-//    Request = 1,
-//    Waite = 2,
-//    Unsuccessful = 3,
-//    RequestStep1 = 4,
-//    RequestStep2 = 5
-//};
-
 class Utils
 {
 public:
@@ -36,9 +27,6 @@ public:
     static QList<T> reversed( const QList<T> & in );
     static int calcDkStatus(int type, int status1, int status2);
     static void fillDiagnosticTable(QTableWidget * table, UnitNode *selUN);
-    static QByteArray XOR_Crypt(const QByteArray in, const QByteArray key);
-    static QString XOR_Crypt(const QString in, const QString key);
-
 };
 
 #endif // UTILS_H

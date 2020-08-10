@@ -21,7 +21,8 @@ enum BeatStatus {
 enum RequesterType {
     DKWaiter = 0,
     AutoOnOffWaiter = 1,
-    ConfirmWaiter = 2
+    ConfirmWaiter = 2,
+    ConnectRequester = 3
 };
 
 
@@ -52,40 +53,40 @@ private:
 public:
 
     AbstractRequester(UnitNode * target, RequesterType requesterType = RequesterType::ConfirmWaiter) : QObject(target) {
-        qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -->";
+//        qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -->";
         setUnTarget(target);
         setRequesterType(requesterType);
-        qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -- getRequesterType( " << getRequesterType() << " )";
+//        qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -- getRequesterType( " << getRequesterType() << " )";
         setBeatStatus(BeatStatus::Start);
-        qDebug() << "AbstractRequester::AbstractRequester(" << this << ") <--";
+//        qDebug() << "AbstractRequester::AbstractRequester(" << this << ") <--";
     }
 
     virtual ~AbstractRequester() {
-        qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") -->";
+//        qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") -->";
         timerDoubleStop();
-        qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") <--";
+//        qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") <--";
     }
 
     virtual void init() = 0;
 
     bool isValid() {
-        qDebug() << "AbstractRequester::isValid(" << this << ") -->";
+//        qDebug() << "AbstractRequester::isValid(" << this << ") -->";
         bool result = true;
 
         result = result && (nullptr != getPtrPort());
-        qDebug() << "AbstractRequester::isValid(" << this << ") -- getPtrPort " << result;
+//        qDebug() << "AbstractRequester::isValid(" << this << ") -- getPtrPort " << result;
         result = result && (nullptr != getUnTarget());
-        qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnTarget " << result;
+//        qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnTarget " << result;
         result = result && (nullptr != getUnReciver());
-        qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnReciver " << result;
+//        qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnReciver " << result;
         if(BeatStatus::Start != getBeatStatus()) {
             result = result && getFirstMsg().isValid();
-            qDebug() << "AbstractRequester::isValid(" << this << ") -- getFirstMsg " << result;
+//            qDebug() << "AbstractRequester::isValid(" << this << ") -- getFirstMsg " << result;
             result = result && (0 == getTimeIntervalWaite() || getSecondMsg().isValid());
-            qDebug() << "AbstractRequester::isValid(" << this << ") -- getSecondMsg " << result;
+//            qDebug() << "AbstractRequester::isValid(" << this << ") -- getSecondMsg " << result;
         }
-        qDebug() << "AbstractRequester::isValid(" << this << ") -- result " << result;
-    qDebug() << "AbstractRequester::isValid(" << this << ") <--";
+//        qDebug() << "AbstractRequester::isValid(" << this << ") -- result " << result;
+//    qDebug() << "AbstractRequester::isValid(" << this << ") <--";
         return result;
     }
 
@@ -115,21 +116,21 @@ protected:
     virtual DataQueueItem makeFirstMsg() = 0;
 public slots:
     void startFirstRequest() {
-        qDebug() << "AbstractRequester::startFirstRequest(" << this << ") -->";
+//        qDebug() << "AbstractRequester::startFirstRequest(" << this << ") -->";
         timerDoubleStop();
         resetBeatCount();
         setBeatStatus(BeatStatus::RequestStep1);
         beatRepeatFirstRequest();
-        qDebug() << "AbstractRequester::startFirstRequest(" << this << ") <--";
+//        qDebug() << "AbstractRequester::startFirstRequest(" << this << ") <--";
     }
     void beatRepeatFirstRequest() {
-        qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") -->";
+//        qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") -->";
         timerDoubleStop();
         if(getMaxBeatCount() <= getBeatCount()) {
             timerDoubleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit unsuccessful();
-            qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <-- Unsuccessful";
+//            qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <-- Unsuccessful";
             return;
         }
 
@@ -138,21 +139,21 @@ public slots:
         Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerFirstStart(getTimeIntervalRequest());
-        qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <--";
+//        qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <--";
     }
     //Step#1 <--
 
     //Step#1->#2 -->
 public slots:
     void startWaiteSecondRequest() {
-        qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") -->";
+//        qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") -->";
         timerDoubleStop();
 
         if(0 == getTimeIntervalWaite()) {
             timerDoubleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit unsuccessful();
-            qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") <-- Unsuccessful";
+//            qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") <-- Unsuccessful";
             return;
         }
 
@@ -160,7 +161,7 @@ public slots:
         resetBeatCount();
 
         timerSecondStart(getTimeIntervalWaite());
-        qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") <--";
+//        qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") <--";
     }
     //Step#1->#2 <--
 
@@ -187,22 +188,22 @@ protected:
     virtual DataQueueItem makeSecondMsg() = 0;
 public slots:
     void startSecondRequest() {
-        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") -->";
+//        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") -->";
         timerDoubleStop();
         resetBeatCount();
         setBeatStatus(BeatStatus::RequestStep2);
         beatRepeatSecondRequest();
-        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") <--";
+//        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") <--";
     }
     void beatRepeatSecondRequest() {
-        qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") -->";
+//        qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") -->";
         timerDoubleStop();
 
         if(getMaxBeatCount() <= getBeatCount()) {
             timerDoubleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit unsuccessful();
-            qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
+//            qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
             return;
         }
 
@@ -211,7 +212,7 @@ public slots:
         Port::typeDefPort(ptrPort)->write(getSecondMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerSecondStart(getTimeIntervalRequest());
-        qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <--";
+//        qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <--";
     }
     //Step#2 <--
 

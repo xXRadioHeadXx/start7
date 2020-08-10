@@ -11,7 +11,7 @@
 
 #include <UnitNode.h>
 
-class ConfirmationAdmissionWaiter : public AbstractRequester
+class ConfirmationAdmissionWaiter final : public AbstractRequester
 {
 public:
     explicit ConfirmationAdmissionWaiter(UnitNode * target, RequesterType requesterType = RequesterType::ConfirmWaiter);

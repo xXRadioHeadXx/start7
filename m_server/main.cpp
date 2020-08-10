@@ -3,7 +3,7 @@
 
 #include <AppTranslator.h>
 #include <MainWindowServer.h>
-#include <AuthenticationDialog.h>
+//#include <AuthenticationDialog.h>
 #include <QMessageBox>
 
 int main(int argc, char *argv[])
@@ -11,17 +11,15 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     AuthenticationDialog ad;
-    Operator op;
-    if(QDialog::Accepted == ad.exec()) {
-       op = ad.getApprovedOperator();
-    } else {
-        QMessageBox::warning(nullptr, QObject::trUtf8("Ошибка"),
-                             QObject::trUtf8("Ошибка выбора оператора комплекса!"));
-        return 0;
+    if(0 != ad.getInitialResult()) {
+        if(QDialog::Accepted != ad.exec()) {
+            QMessageBox::warning(nullptr, QObject::trUtf8("Ошибка"),
+                                 QObject::trUtf8("Ошибка выбора оператора комплекса!"));
+            return 0;
+        }
     }
 
     MainWindowServer w;
-    w.setApprovedOperator(op);
 //    AppTranslator tr(&app, &w);
 
     w.show();

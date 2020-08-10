@@ -479,25 +479,25 @@ void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
     }
 }
 
-ProcessDKWaiter * PortManager::addProcessDKWaiter(QHostAddress address, int port, int index) {
-//    ProcessDKWaiter * tmpPDKW = new ProcessDKWaiter(this);
+//ProcessDKWaiter * PortManager::addProcessDKWaiter(QHostAddress address, int port, int index) {
+////    ProcessDKWaiter * tmpPDKW = new ProcessDKWaiter(this);
 
-//    tmpPDKW->ipPort.first = Utils::hostAddressToString(address);
-//    tmpPDKW->ipPort.second = QVariant(port).toString();
-//    tmpPDKW->portIndex = index;
-//    tmpPDKW->ptrPort = m_udpPortsVector.at(index);
+////    tmpPDKW->ipPort.first = Utils::hostAddressToString(address);
+////    tmpPDKW->ipPort.second = QVariant(port).toString();
+////    tmpPDKW->portIndex = index;
+////    tmpPDKW->ptrPort = m_udpPortsVector.at(index);
 
-//    DataQueueItem itm1(Utils::makeDK0x21(), address, port, index);
-//    tmpPDKW->sendDKMsg = itm1;
+////    DataQueueItem itm1(Utils::makeDK0x21(), address, port, index);
+////    tmpPDKW->sendDKMsg = itm1;
 
-//    DataQueueItem itm2(Utils::makeAlarmReset0x24(), address, port, index);
-//    tmpPDKW->sendResetAlarmMsg = itm2;
+////    DataQueueItem itm2(Utils::makeAlarmReset0x24(), address, port, index);
+////    tmpPDKW->sendResetAlarmMsg = itm2;
 
-//    lsProcessDKWaiter.append(tmpPDKW);
+////    lsProcessDKWaiter.append(tmpPDKW);
 
-//    return tmpPDKW;
-    return 0;
-}
+////    return tmpPDKW;
+//    return 0;
+//}
 
 QList<AbstractPort *> PortManager::loadPorts(QString fileName) {
     QList<AbstractPort *> result;

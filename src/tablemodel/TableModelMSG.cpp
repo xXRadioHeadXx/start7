@@ -23,7 +23,7 @@ TableModelMSG::TableModelMSG(QObject *parent) :
     QAbstractTableModel(parent)
 {
     needScroll = true;
-    m_listMSG = DataBaseManager::getMSGRecord();
+    m_listMSG = DataBaseManager::getOneMSGRecord();
 
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(insNewJourMSG(const quint32)),
@@ -43,7 +43,7 @@ TableModelMSG::TableModelMSG(QObject *parent) :
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(updJourMSG()),
             this,
-            SLOT(updateListRecords()));
+            SLOT(updateAllRecords()));
 
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(updAllJourMSG()),
@@ -227,7 +227,7 @@ bool TableModelMSG::insertRows(int row, int count, const QModelIndex &parent)
     {
         this->beginInsertRows(parent, row, row);
 
-        QList<JourEntity *> tmp = DataBaseManager::getMSGRecord(newRecordMSG);
+        QList<JourEntity *> tmp = DataBaseManager::getOneMSGRecord(newRecordMSG);
         if(!tmp.isEmpty())
             m_listMSG.insert(row, tmp.first());
 
@@ -258,7 +258,7 @@ void TableModelMSG::castomUpdateListRecords(QString sql)
 
 void TableModelMSG::updateAllRecords()
 {
-    QList<JourEntity *> newRecords(DataBaseManager::getMSGRecordAfter(-1));
+    QList<JourEntity *> newRecords(DataBaseManager::getMSGRecordAfter(DataBaseManager::getIdStartLastDuty() - 1));
 
     if(newRecords.isEmpty())
         return;
@@ -298,7 +298,7 @@ void TableModelMSG::updateListRecords()
 void TableModelMSG::updateListRecords(const quint32 idMSG)
 {
     newRecordMSG = idMSG;
-    QList<JourEntity *> newRecords(DataBaseManager::getMSGRecord(idMSG));
+    QList<JourEntity *> newRecords(DataBaseManager::getOneMSGRecord(idMSG));
 
     this->insertRows(this->rowCount());
 
@@ -308,7 +308,7 @@ void TableModelMSG::updateListRecords(const quint32 idMSG)
 void TableModelMSG::updateRecord(const quint32 idMSG)
 {
     updRecordMSG = idMSG;
-    QList<JourEntity *> updRecord(DataBaseManager::getMSGRecord(idMSG));
+    QList<JourEntity *> updRecord(DataBaseManager::getOneMSGRecord(idMSG));
 
     if(updRecord.isEmpty())
         return;
@@ -340,7 +340,7 @@ void TableModelMSG::emitNeedScrollToBottom()
 void TableModelMSG::updateListRecordsMSG()
 {
     this->beginResetModel();
-    m_listMSG = DataBaseManager::getMSGRecord();
+    m_listMSG = DataBaseManager::getOneMSGRecord();
     this->endResetModel();
 }
 

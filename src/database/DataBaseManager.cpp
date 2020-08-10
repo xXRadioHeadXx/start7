@@ -2,9 +2,30 @@
 
 #include <DataBaseManager.h>
 #include <SignalSlotCommutator.h>
-#include <JourEntity.h>
-#include <JourEntity.h>
 #include <Utils.h>
+
+qint64 DataBaseManager::idStartLastDuty = -1;
+
+qint64 DataBaseManager::getIdStartLastDuty()
+{
+    return idStartLastDuty;
+}
+
+void DataBaseManager::setIdStartLastDuty(qint64 value)
+{
+    idStartLastDuty = value;
+}
+
+void DataBaseManager::setIdStartLastDuty()
+{
+    QList<JourEntity *> newRecords(DataBaseManager::getQueryMSGRecord("SELECT j1.* FROM jour j1 WHERE j1.id in (SELECT max(j2.id) FROM jour j2 WHERE j2.type = 902)"));
+
+    if(newRecords.isEmpty())
+        setIdStartLastDuty(-1);
+    else
+        setIdStartLastDuty(newRecords.first()->getId());
+}
+
 
 DataBaseManager::DataBaseManager(QObject *parent) noexcept :
     QObject(parent)
@@ -106,7 +127,8 @@ int DataBaseManager::insertCommandMsg(const MessageEntity &msg)
     if(msg.getMdate().isValid())
         query.bindValue(":vMdate", msg.getMdate().toString("yyyy-MM-dd hh:mm:ss.z"));
     query.bindValue(":vObject", msg.getObject());
-    query.bindValue(":vOperatorid", msg.getOperatorid());
+//    query.bindValue(":vOperatorid", msg.getOperatorid());
+    query.bindValue(":vOperatorid", Operator::getApprovedOperator().getOperatorLable());
     query.bindValue(":vDirection", msg.getDirection());
     query.bindValue(":vBytearraydata", msg.getBytearraydata());
 
@@ -163,7 +185,8 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     query.bindValue(":vObject", msg.getObject());
     query.bindValue(":vReason", msg.getReason());
     query.bindValue(":vMeasures", msg.getMeasures());
-    query.bindValue(":vOperatorid", msg.getOperatorid());
+//    query.bindValue(":vOperatorid", msg.getOperatorid());
+    query.bindValue(":vOperatorid", Operator::getApprovedOperator().getOperatorLable());
     query.bindValue(":vStatus", msg.getStatus());
     query.bindValue(":vDirection", msg.getDirection());
     query.bindValue(":vD1", msg.getD1());
@@ -233,6 +256,7 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
     query.bindValue(":vReason", msg.getReason());
     query.bindValue(":vMeasures", msg.getMeasures());
     query.bindValue(":vOperatorid", msg.getOperatorid());
+//    query.bindValue(":vOperatorid", Operator::getApprovedOperator().getOperatorLable());
     query.bindValue(":vStatus", msg.getStatus());
     query.bindValue(":vMdate", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.z"));
     query.bindValue(":vDirection", msg.getDirection());
@@ -334,6 +358,7 @@ QList<JourEntity *> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
         }
     }
 
+//    qDebug() << "DataBaseManager::getQueryMSGRecord(" << query.lastQuery() << ")";
     return result;
 }
 
@@ -349,6 +374,7 @@ int DataBaseManager::executeQuery(QString sql)
 int DataBaseManager::executeQuery(QSqlQuery query)
 {
     if(query.exec()) {
+//        qDebug() << "DataBaseManager::executeQuery(" << query.lastQuery() << ")";
         return 0;
     } else {
         qDebug() << query.lastError().text();
@@ -361,9 +387,9 @@ QList<JourEntity *> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ 
     return getFltMSGRecordAfter("", id);
 }
 
-QList<JourEntity *> DataBaseManager::getMSGRecord(const int &id) //const
+QList<JourEntity *> DataBaseManager::getOneMSGRecord(const int &id) //const
 {
-    return getFltMSGRecord("", id);
+    return getFltOneMSGRecord("", id);
 }
 
 QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
@@ -374,8 +400,13 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, con
         sql += " WHERE ";
         if(id > 0)
             sql += " id > :id ";
-        if(!flt.isEmpty()) {
+        if(-1 != DataBaseManager::getIdStartLastDuty()) {
             if(id > 0)
+                sql += " AND ";
+            sql += " id >= :idMin ";
+        }
+        if(!flt.isEmpty()) {
+            if(id > 0 || -1 != DataBaseManager::getIdStartLastDuty())
                 sql += " AND ";
             sql += " ( " + flt + " ) ";
         }
@@ -386,22 +417,32 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, con
     query.prepare(sql);
 
     query.bindValue(":id", id);
+    if(-1 != DataBaseManager::getIdStartLastDuty()) {
+        query.bindValue(":idMin", DataBaseManager::getIdStartLastDuty());
+    }
+
+//    qDebug() << "DataBaseManager::getFltMSGRecordAfter(" << flt << ", " << id << ")";
 
     return DataBaseManager::getQueryMSGRecord(query);
 }
 
 
 
-QList<JourEntity *> DataBaseManager::getFltMSGRecord(const QString flt, const int &id) {
+QList<JourEntity *> DataBaseManager::getFltOneMSGRecord(const QString flt, const int &id) {
     QList<JourEntity *> result;
     QString sql;
     sql = "SELECT * FROM jour ";
-    if(id > 0 || !flt.isEmpty()) {
+    if(id > 0 || !flt.isEmpty() || -1 != DataBaseManager::getIdStartLastDuty()) {
         sql += " WHERE ";
         if(id > 0)
             sql += " id = :id ";
-        if(!flt.isEmpty()) {
+        if(-1 != DataBaseManager::getIdStartLastDuty()) {
             if(id > 0)
+                sql += " AND ";
+            sql += " id >= :idMin ";
+        }
+        if(!flt.isEmpty()) {
+            if(id > 0 || -1 != DataBaseManager::getIdStartLastDuty())
                 sql += " AND ";
             sql += " ( " + flt + " ) ";
         }
@@ -412,6 +453,11 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecord(const QString flt, const in
     query.prepare(sql);
 
     query.bindValue(":id", id);
+    if(-1 != DataBaseManager::getIdStartLastDuty()) {
+        query.bindValue(":idMin", DataBaseManager::getIdStartLastDuty());
+    }
+
+//    qDebug() << "DataBaseManager::getFltOneMSGRecord(" << flt << ", " << id << ")";
 
     return DataBaseManager::getQueryMSGRecord(query);
 }
@@ -437,6 +483,7 @@ QList<QString> DataBaseManager::getReasonGroup() {
             result.append(rec.value("reason").toString());
         }
     }
+//    qDebug() << "DataBaseManager::getReasonGroup(" << query.lastQuery() << ")";
     return result;
 }
 
@@ -461,6 +508,7 @@ QList<QString> DataBaseManager::getMeasuresGroup() {
             result.append(rec.value("measures").toString());
         }
     }
+//    qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";
     return result;
 }
 
@@ -594,12 +642,11 @@ QString DataBaseManager::connectObjectFlt(JourEntity::TypeConnectObject coType) 
 
 }
 
-
 QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2, int d3) {
     QString sqlFlt;
 
     switch( (JourEntity::TypeObject)oType ) {
-//    case JourEntity::oAllObject: {
+    //    case JourEntity::oAllObject: {
 //        break;
 //    }
     case JourEntity::oSD: {
