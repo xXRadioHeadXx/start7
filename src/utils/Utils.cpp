@@ -177,6 +177,8 @@ int Utils::calcDkStatus(int type, int status1, int status2)
 QColor Utils::cellRed = QColor(0xE3, 0x06, 0x13);
 QColor Utils::cellGreen = QColor(0x00, 0x96, 0x40);
 QColor Utils::cellGray = QColor(0xCF, 0xCF, 0xCF);
+QColor Utils::cellYellow = QColor(0xFF, 0xDD, 0x0E);
+
 
 void Utils::fillDiagnosticTable(QTableWidget *table, UnitNode * selUN)
 {
@@ -285,7 +287,15 @@ void Utils::fillDiagnosticTable(QTableWidget *table, UnitNode * selUN)
             quint8 status2 = un->getStatus2();
             int row = -1;
 
-            if(TypeUnitNode::SD_BL_IP == un->getType()) {
+            if((status1 & Status::NoConnection) && (status2 & Status::NoConnection)) {
+                if(TypeUnitNode::SD_BL_IP == un->getType()) {
+                    row = un->getNum2();
+                } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
+                    row = 10 + un->getNum2();
+                }
+                table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Нет связи"))); // "Норма"
+                table->item(row, 1)->setBackground(cellYellow);
+            } else if(TypeUnitNode::SD_BL_IP == un->getType()) {
                 row = un->getNum2();
                 if(status1 & Status::Alarm) {
                     table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Тревога"))); // "Тревога"

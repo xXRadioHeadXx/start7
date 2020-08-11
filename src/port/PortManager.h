@@ -13,6 +13,7 @@
 #include <DataQueueItem.h>
 #include <ConfirmationAdmissionWaiter.h>
 #include <OnOffIUWaiter.h>
+#include <StatusConnectRequester.h>
 
 class PortManager : public QObject
 {
@@ -30,6 +31,7 @@ private:
     QList<DataQueueItem> overallWriteQueue;
 
     QList<StatusRequester *> lsStatusRequester;
+    QList<StatusConnectRequester *> lsSCR;
     QList<AbstractRequester *> lsWaiter;
 
     void setupPort(const int index = 0);

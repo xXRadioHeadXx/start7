@@ -7,7 +7,7 @@
 
 StatusConnectRequester::StatusConnectRequester(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "StatusConnectRequester::StatusConnectRequester";
+//    qDebug() << "StatusConnectRequester::StatusConnectRequester";
 }
 
 StatusConnectRequester::~StatusConnectRequester()
@@ -33,11 +33,12 @@ void StatusConnectRequester::addLsTrackedUN(UnitNode *  value)
 
 
 DataQueueItem StatusConnectRequester::makeFirstMsg() {
+    qDebug () << "StatusConnectRequester::makeFirstMsg()";
     DataQueueItem result;
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
-    result.setData(DataQueueItem::makeDK0x21(getUnReciver()));
+    result.setData(DataQueueItem::makeStatusRequest0x22(getUnReciver()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
@@ -49,18 +50,6 @@ DataQueueItem StatusConnectRequester::makeFirstMsg() {
 }
 
 DataQueueItem StatusConnectRequester::makeSecondMsg() {
-    DataQueueItem result;
-    if(nullptr == getPtrPort() || nullptr == getUnReciver())
-        return result;
-
-    result.setData(DataQueueItem::makeAlarmReset0x24(getUnReciver()));
-    result.setPort(getUnReciver()->getUdpPort());
-    result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
-
-    if(result.isValid())
-        return result;
-
     return DataQueueItem();
 }
 
@@ -90,16 +79,14 @@ void StatusConnectRequester::init() {
     }
 
     for(UnitNode * uncld : getUnReciver()->getListChilde()) {
-        if(0 != uncld->getDK() && (TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */)) {
-            uncld->setDkInvolved(true);
-            uncld->setDkStatus(DKCiclStatus::DKReady);
-            uncld->updDoubl();
+        if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
             this->lsTrackedUN.append(uncld);
         }
     }
 
-    setTimeIntervalWaite(11000);
-    setTimeIntervalRequest(500);
+    setMaxBeatCount(200);
+    setTimeIntervalRequest(100);
+    setTimeIntervalWaite(0);
 
-    connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndDKWait()));
+    connect(this, SIGNAL(unsuccessful()), getUnReciver(), SLOT(lostedConnect()));
 }

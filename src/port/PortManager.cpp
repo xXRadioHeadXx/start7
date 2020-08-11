@@ -9,6 +9,7 @@
 #include <DataQueueItem.h>
 #include <Utils.h>
 #include <SettingUtils.h>
+#include <StatusConnectRequester.h>
 
 PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), m_dbm(dbm), MAX_COUNT_PORTS(1)
 {
@@ -231,23 +232,22 @@ void PortManager::pushOverallWriteQueue(const DataQueueItem &value){
 
 void PortManager::startStatusRequest(){
 
-    lsStatusRequester.clear();
+    for(AbstractRequester * scr : lsSCR) {
+        scr->setBeatStatus(BeatStatus::Unsuccessful);
+        delete scr;
+    }
+    lsSCR.clear();
 
-    for(int index = 0, n = m_udpPortsVector.size(); index < n; index++) {
-        Port * tmnPort = Port::typeDefPort(m_udpPortsVector.at(index));
-        for(QPair<QString, QString> tmpIpPort : tmnPort->getStIpPort()) {
-            StatusRequester * tmpSR = new StatusRequester(this);// = new StatusRequester(this);
-
-            tmpSR->ipPort = tmpIpPort;
-            tmpSR->portIndex = index;
-            tmpSR->ptrPort = tmnPort;
-
-            lsStatusRequester.append(tmpSR);
+    for(UnitNode * un : SettingUtils::getSetMetaRealUnitNodes()) {
+        if(TypeUnitNode::BL_IP == un->getType()) {
+            StatusConnectRequester * tmpSCR = new StatusConnectRequester(un);
+            tmpSCR->init();
+            lsSCR.append(tmpSCR);
         }
     }
 
-    for(int index = 0, n = lsStatusRequester.size(); index < n; index++) {
-        lsStatusRequester[index]->startStatusRequest();
+    for(AbstractRequester * scr : lsSCR) {
+        scr->startFirstRequest();
     }
 }
 
@@ -744,9 +744,9 @@ void PortManager::manageOverallReadQueue()
             quint8 CMD = itm.data().at(4);
             switch (CMD) {
             case (quint8)0x41: {
-                for(StatusRequester * sr : this->lsStatusRequester) {
-                    if(sr->ipPort == tmpPair) {
-                        sr->beatCount = 0;
+                for(AbstractRequester * scr : this->lsSCR) {
+                    if(scr->getIpPort() == tmpPair) {
+                        scr->resetBeatCount();
                         break;
                     }
                 }

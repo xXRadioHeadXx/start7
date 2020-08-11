@@ -12,6 +12,7 @@ public:
     static QColor cellRed;
     static QColor cellGreen;
     static QColor cellGray;
+    static QColor cellYellow;
 
 public:
     Utils();
