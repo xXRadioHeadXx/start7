@@ -31,9 +31,15 @@ void StatusConnectRequester::addLsTrackedUN(UnitNode *  value)
     lsTrackedUN.append(value);
 }
 
+void StatusConnectRequester::specialReserveSlot() const
+{
+    qDebug () << "StatusConnectRequester::specialReserveSlot()";
+
+    SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
+}
+
 
 DataQueueItem StatusConnectRequester::makeFirstMsg() {
-    qDebug () << "StatusConnectRequester::makeFirstMsg()";
     DataQueueItem result;
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
@@ -88,5 +94,5 @@ void StatusConnectRequester::init() {
     setTimeIntervalRequest(100);
     setTimeIntervalWaite(0);
 
-    connect(this, SIGNAL(unsuccessful()), getUnReciver(), SLOT(lostedConnect()));
+    connect(this, SIGNAL(unsuccessful()), this, SLOT(specialReserveSlot()));
 }

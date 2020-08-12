@@ -27,6 +27,7 @@ public slots:
      void emitStopDKWait() const;
      void emitEndDKWait() const;
      void emitAutoOnOffIU(UnitNode *) const;
+     void emitLostedConnect(UnitNode *) const;
 
 signals:
      void insNewCommandMSG(const quint32 id) const;
@@ -42,6 +43,7 @@ signals:
      void stopDKWait() const;
      void endDKWait() const;
      void autoOnOffIU(UnitNode *) const;
+     void lostConnect(UnitNode *) const;
 
 };
 

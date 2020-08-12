@@ -236,7 +236,7 @@ QColor JourEntity::getColor() const
        case   6:
        case  10:
        case 200:
-        return QColor(255, 221, 14);
+        return QColor(243, 146, 0);
 //        return Icons::crcl_ylw();
        case  11:
        case  12:

@@ -100,7 +100,7 @@ public slots:
 
 
     void manageOverallReadQueue();
-
+    void unLostedConnect(UnitNode *un) const;
 };
 
 #endif // PORTMANAGER_H

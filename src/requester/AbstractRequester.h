@@ -260,6 +260,9 @@ public:
     }
 signals:
     void unsuccessful();
+
+private slots:
+    virtual void specialReserveSlot() const {return;};
 };
 
 #endif // ABSTRACTREQUESTER_H

@@ -30,6 +30,8 @@ public:
     void setLsTrackedUN(const QList<UnitNode *> &value);
     void addLsTrackedUN(UnitNode *value);
 
+private slots:
+    virtual void specialReserveSlot() const override;
 
 };
 

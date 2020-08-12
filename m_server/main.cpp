@@ -5,6 +5,7 @@
 #include <MainWindowServer.h>
 //#include <AuthenticationDialog.h>
 #include <QMessageBox>
+#include <QSplashScreen>
 
 int main(int argc, char *argv[])
 {
@@ -19,11 +20,20 @@ int main(int argc, char *argv[])
         }
     }
 
+    QSplashScreen splashScreen(/*const QPixmap& pixmap*/ QPixmap("://icons/logo.png"));
+
+    splashScreen.showMessage(
+        /*const QString &message*/ QObject::trUtf8("Загрузка данных ..."),
+        /*int alignment = Qt::AlignLeft*/ Qt::AlignHCenter | Qt::AlignBottom,
+        /*const QColor &color = Qt::black*/ Qt::black);
+
     MainWindowServer w;
 //    AppTranslator tr(&app, &w);
 
     w.show();
 //    w.setRussian();
+
+//    splashScreen.finish(/*QWidget * mainWin*/ &w); //this если ваш класс наследуется от QWidget
 
     try
     {

@@ -257,11 +257,9 @@ public:
     void setControl(bool value);
 
 public slots:
-    void lostedConnect();
     //    void emitIMUpd();
 
 signals:
-    void lostConnect();
     //    void imUpd();
 };
 

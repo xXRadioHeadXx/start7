@@ -17,6 +17,8 @@ PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent
 //    m_portFactorys.insert(Protocol::UDP, new PortFactory());
 
     m_udpPortsVector.reserve(MAX_COUNT_PORTS);
+
+
 }
 
 QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
@@ -232,6 +234,8 @@ void PortManager::pushOverallWriteQueue(const DataQueueItem &value){
 
 void PortManager::startStatusRequest(){
 
+    disconnect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(UnitNode *)), this, SLOT(unLostedConnect(UnitNode *)));
+
     for(AbstractRequester * scr : lsSCR) {
         scr->setBeatStatus(BeatStatus::Unsuccessful);
         delete scr;
@@ -249,6 +253,8 @@ void PortManager::startStatusRequest(){
     for(AbstractRequester * scr : lsSCR) {
         scr->startFirstRequest();
     }
+
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(UnitNode *)), this, SLOT(unLostedConnect(UnitNode *)));
 }
 
 void PortManager::requestAlarmReset(UnitNode * selUN) {
@@ -848,4 +854,38 @@ void PortManager::manageOverallReadQueue()
                 }
         }
     }
+}
+
+void PortManager::unLostedConnect(UnitNode *un) const
+{
+    qDebug() << "PortManager::unLostedConnect(" << un << ")";
+    if(Status::NoConnection != un->getStatus1() && Status::NoConnection != un->getStatus2()) {
+        un->setStatus1(Status::NoConnection);
+        un->setStatus2(Status::NoConnection);
+
+        if(un->getControl() && !un->getName().isEmpty()) {
+            JourEntity msg;
+            msg.setObject(un->getName());
+            msg.setType(10);
+            msg.setComment(trUtf8("Нет связи"));
+            DataBaseManager::insertJourMsg_wS(msg);
+        }
+    }
+
+
+    for(UnitNode * uncld : un->getListChilde()) {
+        if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
+            unLostedConnect(uncld);
+        }
+    }
+
+    for(AbstractRequester * scr : lsSCR) {
+        if(scr->getUnReciver() == un && BeatStatus::Unsuccessful == scr->getBeatStatus()) {
+            scr->startFirstRequest();
+            break;
+        }
+    }
+
+    SignalSlotCommutator::getInstance()->emitUpdUN();
+
 }

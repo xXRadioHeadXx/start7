@@ -75,3 +75,8 @@ void SignalSlotCommutator::emitAutoOnOffIU(UnitNode * un) const
 {
     emit this->autoOnOffIU(un);
 }
+
+void SignalSlotCommutator::emitLostedConnect(UnitNode * un) const
+{
+    emit this->lostConnect(un);
+}

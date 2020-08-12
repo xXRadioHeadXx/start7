@@ -27,5 +27,6 @@
         <file>icons/circl_green_5_5.png</file>
         <file>icons/circl_red_5_5.png</file>
         <file>icons/circl_yellow_5_5.png</file>
+        <file>icons/logo.png</file>
     </qresource>
 </RCC>

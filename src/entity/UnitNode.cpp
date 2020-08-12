@@ -583,18 +583,6 @@ void UnitNode::setControl(bool value)
     //    updDoubl();
 }
 
-void UnitNode::lostedConnect()
-{
-    this->setStatus1(Status::NoConnection);
-    this->setStatus2(Status::NoConnection);
-
-    for(UnitNode * uncld : this->getListChilde()) {
-        if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
-            uncld->lostedConnect();
-        }
-    }
-}
-
 UnitNode::UnitNode(QObject *parent) : QObject(parent)
 {
     
