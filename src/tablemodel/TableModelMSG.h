@@ -14,6 +14,9 @@ class TableModelMSG : public QAbstractTableModel
     quint32 updRecordMSG;
     bool needScroll;
     QFont font;
+
+    bool foregroundRoleFlag = true;
+    bool decorationRoleFlag = true;
 public:
     explicit TableModelMSG(QObject *parent = nullptr);
     ~TableModelMSG();
@@ -40,6 +43,12 @@ public:
     void setFont(const QFont &value);
 
     QList<JourEntity *> getListMSG() const;
+
+    bool getForegroundRoleFlag() const;
+    void setForegroundRoleFlag(bool value);
+
+    bool getDecorationRoleFlag() const;
+    void setDecorationRoleFlag(bool value);
 
 signals:
     void needScrollToBottom();

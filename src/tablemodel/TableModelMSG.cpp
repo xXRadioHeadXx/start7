@@ -19,6 +19,26 @@ QList<JourEntity *> TableModelMSG::getListMSG() const
     return m_listMSG;
 }
 
+bool TableModelMSG::getForegroundRoleFlag() const
+{
+    return foregroundRoleFlag;
+}
+
+void TableModelMSG::setForegroundRoleFlag(bool value)
+{
+    foregroundRoleFlag = value;
+}
+
+bool TableModelMSG::getDecorationRoleFlag() const
+{
+    return decorationRoleFlag;
+}
+
+void TableModelMSG::setDecorationRoleFlag(bool value)
+{
+    decorationRoleFlag = value;
+}
+
 TableModelMSG::TableModelMSG(QObject *parent) :
     QAbstractTableModel(parent)
 {
@@ -113,7 +133,7 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
         return font;
     }
 
-    if (Qt::ForegroundRole == role) {
+    if (Qt::ForegroundRole == role && getForegroundRoleFlag()) {
         if(0 != msgRecord->getFlag()) {
             return msgRecord->getColor();
         }
@@ -125,7 +145,7 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
 
 
     // Если необходимо отобразить картинку - ловим роль Qt::DecorationRole
-    if (index.isValid() && role == Qt::DecorationRole) {
+    if (index.isValid() && role == Qt::DecorationRole && getDecorationRoleFlag()) {
         switch(index.column())
         {
             case 0:

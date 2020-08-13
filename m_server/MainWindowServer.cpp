@@ -18,6 +18,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 {
     ui->setupUi(this);
 
+    QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
+    this->setWindowTitle(trUtf8("Сервер") + " - " + date.toString("dd.MM.yyyy"));
+
 //    this->ruTranslator = new QTranslator(this);
 //    this->ruTranslator->load("app_ru");
 

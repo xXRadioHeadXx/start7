@@ -57,6 +57,8 @@ MainWindowDB::MainWindowDB(QWidget *parent)
     this->modelMSG = new TableModelMSG(this);
 
     modelMSG->setFont(ui->tableView->font());
+    modelMSG->setForegroundRoleFlag(false);
+    modelMSG->setDecorationRoleFlag(false);
 
     ui->tableView->setModel(this->modelMSG);
     connect(this->modelMSG,
