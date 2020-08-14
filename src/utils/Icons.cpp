@@ -24,6 +24,18 @@ QPixmap Icons::crcl_blk() { return QPixmap(":icons/circl_black_5_5.png"); }
 
 QPixmap Icons::chck_grn() { return QPixmap(":icons/check_green_10_10.png"); }
 
+QPixmap Icons::sqr_blu_cls() { return QPixmap(":icons/square_blue_close_20_20.png"); }
+QPixmap Icons::sqr_gry_cls() { return QPixmap(":icons/square_gray_close_20_20.png"); }
+QPixmap Icons::sqr_grn_cls() { return QPixmap(":icons/square_green_close_20_20.png"); }
+QPixmap Icons::sqr_rd_cls() { return QPixmap(":icons/square_red_close_20_20.png"); }
+QPixmap Icons::sqr_ylw_cls() { return QPixmap(":icons/square_yellow_close_20_20.png"); }
+
+QPixmap Icons::sqr_blu_opn() { return QPixmap(":icons/square_blue_open_20_20.png"); }
+QPixmap Icons::sqr_gry_opn() { return QPixmap(":icons/square_gray_open_20_20.png"); }
+QPixmap Icons::sqr_grn_opn() { return QPixmap(":icons/square_green_open_20_20.png"); }
+QPixmap Icons::sqr_rd_opn() { return QPixmap(":icons/square_red_20_open_20.png"); }
+QPixmap Icons::sqr_ylw_opn() { return QPixmap(":icons/square_yellow_open_20_20.png"); }
+
 Icons::Icons()
 {
 
