@@ -103,6 +103,7 @@ private:
 
     QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
 
+    void initLabelOperator();
 signals:
 //    void setTranslator(QTranslator *ts);
 //    void resetTranslator(QTranslator *ts);

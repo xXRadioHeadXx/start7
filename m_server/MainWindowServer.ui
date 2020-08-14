@@ -62,9 +62,9 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QLabel" name="labelOperator">
         <property name="text">
-         <string>write</string>
+         <string>Оператор:</string>
         </property>
        </widget>
       </item>

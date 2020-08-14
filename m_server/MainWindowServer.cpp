@@ -108,6 +108,8 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     ui->tableView->resizeColumnToContents(6);
 
     m_portManager->startStatusRequest();
+
+    initLabelOperator();
 }
 
 MainWindowServer::~MainWindowServer()
@@ -467,6 +469,18 @@ void MainWindowServer::closeEvent(QCloseEvent * event)
     //Здесь код
 }
 
+void MainWindowServer::initLabelOperator()
+{
+    if(Operator::getApprovedOperator().isNull()) {
+        ui->labelOperator->clear();
+        ui->labelOperator->setVisible(false);
+    } else {
+        ui->labelOperator->clear();
+        ui->labelOperator->setVisible(true);
+        ui->labelOperator->setText(trUtf8("Оператор") + ": " + Operator::getApprovedOperator().getOperatorLable());
+    }
+}
+
 void MainWindowServer::on_actionTest_triggered()
 {
     if(nullptr == selUN)
@@ -590,5 +604,7 @@ void MainWindowServer::on_actionNewScheme_triggered()
         DataBaseManager::setIdStartLastDuty();
 
         modelMSG->updateAllRecords();
+
+        initLabelOperator();
     }
 }
