@@ -246,6 +246,12 @@ void PortManager::startStatusRequest(){
         if(TypeUnitNode::BL_IP == un->getType()) {
             StatusConnectRequester * tmpSCR = new StatusConnectRequester(un);
             tmpSCR->init();
+            for(AbstractPort * p : getUdpPortsVector()) {
+                if(Port::typeDefPort(p)->getStIpPort().contains(tmpSCR->getIpPort())) {
+                    tmpSCR->setPtrPort(p);
+                    break;
+                }
+            }
             lsSCR.append(tmpSCR);
         }
     }
@@ -523,10 +529,10 @@ QList<AbstractPort *> PortManager::loadPorts(QString fileName) {
     QSet<QPair<QString, QString> > stIpPort;
     QSet<QString> stPort;
 
-    for(int index = 0; stIpPort.size() < cntTrItm && index < (100 + cntTrItm); index++)
+    for(int index = 0; index < cntTrItm; index++)
     {
         QString strGroup("Obj_%1");
-        strGroup = strGroup.arg(index);
+        strGroup = strGroup.arg(index + 1);
         if(settings.childGroups().contains(strGroup))
         {
             settings.beginGroup(strGroup);

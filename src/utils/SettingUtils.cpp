@@ -33,10 +33,10 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     settings.setIniCodec( "Windows-1251" );
 
     QList<UnitNode> lsUN;
-    for(int index = 0; lsUN.size() < cntTrItm && index < (100 + cntTrItm); index++)
+    for(int index = 0; index < cntTrItm; index++)
     {
         QString strGroup("Obj_%1");
-        strGroup = strGroup.arg(index);
+        strGroup = strGroup.arg(index + 1);
         if(settings.childGroups().contains(strGroup))
         {
             settings.beginGroup(strGroup);
