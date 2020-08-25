@@ -1,6 +1,6 @@
 QT += core
 
-CONFIG += c++11
+CONFIG += c++17
 
 INCLUDEPATH += $$PWD/
 

@@ -80,6 +80,12 @@ private slots:
 
     void on_actionNewScheme_triggered();
 
+    void on_actionOpen_triggered();
+
+    void on_actionClose_triggered();
+
+    void lockOpenClose(bool val);
+
 protected:
     void closeEvent(QCloseEvent * event);
 

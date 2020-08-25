@@ -22,7 +22,8 @@ enum RequesterType {
     DKWaiter = 0,
     AutoOnOffWaiter = 1,
     ConfirmWaiter = 2,
-    ConnectRequester = 3
+    ConnectRequester = 3,
+    LockRequester = 4
 };
 
 

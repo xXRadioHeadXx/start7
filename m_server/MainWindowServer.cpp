@@ -313,12 +313,12 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             if(ui->treeView->isExpanded(selIndex))
                 menu->addAction(ui->actionCollapseUNTree);
         }
-        if(TypeUnitNode::SD_BL_IP == selUN->getType())
+        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType())
             menu->addAction(ui->actionControl);
         menu->addSeparator();
-        if(TypeUnitNode::SD_BL_IP == sel->getType() && ((Status::Off == sel->getStatus2()) && (Status::Uncnown == sel->getStatus1()))) {
+        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && ((Status::Off == sel->getStatus2()) && (Status::Uncnown == sel->getStatus1()))) {
             menu->addAction(ui->actionUNOn);
-        } else if(TypeUnitNode::SD_BL_IP == sel->getType() && !((Status::Off == sel->getStatus2()) && (Status::Uncnown == sel->getStatus1()))) {
+        } else if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && !((Status::Off == sel->getStatus2()) && (Status::Uncnown == sel->getStatus1()))) {
             menu->addAction(ui->actionUNOff);
         } else if(TypeUnitNode::IU_BL_IP == sel->getType() && Status::On == sel->getStatus1()) {
             menu->addAction(ui->actionUNOff);
@@ -326,9 +326,13 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionUNOn);
         }
 //        menu->addAction(ui->actionOnOff);
-//        menu->addAction(ui->actionClose);
+        if(0 != sel->getBazalt() && Status::Alarm == sel->getStatus1()) {
+            menu->addAction(ui->actionClose);
+        } else if(0 != sel->getBazalt() && Status::Norm == sel->getStatus1()) {
+            menu->addAction(ui->actionOpen);
+        }
         menu->addSeparator();
-        if(0 != sel->getDK() && (TypeUnitNode::SD_BL_IP == sel->getType() || TypeUnitNode::IU_BL_IP == sel->getType()))
+        if(0 == sel->getBazalt() && 0 != sel->getDK() && (TypeUnitNode::SD_BL_IP == sel->getType() || TypeUnitNode::IU_BL_IP == sel->getType()))
             menu->addAction(ui->actionDK);
         menu->addSeparator();
 //        menu->addAction(ui->actionRemoteControlOn);
@@ -607,4 +611,21 @@ void MainWindowServer::on_actionNewScheme_triggered()
 
         initLabelOperator();
     }
+}
+
+void MainWindowServer::on_actionOpen_triggered()
+{
+    lockOpenClose(true);
+}
+
+void MainWindowServer::on_actionClose_triggered()
+{
+    lockOpenClose(false);
+}
+
+void MainWindowServer::lockOpenClose(bool val)
+{
+    if(nullptr == selUN)
+        return;
+    this->m_portManager->lockOpenCloseCommand(selUN, false);
 }

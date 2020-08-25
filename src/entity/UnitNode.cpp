@@ -475,14 +475,12 @@ QPixmap UnitNode::getPxm()
                 return Icons::sqr_blk_crs_ylw();
             }
         } else {
-            if(Status::Alarm == getStatus1() && getControl()) {
-                return Icons::sqr_grn_opn();
-            } else if(Status::Norm == getStatus1() && getControl()) {
-                return Icons::sqr_rd_cls();
-            } else if(getControl()) {
+            if(Status::Alarm == getStatus1()) {
+                return Icons::sqr_rd_opn();
+            } else if(Status::Norm == getStatus1()) {
+                return Icons::sqr_grn_cls();
+            } else {
                 return Icons::sqr_ylw();
-            } else if(!getControl()) {
-                return Icons::sqr_blk_crs_ylw();
             }
         }
 

@@ -33,7 +33,7 @@ QPixmap Icons::sqr_ylw_cls() { return QPixmap(":icons/square_yellow_close_20_20.
 QPixmap Icons::sqr_blu_opn() { return QPixmap(":icons/square_blue_open_20_20.png"); }
 QPixmap Icons::sqr_gry_opn() { return QPixmap(":icons/square_gray_open_20_20.png"); }
 QPixmap Icons::sqr_grn_opn() { return QPixmap(":icons/square_green_open_20_20.png"); }
-QPixmap Icons::sqr_rd_opn() { return QPixmap(":icons/square_red_20_open_20.png"); }
+QPixmap Icons::sqr_rd_opn() { return QPixmap(":icons/square_red_open_20_20.png"); }
 QPixmap Icons::sqr_ylw_opn() { return QPixmap(":icons/square_yellow_open_20_20.png"); }
 
 Icons::Icons()

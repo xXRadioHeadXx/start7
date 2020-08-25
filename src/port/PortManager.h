@@ -97,7 +97,7 @@ public slots:
     void requestDK(UnitNode *selUN = nullptr);
     void requestOnOffCommand(UnitNode *selUN, bool value);
     void requestAutoOnOffIUCommand(UnitNode *selUN);
-
+    void lockOpenCloseCommand(UnitNode *selUN, bool value);
 
     void manageOverallReadQueue();
     void unLostedConnect(UnitNode *un) const;

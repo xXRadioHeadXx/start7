@@ -384,6 +384,44 @@ void PortManager::requestAutoOnOffIUCommand(UnitNode *selUN) {
     }
 }
 
+void PortManager::lockOpenCloseCommand(UnitNode *selUN, bool value)
+{
+    if(nullptr == selUN)
+        return;
+
+    UnitNode * unReciverSdBlIp = selUN;
+
+    UnitNode * unReciver = selUN;
+    while(nullptr != unReciver) {
+        if(TypeUnitNode::BL_IP == unReciver->getType()) {
+            break;
+        }
+        unReciver = unReciver->getParentUN();
+    }
+
+    UnitNode * unReciverIuBlIp = nullptr;
+    for(UnitNode * un : unReciver->getListChilde()) {
+        if(TypeUnitNode::IU_BL_IP == un->getType() && unReciverSdBlIp->getNum2() == un->getNum2()) {
+            unReciverIuBlIp = un;
+            break;
+        }
+    }
+
+    if(unReciverSdBlIp == unReciver || nullptr == unReciver || nullptr == unReciverIuBlIp)
+        return;
+
+    if(Status::Alarm == unReciverSdBlIp->getStatus1() && Status::Off == unReciverIuBlIp->getStatus1()) {
+        //Открыто
+    } else if(Status::Norm == unReciverSdBlIp->getStatus1() && Status::On == unReciverIuBlIp->getStatus1()) {
+        //Закрыто
+    } else if(Status::Alarm == unReciverSdBlIp->getStatus1() && Status::On == unReciverIuBlIp->getStatus1()) {
+        //Открыто ключём
+    } else if(Status::Norm == unReciverSdBlIp->getStatus1() && Status::Off == unReciverIuBlIp->getStatus1()) {
+        //Закрыто ключём
+    }
+
+}
+
 
 void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
 {

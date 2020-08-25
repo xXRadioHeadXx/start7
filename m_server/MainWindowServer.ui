@@ -514,6 +514,11 @@
     <string>Test</string>
    </property>
   </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Открыть</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="Resource.qrc"/>

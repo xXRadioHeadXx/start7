@@ -1,6 +1,6 @@
 QT += core
 
-CONFIG += c++11
+CONFIG += c++17
 
 INCLUDEPATH += $$PWD/
 
@@ -8,7 +8,7 @@ SOURCES += \
     $$PWD/ProcessDKWaiter.cpp \
     $$PWD/ConfirmationAdmissionWaiter.cpp \
     $$PWD/StatusConnectRequester.cpp \
-    $$PWD/StatusRequester.cpp \
+    $$PWD/LockWaiter.cpp \
     $$PWD/OnOffIUWaiter.cpp
 
 HEADERS += \
@@ -16,5 +16,5 @@ HEADERS += \
     $$PWD/ProcessDKWaiter.h \
     $$PWD/ConfirmationAdmissionWaiter.h \
     $$PWD/StatusConnectRequester.h \
-    $$PWD/StatusRequester.h \
+    $$PWD/LockWaiter.h \
     $$PWD/OnOffIUWaiter.h
