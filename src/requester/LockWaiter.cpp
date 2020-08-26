@@ -114,12 +114,12 @@ void LockWaiter::init() {
             uncld->setDkInvolved(true);
             uncld->setDkStatus(DKCiclStatus::DKReady);
             uncld->updDoubl();
-            this->lsTrackedUN.append(uncld);
+//            this->lsTrackedUN.append(uncld);
         }
     }
 
-    setTimeIntervalWaite(11000);
+    setTimeIntervalWaite(30000);
     setTimeIntervalRequest(500);
 
-    connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndDKWait()));
+    connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockerWait()));
 }
