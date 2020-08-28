@@ -19,6 +19,7 @@ private:
 protected:
     virtual DataQueueItem makeFirstMsg() override;
     virtual DataQueueItem makeSecondMsg() override;
+    virtual DataQueueItem makeEndMsg() override;
 
 public:
     explicit StatusConnectRequester(UnitNode * target, RequesterType requesterType = RequesterType::ConnectRequester);

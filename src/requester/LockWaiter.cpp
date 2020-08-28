@@ -16,35 +16,15 @@ LockWaiter::~LockWaiter()
 }
 
 DataQueueItem LockWaiter::makeFirstMsg() {
-    DataQueueItem result;
-    if(nullptr == getPtrPort() || nullptr == getUnReciver())
-        return result;
-
-    result.setData(DataQueueItem::makeDK0x21(getUnReciver()));
-    result.setPort(getUnReciver()->getUdpPort());
-    result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
-
-    if(result.isValid())
-        return result;
-
-    return DataQueueItem();
+    return getFirstMsg();
 }
 
 DataQueueItem LockWaiter::makeSecondMsg() {
-    DataQueueItem result;
-    if(nullptr == getPtrPort() || nullptr == getUnReciver())
-        return result;
+    return getSecondMsg();
+}
 
-    result.setData(DataQueueItem::makeAlarmReset0x24(getUnReciver()));
-    result.setPort(getUnReciver()->getUdpPort());
-    result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
-
-    if(result.isValid())
-        return result;
-
-    return DataQueueItem();
+DataQueueItem LockWaiter::makeEndMsg() {
+    return getEndMsg();
 }
 
 void LockWaiter::init() {
@@ -109,17 +89,45 @@ void LockWaiter::init() {
         }
     }
 
-    for(UnitNode * uncld : getUnReciver()->getListChilde()) {
-        if(0 != uncld->getDK() && (TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */)) {
-            uncld->setDkInvolved(true);
-            uncld->setDkStatus(DKCiclStatus::DKReady);
-            uncld->updDoubl();
-//            this->lsTrackedUN.append(uncld);
-        }
-    }
-
-    setTimeIntervalWaite(30000);
+    setTimeIntervalWaiteFirst(30000);
+    setTimeIntervalWaiteSecond(30000);
     setTimeIntervalRequest(500);
+
+    DataQueueItem msgOn;
+    msgOn.setData(DataQueueItem::makeOnOff0x23(unReciverIuBlIp, true, getUnReciver()));
+    msgOn.setPort(getUnReciver()->getUdpPort());
+    msgOn.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
+    msgOn.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    DataQueueItem msgOff;
+    msgOff.setData(DataQueueItem::makeOnOff0x23(unReciverIuBlIp, false, getUnReciver()));
+    msgOff.setPort(getUnReciver()->getUdpPort());
+    msgOff.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
+    msgOff.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    setFirstMsg(DataQueueItem());
+    setSecondMsg(DataQueueItem());
+    setEndMsg(DataQueueItem());
+
+    if(Status::Alarm == unReciverSdBlIp->getStatus1() &&
+       Status::Off == unReciverIuBlIp->getStatus1()) {
+        //Открыто
+        setFirstMsg(msgOn);
+    } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
+              Status::On == unReciverIuBlIp->getStatus1()) {
+        //Закрыто
+        setFirstMsg(msgOff);
+    } else if(Status::Alarm == unReciverSdBlIp->getStatus1() &&
+              Status::On == unReciverIuBlIp->getStatus1()) {
+        //Открыто ключём
+        setFirstMsg(msgOff);
+        setSecondMsg(msgOn);
+    } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
+              Status::Off == unReciverIuBlIp->getStatus1()) {
+        //Закрыто ключём
+        setFirstMsg(msgOn);
+        setSecondMsg(msgOff);
+    }
 
     connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockerWait()));
 }

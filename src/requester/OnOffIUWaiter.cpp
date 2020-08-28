@@ -77,7 +77,7 @@ void OnOffIUWaiter::init()
             break;
     }
 
-    setTimeIntervalWaite(interval);
+    setTimeIntervalWaiteFirst(interval);
     setTimeIntervalRequest(500);
 }
 
@@ -111,5 +111,10 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
     if(result.isValid())
         return result;
 
+    return DataQueueItem();
+}
+
+DataQueueItem OnOffIUWaiter::makeEndMsg()
+{
     return DataQueueItem();
 }

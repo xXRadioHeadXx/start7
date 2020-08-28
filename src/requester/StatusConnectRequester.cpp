@@ -59,6 +59,11 @@ DataQueueItem StatusConnectRequester::makeSecondMsg() {
     return DataQueueItem();
 }
 
+DataQueueItem StatusConnectRequester::makeEndMsg()
+{
+    return DataQueueItem();
+}
+
 void StatusConnectRequester::init() {
     if(nullptr != getUnTarget()) {
         UnitNode * un = getUnTarget();
@@ -92,7 +97,7 @@ void StatusConnectRequester::init() {
 
     setMaxBeatCount(200);
     setTimeIntervalRequest(100);
-    setTimeIntervalWaite(0);
+    setTimeIntervalWaiteFirst(0);
 
     connect(this, SIGNAL(unsuccessful()), this, SLOT(specialReserveSlot()));
 }

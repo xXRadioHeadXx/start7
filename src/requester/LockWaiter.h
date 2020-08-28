@@ -21,6 +21,7 @@ private:
 protected:
     virtual DataQueueItem makeFirstMsg() override;
     virtual DataQueueItem makeSecondMsg() override;
+    virtual DataQueueItem makeEndMsg() override;
 
 public:
     explicit LockWaiter(UnitNode * target, RequesterType requesterType = RequesterType::DKWaiter);

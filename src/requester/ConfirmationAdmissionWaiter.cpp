@@ -39,7 +39,7 @@ void ConfirmationAdmissionWaiter::init()
         }
     }
 
-    setTimeIntervalWaite(0);
+    setTimeIntervalWaiteFirst(0);
     setTimeIntervalRequest(500);
 
     DataQueueItem result;
@@ -58,4 +58,9 @@ DataQueueItem ConfirmationAdmissionWaiter::makeFirstMsg()
 
 DataQueueItem ConfirmationAdmissionWaiter::makeSecondMsg() {
     return getSecondMsg();
+}
+
+DataQueueItem ConfirmationAdmissionWaiter::makeEndMsg()
+{
+    return getEndMsg();
 }

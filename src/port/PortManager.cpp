@@ -850,7 +850,7 @@ void PortManager::manageOverallReadQueue()
                             ar->startWaiteSecondRequest();
 
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                SignalSlotCommutator::getInstance()->emitStartDKWait(ar->getTimeIntervalWaite());
+                                SignalSlotCommutator::getInstance()->emitStartDKWait(ar->getTimeIntervalWaiteFirst());
                             }
                         } else if(BeatStatus::RequestStep2 == ar->getBeatStatus() ||
                                   BeatStatus::Unsuccessful == ar->getBeatStatus()) {

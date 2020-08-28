@@ -62,6 +62,11 @@ DataQueueItem ProcessDKWaiter::makeSecondMsg() {
     return DataQueueItem();
 }
 
+DataQueueItem ProcessDKWaiter::makeEndMsg()
+{
+    return DataQueueItem();
+}
+
 void ProcessDKWaiter::init() {
     if(nullptr != getUnTarget()) {
         UnitNode * un = getUnTarget();
@@ -96,7 +101,7 @@ void ProcessDKWaiter::init() {
         }
     }
 
-    setTimeIntervalWaite(11000);
+    setTimeIntervalWaiteFirst(11000);
     setTimeIntervalRequest(500);
 
     connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndDKWait()));
