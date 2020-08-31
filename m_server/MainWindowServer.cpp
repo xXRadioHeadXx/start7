@@ -627,5 +627,5 @@ void MainWindowServer::lockOpenClose(bool val)
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->lockOpenCloseCommand(selUN, false);
+    this->m_portManager->lockOpenCloseCommand(selUN, val);
 }

@@ -10,6 +10,7 @@
 #include <Utils.h>
 #include <SettingUtils.h>
 #include <StatusConnectRequester.h>
+#include <LockWaiter.h>
 
 PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), m_dbm(dbm), MAX_COUNT_PORTS(1)
 {
@@ -386,40 +387,19 @@ void PortManager::requestAutoOnOffIUCommand(UnitNode *selUN) {
 
 void PortManager::lockOpenCloseCommand(UnitNode *selUN, bool value)
 {
-    if(nullptr == selUN)
-        return;
 
-    UnitNode * unReciverSdBlIp = selUN;
+    LockWaiter * lw = new LockWaiter(selUN);
 
-    UnitNode * unReciver = selUN;
-    while(nullptr != unReciver) {
-        if(TypeUnitNode::BL_IP == unReciver->getType()) {
-            break;
-        }
-        unReciver = unReciver->getParentUN();
-    }
+    lw->init();
+    appLsWaiter(lw);
 
-    UnitNode * unReciverIuBlIp = nullptr;
-    for(UnitNode * un : unReciver->getListChilde()) {
-        if(TypeUnitNode::IU_BL_IP == un->getType() && unReciverSdBlIp->getNum2() == un->getNum2()) {
-            unReciverIuBlIp = un;
-            break;
-        }
-    }
+    JourEntity msg;
+    msg.setObject(selUN->getName());
+    msg.setType((value ? 151 : 150));
+    msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Закрыть") : trUtf8("Открыть")));
+    DataBaseManager::insertJourMsg_wS(msg);
 
-    if(unReciverSdBlIp == unReciver || nullptr == unReciver || nullptr == unReciverIuBlIp)
-        return;
-
-    if(Status::Alarm == unReciverSdBlIp->getStatus1() && Status::Off == unReciverIuBlIp->getStatus1()) {
-        //Открыто
-    } else if(Status::Norm == unReciverSdBlIp->getStatus1() && Status::On == unReciverIuBlIp->getStatus1()) {
-        //Закрыто
-    } else if(Status::Alarm == unReciverSdBlIp->getStatus1() && Status::On == unReciverIuBlIp->getStatus1()) {
-        //Открыто ключём
-    } else if(Status::Norm == unReciverSdBlIp->getStatus1() && Status::Off == unReciverIuBlIp->getStatus1()) {
-        //Закрыто ключём
-    }
-
+    lw->startFirstRequest();
 }
 
 
@@ -741,18 +721,18 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     DataBaseManager::insertJourMsg_wS(msgOn);
                   }
 
-                if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
+                if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 0 == un->getBazalt()) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
                     //сохранение Тревога или Норма
                     msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     //нужен сброс
                     resultRequest.setData(DataQueueItem::makeAlarmReset0x24());
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Norm)) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 0 == un->getBazalt()) && (un->getStatus1() & Status::Norm)) {
                     msg.setComment(QObject::trUtf8("Норма"));
                     msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus2() & Status::Off)) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 0 == un->getBazalt()) && (un->getStatus2() & Status::Off)) {
                     msg.setComment(QObject::trUtf8("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
@@ -760,10 +740,41 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msg.setComment(QObject::trUtf8("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                } else if((TypeUnitNode::SD_BL_IP == un->getType() && 0 != un->getBazalt())) {
+
+                    quint8 uiNewStatus1 = Status::Uncnown;
+                    if((quint8)item.data().at(6) & mask)
+                        uiNewStatus1 = Status::On;
+                    else
+                        uiNewStatus1 = Status::Off;
+
+                    if(Status::Alarm == un->getStatus1() &&
+                       Status::Off == uiNewStatus1) {
+                        //Открыто
+                        msg.setComment(QObject::trUtf8("Открыто"));
+                        msg.setType(111);
+                    } else if(Status::Norm == un->getStatus1() &&
+                              Status::On == uiNewStatus1) {
+                        //Закрыто
+                        msg.setComment(QObject::trUtf8("Закрыто"));
+                        msg.setType(110);
+                    } else if(Status::Alarm == un->getStatus1() &&
+                              Status::On == uiNewStatus1) {
+                        //Открыто ключём
+                        msg.setComment(QObject::trUtf8("Открыто ключём"));
+                        msg.setType(113);
+                    } else if(Status::Norm == un->getStatus1() &&
+                              Status::Off == uiNewStatus1) {
+                        //Закрыто ключём
+                        msg.setComment(QObject::trUtf8("Закрыто ключём"));
+                        msg.setType(112);
+                    }
+
+                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 }
             }
 
-            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
+            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() && 0 != un->getBazalt()) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
                 //сохранение Тревога или Норма
                 if(0 != un->treeChildCount()) {
                     for(UnitNode * iuun : un->treeChild()) {
@@ -874,11 +885,22 @@ void PortManager::manageOverallReadQueue()
                                 }
                             }
 
-                            removeLsWaiter(ar);
+                            if(RequesterType::LockRequester != ar->getRequesterType()) {
 
-                            if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                SignalSlotCommutator::getInstance()->emitStopDKWait();
+                                removeLsWaiter(ar);
+
+                                if(RequesterType::DKWaiter == ar->getRequesterType()) {
+                                    SignalSlotCommutator::getInstance()->emitStopDKWait();
+                                }
+                            } else {
+
+                                ar->startWaiteEndSecondWaite();
+
                             }
+                        } else if(BeatStatus::End == ar->getBeatStatus() ||
+//                                  BeatStatus::WaitEnd == ar->getBeatStatus() ||
+                                  BeatStatus::Unsuccessful == ar->getBeatStatus()) {
+                            removeLsWaiter(ar);
                         }
                     }
                 }

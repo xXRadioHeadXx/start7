@@ -24,7 +24,7 @@ protected:
     virtual DataQueueItem makeEndMsg() override;
 
 public:
-    explicit LockWaiter(UnitNode * target, RequesterType requesterType = RequesterType::DKWaiter);
+    explicit LockWaiter(UnitNode * target, RequesterType requesterType = RequesterType::LockRequester);
     virtual ~LockWaiter();
 
     virtual void init() override;

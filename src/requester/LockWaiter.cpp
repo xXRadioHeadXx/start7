@@ -12,7 +12,6 @@ LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : Abstrac
 LockWaiter::~LockWaiter()
 {
 //    qDebug() << "LockWaiter::~LockWaiter()";
-    Port::typeDefPort(getPtrPort())->setProcDK(false);
 }
 
 DataQueueItem LockWaiter::makeFirstMsg() {
@@ -113,20 +112,32 @@ void LockWaiter::init() {
        Status::Off == unReciverIuBlIp->getStatus1()) {
         //Открыто
         setFirstMsg(msgOn);
+        setTimeIntervalWaiteFirst(30000);
+        setTimeIntervalWaiteSecond(0);
+        setTimeIntervalRequest(500);
     } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
               Status::On == unReciverIuBlIp->getStatus1()) {
         //Закрыто
         setFirstMsg(msgOff);
+        setTimeIntervalWaiteFirst(30000);
+        setTimeIntervalWaiteSecond(0);
+        setTimeIntervalRequest(500);
     } else if(Status::Alarm == unReciverSdBlIp->getStatus1() &&
               Status::On == unReciverIuBlIp->getStatus1()) {
         //Открыто ключём
         setFirstMsg(msgOff);
         setSecondMsg(msgOn);
+        setTimeIntervalWaiteFirst(30000);
+        setTimeIntervalWaiteSecond(30000);
+        setTimeIntervalRequest(500);
     } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
               Status::Off == unReciverIuBlIp->getStatus1()) {
         //Закрыто ключём
         setFirstMsg(msgOn);
         setSecondMsg(msgOff);
+        setTimeIntervalWaiteFirst(30000);
+        setTimeIntervalWaiteSecond(30000);
+        setTimeIntervalRequest(500);
     }
 
     connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockerWait()));
