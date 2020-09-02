@@ -11,18 +11,21 @@ LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : Abstrac
 
 LockWaiter::~LockWaiter()
 {
-//    qDebug() << "LockWaiter::~LockWaiter()";
+    qDebug() << "LockWaiter::~LockWaiter()";
 }
 
 DataQueueItem LockWaiter::makeFirstMsg() {
+    qDebug() << "LockWaiter::makeFirstMsg()";
     return getFirstMsg();
 }
 
 DataQueueItem LockWaiter::makeSecondMsg() {
+    qDebug() << "LockWaiter::makeSecondMsg()";
     return getSecondMsg();
 }
 
 DataQueueItem LockWaiter::makeEndMsg() {
+    qDebug() << "LockWaiter::makeEndMsg()";
     return getEndMsg();
 }
 
@@ -140,5 +143,5 @@ void LockWaiter::init() {
         setTimeIntervalRequest(500);
     }
 
-    connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockerWait()));
+    connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockWait()));
 }

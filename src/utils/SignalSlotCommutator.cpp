@@ -71,6 +71,21 @@ void SignalSlotCommutator::emitEndDKWait() const
     emit this->endDKWait();
 }
 
+void SignalSlotCommutator::emitStartLockWait(int interval) const
+{
+    emit this->startLockWait(interval);
+}
+
+void SignalSlotCommutator::emitStopLockWait() const
+{
+    emit this->stopLockWait();
+}
+
+void SignalSlotCommutator::emitEndLockWait() const
+{
+    emit this->endLockWait();
+}
+
 void SignalSlotCommutator::emitAutoOnOffIU(UnitNode * un) const
 {
     emit this->autoOnOffIU(un);

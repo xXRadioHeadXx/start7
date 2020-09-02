@@ -51,11 +51,11 @@ private slots:
 
     void on_actionDK_triggered();
 
-    void startDKWait(int interval);
+    void startWaitProgressBar(int interval);
 
-    void beatDKWait();
+    void beatWaitProgressBar();
 
-    void stopDKWait();
+    void stopWaitProgressBar();
 
 
     void on_actionRifDKOverall_triggered();
@@ -105,7 +105,8 @@ private:
 //    QTranslator *ruTranslator;
 
     QTimer quasiProgressBeat;
-    int dkWaitInterval;
+    int waitIntervalProgressBar;
+    float wasIntervalProgressBar;
 
     QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
 

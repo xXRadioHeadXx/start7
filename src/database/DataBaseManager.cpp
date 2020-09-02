@@ -134,8 +134,7 @@ int DataBaseManager::insertCommandMsg(const MessageEntity &msg)
 
     if(query.exec())
     {
-        qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
-//        emit this->insertNewMSG(query.lastInsertId().toUInt());
+//        qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
         return query.lastInsertId().toUInt();
     }
     else
@@ -200,8 +199,7 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
 
     if(query.exec())
     {
-        qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
-//        emit this->insertNewMSG(query.lastInsertId().toUInt());
+//        qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
         return query.lastInsertId().toUInt();
     }
     else

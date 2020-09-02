@@ -78,20 +78,34 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(startDKWait(int)),
             this,
-            SLOT(startDKWait(int)));
+            SLOT(startWaitProgressBar(int)));
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(stopDKWait()),
             this,
-            SLOT(stopDKWait()));
+            SLOT(stopWaitProgressBar()));
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(endDKWait()),
             this,
-            SLOT(stopDKWait()));
-    stopDKWait();
+            SLOT(stopWaitProgressBar()));
+
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(startLockWait(int)),
+            this,
+            SLOT(startWaitProgressBar(int)));
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(stopLockWait()),
+            this,
+            SLOT(stopWaitProgressBar()));
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(endLockWait()),
+            this,
+            SLOT(stopWaitProgressBar()));
+
+    stopWaitProgressBar();
     connect(&quasiProgressBeat,
             SIGNAL(timeout()),
             this,
-            SLOT(beatDKWait()));
+            SLOT(beatWaitProgressBar()));
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(autoOnOffIU(UnitNode *)),
             m_portManager,
@@ -363,26 +377,31 @@ void MainWindowServer::on_actionDK_triggered()
     this->m_portManager->requestDK(this->selUN);
 }
 
-void MainWindowServer::stopDKWait()
+void MainWindowServer::stopWaitProgressBar()
 {
     quasiProgressBeat.stop();
     ui->progressBarDKWait->setValue(0);
     ui->progressBarDKWait->setVisible(false);
+    waitIntervalProgressBar = 0;
+    wasIntervalProgressBar = 0.0;
 }
 
-void MainWindowServer::beatDKWait()
+void MainWindowServer::beatWaitProgressBar()
 {
+    wasIntervalProgressBar += 100.0;
+    float val = (( wasIntervalProgressBar / (float)waitIntervalProgressBar) * 100.0);
     ui->progressBarDKWait->setVisible(true);
-    ui->progressBarDKWait->setValue((ui->progressBarDKWait->value() + (dkWaitInterval / (100 * 100))) % 101);
-    if(100 == ui->progressBarDKWait->value())
+    ui->progressBarDKWait->setValue((int)val % 101);
+    if(100 == ui->progressBarDKWait->value() || 0 == ui->progressBarDKWait->value())
         ui->progressBarDKWait->setVisible(false);
 }
 
-void MainWindowServer::startDKWait(int interval)
+void MainWindowServer::startWaitProgressBar(int interval)
 {
-    stopDKWait();
+    stopWaitProgressBar();
     ui->progressBarDKWait->setVisible(true);
-    dkWaitInterval = interval;
+    waitIntervalProgressBar = interval;
+    wasIntervalProgressBar = 0.0;
     quasiProgressBeat.start(100);
 }
 

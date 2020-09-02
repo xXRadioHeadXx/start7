@@ -31,8 +31,8 @@ private:
     QList<DataQueueItem> overallWriteQueue;
 
     QList<StatusRequester *> lsStatusRequester;
-    QList<StatusConnectRequester *> lsSCR;
-    QList<AbstractRequester *> lsWaiter;
+    static QList<StatusConnectRequester *> lsSCR;
+    static QList<AbstractRequester *> lsWaiter;
 
     void setupPort(const int index = 0);
     void setupPort(AbstractPort *port);
@@ -71,7 +71,7 @@ public:
 
     static QList<AbstractPort *> getUdpPortsVector();
 
-    QList<AbstractRequester *> getLsWaiter() const;
+    static QList<AbstractRequester *> getLsWaiter();
     void setLsWaiter(const QList<AbstractRequester *> &value);
     void appLsWaiter(AbstractRequester *value);
     void preppLsWaiter(AbstractRequester *value);

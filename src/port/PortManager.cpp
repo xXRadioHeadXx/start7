@@ -24,6 +24,11 @@ PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent
 
 QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
 
+QList<StatusConnectRequester *> PortManager::lsSCR = QList<StatusConnectRequester *>();
+
+QList<AbstractRequester *> PortManager::lsWaiter = QList<AbstractRequester *>();
+
+
 Port* PortManager::createPort(QObject *parent, const int index) {
     return new Port(parent, index, m_dbm);
 }
@@ -124,7 +129,7 @@ QList<AbstractPort *> PortManager::getUdpPortsVector()
     return m_udpPortsVector;
 }
 
-QList<AbstractRequester *> PortManager::getLsWaiter() const
+QList<AbstractRequester *> PortManager::getLsWaiter()
 {
     return lsWaiter;
 }
@@ -396,7 +401,7 @@ void PortManager::lockOpenCloseCommand(UnitNode *selUN, bool value)
     JourEntity msg;
     msg.setObject(selUN->getName());
     msg.setType((value ? 151 : 150));
-    msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Закрыть") : trUtf8("Открыть")));
+    msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
     DataBaseManager::insertJourMsg_wS(msg);
 
     lw->startFirstRequest();

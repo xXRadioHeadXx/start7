@@ -26,6 +26,9 @@ public slots:
      void emitStartDKWait(int interval) const;
      void emitStopDKWait() const;
      void emitEndDKWait() const;
+     void emitStartLockWait(int interval) const;
+     void emitStopLockWait() const;
+     void emitEndLockWait() const;
      void emitAutoOnOffIU(UnitNode *) const;
      void emitLostedConnect(UnitNode *) const;
 
@@ -42,6 +45,9 @@ signals:
      void startDKWait(int interval) const;
      void stopDKWait() const;
      void endDKWait() const;
+     void startLockWait(int interval) const;
+     void stopLockWait() const;
+     void endLockWait() const;
      void autoOnOffIU(UnitNode *) const;
      void lostConnect(UnitNode *) const;
 
