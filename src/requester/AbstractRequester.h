@@ -50,13 +50,13 @@ private:
     int beatCount = 0;
     int maxBeatCount = 3;
 
+public:
+
     void timerTripleStop() {
         timerFirstStop();
         timerSecondStop();
         timerEndStop();
     }
-
-public:
 
     AbstractRequester(UnitNode * target, RequesterType requesterType = RequesterType::ConfirmWaiter) : QObject(target) {
 //        qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -->";
@@ -142,6 +142,14 @@ public slots:
 
         setFirstMsg(makeFirstMsg());
 
+        if(!getFirstMsg().isValid()) {
+            timerTripleStop();
+            setBeatStatus(BeatStatus::Unsuccessful);
+            emit unsuccessful();
+//            qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <-- Unsuccessful";
+            return;
+        }
+
         Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerFirstStart(getTimeIntervalRequest());
@@ -215,6 +223,14 @@ public slots:
 
         setSecondMsg(makeSecondMsg());
 
+        if(!getSecondMsg().isValid()) {
+            timerTripleStop();
+            setBeatStatus(BeatStatus::Unsuccessful);
+            emit unsuccessful();
+//            qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
+            return;
+        }
+
         Port::typeDefPort(ptrPort)->write(getSecondMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerSecondStart(getTimeIntervalRequest());
@@ -275,23 +291,31 @@ public slots:
 //        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") <--";
     }
     void beatRepeatEnd() {
-//        qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") -->";
+//        qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") -->";
         timerTripleStop();
 
         if(getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit unsuccessful();
-//            qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
+//            qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <-- Unsuccessful";
             return;
         }
 
         setEndMsg(makeEndMsg());
 
+        if(!getEndMsg().isValid()) {
+            timerTripleStop();
+            setBeatStatus(BeatStatus::Unsuccessful);
+            emit unsuccessful();
+//            qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <-- Unsuccessful";
+            return;
+        }
+
         Port::typeDefPort(ptrPort)->write(getEndMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerEndStart(getTimeIntervalRequest());
-//        qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <--";
+//        qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <--";
     }
     //Step#end <--
 

@@ -162,6 +162,7 @@ void PortManager::preppLsWaiter(AbstractRequester * value) {
 
 void PortManager::removeLsWaiter(AbstractRequester *value) {
 
+    value->timerTripleStop();
     lsWaiter.removeAll(value);
     delete value;
 }
@@ -853,7 +854,8 @@ void PortManager::manageOverallReadQueue()
 
                 for(AbstractRequester * ar : getLsWaiter()) {
                     if(ar->getIpPort() == tmpPair) {
-                        if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
+
+                        if(BeatStatus::RequestStep1 == ar->getBeatStatus()) { // переводим в первое ожидание
 
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
                                 for(UnitNode * un : ((ProcessDKWaiter *)ar)->getLsTrackedUN()) {
@@ -863,13 +865,15 @@ void PortManager::manageOverallReadQueue()
                                 }
                             }
 
-                            ar->startWaiteSecondRequest();
-
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
                                 SignalSlotCommutator::getInstance()->emitStartDKWait(ar->getTimeIntervalWaiteFirst());
+                            } else if(RequesterType::LockRequester == ar->getRequesterType()) {
+                                SignalSlotCommutator::getInstance()->emitStartLockWait(ar->getTimeIntervalWaiteFirst());
                             }
-                        } else if(BeatStatus::RequestStep2 == ar->getBeatStatus() ||
-                                  BeatStatus::Unsuccessful == ar->getBeatStatus()) {
+
+                            ar->startWaiteSecondRequest();
+
+                        } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) { // удаляем завершившихся и переводим во второе ожидание другие
 
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
                                 for(UnitNode * un : ((ProcessDKWaiter *)ar)->getLsTrackedUN()) {
@@ -888,23 +892,35 @@ void PortManager::manageOverallReadQueue()
                                     if(un->getControl())
                                         DataBaseManager::insertJourMsg_wS(msg);
                                 }
+                            } else if(RequesterType::LockRequester == ar->getRequesterType()){
+
+                                if(RequesterType::LockRequester == ar->getRequesterType()) {
+                                    qDebug() << "LockRequester::startWaiteEndSecondWaite";
+                                    SignalSlotCommutator::getInstance()->emitStartLockWait(ar->getTimeIntervalWaiteSecond());
+                                }
+
+                                ar->startWaiteEndSecondWaite();
                             }
 
                             if(RequesterType::LockRequester != ar->getRequesterType()) {
-
-                                removeLsWaiter(ar);
-
                                 if(RequesterType::DKWaiter == ar->getRequesterType()) {
                                     SignalSlotCommutator::getInstance()->emitStopDKWait();
                                 }
-                            } else {
-
-                                ar->startWaiteEndSecondWaite();
-
+                                removeLsWaiter(ar);
                             }
+
                         } else if(BeatStatus::End == ar->getBeatStatus() ||
-//                                  BeatStatus::WaitEnd == ar->getBeatStatus() ||
-                                  BeatStatus::Unsuccessful == ar->getBeatStatus()) {
+                                  BeatStatus::WaiteEnd == ar->getBeatStatus()) { // кончаем конценных, но такого не бывает
+
+                            if(RequesterType::LockRequester == ar->getRequesterType()) {
+                                qDebug() << "LockRequester::removeLsWaiter";
+
+                                SignalSlotCommutator::getInstance()->emitStopLockWait();
+                            }
+
+                            removeLsWaiter(ar);
+
+                        } else if(BeatStatus::Unsuccessful == ar->getBeatStatus()) { // точно пора удалять
                             removeLsWaiter(ar);
                         }
                     }
