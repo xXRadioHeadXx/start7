@@ -164,6 +164,7 @@ void PortManager::removeLsWaiter(AbstractRequester *value) {
 
     value->timerTripleStop();
     lsWaiter.removeAll(value);
+    value->setBeatStatus(BeatStatus::Unsuccessful);
     delete value;
 }
 
@@ -628,6 +629,69 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             break;
         }
 
+        UnitNode * unLockSdBlIp = nullptr, * unLockIuBlIp = nullptr;
+        bool isLockPair = false;
+        if(1 >= un->getNum2() && 3 >= un->getNum2()) {
+            UnitNode * reciver = un;
+            while(nullptr != reciver) {
+                if(TypeUnitNode::BL_IP == reciver->getType()) {
+                    break;
+                }
+                reciver = reciver->getParentUN();
+            }
+
+            for(UnitNode * tmpUN : reciver->getListChilde()) {
+                if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
+                    unLockIuBlIp = tmpUN;
+                    break;
+                }
+            }
+
+            for(UnitNode * tmpUN : reciver->getListChilde()) {
+                if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
+                    unLockSdBlIp = tmpUN;
+                    break;
+                }
+            }
+
+            if(nullptr == unLockSdBlIp || nullptr == unLockIuBlIp)
+                isLockPair = false;
+            else if(0 != unLockSdBlIp->getBazalt())
+                isLockPair = true;
+        }
+
+        quint8 newStatus1LockSD = Status::Uncnown, newStatus2LockSD = Status::Uncnown,
+               newStatus1LockIU = Status::Uncnown, newStatus2LockIU = Status::Uncnown,
+               oldStatus1LockSD = Status::Uncnown, oldStatus2LockSD = Status::Uncnown,
+               oldStatus1LockIU = Status::Uncnown, oldStatus2LockIU = Status::Uncnown;
+        if(isLockPair) {
+
+            if((quint8)item.data().at(5) & mask)
+                newStatus1LockSD = (newStatus1LockSD | Status::Alarm);
+            else
+                newStatus1LockSD = (newStatus1LockSD | Status::Norm);
+
+            if((quint8)item.data().at(7) & mask)
+                newStatus2LockSD = (newStatus2LockSD | Status::Was);
+            else
+                newStatus2LockSD = (newStatus2LockSD | Status::Not);
+
+            if(((quint8)item.data().at(8) & mask) == 0) {
+                newStatus1LockSD = Status::Uncnown;
+                newStatus2LockSD = Status::Off;
+            }
+
+            if((quint8)item.data().at(6) & mask)
+                newStatus1LockIU = (newStatus1LockIU | Status::On);
+            else
+                newStatus1LockIU = Status::Off;
+
+            oldStatus1LockSD = unLockSdBlIp->getStatus1();
+            oldStatus2LockSD = unLockSdBlIp->getStatus2();
+            oldStatus1LockIU = unLockIuBlIp->getStatus1();
+            oldStatus2LockIU = unLockIuBlIp->getStatus2();
+        }
+
         quint8 newStatus1 = Status::Uncnown, newStatus2 = Status::Uncnown; // un->getStatus();
         if(TypeUnitNode::BL_IP == un->getType()) {
             if((quint8)item.data().at(6) & 0x40)
@@ -698,10 +762,21 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 //            qDebug() << "DkStatus <--";
         }
 
-        if(newStatus1 != un->getStatus1() || newStatus2 != un->getStatus2()) {
+        if((newStatus1 != un->getStatus1() || newStatus2 != un->getStatus2()) ||
+           (isLockPair && (newStatus1LockSD != oldStatus1LockSD || newStatus2LockSD != oldStatus2LockSD || newStatus1LockIU != oldStatus1LockIU || newStatus2LockIU != oldStatus2LockIU))) {
             quint8 oldStatus1 = un->getStatus1(), oldStatus2 = un->getStatus2();
             un->setStatus1(newStatus1);
             un->setStatus2(newStatus2);
+
+            if(isLockPair) {
+                unLockSdBlIp->setStatus1(newStatus1LockSD);
+                unLockSdBlIp->setStatus2(newStatus2LockSD);
+
+                unLockIuBlIp->setStatus1(newStatus1LockIU);
+                unLockIuBlIp->setStatus2(newStatus2LockIU);
+
+            }
+
             un->updDoubl();
             SignalSlotCommutator::getInstance()->emitUpdUN();
 
@@ -710,13 +785,13 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 JourEntity msg;
                 msg.setObject(un->getName());
 
-                if((TypeUnitNode::SD_BL_IP == un->getType() &&
+                if((!isLockPair && TypeUnitNode::SD_BL_IP == un->getType() &&
                     Status::Uncnown == oldStatus1 &&
                     Status::Off == oldStatus2 &&
                     Status::Uncnown != newStatus1 &&
                     Status::Uncnown != newStatus2 &&
                     un->getControl()) ||
-                   (TypeUnitNode::IU_BL_IP == un->getType() &&
+                   (!isLockPair && TypeUnitNode::IU_BL_IP == un->getType() &&
                     Status::Off == oldStatus1 &&
                     Status::Uncnown != newStatus1 &&
                     un->getControl())) {
@@ -725,20 +800,78 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msgOn.setType(101);
                     msgOn.setComment(QObject::trUtf8("Вкл"));
                     DataBaseManager::insertJourMsg_wS(msgOn);
-                  }
+                }
 
-                if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 0 == un->getBazalt()) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
+                if(isLockPair) {
+                    if(
+                    (Status::Alarm == oldStatus1LockSD &&
+                       Status::Off == oldStatus1LockIU &&
+                       Status::Alarm == newStatus1LockSD &&
+                       Status::On == newStatus1LockIU) ||
+
+                     (Status::Norm == oldStatus1LockSD &&
+                       Status::On == oldStatus1LockIU &&
+                       Status::Norm == newStatus1LockSD &&
+                       Status::Off == newStatus1LockIU)) {
+                        continue;
+                    }
+
+                    msg.setObject(unLockSdBlIp->getName());
+//                    qDebug() << "isLockPair " << un->getName();
+                    if(Status::Alarm == newStatus1LockSD &&
+                       Status::Off == newStatus1LockIU) {
+                        //Открыто
+                        msg.setComment(QObject::trUtf8("Открыто"));
+                        msg.setType(111);
+                    } else if(Status::Norm == newStatus1LockSD &&
+                              Status::On == newStatus1LockIU) {
+                        //Закрыто
+                        msg.setComment(QObject::trUtf8("Закрыто"));
+                        msg.setType(110);
+                    } else if(Status::Alarm == newStatus1LockSD &&
+                              Status::On == newStatus1LockIU) {
+                        //Открыто ключём
+                        msg.setComment(QObject::trUtf8("Открыто ключём"));
+                        msg.setType(113);
+                    } else if(Status::Norm == newStatus1LockSD &&
+                              Status::Off == newStatus1LockIU) {
+                        //Закрыто ключём
+                        msg.setComment(QObject::trUtf8("Закрыто ключём"));
+                        msg.setType(112);
+                    }
+
+                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+
+                    QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
+
+                    for(AbstractRequester * ar : getLsWaiter()) {
+                        if(ar->getIpPort() == tmpPair && RequesterType::LockRequester == ar->getRequesterType() && ar->getUnTarget() == unLockSdBlIp) {
+                            SignalSlotCommutator::getInstance()->emitEndLockWait();
+                            if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
+//                                ar->startSecondRequest();
+                                continue;
+                            } else if(BeatStatus::Waite == ar->getBeatStatus()) {
+                                ar->startSecondRequest(3000);
+                            } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) {
+//                                ar->startEnd();
+                                continue;
+                            } else if(BeatStatus::WaiteEnd == ar->getBeatStatus()) {
+                                  ar->startEnd();
+                            }
+                        }
+                    }
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
                     //сохранение Тревога или Норма
                     msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     //нужен сброс
                     resultRequest.setData(DataQueueItem::makeAlarmReset0x24());
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 0 == un->getBazalt()) && (un->getStatus1() & Status::Norm)) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Norm)) {
                     msg.setComment(QObject::trUtf8("Норма"));
                     msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 0 == un->getBazalt()) && (un->getStatus2() & Status::Off)) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus2() & Status::Off)) {
                     msg.setComment(QObject::trUtf8("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
@@ -746,37 +879,6 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msg.setComment(QObject::trUtf8("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                } else if((TypeUnitNode::SD_BL_IP == un->getType() && 0 != un->getBazalt())) {
-
-                    quint8 uiNewStatus1 = Status::Uncnown;
-                    if((quint8)item.data().at(6) & mask)
-                        uiNewStatus1 = Status::On;
-                    else
-                        uiNewStatus1 = Status::Off;
-
-                    if(Status::Alarm == un->getStatus1() &&
-                       Status::Off == uiNewStatus1) {
-                        //Открыто
-                        msg.setComment(QObject::trUtf8("Открыто"));
-                        msg.setType(111);
-                    } else if(Status::Norm == un->getStatus1() &&
-                              Status::On == uiNewStatus1) {
-                        //Закрыто
-                        msg.setComment(QObject::trUtf8("Закрыто"));
-                        msg.setType(110);
-                    } else if(Status::Alarm == un->getStatus1() &&
-                              Status::On == uiNewStatus1) {
-                        //Открыто ключём
-                        msg.setComment(QObject::trUtf8("Открыто ключём"));
-                        msg.setType(113);
-                    } else if(Status::Norm == un->getStatus1() &&
-                              Status::Off == uiNewStatus1) {
-                        //Закрыто ключём
-                        msg.setComment(QObject::trUtf8("Закрыто ключём"));
-                        msg.setType(112);
-                    }
-
-                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 }
             }
 
@@ -895,7 +997,6 @@ void PortManager::manageOverallReadQueue()
                             } else if(RequesterType::LockRequester == ar->getRequesterType()){
 
                                 if(RequesterType::LockRequester == ar->getRequesterType()) {
-                                    qDebug() << "LockRequester::startWaiteEndSecondWaite";
                                     SignalSlotCommutator::getInstance()->emitStartLockWait(ar->getTimeIntervalWaiteSecond());
                                 }
 
@@ -909,12 +1010,9 @@ void PortManager::manageOverallReadQueue()
                                 removeLsWaiter(ar);
                             }
 
-                        } else if(BeatStatus::End == ar->getBeatStatus() ||
-                                  BeatStatus::WaiteEnd == ar->getBeatStatus()) { // кончаем конценных, но такого не бывает
+                        } else if(BeatStatus::End == ar->getBeatStatus()) { // кончаем конценных, но такого не бывает
 
                             if(RequesterType::LockRequester == ar->getRequesterType()) {
-                                qDebug() << "LockRequester::removeLsWaiter";
-
                                 SignalSlotCommutator::getInstance()->emitStopLockWait();
                             }
 

@@ -17,6 +17,10 @@ class LockWaiter final : public AbstractRequester
 private:
     UnitNode * unReciverIuBlIp = nullptr;
     UnitNode * unReciverSdBlIp = nullptr;
+    int initVarianrt = 0;
+
+    DataQueueItem getOnMsg();
+    DataQueueItem getOffMsg();
 
 protected:
     virtual DataQueueItem makeFirstMsg() override;

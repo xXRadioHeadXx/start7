@@ -14,19 +14,52 @@ LockWaiter::~LockWaiter()
     qDebug() << "LockWaiter::~LockWaiter()";
 }
 
+DataQueueItem LockWaiter::getOnMsg()
+{
+    DataQueueItem msgOn;
+    msgOn.setData(DataQueueItem::makeOnOff0x23(unReciverIuBlIp, true, getUnReciver()));
+    msgOn.setPort(getUnReciver()->getUdpPort());
+    msgOn.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
+    msgOn.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+    return msgOn;
+}
+
+DataQueueItem LockWaiter::getOffMsg()
+{
+    DataQueueItem msgOff;
+    msgOff.setData(DataQueueItem::makeOnOff0x23(unReciverIuBlIp, false, getUnReciver()));
+    msgOff.setPort(getUnReciver()->getUdpPort());
+    msgOff.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
+    msgOff.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+    return msgOff;
+}
+
 DataQueueItem LockWaiter::makeFirstMsg() {
-    qDebug() << "LockWaiter::makeFirstMsg()";
-    return getFirstMsg();
+    if(1 == initVarianrt)
+        return getOnMsg();
+    else if(2 == initVarianrt)
+        return getOffMsg();
+    else if(3 == initVarianrt)
+        return getOffMsg();
+    else if(4 == initVarianrt)
+        return getOnMsg();
+    return DataQueueItem();
 }
 
 DataQueueItem LockWaiter::makeSecondMsg() {
-    qDebug() << "LockWaiter::makeSecondMsg()";
-    return getSecondMsg();
+    if(1 == initVarianrt)
+        return DataQueueItem();
+    else if(2 == initVarianrt)
+        return DataQueueItem();
+    else if(3 == initVarianrt)
+        return getOnMsg();
+    else if(4 == initVarianrt)
+        return getOffMsg();
+    return DataQueueItem();
 }
 
 DataQueueItem LockWaiter::makeEndMsg() {
-    qDebug() << "LockWaiter::makeEndMsg()";
-    return getEndMsg();
+    return DataQueueItem();
 }
 
 void LockWaiter::init() {
@@ -91,53 +124,36 @@ void LockWaiter::init() {
         }
     }
 
-    setTimeIntervalWaiteFirst(30000);
-    setTimeIntervalWaiteSecond(30000);
-    setTimeIntervalRequest(500);
-
-    DataQueueItem msgOn;
-    msgOn.setData(DataQueueItem::makeOnOff0x23(unReciverIuBlIp, true, getUnReciver()));
-    msgOn.setPort(getUnReciver()->getUdpPort());
-    msgOn.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    msgOn.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
-
-    DataQueueItem msgOff;
-    msgOff.setData(DataQueueItem::makeOnOff0x23(unReciverIuBlIp, false, getUnReciver()));
-    msgOff.setPort(getUnReciver()->getUdpPort());
-    msgOff.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    msgOff.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
-
-    setFirstMsg(DataQueueItem());
-    setSecondMsg(DataQueueItem());
-    setEndMsg(DataQueueItem());
 
     if(Status::Alarm == unReciverSdBlIp->getStatus1() &&
        Status::Off == unReciverIuBlIp->getStatus1()) {
+//        qDebug() << "LockRequester::init 1";
         //Открыто
-        setFirstMsg(msgOn);
+        initVarianrt = 1;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
     } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
               Status::On == unReciverIuBlIp->getStatus1()) {
+//        qDebug() << "LockRequester::init 2";
         //Закрыто
-        setFirstMsg(msgOff);
+        initVarianrt = 2;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
     } else if(Status::Alarm == unReciverSdBlIp->getStatus1() &&
               Status::On == unReciverIuBlIp->getStatus1()) {
+//        qDebug() << "LockRequester::init 3";
         //Открыто ключём
-        setFirstMsg(msgOff);
-        setSecondMsg(msgOn);
+        initVarianrt = 3;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);
         setTimeIntervalRequest(500);
     } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
               Status::Off == unReciverIuBlIp->getStatus1()) {
+//        qDebug() << "LockRequester::init 4";
         //Закрыто ключём
-        setFirstMsg(msgOn);
-        setSecondMsg(msgOff);
+        initVarianrt = 4;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);
         setTimeIntervalRequest(500);

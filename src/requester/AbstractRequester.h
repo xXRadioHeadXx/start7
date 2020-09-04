@@ -70,6 +70,9 @@ public:
     virtual ~AbstractRequester() {
 //        qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") -->";
         timerTripleStop();
+        unTarget = nullptr;
+        unReciver = nullptr;
+        ptrPort = nullptr;
 //        qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") <--";
     }
 
@@ -121,12 +124,26 @@ protected:
     }
     virtual DataQueueItem makeFirstMsg() = 0;
 public slots:
-    void startFirstRequest() {
+    void startFirstRequest(int delay = 0) {
 //        qDebug() << "AbstractRequester::startFirstRequest(" << this << ") -->";
         timerTripleStop();
         resetBeatCount();
         setBeatStatus(BeatStatus::RequestStep1);
-        beatRepeatFirstRequest();
+        if(delay){
+            if(nullptr != timerFirst) {
+                delete timerFirst;
+                timerFirst = nullptr;
+            }
+            if(nullptr == timerFirst)
+                timerFirst = new QTimer;
+
+            timerFirst->setInterval(delay);
+            timerFirst->setSingleShot(true);
+            timerFirst->singleShot(delay, this, SLOT(beatRepeatFirstRequest()));
+
+        } else {
+            beatRepeatFirstRequest();
+        }
 //        qDebug() << "AbstractRequester::startFirstRequest(" << this << ") <--";
     }
     void beatRepeatFirstRequest() {
@@ -201,12 +218,26 @@ protected:
     }
     virtual DataQueueItem makeSecondMsg() = 0;
 public slots:
-    void startSecondRequest() {
+    void startSecondRequest(int delay = 0) {
 //        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") -->";
         timerTripleStop();
         resetBeatCount();
         setBeatStatus(BeatStatus::RequestStep2);
-        beatRepeatSecondRequest();
+        if(delay){
+            if(nullptr != timerSecond) {
+                delete timerSecond;
+                timerSecond = nullptr;
+            }
+            if(nullptr == timerSecond)
+                timerSecond = new QTimer;
+
+            timerSecond->setInterval(delay);
+            timerSecond->setSingleShot(true);
+            timerSecond->singleShot(delay, this, SLOT(beatRepeatSecondRequest()));
+
+        } else {
+            beatRepeatSecondRequest();
+        }
 //        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") <--";
     }
     void beatRepeatSecondRequest() {
@@ -282,12 +313,26 @@ protected:
     }
     virtual DataQueueItem makeEndMsg() = 0;
 public slots:
-    void startEnd() {
+    void startEnd(int delay = 0) {
 //        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") -->";
         timerTripleStop();
         resetBeatCount();
-        setBeatStatus(BeatStatus::RequestStep2);
-        beatRepeatSecondRequest();
+        setBeatStatus(BeatStatus::End);
+        if(delay){
+            if(nullptr != timerEnd) {
+                delete timerEnd;
+                timerEnd = nullptr;
+            }
+            if(nullptr == timerEnd)
+                timerEnd = new QTimer;
+
+            timerEnd->setInterval(delay);
+            timerEnd->setSingleShot(true);
+            timerEnd->singleShot(delay, this, SLOT(beatRepeatEnd()));
+
+        } else {
+            beatRepeatEnd();
+        }
 //        qDebug() << "AbstractRequester::startSecondRequest(" << this << ") <--";
     }
     void beatRepeatEnd() {
@@ -323,7 +368,7 @@ public:
     UnitNode * getUnTarget() const { return unTarget; }
     void setUnTarget(UnitNode *value) { unTarget = value; }
 
-    UnitNode *getUnReciver() const  { return unReciver; }
+    UnitNode * getUnReciver() const  { return unReciver; }
     void setUnReciver(UnitNode *value) { unReciver = value; }
 
     DataQueueItem getFirstMsg() const { return firstMsg; }

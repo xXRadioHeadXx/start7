@@ -381,28 +381,29 @@ void MainWindowServer::stopWaitProgressBar()
 {
     quasiProgressBeat.stop();
     ui->progressBarDKWait->setValue(0);
-    ui->progressBarDKWait->setVisible(false);
     waitIntervalProgressBar = 0;
     wasIntervalProgressBar = 0.0;
+    ui->progressBarDKWait->setVisible(false);
 }
 
 void MainWindowServer::beatWaitProgressBar()
 {
     wasIntervalProgressBar += 100.0;
     float val = (( wasIntervalProgressBar / (float)waitIntervalProgressBar) * 100.0);
-    ui->progressBarDKWait->setVisible(true);
     ui->progressBarDKWait->setValue((int)val % 101);
     if(100 == ui->progressBarDKWait->value() || 0 == ui->progressBarDKWait->value())
         ui->progressBarDKWait->setVisible(false);
+    else
+        ui->progressBarDKWait->setVisible(true);
 }
 
 void MainWindowServer::startWaitProgressBar(int interval)
 {
     stopWaitProgressBar();
-    ui->progressBarDKWait->setVisible(true);
     waitIntervalProgressBar = interval;
     wasIntervalProgressBar = 0.0;
     quasiProgressBeat.start(100);
+    ui->progressBarDKWait->setVisible(false);
 }
 
 void MainWindowServer::on_actionRifDKOverall_triggered()
