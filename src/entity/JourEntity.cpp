@@ -154,6 +154,7 @@ QPixmap JourEntity::getPxm() const
        case 140:
        case 141:
        case 150:
+       case 151:
        case 160:
        case 170:
        case 171:
@@ -221,6 +222,7 @@ QColor JourEntity::getColor() const
        case 140:
        case 141:
        case 150:
+       case 151:
        case 160:
        case 170:
        case 171:
