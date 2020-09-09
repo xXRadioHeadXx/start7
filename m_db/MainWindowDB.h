@@ -20,6 +20,8 @@ public:
 
     QString getCurrentSqlQueryStr() const;
 
+    void updSqlQueryStr(QString sql);
+
 private slots:
     void on_comboBox_2_currentIndexChanged(int index);
 

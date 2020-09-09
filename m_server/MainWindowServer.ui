@@ -519,6 +519,11 @@
     <string>Открыть</string>
    </property>
   </action>
+  <action name="actionUNSqlSelect">
+   <property name="text">
+    <string>Показать в БД</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="Resource.qrc"/>

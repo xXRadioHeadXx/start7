@@ -443,6 +443,17 @@ QString MainWindowDB::getCurrentSqlQueryStr() const
     return currentSqlQueryStr;
 }
 
+void MainWindowDB::updSqlQueryStr(QString sql)
+{
+    setBlockSignal(true);
+
+    setCurrentSqlQueryStr(sql);
+
+    setBlockSignal(false);
+
+    this->updateListRecords();
+}
+
 void MainWindowDB::setCurrentSqlQueryStr(const QString &value)
 {
     currentSqlQueryStr = value;

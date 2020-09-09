@@ -363,8 +363,15 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 //        submenu->addAction(ui->actionAlarmUN);
 //        submenu->addAction(ui->actionNoConnectUN);
 //        menu->addMenu(submenu);
+        if(!sel->getName().isEmpty()) {
+            menu->addAction(ui->actionUNSqlSelect);
+            setUnSqlSelect(QString("SELECT id, cdate, mdate, objectid, object, comment, reason, measures, operator, operatorid, status, direction, type, flag, d1, d2, d3, d4, objecttype FROM public.jour where object = '%1' ORDER BY id;").arg(sel->getName()));
+        }
+
         /* Call the context menu */
 //        menu->popup(ui->treeView->viewport()->mapToGlobal(pos));
+
+
         menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
     } else {
         this->selUN = nullptr;
@@ -491,6 +498,16 @@ void MainWindowServer::closeEvent(QCloseEvent * event)
         event->ignore();
     }
     //Здесь код
+}
+
+QString MainWindowServer::getUnSqlSelect() const
+{
+    return unSqlSelect;
+}
+
+void MainWindowServer::setUnSqlSelect(const QString &value)
+{
+    unSqlSelect = value;
 }
 
 void MainWindowServer::initLabelOperator()
@@ -648,4 +665,18 @@ void MainWindowServer::lockOpenClose(bool val)
     if(nullptr == selUN)
         return;
     this->m_portManager->lockOpenCloseCommand(selUN, val);
+}
+
+void MainWindowServer::on_actionDataBase_triggered()
+{
+    QProcess *process = new QProcess(this);
+    QString file = "m_db.exe";
+    process->start(file);
+}
+
+void MainWindowServer::on_actionUNSqlSelect_triggered()
+{
+    QProcess *process = new QProcess(this);
+    QString file = "m_db.exe -sql \"" + getUnSqlSelect() + "\"";
+    process->start(file);
 }

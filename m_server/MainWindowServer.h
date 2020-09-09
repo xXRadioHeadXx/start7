@@ -86,6 +86,10 @@ private slots:
 
     void lockOpenClose(bool val);
 
+    void on_actionDataBase_triggered();
+
+    void on_actionUNSqlSelect_triggered();
+
 protected:
     void closeEvent(QCloseEvent * event);
 
@@ -109,6 +113,11 @@ private:
     float wasIntervalProgressBar;
 
     QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
+
+    QString unSqlSelect;
+
+    QString getUnSqlSelect() const;
+    void setUnSqlSelect(const QString &value);
 
     void initLabelOperator();
 signals:
