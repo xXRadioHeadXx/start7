@@ -54,12 +54,27 @@ public:
     static void setIdStartLastDuty(qint64 value);
     static void setIdStartLastDuty();
 
+    static QString getHostName();
+    static void setHostName(const QString &value);
+
+    static QString getDatabaseName();
+    static void setDatabaseName(const QString &value);
+
+    static QString getUserName();
+    static void setUserName(const QString &value);
+
+    static QString getPassword();
+    static void setPassword(const QString &value);
+
+    static QString getPort();
+    static void setPort(const QString &value);
+
 private:
-    QString HostName;//("127.0.0.1");
-    QString DatabaseName;//("postgres");
-    QString UserName;//("postgres");
-    QString Password;//("601275");
-    QString Port;//(5432);
+    static QString HostName;//("127.0.0.1");
+    static QString DatabaseName;//("postgres");
+    static QString UserName;//("postgres");
+    static QString Password;//("601275");
+    static QString Port;//(5432);
 
 signals:
 

@@ -6,6 +6,12 @@
 
 qint64 DataBaseManager::idStartLastDuty = -1;
 
+QString DataBaseManager::HostName = QString();
+QString DataBaseManager::DatabaseName = QString();
+QString DataBaseManager::UserName = QString();
+QString DataBaseManager::Password = QString();
+QString DataBaseManager::Port = QString();
+
 qint64 DataBaseManager::getIdStartLastDuty()
 {
     return idStartLastDuty;
@@ -24,6 +30,56 @@ void DataBaseManager::setIdStartLastDuty()
         setIdStartLastDuty(-1);
     else
         setIdStartLastDuty(newRecords.first()->getId());
+}
+
+QString DataBaseManager::getHostName()
+{
+    return HostName;
+}
+
+void DataBaseManager::setHostName(const QString &value)
+{
+    HostName = value;
+}
+
+QString DataBaseManager::getDatabaseName()
+{
+    return DatabaseName;
+}
+
+void DataBaseManager::setDatabaseName(const QString &value)
+{
+    DatabaseName = value;
+}
+
+QString DataBaseManager::getUserName()
+{
+    return UserName;
+}
+
+void DataBaseManager::setUserName(const QString &value)
+{
+    UserName = value;
+}
+
+QString DataBaseManager::getPassword()
+{
+    return Password;
+}
+
+void DataBaseManager::setPassword(const QString &value)
+{
+    Password = value;
+}
+
+QString DataBaseManager::getPort()
+{
+    return Port;
+}
+
+void DataBaseManager::setPort(const QString &value)
+{
+    Port = value;
 }
 
 
@@ -45,25 +101,38 @@ QSqlDatabase& DataBaseManager::m_db()
     if (!db.isValid()) {
         db = QSqlDatabase::addDatabase("QPSQL");
 
-        QSettings settings("rifx.ini", QSettings::IniFormat);
-        settings.beginGroup("PostgresSQL");
 
-        QString hostName = settings.value( "HostName", -1 ).toString();//("127.0.0.1");
-        hostName = Utils::strHostAddress(hostName);
-        QString databaseName = settings.value( "DatabaseName", -1 ).toString();//("postgres");
-        QString userName = settings.value( "UserName", -1 ).toString();//("postgres");
-        QString password = settings.value( "Password", -1 ).toString();//("601275");
-        QString port = settings.value( "Port", -1 ).toString();//(5432);
-        qDebug() << hostName << " " << databaseName << " " << userName << " " << password << " " << port;
+        if(getHostName().isEmpty() || getDatabaseName().isEmpty() || getUserName().isEmpty() || getPassword().isEmpty() || getPort().isEmpty()) {
+            QString hostName;
+            QString databaseName;
+            QString userName;
+            QString password;
+            QString port;
 
-        settings.endGroup();
+            QSettings settings("rifx.ini", QSettings::IniFormat);
+            settings.beginGroup("PostgresSQL");
+            hostName = settings.value( "HostName", -1 ).toString();//("127.0.0.1");
+            hostName = Utils::strHostAddress(hostName);
+            databaseName = settings.value( "DatabaseName", -1 ).toString();//("postgres");
+            userName = settings.value( "UserName", -1 ).toString();//("postgres");
+            password = settings.value( "Password", -1 ).toString();//("601275");
+            port = settings.value( "Port", -1 ).toString();//(5432);
+            qDebug() << hostName << " " << databaseName << " " << userName << " " << password << " " << port;
+            settings.endGroup();
 
-        db.setHostName(hostName);
-        db.setDatabaseName(databaseName);
-        db.setUserName(userName);
-        db.setPassword(password);
-        db.setPort(port.toUInt());
-        db.open(userName, password);
+            setHostName(hostName);
+            setDatabaseName(databaseName);
+            setUserName(userName);
+            setPassword(password);
+            setPort(port);
+        }
+
+        db.setHostName(getHostName());
+        db.setDatabaseName(getDatabaseName());
+        db.setUserName(getUserName());
+        db.setPassword(getPassword());
+        db.setPort(getPort().toUInt());
+        db.open(getUserName(), getPassword());
         if (!db.isOpen())
         {
             qDebug() << "Cannot open database: Error: " << db.lastError();
@@ -515,13 +584,13 @@ void DataBaseManager::loadSettings(QString fileName)
     QSettings settings(fileName, QSettings::IniFormat);
     settings.beginGroup("PostgresSQL");
 
-    HostName = settings.value( "HostName", -1 ).toString();//("127.0.0.1");
-    HostName = Utils::strHostAddress(HostName);
-    DatabaseName = settings.value( "DatabaseName", -1 ).toString();//("postgres");
-    UserName = settings.value( "UserName", -1 ).toString();//("postgres");
-    Password = settings.value( "Password", -1 ).toString();//("601275");
-    Port = settings.value( "Port", -1 ).toString();//(5432);
-    qDebug() << HostName << " " << DatabaseName << " " << UserName << " " << Password << " " << Port;
+    setHostName(settings.value( "HostName", -1 ).toString());//("127.0.0.1");
+    setHostName(Utils::strHostAddress(getHostName()));
+    setDatabaseName(settings.value( "DatabaseName", -1 ).toString());//("postgres");
+    setUserName(settings.value( "UserName", -1 ).toString());//("postgres");
+    setPassword(settings.value( "Password", -1 ).toString());//("601275");
+    setPort(settings.value( "Port", -1 ).toString());//(5432);
+    qDebug() << getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort();
 
     settings.endGroup();
 }
