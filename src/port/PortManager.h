@@ -44,7 +44,7 @@ private:
 public:
     explicit PortManager(QObject *parent, DataBaseManager *dbm);
     virtual ~PortManager();
-    Port* createPort(QObject *parent, const int index);
+//    Port* createPort(AbstractPort::Protocol protocol, QObject *parent, const int index);
     void retranslate();
     void loadConfig(QSettings *config, const int index);
     void saveConfig(QSettings *config, const int index);

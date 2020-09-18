@@ -1,6 +1,9 @@
 #include <QHostInfo>
 #include <QDebug>
 #include <QNetworkDatagram>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QTcpSocket>
 
 #include <Port.h>
 #include <MessageEntity.h>
@@ -34,11 +37,11 @@ void Port::beatProcDK_wTW()
     timerBeatProcDK.stop();
 }
 
-Port::Port(QObject *parent, const int index, DataBaseManager *dbm) : AbstractPort(parent), portIndex(index), m_dbm(dbm) {}
+Port::Port(const AbstractPort::Protocol &protocol, QObject *parent, const int index, DataBaseManager *dbm) : AbstractPort(protocol, parent), portIndex(index), m_dbm(dbm) {}
 
 Port::~Port() {
-    if(nullptr != this->udpSocket)
-        delete this->udpSocket;
+    if(nullptr != this->m_ptrSocket)
+        delete this->m_ptrSocket;
 }
 
 // interface -->
@@ -50,8 +53,11 @@ bool Port::open() {
     bool status = false;
 
     switch (protocol) {
-    case UDP:
+    case AbstractPort::UDP:
         status = openUdpScoket(getStrPort());
+        break;
+    case AbstractPort::TCP:
+        status = openTcpScoket(getStrIp(), getStrPort());
         break;
     default:
         break;
@@ -61,10 +67,16 @@ bool Port::open() {
 
 void Port::close() {
     switch (protocol) {
-    case UDP:
-        if (udpSocket) {
-            udpSocket->deleteLater();
-            udpSocket = nullptr;
+    case AbstractPort::UDP:
+        if (m_ptrSocket) {
+            m_ptrSocket->deleteLater();
+            m_ptrSocket = nullptr;
+        }
+        break;
+    case AbstractPort::TCP:
+        if (m_ptrSocket) {
+            m_ptrSocket->deleteLater();
+            m_ptrSocket = nullptr;
         }
         break;
     default:
@@ -84,10 +96,10 @@ void Port::write(const QList<DataQueueItem> &data) {
 
 void Port::write(const DataQueueItem &data, bool dbIns) {
     switch (getProtocol()) {
-    case UDP:
-        if (udpSocket) {
+    case AbstractPort::UDP:
+        if (m_ptrSocket) {
 //            qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
-            udpSocket->writeDatagram(data.data(), data.address(), data.port());
+            ((QUdpSocket *)m_ptrSocket)->writeDatagram(data.data(), data.address(), data.port());
 
             if(dbIns && Utils::isSavedMsg(data.data())) {
                 MessageEntity msg;
@@ -96,6 +108,13 @@ void Port::write(const DataQueueItem &data, bool dbIns) {
                 m_dbm->insertCommandMsg_wS(msg);
             }
         }
+        break;
+    case AbstractPort::TCP:
+        if (m_ptrSocket) {
+//            qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
+            ((QTcpSocket *)m_ptrSocket)->write(data.data());
+        }
+        break;
     default:
         break;
     }
@@ -109,10 +128,12 @@ bool Port::portStatus(QString *string) { return false; }
 
 bool Port::isOpen() {
     switch (getProtocol()) {
-    case UDP:
+    case AbstractPort::UDP:
 //        if(udpSocket != NULL)
 //            return udpSocket->isOpen();
-        return udpSocket != NULL;
+        return m_ptrSocket != NULL;
+    case AbstractPort::TCP:
+        return (m_ptrSocket->state() == QAbstractSocket::ConnectedState);
     default:
         return false;
     }
@@ -127,6 +148,8 @@ void Port::prepareUdpScoket(QString ip, QString port) {
 
 Port * Port::typeDefPort(const AbstractPort * port) {
     if(AbstractPort::UDP == port->getProtocol())
+        return (Port *)port;
+    else if(AbstractPort::TCP == port->getProtocol())
         return (Port *)port;
     else
         return nullptr;
@@ -143,18 +166,44 @@ bool Port::openUdpScoket(QString port)
     for(QPair<QString, QString> tmp : getStIpPort())
         qDebug() << QHostAddress(tmp.first)<< "port " << tmp.second;
 
-    if(nullptr == udpSocket)
-        udpSocket = new QUdpSocket();
-    if (udpSocket->bind(QHostAddress::Any, (quint16)port.toInt(), QUdpSocket::ShareAddress) == false) {
+    if(nullptr == m_ptrSocket)
+        m_ptrSocket = new QUdpSocket();
+
+    if (m_ptrSocket->bind(QHostAddress::Any, (quint16)port.toInt(), QUdpSocket::ShareAddress) == false) {
         qDebug() << "Return false when the port is occupied.";
         return false; // Return false when the port is occupied.
     }
 
 //    ip edit false teperb .?!
     qDebug() << "connect(" <<
-    connect(udpSocket, SIGNAL(readyRead()), this, SLOT(readMessage()), Qt::QueuedConnection)
+    connect(m_ptrSocket, SIGNAL(readyRead()), this, SLOT(readMessage()), Qt::QueuedConnection)
              << ")";
 
+    return true; // return, because the UDP protocol does not need to connect.
+}
+
+bool Port::openTcpScoket(QString host, QString port)
+{
+    if (port.isEmpty()) {
+        qDebug() << "Returns false when the IP address or port number is wrong.";
+        return false; // Returns false when the IP address or port number is wrong.
+    }
+
+    if(nullptr == m_ptrSocket)
+        m_ptrSocket = new QTcpSocket();
+    m_ptrSocket->connectToHost(QHostAddress(host), (quint16)port.toInt());
+
+    QObject::connect(m_ptrSocket,&QAbstractSocket::disconnected,[]()->void{qDebug("Disconnected");});
+
+    if (m_ptrSocket->state() != QAbstractSocket::ConnectedState) { //->bind(QHostAddress::Any, (quint16)port.toInt(), QUdpSocket::ShareAddress) == false) {
+        qDebug() << "Return false when the port is occupied.";
+        return false; // Return false when the port is occupied.
+    }
+
+//    ip edit false teperb .?!
+    qDebug() << "connect(" <<
+    connect(m_ptrSocket, SIGNAL(readyRead()), this, SLOT(readMessage()), Qt::QueuedConnection)
+             << ")";
 
     return true; // return, because the UDP protocol does not need to connect.
 }
@@ -164,12 +213,12 @@ void Port::readUdpDatagrams()
     QByteArray datagram;
 
     do {
-        int dataSize = udpSocket->pendingDatagramSize();
+        int dataSize = ((QUdpSocket *)m_ptrSocket)->pendingDatagramSize();
         datagram.resize(dataSize);
         QHostAddress ip6Address;
         bool conversionOK = false;
         quint16 port;
-        udpSocket->readDatagram(datagram.data(), datagram.size(), &ip6Address, &port);
+        ((QUdpSocket *)m_ptrSocket)->readDatagram(datagram.data(), datagram.size(), &ip6Address, &port);
 //        qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
         QHostAddress ip4Address(ip6Address.toIPv4Address(&conversionOK));
         if (conversionOK && getStHostAddress().contains(ip4Address) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
@@ -184,17 +233,27 @@ void Port::readUdpDatagrams()
             }
             // временно <--
         }
-    } while (udpSocket->hasPendingDatagrams());
+    } while (((QUdpSocket *)m_ptrSocket)->hasPendingDatagrams());
 
     emit readyRead(getPortIndex());
+}
+
+void Port::readTcpDatagrams()
+{
+//    QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
+    QByteArray buffer = m_ptrSocket->readAll();
 }
 
 void Port::readMessage()
 {
     switch (getProtocol()) {
-    case UDP:
+    case AbstractPort::UDP:
         readUdpDatagrams();
         break;
+    case AbstractPort::TCP: {
+        readTcpDatagrams();
+        break;
+    }
     default:
         break;
     }

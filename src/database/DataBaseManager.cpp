@@ -133,6 +133,9 @@ QSqlDatabase& DataBaseManager::m_db()
         db.setPassword(getPassword());
         db.setPort(getPort().toUInt());
         db.open(getUserName(), getPassword());
+
+        qDebug() << getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort();
+
         if (!db.isOpen())
         {
             qDebug() << "Cannot open database: Error: " << db.lastError();
@@ -141,19 +144,13 @@ QSqlDatabase& DataBaseManager::m_db()
         {
             qDebug()<<"Opened database: " << db.connectOptions();
         }
+    } else if(db.open(getUserName(), getPassword())) {
+        return db;
+        qDebug()<<"Opened database: " << db.connectOptions();
+    } else {
+        qDebug() << "Cannot open database: Error: " << db.lastError();
     }
 
-    if (!db.isOpen())
-    {
-        QSettings settings("rifx.ini", QSettings::IniFormat);
-        settings.beginGroup("PostgresSQL");
-        QString userName = settings.value( "UserName", -1 ).toString();//("postgres");
-        QString password = settings.value( "Password", -1 ).toString();//("601275");
-        qDebug() << userName << " " << password;
-        settings.endGroup();
-
-        db.open(userName, password);
-    }
     return db;
 }
 

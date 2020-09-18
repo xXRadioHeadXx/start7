@@ -18,10 +18,10 @@ public:
         TCP = 1,
         SERIAL = 2
     };
-    AbstractPort::Protocol protocol = UDP;
+    AbstractPort::Protocol protocol = AbstractPort::UDP;
     AbstractPort::Protocol getProtocol() const {return protocol;}
-
-    explicit AbstractPort(QObject *parent = nullptr) : QObject(parent) {}
+    void setProtocol(const AbstractPort::Protocol &value) { protocol = value; }
+    explicit AbstractPort(const AbstractPort::Protocol &protocol, QObject *parent = nullptr) : QObject(parent), protocol(protocol) {}
 
     virtual void retranslate() {}
     virtual void loadConfig(QSettings *config) = 0;
@@ -44,3 +44,5 @@ signals:
 };
 
 #endif // ABSTRACTPORT_H
+
+

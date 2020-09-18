@@ -2,16 +2,15 @@
 #define ABSTRACTPORTFACTORY_H
 
 #include <QObject>
-
-class AbstractPort;
+#include <AbstractPort.h>
 
 class AbstractPortFactory
 {
 public:
     AbstractPortFactory() {}
     virtual ~AbstractPortFactory() {}
-    virtual AbstractPort* create(const int index, QObject *parent) = 0;
-    virtual QString protocol() = 0;
+    virtual AbstractPort * create(AbstractPort::Protocol protocol, const int index = 0, QObject *parent = nullptr) const = 0;
+//    virtual QString protocol() = 0;
 };
 
 #endif // ABSTRACTPORTFACTORY_H

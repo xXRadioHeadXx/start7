@@ -29,9 +29,9 @@ QList<StatusConnectRequester *> PortManager::lsSCR = QList<StatusConnectRequeste
 QList<AbstractRequester *> PortManager::lsWaiter = QList<AbstractRequester *>();
 
 
-Port* PortManager::createPort(QObject *parent, const int index) {
-    return new Port(parent, index, m_dbm);
-}
+//Port* PortManager::createPort(AbstractPort::Protocol protocol, QObject *parent, const int index) {
+//    return new Port(protocol, parent, index, m_dbm);
+//}
 
 
 PortManager::~PortManager()
@@ -575,7 +575,7 @@ QList<AbstractPort *> PortManager::loadPorts(QString fileName) {
     }
 
     for(QString prt : stPort) {
-        result.append(PortFactory::create(AbstractPort::UDP, result.size()));
+            result.append(PortFactory(AbstractPort::UDP).create(AbstractPort::UDP, result.size()));
         Port::typeDefPort(result.last())->setStrPort(prt);
         for(QPair<QString, QString> tmp : stIpPort) {
             if(prt == tmp.second)

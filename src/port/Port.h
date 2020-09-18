@@ -15,7 +15,7 @@ class Port :
     Q_OBJECT
 private:
 
-    QUdpSocket *udpSocket = nullptr;
+    QAbstractSocket *m_ptrSocket = nullptr;
     QString strPort;
     QString strIp;
     QByteArray readArray;
@@ -33,7 +33,7 @@ private:
 
 public:
 
-    explicit Port(QObject *parent = nullptr, const int index = 0, DataBaseManager *dbm = nullptr);
+    explicit Port(const AbstractPort::Protocol &protocol = AbstractPort::UDP, QObject *parent = nullptr, const int index = 0, DataBaseManager *dbm = nullptr);
     virtual ~Port();
 
     // interface -->
@@ -98,7 +98,9 @@ public:
 private:
 
     bool openUdpScoket(QString strPort);
+    bool openTcpScoket(QString host, QString strPort);
     void readUdpDatagrams();
+    void readTcpDatagrams();
     QHostAddress hostAddress();
     QString localHost();
 
