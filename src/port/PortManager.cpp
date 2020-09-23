@@ -59,7 +59,7 @@ void PortManager::loadSettings(QSettings *config, const int index) {}
 
 void PortManager::loadSettings() {
     m_udpPortsVector.clear();
-    m_udpPortsVector = loadPorts();
+    m_udpPortsVector = loadPortsUdpObj();
 
     for(AbstractPort * port : m_udpPortsVector) {
         switch(port->getProtocol()) {
@@ -68,6 +68,8 @@ void PortManager::loadSettings() {
                 Port::typeDefPort(port)->setDbm(this->m_dbm);
                 setupPort(port);
                 break;
+            case AbstractPort::TCP:
+                break;                
             default:
                 break;
         }
@@ -536,7 +538,7 @@ void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
 //    return 0;
 //}
 
-QList<AbstractPort *> PortManager::loadPorts(QString fileName) {
+QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     QList<AbstractPort *> result;
 
     QSettings settings(fileName, QSettings::IniFormat);
@@ -585,7 +587,6 @@ QList<AbstractPort *> PortManager::loadPorts(QString fileName) {
 
     return result;
 }
-
 
 DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest)
 {
