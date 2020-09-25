@@ -8,20 +8,29 @@ class TcpServer : public QObject
 {
     Q_OBJECT
 private:
+    int nPort = -1;
     QTcpServer * m_ptrTcpServer;
-    quint16     m_nNextBlockSize;
+    QHash<QTcpSocket*, QByteArray*> buffers; //We need a buffer to store data until block has completely received
+
+    QTcpSocket *connectToHost(QString host);
 
 public:
     explicit TcpServer(int nPort, QObject *parent = nullptr);
     virtual ~TcpServer();
 
-    void sendToClient(QTcpSocket* pSocket, const QString& str);
 
 public slots:
-    virtual void slotNewConnection();
-    void slotReadClient();
+    bool writeData(QString host, QByteArray data);
+    bool writeData(QTcpSocket * socket, QByteArray data);
+
+
+private slots:
+    void newConnection();
+    void disconnected();
+    void readyRead();
 
 signals:
+    void dataReceived(QByteArray);
 
 };
 

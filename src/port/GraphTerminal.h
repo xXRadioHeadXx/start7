@@ -12,6 +12,8 @@ class GraphTerminal : public QObject
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
 
+private slots:
+    void prt(QByteArray ba);
 signals:
 
 };

@@ -3,11 +3,15 @@
 #include <QDataStream>
 #include <QTcpSocket>
 #include <QTime>
+#include <QDomDocument>
+#include <Utils.h>
 
 //#include <QMessageBox>
 
-TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent)
-                                                 , m_nNextBlockSize(0)
+static inline qint32 ArrayToInt(QByteArray source);
+static inline QByteArray IntToArray(qint32 source);
+
+TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
  {
      m_ptrTcpServer = new QTcpServer(this);
      if (!m_ptrTcpServer->listen(QHostAddress::Any, nPort)) {
@@ -18,74 +22,115 @@ TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent)
 //                              );
          qDebug() << "TcpServer Error: Unable to start the server:" + m_ptrTcpServer->errorString();
          m_ptrTcpServer->close();
+         delete m_ptrTcpServer;
+         m_ptrTcpServer = nullptr;
          return;
      }
-     connect(m_ptrTcpServer, SIGNAL(newConnection()),
-             this, SLOT(slotNewConnection()));
+     connect(m_ptrTcpServer, SIGNAL(newConnection()), SLOT(newConnection()));
 }
 
 TcpServer::~TcpServer() {
+    if(nullptr != m_ptrTcpServer) {
+        m_ptrTcpServer->close();
+        delete m_ptrTcpServer;
+        m_ptrTcpServer = nullptr;
+    }
 }
 
+bool TcpServer::writeData(QString host, QByteArray data)
+{
+    for(QTcpSocket * socket : buffers.keys()) {
+        if(host == Utils::hostAddressToString(socket->peerAddress())) {
+            return writeData(socket, data);
+        }
+    }
 
- // ----------------------------------------------------------------------
-void TcpServer::slotNewConnection() {
-     QTcpSocket * pClientSocket = m_ptrTcpServer->nextPendingConnection();
+    return writeData(connectToHost(host), data);
+}
 
-     connect(pClientSocket, SIGNAL(disconnected()),
-             pClientSocket, SLOT(deleteLater())
-            );     
+QTcpSocket * TcpServer::connectToHost(QString host)
+{
+    QTcpSocket * socket = new QTcpSocket;
+    socket->connectToHost(host, nPort);
+    connect(socket, SIGNAL(readyRead()), SLOT(readyRead()));
+    connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
+    QByteArray *buffer = new QByteArray();
+    buffers.insert(socket, buffer);
+    if(socket->waitForConnected())
+        return socket;
+    return nullptr;
+}
 
-     connect(pClientSocket, SIGNAL(readyRead()),
-             this, SLOT(slotReadClient())
-            );
+bool TcpServer::writeData(QTcpSocket *socket, QByteArray data)
+{
+    if(nullptr == socket)
+        return false;
 
-     sendToClient(pClientSocket, "Server Response: Connected!");
- }
+    if(socket->state() == QAbstractSocket::ConnectedState)
+    {
+        socket->write(IntToArray(data.size())); //write size of data
+        socket->write(data); //write the data itself
+        return socket->waitForBytesWritten();
+    }
+    else
+        return false;
+}
 
- // ----------------------------------------------------------------------
- void TcpServer::slotReadClient()
- {
-     QTcpSocket * pClientSocket = (QTcpSocket *)sender();
-     QDataStream in(pClientSocket);
-     in.setVersion(QDataStream::Qt_5_3);
-     for (;;) {
-         if (!m_nNextBlockSize) {
-             if (pClientSocket->bytesAvailable() < (int)sizeof(quint16)) {
-                 break;
-             }
-             in >> m_nNextBlockSize;
-         }
+void TcpServer::newConnection()
+{
+    while (m_ptrTcpServer->hasPendingConnections())
+    {
+        QTcpSocket *socket = m_ptrTcpServer->nextPendingConnection();
+        connect(socket, SIGNAL(readyRead()), SLOT(readyRead()));
+        connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
+        QByteArray *buffer = new QByteArray();
+        buffers.insert(socket, buffer);
+    }
+}
 
-         if (pClientSocket->bytesAvailable() < m_nNextBlockSize) {
-             break;
-         }
+void TcpServer::disconnected()
+{
+    QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
+    QByteArray *buffer = buffers.value(socket);
+    socket->deleteLater();
+    delete buffer;
+}
 
-         QTime   time;
-         QString str;
-         in >> time >> str;
+void TcpServer::readyRead()
+{
+    QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
+    QByteArray *buffer = buffers.value(socket);
+    while (socket->bytesAvailable() > 0)
+    {
+        qDebug() << "socket->bytesAvailable(" << socket->bytesAvailable() << ")";
+        buffer->append(socket->readAll());
+        while (0 < buffer->size()) //While can process data, process it
+        {
+            QByteArray data = buffer->mid(0);
+            QString domStr = data;
+            qDebug() << "TcpServer::readyRead(" << domStr << ")";
+            QDomDocument doc;
+            if(doc.setContent(domStr)) {
+                buffer->clear();
+                emit dataReceived(data);
+            }
+        }
+    }
+}
 
-         QString strMessage = time.toString() + " " + "Client has sent - " + str;
-         qDebug() << strMessage;
+qint32 ArrayToInt(QByteArray source)
+{
+    qint32 temp;
+    QDataStream data(&source, QIODevice::ReadWrite);
+    data >> temp;
+    return temp;
+}
 
-         m_nNextBlockSize = 0;
-
-         sendToClient(pClientSocket,
-                      "Server Response: Received \"" + str + "\""
-                     );
-     }
- }
-
- // ----------------------------------------------------------------------
- void TcpServer::sendToClient(QTcpSocket* pSocket, const QString& str)
- {
-     QByteArray  arrBlock;
-     QDataStream out(&arrBlock, QIODevice::WriteOnly);
-     out.setVersion(QDataStream::Qt_5_3);
-     out << quint16(0) << QTime::currentTime() << str;
-
-     out.device()->seek(0);
-     out << quint16(arrBlock.size() - sizeof(quint16));
-
-     pSocket->write(arrBlock);
- }
+QByteArray IntToArray(qint32 source) //Use qint32 to ensure that the number have 4 bytes
+{
+    //Avoid use of cast, this is the Qt way to serialize objects
+    QByteArray temp;
+    QDataStream data(&temp, QIODevice::ReadWrite);
+    data << source;
+    return temp;
+}

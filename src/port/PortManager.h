@@ -14,6 +14,7 @@
 #include <ConfirmationAdmissionWaiter.h>
 #include <OnOffIUWaiter.h>
 #include <StatusConnectRequester.h>
+#include <GraphTerminal.h>
 
 class PortManager : public QObject
 {
@@ -26,6 +27,7 @@ private:
     DataBaseManager *m_dbm = nullptr;
 
     static QList<AbstractPort *> m_udpPortsVector;
+    static GraphTerminal * graphTerminal;
 
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
@@ -37,6 +39,7 @@ private:
     void setupPort(const int index = 0);
     void setupPort(AbstractPort *port);
 //    ProcessDKWaiter * addProcessDKWaiter(QHostAddress address, int port, int index);
+    static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = "rifx.ini");
     static QList<AbstractPort *> loadPortsUdpObj(QString fileName = "rifx.ini");
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
 

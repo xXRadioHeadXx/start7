@@ -1,4 +1,4 @@
-QT += core
+QT += core xml
 CONFIG += c++17
 
 INCLUDEPATH += $$PWD/
