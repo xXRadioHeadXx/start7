@@ -24,6 +24,9 @@ PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent
 
 QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
 
+GraphTerminal * PortManager::graphTerminal = nullptr;
+
+
 QList<StatusConnectRequester *> PortManager::lsSCR = QList<StatusConnectRequester *>();
 
 QList<AbstractRequester *> PortManager::lsWaiter = QList<AbstractRequester *>();
@@ -74,6 +77,8 @@ void PortManager::loadSettings() {
                 break;
         }
     }
+
+    graphTerminal = loadPortsTcpGraphTerminal();
 }
 
 bool PortManager::open(const int index) {
@@ -537,6 +542,21 @@ void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
 ////    return tmpPDKW;
 //    return 0;
 //}
+
+GraphTerminal * PortManager::loadPortsTcpGraphTerminal(QString fileName) {
+
+    QSettings settings(fileName, QSettings::IniFormat);
+    settings.setIniCodec( "Windows-1251" );
+
+    settings.beginGroup("INTEGRATION");
+    int nPort = settings.value( "Port", -1 ).toInt();
+    settings.endGroup();
+
+    if(-1 != nPort)
+        return new GraphTerminal(nPort);
+
+    return nullptr;
+}
 
 QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     QList<AbstractPort *> result;
