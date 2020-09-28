@@ -2,6 +2,7 @@
 #define MAINWINDOWCFG_H
 
 #include <QMainWindow>
+#include <TreeModelUnitNode.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -13,9 +14,13 @@ class MainWindowCFG : public QMainWindow
 private:
     Ui::MainWindowCFG *ui;
 
+    TreeModelUnitNode *modelTreeUN = nullptr;
+
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
+
+    bool load(QString patch);
 
 private slots:
 
