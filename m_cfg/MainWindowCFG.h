@@ -16,6 +16,9 @@ private:
 
     TreeModelUnitNode *modelTreeUN = nullptr;
 
+    void select_unit(QModelIndex index);
+    QString Type_from_int_to_string(int Type);
+
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
@@ -24,5 +27,6 @@ public:
 
 private slots:
 
+    void on_treeView_clicked(const QModelIndex &index);
 };
 #endif // MAINWINDOWCFG_H
