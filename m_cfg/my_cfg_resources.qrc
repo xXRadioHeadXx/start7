@@ -39,5 +39,8 @@
         <file>icons/square_yellow_20_20.png</file>
         <file>icons/square_yellow_close_20_20.png</file>
         <file>icons/square_yellow_open_20_20.png</file>
+        <file>images/create-file-icon.png</file>
+        <file>images/open-file-icon.png</file>
+        <file>images/save-file-icon-3.jpg</file>
     </qresource>
 </RCC>

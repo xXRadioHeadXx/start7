@@ -35,5 +35,9 @@ private slots:
     void on_uType_combobox_currentTextChanged(const QString &arg1);
 
     void on_pushButton_4_clicked();
+    void on_actionCreate_triggered();
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void on_treeView_activated(const QModelIndex &index);
 };
 #endif // MAINWINDOWCFG_H

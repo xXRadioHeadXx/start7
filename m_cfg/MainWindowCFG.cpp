@@ -64,6 +64,23 @@ void MainWindowCFG::select_unit(QModelIndex index)
     QString Type=this->Type_from_int_to_string(selected_type);
 
   //  this->ui->uType_combobox->setTe
+    this->ui->CD_comboBox_Num2->setCurrentText("");
+    this->ui->CD_DK_checkBox->setChecked(false);
+    this->ui->CD_Bazalt_checkBox->setChecked(false);
+    this->ui->CD_connectblock_checkBox->setChecked(false);
+    this->ui->CD_UdpUse_checkBox->setChecked(false);
+    this->ui->uType_combobox->setCurrentText("");
+    this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
+
+    this->ui->UpdPort_label->setVisible(false);
+    this->ui->UdpAdress_label->setVisible(false);
+    this->ui->UpdPort_lineEdit->setVisible(false);
+    this->ui->UdpAdress_lineEdit->setVisible(false);
+    this->ui->UpdPort_lineEdit->setText("");
+    this->ui->UdpAdress_lineEdit->setText("");
+
+
+
 
 
     if(selected_type==SD_BL_IP)
@@ -103,11 +120,7 @@ void MainWindowCFG::select_unit(QModelIndex index)
                 <<" UdpAdress:"<<UdpAdress;
     */
 
-        this->ui->CD_comboBox_Num2->setCurrentText("");
-        this->ui->CD_DK_checkBox->setChecked(false);
-        this->ui->CD_Bazalt_checkBox->setChecked(false);
-        this->ui->CD_connectblock_checkBox->setChecked(false);
-        this->ui->CD_UdpUse_checkBox->setChecked(false);
+
 
 
         this->ui->CD_comboBox_Num2->setCurrentText(QString::number(Num2));
@@ -117,6 +130,11 @@ void MainWindowCFG::select_unit(QModelIndex index)
         this->ui->CD_Bazalt_checkBox->setChecked(Bazalt);
         this->ui->CD_connectblock_checkBox->setChecked(connectblock);
         this->ui->CD_UdpUse_checkBox->setChecked(UdpUse);
+
+        this->ui->UpdPort_label->setVisible(true);
+        this->ui->UdpAdress_label->setVisible(true);
+        this->ui->UpdPort_lineEdit->setVisible(true);
+        this->ui->UdpAdress_lineEdit->setVisible(true);
         this->ui->UpdPort_lineEdit->setText(QString::number(UdpPort));
         this->ui->UdpAdress_lineEdit->setText(UdpAdress);
     }
@@ -222,3 +240,23 @@ void MainWindowCFG::on_pushButton_4_clicked()
 }
 
 
+
+void MainWindowCFG::on_actionCreate_triggered()
+{
+    qDebug()<<"[Create]";
+}
+
+void MainWindowCFG::on_actionOpen_triggered()
+{
+     qDebug()<<"[Open]";
+}
+
+void MainWindowCFG::on_actionSave_triggered()
+{
+     qDebug()<<"[Save]";
+}
+
+void MainWindowCFG::on_treeView_activated(const QModelIndex &index)
+{
+    qDebug()<<"activated";
+}

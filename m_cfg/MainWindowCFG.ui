@@ -13,13 +13,25 @@
   <property name="windowTitle">
    <string>MainWindowCFG</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeView" name="treeView">
+   <widget class="MyTreeView" name="treeView" native="true">
     <property name="geometry">
      <rect>
-      <x>9</x>
+      <x>10</x>
       <y>9</y>
-      <width>256</width>
+      <width>251</width>
       <height>721</height>
      </rect>
     </property>
@@ -28,6 +40,9 @@
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -535,7 +550,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
-        <widget class="QLabel" name="CD_label_4">
+        <widget class="QLabel" name="UdpAdress_label">
          <property name="text">
           <string>IP-адрес </string>
          </property>
@@ -564,7 +579,7 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="CD_label_5">
+        <widget class="QLabel" name="UpdPort_label">
          <property name="text">
           <string>Номер порта </string>
          </property>
@@ -804,6 +819,15 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionCreate"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -817,7 +841,57 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionCreate"/>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+  </widget>
+  <action name="actionCreate">
+   <property name="icon">
+    <iconset resource="my_cfg_resources.qrc">
+     <normaloff>:/images/create-file-icon.png</normaloff>:/images/create-file-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Создать</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="my_cfg_resources.qrc">
+     <normaloff>:/images/open-file-icon.png</normaloff>:/images/open-file-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Открыть</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="my_cfg_resources.qrc">
+     <normaloff>:/images/save-file-icon-3.jpg</normaloff>:/images/save-file-icon-3.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>MyTreeView</class>
+   <extends>QWidget</extends>
+   <header>mytreeview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="my_cfg_resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
