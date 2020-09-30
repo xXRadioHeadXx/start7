@@ -19,6 +19,10 @@ private:
     void select_unit(QModelIndex index);
     QString Type_from_int_to_string(int Type);
 
+    int selected_type;
+
+    QModelIndex current_index;
+
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
@@ -28,5 +32,8 @@ public:
 private slots:
 
     void on_treeView_clicked(const QModelIndex &index);
+    void on_uType_combobox_currentTextChanged(const QString &arg1);
+
+    void on_pushButton_4_clicked();
 };
 #endif // MAINWINDOWCFG_H
