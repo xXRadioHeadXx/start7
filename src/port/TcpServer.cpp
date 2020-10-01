@@ -102,17 +102,20 @@ void TcpServer::readyRead()
     QByteArray *buffer = buffers.value(socket);
     while (socket->bytesAvailable() > 0)
     {
-        qDebug() << "socket->bytesAvailable(" << socket->bytesAvailable() << ")";
+//        qDebug() << "socket->bytesAvailable(" << socket->bytesAvailable() << ")";
         buffer->append(socket->readAll());
         while (0 < buffer->size()) //While can process data, process it
         {
             QByteArray data = buffer->mid(0);
             QString domStr = data;
-            qDebug() << "TcpServer::readyRead(" << domStr << ")";
+//            qDebug() << "TcpServer::readyRead(" << domStr << ")";
             QDomDocument doc;
             if(doc.setContent(domStr)) {
                 buffer->clear();
-                emit dataReceived(data);
+
+                DataQueueItem itm(data, socket->peerAddress(), socket->peerPort(), 0);
+
+                emit dataReceived(itm);
             }
         }
     }
