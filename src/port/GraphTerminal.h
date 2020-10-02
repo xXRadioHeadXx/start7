@@ -21,6 +21,8 @@ private:
     void procAlarmsReset(QDomElement root);
     void procDbStart(QDomElement root);
 
+    QDomDocument makeInitialStatus(QString docType = "InitialStatus");
+
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
 
