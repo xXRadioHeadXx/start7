@@ -17,6 +17,10 @@ private:
     TreeModelUnitNode *modelTreeUN = nullptr;
 
     void select_unit(QModelIndex index);
+    bool change_unit(QModelIndex index);
+    bool add_unit();
+
+
     QString Type_from_int_to_string(int Type);
 
     int selected_type;
@@ -39,5 +43,6 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_treeView_activated(const QModelIndex &index);
+    void on_pushButton_clicked();
 };
 #endif // MAINWINDOWCFG_H

@@ -145,6 +145,8 @@ void MainWindowCFG::select_unit(QModelIndex index)
 
 }
 
+
+
 QString MainWindowCFG::Type_from_int_to_string(int int_Type)
 {
     QString Type;
@@ -208,9 +210,15 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
 void MainWindowCFG::on_pushButton_4_clicked()
 {
-    if(current_index.isValid())
+    change_unit(current_index);
+}
+
+bool MainWindowCFG::change_unit(QModelIndex index)
+{
+    bool res=1;
+    if(index.isValid())
     {
-       UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
+       UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
        if(unit->getType()==SD_BL_IP)
        {
 
@@ -236,8 +244,18 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     }
     else
-        qDebug()<<"[ERROR][Index not valid]";
+    {
+    res=0;
+    qDebug()<<"[ERROR][Index not valid]";
+    }
+
+
+    return res;
 }
+
+
+
+
 
 
 
@@ -259,4 +277,50 @@ void MainWindowCFG::on_actionSave_triggered()
 void MainWindowCFG::on_treeView_activated(const QModelIndex &index)
 {
     qDebug()<<"activated";
+}
+
+void MainWindowCFG::on_pushButton_clicked()
+{
+   add_unit();
+}
+
+
+bool MainWindowCFG::add_unit()
+{
+    bool res=1;
+    QModelIndex current=this->ui->treeView->currentIndex();
+    if (!current_index.isValid())
+    {
+        res=0;
+    qDebug()<<"[no current index]";
+    }
+
+    int type;
+    QString type_srtring=this->ui->uType_combobox->currentText();
+    if(type_srtring=="Группа")
+    type=GROUP;
+    else
+    if(type_srtring=="СД БЛ-IP")
+    type=SD_BL_IP;
+    else
+    if(type_srtring=="ИУ БЛ-IP")
+    type=IU_BL_IP;
+    else
+    res=0;
+
+    UnitNode *unit=new UnitNode();
+    unit->setName(this->ui->uName_lineedit->text());
+    unit->setType(type);
+
+   // this->modelTreeUN
+
+
+
+
+
+
+
+
+    return res;
+
 }
