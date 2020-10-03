@@ -26,12 +26,12 @@ SOURCES += \
     MainWindowCFG.cpp \
     main.cpp \
     mytreeview.cpp \
-    mytreeview.cpp
+
 
 HEADERS += \
     MainWindowCFG.h \
     mytreeview.h \
-    mytreeview.h
+
 
 FORMS += \
     MainWindowCFG.ui
