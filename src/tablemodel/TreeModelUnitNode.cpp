@@ -152,12 +152,28 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      return parentItem->treeChildCount();
  }
 
- void TreeModelUnitNode::appendNewUNInStructure(UnitNode* un)
+ void TreeModelUnitNode::appendNewUNInStructure(QModelIndex &index, UnitNode* un)
  {
-     this->beginResetModel();
+//Kak tebe takoe Ilon Mask
+     qDebug()<<"appendNewUNInStructure";
+    this->beginInsertRows(index.parent(),index.row(),index.row());
+     UnitNode *parent= static_cast<UnitNode*>(index.internalPointer());
+
+     parent->addTreeChild(un);
+     parent->addChild(un);
+
+     this->endInsertRows();
+
+
+  //   parent->m_child_list.append(item);
+
+ //    item->m_parent=parent;
+
+
+//     this->beginResetModel();
 //     this->createProxySortTree();//
 
-     this->endResetModel();
+//     this->endResetModel();
      return;
 
 //     this->beginInsertRows(this->findeIndexUNL(un->unTreeParent),

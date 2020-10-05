@@ -287,6 +287,7 @@ void MainWindowCFG::on_pushButton_clicked()
 
 bool MainWindowCFG::add_unit()
 {
+    qDebug()<<"[add_unit()]";
     bool res=1;
     QModelIndex current=this->ui->treeView->currentIndex();
     if (!current_index.isValid())
@@ -312,11 +313,15 @@ bool MainWindowCFG::add_unit()
     unit->setName(this->ui->uName_lineedit->text());
     unit->setType(type);
 
-    this->modelTreeUN->appendNewUNInStructure(unit);
+    QModelIndex index=this->ui->treeView->currentIndex();
 
 
+    if (index.isValid())
+    {
 
+      this->modelTreeUN->appendNewUNInStructure(index,unit);
 
+    }
 
 
 
