@@ -323,6 +323,9 @@ bool MainWindowCFG::add_unit()
 
     }
 
+    ui->treeView->setCurrentIndex(index);
+    this->ui->treeView->expand(index);
+
 
 
 
