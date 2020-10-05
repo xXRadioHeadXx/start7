@@ -155,7 +155,8 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
  void TreeModelUnitNode::appendNewUNInStructure(UnitNode* un)
  {
      this->beginResetModel();
-     this->createProxySortTree();//
+//     this->createProxySortTree();//
+
      this->endResetModel();
      return;
 

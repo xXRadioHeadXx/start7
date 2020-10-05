@@ -312,7 +312,7 @@ bool MainWindowCFG::add_unit()
     unit->setName(this->ui->uName_lineedit->text());
     unit->setType(type);
 
-   // this->modelTreeUN
+    this->modelTreeUN->appendNewUNInStructure(unit);
 
 
 
