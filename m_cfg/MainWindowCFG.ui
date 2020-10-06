@@ -590,6 +590,65 @@
        </item>
       </layout>
      </widget>
+     <widget class="QPushButton" name="pushButton_7">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>392</y>
+        <width>75</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>КАРТА</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>420</y>
+        <width>81</width>
+        <height>19</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Координаты: Y</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="x_label">
+      <property name="geometry">
+       <rect>
+        <x>93</x>
+        <y>395</y>
+        <width>91</width>
+        <height>19</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="y_label">
+      <property name="geometry">
+       <rect>
+        <x>93</x>
+        <y>420</y>
+        <width>91</width>
+        <height>19</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>395</y>
+        <width>91</width>
+        <height>19</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Координаты: X</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
@@ -807,7 +866,7 @@
      <x>0</x>
      <y>0</y>
      <width>587</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -848,7 +907,7 @@
   </widget>
   <action name="actionCreate">
    <property name="icon">
-    <iconset resource="my_cfg_resources.qrc">
+    <iconset>
      <normaloff>:/images/create-file-icon.png</normaloff>:/images/create-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -857,7 +916,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="my_cfg_resources.qrc">
+    <iconset>
      <normaloff>:/images/open-file-icon.png</normaloff>:/images/open-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -866,7 +925,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="my_cfg_resources.qrc">
+    <iconset>
      <normaloff>:/images/save-file-icon-3.jpg</normaloff>:/images/save-file-icon-3.jpg</iconset>
    </property>
    <property name="text">
@@ -874,9 +933,6 @@
    </property>
   </action>
  </widget>
-
- <resources>
-  <include location="my_cfg_resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

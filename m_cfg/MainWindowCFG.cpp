@@ -382,3 +382,11 @@ void MainWindowCFG::on_pushButton_2_clicked()
 {
 delete_unit();
 }
+
+void MainWindowCFG::on_pushButton_7_clicked()
+{
+    if(this->map.isVisible())
+        this->map.hide();
+    else
+        this->map.show();
+}

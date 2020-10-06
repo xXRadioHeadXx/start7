@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <TreeModelUnitNode.h>
+#include "map.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -34,6 +35,8 @@ public:
 
     bool load(QString patch);
 
+    Map map;
+
 private slots:
 
     void on_treeView_clicked(const QModelIndex &index);
@@ -46,5 +49,6 @@ private slots:
     void on_treeView_activated(const QModelIndex &index);
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
+    void on_pushButton_7_clicked();
 };
 #endif // MAINWINDOWCFG_H

@@ -24,17 +24,26 @@ include(../src/requester/requester.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
+    backgroundimage.cpp \
     main.cpp \
+    map.cpp \
+    mydrawobject.cpp \
+    myscene.cpp
 
 
 
 HEADERS += \
     MainWindowCFG.h \
+    backgroundimage.h \
+    map.h \
+    mydrawobject.h \
+    myscene.h
 
 
 
 FORMS += \
-    MainWindowCFG.ui
+    MainWindowCFG.ui \
+    map.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
