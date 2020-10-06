@@ -13,6 +13,14 @@ class MyTreeView : public QTreeView {
   public:
     MyTreeView(QWidget *parent = 0);
 
+protected:
+
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
+
+
 };
 
 #endif // MYTREEVIEW_H
