@@ -256,6 +256,8 @@ public:
     bool getControl() const;
     void setControl(bool value);
 
+    void deleteChild(int row);
+
 public slots:
     //    void emitIMUpd();
 

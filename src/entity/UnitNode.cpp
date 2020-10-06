@@ -594,6 +594,12 @@ void UnitNode::setControl(bool value)
     //    updDoubl();
 }
 
+void UnitNode::deleteChild(int row)
+{
+    this->listChilde.removeAt(row);
+    this->listTreeChilde.removeAt(row);
+}
+
 UnitNode::UnitNode(QObject *parent) : QObject(parent)
 {
     
