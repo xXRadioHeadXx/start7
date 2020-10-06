@@ -26,25 +26,6 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="MyTreeView" name="treeView" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>9</y>
-      <width>251</width>
-      <height>721</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
@@ -809,6 +790,16 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QTreeView" name="treeView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>251</width>
+      <height>681</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -816,7 +807,7 @@
      <x>0</x>
      <y>0</y>
      <width>587</width>
-     <height>21</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -883,13 +874,7 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MyTreeView</class>
-   <extends>QWidget</extends>
-   <header>mytreeview.h</header>
-  </customwidget>
- </customwidgets>
+
  <resources>
   <include location="my_cfg_resources.qrc"/>
  </resources>
