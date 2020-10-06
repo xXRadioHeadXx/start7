@@ -182,6 +182,19 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
 //     this->endInsertRows();
  }
 
+  void TreeModelUnitNode::appendNewUNInStructure(UnitNode* un)
+  {
+      this->beginResetModel();
+      this->createProxySortTree();//
+      this->endResetModel();
+      return;
+
+ //     this->beginInsertRows(this->findeIndexUNL(un->unTreeParent),
+ //                           un->unTreeParent->listChilde.indexOf(un),
+ //                           un->unTreeParent->listChilde.indexOf(un));
+ //     this->endInsertRows();
+  }
+
  void TreeModelUnitNode::updateUNStructure(UnitNode* un)
  {
      this->beginResetModel();

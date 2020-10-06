@@ -28,9 +28,11 @@ SOURCES += \
     mytreeview.cpp \
 
 
+
 HEADERS += \
     MainWindowCFG.h \
     mytreeview.h \
+
 
 
 FORMS += \
