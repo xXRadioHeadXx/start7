@@ -51,6 +51,8 @@ public:
     void sortingListItemUN();
     void loadSettings(QString fileName = "rifx.ini");
 
+    bool deleteUnit(QModelIndex index);
+
 
 
 signals:

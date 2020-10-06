@@ -332,3 +332,53 @@ bool MainWindowCFG::add_unit()
     return res;
 
 }
+
+bool MainWindowCFG::delete_unit()
+{
+    QModelIndex index=this->ui->treeView->currentIndex();
+
+
+    if (index.isValid())
+    {
+
+     this->modelTreeUN->deleteUnit(index);
+
+    }
+
+
+/*
+    qDebug()<<"============УДАЛЕНИЕ=========";
+            QModelIndex current=this->current_index;
+
+
+        //    if(model->next(current_index).isValid())
+      //      QModelIndex test=model->index(current_index.row(),0,model->parent(current_index));
+
+      //      current_index=model->index(current_index.row()+1,0,model->parent(current_index));
+
+    MyItem *item = static_cast<MyItem*>(current.internalPointer());
+
+    //this->map.remove(item->ID);
+
+
+
+     model->the_way(&List, current);
+   //  QList<QModelIndex> list= model->the_way(current_index);
+    foreach(QModelIndex index,List)
+     {
+        MyItem *item = static_cast<MyItem*>(index.internalPointer());
+        qDebug()<<"ID: "<<item->ID<<" Name: "<<item->Name;
+        this->map.remove(item->ID);
+
+     }
+
+model->delete_item(model->index(current.row(),0,current.parent()));
+current_index=this->ui->treeView->currentIndex();
+
+*/
+}
+
+void MainWindowCFG::on_pushButton_2_clicked()
+{
+delete_unit();
+}

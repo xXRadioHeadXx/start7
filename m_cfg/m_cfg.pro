@@ -25,13 +25,11 @@ include(../src/requester/requester.pri)
 SOURCES += \
     MainWindowCFG.cpp \
     main.cpp \
-    mytreeview.cpp \
 
 
 
 HEADERS += \
     MainWindowCFG.h \
-    mytreeview.h \
 
 
 

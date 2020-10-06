@@ -19,6 +19,7 @@ private:
     void select_unit(QModelIndex index);
     bool change_unit(QModelIndex index);
     bool add_unit();
+    bool delete_unit();
 
 
     QString Type_from_int_to_string(int Type);
@@ -44,5 +45,6 @@ private slots:
     void on_actionSave_triggered();
     void on_treeView_activated(const QModelIndex &index);
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 #endif // MAINWINDOWCFG_H

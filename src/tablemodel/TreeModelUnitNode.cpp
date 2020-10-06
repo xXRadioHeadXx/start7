@@ -360,6 +360,34 @@ void TreeModelUnitNode::loadSettings(QString fileName)
     listItemUN = SettingUtils::loadTreeUnitNodes(rootItemUN, fileName);
 }
 
+bool TreeModelUnitNode::deleteUnit(QModelIndex index)
+{
+qDebug()<<"TreeModelUnitNode::deleteUnit(QModelIndex index)";
+/*
+if(this->parent(index).isValid())
+{
+this->beginRemoveRows(index.parent(),index.row(),index.row());
+MyItem *parent = static_cast<MyItem*>(this->parent(index).internalPointer());
+
+parent->m_child_list.removeAt(index.row());
+
+MyItem *item = static_cast<MyItem*>(index.internalPointer());
+
+
+
+
+
+
+
+//emit dataChanged(index,index);
+this->endRemoveRows();
+emit dataChanged(index,index);
+}
+else
+qDebug()<<"no valid";
+*/
+}
+
 void TreeModelUnitNode::createProxySortTree()
 {
 
