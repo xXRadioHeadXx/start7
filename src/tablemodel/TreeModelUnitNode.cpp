@@ -2,9 +2,19 @@
 #include <SettingUtils.h>
 #include <SignalSlotCommutator.h>
 
+SubTypeApp TreeModelUnitNode::getTypeApp() const
+{
+    return typeApp;
+}
+
+void TreeModelUnitNode::setTypeApp(const SubTypeApp &value)
+{
+    typeApp = value;
+}
+
 TreeModelUnitNode::TreeModelUnitNode(QObject *parent) :
-QAbstractItemModel(parent),
-sortOrder(Qt::AscendingOrder)
+    QAbstractItemModel(parent),
+    sortOrder(Qt::AscendingOrder)
 {
     rootItemUN = new UnitNode;
     rootItemUN->setLevel(0);
@@ -46,7 +56,7 @@ int TreeModelUnitNode::columnCount(const QModelIndex &parent) const
          {
          case 0:
          {
-             pxm = item->getPxm();
+             pxm = item->getPxm(typeApp);
              break;
          }
          default:

@@ -5,6 +5,13 @@
 #include <QSet>
 #include <QVariant>
 
+enum SubTypeApp {
+    Uncnown = 0x00,
+    server = 0x01,
+    database = 0x02,
+    configurator = 0x03
+};
+
 enum Status {
     Uncnown = 0x00,
     On = 0x01,
@@ -238,7 +245,7 @@ public:
     quint8 getStatus2() const;
     void setStatus2(const quint8 &value);
 
-    QPixmap getPxm();
+    QPixmap getPxm(SubTypeApp type = SubTypeApp::server);
 
     int calcDkStatus() const;
     int getDkStatus() const;

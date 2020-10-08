@@ -8,6 +8,8 @@
 class TreeModelUnitNode : public QAbstractItemModel
 {
     Q_OBJECT
+
+    SubTypeApp typeApp = SubTypeApp::server;
 public:
     explicit TreeModelUnitNode(QObject *parent = nullptr);
 
@@ -52,6 +54,9 @@ public:
     void loadSettings(QString fileName = "rifx.ini");
 
 
+
+    SubTypeApp getTypeApp() const;
+    void setTypeApp(const SubTypeApp &value);
 
 signals:
     void selectedUN(QList<UnitNode*> listUN);
