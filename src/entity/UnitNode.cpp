@@ -444,53 +444,55 @@ void UnitNode::setStatus2(const quint8 &value)
 //    updDoubl();
 }
 
-QPixmap UnitNode::getPxm()
+QPixmap UnitNode::getPxm(SubTypeApp type)
 {
-    if(TypeUnitNode::GROUP == getType()) {
-        if(childCount())
-            return Icons::fldr();
-        else
-            return Icons::fldr_empt();
-    } else if(TypeUnitNode::SD_BL_IP == getType()) {
-        if(0 == getBazalt()) {
-            if(Status::Was == getStatus2() && getControl()) {
-                return Icons::sqr_rd();
-            } else if(Status::Was == getStatus2() && !getControl()) {
-                return Icons::sqr_blk_crs_rd();
-            } else if(Status::Alarm == getStatus1() && getControl()) {
-                return Icons::sqr_rd();
-            } else if(Status::Alarm == getStatus1() && !getControl()) {
-                return Icons::sqr_blk_crs_rd();
-            } else if((Status::Off == getStatus2()) && (Status::Uncnown == getStatus1()) && getControl()) {
-                return Icons::sqr_gry();
-            } else if((Status::Off == getStatus2()) && (Status::Uncnown == getStatus1()) && !getControl()) {
-                return Icons::sqr_blk_crs_gry();
-            } else if(Status::Norm == getStatus1() && getControl()) {
-                return Icons::sqr_grn();
-            } else if(Status::Norm == getStatus1() && !getControl()) {
-                return Icons::sqr_blk_crs_grn();
-            } else if(getControl()) {
-                return Icons::sqr_ylw();
-            } else if(!getControl()) {
-                return Icons::sqr_blk_crs_ylw();
-            }
-        } else {
-            if(Status::Alarm == getStatus1()) {
-                return Icons::sqr_rd_opn();
-            } else if(Status::Norm == getStatus1()) {
-                return Icons::sqr_grn_cls();
+    if(SubTypeApp::server == type) {
+        if(TypeUnitNode::GROUP == getType()) {
+            if(childCount())
+                return Icons::fldr();
+            else
+                return Icons::fldr_empt();
+        } else if(TypeUnitNode::SD_BL_IP == getType()) {
+            if(0 == getBazalt()) {
+                if(Status::Was == getStatus2() && getControl()) {
+                    return Icons::sqr_rd();
+                } else if(Status::Was == getStatus2() && !getControl()) {
+                    return Icons::sqr_blk_crs_rd();
+                } else if(Status::Alarm == getStatus1() && getControl()) {
+                    return Icons::sqr_rd();
+                } else if(Status::Alarm == getStatus1() && !getControl()) {
+                    return Icons::sqr_blk_crs_rd();
+                } else if((Status::Off == getStatus2()) && (Status::Uncnown == getStatus1()) && getControl()) {
+                    return Icons::sqr_gry();
+                } else if((Status::Off == getStatus2()) && (Status::Uncnown == getStatus1()) && !getControl()) {
+                    return Icons::sqr_blk_crs_gry();
+                } else if(Status::Norm == getStatus1() && getControl()) {
+                    return Icons::sqr_grn();
+                } else if(Status::Norm == getStatus1() && !getControl()) {
+                    return Icons::sqr_blk_crs_grn();
+                } else if(getControl()) {
+                    return Icons::sqr_ylw();
+                } else if(!getControl()) {
+                    return Icons::sqr_blk_crs_ylw();
+                }
             } else {
-                return Icons::sqr_ylw();
+                if(Status::Alarm == getStatus1()) {
+                    return Icons::sqr_rd_opn();
+                } else if(Status::Norm == getStatus1()) {
+                    return Icons::sqr_grn_cls();
+                } else {
+                    return Icons::sqr_ylw();
+                }
             }
-        }
 
-    } else if(TypeUnitNode::IU_BL_IP == getType()) {
-        if(Status::On == getStatus1()) {
-            return Icons::sqr_grn_crs2_rd();
-        } else if(Status::Off == getStatus1()) {
-            return Icons::sqr_grn_mns_gry();
-        } else
-            return Icons::sqr_ylw();
+        } else if(TypeUnitNode::IU_BL_IP == getType()) {
+            if(Status::On == getStatus1()) {
+                return Icons::sqr_grn_crs2_rd();
+            } else if(Status::Off == getStatus1()) {
+                return Icons::sqr_grn_mns_gry();
+            } else
+                return Icons::sqr_ylw();
+        }
     }
     return QPixmap();
 }

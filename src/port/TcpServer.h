@@ -1,6 +1,7 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
 
+#include <DataQueueItem.h>
 #include <QObject>
 #include <QTcpServer>
 
@@ -30,7 +31,9 @@ private slots:
     void readyRead();
 
 signals:
-    void dataReceived(QByteArray);
+//    void dataReceived(QByteArray);
+    void dataReceived(DataQueueItem);
+
 
 };
 

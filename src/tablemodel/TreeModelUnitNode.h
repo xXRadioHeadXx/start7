@@ -8,6 +8,8 @@
 class TreeModelUnitNode : public QAbstractItemModel
 {
     Q_OBJECT
+
+    SubTypeApp typeApp = SubTypeApp::server;
 public:
     explicit TreeModelUnitNode(QObject *parent = nullptr);
 
@@ -54,6 +56,9 @@ public:
     bool deleteUnit(QModelIndex index);
 
 
+
+    SubTypeApp getTypeApp() const;
+    void setTypeApp(const SubTypeApp &value);
 
 signals:
     void selectedUN(QList<UnitNode*> listUN);
