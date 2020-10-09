@@ -11,6 +11,11 @@ public:
 
     static QPixmap sd();
     static QPixmap iu();
+    static QPixmap BOD_T4K_M();
+    static QPixmap Y4_T4K_M();
+    static QPixmap TG();
+    static QPixmap RLM_KRL();
+
 };
 
 #endif // ICONS_CFG_H

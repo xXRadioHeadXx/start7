@@ -44,5 +44,9 @@
         <file>images/save-file-icon-3.jpg</file>
         <file>images/SD.png</file>
         <file>images/IU.png</file>
+        <file>images/BOD_T4K_M.png</file>
+        <file>images/Y4_T4K_M.png</file>
+        <file>images/TG.png</file>
+        <file>images/RLM_C.png</file>
     </qresource>
 </RCC>

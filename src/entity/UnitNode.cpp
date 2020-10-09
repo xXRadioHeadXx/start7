@@ -503,8 +503,15 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
          else
          return Icons::fldr_empt();
          }
-         else if(TypeUnitNode::SD_BL_IP == getType()) {return Icons_cfg::sd();        }
-         else if(TypeUnitNode::IU_BL_IP == getType()) {return Icons_cfg::iu();        }
+         else if(TypeUnitNode::SD_BL_IP  == getType()) {return Icons_cfg::sd();        }
+         else if(TypeUnitNode::IU_BL_IP  == getType()) {return Icons_cfg::iu();        }
+         else if(TypeUnitNode::BOD_T4K_M == getType()) {return Icons_cfg::BOD_T4K_M(); }
+         else if(TypeUnitNode::Y4_T4K_M  == getType()) {return Icons_cfg::Y4_T4K_M();  }
+         else if(TypeUnitNode::DD_T4K_M  == getType()) {return Icons_cfg::Y4_T4K_M();  }
+         else if(TypeUnitNode::TG        == getType()) {return Icons_cfg::TG();        }
+         else if(TypeUnitNode::RLM_KRL   == getType()) {return Icons_cfg::RLM_KRL();   }
+
+
       }
 
     return QPixmap();
