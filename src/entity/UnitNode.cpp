@@ -503,11 +503,8 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
          else
          return Icons::fldr_empt();
          }
-         else
-         if(TypeUnitNode::SD_BL_IP == getType())
-         {
-return Icons_cfg::sd();
-        }
+         else if(TypeUnitNode::SD_BL_IP == getType()) {return Icons_cfg::sd();        }
+         else if(TypeUnitNode::IU_BL_IP == getType()) {return Icons_cfg::iu();        }
       }
 
     return QPixmap();

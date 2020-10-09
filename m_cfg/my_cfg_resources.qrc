@@ -43,5 +43,6 @@
         <file>images/open-file-icon.png</file>
         <file>images/save-file-icon-3.jpg</file>
         <file>images/SD.png</file>
+        <file>images/IU.png</file>
     </qresource>
 </RCC>

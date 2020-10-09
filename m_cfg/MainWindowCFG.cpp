@@ -85,7 +85,7 @@ void MainWindowCFG::select_unit(QModelIndex index)
 
 
 
-    if(selected_type==SD_BL_IP)
+    if(selected_type==IU_BL_IP)
     {
         this->ui->uType_combobox->setCurrentText(Type);
 
@@ -141,6 +141,12 @@ void MainWindowCFG::select_unit(QModelIndex index)
         this->ui->UdpAdress_lineEdit->setText(UdpAdress);
     }
     else
+    if(selected_type==SD_BL_IP)
+    {
+        this->ui->uType_combobox->setCurrentText(Type);
+
+    }
+
     qDebug()<<"Name: "<<Name
             <<" Type:"<<Type;
 
