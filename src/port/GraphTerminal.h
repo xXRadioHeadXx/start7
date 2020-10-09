@@ -14,7 +14,7 @@ private:
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    void procCommands(QDomElement root);
+    void procCommands(DataQueueItem itm);
     void procKeepAlive(QDomElement root);
     void procEventBook(QDomElement root);
     void procEventsAndStates(QDomElement root);

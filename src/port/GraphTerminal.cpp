@@ -120,7 +120,7 @@ void GraphTerminal::manageOverallReadQueue()
 
         qDebug() << "root.attribute(\"type\") " << type;
         if("Commands" == type) {
-            procCommands(root);
+            procCommands(itm);
             continue;
         } else if("KeepAlive" == type) {
             continue;
@@ -143,7 +143,12 @@ void GraphTerminal::manageOverallReadQueue()
 
 }
 
-void GraphTerminal::procCommands(QDomElement root) {
+void GraphTerminal::procCommands(DataQueueItem itm) {
+    QDomDocument doc;
+    if(!doc.setContent(itm.data()))
+        return;
+
+    QDomElement root = doc.documentElement();
     QDomNodeList nodeList = root.childNodes();
 
     for(int i = 0, n = nodeList.count(); i < n; i++) {
@@ -164,6 +169,7 @@ void GraphTerminal::procCommands(QDomElement root) {
                         //
                     } else if("10000" == idCommand.nodeValue()) {
                         docAnswer = makeEventsAndStates("EventsAndStates answer command 10000");
+
                         //
                     } else if("10001" == idCommand.nodeValue()) {
                         //
