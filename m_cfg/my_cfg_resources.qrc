@@ -42,5 +42,6 @@
         <file>images/create-file-icon.png</file>
         <file>images/open-file-icon.png</file>
         <file>images/save-file-icon-3.jpg</file>
+        <file>images/SD.png</file>
     </qresource>
 </RCC>

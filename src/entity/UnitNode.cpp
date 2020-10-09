@@ -3,6 +3,7 @@
 #include <UnitNode.h>
 #include <SettingUtils.h>
 #include <Icons.h>
+#include <Icons_cfg.h>
 #include <SignalSlotCommutator.h>
 
 QSet<QString> UnitNode::getMetaNames() const
@@ -494,6 +495,21 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_ylw();
         }
     }
+     if(SubTypeApp::configurator == type) {
+         if(TypeUnitNode::GROUP == getType())
+         {
+         if(childCount())
+         return Icons::fldr();
+         else
+         return Icons::fldr_empt();
+         }
+         else
+         if(TypeUnitNode::SD_BL_IP == getType())
+         {
+return Icons_cfg::sd();
+        }
+      }
+
     return QPixmap();
 }
 

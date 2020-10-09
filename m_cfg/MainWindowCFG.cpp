@@ -13,10 +13,12 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
   //  this->current_index=nullptr;
 
 
-    QString patch="C:/WORK1/start7/rifx.ini";
-//   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
-//qDebug()<<"patch = "<<patch;
+ //   QString patch="C:/WORK1/start7/rifx.ini";
+   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
+    qDebug()<<"patch = "<<patch;
     this->modelTreeUN = new TreeModelUnitNode(this);
+
+    modelTreeUN->setTypeApp(SubTypeApp::configurator);
 
     ui->treeView->setModel(this->modelTreeUN);
 
