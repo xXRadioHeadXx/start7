@@ -17,6 +17,10 @@ QPixmap Icons_cfg::TG(){return QPixmap(":images/TG.png");}
 
 QPixmap Icons_cfg::RLM_KRL(){return QPixmap(":images/RLM_C.png");}
 
+QPixmap Icons_cfg::Y4_SOTA(){return QPixmap(":images/Y4_SOTA.png");}
+
+QPixmap Icons_cfg::DD_SOTA(){return QPixmap(":images/Y4_SOTA.png");}
+
 
 
 

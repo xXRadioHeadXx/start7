@@ -48,5 +48,7 @@
         <file>images/Y4_T4K_M.png</file>
         <file>images/TG.png</file>
         <file>images/RLM_C.png</file>
+        <file>images/unknown.png</file>
+        <file>images/Y4_SOTA.png</file>
     </qresource>
 </RCC>
