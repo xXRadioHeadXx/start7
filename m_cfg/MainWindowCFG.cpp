@@ -85,6 +85,14 @@ void MainWindowCFG::select_unit(QModelIndex index)
     this->ui->IU_comboBox_Num2->setCurrentText("");
     this->ui->IU_UdpUse_checkBox->setChecked(false);
 
+    this->ui->TG_comboBox_Num1->setCurrentText("");
+    this->ui->TG_comboBox_Num2->setCurrentText("");
+    this->ui->TG_UdpUse_checkBox->setChecked(false);
+
+    int UdpUse;
+    QString UdpAdress;
+    int UdpPort;
+
     if(selected_type==TypeUnitNode::SD_BL_IP)
     {
         this->ui->uType_combobox->setCurrentText(Type);
@@ -149,9 +157,9 @@ void MainWindowCFG::select_unit(QModelIndex index)
         this->ui->uType_combobox->setCurrentText(Type);
 
         int Num2=unit->getNum2();
-        int UdpUse=unit->getUdpUse();
-        QString UdpAdress=unit->getUdpAdress();
-        int UdpPort=unit->getUdpPort();
+        UdpUse=unit->getUdpUse();
+        UdpAdress=unit->getUdpAdress();
+        UdpPort=unit->getUdpPort();
 
         qDebug()<<"Name: "<<unit->getName()
                 <<" Type:"<<this->Type_from_int_to_string(unit->getType())
@@ -177,9 +185,45 @@ void MainWindowCFG::select_unit(QModelIndex index)
         this->ui->UdpAdress_lineEdit->setText(UdpAdress);
         }
     }
+    if(selected_type==TypeUnitNode::TG)
+    {
+        this->ui->uType_combobox->setCurrentText(Type);
 
-    qDebug()<<"Name: "<<Name
-            <<" Type:"<<Type;
+        int Num1=unit->getNum1();
+        int Num2=unit->getNum2();
+        UdpUse=unit->getUdpUse();
+        UdpAdress=unit->getUdpAdress();
+        UdpPort=unit->getUdpPort();
+
+        qDebug()<<"Name: "<<unit->getName()
+                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+                <<" Num1:"<<QString::number(unit->getNum1())
+                <<" Num2:"<<QString::number(unit->getNum2())
+         //       <<" DK:"<<QString::number(unit->getDK())
+         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
+         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
+                <<" UdpUse:"<<QString::number(unit->getUdpUse())
+                <<" UdpAdress:"<<unit->getUdpAdress();
+
+        this->ui->TG_comboBox_Num1->setCurrentText(QString::number(Num1));
+        this->ui->TG_comboBox_Num2->setCurrentText(QString::number(Num2));
+        this->ui->TG_UdpUse_checkBox->setChecked(UdpUse);
+    }
+
+
+    if(UdpUse)
+    {
+    this->ui->UpdPort_label->setVisible(true);
+    this->ui->UdpAdress_label->setVisible(true);
+    this->ui->UpdPort_lineEdit->setVisible(true);
+    this->ui->UdpAdress_lineEdit->setVisible(true);
+    this->ui->UpdPort_lineEdit->setText(QString::number(UdpPort));
+    this->ui->UdpAdress_lineEdit->setText(UdpAdress);
+    }
+ //   TG_groupbox
+
+//    qDebug()<<"Name: "<<Name
+//            <<" Type:"<<Type;
 
 
 }
@@ -193,17 +237,21 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
 
     switch(int_Type)
     {
-    case GROUP:
+    case TypeUnitNode::GROUP:
 
     Type.append("Группа");
     break;
 
-    case SD_BL_IP:
+    case TypeUnitNode::SD_BL_IP:
     Type.append("СД БЛ-IP");
     break;
 
-    case IU_BL_IP:
+    case TypeUnitNode::IU_BL_IP:
     Type.append("ИУ БЛ-IP");
+    break;
+
+    case TypeUnitNode::TG:
+    Type.append("Точка/Гарда");
     break;
 
     /*
@@ -240,6 +288,9 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     else
     if(arg1=="ИУ БЛ-IP")
     this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
+    else
+    if(arg1=="Точка/Гарда")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
     else
     this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
 
@@ -298,8 +349,17 @@ bool MainWindowCFG::change_unit(QModelIndex index)
                    <<" UdpUse:"<<QString::number(unit->getUdpUse())
                    <<" UdpAdress:"<<unit->getUdpAdress();
        }
+       if(unit->getType()==TypeUnitNode::TG)
+       {
+           unit->setName(this->ui->uName_lineedit->text());
+           unit->setNum1(this->ui->TG_comboBox_Num1->currentText().toInt());
+           unit->setNum2(this->ui->TG_comboBox_Num2->currentText().toInt());
+           unit->setUdpUse(this->ui->TG_UdpUse_checkBox->isChecked()?1:0);
+           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
+           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
+       }
 
-    }
+       }
     else
     {
     res=0;
