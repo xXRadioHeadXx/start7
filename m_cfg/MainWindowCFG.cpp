@@ -292,7 +292,12 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     if(arg1=="Точка/Гарда")
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
     else
+    if(arg1=="РИФ-РЛМ/КРЛ/Трасса")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+    else
     this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
+
+  //  РИФ-РЛМ/КРЛ/Трасса
 
 }
 
