@@ -209,6 +209,35 @@ void MainWindowCFG::select_unit(QModelIndex index)
         this->ui->TG_comboBox_Num2->setCurrentText(QString::number(Num2));
         this->ui->TG_UdpUse_checkBox->setChecked(UdpUse);
     }
+    if(selected_type==TypeUnitNode::RLM_KRL)
+    {
+             this->ui->uType_combobox->setCurrentText(Type);
+     int Num1=unit->getNum1();
+     bool DK=false;
+     if(unit->getDK())
+        DK=true;
+
+     UdpUse=unit->getUdpUse();
+     UdpAdress=unit->getUdpAdress();
+     UdpPort=unit->getUdpPort();
+
+     qDebug()<<"Name: "<<unit->getName()
+             <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+             <<" Num1:"<<QString::number(unit->getNum1())
+      //       <<" Num2:"<<QString::number(unit->getNum2())
+             <<" DK:"<<QString::number(unit->getDK())
+      //       <<" Bazalt:"<<QString::number(unit->getBazalt())
+      //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
+             <<" UdpUse:"<<QString::number(unit->getUdpUse())
+             <<" UdpAdress:"<<unit->getUdpAdress();
+
+     this->ui->RLM_KRL_comboBox_Num1->setCurrentText(QString::number(Num1));
+
+     this->ui->RLM_KRL_DK_checkBox->setChecked(DK);
+
+     this->ui->RLM_KRL_UdpUse_checkBox->setChecked(UdpUse);
+
+    }
 
 
     if(UdpUse)
@@ -252,6 +281,10 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
 
     case TypeUnitNode::TG:
     Type.append("Точка/Гарда");
+    break;
+
+    case TypeUnitNode::RLM_KRL:
+    Type.append("РИФ-РЛМ/КРЛ/Трасса");
     break;
 
     /*

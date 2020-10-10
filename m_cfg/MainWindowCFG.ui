@@ -1183,7 +1183,7 @@
          <string>Адрес объекта</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="TG_comboBox_Num1_4">
+       <widget class="QComboBox" name="RLM_KRL_comboBox_Num1">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -1246,7 +1246,7 @@
          <string>Выполнять команду ДК </string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="CD_DK_checkBox_6">
+       <widget class="QCheckBox" name="RLM_KRL_DK_checkBox">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -1259,7 +1259,7 @@
          <string>ДК</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="TG_UdpUse_checkBox_6">
+       <widget class="QCheckBox" name="RLM_KRL_UdpUse_checkBox">
         <property name="geometry">
          <rect>
           <x>150</x>
