@@ -82,10 +82,10 @@ void MainWindowCFG::select_unit(QModelIndex index)
     this->ui->UdpAdress_lineEdit->setText("");
 
 
+    this->ui->IU_comboBox_Num2->setCurrentText("");
+    this->ui->IU_UdpUse_checkBox->setChecked(false);
 
-
-
-    if(selected_type==IU_BL_IP)
+    if(selected_type==TypeUnitNode::SD_BL_IP)
     {
         this->ui->uType_combobox->setCurrentText(Type);
 
@@ -133,18 +133,49 @@ void MainWindowCFG::select_unit(QModelIndex index)
         this->ui->CD_connectblock_checkBox->setChecked(connectblock);
         this->ui->CD_UdpUse_checkBox->setChecked(UdpUse);
 
+        if(UdpUse)
+        {
         this->ui->UpdPort_label->setVisible(true);
         this->ui->UdpAdress_label->setVisible(true);
         this->ui->UpdPort_lineEdit->setVisible(true);
         this->ui->UdpAdress_lineEdit->setVisible(true);
         this->ui->UpdPort_lineEdit->setText(QString::number(UdpPort));
         this->ui->UdpAdress_lineEdit->setText(UdpAdress);
+        }
     }
     else
-    if(selected_type==SD_BL_IP)
+    if(selected_type==TypeUnitNode::IU_BL_IP)
     {
         this->ui->uType_combobox->setCurrentText(Type);
 
+        int Num2=unit->getNum2();
+        int UdpUse=unit->getUdpUse();
+        QString UdpAdress=unit->getUdpAdress();
+        int UdpPort=unit->getUdpPort();
+
+        qDebug()<<"Name: "<<unit->getName()
+                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+                <<" Num2:"<<QString::number(unit->getNum2())
+         //       <<" DK:"<<QString::number(unit->getDK())
+         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
+         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
+                <<" UdpUse:"<<QString::number(unit->getUdpUse())
+                <<" UdpAdress:"<<unit->getUdpAdress();
+
+
+        this->ui->uType_combobox->setCurrentText(Type);
+        this->ui->IU_comboBox_Num2->setCurrentText(QString::number(Num2));
+        this->ui->IU_UdpUse_checkBox->setChecked(UdpUse);
+
+        if(UdpUse)
+        {
+        this->ui->UpdPort_label->setVisible(true);
+        this->ui->UdpAdress_label->setVisible(true);
+        this->ui->UpdPort_lineEdit->setVisible(true);
+        this->ui->UdpAdress_lineEdit->setVisible(true);
+        this->ui->UpdPort_lineEdit->setText(QString::number(UdpPort));
+        this->ui->UdpAdress_lineEdit->setText(UdpAdress);
+        }
     }
 
     qDebug()<<"Name: "<<Name
@@ -227,7 +258,7 @@ bool MainWindowCFG::change_unit(QModelIndex index)
     if(index.isValid())
     {
        UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
-       if(unit->getType()==SD_BL_IP)
+       if(unit->getType()==TypeUnitNode::SD_BL_IP)
        {
 
            unit->setName(this->ui->uName_lineedit->text());
@@ -248,6 +279,24 @@ bool MainWindowCFG::change_unit(QModelIndex index)
                    <<" UdpUse:"<<QString::number(unit->getUdpUse())
                    <<" UdpAdress:"<<unit->getUdpAdress();
          /*  */
+       }
+       if(unit->getType()==TypeUnitNode::IU_BL_IP)
+       {
+
+           unit->setName(this->ui->uName_lineedit->text());
+           unit->setNum2(this->ui->IU_comboBox_Num2->currentText().toInt());
+           unit->setUdpUse(this->ui->IU_UdpUse_checkBox->isChecked()?1:0);
+           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
+           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
+
+           qDebug()<<"Name: "<<unit->getName()
+                   <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+                   <<" Num2:"<<QString::number(unit->getNum2())
+//                   <<" DK:"<<QString::number(unit->getDK())
+//                   <<" Bazalt:"<<QString::number(unit->getBazalt())
+//                   <<" connectblock:"<<QString::number(unit->getConnectBlock())
+                   <<" UdpUse:"<<QString::number(unit->getUdpUse())
+                   <<" UdpAdress:"<<unit->getUdpAdress();
        }
 
     }
