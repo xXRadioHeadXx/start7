@@ -269,7 +269,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="Empty_space"/>
       <widget class="QWidget" name="Group_groupbox">
@@ -291,10 +291,10 @@
        <widget class="QComboBox" name="CD_comboBox_Num2">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>20</y>
-          <width>117</width>
-          <height>16</height>
+          <x>150</x>
+          <y>17</y>
+          <width>51</width>
+          <height>20</height>
          </rect>
         </property>
         <item>
@@ -343,7 +343,7 @@
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>72</width>
+          <width>91</width>
           <height>16</height>
          </rect>
         </property>
@@ -356,7 +356,7 @@
          <rect>
           <x>10</x>
           <y>60</y>
-          <width>110</width>
+          <width>141</width>
           <height>17</height>
          </rect>
         </property>
@@ -382,7 +382,7 @@
          <rect>
           <x>10</x>
           <y>40</y>
-          <width>123</width>
+          <width>131</width>
           <height>17</height>
          </rect>
         </property>
@@ -395,7 +395,7 @@
          <rect>
           <x>10</x>
           <y>80</y>
-          <width>138</width>
+          <width>131</width>
           <height>17</height>
          </rect>
         </property>
@@ -457,17 +457,93 @@
        </widget>
       </widget>
       <widget class="QWidget" name="IU_BL_IP_groupbox">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="CD_label_Num2_4">
         <property name="geometry">
          <rect>
-          <x>180</x>
+          <x>10</x>
           <y>20</y>
+          <width>91</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Номер ИУ 1..8</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="IU_comboBox_Num2">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>17</y>
           <width>51</width>
           <height>20</height>
          </rect>
         </property>
+        <item>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>4</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>6</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>7</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>8</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QCheckBox" name="CD_UdpUse_checkBox_3">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>100</y>
+          <width>70</width>
+          <height>17</height>
+         </rect>
+        </property>
         <property name="text">
-         <string>ИУ БЛ-IP</string>
+         <string>UDP</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CD_label_14">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>100</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Режим работы: UDP</string>
         </property>
        </widget>
       </widget>
@@ -866,7 +942,7 @@
      <x>0</x>
      <y>0</y>
      <width>587</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -907,7 +983,7 @@
   </widget>
   <action name="actionCreate">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/create-file-icon.png</normaloff>:/images/create-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -916,7 +992,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/open-file-icon.png</normaloff>:/images/open-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -925,7 +1001,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/save-file-icon-3.jpg</normaloff>:/images/save-file-icon-3.jpg</iconset>
    </property>
    <property name="text">
@@ -933,6 +1009,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="my_cfg_resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
