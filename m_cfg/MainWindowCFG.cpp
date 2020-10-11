@@ -261,6 +261,9 @@ void MainWindowCFG::select_unit(QModelIndex index)
     }
     if(selected_type==TypeUnitNode::BOD_T4K_M)
     {
+        this->ui->uType_combobox->setCurrentText(Type);
+        this->ui->UdpUse_checkBox->setVisible(true);
+
         int Num1=unit->getNum1();
 
 
@@ -282,8 +285,8 @@ void MainWindowCFG::select_unit(QModelIndex index)
     }
  //   TG_groupbox
 
-//    qDebug()<<"Name: "<<Name
-//            <<" Type:"<<Type;
+    qDebug()<<"Name: "<<Name
+            <<" Type:"<<Type;
 
 
 }
@@ -326,6 +329,11 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     Type.append("БОД Точка-М/Гряда");
     break;
 
+    case TypeUnitNode::Y4_T4K_M:
+    Type.append("Участок Точка-М/Гряда");
+    break;
+
+//Участок Точка-М/Гряда
 //БОД Точка-М/Гряда
     /*
     case BL_IP:
@@ -373,10 +381,14 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     else
     if(arg1=="БОД Точка-М/Гряда")
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
-     else
+    else
+    if(arg1=="Участок Точка-М/Гряда")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
+    else
     this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
 
 
+//Участок Точка-М/Гряда
 //   БОД Точка-М/Гряда
 
     //РИФ-РЛМ-С
@@ -467,6 +479,14 @@ bool MainWindowCFG::change_unit(QModelIndex index)
            unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
            unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
        }
+       if(unit->getType()==TypeUnitNode::BOD_T4K_M)
+       {
+           unit->setName(this->ui->uName_lineedit->text());
+           unit->setNum1(this->ui->BOD_T4K_M_comboBox_Num1->currentText().toInt());
+
+           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
+           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
+           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
        }
     else
     {
@@ -475,11 +495,11 @@ bool MainWindowCFG::change_unit(QModelIndex index)
     }
 
 
+    }
 
 
     return res;
 }
-
 
 
 

@@ -255,6 +255,11 @@
         <string>БОД Точка-М/Гряда</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>Участок Точка-М/Гряда</string>
+       </property>
+      </item>
      </widget>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
@@ -289,7 +294,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="Empty_space"/>
       <widget class="QWidget" name="Group_groupbox">
@@ -1348,6 +1353,7 @@
         </property>
        </widget>
       </widget>
+      <widget class="QWidget" name="Y4_T4K_M"/>
      </widget>
      <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
