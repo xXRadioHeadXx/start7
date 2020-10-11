@@ -259,6 +259,15 @@ void MainWindowCFG::select_unit(QModelIndex index)
         this->ui->UdpUse_checkBox->setChecked(UdpUse);
 
     }
+    if(selected_type==TypeUnitNode::BOD_T4K_M)
+    {
+        int Num1=unit->getNum1();
+
+
+        UdpUse=unit->getUdpUse();
+        UdpAdress=unit->getUdpAdress();
+        UdpPort=unit->getUdpPort();
+    }
 
     if(UdpUse)
     {
@@ -313,8 +322,11 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     Type.append("РИФ-РЛМ-С");
     break;
 
+    case TypeUnitNode::BOD_T4K_M:
+    Type.append("БОД Точка-М/Гряда");
+    break;
 
-
+//БОД Точка-М/Гряда
     /*
     case BL_IP:
     Type.append("BL_IP");
@@ -359,7 +371,13 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     if(arg1=="РИФ-РЛМ-С")
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
     else
+    if(arg1=="БОД Точка-М/Гряда")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
+     else
     this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
+
+
+//   БОД Точка-М/Гряда
 
     //РИФ-РЛМ-С
 
