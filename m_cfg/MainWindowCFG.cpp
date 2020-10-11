@@ -27,6 +27,12 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->UdpUse_checkBox->setVisible(false);
     this->ui->UdpUse_checkBox->setChecked(false);
 
+    for(int i=1;i<100;i++)
+    {
+    this->ui->BOD_T4K_M_comboBox_Num1->addItem(QString::number(i));
+    this->ui->Y4_T4K_M_comboBox_Num1->addItem(QString::number(i));
+    this->ui->Y4_T4K_M_comboBox_Num2->addItem(QString::number(i));
+    }
 
 }
 
@@ -266,12 +272,51 @@ void MainWindowCFG::select_unit(QModelIndex index)
 
         int Num1=unit->getNum1();
 
+        qDebug()<<"Name: "<<unit->getName()
+                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+                <<" Num1:"<<QString::number(unit->getNum1())
+         //       <<" Num2:"<<QString::number(unit->getNum2())
+         //       <<" DK:"<<QString::number(unit->getDK())
+         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
+         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
+                <<" UdpUse:"<<QString::number(unit->getUdpUse())
+                <<" UdpAdress:"<<unit->getUdpAdress();
+
+        this->ui->BOD_T4K_M_comboBox_Num1->setCurrentText(QString::number(Num1));
+
+
+        UdpUse=unit->getUdpUse();
+        UdpAdress=unit->getUdpAdress();
+        UdpPort=unit->getUdpPort();
+
+
+    }
+    if(selected_type==TypeUnitNode::Y4_T4K_M)
+    {
+        this->ui->uType_combobox->setCurrentText(Type);
+        this->ui->UdpUse_checkBox->setVisible(true);
+
+        int Num1=unit->getNum1();
+        int Num2=unit->getNum2();
+
+        qDebug()<<"Name: "<<unit->getName()
+                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+                <<" Num1:"<<QString::number(unit->getNum1())
+                <<" Num2:"<<QString::number(unit->getNum2())
+         //       <<" DK:"<<QString::number(unit->getDK())
+         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
+         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
+                <<" UdpUse:"<<QString::number(unit->getUdpUse())
+                <<" UdpAdress:"<<unit->getUdpAdress();
+
+        this->ui->Y4_T4K_M_comboBox_Num1->setCurrentText(QString::number(Num1));
+        this->ui->Y4_T4K_M_comboBox_Num2->setCurrentText(QString::number(Num2));
+
 
         UdpUse=unit->getUdpUse();
         UdpAdress=unit->getUdpAdress();
         UdpPort=unit->getUdpPort();
     }
-
     if(UdpUse)
     {
 
