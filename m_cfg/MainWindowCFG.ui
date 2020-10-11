@@ -245,6 +245,11 @@
         <string>РИФ-РЛМ/КРЛ/Трасса</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>РИФ-РЛМ-С</string>
+       </property>
+      </item>
      </widget>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
@@ -275,11 +280,11 @@
         <x>20</x>
         <y>120</y>
         <width>241</width>
-        <height>161</height>
+        <height>141</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="Empty_space"/>
       <widget class="QWidget" name="Group_groupbox">
@@ -374,19 +379,6 @@
          <string>Режим работы: Замок</string>
         </property>
        </widget>
-       <widget class="QLabel" name="CD_label_7">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>100</y>
-          <width>100</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Режим работы: UDP</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="CD_label_8">
         <property name="geometry">
          <rect>
@@ -450,19 +442,6 @@
         </property>
         <property name="text">
          <string>Блок связи</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="CD_UdpUse_checkBox">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>100</y>
-          <width>70</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>UDP</string>
         </property>
        </widget>
       </widget>
@@ -529,32 +508,6 @@
           <string>8</string>
          </property>
         </item>
-       </widget>
-       <widget class="QCheckBox" name="IU_UdpUse_checkBox">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>100</y>
-          <width>70</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>UDP</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="IU_label_14">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>100</y>
-          <width>100</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Режим работы: UDP</string>
-        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="TG_groupbox">
@@ -1125,32 +1078,6 @@
            <string>Номер ЧЭ 1..4</string>
           </property>
          </widget>
-         <widget class="QCheckBox" name="TG_UdpUse_checkBox_3">
-          <property name="geometry">
-           <rect>
-            <x>150</x>
-            <y>100</y>
-            <width>70</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>UDP</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="IU_label_20">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>100</y>
-            <width>100</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Режим работы: UDP</string>
-          </property>
-         </widget>
         </widget>
         <widget class="QWidget" name="RLM_KRL_3">
          <widget class="QLabel" name="label_19">
@@ -1259,30 +1186,95 @@
          <string>ДК</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="RLM_KRL_UdpUse_checkBox">
+      </widget>
+      <widget class="QWidget" name="RLM_C_groupbox">
+       <widget class="QCheckBox" name="RLM_C_DK_checkBox">
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>100</y>
+          <y>40</y>
           <width>70</width>
           <height>17</height>
          </rect>
         </property>
         <property name="text">
-         <string>UDP</string>
+         <string>ДК</string>
         </property>
        </widget>
-       <widget class="QLabel" name="IU_label_25">
+       <widget class="QLabel" name="IU_label_Num2_14">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>100</y>
-          <width>100</width>
+          <y>20</y>
+          <width>101</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Адрес объекта</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="RLM_C_comboBox_Num1">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>20</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>4</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>6</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>7</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>8</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="CD_label_27">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>131</width>
           <height>17</height>
          </rect>
         </property>
         <property name="text">
-         <string>Режим работы: UDP</string>
+         <string>Выполнять команду ДК </string>
         </property>
        </widget>
       </widget>
@@ -1432,6 +1424,32 @@
       </property>
       <property name="text">
        <string>Координаты: X</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="UdpUse_checkBox">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>270</y>
+        <width>70</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>UDP</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="UdpUse_label">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>270</y>
+        <width>100</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Режим работы: UDP</string>
       </property>
      </widget>
     </widget>

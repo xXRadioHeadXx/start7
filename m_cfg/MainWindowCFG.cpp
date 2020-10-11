@@ -24,6 +24,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     this->modelTreeUN->loadSettings(patch);
 
+    this->ui->UdpUse_checkBox->setVisible(false);
+    this->ui->UdpUse_checkBox->setChecked(false);
 
 
 }
@@ -70,10 +72,13 @@ void MainWindowCFG::select_unit(QModelIndex index)
     this->ui->CD_DK_checkBox->setChecked(false);
     this->ui->CD_Bazalt_checkBox->setChecked(false);
     this->ui->CD_connectblock_checkBox->setChecked(false);
-    this->ui->CD_UdpUse_checkBox->setChecked(false);
+
     this->ui->uType_combobox->setCurrentText("");
     this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
 
+
+    this->ui->UdpUse_checkBox->setVisible(false);
+    this->ui->UdpUse_checkBox->setChecked(false);
     this->ui->UpdPort_label->setVisible(false);
     this->ui->UdpAdress_label->setVisible(false);
     this->ui->UpdPort_lineEdit->setVisible(false);
@@ -83,19 +88,20 @@ void MainWindowCFG::select_unit(QModelIndex index)
 
 
     this->ui->IU_comboBox_Num2->setCurrentText("");
-    this->ui->IU_UdpUse_checkBox->setChecked(false);
+
 
     this->ui->TG_comboBox_Num1->setCurrentText("");
     this->ui->TG_comboBox_Num2->setCurrentText("");
     this->ui->TG_UdpUse_checkBox->setChecked(false);
 
-    int UdpUse;
+    int UdpUse=0;
     QString UdpAdress;
     int UdpPort;
 
     if(selected_type==TypeUnitNode::SD_BL_IP)
     {
         this->ui->uType_combobox->setCurrentText(Type);
+        this->ui->UdpUse_checkBox->setVisible(true);
 
         int Num2=unit->getNum2();
 
@@ -105,11 +111,11 @@ void MainWindowCFG::select_unit(QModelIndex index)
         int Bazalt=unit->getBazalt();
         int connectblock=unit->getConnectBlock();
 
-        int UdpUse=unit->getUdpUse();
+        UdpUse=unit->getUdpUse();
 
-        QString UdpAdress=unit->getUdpAdress();
+        UdpAdress=unit->getUdpAdress();
 
-        int UdpPort=unit->getUdpPort();
+        UdpPort=unit->getUdpPort();
 
         qDebug()<<"Name: "<<unit->getName()
                 <<" Type:"<<this->Type_from_int_to_string(unit->getType())
@@ -139,23 +145,14 @@ void MainWindowCFG::select_unit(QModelIndex index)
         this->ui->CD_DK_checkBox->setChecked(DK);
         this->ui->CD_Bazalt_checkBox->setChecked(Bazalt);
         this->ui->CD_connectblock_checkBox->setChecked(connectblock);
-        this->ui->CD_UdpUse_checkBox->setChecked(UdpUse);
+        this->ui->UdpUse_checkBox->setChecked(UdpUse);
 
-        if(UdpUse)
-        {
-        this->ui->UpdPort_label->setVisible(true);
-        this->ui->UdpAdress_label->setVisible(true);
-        this->ui->UpdPort_lineEdit->setVisible(true);
-        this->ui->UdpAdress_lineEdit->setVisible(true);
-        this->ui->UpdPort_lineEdit->setText(QString::number(UdpPort));
-        this->ui->UdpAdress_lineEdit->setText(UdpAdress);
-        }
     }
     else
     if(selected_type==TypeUnitNode::IU_BL_IP)
     {
         this->ui->uType_combobox->setCurrentText(Type);
-
+        this->ui->UdpUse_checkBox->setVisible(true);
         int Num2=unit->getNum2();
         UdpUse=unit->getUdpUse();
         UdpAdress=unit->getUdpAdress();
@@ -173,22 +170,13 @@ void MainWindowCFG::select_unit(QModelIndex index)
 
         this->ui->uType_combobox->setCurrentText(Type);
         this->ui->IU_comboBox_Num2->setCurrentText(QString::number(Num2));
-        this->ui->IU_UdpUse_checkBox->setChecked(UdpUse);
+        this->ui->UdpUse_checkBox->setChecked(UdpUse);
 
-        if(UdpUse)
-        {
-        this->ui->UpdPort_label->setVisible(true);
-        this->ui->UdpAdress_label->setVisible(true);
-        this->ui->UpdPort_lineEdit->setVisible(true);
-        this->ui->UdpAdress_lineEdit->setVisible(true);
-        this->ui->UpdPort_lineEdit->setText(QString::number(UdpPort));
-        this->ui->UdpAdress_lineEdit->setText(UdpAdress);
-        }
     }
     if(selected_type==TypeUnitNode::TG)
     {
         this->ui->uType_combobox->setCurrentText(Type);
-
+        this->ui->UdpUse_checkBox->setVisible(true);
         int Num1=unit->getNum1();
         int Num2=unit->getNum2();
         UdpUse=unit->getUdpUse();
@@ -211,8 +199,10 @@ void MainWindowCFG::select_unit(QModelIndex index)
     }
     if(selected_type==TypeUnitNode::RLM_KRL)
     {
-             this->ui->uType_combobox->setCurrentText(Type);
+     this->ui->uType_combobox->setCurrentText(Type);
+     this->ui->UdpUse_checkBox->setVisible(true);
      int Num1=unit->getNum1();
+
      bool DK=false;
      if(unit->getDK())
         DK=true;
@@ -235,17 +225,49 @@ void MainWindowCFG::select_unit(QModelIndex index)
 
      this->ui->RLM_KRL_DK_checkBox->setChecked(DK);
 
-     this->ui->RLM_KRL_UdpUse_checkBox->setChecked(UdpUse);
+     this->ui->UdpUse_checkBox->setChecked(UdpUse);
+
+    }
+    if(selected_type==TypeUnitNode::RLM_C)
+    {
+        this->ui->uType_combobox->setCurrentText(Type);
+        this->ui->UdpUse_checkBox->setVisible(true);
+        int Num1=unit->getNum1();
+        bool DK=false;
+        if(unit->getDK())
+           DK=true;
+
+        UdpUse=unit->getUdpUse();
+        UdpAdress=unit->getUdpAdress();
+        UdpPort=unit->getUdpPort();
+
+        qDebug()<<"Name: "<<unit->getName()
+                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+                <<" Num1:"<<QString::number(unit->getNum1())
+         //       <<" Num2:"<<QString::number(unit->getNum2())
+                <<" DK:"<<QString::number(unit->getDK())
+         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
+         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
+                <<" UdpUse:"<<QString::number(unit->getUdpUse())
+                <<" UdpAdress:"<<unit->getUdpAdress();
+
+
+        this->ui->RLM_C_comboBox_Num1->setCurrentText(QString::number(Num1));
+
+        this->ui->RLM_C_DK_checkBox->setChecked(DK);
+
+        this->ui->UdpUse_checkBox->setChecked(UdpUse);
 
     }
 
-
     if(UdpUse)
     {
+
     this->ui->UpdPort_label->setVisible(true);
     this->ui->UdpAdress_label->setVisible(true);
     this->ui->UpdPort_lineEdit->setVisible(true);
     this->ui->UdpAdress_lineEdit->setVisible(true);
+
     this->ui->UpdPort_lineEdit->setText(QString::number(UdpPort));
     this->ui->UdpAdress_lineEdit->setText(UdpAdress);
     }
@@ -286,6 +308,12 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     case TypeUnitNode::RLM_KRL:
     Type.append("РИФ-РЛМ/КРЛ/Трасса");
     break;
+
+    case TypeUnitNode::RLM_C:
+    Type.append("РИФ-РЛМ-С");
+    break;
+
+
 
     /*
     case BL_IP:
@@ -328,7 +356,12 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     if(arg1=="РИФ-РЛМ/КРЛ/Трасса")
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
     else
+    if(arg1=="РИФ-РЛМ-С")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
+    else
     this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
+
+    //РИФ-РЛМ-С
 
   //  РИФ-РЛМ/КРЛ/Трасса
 
@@ -355,7 +388,7 @@ bool MainWindowCFG::change_unit(QModelIndex index)
            unit->setDK(this->ui->CD_DK_checkBox->isChecked()?1:0);
            unit->setBazalt(this->ui->CD_Bazalt_checkBox->isChecked()?1:0);
            unit->setConnectBlock(this->ui->CD_connectblock_checkBox->isChecked()?1:0);
-           unit->setUdpUse(this->ui->CD_UdpUse_checkBox->isChecked()?1:0);
+           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
            unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
            unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
 
@@ -374,7 +407,7 @@ bool MainWindowCFG::change_unit(QModelIndex index)
 
            unit->setName(this->ui->uName_lineedit->text());
            unit->setNum2(this->ui->IU_comboBox_Num2->currentText().toInt());
-           unit->setUdpUse(this->ui->IU_UdpUse_checkBox->isChecked()?1:0);
+           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
            unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
            unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
 
@@ -396,13 +429,34 @@ bool MainWindowCFG::change_unit(QModelIndex index)
            unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
            unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
        }
+       if(unit->getType()==TypeUnitNode::RLM_KRL)
+       {
+           unit->setName(this->ui->uName_lineedit->text());
+           unit->setNum1(this->ui->RLM_KRL_comboBox_Num1->currentText().toInt());
+           unit->setDK(this->ui->RLM_KRL_DK_checkBox->isChecked()?1:0);
 
+           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
+           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
+           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
+       }
+       if(unit->getType()==TypeUnitNode::RLM_C)
+       {
+           unit->setName(this->ui->uName_lineedit->text());
+           unit->setNum1(this->ui->RLM_C_comboBox_Num1->currentText().toInt());
+           unit->setDK(this->ui->RLM_C_DK_checkBox->isChecked()?1:0);
+
+           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
+           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
+           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
+       }
        }
     else
     {
     res=0;
     qDebug()<<"[ERROR][Index not valid]";
     }
+
+
 
 
     return res;
@@ -544,4 +598,28 @@ void MainWindowCFG::on_pushButton_7_clicked()
         this->map.hide();
     else
         this->map.show();
+}
+
+void MainWindowCFG::on_UdpUse_checkBox_stateChanged(int arg1)
+{
+       UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
+    qDebug()<<"stateChanged";
+    if(this->ui->UdpUse_checkBox->isChecked()==false)
+    {
+        this->ui->UpdPort_label->setVisible(false);
+        this->ui->UdpAdress_label->setVisible(false);
+        this->ui->UpdPort_lineEdit->setVisible(false);
+        this->ui->UdpAdress_lineEdit->setVisible(false);
+        this->ui->UpdPort_lineEdit->setText("");
+        this->ui->UdpAdress_lineEdit->setText("");
+    }
+    else
+    {
+        this->ui->UpdPort_label->setVisible(true);
+        this->ui->UdpAdress_label->setVisible(true);
+        this->ui->UpdPort_lineEdit->setVisible(true);
+        this->ui->UdpAdress_lineEdit->setVisible(true);
+        this->ui->UpdPort_lineEdit->setText(QString::number(unit->getUdpPort()));
+        this->ui->UdpAdress_lineEdit->setText(unit->getUdpAdress() );
+    }
 }

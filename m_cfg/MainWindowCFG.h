@@ -50,5 +50,6 @@ private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_7_clicked();
+    void on_UdpUse_checkBox_stateChanged(int arg1);
 };
 #endif // MAINWINDOWCFG_H
