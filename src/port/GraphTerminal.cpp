@@ -170,6 +170,12 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     } else if("10000" == idCommand.nodeValue()) {
                         docAnswer = makeEventsAndStates("EventsAndStates answer command 10000");
 
+                        QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
+                        for(QTcpSocket * socket : buffers.keys()) {
+                            if(socket->peerAddress() == itm.address()) {
+                                abonents.insert(socket, buffers.value(socket));
+                            }
+                        }
                         //
                     } else if("10001" == idCommand.nodeValue()) {
                         //

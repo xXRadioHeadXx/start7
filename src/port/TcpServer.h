@@ -20,6 +20,8 @@ public:
     virtual ~TcpServer();
 
 
+    QHash<QTcpSocket *, QByteArray *> getBuffers() const;
+
 public slots:
     bool writeData(QString host, QByteArray data);
     bool writeData(QTcpSocket * socket, QByteArray data);

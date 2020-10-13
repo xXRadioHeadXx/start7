@@ -4,6 +4,7 @@
 #include <DataQueueItem.h>
 #include <QObject>
 #include <TcpServer.h>
+#include <QTcpSocket>
 #include <qdom.h>
 
 class GraphTerminal : public QObject
@@ -13,6 +14,8 @@ private:
     TcpServer * m_tcpServer = nullptr;
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
+
+    QHash<QTcpSocket*, QByteArray*> abonents;
 
     void procCommands(DataQueueItem itm);
     void procKeepAlive(QDomElement root);
