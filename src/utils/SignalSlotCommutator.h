@@ -31,6 +31,7 @@ public slots:
      void emitEndLockWait() const;
      void emitAutoOnOffIU(UnitNode *) const;
      void emitLostedConnect(UnitNode *) const;
+     void emitRequestOnOffCommand(UnitNode *, bool) const;
 
 signals:
      void insNewCommandMSG(const quint32 id) const;
@@ -50,6 +51,8 @@ signals:
      void endLockWait() const;
      void autoOnOffIU(UnitNode *) const;
      void lostConnect(UnitNode *) const;
+     void requestOnOffCommand(UnitNode *, bool) const;
+
 
 };
 
