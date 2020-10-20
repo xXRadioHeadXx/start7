@@ -19,7 +19,8 @@ PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent
 
     m_udpPortsVector.reserve(MAX_COUNT_PORTS);
 
-
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(UnitNode *, bool)), this, SLOT(requestOnOffCommand(UnitNode *, bool)));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(lockOpenCloseCommand(UnitNode *, bool)), this, SLOT(lockOpenCloseCommand(UnitNode *, bool)));
 }
 
 QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();

@@ -73,7 +73,6 @@ bool TcpServer::writeData(QTcpSocket *socket, QByteArray data)
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
-        socket->write(IntToArray(data.size())); //write size of data
         socket->write(data); //write the data itself
         return socket->waitForBytesWritten();
     }
@@ -97,6 +96,7 @@ void TcpServer::disconnected()
 {
     QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
     QByteArray *buffer = buffers.value(socket);
+    buffers.remove(socket);
     socket->deleteLater();
     delete buffer;
 }

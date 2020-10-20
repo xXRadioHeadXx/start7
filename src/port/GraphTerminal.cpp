@@ -100,7 +100,7 @@ void GraphTerminal::pushOverallWriteQueue(const DataQueueItem &value){
 
 void GraphTerminal::manageOverallReadQueue()
 {
-    qDebug() << "GraphTerminal::manageOverallReadQueue() -->";
+//    qDebug() << "GraphTerminal::manageOverallReadQueue() -->";
     while(!getOverallReadQueue().isEmpty()) {
         DataQueueItem itm = popReadQueue();
 
@@ -119,7 +119,7 @@ void GraphTerminal::manageOverallReadQueue()
 
         QString type = root.attribute("type");
 
-        qDebug() << "root.attribute(\"type\") " << type;
+//        qDebug() << "root.attribute(\"type\") " << type;
         if("Commands" == type) {
             procCommands(itm);
             continue;
@@ -140,11 +140,18 @@ void GraphTerminal::manageOverallReadQueue()
         }
 
     }
-    qDebug() << "GraphTerminal::manageOverallReadQueue() <--";
+//    qDebug() << "GraphTerminal::manageOverallReadQueue() <--";
 
 }
 
+void GraphTerminal::disconnected()
+{
+    QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
+    abonents.remove(socket);
+}
+
 void GraphTerminal::procCommands(DataQueueItem itm) {
+    qDebug() << "GraphTerminal::procCommands() -->";
     QDomDocument doc;
     if(!doc.setContent(itm.data()))
         return;
@@ -165,6 +172,8 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                     QDomNode idCommand = nodeCommand.attributes().namedItem("id");
                     QDomDocument docAnswer;
+                    qDebug() << "GraphTerminal::procCommands() idCommand.nodeValue(" << idCommand.nodeValue() << ")";
+                    qDebug() << "GraphTerminal::procCommands() " << doc.toString();
                     if("0" == idCommand.nodeValue()) {
                         docAnswer = makeInitialStatus("InitialStatus answer command 0");
                         //
@@ -175,6 +184,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                         for(QTcpSocket * socket : buffers.keys()) {
                             if(socket->peerAddress() == itm.address()) {
                                 abonents.insert(socket, buffers.value(socket));
+                                connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
                             }
                         }
                         //
@@ -231,15 +241,32 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                                     continue;
 
                                 bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
-                                SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, value);
+
+                                if(0 != unTarget->getBazalt() && Status::Alarm == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
+                                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, false);
+                                } else if(0 != unTarget->getBazalt() && Status::Norm == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
+                                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, true);
+                                } else if(0 != unTarget->getBazalt()) {
+                                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, value);
+                                } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && ((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "101" == idCommand.nodeValue()) {
+                                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
+                                } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && !((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "100" == idCommand.nodeValue()) {
+                                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
+                                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::On == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
+                                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
+                                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::Off == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
+                                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
+                                } else {
+                                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, value);
+                                }
 
                             } else
                                 continue;
                         }
                         //
-                    } else if("101" == idCommand.nodeValue()) {
+                    } else/* if("101" == idCommand.nodeValue()) {
                         //
-                    } else if("133" == idCommand.nodeValue()) {
+                    } else*/ if("133" == idCommand.nodeValue()) {
                         //
                     } else if("1133" == idCommand.nodeValue()) {
                         //
@@ -263,10 +290,33 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                         //
                     }
 
+                    if(!docAnswer.isNull()) {
+                        DataQueueItem itmAnswer = itm;
+                        itmAnswer.setData(docAnswer.toByteArray());
+
+                        QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
+                        for(QTcpSocket * socket : buffers.keys()) {
+                            if(socket->peerAddress() == itm.address()) {
+                                QByteArray buf;
+                                QTextStream ts(&buf);
+                                auto cw51 = QTextCodec::codecForName("windows-1251");
+
+                                ts.setCodec(cw51);
+                                ts << docAnswer.toString();
+                                ts.flush();
+
+                                this->m_tcpServer->writeData(socket, buf);
+                            }
+                        }
+
+                    }
+
+
                 }
             }
         }
     }
+    qDebug() << "GraphTerminal::procCommands() <--";
 }
 
 void GraphTerminal::procKeepAlive(QDomElement root) {
@@ -291,7 +341,7 @@ void GraphTerminal::procDbStart(QDomElement root) {
 
 QDomDocument GraphTerminal::makeInitialStatus(QString docType)
 {
-    QDomDocument doc(docType);
+    QDomDocument doc;//(docType);
 
     QDomElement  RIFPlusPacketElement  =  doc.createElement("RIFPlusPacket");
     RIFPlusPacketElement.setAttribute("type", "InitialStatus");
@@ -299,6 +349,39 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
 
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
+
+    if(true) {
+//        <device id="0" level="0" type="0" num1="0" num2="0" num3="0" name="???????" lat="0.00000000" lon="0.00000000" description="(null)" dk="1" option="0">
+//        <states>
+//        <state id="0" datetime="2020-10-15 16:05:16" name="?????. ????."/>
+//        </states>
+        QDomElement  deviceElement  =  doc.createElement("device");
+        QString id = "0";
+        deviceElement.setAttribute("id", id);
+        deviceElement.setAttribute("level", "0");
+        deviceElement.setAttribute("type", "0");
+        deviceElement.setAttribute("num1", "0");
+        deviceElement.setAttribute("num2", "0");
+        deviceElement.setAttribute("num3", "0");
+        deviceElement.setAttribute("name", "Система");
+        deviceElement.setAttribute("lat", "0.00000000");
+        deviceElement.setAttribute("lon", "0.00000000");
+        deviceElement.setAttribute("description", "(null)");
+        deviceElement.setAttribute("dk", "0");
+        deviceElement.setAttribute("option", 0);
+
+        devicesElement.appendChild(deviceElement);
+
+        QDomElement  statesElement  =  doc.createElement("states");
+        deviceElement.appendChild(statesElement);
+
+        QDomElement  stateElement  =  doc.createElement("state");
+        stateElement.setAttribute("id", 0);
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", "Неопр. сост.");
+        statesElement.appendChild(stateElement);
+    }
+
 
     for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
         // <device id="1" level="1" type="33" num1="1" num2="1" num3="1" name="Устройство 1" lat=”55.761248” lon: “37.608074” description=”Текстовое
@@ -317,9 +400,10 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
         deviceElement.setAttribute("name", un->getName());
-        deviceElement.setAttribute("lat", un->getLan());
-        deviceElement.setAttribute("lon", un->getLon());
-        deviceElement.setAttribute("description", un->getDescription());
+//        qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
+        deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
+        deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
+        deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
         deviceElement.setAttribute("dk", un->getDK());
         deviceElement.setAttribute("option", 0);
 
@@ -344,14 +428,14 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         statesElement.appendChild(stateElement);
     }
 
-    qDebug() << "GraphTerminal::makeInitialStatus()" << doc.toString();
+//    qDebug() << "GraphTerminal::makeInitialStatus()" << doc.toString();
 
     return doc;
 }
 
 QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
 {
-    QDomDocument doc(docType);
+    QDomDocument doc;//(docType);
 
     QDomElement  RIFPlusPacketElement  =  doc.createElement("RIFPlusPacket");
     RIFPlusPacketElement.setAttribute("type", "EventsAndStates");
@@ -359,6 +443,38 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
 
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
+
+    if(true) {
+//        <device id="0" level="0" type="0" num1="0" num2="0" num3="0" name="???????" lat="0.00000000" lon="0.00000000" description="(null)" dk="1" option="0">
+//        <states>
+//        <state id="0" datetime="2020-10-15 16:05:16" name="?????. ????."/>
+//        </states>
+        QDomElement  deviceElement  =  doc.createElement("device");
+        QString id = "0";
+        deviceElement.setAttribute("id", id);
+        deviceElement.setAttribute("level", "0");
+        deviceElement.setAttribute("type", "0");
+        deviceElement.setAttribute("num1", "0");
+        deviceElement.setAttribute("num2", "0");
+        deviceElement.setAttribute("num3", "0");
+        deviceElement.setAttribute("name", "Система");
+        deviceElement.setAttribute("lat", "0.00000000");
+        deviceElement.setAttribute("lon", "0.00000000");
+        deviceElement.setAttribute("description", "(null)");
+//        deviceElement.setAttribute("dk", "0");
+//        deviceElement.setAttribute("option", 0);
+
+        devicesElement.appendChild(deviceElement);
+
+        QDomElement  statesElement  =  doc.createElement("states");
+        deviceElement.appendChild(statesElement);
+
+        QDomElement  stateElement  =  doc.createElement("state");
+        stateElement.setAttribute("id", 0);
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", "Неопр. сост.");
+        statesElement.appendChild(stateElement);
+    }
 
     for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
         // <device id="0" level="0" type="33" num1="1" num2="1" num3="1" name="1" lat=”55.761248” lon: “37.608074” description=”Текстовое описание длиной
@@ -377,9 +493,9 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
         deviceElement.setAttribute("name", un->getName());
-        deviceElement.setAttribute("lat", un->getLan());
-        deviceElement.setAttribute("lon", un->getLon());
-        deviceElement.setAttribute("description", un->getDescription());
+        deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
+        deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
+        deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
 //        deviceElement.setAttribute("dk", un->getDK());
 //        deviceElement.setAttribute("option", 0);
 
@@ -404,7 +520,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
         statesElement.appendChild(stateElement);
     }
 
-    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
+//    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
 
     return doc;
 }

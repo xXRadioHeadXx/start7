@@ -44,6 +44,7 @@ public:
 
 private slots:
     void manageOverallReadQueue();
+    void disconnected();
 
 public slots:
     void pushOverallReadQueue(const DataQueueItem &value);

@@ -100,3 +100,8 @@ void SignalSlotCommutator::emitRequestOnOffCommand(UnitNode * un, bool value) co
 {
     emit this->requestOnOffCommand(un, value);
 }
+
+void SignalSlotCommutator::emitLockOpenCloseCommand(UnitNode * un, bool value) const
+{
+    emit this->lockOpenCloseCommand(un, value);
+}
