@@ -33,6 +33,24 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     settings.setIniCodec( "Windows-1251" );
 
     QList<UnitNode> lsUN;
+
+    {
+        UnitNode * tmpUN = new UnitNode(root);
+
+        tmpUN->setType(TypeUnitNode::SYSTEM);
+        tmpUN->setNum1(0);
+        tmpUN->setNum2(0);
+        tmpUN->setNum3(0);
+        tmpUN->setLevel(0);
+        tmpUN->setName(QObject::trUtf8("Система"));
+        tmpUN->setMetaNames("Obj_0");
+
+        root->addTreeChild(tmpUN);
+        root = tmpUN;
+        lsUN.append(tmpUN);
+        listTreeUnitNodes.append(tmpUN);
+    }
+
     for(int index = 0; index < cntTrItm; index++)
     {
         QString strGroup("Obj_%1");

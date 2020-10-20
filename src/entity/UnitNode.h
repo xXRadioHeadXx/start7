@@ -25,6 +25,7 @@ enum Status {
 };
 
 enum TypeUnitNode {
+    SYSTEM = -1,
     GROUP = 0,
     SD_BL_IP = 11,
     IU_BL_IP = 12,

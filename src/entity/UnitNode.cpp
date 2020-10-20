@@ -447,7 +447,9 @@ void UnitNode::setStatus2(const quint8 &value)
 QPixmap UnitNode::getPxm(SubTypeApp type)
 {
     if(SubTypeApp::server == type) {
-        if(TypeUnitNode::GROUP == getType()) {
+        if(TypeUnitNode::SYSTEM == getType()) {
+            return Icons::fldr();
+        } else if(TypeUnitNode::GROUP == getType()) {
             if(childCount())
                 return Icons::fldr();
             else

@@ -363,7 +363,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 //        submenu->addAction(ui->actionAlarmUN);
 //        submenu->addAction(ui->actionNoConnectUN);
 //        menu->addMenu(submenu);
-        if(!sel->getName().isEmpty()) {
+        if(!sel->getName().isEmpty() && !(TypeUnitNode::SYSTEM == sel->getType() || TypeUnitNode::GROUP == sel->getType())) {
             menu->addAction(ui->actionUNSqlSelect);
             setUnSqlSelect(QString("SELECT id, cdate, mdate, objectid, object, comment, reason, measures, operator, operatorid, status, direction, type, flag, d1, d2, d3, d4, objecttype FROM public.jour where object = '%1' ORDER BY id;").arg(sel->getName()));
         }
