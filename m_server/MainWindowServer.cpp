@@ -111,6 +111,11 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             m_portManager,
             SLOT(requestAutoOnOffIUCommand(UnitNode *)));
 
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(changeSelectUN(UnitNode *)),
+            this,
+            SLOT(changeSelectUN(UnitNode *)));
+
     ui->treeView->resizeColumnToContents(0);
 
     ui->tableView->resizeColumnToContents(0);
@@ -679,4 +684,10 @@ void MainWindowServer::on_actionUNSqlSelect_triggered()
     QProcess *process = new QProcess(this);
     QString file = "m_db.exe -sql \"" + getUnSqlSelect() + "\"";
     process->start(file);
+}
+
+void MainWindowServer::changeSelectUN(UnitNode *un)
+{
+    QModelIndex index = this->modelTreeUN->findeIndexUN(un);
+    ui->treeView->setCurrentIndex(index);
 }

@@ -111,16 +111,61 @@ void TcpServer::readyRead()
         buffer->append(socket->readAll());
         while (0 < buffer->size()) //While can process data, process it
         {
-            QByteArray data = buffer->mid(0);
+            QByteArray data;
+
+            data = buffer->mid(0);
             QString domStr = data;
-//            qDebug() << "TcpServer::readyRead(" << domStr << ")";
             QDomDocument doc;
             if(doc.setContent(domStr)) {
+                qDebug() << "TcpServer::(1)readyRead(" << domStr << ")";
                 buffer->clear();
 
                 DataQueueItem itm(data, socket->peerAddress(), socket->peerPort(), 0);
 
                 emit dataReceived(itm);
+            } else {
+
+                int beginIndex = ((-1 != buffer->indexOf("<RIFPlusPacket>") || -1 != buffer->indexOf("<RIFPlusPacket ")) ? buffer->indexOf("<RIFPlusPacket") : -1);
+                if(-1 == beginIndex)
+                    break;
+                else if(0 < beginIndex)
+                    buffer->remove(0, beginIndex);
+                beginIndex = 0;
+
+                int endIndex = buffer->indexOf("</RIFPlusPacket>");
+                if(-1 == endIndex)
+                    break;
+
+                data = buffer->mid(beginIndex, endIndex + 16);
+                buffer->remove(beginIndex, endIndex + 16);
+
+                domStr = data;
+                if(doc.setContent(domStr)) {
+                    qDebug() << "TcpServer::(2)readyRead(" << domStr << ")";
+
+                    DataQueueItem itm(domStr.toUtf8(), socket->peerAddress(), socket->peerPort(), 0);
+
+                    emit dataReceived(itm);
+                } else {
+                    qDebug() << "TcpServer::(3)readyRead[need correcting](" << domStr << ")";
+                    if(domStr.contains("'"))
+                        continue;
+
+                    if(domStr.contains(QRegExp("<\\s*RIFPlusPacket\\s*type\\s*=\\s*\"Commands\"\\s*>\\s*<\\s*Commands>\\s*<Command\\s*id\\s*=\\s*\"\\d*\"\\s*\\/>\\s*<\\s*device\\s*id\\s*=\\s*\"\\d*\"\\s*>\\s*<\\/\\s*Commands\\s*>\\s*<\\/\\s*RIFPlusPacket\\s*>"))) {
+                        qDebug() << "TcpServer::(31) match";
+                        domStr.insert(domStr.indexOf(QRegExp("<\/\s*Commands\s*>\s*<\/\s*RIFPlusPacket\s*>")), "</device>");
+                    }
+
+                    if(doc.setContent(domStr)) {
+                        qDebug() << "TcpServer::(32)readyRead(" << domStr << ")";
+
+                        DataQueueItem itm(domStr.toUtf8(), socket->peerAddress(), socket->peerPort(), 0);
+
+                        emit dataReceived(itm);
+
+                        continue;
+                    }
+                }
             }
         }
     }

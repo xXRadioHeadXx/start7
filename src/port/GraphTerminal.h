@@ -20,7 +20,7 @@ private:
     void procCommands(DataQueueItem itm);
     void procKeepAlive(QDomElement root);
     void procEventBook(QDomElement root);
-    void procEventsAndStates(QDomElement root);
+    void procEventsAndStates(DataQueueItem itm);
     void procAlarmsReset(QDomElement root);
     void procDbStart(QDomElement root);
 

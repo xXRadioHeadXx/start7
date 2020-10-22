@@ -105,3 +105,8 @@ void SignalSlotCommutator::emitLockOpenCloseCommand(UnitNode * un, bool value) c
 {
     emit this->lockOpenCloseCommand(un, value);
 }
+
+void SignalSlotCommutator::emitChangeSelectUN(UnitNode * un) const
+{
+    emit this->changeSelectUN(un);
+}

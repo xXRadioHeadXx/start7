@@ -90,6 +90,8 @@ private slots:
 
     void on_actionUNSqlSelect_triggered();
 
+    void changeSelectUN(UnitNode * un);
+
 protected:
     void closeEvent(QCloseEvent * event);
 
