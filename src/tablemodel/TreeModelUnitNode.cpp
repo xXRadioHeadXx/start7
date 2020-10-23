@@ -285,7 +285,7 @@ QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *tc,
          }
      }
 
-     for(int i(0), n(tc->treeChildCount()); i < n; i++)
+     for(int i(0), n(parentTC->treeChildCount()); i < n; i++)
      {
          if (parentTC->treeChild(i) == tc)
          {
@@ -295,7 +295,7 @@ QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *tc,
          {
              index = this->findeIndexUN(tc,
                                         lr,
-                                        parentTC);///1
+                                        parentTC->treeChild(i));///1
              if(index.isValid())
              {
                  qDebug() << "findeIndexUN " << index;

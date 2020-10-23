@@ -133,6 +133,14 @@ void GraphTerminal::manageOverallReadQueue()
             procEventsAndStates(itm);
             continue;
         } else if("AlarmsReset" == type) {
+//            requestAlarmReset();
+            JourEntity msgOn;
+            msgOn.setObject(trUtf8("Оператор"));
+            msgOn.setType(135);
+            msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
+            DataBaseManager::insertJourMsg_wS(msgOn);
+
+            DataBaseManager::resetAllFlags_wS();
             continue;
         } else if("DbStart" == type) {
             continue;
@@ -201,69 +209,67 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
             } else if(("100" == idCommand.nodeValue()) || ("101" == idCommand.nodeValue())) {
 //                        <RIFPlusPacket type="Commands"><Commands><Command id="100" name=" Выключение ИУ"/><device id="1" level="1" type="4"
 //                        num1="1" num2="1" num3="1"></Commands></RIFPlusPacket>
-                QDomNodeList nodeListDevices = nodeCommand.childNodes();
-                for(int i = 0, n = nodeListDevices.count(); i < n; i++) {
-                    QDomNode nodeDevice = nodeListDevices.at(i);
-                    if("device" == nodeDevice.nodeName()) {
 
-                        QDomNode deviceId, deviceLevel, deviceType, deviceNum1, deviceNum2, deviceNum3;
+                if(2 != nodeCommands.childNodes().count())
+                    continue;
 
-                        if(!nodeDevice.attributes().contains("id")) continue;
-                        else deviceId = nodeDevice.attributes().namedItem("id");
+                QDomNode nodeDevice = nodeCommands.namedItem("device");
+                if(nodeDevice.isNull())
+                    continue;
+                QDomNode deviceId, deviceLevel, deviceType, deviceNum1, deviceNum2, deviceNum3;
 
-                        if(!nodeDevice.attributes().contains("level")) continue;
-                        else deviceLevel = nodeDevice.attributes().namedItem("level");
+                if(!nodeDevice.attributes().contains("id")) continue;
+                else deviceId = nodeDevice.attributes().namedItem("id");
 
-                        if(!nodeDevice.attributes().contains("type")) continue;
-                        else deviceType = nodeDevice.attributes().namedItem("type");
+                if(!nodeDevice.attributes().contains("level")) continue;
+                else deviceLevel = nodeDevice.attributes().namedItem("level");
 
-                        if(!nodeDevice.attributes().contains("num1")) continue;
-                        else deviceNum1 = nodeDevice.attributes().namedItem("num1");
+                if(!nodeDevice.attributes().contains("type")) continue;
+                else deviceType = nodeDevice.attributes().namedItem("type");
 
-                        if(!nodeDevice.attributes().contains("num2")) continue;
-                        else deviceNum2 = nodeDevice.attributes().namedItem("num2");
+                if(!nodeDevice.attributes().contains("num1")) continue;
+                else deviceNum1 = nodeDevice.attributes().namedItem("num1");
 
-                        if(!nodeDevice.attributes().contains("num3")) continue;
-                        else deviceNum3 = nodeDevice.attributes().namedItem("num3");
+                if(!nodeDevice.attributes().contains("num2")) continue;
+                else deviceNum2 = nodeDevice.attributes().namedItem("num2");
 
-                        UnitNode * unTarget = nullptr;
-                        for(UnitNode * un : SettingUtils::getSetMetaRealUnitNodes()) {
-                            if(un->getMetaNames().contains("Obj_" + deviceId.nodeValue()) &&
-                               un->getLevel() == deviceLevel.nodeValue().toInt() &&
-                               un->getType() == deviceType.nodeValue().toInt() &&
-                               un->getNum1() == deviceNum1.nodeValue().toInt() &&
-                               un->getNum2() == deviceNum2.nodeValue().toInt() &&
-                               un->getNum3() == deviceNum3.nodeValue().toInt()) {
-                                unTarget = un;
-                                break;
-                            }
-                        }
+                if(!nodeDevice.attributes().contains("num3")) continue;
+                else deviceNum3 = nodeDevice.attributes().namedItem("num3");
 
-                        if(nullptr == unTarget)
-                            continue;
+                UnitNode * unTarget = nullptr;
+                for(UnitNode * un : SettingUtils::getSetMetaRealUnitNodes()) {
+                    if(un->getMetaNames().contains("Obj_" + deviceId.nodeValue()) &&
+                       un->getLevel() == deviceLevel.nodeValue().toInt() &&
+                       un->getType() == deviceType.nodeValue().toInt() &&
+                       un->getNum1() == deviceNum1.nodeValue().toInt() &&
+                       un->getNum2() == deviceNum2.nodeValue().toInt() &&
+                       un->getNum3() == deviceNum3.nodeValue().toInt()) {
+                        unTarget = un;
+                        break;
+                    }
+                }
 
-                        bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
+                if(nullptr == unTarget)
+                    continue;
 
-                        if(0 != unTarget->getBazalt() && Status::Alarm == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
-                            SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, false);
-                        } else if(0 != unTarget->getBazalt() && Status::Norm == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
-                            SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, true);
-                        } else if(0 != unTarget->getBazalt()) {
-                            SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, value);
-                        } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && ((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "101" == idCommand.nodeValue()) {
-                            SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
-                        } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && !((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "100" == idCommand.nodeValue()) {
-                            SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
-                        } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::On == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
-                            SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
-                        } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::Off == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
-                            SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
-                        } else {
-                            SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, value);
-                        }
+                bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
 
-                    } else
-                        continue;
+                if(0 != unTarget->getBazalt() && Status::Alarm == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, false);
+                } else if(0 != unTarget->getBazalt() && Status::Norm == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, true);
+                } else if(0 != unTarget->getBazalt()) {
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, value);
+                } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && ((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "101" == idCommand.nodeValue()) {
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
+                } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && !((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "100" == idCommand.nodeValue()) {
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
+                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::On == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
+                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::Off == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
+                } else {
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, value);
                 }
                 //
             } else/* if("101" == idCommand.nodeValue()) {
@@ -287,7 +293,6 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                         SignalSlotCommutator::getInstance()->emitChangeSelectUN(un);
                     }
                 }
-
                 //
             } else if("137" == idCommand.nodeValue()) {
                 //
