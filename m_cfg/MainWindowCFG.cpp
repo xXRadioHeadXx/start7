@@ -104,54 +104,68 @@ void MainWindowCFG::select_unit(QModelIndex index)
     QString UdpAdress;
     int UdpPort;
 
+        this->ui->uType_combobox->setCurrentText(Type);
+
+
+    switch(selected_type)
+    {
+        case TypeUnitNode::SD_BL_IP:
+        this->get_option_SD_BL_IP(unit);
+        break;
+
+    case TypeUnitNode::IU_BL_IP:
+    this->get_option_IU_BL_IP(unit);
+    break;
+
+    case TypeUnitNode::TG:
+    this->get_option_TG(unit);
+    break;
+
+    case TypeUnitNode::RLM_KRL:
+    this->get_option_RLM_KRL(unit);
+    break;
+
+    case TypeUnitNode::RLM_C:
+    this->get_option_RLM_C(unit);
+    break;
+
+    case TypeUnitNode::BOD_T4K_M:
+    this->get_option_BOD_T4K_M(unit);
+    break;
+
+    case TypeUnitNode::Y4_T4K_M:
+    this->get_option_Y4_T4K_M(unit);
+    break;
+
+    case TypeUnitNode::DD_T4K_M:
+    this->get_option_DD_T4K_M(unit);
+    break;
+
+    case TypeUnitNode::BOD_SOTA:
+    this->get_option_BOD_SOTA(unit);
+    break;
+
+    case TypeUnitNode::Y4_SOTA:
+    this->get_option_Y4_SOTA(unit);
+    break;
+/*
+    case TypeUnitNode::DD_SOTA:
+    this->get_option_DD_SOTA(unit);
+    break;*/
+
+    case TypeUnitNode::BL_IP:
+    this->get_option_BL_IP(unit);
+    break;
+
+
+
+    }
+    /*
     if(selected_type==TypeUnitNode::SD_BL_IP)
     {
-        this->ui->uType_combobox->setCurrentText(Type);
-        this->ui->UdpUse_checkBox->setVisible(true);
-
-        int Num2=unit->getNum2();
-
-        bool DK=false;
-        if(unit->getDK())
-           DK=true;
-        int Bazalt=unit->getBazalt();
-        int connectblock=unit->getConnectBlock();
-
-        UdpUse=unit->getUdpUse();
-
-        UdpAdress=unit->getUdpAdress();
-
-        UdpPort=unit->getUdpPort();
-
-        qDebug()<<"Name: "<<unit->getName()
-                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                <<" Num2:"<<QString::number(unit->getNum2())
-                <<" DK:"<<QString::number(unit->getDK())
-                <<" Bazalt:"<<QString::number(unit->getBazalt())
-                <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                <<" UdpAdress:"<<unit->getUdpAdress();
-    /*
-        qDebug()<<"Name: "<<Name
-                <<" Type:"<<Type
-                <<" Num2:"<<QString::number(Num2)
-                <<" DK:"<<QString::number(DK)
-                <<" Bazalt:"<<QString::number(Bazalt)
-                <<" connectblock:"<<QString::number(connectblock)
-                <<" UdpUse:"<<QString::number(UdpUse)
-                <<" UdpAdress:"<<UdpAdress;
-    */
 
 
 
-
-        this->ui->CD_comboBox_Num2->setCurrentText(QString::number(Num2));
-
-
-        this->ui->CD_DK_checkBox->setChecked(DK);
-        this->ui->CD_Bazalt_checkBox->setChecked(Bazalt);
-        this->ui->CD_connectblock_checkBox->setChecked(connectblock);
-        this->ui->UdpUse_checkBox->setChecked(UdpUse);
 
     }
     else
@@ -333,7 +347,7 @@ void MainWindowCFG::select_unit(QModelIndex index)
     qDebug()<<"Name: "<<Name
             <<" Type:"<<Type;
 
-
+*/
 }
 
 
@@ -669,6 +683,113 @@ current_index=this->ui->treeView->currentIndex();
 
 */
 }
+
+void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
+{
+    this->ui->UdpUse_checkBox->setVisible(true);
+
+    int Num2=unit->getNum2();
+
+    bool DK=false;
+    if(unit->getDK())
+       DK=true;
+    int Bazalt=unit->getBazalt();
+    int connectblock=unit->getConnectBlock();
+
+    int UdpUse=unit->getUdpUse();
+
+    QString UdpAdress=unit->getUdpAdress();
+
+    int UdpPort=unit->getUdpPort();
+
+    qDebug()<<"Name: "<<unit->getName()
+            <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+            <<" Num2:"<<QString::number(unit->getNum2())
+            <<" DK:"<<QString::number(unit->getDK())
+            <<" Bazalt:"<<QString::number(unit->getBazalt())
+            <<" connectblock:"<<QString::number(unit->getConnectBlock())
+            <<" UdpUse:"<<QString::number(unit->getUdpUse())
+            <<" UdpAdress:"<<unit->getUdpAdress();
+/*
+    qDebug()<<"Name: "<<Name
+            <<" Type:"<<Type
+            <<" Num2:"<<QString::number(Num2)
+            <<" DK:"<<QString::number(DK)
+            <<" Bazalt:"<<QString::number(Bazalt)
+            <<" connectblock:"<<QString::number(connectblock)
+            <<" UdpUse:"<<QString::number(UdpUse)
+            <<" UdpAdress:"<<UdpAdress;
+*/
+
+
+
+
+    this->ui->CD_comboBox_Num2->setCurrentText(QString::number(Num2));
+
+
+    this->ui->CD_DK_checkBox->setChecked(DK);
+    this->ui->CD_Bazalt_checkBox->setChecked(Bazalt);
+    this->ui->CD_connectblock_checkBox->setChecked(connectblock);
+    this->ui->UdpUse_checkBox->setChecked(UdpUse);
+
+}
+
+void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_TG(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_BOD_T4K_M(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_Y4_T4K_M(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_DD_T4K_M(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_BOD_SOTA(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_Y4_SOTA(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_DD_SOTA(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_BL_IP(UnitNode *unit)
+{
+
+}
+
+
 
 void MainWindowCFG::on_pushButton_2_clicked()
 {

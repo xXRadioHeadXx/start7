@@ -22,6 +22,20 @@ private:
     bool add_unit();
     bool delete_unit();
 
+    void get_option_SD_BL_IP(UnitNode *unit);
+    void get_option_IU_BL_IP(UnitNode *unit);
+    void get_option_TG(UnitNode *unit);
+    void get_option_RLM_KRL(UnitNode *unit);
+    void get_option_RLM_C(UnitNode *unit);
+    void get_option_BOD_T4K_M(UnitNode *unit);
+    void get_option_Y4_T4K_M(UnitNode *unit);
+    void get_option_DD_T4K_M(UnitNode *unit);
+    void get_option_BOD_SOTA(UnitNode *unit);
+    void get_option_Y4_SOTA(UnitNode *unit);
+    void get_option_DD_SOTA(UnitNode *unit);
+    void get_option_BL_IP(UnitNode *unit);
+
+
 
     QString Type_from_int_to_string(int Type);
 

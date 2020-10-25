@@ -294,7 +294,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="Empty_space"/>
       <widget class="QWidget" name="Group_groupbox">
@@ -1881,7 +1881,7 @@
      <x>0</x>
      <y>0</y>
      <width>587</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
