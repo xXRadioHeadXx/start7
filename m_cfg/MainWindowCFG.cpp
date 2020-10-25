@@ -56,11 +56,11 @@ bool MainWindowCFG::load(QString patch)
 
 void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
-this->select_unit(index);
+this->get_option(index);
 }
 
 
-void MainWindowCFG::select_unit(QModelIndex index)
+void MainWindowCFG::get_option(QModelIndex index)
 {
     current_index=index;
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
@@ -460,15 +460,71 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
 void MainWindowCFG::on_pushButton_4_clicked()
 {
-    change_unit(current_index);
+    set_option(current_index);
 }
 
-bool MainWindowCFG::change_unit(QModelIndex index)
+bool MainWindowCFG::set_option(QModelIndex index)
 {
     bool res=1;
     if(index.isValid())
     {
        UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
+
+       switch(selected_type)
+       {
+
+       case TypeUnitNode::SD_BL_IP:
+       this->set_option_SD_BL_IP(unit);
+       break;
+
+ //      case TypeUnitNode::IU_BL_IP:
+       this->get_option_IU_BL_IP(unit);
+       break;
+
+       case TypeUnitNode::TG:
+  //     this->get_option_TG(unit);
+       break;
+
+       case TypeUnitNode::RLM_KRL:
+  //     this->get_option_RLM_KRL(unit);
+       break;
+
+       case TypeUnitNode::RLM_C:
+  //     this->get_option_RLM_C(unit);
+       break;
+
+       case TypeUnitNode::BOD_T4K_M:
+  //     this->get_option_BOD_T4K_M(unit);
+       break;
+
+       case TypeUnitNode::Y4_T4K_M:
+  //     this->get_option_Y4_T4K_M(unit);
+       break;
+
+       case TypeUnitNode::DD_T4K_M:
+  //     this->get_option_DD_T4K_M(unit);
+       break;
+
+       case TypeUnitNode::BOD_SOTA:
+  //     this->get_option_BOD_SOTA(unit);
+       break;
+
+       case TypeUnitNode::Y4_SOTA:
+  //     this->get_option_Y4_SOTA(unit);
+       break;
+   /*
+       case TypeUnitNode::DD_SOTA:
+       this->get_option_DD_SOTA(unit);
+       break;*/
+
+       case TypeUnitNode::BL_IP:
+  //     this->get_option_BL_IP(unit);
+       break;
+
+
+
+       }
+       /*
        if(unit->getType()==TypeUnitNode::SD_BL_IP)
        {
 
@@ -489,7 +545,7 @@ bool MainWindowCFG::change_unit(QModelIndex index)
                    <<" connectblock:"<<QString::number(unit->getConnectBlock())
                    <<" UdpUse:"<<QString::number(unit->getUdpUse())
                    <<" UdpAdress:"<<unit->getUdpAdress();
-         /*  */
+
        }
        if(unit->getType()==TypeUnitNode::IU_BL_IP)
        {
@@ -546,13 +602,15 @@ bool MainWindowCFG::change_unit(QModelIndex index)
            unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
            unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
            unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
+
        }
+
     else
     {
     res=0;
     qDebug()<<"[ERROR][Index not valid]";
     }
-
+ */
 
     }
 
@@ -591,6 +649,11 @@ void MainWindowCFG::on_pushButton_clicked()
 }
 
 
+bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
+{
+    return true;
+}
+
 bool MainWindowCFG::add_unit()
 {
     qDebug()<<"[add_unit()]";
@@ -621,12 +684,21 @@ bool MainWindowCFG::add_unit()
 
     QModelIndex index=this->ui->treeView->currentIndex();
 
+    //Проверить можно ли добавлять юнит к этому родителю
+    //Определить тип родителя
+    int parrent_type;
+
+    //Определить тип чайлда
+    int child_type;
+
+
 
     if (index.isValid())
     {
-
+        if(can_i_add_or_not(parrent_type,child_type))
       this->modelTreeUN->appendNewUNInStructure(index,unit);
-
+        else
+            qDebug()<<"Нельзя добавить юнит к этому родителю";
     }
 
     ui->treeView->setCurrentIndex(index);
@@ -785,6 +857,82 @@ void MainWindowCFG::get_option_DD_SOTA(UnitNode *unit)
 }
 
 void MainWindowCFG::get_option_BL_IP(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
+{
+    unit->setName(this->ui->uName_lineedit->text());
+    unit->setNum2(this->ui->CD_comboBox_Num2->currentText().toInt());
+    unit->setDK(this->ui->CD_DK_checkBox->isChecked()?1:0);
+    unit->setBazalt(this->ui->CD_Bazalt_checkBox->isChecked()?1:0);
+    unit->setConnectBlock(this->ui->CD_connectblock_checkBox->isChecked()?1:0);
+    unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
+    unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
+    unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
+
+    qDebug()<<"Name: "<<unit->getName()
+            <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+            <<" Num2:"<<QString::number(unit->getNum2())
+            <<" DK:"<<QString::number(unit->getDK())
+            <<" Bazalt:"<<QString::number(unit->getBazalt())
+            <<" connectblock:"<<QString::number(unit->getConnectBlock())
+            <<" UdpUse:"<<QString::number(unit->getUdpUse())
+            <<" UdpAdress:"<<unit->getUdpAdress();
+}
+
+void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_TG(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_RLM_KRL(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_RLM_C(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_BOD_T4K_M(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_Y4_T4K_M(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_DD_T4K_M(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_BOD_SOTA(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_BL_IP(UnitNode *unit)
 {
 
 }

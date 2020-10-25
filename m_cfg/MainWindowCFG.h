@@ -17,10 +17,11 @@ private:
 
     TreeModelUnitNode *modelTreeUN = nullptr;
 
-    void select_unit(QModelIndex index);
-    bool change_unit(QModelIndex index);
+    bool can_i_add_or_not(int type_parrent, int type_child);
     bool add_unit();
     bool delete_unit();
+
+    void get_option(QModelIndex index);
 
     void get_option_SD_BL_IP(UnitNode *unit);
     void get_option_IU_BL_IP(UnitNode *unit);
@@ -34,6 +35,22 @@ private:
     void get_option_Y4_SOTA(UnitNode *unit);
     void get_option_DD_SOTA(UnitNode *unit);
     void get_option_BL_IP(UnitNode *unit);
+
+
+    bool set_option(QModelIndex index);
+
+    void set_option_SD_BL_IP(UnitNode *unit);
+    void set_option_IU_BL_IP(UnitNode *unit);
+    void set_option_TG(UnitNode *unit);
+    void set_option_RLM_KRL(UnitNode *unit);
+    void set_option_RLM_C(UnitNode *unit);
+    void set_option_BOD_T4K_M(UnitNode *unit);
+    void set_option_Y4_T4K_M(UnitNode *unit);
+    void set_option_DD_T4K_M(UnitNode *unit);
+    void set_option_BOD_SOTA(UnitNode *unit);
+    void set_option_Y4_SOTA(UnitNode *unit);
+    void set_option_DD_SOTA(UnitNode *unit);
+    void set_option_BL_IP(UnitNode *unit);
 
 
 
