@@ -4,6 +4,7 @@
 #include <JourEntity.h>
 #include <QDomDocument>
 #include <SettingUtils.h>
+#include <SignalSlotCommutator.h>
 
 GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 {
@@ -120,7 +121,7 @@ void GraphTerminal::manageOverallReadQueue()
 
         qDebug() << "root.attribute(\"type\") " << type;
         if("Commands" == type) {
-            procCommands(root);
+            procCommands(itm);
             continue;
         } else if("KeepAlive" == type) {
             continue;
@@ -143,7 +144,12 @@ void GraphTerminal::manageOverallReadQueue()
 
 }
 
-void GraphTerminal::procCommands(QDomElement root) {
+void GraphTerminal::procCommands(DataQueueItem itm) {
+    QDomDocument doc;
+    if(!doc.setContent(itm.data()))
+        return;
+
+    QDomElement root = doc.documentElement();
     QDomNodeList nodeList = root.childNodes();
 
     for(int i = 0, n = nodeList.count(); i < n; i++) {
@@ -164,10 +170,72 @@ void GraphTerminal::procCommands(QDomElement root) {
                         //
                     } else if("10000" == idCommand.nodeValue()) {
                         docAnswer = makeEventsAndStates("EventsAndStates answer command 10000");
+
+                        QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
+                        for(QTcpSocket * socket : buffers.keys()) {
+                            if(socket->peerAddress() == itm.address()) {
+                                abonents.insert(socket, buffers.value(socket));
+                            }
+                        }
                         //
                     } else if("10001" == idCommand.nodeValue()) {
+
+                        for(QTcpSocket * socket : abonents.keys()) {
+                            if(socket->peerAddress() == itm.address()) {
+                                abonents.remove(socket);
+                            }
+                        }
                         //
-                    } else if("100" == idCommand.nodeValue()) {
+                    } else if(("100" == idCommand.nodeValue()) || ("101" == idCommand.nodeValue())) {
+//                        <RIFPlusPacket type="Commands"><Commands><Command id="100" name=" Выключение ИУ"/><device id="1" level="1" type="4"
+//                        num1="1" num2="1" num3="1"></Commands></RIFPlusPacket>
+                        QDomNodeList nodeListDevices = nodeCommand.childNodes();
+                        for(int i = 0, n = nodeListDevices.count(); i < n; i++) {
+                            QDomNode nodeDevice = nodeListDevices.at(i);
+                            if("device" == nodeDevice.nodeName()) {
+
+                                QDomNode deviceId, deviceLevel, deviceType, deviceNum1, deviceNum2, deviceNum3;
+
+                                if(!nodeDevice.attributes().contains("id")) continue;
+                                else deviceId = nodeDevice.attributes().namedItem("id");
+
+                                if(!nodeDevice.attributes().contains("level")) continue;
+                                else deviceLevel = nodeDevice.attributes().namedItem("level");
+
+                                if(!nodeDevice.attributes().contains("type")) continue;
+                                else deviceType = nodeDevice.attributes().namedItem("type");
+
+                                if(!nodeDevice.attributes().contains("num1")) continue;
+                                else deviceNum1 = nodeDevice.attributes().namedItem("num1");
+
+                                if(!nodeDevice.attributes().contains("num2")) continue;
+                                else deviceNum2 = nodeDevice.attributes().namedItem("num2");
+
+                                if(!nodeDevice.attributes().contains("num3")) continue;
+                                else deviceNum3 = nodeDevice.attributes().namedItem("num3");
+
+                                UnitNode * unTarget = nullptr;
+                                for(UnitNode * un : SettingUtils::getSetMetaRealUnitNodes()) {
+                                    if(un->getMetaNames().contains("Obj_" + deviceId.nodeValue()) &&
+                                       un->getLevel() == deviceLevel.nodeValue().toInt() &&
+                                       un->getType() == deviceType.nodeValue().toInt() &&
+                                       un->getNum1() == deviceNum1.nodeValue().toInt() &&
+                                       un->getNum2() == deviceNum2.nodeValue().toInt() &&
+                                       un->getNum3() == deviceNum3.nodeValue().toInt()) {
+                                        unTarget = un;
+                                        break;
+                                    }
+                                }
+
+                                if(nullptr == unTarget)
+                                    continue;
+
+                                bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
+                                SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, value);
+
+                            } else
+                                continue;
+                        }
                         //
                     } else if("101" == idCommand.nodeValue()) {
                         //

@@ -48,6 +48,11 @@ bool TcpServer::writeData(QString host, QByteArray data)
     return writeData(connectToHost(host), data);
 }
 
+QHash<QTcpSocket *, QByteArray *> TcpServer::getBuffers() const
+{
+    return buffers;
+}
+
 QTcpSocket * TcpServer::connectToHost(QString host)
 {
     QTcpSocket * socket = new QTcpSocket;

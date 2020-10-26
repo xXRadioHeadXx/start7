@@ -6,7 +6,7 @@
 #include <QVariant>
 
 enum SubTypeApp {
-    uncnown = 0x00,
+    any = 0x00,
     server = 0x01,
     database = 0x02,
     configurator = 0x03

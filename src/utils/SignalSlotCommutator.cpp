@@ -95,3 +95,8 @@ void SignalSlotCommutator::emitLostedConnect(UnitNode * un) const
 {
     emit this->lostConnect(un);
 }
+
+void SignalSlotCommutator::emitRequestOnOffCommand(UnitNode * un, bool value) const
+{
+    emit this->requestOnOffCommand(un, value);
+}
