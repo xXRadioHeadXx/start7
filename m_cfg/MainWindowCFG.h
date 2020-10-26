@@ -39,7 +39,7 @@ private:
     void get_option_BL_IP(UnitNode *unit);
 
 
-    bool set_option(QModelIndex index);
+    bool set_option(UnitNode *unit);
 
     void set_option_SD_BL_IP(UnitNode *unit);
     void set_option_IU_BL_IP(UnitNode *unit);
@@ -57,6 +57,7 @@ private:
 
 
     QString Type_from_int_to_string(int Type);
+    int     Type_from_string_to_int(QString Type);
 
     int selected_type;
 

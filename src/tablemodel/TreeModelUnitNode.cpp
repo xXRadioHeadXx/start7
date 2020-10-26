@@ -390,6 +390,9 @@ parent->deleteChild(index.row());
 
 
 
+
+
+
 //emit dataChanged(index,index);
 this->endRemoveRows();
 emit dataChanged(index,index);

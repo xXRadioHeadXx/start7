@@ -404,6 +404,50 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     return Type;
 }
 
+int MainWindowCFG::Type_from_string_to_int(QString Type)
+{
+
+
+    if(Type=="СД БЛ-IP")
+        return TypeUnitNode::SD_BL_IP;
+    /*
+    case TypeUnitNode::GROUP:
+break;
+
+
+    Type.append("Группа");
+    break;
+
+    case TypeUnitNode::SD_BL_IP:
+    Type.append("СД БЛ-IP");
+    break;
+
+    case TypeUnitNode::IU_BL_IP:
+    Type.append("ИУ БЛ-IP");
+    break;
+
+    case TypeUnitNode::TG:
+    Type.append("Точка/Гарда");
+    break;
+
+    case TypeUnitNode::RLM_KRL:
+    Type.append("РИФ-РЛМ/КРЛ/Трасса");
+    break;
+
+    case TypeUnitNode::RLM_C:
+    Type.append("РИФ-РЛМ-С");
+    break;
+
+    case TypeUnitNode::BOD_T4K_M:
+    Type.append("БОД Точка-М/Гряда");
+    break;
+
+    case TypeUnitNode::Y4_T4K_M:
+    Type.append("Участок Точка-М/Гряда");
+    break;
+    */
+}
+
 
 
 
@@ -460,24 +504,23 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
 void MainWindowCFG::on_pushButton_4_clicked()
 {
-    set_option(current_index);
+    UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
+    set_option(unit);
 }
 
-bool MainWindowCFG::set_option(QModelIndex index)
+bool MainWindowCFG::set_option(UnitNode *unit)
 {
-    bool res=1;
-    if(index.isValid())
-    {
-       UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
 
-       switch(selected_type)
+
+int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
+       switch(type)
        {
 
        case TypeUnitNode::SD_BL_IP:
        this->set_option_SD_BL_IP(unit);
        break;
 
- //      case TypeUnitNode::IU_BL_IP:
+       case TypeUnitNode::IU_BL_IP:
        this->get_option_IU_BL_IP(unit);
        break;
 
@@ -524,98 +567,7 @@ bool MainWindowCFG::set_option(QModelIndex index)
 
 
        }
-       /*
-       if(unit->getType()==TypeUnitNode::SD_BL_IP)
-       {
 
-           unit->setName(this->ui->uName_lineedit->text());
-           unit->setNum2(this->ui->CD_comboBox_Num2->currentText().toInt());
-           unit->setDK(this->ui->CD_DK_checkBox->isChecked()?1:0);
-           unit->setBazalt(this->ui->CD_Bazalt_checkBox->isChecked()?1:0);
-           unit->setConnectBlock(this->ui->CD_connectblock_checkBox->isChecked()?1:0);
-           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
-           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
-           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
-
-           qDebug()<<"Name: "<<unit->getName()
-                   <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                   <<" Num2:"<<QString::number(unit->getNum2())
-                   <<" DK:"<<QString::number(unit->getDK())
-                   <<" Bazalt:"<<QString::number(unit->getBazalt())
-                   <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                   <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                   <<" UdpAdress:"<<unit->getUdpAdress();
-
-       }
-       if(unit->getType()==TypeUnitNode::IU_BL_IP)
-       {
-
-           unit->setName(this->ui->uName_lineedit->text());
-           unit->setNum2(this->ui->IU_comboBox_Num2->currentText().toInt());
-           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
-           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
-           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
-
-           qDebug()<<"Name: "<<unit->getName()
-                   <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                   <<" Num2:"<<QString::number(unit->getNum2())
-//                   <<" DK:"<<QString::number(unit->getDK())
-//                   <<" Bazalt:"<<QString::number(unit->getBazalt())
-//                   <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                   <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                   <<" UdpAdress:"<<unit->getUdpAdress();
-       }
-       if(unit->getType()==TypeUnitNode::TG)
-       {
-           unit->setName(this->ui->uName_lineedit->text());
-           unit->setNum1(this->ui->TG_comboBox_Num1->currentText().toInt());
-           unit->setNum2(this->ui->TG_comboBox_Num2->currentText().toInt());
-           unit->setUdpUse(this->ui->TG_UdpUse_checkBox->isChecked()?1:0);
-           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
-           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
-       }
-       if(unit->getType()==TypeUnitNode::RLM_KRL)
-       {
-           unit->setName(this->ui->uName_lineedit->text());
-           unit->setNum1(this->ui->RLM_KRL_comboBox_Num1->currentText().toInt());
-           unit->setDK(this->ui->RLM_KRL_DK_checkBox->isChecked()?1:0);
-
-           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
-           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
-           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
-       }
-       if(unit->getType()==TypeUnitNode::RLM_C)
-       {
-           unit->setName(this->ui->uName_lineedit->text());
-           unit->setNum1(this->ui->RLM_C_comboBox_Num1->currentText().toInt());
-           unit->setDK(this->ui->RLM_C_DK_checkBox->isChecked()?1:0);
-
-           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
-           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
-           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
-       }
-       if(unit->getType()==TypeUnitNode::BOD_T4K_M)
-       {
-           unit->setName(this->ui->uName_lineedit->text());
-           unit->setNum1(this->ui->BOD_T4K_M_comboBox_Num1->currentText().toInt());
-
-           unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
-           unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
-           unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
-
-       }
-
-    else
-    {
-    res=0;
-    qDebug()<<"[ERROR][Index not valid]";
-    }
- */
-
-    }
-
-
-    return res;
 }
 
 
@@ -681,6 +633,8 @@ bool MainWindowCFG::add_unit()
     UnitNode *unit=new UnitNode();
     unit->setName(this->ui->uName_lineedit->text());
     unit->setType(type);
+
+    set_option(unit);
 
     QModelIndex index=this->ui->treeView->currentIndex();
 
