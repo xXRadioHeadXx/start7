@@ -381,7 +381,11 @@ if(this->parent(index).isValid())
 this->beginRemoveRows(index.parent(),index.row(),index.row());
 UnitNode *parent = static_cast<UnitNode*>(this->parent(index).internalPointer());
 
+
+
 parent->deleteChild(index.row());
+
+
 
 
 

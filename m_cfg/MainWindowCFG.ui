@@ -290,11 +290,11 @@
         <x>20</x>
         <y>120</y>
         <width>241</width>
-        <height>141</height>
+        <height>201</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Empty_space"/>
       <widget class="QWidget" name="Group_groupbox">
@@ -452,6 +452,114 @@
         </property>
         <property name="text">
          <string>Блок связи</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UdpUse_label_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>100</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Режим работы: UDP</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="UdpUse_checkBox_2">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>100</y>
+          <width>70</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>UDP</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CD_UdpAdress_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>120</y>
+          <width>63</width>
+          <height>14</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>IP-адрес </string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="CD_UdpAdress_lineEdit">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>120</y>
+          <width>153</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>153</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>153</width>
+          <height>20</height>
+         </size>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CD_UpdPort_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>96</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Номер порта </string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="CD_UpdPort_lineEdit">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>140</y>
+          <width>83</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>83</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>83</width>
+          <height>20</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -1494,8 +1602,8 @@
      <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>290</y>
+        <x>20</x>
+        <y>340</y>
         <width>208</width>
         <height>51</height>
        </rect>
@@ -1641,8 +1749,8 @@
      <widget class="QCheckBox" name="UdpUse_checkBox">
       <property name="geometry">
        <rect>
-        <x>170</x>
-        <y>270</y>
+        <x>160</x>
+        <y>320</y>
         <width>70</width>
         <height>17</height>
        </rect>
@@ -1654,8 +1762,8 @@
      <widget class="QLabel" name="UdpUse_label">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>270</y>
+        <x>20</x>
+        <y>320</y>
         <width>100</width>
         <height>17</height>
        </rect>

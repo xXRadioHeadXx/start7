@@ -59,6 +59,8 @@ private:
     QString Type_from_int_to_string(int Type);
     int     Type_from_string_to_int(QString Type);
 
+    bool this_name_is_free(QString Name);
+
     int selected_type;
 
     QModelIndex current_index;

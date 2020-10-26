@@ -448,6 +448,26 @@ break;
     */
 }
 
+bool MainWindowCFG::this_name_is_free(QString Name)
+{
+
+
+    foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+    {
+     qDebug()<< un->getName()<<" "<< Name ;
+     if(un->getName()==Name)
+     {
+         qDebug()<<"уже есть такое имя";
+         return false;
+     }
+
+
+    }
+
+
+    return true;
+}
+
 
 
 
@@ -512,6 +532,14 @@ bool MainWindowCFG::set_option(UnitNode *unit)
 {
 
 
+if(this_name_is_free(this->ui->uName_lineedit->text())==false)
+{
+    qDebug()<<"[ERROR]";
+    return false;
+}
+else
+{
+    qDebug()<<"[PROFIT]";
 int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        switch(type)
        {
@@ -567,7 +595,8 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
 
 
        }
-
+return true;
+}
 }
 
 
@@ -650,6 +679,7 @@ bool MainWindowCFG::add_unit()
     if (index.isValid())
     {
         if(can_i_add_or_not(parrent_type,child_type))
+        if(this_name_is_free(unit->getName()))
       this->modelTreeUN->appendNewUNInStructure(index,unit);
         else
             qDebug()<<"Нельзя добавить юнит к этому родителю";
@@ -669,13 +699,29 @@ bool MainWindowCFG::delete_unit()
 {
     QModelIndex index=this->ui->treeView->currentIndex();
 
+    UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
 
     if (index.isValid())
     {
+        int i=0;
+     foreach(UnitNode* un,this->modelTreeUN->listItemUN)
+     {
+         if(un->getName()==unit->getName())
+         {
+             qDebug()<<"delete";
+              this->modelTreeUN->deleteUnit(index);
+             modelTreeUN->listItemUN.removeAt(i);
+             return true;
 
-     this->modelTreeUN->deleteUnit(index);
+         }
+         i++;
+
+     }
+
+
 
     }
+    return false;
 
 
 /*
