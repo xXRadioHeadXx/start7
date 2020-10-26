@@ -27,8 +27,17 @@ enum Status {
 enum TypeUnitNode {
     SYSTEM = -1,
     GROUP = 0,
-    SD_BL_IP = 11,
-    IU_BL_IP = 12,
+    SD_BL_IP = 11,//СД БЛ-IP 
+    IU_BL_IP = 12,//ИУ БЛ-IP 
+    TG = 10,      //Точка/Гарда 
+    RLM_KRL = 1, //РИФ-РЛМ/КРЛ/Трасса
+    RLM_C = 111, //РИФ- РЛМ-С
+    BOD_T4K_M = 26,//БОД Точка-М/Гряда
+    Y4_T4K_M = 27,//Участок Точка-М/Гряда
+    DD_T4K_M = 28,//ДД Точка-М/Гряда
+    BOD_SOTA =29,//БОД Сота
+    Y4_SOTA = 30,//Участок Сота
+    DD_SOTA = 28,//ДД Сота
     BL_IP = 0xFF
 };
 
@@ -263,6 +272,8 @@ public:
 
     bool getControl() const;
     void setControl(bool value);
+
+    void deleteChild(int row);
 
 public slots:
     //    void emitIMUpd();

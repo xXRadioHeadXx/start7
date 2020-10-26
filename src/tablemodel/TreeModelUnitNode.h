@@ -53,6 +53,8 @@ public:
     void sortingListItemUN();
     void loadSettings(QString fileName = "rifx.ini");
 
+    bool deleteUnit(QModelIndex index);
+
 
 
     SubTypeApp getTypeApp() const;
@@ -66,6 +68,7 @@ signals:
 public slots:
     void updateUNs();
     void appendNewUNInStructure(UnitNode* un = nullptr);
+    void appendNewUNInStructure(QModelIndex &index, UnitNode* un);
     void updateUNStructure(UnitNode* un = nullptr);
     UnitNode *clickedUN(const QModelIndex &index);
 //    void moveUNStructure(UnitNode *objPtr,

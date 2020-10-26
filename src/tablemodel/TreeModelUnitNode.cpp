@@ -162,11 +162,28 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      return parentItem->treeChildCount();
  }
 
- void TreeModelUnitNode::appendNewUNInStructure(UnitNode* un)
+ void TreeModelUnitNode::appendNewUNInStructure(QModelIndex &index, UnitNode* un)
  {
-     this->beginResetModel();
-     this->createProxySortTree();//
-     this->endResetModel();
+//Kak tebe takoe Ilon Mask
+     qDebug()<<"appendNewUNInStructure";
+    this->beginInsertRows(index.parent(),index.row(),index.row());
+     UnitNode *parent= static_cast<UnitNode*>(index.internalPointer());
+
+     parent->addTreeChild(un);
+     parent->addChild(un);
+
+     this->endInsertRows();
+
+
+  //   parent->m_child_list.append(item);
+
+ //    item->m_parent=parent;
+
+
+//     this->beginResetModel();
+//     this->createProxySortTree();//
+
+//     this->endResetModel();
      return;
 
 //     this->beginInsertRows(this->findeIndexUNL(un->unTreeParent),
@@ -174,6 +191,19 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
 //                           un->unTreeParent->listChilde.indexOf(un));
 //     this->endInsertRows();
  }
+
+  void TreeModelUnitNode::appendNewUNInStructure(UnitNode* un)
+  {
+      this->beginResetModel();
+      this->createProxySortTree();//
+      this->endResetModel();
+      return;
+
+ //     this->beginInsertRows(this->findeIndexUNL(un->unTreeParent),
+ //                           un->unTreeParent->listChilde.indexOf(un),
+ //                           un->unTreeParent->listChilde.indexOf(un));
+ //     this->endInsertRows();
+  }
 
  void TreeModelUnitNode::updateUNStructure(UnitNode* un)
  {
@@ -338,6 +368,33 @@ void TreeModelUnitNode::updateUNs()
 void TreeModelUnitNode::loadSettings(QString fileName)
 {  
     listItemUN = SettingUtils::loadTreeUnitNodes(rootItemUN, fileName);
+}
+
+bool TreeModelUnitNode::deleteUnit(QModelIndex index)
+{
+qDebug()<<"TreeModelUnitNode::deleteUnit(QModelIndex index)";
+
+if(this->parent(index).isValid())
+{
+this->beginRemoveRows(index.parent(),index.row(),index.row());
+UnitNode *parent = static_cast<UnitNode*>(this->parent(index).internalPointer());
+
+parent->deleteChild(index.row());
+
+
+
+
+
+
+
+
+//emit dataChanged(index,index);
+this->endRemoveRows();
+emit dataChanged(index,index);
+}
+else
+qDebug()<<"no valid";
+/**/
 }
 
 void TreeModelUnitNode::createProxySortTree()

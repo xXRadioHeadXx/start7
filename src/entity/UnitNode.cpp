@@ -3,6 +3,7 @@
 #include <UnitNode.h>
 #include <SettingUtils.h>
 #include <Icons.h>
+#include <Icons_cfg.h>
 #include <SignalSlotCommutator.h>
 
 QSet<QString> UnitNode::getMetaNames() const
@@ -496,6 +497,30 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_ylw();
         }
     }
+     if(SubTypeApp::configurator == type) {
+         if(TypeUnitNode::GROUP == getType())
+         {
+         if(childCount())
+         return Icons::fldr();
+         else
+         return Icons::fldr_empt();
+         }
+         else if(TypeUnitNode::SD_BL_IP    == getType()) {return Icons_cfg::sd();        }
+         else if(TypeUnitNode::IU_BL_IP    == getType()) {return Icons_cfg::iu();        }
+         else if(TypeUnitNode::BOD_T4K_M   == getType()) {return Icons_cfg::BOD_T4K_M(); }
+         else if(TypeUnitNode::BOD_SOTA    == getType()) {return Icons_cfg::BOD_T4K_M(); }
+         else if(TypeUnitNode::Y4_T4K_M    == getType()) {return Icons_cfg::Y4_T4K_M();  }
+         else if(TypeUnitNode::DD_T4K_M    == getType()) {return Icons_cfg::Y4_T4K_M();  }
+         else if(TypeUnitNode::TG          == getType()) {return Icons_cfg::TG();        }
+         else if(TypeUnitNode::RLM_KRL     == getType()) {return Icons_cfg::RLM_KRL();   }
+         else if(TypeUnitNode::RLM_C       == getType()) {return Icons_cfg::RLM_KRL();   }
+         else if(TypeUnitNode::Y4_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
+         else if(TypeUnitNode::DD_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
+//         Y4_SOTA = 30,//Участок Сота
+//         DD_SOTA = 28,//ДД Сота
+
+      }
+
     return QPixmap();
 }
 
@@ -596,6 +621,12 @@ void UnitNode::setControl(bool value)
 {
     control = value;
     //    updDoubl();
+}
+
+void UnitNode::deleteChild(int row)
+{
+    this->listChilde.removeAt(row);
+    this->listTreeChilde.removeAt(row);
 }
 
 UnitNode::UnitNode(QObject *parent) : QObject(parent)

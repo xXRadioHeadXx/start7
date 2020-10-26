@@ -24,13 +24,26 @@ include(../src/requester/requester.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
-    main.cpp
+    backgroundimage.cpp \
+    main.cpp \
+    map.cpp \
+    mydrawobject.cpp \
+    myscene.cpp
+
+
 
 HEADERS += \
-    MainWindowCFG.h
+    MainWindowCFG.h \
+    backgroundimage.h \
+    map.h \
+    mydrawobject.h \
+    myscene.h
+
+
 
 FORMS += \
-    MainWindowCFG.ui
+    MainWindowCFG.ui \
+    map.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -38,4 +51,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resources.qrc
+    my_cfg_resources.qrc

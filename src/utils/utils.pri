@@ -8,6 +8,7 @@ SOURCES += \
 #    $$PWD/AppTranslator.cpp \
     $$PWD/Icons.cpp \
 #    $$PWD/ProcessDKWaiter.cpp \
+    $$PWD/Icons_cfg.cpp \
     $$PWD/SettingUtils.cpp \
 #    $$PWD/TablePrint.cpp \
     $$PWD/Utils.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
 #    $$PWD/AppTranslator.h \
     $$PWD/Icons.h \
 #    $$PWD/ProcessDKWaiter.h \
+    $$PWD/Icons_cfg.h \
     $$PWD/SettingUtils.h \
 #    $$PWD/TablePrint.h \
     $$PWD/Utils.h \
