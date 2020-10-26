@@ -54,7 +54,7 @@ private:
     void set_option_DD_SOTA(UnitNode *unit);
     void set_option_BL_IP(UnitNode *unit);
 
-
+    void save_ini(QString path);
 
     QString Type_from_int_to_string(int Type);
     int     Type_from_string_to_int(QString Type);
