@@ -756,6 +756,20 @@ current_index=this->ui->treeView->currentIndex();
 */
 }
 
+void MainWindowCFG::show_the_tree()
+{
+    qDebug()<<"[TREE]";
+    this->modelTreeUN->listItemUN;
+    foreach(UnitNode* unit,modelTreeUN->listItemUN)
+    {
+        qDebug()<<"-----------------";
+        qDebug()<<"Name:  "<<unit->getName();
+        qDebug()<<"Type:  "<<this->Type_from_int_to_string(unit->getType());
+        qDebug()<<"Level: "<<unit->getLevel();
+    }
+
+}
+
 void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 {
     this->ui->UdpUse_checkBox->setVisible(true);
@@ -974,4 +988,10 @@ void MainWindowCFG::on_UdpUse_checkBox_stateChanged(int arg1)
         this->ui->UpdPort_lineEdit->setText(QString::number(unit->getUdpPort()));
         this->ui->UdpAdress_lineEdit->setText(unit->getUdpAdress() );
     }
+}
+
+void MainWindowCFG::on_pushButton_8_clicked()
+{
+    show_the_tree();
+
 }

@@ -172,6 +172,8 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      parent->addTreeChild(un);
      parent->addChild(un);
 
+     listItemUN.append(un);
+
      this->endInsertRows();
 
 

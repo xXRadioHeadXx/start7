@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>587</width>
-    <height>795</height>
+    <height>850</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1674,6 +1674,19 @@
        <height>101</height>
       </rect>
      </property>
+     <widget class="QPushButton" name="pushButton_8">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>80</y>
+        <width>99</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
@@ -1881,7 +1894,7 @@
      <x>0</x>
      <y>0</y>
      <width>587</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

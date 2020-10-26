@@ -21,6 +21,8 @@ private:
     bool add_unit();
     bool delete_unit();
 
+    void show_the_tree();
+
     void get_option(QModelIndex index);
 
     void get_option_SD_BL_IP(UnitNode *unit);
@@ -82,5 +84,6 @@ private slots:
     void on_pushButton_2_clicked();
     void on_pushButton_7_clicked();
     void on_UdpUse_checkBox_stateChanged(int arg1);
+    void on_pushButton_8_clicked();
 };
 #endif // MAINWINDOWCFG_H
