@@ -614,11 +614,12 @@ void MainWindowCFG::on_actionCreate_triggered()
 void MainWindowCFG::on_actionOpen_triggered()
 {
      qDebug()<<"[Open]";
+     this->modelTreeUN->rootItemUN->deleteAll();
      QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
       qDebug()<<"patch = "<<patch;
      this->modelTreeUN->loadSettings(patch);
-     this->modelTreeUN->updateUNStructure();
-      this->ui->treeView->setModel(this->modelTreeUN);
+ //    this->modelTreeUN->updateUNStructure();
+
 }
 
 void MainWindowCFG::on_actionSave_triggered()

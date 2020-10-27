@@ -275,6 +275,9 @@ public:
 
     void deleteChild(int row);
 
+    void deleteAll();
+
+
 public slots:
     //    void emitIMUpd();
 
