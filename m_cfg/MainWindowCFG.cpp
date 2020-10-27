@@ -14,15 +14,17 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
  //   QString patch="C:/WORK1/start7/rifx.ini";
-   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
-    qDebug()<<"patch = "<<patch;
+
     this->modelTreeUN = new TreeModelUnitNode(this);
 
     modelTreeUN->setTypeApp(SubTypeApp::configurator);
 
     ui->treeView->setModel(this->modelTreeUN);
 
-    this->modelTreeUN->loadSettings(patch);
+
+ //   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
+ //    qDebug()<<"patch = "<<patch;
+ //   this->modelTreeUN->loadSettings(patch);
 
     this->ui->UdpUse_checkBox->setVisible(false);
     this->ui->UdpUse_checkBox->setChecked(false);
@@ -612,6 +614,11 @@ void MainWindowCFG::on_actionCreate_triggered()
 void MainWindowCFG::on_actionOpen_triggered()
 {
      qDebug()<<"[Open]";
+     QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
+      qDebug()<<"patch = "<<patch;
+     this->modelTreeUN->loadSettings(patch);
+     this->modelTreeUN->updateUNStructure();
+      this->ui->treeView->setModel(this->modelTreeUN);
 }
 
 void MainWindowCFG::on_actionSave_triggered()

@@ -382,8 +382,14 @@ void TreeModelUnitNode::updateUNs()
 }
 
 void TreeModelUnitNode::loadSettings(QString fileName)
-{  
+{
+
+
     listItemUN = SettingUtils::loadTreeUnitNodes(rootItemUN, fileName);
+
+this->beginInsertRows(this->index(0,0),0,listItemUN.count());
+    this->endInsertRows();
+    qDebug()<<"[PROFIT]";
 }
 
 bool TreeModelUnitNode::deleteUnit(QModelIndex index)

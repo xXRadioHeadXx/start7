@@ -14,12 +14,13 @@ QList<UnitNode *> SettingUtils::listTreeUnitNodes;
 QSet<UnitNode *> SettingUtils::listMetaRealUnitNodes;
 
 QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileName) {
+    qDebug()<<"[1]";
     if(!listTreeUnitNodes.isEmpty()) {
-        for(UnitNode *un : listTreeUnitNodes)
-            delete un;
+   //     for(UnitNode *un : listTreeUnitNodes)
+   //         delete un;
         listTreeUnitNodes.clear();
     }
-
+    qDebug()<<"[2]";
     QSettings settings(fileName, QSettings::IniFormat);
 
     settings.beginGroup("TREE");
@@ -31,7 +32,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         return listTreeUnitNodes;
 
     settings.setIniCodec( "Windows-1251" );
-
+    qDebug()<<"[3]";
     QList<UnitNode> lsUN;
 
     {
@@ -50,7 +51,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         lsUN.append(tmpUN);
         listTreeUnitNodes.append(tmpUN);
     }
-
+    qDebug()<<"[4]";
     for(int index = 0; index < cntTrItm; index++)
     {
         QString strGroup("Obj_%1");
@@ -174,6 +175,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             }
         }
     }
+        qDebug()<<"[5]";
     return listTreeUnitNodes;
 }
 
