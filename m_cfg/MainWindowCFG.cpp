@@ -112,6 +112,7 @@ void MainWindowCFG::get_option(QModelIndex index)
     switch(selected_type)
     {
         case TypeUnitNode::SD_BL_IP:
+        qDebug()<<"[!!!!!!!!!!!]";
         this->get_option_SD_BL_IP(unit);
         break;
 
@@ -526,21 +527,22 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
 void MainWindowCFG::on_pushButton_4_clicked()
 {
-    UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
-    set_option(unit);
+   change_unit();
+
+
+
 }
 
 bool MainWindowCFG::set_option(UnitNode *unit)
 {
 
-
+/*
 if(this_name_is_free(this->ui->uName_lineedit->text())==false)
 {
     qDebug()<<"[ERROR]";
     return false;
-}
-else
-{
+}*/
+
     qDebug()<<"[PROFIT]";
 int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        switch(type)
@@ -598,7 +600,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
 
        }
 return true;
-}
+
 }
 
 
@@ -713,6 +715,35 @@ bool MainWindowCFG::add_unit()
 
     return res;
 
+}
+
+bool MainWindowCFG::change_unit()
+{
+    UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
+    //проверка имени
+    //Взять имя юнита
+    //найти номер юнита в списке по его имени
+    //перебрать все остальные юниты по номерам кроме этого номера
+    //
+
+
+
+    QString origin_name=unit->getName();
+    QString new_name=    this->ui->uName_lineedit->text();
+
+    bool res=true;
+
+    if(origin_name!=new_name)
+    {
+        if(this->this_name_is_free(new_name)==false)
+        {
+            res=false;
+        }
+
+    }
+
+    if(res==true)
+    set_option(unit);
 }
 
 bool MainWindowCFG::delete_unit()
@@ -830,7 +861,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 
 
 
-    this->ui->CD_comboBox_Num2->setCurrentText(QString::number(Num2));
+    this->ui->CD_comboBox_Num2->setCurrentText(QString::number(unit->getNum2()));
 
 
     this->ui->CD_DK_checkBox->setChecked(DK);

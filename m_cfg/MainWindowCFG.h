@@ -19,6 +19,7 @@ private:
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool add_unit();
+    bool change_unit();
     bool delete_unit();
 
     void show_the_tree();
