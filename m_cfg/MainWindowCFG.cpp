@@ -1021,6 +1021,61 @@ for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
         settings.setValue("Type",unit->getType());
         settings.setValue("Level",unit->getLevel());
 
+        switch(unit->getType())
+        {
+ //save_option_SD_BL_IP(QSettings  settings,UnitNode*  unit);
+        case TypeUnitNode::SD_BL_IP:
+        this->save_option_SD_BL_IP(&settings, unit);
+        break;
+
+        case TypeUnitNode::IU_BL_IP:
+    //    this->get_option_IU_BL_IP(unit);
+        break;
+
+        case TypeUnitNode::TG:
+   //     this->get_option_TG(unit);
+        break;
+
+        case TypeUnitNode::RLM_KRL:
+   //     this->get_option_RLM_KRL(unit);
+        break;
+
+        case TypeUnitNode::RLM_C:
+   //     this->get_option_RLM_C(unit);
+        break;
+
+        case TypeUnitNode::BOD_T4K_M:
+   //     this->get_option_BOD_T4K_M(unit);
+        break;
+
+        case TypeUnitNode::Y4_T4K_M:
+   //     this->get_option_Y4_T4K_M(unit);
+        break;
+
+        case TypeUnitNode::DD_T4K_M:
+   //     this->get_option_DD_T4K_M(unit);
+        break;
+
+        case TypeUnitNode::BOD_SOTA:
+   //     this->get_option_BOD_SOTA(unit);
+        break;
+
+        case TypeUnitNode::Y4_SOTA:
+   //     this->get_option_Y4_SOTA(unit);
+        break;
+    /*
+        case TypeUnitNode::DD_SOTA:
+        this->get_option_DD_SOTA(unit);
+        break;*/
+
+        case TypeUnitNode::BL_IP:
+   //     this->get_option_BL_IP(unit);
+        break;
+
+
+
+        }
+
         settings.endGroup();
 
     }
@@ -1030,6 +1085,28 @@ for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
 
     settings.endGroup();
 
+}
+
+void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)
+{
+          settings->setValue("Num2", QString::number(unit->getNum2()));
+          settings->setValue("DK", QString::number(unit->getDK()));
+          settings->setValue("Bazalt", QString::number(unit->getBazalt()));
+          settings->setValue("connectblock", QString::number(unit->getConnectBlock()));
+          settings->setValue("UdpUse", QString::number(unit->getUdpUse()));
+          settings->setValue("UdpAdress", unit->getUdpAdress());
+
+
+          /*
+          qDebug()<<"Name: "<<unit->getName()
+                  <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+                  <<" Num2:"<<QString::number(unit->getNum2())
+                  <<" DK:"<<QString::number(unit->getDK())
+                  <<" Bazalt:"<<QString::number(unit->getBazalt())
+                  <<" connectblock:"<<QString::number(unit->getConnectBlock())
+                  <<" UdpUse:"<<QString::number(unit->getUdpUse())
+                  <<" UdpAdress:"<<unit->getUdpAdress();
+          */
 }
 
 

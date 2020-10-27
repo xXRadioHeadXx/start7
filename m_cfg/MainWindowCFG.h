@@ -57,6 +57,8 @@ private:
 
     void save_ini(QString path);
 
+    void save_option_SD_BL_IP(QSettings* settings,UnitNode*  unit);
+
     QString Type_from_int_to_string(int Type);
     int     Type_from_string_to_int(QString Type);
 
