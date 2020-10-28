@@ -21,7 +21,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->treeView->setModel(this->modelTreeUN);
 
-
+    ui->treeView->setColumnWidth(0,1000);
+    ui->treeView->setColumnWidth(1,1000);
+    ui->treeView->setColumnWidth(2,1000);
  //   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
  //    qDebug()<<"patch = "<<patch;
  //   this->modelTreeUN->loadSettings(patch);
