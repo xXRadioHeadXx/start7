@@ -337,7 +337,7 @@ void MainWindowCFG::update_map()
 
        if(false==map.find(un->getName()))
        {
-           map.Add(un->getName(),un->getPxm(),un->getX(),un->getY());
+           map.Add(un->getName(),un->getPxm(SubTypeApp::configurator),un->getX(),un->getY());
 
 
 
@@ -582,7 +582,7 @@ bool MainWindowCFG::add_unit()
             if(false==this->map.find(unit->getName()))
         {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
-        map.Add(unit->getName(),unit->getPxm(),unit->getX(),unit->getY());
+        map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
         }
         else
             qDebug()<<"Нельзя добавить юнит к этому родителю";
