@@ -110,3 +110,8 @@ void SignalSlotCommutator::emitChangeSelectUN(UnitNode * un) const
 {
     emit this->changeSelectUN(un);
 }
+
+void SignalSlotCommutator::emitRequestDK(UnitNode * un) const
+{
+    emit this->requestDK(un);
+}

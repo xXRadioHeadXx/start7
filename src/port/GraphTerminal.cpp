@@ -274,10 +274,78 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 //
             } else/* if("101" == idCommand.nodeValue()) {
                 //
-            } else*/ if("133" == idCommand.nodeValue()) {
+            } else*/ if(("133" == idCommand.nodeValue()) || ("1133" == idCommand.nodeValue())) {
+                qDebug() << "-->";
+                if(2 != nodeCommands.childNodes().count())
+                    continue;
+
+                QDomNode nodeDevice = nodeCommands.namedItem("device");
+
+                if(nodeDevice.isNull())
+                    continue;
+
+                QDomNode deviceId, deviceLevel, deviceType, deviceNum1, deviceNum2, deviceNum3;
+
+                if(nodeDevice.attributes().contains("id")) deviceId = nodeDevice.attributes().namedItem("id");
+
+                if(nodeDevice.attributes().contains("level")) deviceLevel = nodeDevice.attributes().namedItem("level");
+
+                if(nodeDevice.attributes().contains("type")) deviceType = nodeDevice.attributes().namedItem("type");
+
+                if(nodeDevice.attributes().contains("num1")) deviceNum1 = nodeDevice.attributes().namedItem("num1");
+
+                if(nodeDevice.attributes().contains("num2")) deviceNum2 = nodeDevice.attributes().namedItem("num2");
+
+                if(nodeDevice.attributes().contains("num3")) deviceNum3 = nodeDevice.attributes().namedItem("num3");
+
+                UnitNode * unTarget = nullptr;
+                QSet<UnitNode *> unTargetSet;
+
+                qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
+
+                for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
+                    if(!deviceId.isNull()) {
+                        QString unMetaName("Obj_" + deviceId.nodeValue());
+                        if(un->getMetaNames().contains(unMetaName)) {
+                            unTargetSet.insert(un);
+                        }
+                    }
+
+                    if(!deviceId.isNull() && !deviceLevel.isNull() && !deviceType.isNull() && !deviceNum1.isNull() && !deviceNum2.isNull() && !deviceNum3.isNull()) {
+                        QString unMetaName("Obj_" + deviceId.nodeValue());
+                        if(un->getMetaNames().contains(unMetaName) &&
+                           un->getLevel() == deviceLevel.nodeValue().toInt() &&
+                           un->getNum1() == deviceNum1.nodeValue().toInt() &&
+                           un->getNum2() == deviceNum2.nodeValue().toInt() &&
+                           un->getNum3() == deviceNum3.nodeValue().toInt()) {
+                            unTargetSet.insert(un);
+                        }
+                    }
+
+                    if(deviceId.isNull() && deviceLevel.isNull() && !deviceType.isNull() && !deviceNum1.isNull() && !deviceNum2.isNull() && !deviceNum3.isNull()) {
+                        if(un->getLevel() == deviceLevel.nodeValue().toInt() &&
+                           un->getNum1() == deviceNum1.nodeValue().toInt() &&
+                           un->getNum2() == deviceNum2.nodeValue().toInt() &&
+                           un->getNum3() == deviceNum3.nodeValue().toInt()) {
+                            unTargetSet.insert(un);
+                        }
+                    }
+                }
+
+                for(UnitNode * un : unTargetSet.values()) {
+                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
+                        unTarget = un;
+                        qDebug() << unTarget->getName();
+                        break;
+                    }
+                }
+
+                SignalSlotCommutator::getInstance()->emitRequestDK(unTarget);
+
+                qDebug() << "<--";
                 //
-            } else if("1133" == idCommand.nodeValue()) {
-                //
+//            } else if("1133" == idCommand.nodeValue()) {
+//                //
             } else if("1" == idCommand.nodeValue()) {
                 if(2 != nodeCommands.childNodes().count())
                     continue;
