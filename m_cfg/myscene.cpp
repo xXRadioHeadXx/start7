@@ -121,8 +121,9 @@ void myScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if(!((x>(this->X-item->boundingRect().x()))||(x<0)||(y>(this->Y-item->boundingRect().y()))||(y<0)))
     {
         item->setPos(event->scenePos());
+                this->update();
         emit point(obj->Name,x,y);
-        this->update();
+
   //->setPos(mapToScene(event->pos()));
    }
         else
@@ -139,6 +140,7 @@ void myScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     {
         MyDrawObject *obj=dynamic_cast< MyDrawObject *>(item);
     if(obj)
+    {
       //  qDebug()<<"[PROFIT]";
         item->setSelected(false);
         int x =event->scenePos().x();
@@ -147,6 +149,7 @@ void myScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
         emit point(obj->Name,x,y);
         this->update();
+    }
   //->setPos(mapToScene(event->pos()));
 
     }

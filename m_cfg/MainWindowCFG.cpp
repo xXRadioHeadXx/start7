@@ -63,6 +63,7 @@ bool MainWindowCFG::load(QString patch)
 
 void MainWindowCFG::select(QString Name)
 {
+
 foreach(UnitNode* un,this->modelTreeUN->listItemUN)
 {
     if(un->getName()==Name)
@@ -73,11 +74,24 @@ foreach(UnitNode* un,this->modelTreeUN->listItemUN)
 
 
 }
+
 }
 
 void MainWindowCFG::set_x_y(QString Name, int x, int y)
 {
 
+    foreach(UnitNode* un,this->modelTreeUN->listItemUN)
+    {
+        if(un->getName()==Name)
+        {
+        un->setX(x);
+        un->setY(y);
+        get_option(un);
+        }
+
+
+    }
+  /*  */
 }
 
 
@@ -191,194 +205,10 @@ QString Name=unit->getName();
 
 
     }
-    /*
-    if(selected_type==TypeUnitNode::SD_BL_IP)
-    {
 
+    this->ui->x_label->setText(QString::number(unit->getX()));
+    this->ui->y_label->setText(QString::number(unit->getY()));
 
-
-
-    }
-    else
-    if(selected_type==TypeUnitNode::IU_BL_IP)
-    {
-        this->ui->uType_combobox->setCurrentText(Type);
-        this->ui->UdpUse_checkBox->setVisible(true);
-        int Num2=unit->getNum2();
-        UdpUse=unit->getUdpUse();
-        UdpAdress=unit->getUdpAdress();
-        UdpPort=unit->getUdpPort();
-
-        qDebug()<<"Name: "<<unit->getName()
-                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                <<" Num2:"<<QString::number(unit->getNum2())
-         //       <<" DK:"<<QString::number(unit->getDK())
-         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
-         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                <<" UdpAdress:"<<unit->getUdpAdress();
-
-
-        this->ui->uType_combobox->setCurrentText(Type);
-        this->ui->IU_comboBox_Num2->setCurrentText(QString::number(Num2));
-        this->ui->UdpUse_checkBox->setChecked(UdpUse);
-
-    }
-    if(selected_type==TypeUnitNode::TG)
-    {
-        this->ui->uType_combobox->setCurrentText(Type);
-        this->ui->UdpUse_checkBox->setVisible(true);
-        int Num1=unit->getNum1();
-        int Num2=unit->getNum2();
-        UdpUse=unit->getUdpUse();
-        UdpAdress=unit->getUdpAdress();
-        UdpPort=unit->getUdpPort();
-
-        qDebug()<<"Name: "<<unit->getName()
-                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                <<" Num1:"<<QString::number(unit->getNum1())
-                <<" Num2:"<<QString::number(unit->getNum2())
-         //       <<" DK:"<<QString::number(unit->getDK())
-         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
-         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                <<" UdpAdress:"<<unit->getUdpAdress();
-
-        this->ui->TG_comboBox_Num1->setCurrentText(QString::number(Num1));
-        this->ui->TG_comboBox_Num2->setCurrentText(QString::number(Num2));
-        this->ui->TG_UdpUse_checkBox->setChecked(UdpUse);
-    }
-    if(selected_type==TypeUnitNode::RLM_KRL)
-    {
-     this->ui->uType_combobox->setCurrentText(Type);
-     this->ui->UdpUse_checkBox->setVisible(true);
-     int Num1=unit->getNum1();
-
-     bool DK=false;
-     if(unit->getDK())
-        DK=true;
-
-     UdpUse=unit->getUdpUse();
-     UdpAdress=unit->getUdpAdress();
-     UdpPort=unit->getUdpPort();
-
-     qDebug()<<"Name: "<<unit->getName()
-             <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-             <<" Num1:"<<QString::number(unit->getNum1())
-      //       <<" Num2:"<<QString::number(unit->getNum2())
-             <<" DK:"<<QString::number(unit->getDK())
-      //       <<" Bazalt:"<<QString::number(unit->getBazalt())
-      //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
-             <<" UdpUse:"<<QString::number(unit->getUdpUse())
-             <<" UdpAdress:"<<unit->getUdpAdress();
-
-     this->ui->RLM_KRL_comboBox_Num1->setCurrentText(QString::number(Num1));
-
-     this->ui->RLM_KRL_DK_checkBox->setChecked(DK);
-
-     this->ui->UdpUse_checkBox->setChecked(UdpUse);
-
-    }
-    if(selected_type==TypeUnitNode::RLM_C)
-    {
-        this->ui->uType_combobox->setCurrentText(Type);
-        this->ui->UdpUse_checkBox->setVisible(true);
-        int Num1=unit->getNum1();
-        bool DK=false;
-        if(unit->getDK())
-           DK=true;
-
-        UdpUse=unit->getUdpUse();
-        UdpAdress=unit->getUdpAdress();
-        UdpPort=unit->getUdpPort();
-
-        qDebug()<<"Name: "<<unit->getName()
-                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                <<" Num1:"<<QString::number(unit->getNum1())
-         //       <<" Num2:"<<QString::number(unit->getNum2())
-                <<" DK:"<<QString::number(unit->getDK())
-         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
-         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                <<" UdpAdress:"<<unit->getUdpAdress();
-
-
-        this->ui->RLM_C_comboBox_Num1->setCurrentText(QString::number(Num1));
-
-        this->ui->RLM_C_DK_checkBox->setChecked(DK);
-
-        this->ui->UdpUse_checkBox->setChecked(UdpUse);
-
-    }
-    if(selected_type==TypeUnitNode::BOD_T4K_M)
-    {
-        this->ui->uType_combobox->setCurrentText(Type);
-        this->ui->UdpUse_checkBox->setVisible(true);
-
-        int Num1=unit->getNum1();
-
-        qDebug()<<"Name: "<<unit->getName()
-                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                <<" Num1:"<<QString::number(unit->getNum1())
-         //       <<" Num2:"<<QString::number(unit->getNum2())
-         //       <<" DK:"<<QString::number(unit->getDK())
-         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
-         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                <<" UdpAdress:"<<unit->getUdpAdress();
-
-        this->ui->BOD_T4K_M_comboBox_Num1->setCurrentText(QString::number(Num1));
-
-
-        UdpUse=unit->getUdpUse();
-        UdpAdress=unit->getUdpAdress();
-        UdpPort=unit->getUdpPort();
-
-
-    }
-    if(selected_type==TypeUnitNode::Y4_T4K_M)
-    {
-        this->ui->uType_combobox->setCurrentText(Type);
-        this->ui->UdpUse_checkBox->setVisible(true);
-
-        int Num1=unit->getNum1();
-        int Num2=unit->getNum2();
-
-        qDebug()<<"Name: "<<unit->getName()
-                <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                <<" Num1:"<<QString::number(unit->getNum1())
-                <<" Num2:"<<QString::number(unit->getNum2())
-         //       <<" DK:"<<QString::number(unit->getDK())
-         //       <<" Bazalt:"<<QString::number(unit->getBazalt())
-         //       <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                <<" UdpAdress:"<<unit->getUdpAdress();
-
-        this->ui->Y4_T4K_M_comboBox_Num1->setCurrentText(QString::number(Num1));
-        this->ui->Y4_T4K_M_comboBox_Num2->setCurrentText(QString::number(Num2));
-
-
-        UdpUse=unit->getUdpUse();
-        UdpAdress=unit->getUdpAdress();
-        UdpPort=unit->getUdpPort();
-    }
-    if(UdpUse)
-    {
-
-    this->ui->UpdPort_label->setVisible(true);
-    this->ui->UdpAdress_label->setVisible(true);
-    this->ui->UpdPort_lineEdit->setVisible(true);
-    this->ui->UdpAdress_lineEdit->setVisible(true);
-
-    this->ui->UpdPort_lineEdit->setText(QString::number(UdpPort));
-    this->ui->UdpAdress_lineEdit->setText(UdpAdress);
-    }
- //   TG_groupbox
-
-    qDebug()<<"Name: "<<Name
-            <<" Type:"<<Type;
-
-*/
 }
 
 
@@ -500,17 +330,16 @@ bool MainWindowCFG::this_name_is_free(QString Name)
 }
 
 void MainWindowCFG::update_map()
-{int x=0;
-    int y=0;
+{
+
     foreach(UnitNode* un, this->modelTreeUN->listItemUN)
     {
 
        if(false==map.find(un->getName()))
        {
-           map.Add(un->getName(),un->getPxm(),x,y);
+           map.Add(un->getName(),un->getPxm(),un->getX(),un->getY());
 
-           x=x+30;
-           y=y+30;
+
 
        }
 
@@ -1127,6 +956,9 @@ for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
 
 
         }
+
+        settings.setValue("X", unit->getX());
+        settings.setValue("Y",unit->getY());
 
         settings.endGroup();
 
