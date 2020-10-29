@@ -55,6 +55,7 @@ private:
     void set_option_DD_SOTA(UnitNode *unit);
     void set_option_BL_IP(UnitNode *unit);
 
+
     void save_ini(QString path);
 
     void save_option_SD_BL_IP(QSettings* settings,UnitNode*  unit);

@@ -107,6 +107,7 @@ bool Map::find(QString Name)
     {
         MyDrawObject *obj=dynamic_cast< MyDrawObject *>(item);
     if(obj)
+
         {
            if(obj->Name==Name)
                return true;

@@ -23,6 +23,7 @@ public:
 
 
 
+
     void Add(QString name,QPixmap pixmap,int x,int y);
     void find(int id);
     bool find(QString Name);

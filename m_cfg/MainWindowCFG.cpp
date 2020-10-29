@@ -646,6 +646,7 @@ void MainWindowCFG::on_actionOpen_triggered()
 
 }
 
+
 void MainWindowCFG::on_actionSave_triggered()
 {
    QString path=QFileDialog::getSaveFileName(this, "save file","","*.ini");
