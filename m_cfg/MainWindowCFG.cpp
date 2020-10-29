@@ -39,7 +39,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     }
 
 
+    connect(this->map.scene,SIGNAL(select(QString)),this,SLOT(select(QString)));
 
+    connect(this->map.scene,SIGNAL(point(QString,int,int)),this,SLOT(set_x_y(QString,int,int)));
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -59,19 +61,41 @@ bool MainWindowCFG::load(QString patch)
     return res;
 }
 
-
-void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
+void MainWindowCFG::select(QString Name)
 {
-this->get_option(index);
+foreach(UnitNode* un,this->modelTreeUN->listItemUN)
+{
+    if(un->getName()==Name)
+    {
+        get_option(un);
+        this->ui->treeView->setCurrentIndex( this->modelTreeUN->findeIndexUN(un));
+    }
+
+
+}
+}
+
+void MainWindowCFG::set_x_y(QString Name, int x, int y)
+{
+
 }
 
 
-void MainWindowCFG::get_option(QModelIndex index)
+void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
     current_index=index;
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
-    QString Name=unit->getName();
 
+
+this->get_option(unit);
+}
+
+
+void MainWindowCFG::get_option(UnitNode* unit)
+{
+    qDebug()<<"get option";
+
+QString Name=unit->getName();
 
     this->ui->uName_lineedit->setText(Name);
 
@@ -484,6 +508,7 @@ void MainWindowCFG::update_map()
        if(false==map.find(un->getName()))
        {
            map.Add(un->getName(),un->getPxm(),x,y);
+
            x=x+30;
            y=y+30;
 
@@ -725,7 +750,11 @@ bool MainWindowCFG::add_unit()
     {
         if(can_i_add_or_not(parrent_type,child_type))
         if(this_name_is_free(unit->getName()))
+            if(false==this->map.find(unit->getName()))
+        {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
+        map.Add(unit->getName(),unit->getPxm(),unit->getX(),unit->getY());
+        }
         else
             qDebug()<<"Нельзя добавить юнит к этому родителю";
     }
@@ -1147,29 +1176,7 @@ void MainWindowCFG::on_pushButton_7_clicked()
         this->map.show();
 }
 
-void MainWindowCFG::on_UdpUse_checkBox_stateChanged(int arg1)
-{
-       UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
-    qDebug()<<"stateChanged";
-    if(this->ui->UdpUse_checkBox->isChecked()==false)
-    {
-        this->ui->UpdPort_label->setVisible(false);
-        this->ui->UdpAdress_label->setVisible(false);
-        this->ui->UpdPort_lineEdit->setVisible(false);
-        this->ui->UdpAdress_lineEdit->setVisible(false);
-        this->ui->UpdPort_lineEdit->setText("");
-        this->ui->UdpAdress_lineEdit->setText("");
-    }
-    else
-    {
-        this->ui->UpdPort_label->setVisible(true);
-        this->ui->UdpAdress_label->setVisible(true);
-        this->ui->UpdPort_lineEdit->setVisible(true);
-        this->ui->UdpAdress_lineEdit->setVisible(true);
-        this->ui->UpdPort_lineEdit->setText(QString::number(unit->getUdpPort()));
-        this->ui->UdpAdress_lineEdit->setText(unit->getUdpAdress() );
-    }
-}
+
 
 void MainWindowCFG::on_pushButton_8_clicked()
 {

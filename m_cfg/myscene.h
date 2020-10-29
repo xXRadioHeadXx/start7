@@ -32,8 +32,8 @@ private:
 
 
 signals:
-    void select(int ID);
-    void point(int ID,int x,int y);
+    void select(QString Name);
+    void point(QString Name,int x,int y);
 };
 
 
