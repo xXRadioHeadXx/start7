@@ -7,10 +7,10 @@
 
 
 
-MyDrawObject::MyDrawObject(int id,QString Name,QPixmap pixmap)
+MyDrawObject::MyDrawObject(QString Name,QPixmap pixmap)
 {
     this->supreme=0;
-this->ID=id;
+
     this->Name=Name;
     this->image=pixmap.toImage();
 }

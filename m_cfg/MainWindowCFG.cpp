@@ -38,6 +38,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->Y4_T4K_M_comboBox_Num2->addItem(QString::number(i));
     }
 
+
+
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -473,6 +475,23 @@ bool MainWindowCFG::this_name_is_free(QString Name)
     return true;
 }
 
+void MainWindowCFG::update_map()
+{int x=0;
+    int y=0;
+    foreach(UnitNode* un, this->modelTreeUN->listItemUN)
+    {
+
+       if(false==map.find(un->getName()))
+       {
+           map.Add(un->getName(),un->getPxm(),x,y);
+           x=x+30;
+           y=y+30;
+
+       }
+
+    }
+}
+
 
 
 
@@ -622,6 +641,7 @@ void MainWindowCFG::on_actionOpen_triggered()
      QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
       qDebug()<<"patch = "<<patch;
      this->modelTreeUN->loadSettings(patch);
+      this->update_map();
  //    this->modelTreeUN->updateUNStructure();
 
 }

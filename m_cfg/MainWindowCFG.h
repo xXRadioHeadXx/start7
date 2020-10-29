@@ -64,6 +64,8 @@ private:
 
     bool this_name_is_free(QString Name);
 
+    void update_map();
+
     int selected_type;
 
     QModelIndex current_index;
