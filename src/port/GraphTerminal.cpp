@@ -181,14 +181,15 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 continue;
 
             QDomNode idCommand = nodeCommand.attributes().namedItem("id");
-            QDomDocument docAnswer;
+//            QDomDocument docAnswer;
+            QByteArray dataAnswer;
             qDebug() << "GraphTerminal::procCommands() idCommand.nodeValue(" << idCommand.nodeValue() << ")";
             qDebug() << "GraphTerminal::procCommands() " << doc.toString();
             if("0" == idCommand.nodeValue()) {
-                docAnswer = makeInitialStatus("InitialStatus answer command 0");
+                dataAnswer = makeInitialStatus("InitialStatus answer command 0").toByteArray();
                 //
             } else if("10000" == idCommand.nodeValue()) {
-                docAnswer = makeEventsAndStates("EventsAndStates answer command 10000");
+                dataAnswer = makeEventsAndStates("EventsAndStates answer command 10000").toByteArray();
 
                 QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
                 for(QTcpSocket * socket : buffers.keys()) {
@@ -362,13 +363,96 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
                 //
-            } else if("137" == idCommand.nodeValue()) {
+            } else if(("137" == idCommand.nodeValue()) || ("136" == idCommand.nodeValue())) {
+
+                if(2 != nodeCommands.childNodes().count())
+                    continue;
+
+                QDomNode nodeDevice = nodeCommands.namedItem("device");
+
+                if(nodeDevice.isNull())
+                    continue;
+
+                QDomNode deviceId, deviceLevel, deviceType, deviceNum1, deviceNum2, deviceNum3;
+
+                if(nodeDevice.attributes().contains("id")) deviceId = nodeDevice.attributes().namedItem("id");
+
+                if(nodeDevice.attributes().contains("level")) deviceLevel = nodeDevice.attributes().namedItem("level");
+
+                if(nodeDevice.attributes().contains("type")) deviceType = nodeDevice.attributes().namedItem("type");
+
+                if(nodeDevice.attributes().contains("num1")) deviceNum1 = nodeDevice.attributes().namedItem("num1");
+
+                if(nodeDevice.attributes().contains("num2")) deviceNum2 = nodeDevice.attributes().namedItem("num2");
+
+                if(nodeDevice.attributes().contains("num3")) deviceNum3 = nodeDevice.attributes().namedItem("num3");
+
+                UnitNode * unTarget = nullptr;
+                QSet<UnitNode *> unTargetSet;
+
+                qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
+
+                for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
+                    if(!deviceId.isNull()) {
+                        QString unMetaName("Obj_" + deviceId.nodeValue());
+                        if(un->getMetaNames().contains(unMetaName)) {
+                            unTargetSet.insert(un);
+                        }
+                    }
+
+                    if(!deviceId.isNull() && !deviceLevel.isNull() && !deviceType.isNull() && !deviceNum1.isNull() && !deviceNum2.isNull() && !deviceNum3.isNull()) {
+                        QString unMetaName("Obj_" + deviceId.nodeValue());
+                        if(un->getMetaNames().contains(unMetaName) &&
+                           un->getLevel() == deviceLevel.nodeValue().toInt() &&
+                           un->getNum1() == deviceNum1.nodeValue().toInt() &&
+                           un->getNum2() == deviceNum2.nodeValue().toInt() &&
+                           un->getNum3() == deviceNum3.nodeValue().toInt()) {
+                            unTargetSet.insert(un);
+                        }
+                    }
+
+                    if(deviceId.isNull() && deviceLevel.isNull() && !deviceType.isNull() && !deviceNum1.isNull() && !deviceNum2.isNull() && !deviceNum3.isNull()) {
+                        if(un->getLevel() == deviceLevel.nodeValue().toInt() &&
+                           un->getNum1() == deviceNum1.nodeValue().toInt() &&
+                           un->getNum2() == deviceNum2.nodeValue().toInt() &&
+                           un->getNum3() == deviceNum3.nodeValue().toInt()) {
+                            unTargetSet.insert(un);
+                        }
+                    }
+                }
+
+                for(UnitNode * un : unTargetSet.values()) {
+                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
+                        unTarget = un;
+                        qDebug() << unTarget->getName();
+                        break;
+                    }
+                }
+
+                bool val = true;
+                if("137" == idCommand.nodeValue()) {
+                    val = true;
+                } else if("136" == idCommand.nodeValue()) {
+                    val = false;
+                }
+
+                unTarget->setControl(val);
+
+                JourEntity msgOn;
+                msgOn.setObject(unTarget->getName());
+                msgOn.setType((unTarget->getControl() ? 137 : 136));
+                msgOn.setComment(trUtf8("Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
+                DataBaseManager::insertJourMsg_wS(msgOn);
+
+                qDebug() << "<--";
+
                 //
-            } else if("136" == idCommand.nodeValue()) {
-                //
-            } else if("1301" == idCommand.nodeValue()) {
+//            } else if("136" == idCommand.nodeValue()) {
+//                //
+            } else if("1301" == idCommand.nodeValue()) {              
                 //
             } else if("2" == idCommand.nodeValue()) {
+                dataAnswer = makeProtocolVersionInfo();
                 //
             } else if("33" == idCommand.nodeValue()) {
                 //
@@ -380,9 +464,9 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 //
             }
 
-            if(!docAnswer.isNull()) {
+            if(!dataAnswer.isEmpty()) {
                 DataQueueItem itmAnswer = itm;
-                itmAnswer.setData(docAnswer.toByteArray());
+                itmAnswer.setData(dataAnswer);
 
                 QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
                 for(QTcpSocket * socket : buffers.keys()) {
@@ -392,7 +476,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                         auto cw51 = QTextCodec::codecForName("windows-1251");
 
                         ts.setCodec(cw51);
-                        ts << docAnswer.toString();
+                        ts << dataAnswer;
                         ts.flush();
 
                         this->m_tcpServer->writeData(socket, buf);
@@ -681,4 +765,87 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
 //    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
 
     return doc;
+}
+
+QByteArray GraphTerminal::makeProtocolVersionInfo()
+{
+    return "<RIFPlusPacket type=\"ProtocolVersionInfo\"><version=\"1.19\"/></RIFPlusPacket>";
+}
+
+QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
+    return makeEventBook(nullptr, jour);
+}
+
+QDomDocument GraphTerminal::makeEventBook(UnitNode * un) {
+    return makeEventBook(un, JourEntity());
+}
+
+QDomDocument GraphTerminal::makeEventBook(UnitNode * un, JourEntity jour)
+{
+    QDomDocument doc;//(docType);
+
+    QDomElement  RIFPlusPacketElement  =  doc.createElement("RIFPlusPacket");
+    RIFPlusPacketElement.setAttribute("type", "EventBook");
+    doc.appendChild(RIFPlusPacketElement);
+
+    QDomElement  devicesElement  =  doc.createElement("devices");
+    RIFPlusPacketElement.appendChild(devicesElement);
+
+//    for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
+        // <device id="1" level="1" type="33" num1="1" num2="1" num3="1" name="Устройство 1" lat=”55.761248” lon: “37.608074” description=”Текстовое
+        // описание длиной не более 50 символов” dk=”1” option=”0”>
+
+//        if(un->getMetaNames().isEmpty())
+//            continue;
+
+        QDomElement  deviceElement  =  doc.createElement("device");
+        QString id = un->getMetaNames().values().first();
+        id.remove("Obj_");
+        deviceElement.setAttribute("id", id);
+        deviceElement.setAttribute("level", un->getLevel());
+        deviceElement.setAttribute("type", un->getType());
+        deviceElement.setAttribute("num1", un->getNum1());
+        deviceElement.setAttribute("num2", un->getNum2());
+        deviceElement.setAttribute("num3", un->getNum3());
+        deviceElement.setAttribute("name", un->getName());
+//        qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
+        deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
+        deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
+        deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
+        deviceElement.setAttribute("dk", un->getDK());
+        deviceElement.setAttribute("option", 0);
+
+        devicesElement.appendChild(deviceElement);
+
+        QDomElement  statesElement  =  doc.createElement("states");
+        deviceElement.appendChild(statesElement);
+
+        QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + un->getName() + "')";
+        QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
+        QDomElement  stateElement  =  doc.createElement("state");
+        if(tmpList.isEmpty()) {
+            stateElement.setAttribute("id", 0);
+            stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+            stateElement.setAttribute("name", "Неопр. сост.");
+        } else {
+            JourEntity * tmpJour = tmpList.first();
+            stateElement.setAttribute("id", tmpJour->getType());
+            stateElement.setAttribute("datetime", tmpJour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
+            stateElement.setAttribute("name", tmpJour->getComment());
+        }
+        statesElement.appendChild(stateElement);
+
+        if(0 != jour.getId()) {
+            stateElement  =  doc.createElement("state");
+            stateElement.setAttribute("id", jour.getType());
+            stateElement.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
+            stateElement.setAttribute("name", jour.getComment());
+            statesElement.appendChild(stateElement);
+        }
+//    }
+
+//    qDebug() << "GraphTerminal::makeEventBook()" << doc.toString();
+
+    return doc;
+
 }

@@ -6,6 +6,7 @@
 #include <TcpServer.h>
 #include <QTcpSocket>
 #include <qdom.h>
+#include <JourEntity.h>
 
 class GraphTerminal : public QObject
 {
@@ -26,6 +27,10 @@ private:
 
     QDomDocument makeInitialStatus(QString docType = "InitialStatus");
     QDomDocument makeEventsAndStates(QString docType = "EventsAndStates");
+    QByteArray makeProtocolVersionInfo();
+    static QDomDocument makeEventBook(JourEntity jour);
+    static QDomDocument makeEventBook(UnitNode *un);
+    static QDomDocument makeEventBook(UnitNode *un, JourEntity jour);
 
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
