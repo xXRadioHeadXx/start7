@@ -12,11 +12,11 @@ class GraphTerminal : public QObject
 {
     Q_OBJECT
 private:
-    TcpServer * m_tcpServer = nullptr;
+    static TcpServer * m_tcpServer;
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    QHash<QTcpSocket*, QByteArray*> abonents;
+    static QHash<QTcpSocket*, QByteArray*> abonents;
 
     void procCommands(DataQueueItem itm);
     void procKeepAlive(QDomElement root);
@@ -55,6 +55,11 @@ public slots:
     void pushOverallReadQueue(const DataQueueItem &value);
     void pushReadQueue(const DataQueueItem &value);
     void pushOverallWriteQueue(const DataQueueItem &value);
+
+    static void sendAbonentEventBook(JourEntity jour);
+    static void sendAbonentEventBook(UnitNode *un);
+    static void sendAbonentEventBook(UnitNode *un, JourEntity jour);
+    static void sendAbonent(QByteArray ba);
 
 signals:
 

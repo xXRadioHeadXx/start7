@@ -6,6 +6,10 @@
 #include <SettingUtils.h>
 #include <SignalSlotCommutator.h>
 
+TcpServer * GraphTerminal::m_tcpServer = nullptr;
+QHash<QTcpSocket*, QByteArray*> GraphTerminal::abonents = QHash<QTcpSocket*, QByteArray*>();
+
+
 GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 {
     m_tcpServer = new TcpServer(nPort, this);
@@ -562,7 +566,6 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                                 this->m_tcpServer->writeData(socket, buf);
                             }
                         }
-
                     }
 
                 }
@@ -591,39 +594,6 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
 
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
-
-//    if(true) {
-////        <device id="0" level="0" type="0" num1="0" num2="0" num3="0" name="???????" lat="0.00000000" lon="0.00000000" description="(null)" dk="1" option="0">
-////        <states>
-////        <state id="0" datetime="2020-10-15 16:05:16" name="?????. ????."/>
-////        </states>
-//        QDomElement  deviceElement  =  doc.createElement("device");
-//        QString id = "0";
-//        deviceElement.setAttribute("id", id);
-//        deviceElement.setAttribute("level", "0");
-//        deviceElement.setAttribute("type", "0");
-//        deviceElement.setAttribute("num1", "0");
-//        deviceElement.setAttribute("num2", "0");
-//        deviceElement.setAttribute("num3", "0");
-//        deviceElement.setAttribute("name", "Система");
-//        deviceElement.setAttribute("lat", "0.00000000");
-//        deviceElement.setAttribute("lon", "0.00000000");
-//        deviceElement.setAttribute("description", "(null)");
-//        deviceElement.setAttribute("dk", "0");
-//        deviceElement.setAttribute("option", 0);
-
-//        devicesElement.appendChild(deviceElement);
-
-//        QDomElement  statesElement  =  doc.createElement("states");
-//        deviceElement.appendChild(statesElement);
-
-//        QDomElement  stateElement  =  doc.createElement("state");
-//        stateElement.setAttribute("id", 0);
-//        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//        stateElement.setAttribute("name", "Неопр. сост.");
-//        statesElement.appendChild(stateElement);
-//    }
-
 
     for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
         // <device id="1" level="1" type="33" num1="1" num2="1" num3="1" name="Устройство 1" lat=”55.761248” lon: “37.608074” description=”Текстовое
@@ -685,38 +655,6 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
 
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
-
-//    if(true) {
-////        <device id="0" level="0" type="0" num1="0" num2="0" num3="0" name="???????" lat="0.00000000" lon="0.00000000" description="(null)" dk="1" option="0">
-////        <states>
-////        <state id="0" datetime="2020-10-15 16:05:16" name="?????. ????."/>
-////        </states>
-//        QDomElement  deviceElement  =  doc.createElement("device");
-//        QString id = "0";
-//        deviceElement.setAttribute("id", id);
-//        deviceElement.setAttribute("level", "0");
-//        deviceElement.setAttribute("type", "0");
-//        deviceElement.setAttribute("num1", "0");
-//        deviceElement.setAttribute("num2", "0");
-//        deviceElement.setAttribute("num3", "0");
-//        deviceElement.setAttribute("name", "Система");
-//        deviceElement.setAttribute("lat", "0.00000000");
-//        deviceElement.setAttribute("lon", "0.00000000");
-//        deviceElement.setAttribute("description", "(null)");
-////        deviceElement.setAttribute("dk", "0");
-////        deviceElement.setAttribute("option", 0);
-
-//        devicesElement.appendChild(deviceElement);
-
-//        QDomElement  statesElement  =  doc.createElement("states");
-//        deviceElement.appendChild(statesElement);
-
-//        QDomElement  stateElement  =  doc.createElement("state");
-//        stateElement.setAttribute("id", 0);
-//        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//        stateElement.setAttribute("name", "Неопр. сост.");
-//        statesElement.appendChild(stateElement);
-//    }
 
     for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
         // <device id="0" level="0" type="33" num1="1" num2="1" num3="1" name="1" lat=”55.761248” lon: “37.608074” description=”Текстовое описание длиной
@@ -791,61 +729,97 @@ QDomDocument GraphTerminal::makeEventBook(UnitNode * un, JourEntity jour)
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
 
-//    for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
-        // <device id="1" level="1" type="33" num1="1" num2="1" num3="1" name="Устройство 1" lat=”55.761248” lon: “37.608074” description=”Текстовое
-        // описание длиной не более 50 символов” dk=”1” option=”0”>
+    if(nullptr == un) {
+        for(UnitNode * unTmp : SettingUtils::getListTreeUnitNodes()) {
+            if(un->getMetaNames().contains("Obj_0")) {
+                un = unTmp;
+                break;
+            }
+        }
+    }
 
-//        if(un->getMetaNames().isEmpty())
-//            continue;
-
-        QDomElement  deviceElement  =  doc.createElement("device");
-        QString id = un->getMetaNames().values().first();
-        id.remove("Obj_");
-        deviceElement.setAttribute("id", id);
-        deviceElement.setAttribute("level", un->getLevel());
-        deviceElement.setAttribute("type", un->getType());
-        deviceElement.setAttribute("num1", un->getNum1());
-        deviceElement.setAttribute("num2", un->getNum2());
-        deviceElement.setAttribute("num3", un->getNum3());
-        deviceElement.setAttribute("name", un->getName());
+    QDomElement  deviceElement  =  doc.createElement("device");
+    QString id = un->getMetaNames().values().first();
+    id = id.remove("Obj_");
+    deviceElement.setAttribute("id", id);
+    deviceElement.setAttribute("level", un->getLevel());
+    deviceElement.setAttribute("type", un->getType());
+    deviceElement.setAttribute("num1", un->getNum1());
+    deviceElement.setAttribute("num2", un->getNum2());
+    deviceElement.setAttribute("num3", un->getNum3());
+    deviceElement.setAttribute("name", un->getName());
 //        qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
-        deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
-        deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
-        deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
-        deviceElement.setAttribute("dk", un->getDK());
-        deviceElement.setAttribute("option", 0);
+    deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
+    deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
+    deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
+    deviceElement.setAttribute("dk", un->getDK());
+    deviceElement.setAttribute("option", 0);
 
-        devicesElement.appendChild(deviceElement);
+    devicesElement.appendChild(deviceElement);
 
-        QDomElement  statesElement  =  doc.createElement("states");
-        deviceElement.appendChild(statesElement);
+    QDomElement  statesElement  =  doc.createElement("states");
+    deviceElement.appendChild(statesElement);
 
-        QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + un->getName() + "')";
-        QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
-        QDomElement  stateElement  =  doc.createElement("state");
-        if(tmpList.isEmpty()) {
-            stateElement.setAttribute("id", 0);
-            stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", "Неопр. сост.");
-        } else {
-            JourEntity * tmpJour = tmpList.first();
-            stateElement.setAttribute("id", tmpJour->getType());
-            stateElement.setAttribute("datetime", tmpJour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", tmpJour->getComment());
-        }
+    QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + un->getName() + "')";
+    QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
+    QDomElement  stateElement  =  doc.createElement("state");
+    if(tmpList.isEmpty()) {
+        stateElement.setAttribute("id", 0);
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", "Неопр. сост.");
+    } else {
+        JourEntity * tmpJour = tmpList.first();
+        stateElement.setAttribute("id", tmpJour->getType());
+        stateElement.setAttribute("datetime", tmpJour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", tmpJour->getComment());
+    }
+    statesElement.appendChild(stateElement);
+
+    if(0 != jour.getId()) {
+        stateElement  =  doc.createElement("state");
+        stateElement.setAttribute("id", jour.getType());
+        stateElement.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", jour.getComment());
         statesElement.appendChild(stateElement);
-
-        if(0 != jour.getId()) {
-            stateElement  =  doc.createElement("state");
-            stateElement.setAttribute("id", jour.getType());
-            stateElement.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", jour.getComment());
-            statesElement.appendChild(stateElement);
-        }
-//    }
+    }
 
 //    qDebug() << "GraphTerminal::makeEventBook()" << doc.toString();
 
     return doc;
 
+}
+
+
+void GraphTerminal::sendAbonentEventBook(JourEntity jour){
+    sendAbonent(makeEventBook(jour).toByteArray());
+}
+
+void GraphTerminal::sendAbonentEventBook(UnitNode *un){
+    sendAbonent(makeEventBook(un).toByteArray());
+}
+
+void GraphTerminal::sendAbonentEventBook(UnitNode *un, JourEntity jour){
+    sendAbonent(makeEventBook(un, jour).toByteArray());
+}
+
+void GraphTerminal::sendAbonent(QByteArray ba) {
+    if(ba.isEmpty())
+        return;
+    {
+        DataQueueItem itm;
+        itm.setData(ba);
+
+        for(QTcpSocket * socket : abonents.keys()) {
+            itm.setAddress(socket->peerAddress());
+            QByteArray buf;
+            QTextStream ts(&buf);
+            auto cw51 = QTextCodec::codecForName("windows-1251");
+
+            ts.setCodec(cw51);
+            ts << ba;
+            ts.flush();
+
+            m_tcpServer->writeData(socket, buf);
+        }
+    }
 }
