@@ -448,6 +448,8 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 msgOn.setComment(trUtf8("Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
                 DataBaseManager::insertJourMsg_wS(msgOn);
 
+                dataAnswer = makeEventsAndStates(unTarget, msgOn).toByteArray();
+
                 qDebug() << "<--";
 
                 //
@@ -870,7 +872,7 @@ void GraphTerminal::sendAbonentEventsAndStates(UnitNode *un, JourEntity jour){
 }
 
 void GraphTerminal::sendAbonent(QByteArray ba) {
-    qDebug() << "GraphTerminal::sendAbonent()" << ba;
+//    qDebug() << "GraphTerminal::sendAbonent()" << ba;
     if(ba.isEmpty())
         return;
     {
