@@ -28,9 +28,9 @@ private:
     QDomDocument makeInitialStatus(QString docType = "InitialStatus");
     QDomDocument makeEventsAndStates(QString docType = "EventsAndStates");
     QByteArray makeProtocolVersionInfo();
-    static QDomDocument makeEventBook(JourEntity jour);
-    static QDomDocument makeEventBook(UnitNode *un);
-    static QDomDocument makeEventBook(UnitNode *un, JourEntity jour);
+    static QDomDocument makeEventsAndStates(JourEntity jour);
+    static QDomDocument makeEventsAndStates(UnitNode *un);
+    static QDomDocument makeEventsAndStates(UnitNode *un, JourEntity jour);
 
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
@@ -56,9 +56,9 @@ public slots:
     void pushReadQueue(const DataQueueItem &value);
     void pushOverallWriteQueue(const DataQueueItem &value);
 
-    static void sendAbonentEventBook(JourEntity jour);
-    static void sendAbonentEventBook(UnitNode *un);
-    static void sendAbonentEventBook(UnitNode *un, JourEntity jour);
+    static void sendAbonentEventsAndStates(JourEntity jour);
+    static void sendAbonentEventsAndStates(UnitNode *un);
+    static void sendAbonentEventsAndStates(UnitNode *un, JourEntity jour);
     static void sendAbonent(QByteArray ba);
 
 signals:

@@ -710,20 +710,20 @@ QByteArray GraphTerminal::makeProtocolVersionInfo()
     return "<RIFPlusPacket type=\"ProtocolVersionInfo\"><version=\"1.19\"/></RIFPlusPacket>";
 }
 
-QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
-    return makeEventBook(nullptr, jour);
+QDomDocument GraphTerminal::makeEventsAndStates(JourEntity jour) {
+    return makeEventsAndStates(nullptr, jour);
 }
 
-QDomDocument GraphTerminal::makeEventBook(UnitNode * un) {
-    return makeEventBook(un, JourEntity());
+QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un) {
+    return makeEventsAndStates(un, JourEntity());
 }
 
-QDomDocument GraphTerminal::makeEventBook(UnitNode * un, JourEntity jour)
+QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
 {
     QDomDocument doc;//(docType);
 
     QDomElement  RIFPlusPacketElement  =  doc.createElement("RIFPlusPacket");
-    RIFPlusPacketElement.setAttribute("type", "EventBook");
+    RIFPlusPacketElement.setAttribute("type", "EventsAndStates");
     doc.appendChild(RIFPlusPacketElement);
 
     QDomElement  devicesElement  =  doc.createElement("devices");
@@ -760,49 +760,52 @@ QDomDocument GraphTerminal::makeEventBook(UnitNode * un, JourEntity jour)
     QDomElement  statesElement  =  doc.createElement("states");
     deviceElement.appendChild(statesElement);
 
-    QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + un->getName() + "')";
-    QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
     QDomElement  stateElement  =  doc.createElement("state");
-    if(tmpList.isEmpty()) {
-        stateElement.setAttribute("id", 0);
-        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-        stateElement.setAttribute("name", "Неопр. сост.");
-    } else {
-        JourEntity * tmpJour = tmpList.first();
-        stateElement.setAttribute("id", tmpJour->getType());
-        stateElement.setAttribute("datetime", tmpJour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
-        stateElement.setAttribute("name", tmpJour->getComment());
-    }
-    statesElement.appendChild(stateElement);
-
-    if(0 != jour.getId()) {
+    if(0 != jour.getType() && !jour.getComment().isEmpty()) {
         stateElement  =  doc.createElement("state");
         stateElement.setAttribute("id", jour.getType());
         stateElement.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", jour.getComment());
-        statesElement.appendChild(stateElement);
+    } else {
+        QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + un->getName() + "')";
+        QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
+        if(tmpList.isEmpty()) {
+            stateElement.setAttribute("id", 0);
+            stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+            stateElement.setAttribute("name", "Неопр. сост.");
+        } else {
+            JourEntity * tmpJour = tmpList.first();
+            stateElement.setAttribute("id", tmpJour->getType());
+            stateElement.setAttribute("datetime", tmpJour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
+            stateElement.setAttribute("name", tmpJour->getComment());
+        }
     }
+    statesElement.appendChild(stateElement);
 
-//    qDebug() << "GraphTerminal::makeEventBook()" << doc.toString();
+
+
+
+//    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
 
     return doc;
 
 }
 
 
-void GraphTerminal::sendAbonentEventBook(JourEntity jour){
-    sendAbonent(makeEventBook(jour).toByteArray());
+void GraphTerminal::sendAbonentEventsAndStates(JourEntity jour){
+    sendAbonent(makeEventsAndStates(jour).toByteArray());
 }
 
-void GraphTerminal::sendAbonentEventBook(UnitNode *un){
-    sendAbonent(makeEventBook(un).toByteArray());
+void GraphTerminal::sendAbonentEventsAndStates(UnitNode *un){
+    sendAbonent(makeEventsAndStates(un).toByteArray());
 }
 
-void GraphTerminal::sendAbonentEventBook(UnitNode *un, JourEntity jour){
-    sendAbonent(makeEventBook(un, jour).toByteArray());
+void GraphTerminal::sendAbonentEventsAndStates(UnitNode *un, JourEntity jour){
+    sendAbonent(makeEventsAndStates(un, jour).toByteArray());
 }
 
 void GraphTerminal::sendAbonent(QByteArray ba) {
+    qDebug() << "GraphTerminal::sendAbonent()" << ba;
     if(ba.isEmpty())
         return;
     {

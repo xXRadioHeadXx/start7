@@ -823,6 +823,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msgOn.setType(101);
                     msgOn.setComment(QObject::trUtf8("Вкл"));
                     DataBaseManager::insertJourMsg_wS(msgOn);
+                    GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
                 if(isLockPair) {
@@ -864,6 +865,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     }
 
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
 
                     QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
 
@@ -888,20 +890,24 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     //нужен сброс
                     resultRequest.setData(DataQueueItem::makeAlarmReset0x24());
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Norm)) {
                     msg.setComment(QObject::trUtf8("Норма"));
                     msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus2() & Status::Off)) {
                     msg.setComment(QObject::trUtf8("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (un->getStatus1() & Status::Off)) {
                     msg.setComment(QObject::trUtf8("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 }
             }
 
@@ -1014,8 +1020,10 @@ void PortManager::manageOverallReadQueue()
                                     un->setDkInvolved(false);
                                     un->setDkStatus(DKCiclStatus::DKIgnore);
                                     un->updDoubl();
-                                    if(un->getControl())
+                                    if(un->getControl()) {
                                         DataBaseManager::insertJourMsg_wS(msg);
+                                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                                    }
                                 }
                             } else if(RequesterType::LockRequester == ar->getRequesterType()){
 
@@ -1077,6 +1085,7 @@ void PortManager::unLostedConnect(UnitNode *un) const
             msg.setType(10);
             msg.setComment(trUtf8("Нет связи"));
             DataBaseManager::insertJourMsg_wS(msg);
+            GraphTerminal::sendAbonentEventsAndStates(un, msg);
         }
     }
 
