@@ -52,7 +52,6 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     msg.setType(900);
     msg.setComment(trUtf8("Программа запущена"));
     DataBaseManager::insertJourMsg(msg);
-    GraphTerminal::sendAbonentEventsAndStates(msg);
 
     modelMSG->updateAllRecords();
 
@@ -130,6 +129,8 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     m_portManager->startStatusRequest();
 
     initLabelOperator();
+
+    GraphTerminal::sendAbonentEventsAndStates(msg);
 }
 
 MainWindowServer::~MainWindowServer()
