@@ -5,6 +5,7 @@
 #include <Icons.h>
 #include <Icons_cfg.h>
 #include <SignalSlotCommutator.h>
+#include <global.hpp>
 
 QSet<QString> UnitNode::getMetaNames() const
 {
@@ -563,7 +564,7 @@ void UnitNode::setDoubles(UnitNode * value)
 
 void UnitNode::updDoubl()
 {
-    for(UnitNode * c : this->doubles) {
+    for(auto c : as_const(this->doubles)) {
         c->status1 = this->status1;
         c->status2 = this->status2;
         c->dkStatus = this->dkStatus;
@@ -764,7 +765,7 @@ void UnitNode::addTreeChild(UnitNode *tc) noexcept
         return;
     }
     tc->setTreeParentUN(nullptr);
-    for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
+    for(auto un : as_const(SettingUtils::getListTreeUnitNodes())) {
         un->listTreeChilde.removeAll(tc);
     }
     if(!this->listTreeChilde.contains(tc)) {

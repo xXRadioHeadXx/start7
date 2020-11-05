@@ -1,4 +1,5 @@
 #include <DataQueueItem.h>
+#include <global.hpp>
 
 DataQueueItem::DataQueueItem() noexcept : m_port(0), m_data(QByteArray()), m_portIndex(0) {}
 
@@ -181,55 +182,56 @@ QByteArray DataQueueItem::makeOnOff0x23(UnitNode *un, bool onOff, UnitNode *pun)
     }
     int type = target->getType();
 
-    for(UnitNode * un : reciver->getListChilde()) {
-        if(type != un->getType())
-            continue;
-        quint8 mask = 0;
-        switch (un->getNum2()) {
-        case 1:
-            mask = 0x01;
-            break;
-        case 2:
-            mask = 0x02;
-            break;
-        case 3:
-            mask = 0x04;
-            break;
-        case 4:
-            mask = 0x08;
-            break;
-        case 5:
-            mask = 0x10;
-            break;
-        case 6:
-            mask = 0x20;
-            break;
-        case 7:
-            mask = 0x40;
-            break;
-        case 8:
-            mask = 0x80;
-            break;
-        default:
-            mask = 0x00;
-            break;
+    if(nullptr != reciver)
+        for(auto un : as_const(reciver->getListChilde())) {
+            if(type != un->getType())
+                continue;
+            quint8 mask = 0;
+            switch (un->getNum2()) {
+            case 1:
+                mask = 0x01;
+                break;
+            case 2:
+                mask = 0x02;
+                break;
+            case 3:
+                mask = 0x04;
+                break;
+            case 4:
+                mask = 0x08;
+                break;
+            case 5:
+                mask = 0x10;
+                break;
+            case 6:
+                mask = 0x20;
+                break;
+            case 7:
+                mask = 0x40;
+                break;
+            case 8:
+                mask = 0x80;
+                break;
+            default:
+                mask = 0x00;
+                break;
+            }
+
+            if(TypeUnitNode::SD_BL_IP == un->getType() &&
+                    Status::Off == un->getStatus2() &&
+                    Status::Uncnown == un->getStatus1())
+                D1 = D1 & ~mask;
+            else if(TypeUnitNode::IU_BL_IP == un->getType() &&
+                    Status::Off == un->getStatus1())
+                D1 = D1 & ~mask;
+            else
+                D1 = D1 | mask;
+
+            if(un == target && onOff)
+                D1 = D1 | mask;
+            else if(un == target && !onOff)
+                D1 = D1 & ~mask;
         }
-
-        if(TypeUnitNode::SD_BL_IP == un->getType() &&
-                Status::Off == un->getStatus2() &&
-                Status::Uncnown == un->getStatus1())
-            D1 = D1 & ~mask;
-        else if(TypeUnitNode::IU_BL_IP == un->getType() &&
-                Status::Off == un->getStatus1())
-            D1 = D1 & ~mask;
-        else
-            D1 = D1 | mask;
-
-        if(un == target && onOff)
-            D1 = D1 | mask;
-        else if(un == target && !onOff)
-            D1 = D1 & ~mask;
-    }
 
     QByteArray data = DataQueueItem::data0x23;
     data[4] = D1;

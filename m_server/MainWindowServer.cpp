@@ -281,6 +281,9 @@ void MainWindowServer::createDiagnosticTable()
     if(!ui->groupBox_4->isVisible())
         return;
 
+    if(nullptr == this->selUN)
+        return;
+
     if(TypeUnitNode::IU_BL_IP == selUN->getType() ||
             TypeUnitNode::SD_BL_IP == selUN->getType())
         ui->groupBox_4->setVisible(true);

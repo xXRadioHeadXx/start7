@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
 #    m_db \
-    m_cfg \
+#    m_cfg \
     m_server #\
 
 

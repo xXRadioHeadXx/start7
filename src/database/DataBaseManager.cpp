@@ -485,9 +485,10 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, con
         query.bindValue(":idMin", DataBaseManager::getIdStartLastDuty());
     }
 
+    result = DataBaseManager::getQueryMSGRecord(query);
 //    qDebug() << "DataBaseManager::getFltMSGRecordAfter(" << flt << ", " << id << ")";
 
-    return DataBaseManager::getQueryMSGRecord(query);
+    return result;
 }
 
 
@@ -521,9 +522,10 @@ QList<JourEntity *> DataBaseManager::getFltOneMSGRecord(const QString flt, const
         query.bindValue(":idMin", DataBaseManager::getIdStartLastDuty());
     }
 
+    result = DataBaseManager::getQueryMSGRecord(query);
 //    qDebug() << "DataBaseManager::getFltOneMSGRecord(" << flt << ", " << id << ")";
 
-    return DataBaseManager::getQueryMSGRecord(query);
+    return result;
 }
 
 QList<QString> DataBaseManager::getReasonGroup() {
