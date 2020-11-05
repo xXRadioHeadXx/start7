@@ -73,7 +73,7 @@ bool TcpServer::writeData(QTcpSocket *socket, QByteArray data)
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
-        qDebug() << "TcpServer::writeData(" << QString::fromLocal8Bit(data) << ")";
+//        qDebug() << "TcpServer::writeData(" << QString::fromLocal8Bit(data) << ")";
         socket->write(data); //write the data itself
         return socket->waitForBytesWritten();
     }

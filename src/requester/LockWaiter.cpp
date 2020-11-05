@@ -144,7 +144,7 @@ void LockWaiter::init() {
     } else if(Status::Alarm == unReciverSdBlIp->getStatus1() &&
               Status::On == unReciverIuBlIp->getStatus1()) {
 //        qDebug() << "LockRequester::init 3";
-        //Открыто ключём
+        //Открыто ключом
         initVarianrt = 3;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);
@@ -152,7 +152,7 @@ void LockWaiter::init() {
     } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
               Status::Off == unReciverIuBlIp->getStatus1()) {
 //        qDebug() << "LockRequester::init 4";
-        //Закрыто ключём
+        //Закрыто ключом
         initVarianrt = 4;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);

@@ -828,16 +828,54 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                 if(isLockPair) {
                     if(
-                    (Status::Alarm == oldStatus1LockSD &&
-                       Status::Off == oldStatus1LockIU &&
-                       Status::Alarm == newStatus1LockSD &&
-                       Status::On == newStatus1LockIU) ||
+                            (Status::Alarm == oldStatus1LockSD &&
+                             Status::Off == oldStatus1LockIU && //Открыто
+                             Status::Alarm == newStatus1LockSD &&
+                             Status::On == newStatus1LockIU) || //Открыто ключом
 
-                     (Status::Norm == oldStatus1LockSD &&
-                       Status::On == oldStatus1LockIU &&
-                       Status::Norm == newStatus1LockSD &&
-                       Status::Off == newStatus1LockIU)) {
+                            (Status::Norm == oldStatus1LockSD &&
+                             Status::On == oldStatus1LockIU && //Закрыто
+                             Status::Norm == newStatus1LockSD &&
+                             Status::Off == newStatus1LockIU)) //Закрыто ключом
+                    {
+                        qDebug() << "isLockPair continue " << un->getName();
                         continue;
+                    }
+
+                    if(Status::Alarm == oldStatus1LockSD &&
+                       Status::Off == oldStatus1LockIU) {
+                        //Открыто
+                        qDebug() << "isLockPair Old O " << un->getName();
+                    } else if(Status::Norm == oldStatus1LockSD &&
+                              Status::On == oldStatus1LockIU) {
+                        //Закрыто
+                        qDebug() << "isLockPair Old L " << un->getName();
+                    } else if(Status::Alarm == oldStatus1LockSD &&
+                              Status::On == oldStatus1LockIU) {
+                        //Открыто ключом
+                        qDebug() << "isLockPair Old OK " << un->getName();
+                    } else if(Status::Norm == oldStatus1LockSD &&
+                              Status::Off == oldStatus1LockIU) {
+                        //Закрыто ключом
+                        qDebug() << "isLockPair Old LK " << un->getName();
+                    }
+
+                    if(Status::Alarm == newStatus1LockSD &&
+                       Status::Off == newStatus1LockIU) {
+                        //Открыто
+                        qDebug() << "isLockPair New O " << un->getName();
+                    } else if(Status::Norm == newStatus1LockSD &&
+                              Status::On == newStatus1LockIU) {
+                        //Закрыто
+                        qDebug() << "isLockPair New L " << un->getName();
+                    } else if(Status::Alarm == newStatus1LockSD &&
+                              Status::On == newStatus1LockIU) {
+                        //Открыто ключом
+                        qDebug() << "isLockPair New OK " << un->getName();
+                    } else if(Status::Norm == newStatus1LockSD &&
+                              Status::Off == newStatus1LockIU) {
+                        //Закрыто ключом
+                        qDebug() << "isLockPair New LK " << un->getName();
                     }
 
                     msg.setObject(unLockSdBlIp->getName());
@@ -854,18 +892,42 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         msg.setType(110);
                     } else if(Status::Alarm == newStatus1LockSD &&
                               Status::On == newStatus1LockIU) {
-                        //Открыто ключём
-                        msg.setComment(QObject::trUtf8("Открыто ключём"));
+                        //Открыто ключом
+                        msg.setComment(QObject::trUtf8("Открыто ключом"));
                         msg.setType(113);
                     } else if(Status::Norm == newStatus1LockSD &&
                               Status::Off == newStatus1LockIU) {
-                        //Закрыто ключём
-                        msg.setComment(QObject::trUtf8("Закрыто ключём"));
+                        //Закрыто ключом
+                        msg.setComment(QObject::trUtf8("Закрыто ключом"));
                         msg.setType(112);
                     }
 
-                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    if(
+                    (Status::Alarm == oldStatus1LockSD &&
+                     Status::On == oldStatus1LockIU &&  //Открыто ключом
+                     Status::Alarm == newStatus1LockSD &&
+                     Status::Off == newStatus1LockIU) ||//Открыто
+
+                    (Status::Norm == oldStatus1LockSD &&
+                     Status::Off == oldStatus1LockIU && //Закрыто ключом
+                     Status::Norm == newStatus1LockSD &&
+                     Status::On == newStatus1LockIU) || //Закрыто
+
+                    (Status::Alarm == oldStatus1LockSD &&
+                     Status::Off == oldStatus1LockIU && //Открыто
+                     Status::Alarm == newStatus1LockSD &&
+                     Status::On == newStatus1LockIU) || //Открыто ключом
+
+                     (Status::Norm == oldStatus1LockSD &&
+                      Status::On == oldStatus1LockIU && //Закрыто
+                      Status::Norm == newStatus1LockSD &&
+                      Status::Off == newStatus1LockIU)) //Закрыто ключом
+                    {
+                        qDebug() << "isLockPair not jour " << un->getName();
+                    } else {
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    }
 
                     QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
 

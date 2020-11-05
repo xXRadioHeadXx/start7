@@ -434,7 +434,10 @@ void MainWindowServer::on_actionExpandUNTree_triggered()
 
     QModelIndex index = selIndex;
 
-    if(index.isValid() && 0 != selUN->treeChildCount())
+    if(selUN->getMetaNames().contains("Obj_0")) {
+        ui->treeView->expandAll();
+        return;
+    } else if(index.isValid() && 0 != selUN->treeChildCount())
         ui->treeView->expand(index);
 }
 
@@ -445,7 +448,10 @@ void MainWindowServer::on_actionCollapseUNTree_triggered()
 
     QModelIndex index = selIndex;
 
-    if(index.isValid() && 0 != selUN->treeChildCount())
+    if(selUN->getMetaNames().contains("Obj_0")) {
+        ui->treeView->collapseAll();
+        return;
+    } else if(index.isValid() && 0 != selUN->treeChildCount())
         ui->treeView->collapse(index);
 }
 
@@ -681,14 +687,25 @@ void MainWindowServer::lockOpenClose(bool val)
 void MainWindowServer::on_actionDataBase_triggered()
 {
     QProcess *process = new QProcess(this);
-    QString file = "m_db.exe";
+    QString file = "m_db";
+#if (defined (_WIN32) || defined (_WIN64))
+    // windows code
+    file.append(".exe");
+#endif
     process->start(file);
 }
 
 void MainWindowServer::on_actionUNSqlSelect_triggered()
 {
     QProcess *process = new QProcess(this);
-    QString file = "m_db.exe -sql \"" + getUnSqlSelect() + "\"";
+    QString file = "m_db";
+
+#if (defined (_WIN32) || defined (_WIN64))
+    // windows code
+    file.append(".exe");
+#endif
+
+    file.append(" -sql \"" + getUnSqlSelect() + "\"");
     process->start(file);
 }
 

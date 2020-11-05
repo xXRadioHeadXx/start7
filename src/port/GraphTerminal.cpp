@@ -188,7 +188,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 //            QDomDocument docAnswer;
             QByteArray dataAnswer;
             qDebug() << "GraphTerminal::procCommands() idCommand.nodeValue(" << idCommand.nodeValue() << ")";
-            qDebug() << "GraphTerminal::procCommands() " << doc.toString();
+//            qDebug() << "GraphTerminal::procCommands() " << doc.toString();
             if("0" == idCommand.nodeValue()) {
                 dataAnswer = makeInitialStatus("InitialStatus answer command 0").toByteArray();
                 //
