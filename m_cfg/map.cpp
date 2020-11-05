@@ -50,11 +50,10 @@ connect(this->scene,SIGNAL(select(int)),this,SLOT(select(int)));
 
 }
 
-void Map::Add(int id,QString name,QPixmap pixmap,int x,int y)
+void Map::Add(QString name,QPixmap pixmap,int x,int y)
 {
-    qDebug()<<"[add] "<<"id  "<<id;
 
-    MyDrawObject *object=new MyDrawObject(id,name,pixmap);
+    MyDrawObject *object=new MyDrawObject(name,pixmap);
 
 
 
@@ -100,6 +99,21 @@ void Map::find(int id)
     }
     }
 
+}
+
+bool Map::find(QString Name)
+{
+    foreach (QGraphicsItem* item, scene->items())
+    {
+        MyDrawObject *obj=dynamic_cast< MyDrawObject *>(item);
+    if(obj)
+
+        {
+           if(obj->Name==Name)
+               return true;
+        }
+    }
+    return false;
 }
 
 void Map::change_name(int id,QString name)

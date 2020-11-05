@@ -11,7 +11,7 @@ class MyDrawObject : public QGraphicsItem
 public:
     int ID;
     QString Name;
-   MyDrawObject(int ID,QString Name,QPixmap pixmap);
+   MyDrawObject(QString Name,QPixmap pixmap);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     float x1,y1,x2,y2;

@@ -75,7 +75,7 @@ void myScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
      //  Foo *foo = dynamic_cast<Foo *>(base);
       MyDrawObject *obj=dynamic_cast< MyDrawObject *>(item);
              qDebug()<<"[2]";
-      emit select(obj->ID);
+      emit select(obj->Name);
   //    qDebug()<<"[PROFIT]";
     item->setFlag(QGraphicsItem::ItemIsSelectable,true);
            qDebug()<<"[3]";
@@ -104,7 +104,7 @@ this->update();
 void myScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QList<QGraphicsItem *> items=this->selectedItems();
-    qDebug()<<items.count();
+    qDebug()<<"количество "<<items.count();
     foreach (QGraphicsItem *item,items)
     {
         MyDrawObject *obj=dynamic_cast< MyDrawObject *>(item);
@@ -121,8 +121,9 @@ void myScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if(!((x>(this->X-item->boundingRect().x()))||(x<0)||(y>(this->Y-item->boundingRect().y()))||(y<0)))
     {
         item->setPos(event->scenePos());
-        emit point(obj->ID,x,y);
-        this->update();
+                this->update();
+        emit point(obj->Name,x,y);
+
   //->setPos(mapToScene(event->pos()));
    }
         else
@@ -139,14 +140,16 @@ void myScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     {
         MyDrawObject *obj=dynamic_cast< MyDrawObject *>(item);
     if(obj)
+    {
       //  qDebug()<<"[PROFIT]";
         item->setSelected(false);
         int x =event->scenePos().x();
         int y =event->scenePos().y();
 
 
-        emit point(obj->ID,x,y);
+        emit point(obj->Name,x,y);
         this->update();
+    }
   //->setPos(mapToScene(event->pos()));
 
     }

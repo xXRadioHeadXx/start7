@@ -629,6 +629,12 @@ void UnitNode::deleteChild(int row)
     this->listTreeChilde.removeAt(row);
 }
 
+void UnitNode::deleteAll()
+{
+    this->listChilde.clear();
+    this->listTreeChilde.clear();
+}
+
 UnitNode::UnitNode(QObject *parent) : QObject(parent)
 {
     

@@ -21,8 +21,12 @@ class Map : public QMainWindow
 public:
         explicit Map(QWidget *parent = 0);
 
-    void Add(int id,QString name,QPixmap pixmap,int x,int y);
+
+
+
+    void Add(QString name,QPixmap pixmap,int x,int y);
     void find(int id);
+    bool find(QString Name);
     void change_name(int id,QString name);
     void change_x_y(int id,int x,int y);
     void remove(int id);
