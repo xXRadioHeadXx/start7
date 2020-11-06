@@ -29,6 +29,7 @@ public:
     QModelIndex parent(const QModelIndex &index) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    int sizeHintForRow(int row) const;
 
 //    QModelIndex findeIndexUNL(UnitNode *un,
 //                              UnitNode *parentUN = nullptr);

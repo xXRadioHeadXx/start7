@@ -32,8 +32,13 @@ int TreeModelUnitNode::columnCount(const QModelIndex &parent) const
          return static_cast<UnitNode*>(parent.internalPointer())->columnCount();
      else
          return rootItemUN->columnCount();
-//         return rootItemSortUN->columnCount();
- }
+     //         return rootItemSortUN->columnCount();
+}
+
+int TreeModelUnitNode::sizeHintForRow(int row) const
+{
+    return 12;
+}
 
  QVariant TreeModelUnitNode::data(const QModelIndex &index, int role) const
  {
@@ -64,8 +69,9 @@ int TreeModelUnitNode::columnCount(const QModelIndex &parent) const
              break;
          }
          }
-//         if(pxm.isNull())
-//             return QVariant();
+         if(!pxm.isNull())
+             pxm = pxm.scaled(14,14);
+
          return QVariant(pxm);
      }
 

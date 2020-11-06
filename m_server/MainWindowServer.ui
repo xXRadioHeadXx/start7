@@ -29,6 +29,16 @@
         <property name="text">
          <string>Сброс звука</string>
         </property>
+        <property name="icon">
+         <iconset resource="Resource.qrc">
+          <normaloff>:/icons/sound_off_20_20.png</normaloff>:/icons/sound_off_20_20.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
         <property name="flat">
          <bool>false</bool>
         </property>
@@ -39,12 +49,32 @@
         <property name="text">
          <string>Сброс тревог</string>
         </property>
+        <property name="icon">
+         <iconset resource="Resource.qrc">
+          <normaloff>:/icons/reset_alarm_20_20.png</normaloff>:/icons/reset_alarm_20_20.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButtonSoundAlarm">
         <property name="text">
          <string>Звук &quot;Тревога&quot;</string>
+        </property>
+        <property name="icon">
+         <iconset resource="Resource.qrc">
+          <normaloff>:/icons/sound_on_20_20.png</normaloff>:/icons/sound_on_20_20.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -91,6 +121,15 @@
           <property name="contextMenuPolicy">
            <enum>Qt::CustomContextMenu</enum>
           </property>
+          <property name="lineWidth">
+           <number>100</number>
+          </property>
+          <attribute name="headerMinimumSectionSize">
+           <number>350</number>
+          </attribute>
+          <attribute name="headerDefaultSectionSize">
+           <number>350</number>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -315,11 +354,19 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNewScheme">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/new_duty_20_20.png</normaloff>:/icons/new_duty_20_20.png</iconset>
+   </property>
    <property name="text">
     <string>Новая смена</string>
    </property>
   </action>
   <action name="actionDataBase">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/database_20_20.png</normaloff>:/icons/database_20_20.png</iconset>
+   </property>
    <property name="text">
     <string>База данных</string>
    </property>
@@ -331,21 +378,37 @@
    </property>
   </action>
   <action name="actionExit">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/exit_20_20.png</normaloff>:/icons/exit_20_20.png</iconset>
+   </property>
    <property name="text">
     <string>Выход</string>
    </property>
   </action>
   <action name="actionSoundReset">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/sound_off_20_20.png</normaloff>:/icons/sound_off_20_20.png</iconset>
+   </property>
    <property name="text">
     <string>Сброс звука</string>
    </property>
   </action>
   <action name="actionAlarmReset">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/reset_alarm_20_20.png</normaloff>:/icons/reset_alarm_20_20.png</iconset>
+   </property>
    <property name="text">
     <string>Сброс тревог</string>
    </property>
   </action>
   <action name="actionSoundAlarm">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icons/sound_on_20_20.png</normaloff>:/icons/sound_on_20_20.png</iconset>
+   </property>
    <property name="text">
     <string>Звук &quot;Тревога&quot;</string>
    </property>
