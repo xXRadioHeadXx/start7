@@ -110,6 +110,32 @@ this->get_option(unit);
 void MainWindowCFG::get_option(UnitNode* unit)
 {
     qDebug()<<"get option";
+qDebug()
+<<"; Name "<< unit->getName()
+<<"; Type "<<unit->getType()
+<<"; Num1 "<<QString::number(unit->getNum1())
+<<"; Num2 "<<QString::number(unit->getNum2())
+<<"; Num3 "<<QString::number(unit->getNum3())
+<<"; Level "<<QString::number(unit->getLevel())
+//<<"IconVisible "<<unit->getIconVisible()
+<<"; X "<<QString::number(unit->getX())
+<<"; Y "<<QString::number(unit->getY())
+<<"; DK "<<QString::number(unit->getDK())
+<<"; Bazalt "<<QString::number(unit->getBazalt())
+<<"; Metka "<<QString::number(unit->getMetka())
+<<"; Razriv "<<QString::number(unit->getRazriv())
+<<"; AdamOff "<<QString::number(unit->getAdamOff())
+<<"; AlarmMsgOn "<<QString::number(unit->getAlarmMsgOn())
+<<"; ConnectBlock "<<QString::number(unit->getConnectBlock())
+<<"; OutType "<<QString::number(unit->getOutType())
+<<"; asoosd_kk "<<QString::number(unit->getAsoosd_kk())
+<<"; asoosd_nn "<<QString::number(unit->getAsoosd_nn())
+<<"; Description "<<unit->getDescription()
+<<"; lan "<<QString::number(unit->getLan())
+<<"; lon "<<QString::number(unit->getLon())
+<<"; UdpUse "<<QString::number(unit->getUdpUse())
+<<"; UdpAdress "<<unit->getUdpAdress()
+<<"; UdpPort "<<unit->getUdpPort();
 
     selected_type=unit->getType();
 /*QString Name=unit->getName();
@@ -781,15 +807,47 @@ void MainWindowCFG::get_option_DD_T4K_M(UnitNode *unit)
 
 void MainWindowCFG::get_option_BOD_SOTA(UnitNode *unit)
 {
-QString string1;
-string1.append("Сота/Сота-М Кан:");
-string1.append(QString::number(unit->getNum3()));
-string1.append(" БОД:");
-string1.append(QString::number(unit->getNum1()));
-qDebug()<<"[+]"<<string1;
-this->ui->textEdit->clear();
 
+
+this->ui->textEdit->clear();
+QString string1;
+
+string1.append("Тип: Сота/Сота-М");
 this->ui->textEdit->append(string1);
+
+string1.clear();
+string1.append("Кан: ");
+
+if(unit->getUdpUse()==0)
+{
+    string1.append(QString::number(unit->getNum3()));
+    this->ui->textEdit->append(string1);
+    if(unit->getUdpAdress()!="")
+    {
+        string1.clear();
+        string1.append("(");
+        string1.append(unit->getUdpAdress());
+        string1.append(")");
+        this->ui->textEdit->append(string1);
+    }
+}
+if(unit->getUdpUse()==1)
+{
+    string1.append(unit->getUdpAdress());
+    string1.append("::");
+    string1.append(QString::number(unit->getUdpPort()));
+    this->ui->textEdit->append(string1);
+}
+
+
+string1.clear();
+string1.append("БОД:");
+string1.append(QString::number(unit->getNum1()));
+this->ui->textEdit->append(string1);
+qDebug()<<"[+]"<<string1;
+
+
+
 }
 
 void MainWindowCFG::get_option_Y4_SOTA(UnitNode *unit)
