@@ -28,8 +28,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
  //    qDebug()<<"patch = "<<patch;
  //   this->modelTreeUN->loadSettings(patch);
 
-    this->ui->UdpUse_checkBox->setVisible(false);
-    this->ui->UdpUse_checkBox->setChecked(false);
+
 
     for(int i=1;i<100;i++)
     {
@@ -42,6 +41,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     connect(this->map.scene,SIGNAL(select(QString)),this,SLOT(select(QString)));
 
     connect(this->map.scene,SIGNAL(point(QString,int,int)),this,SLOT(set_x_y(QString,int,int)));
+
+    this->ui->textEdit->clear();
+  //  this->ui->textEdit->setText("1111111\n 22222");
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -109,7 +111,8 @@ void MainWindowCFG::get_option(UnitNode* unit)
 {
     qDebug()<<"get option";
 
-QString Name=unit->getName();
+    selected_type=unit->getType();
+/*QString Name=unit->getName();
 
     this->ui->uName_lineedit->setText(Name);
 
@@ -127,14 +130,6 @@ QString Name=unit->getName();
     this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
 
 
-    this->ui->UdpUse_checkBox->setVisible(false);
-    this->ui->UdpUse_checkBox->setChecked(false);
-    this->ui->UpdPort_label->setVisible(false);
-    this->ui->UdpAdress_label->setVisible(false);
-    this->ui->UpdPort_lineEdit->setVisible(false);
-    this->ui->UdpAdress_lineEdit->setVisible(false);
-    this->ui->UpdPort_lineEdit->setText("");
-    this->ui->UdpAdress_lineEdit->setText("");
 
 
     this->ui->IU_comboBox_Num2->setCurrentText("");
@@ -150,7 +145,7 @@ QString Name=unit->getName();
 
         this->ui->uType_combobox->setCurrentText(Type);
 
-
+*/
     switch(selected_type)
     {
         case TypeUnitNode::SD_BL_IP:
@@ -206,8 +201,6 @@ QString Name=unit->getName();
 
     }
 
-    this->ui->x_label->setText(QString::number(unit->getX()));
-    this->ui->y_label->setText(QString::number(unit->getY()));
 
 }
 
@@ -402,7 +395,8 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
 void MainWindowCFG::on_pushButton_4_clicked()
 {
-   change_unit();
+    qDebug()<<"rename_unit()";
+//   change_unit();
 
 
 
@@ -704,7 +698,6 @@ void MainWindowCFG::show_the_tree()
 
 void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 {
-    this->ui->UdpUse_checkBox->setVisible(true);
 
     int Num2=unit->getNum2();
 
@@ -748,7 +741,6 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
     this->ui->CD_DK_checkBox->setChecked(DK);
     this->ui->CD_Bazalt_checkBox->setChecked(Bazalt);
     this->ui->CD_connectblock_checkBox->setChecked(connectblock);
-    this->ui->UdpUse_checkBox->setChecked(UdpUse);
 
 }
 
@@ -789,7 +781,15 @@ void MainWindowCFG::get_option_DD_T4K_M(UnitNode *unit)
 
 void MainWindowCFG::get_option_BOD_SOTA(UnitNode *unit)
 {
+QString string1;
+string1.append("Сота/Сота-М Кан:");
+string1.append(QString::number(unit->getNum3()));
+string1.append(" БОД:");
+string1.append(QString::number(unit->getNum1()));
+qDebug()<<"[+]"<<string1;
+this->ui->textEdit->clear();
 
+this->ui->textEdit->append(string1);
 }
 
 void MainWindowCFG::get_option_Y4_SOTA(UnitNode *unit)
@@ -814,9 +814,6 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
     unit->setDK(this->ui->CD_DK_checkBox->isChecked()?1:0);
     unit->setBazalt(this->ui->CD_Bazalt_checkBox->isChecked()?1:0);
     unit->setConnectBlock(this->ui->CD_connectblock_checkBox->isChecked()?1:0);
-    unit->setUdpUse(this->ui->UdpUse_checkBox->isChecked()?1:0);
-    unit->setUdpAdress(this->ui->UdpAdress_lineEdit->text());
-    unit->setUdpPort(this->ui->UpdPort_lineEdit->text().toInt());
 
     qDebug()<<"Name: "<<unit->getName()
             <<" Type:"<<this->Type_from_int_to_string(unit->getType())
