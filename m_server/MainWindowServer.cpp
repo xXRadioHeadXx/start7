@@ -129,6 +129,8 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     m_portManager->startStatusRequest();
 
     initLabelOperator();
+
+    GraphTerminal::sendAbonentEventsAndStates(msg);
 }
 
 MainWindowServer::~MainWindowServer()
@@ -138,6 +140,7 @@ MainWindowServer::~MainWindowServer()
     msg.setType(901);
     msg.setComment(trUtf8("Программа остановлена"));
     DataBaseManager::insertJourMsg(msg);
+    GraphTerminal::sendAbonentEventsAndStates(msg);
 
     delete ui;
 }
@@ -307,6 +310,7 @@ void MainWindowServer::on_pushButtonAlarmReset_clicked()
     msgOn.setType(135);
     msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
     DataBaseManager::insertJourMsg_wS(msgOn);
+    GraphTerminal::sendAbonentEventsAndStates(msgOn);
 
     DataBaseManager::resetAllFlags_wS();
 }
@@ -487,6 +491,7 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setType((selUN->getControl() ? 137 : 136));
         msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);
+        GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
     }
 }
 
@@ -646,6 +651,7 @@ void MainWindowServer::on_actionNewScheme_triggered()
         DataBaseManager::executeQuery(sql);
 
         DataBaseManager::insertJourMsg_wS(msg);
+        GraphTerminal::sendAbonentEventsAndStates(msg);
 
         DataBaseManager::setIdStartLastDuty();
 

@@ -6,16 +6,17 @@
 #include <TcpServer.h>
 #include <QTcpSocket>
 #include <qdom.h>
+#include <JourEntity.h>
 
 class GraphTerminal : public QObject
 {
     Q_OBJECT
 private:
-    TcpServer * m_tcpServer = nullptr;
+    static TcpServer * m_tcpServer;
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    QHash<QTcpSocket*, QByteArray*> abonents;
+    static QHash<QTcpSocket*, QByteArray*> abonents;
 
     void procCommands(DataQueueItem itm);
     void procKeepAlive(QDomElement root);
@@ -26,6 +27,10 @@ private:
 
     QDomDocument makeInitialStatus(QString docType = "InitialStatus");
     QDomDocument makeEventsAndStates(QString docType = "EventsAndStates");
+    QByteArray makeProtocolVersionInfo();
+    static QDomDocument makeEventsAndStates(JourEntity jour);
+    static QDomDocument makeEventsAndStates(UnitNode *un);
+    static QDomDocument makeEventsAndStates(UnitNode *un, JourEntity jour);
 
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
@@ -50,6 +55,11 @@ public slots:
     void pushOverallReadQueue(const DataQueueItem &value);
     void pushReadQueue(const DataQueueItem &value);
     void pushOverallWriteQueue(const DataQueueItem &value);
+
+    static void sendAbonentEventsAndStates(JourEntity jour);
+    static void sendAbonentEventsAndStates(UnitNode *un);
+    static void sendAbonentEventsAndStates(UnitNode *un, JourEntity jour);
+    static void sendAbonent(QByteArray ba);
 
 signals:
 

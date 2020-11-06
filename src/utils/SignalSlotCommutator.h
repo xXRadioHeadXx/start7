@@ -34,6 +34,7 @@ public slots:
      void emitRequestOnOffCommand(UnitNode *, bool) const;
      void emitLockOpenCloseCommand(UnitNode *, bool) const;
      void emitChangeSelectUN (UnitNode *) const;
+     void emitRequestDK (UnitNode *) const;
 
 signals:
      void insNewCommandMSG(const quint32 id) const;
@@ -56,6 +57,8 @@ signals:
      void requestOnOffCommand(UnitNode *, bool) const;
      void lockOpenCloseCommand(UnitNode *, bool) const;
      void changeSelectUN (UnitNode *) const;
+     void requestDK (UnitNode *) const;
+
 };
 
 #endif // SIGNALSLOTCOMMUTATOR_H

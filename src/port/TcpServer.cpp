@@ -73,6 +73,7 @@ bool TcpServer::writeData(QTcpSocket *socket, QByteArray data)
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
+        qDebug() << "TcpServer::writeData(" << QString::fromLocal8Bit(data) << ")";
         socket->write(data); //write the data itself
         return socket->waitForBytesWritten();
     }
@@ -117,7 +118,7 @@ void TcpServer::readyRead()
             QString domStr = data;
             QDomDocument doc;
             if(doc.setContent(domStr)) {
-                qDebug() << "TcpServer::(1)readyRead(" << domStr << ")";
+//                qDebug() << "TcpServer::(1)readyRead(" << domStr << ")";
                 buffer->clear();
 
                 DataQueueItem itm(data, socket->peerAddress(), socket->peerPort(), 0);
