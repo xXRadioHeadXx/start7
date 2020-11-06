@@ -2,6 +2,7 @@
 #include "ui_MainWindowCFG.h"
 
 #include "QFileDialog"
+#include <QErrorMessage>
 
 
 
@@ -44,6 +45,10 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     this->ui->textEdit->clear();
   //  this->ui->textEdit->setText("1111111\n 22222");
+
+    QErrorMessage dialog;
+    dialog.showMessage("this it the test message");
+    dialog.exec();
 }
 
 MainWindowCFG::~MainWindowCFG()
