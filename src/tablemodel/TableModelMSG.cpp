@@ -259,7 +259,7 @@ bool TableModelMSG::insertRows(int row, int count, const QModelIndex &parent)
 
 void TableModelMSG::castomUpdateListRecords(QString sql)
 {
-    int lastRecordMSG = -1;
+//    int lastRecordMSG = -1;
 
     QList<JourEntity *> newRecords(DataBaseManager::getQueryMSGRecord(sql));
 
@@ -267,9 +267,9 @@ void TableModelMSG::castomUpdateListRecords(QString sql)
     this->beginResetModel();
 
     m_listMSG = newRecords;
-    if(!newRecords.isEmpty()) {
-        lastRecordMSG = m_listMSG.last()->getId();
-    }
+//    if(!newRecords.isEmpty()) {
+//        lastRecordMSG = m_listMSG.last()->getId();
+//    }
 
     this->endResetModel();
 
@@ -318,7 +318,7 @@ void TableModelMSG::updateListRecords()
 void TableModelMSG::updateListRecords(const quint32 idMSG)
 {
     newRecordMSG = idMSG;
-    QList<JourEntity *> newRecords(DataBaseManager::getOneMSGRecord(idMSG));
+//    QList<JourEntity *> newRecords(DataBaseManager::getOneMSGRecord(idMSG));
 
     this->insertRows(this->rowCount());
 

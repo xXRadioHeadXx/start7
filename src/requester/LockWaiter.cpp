@@ -3,6 +3,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
+#include <global.hpp>>
 
 LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
@@ -79,19 +80,20 @@ void LockWaiter::init() {
     setUnReciver(reciver);
 
     unReciverIuBlIp = nullptr;
-    for(UnitNode * un : reciver->getListChilde()) {
-        if(TypeUnitNode::IU_BL_IP == un->getType() && unReciverSdBlIp->getNum2() == un->getNum2()) {
-            unReciverIuBlIp = un;
-            break;
+    if(nullptr != reciver)
+        for(UnitNode * un : as_const(reciver->getListChilde())) {
+            if(TypeUnitNode::IU_BL_IP == un->getType() && unReciverSdBlIp->getNum2() == un->getNum2()) {
+                unReciverIuBlIp = un;
+                break;
+            }
         }
-    }
 
     if(unReciverSdBlIp == reciver || nullptr == reciver || nullptr == unReciverIuBlIp)
         return;
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
-    for(AbstractPort * pt : PortManager::getUdpPortsVector()) {
+    for(AbstractPort * pt : as_const(PortManager::getUdpPortsVector())) {
         if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
             setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
@@ -116,7 +118,7 @@ void LockWaiter::init() {
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
-    for(AbstractPort * pt : PortManager::getUdpPortsVector()) {
+    for(AbstractPort * pt : as_const(PortManager::getUdpPortsVector())) {
         if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
             setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());

@@ -8,6 +8,7 @@
 #include <Port.h>
 #include <MessageEntity.h>
 #include <Utils.h>
+#include <global.hpp>
 
 void Port::setDbm(DataBaseManager *dbm)
 {
@@ -89,7 +90,7 @@ QList<DataQueueItem> Port::readAll() {
 }
 
 void Port::write(const QList<DataQueueItem> &data) {
-    for(DataQueueItem itm : data) {
+    for(const auto& itm : data) {
         write(itm);
     }
 }
@@ -163,7 +164,7 @@ bool Port::openUdpScoket(QString port)
         return false; // Returns false when the IP address or port number is wrong.
     }
 
-    for(QPair<QString, QString> tmp : getStIpPort())
+    for(const auto& tmp : as_const(getStIpPort()))
         qDebug() << QHostAddress(tmp.first)<< "port " << tmp.second;
 
     if(nullptr == m_ptrSocket)
@@ -241,7 +242,7 @@ void Port::readUdpDatagrams()
 void Port::readTcpDatagrams()
 {
 //    QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
-    QByteArray buffer = m_ptrSocket->readAll();
+//    QByteArray buffer = m_ptrSocket->readAll();
 }
 
 void Port::readMessage()
@@ -344,14 +345,14 @@ void Port::setSetIpPort(const QSet<QPair<QString, QString> > &value)
 {
     stIpPort = value;
     stHostAddress.clear();
-    for(QPair<QString, QString> tmp : stIpPort) {
+    for(const auto& tmp : as_const(stIpPort)) {
         stHostAddress.insert(Utils::hostAddress(tmp.first));
     }
 }
 
 void Port::addToSetIpPort(const QPair<QString, QString> &value) {
     stIpPort.insert(value);
-    for(QPair<QString, QString> tmp : stIpPort) {
+    for(const auto& tmp : as_const(stIpPort)) {
         stHostAddress.insert(Utils::hostAddress(tmp.first));
     }
 }
@@ -377,12 +378,13 @@ void Port::setLocalReadQueue(const QList<DataQueueItem> &value)
 }
 
 QList<DataQueueItem> Port::popLocalReadQueue() {
-    QList<DataQueueItem> result(getLocalReadQueue());
-    for(DataQueueItem itm : result) {
+    auto result(getLocalReadQueue()); //QList<DataQueueItem>
+    for(const auto& itm : as_const(result)) {
         localReadQueue.removeOne(itm);
     }
     return result;
 }
+
 void Port::pushLocalReadQueue(const QList<DataQueueItem> &value) {
     localReadQueue.append(value);
 }
@@ -402,8 +404,8 @@ void Port::setLocalWriteQueue(const QList<DataQueueItem> &value)
 }
 
 QList<DataQueueItem> Port::popLocalWriteQueue() {
-    QList<DataQueueItem> result(getLocalWriteQueue());
-    for(DataQueueItem itm : result) {
+    auto result(getLocalWriteQueue()); //QList<DataQueueItem>
+    for(const auto& itm : as_const(result)) {
         localWriteQueue.removeOne(itm);
     }
     return result;

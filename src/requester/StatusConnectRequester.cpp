@@ -4,6 +4,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
+#include <global.hpp>
 
 StatusConnectRequester::StatusConnectRequester(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
@@ -81,7 +82,7 @@ void StatusConnectRequester::init() {
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
-    for(AbstractPort * pt : PortManager::getUdpPortsVector()) {
+    for(AbstractPort * pt : as_const(PortManager::getUdpPortsVector())) {
         if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
             setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
@@ -89,7 +90,7 @@ void StatusConnectRequester::init() {
         }
     }
 
-    for(UnitNode * uncld : getUnReciver()->getListChilde()) {
+    for(UnitNode * uncld : as_const(getUnReciver()->getListChilde())) {
         if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
             this->lsTrackedUN.append(uncld);
         }

@@ -50,6 +50,14 @@ public:
     bool getDecorationRoleFlag() const;
     void setDecorationRoleFlag(bool value);
 
+    inline QModelIndex index(int row, int column, const QModelIndex &parent) const {
+        if(hasIndex(row, column, parent))
+            return createIndex(row, column, m_listMSG[row]);
+        else
+            return QModelIndex();
+    }
+    inline QModelIndex parent(const QModelIndex &) const { return QModelIndex(); }
+
 signals:
     void needScrollToBottom();
     void selectedMsg(QList<JourEntity *> listUN);
@@ -66,8 +74,6 @@ public slots:
     void emitNeedScrollToBottom();
     void needResetModel();
     JourEntity *clickedMsg(const QModelIndex &index);
-    inline QModelIndex index(int row, int column, const QModelIndex &parent) const { return hasIndex(row, column, parent) ? createIndex(row, column, m_listMSG[row]) : QModelIndex(); }
-    inline QModelIndex parent(const QModelIndex &) const { return QModelIndex(); }
 
 };
 

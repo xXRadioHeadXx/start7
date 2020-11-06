@@ -5,6 +5,7 @@
 #include <QTime>
 #include <QDomDocument>
 #include <Utils.h>
+#include <global.hpp>
 
 //#include <QMessageBox>
 
@@ -39,7 +40,7 @@ TcpServer::~TcpServer() {
 
 bool TcpServer::writeData(QString host, QByteArray data)
 {
-    for(QTcpSocket * socket : buffers.keys()) {
+    for(QTcpSocket * socket : as_const(buffers.keys())) {
         if(host == Utils::hostAddressToString(socket->peerAddress())) {
             return writeData(socket, data);
         }

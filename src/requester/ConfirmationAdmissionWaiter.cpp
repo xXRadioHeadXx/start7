@@ -2,6 +2,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
+#include <global.hpp>
 
 ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
@@ -31,7 +32,7 @@ void ConfirmationAdmissionWaiter::init()
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
-    for(AbstractPort * pt : PortManager::getUdpPortsVector()) {
+    for(AbstractPort * pt : as_const(PortManager::getUdpPortsVector())) {
         if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
             setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());

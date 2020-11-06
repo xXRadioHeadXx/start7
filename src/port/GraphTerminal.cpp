@@ -31,7 +31,7 @@ void GraphTerminal::setOverallReadQueue(const QList<DataQueueItem> &value)
 
 QList<DataQueueItem> GraphTerminal::popOverallReadQueue() {
     QList<DataQueueItem> result(getOverallReadQueue());
-    for(auto itm : as_const(result)) {
+    for(const auto& itm : as_const(result)) {
         overallReadQueue.removeOne(itm);
     }
     return result;
@@ -76,7 +76,7 @@ void GraphTerminal::setOverallWriteQueue(const QList<DataQueueItem> &value)
 
 QList<DataQueueItem> GraphTerminal::popOverallWriteQueue() {
     QList<DataQueueItem> result(getOverallWriteQueue());
-    for(auto itm : as_const(result)) {
+    for(const auto& itm : as_const(result)) {
         overallWriteQueue.removeOne(itm);
     }
     return result;
@@ -197,7 +197,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 dataAnswer = makeEventsAndStates("EventsAndStates answer command 10000").toByteArray();
 
                 QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
-                for(auto socket : as_const(buffers.keys())) {
+                for(QTcpSocket * socket : as_const(buffers.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.insert(socket, buffers.value(socket));
                         connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
@@ -206,7 +206,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 //
             } else if("10001" == idCommand.nodeValue()) {
 
-                for(auto socket : as_const(abonents.keys())) {
+                for(const auto& socket : as_const(abonents.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.remove(socket);
                     }
@@ -309,7 +309,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
-                for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
+                for(UnitNode * un : as_const(SettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
                         if(un->getMetaNames().contains(unMetaName)) {
@@ -338,7 +338,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                for(auto un : as_const(unTargetSet.values())) {
+                for(const auto& un : as_const(unTargetSet.values())) {
                     if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
                         unTarget = un;
                         qDebug() << unTarget->getName();
@@ -426,7 +426,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                for(auto un : as_const(unTargetSet.values())) {
+                for(const auto& un : as_const(unTargetSet.values())) {
                     if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
                         unTarget = un;
                         qDebug() << unTarget->getName();
@@ -514,7 +514,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                for(auto un : as_const(unTargetSet.values())) {
+                for(const auto& un : as_const(unTargetSet.values())) {
                     if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
                         unTarget = un;
                         qDebug() << unTarget->getName();
@@ -542,7 +542,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 itmAnswer.setData(dataAnswer);
 
                 QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
-                for(auto socket : as_const(buffers.keys())) {
+                for(const auto& socket : as_const(buffers.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         QByteArray buf;
                         QTextStream ts(&buf);
@@ -622,7 +622,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                         itmAnswer.setData(docAnswer.toByteArray());
 
                         QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
-                        for(auto socket : as_const(buffers.keys())) {
+                        for(const auto& socket : as_const(buffers.keys())) {
                             if(socket->peerAddress() == itm.address()) {
                                 QByteArray buf;
                                 QTextStream ts(&buf);
@@ -725,7 +725,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
 
-    for(UnitNode * un : SettingUtils::getListTreeUnitNodes()) {
+    for(UnitNode * un : as_const(SettingUtils::getListTreeUnitNodes())) {
         // <device id="0" level="0" type="33" num1="1" num2="1" num3="1" name="1" lat=”55.761248” lon: “37.608074” description=”Текстовое описание длиной
         // не более 50 символов”>
 
@@ -799,7 +799,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     RIFPlusPacketElement.appendChild(devicesElement);
 
     if(nullptr == un) {
-        for(UnitNode * unTmp : SettingUtils::getListTreeUnitNodes()) {
+        for(UnitNode * unTmp : as_const(SettingUtils::getListTreeUnitNodes())) {
             if(unTmp->getMetaNames().contains("Obj_0")) {
                 un = unTmp;
                 break;
@@ -808,21 +808,24 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     }
 
     QDomElement  deviceElement  =  doc.createElement("device");
-    QString id = un->getMetaNames().values().first();
-    id = id.remove("Obj_");
-    deviceElement.setAttribute("id", id);
-    deviceElement.setAttribute("level", un->getLevel());
-    deviceElement.setAttribute("type", un->getType());
-    deviceElement.setAttribute("num1", un->getNum1());
-    deviceElement.setAttribute("num2", un->getNum2());
-    deviceElement.setAttribute("num3", un->getNum3());
-    deviceElement.setAttribute("name", un->getName());
+    QString id;
+    if(nullptr != un) {
+        id = un->getMetaNames().values().first();
+        id = id.remove("Obj_");
+        deviceElement.setAttribute("id", id);
+        deviceElement.setAttribute("level", un->getLevel());
+        deviceElement.setAttribute("type", un->getType());
+        deviceElement.setAttribute("num1", un->getNum1());
+        deviceElement.setAttribute("num2", un->getNum2());
+        deviceElement.setAttribute("num3", un->getNum3());
+        deviceElement.setAttribute("name", un->getName());
 //        qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
-    deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
-    deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
-    deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
-    deviceElement.setAttribute("dk", un->getDK());
-    deviceElement.setAttribute("option", 0);
+        deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
+        deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
+        deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
+        deviceElement.setAttribute("dk", un->getDK());
+        deviceElement.setAttribute("option", 0);
+    }
 
     devicesElement.appendChild(deviceElement);
 
@@ -836,7 +839,10 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
         stateElement.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", jour.getComment());
     } else {
-        QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + un->getName() + "')";
+        QString unName;
+        if(nullptr != un)
+            unName = un->getName();
+        QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + unName + "')";
         QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
         if(tmpList.isEmpty()) {
             stateElement.setAttribute("id", 0);
@@ -878,11 +884,11 @@ void GraphTerminal::sendAbonent(QByteArray ba) {
     if(ba.isEmpty())
         return;
     {
-        DataQueueItem itm;
-        itm.setData(ba);
+//        DataQueueItem itm;
+//        itm.setData(ba);
 
-        for(QTcpSocket * socket : abonents.keys()) {
-            itm.setAddress(socket->peerAddress());
+        for(const auto& socket : as_const(abonents.keys())) {
+//            itm.setAddress(socket->peerAddress());
             QByteArray buf;
             QTextStream ts(&buf);
             auto cw51 = QTextCodec::codecForName("windows-1251");

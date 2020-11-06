@@ -4,6 +4,7 @@
 #include <QDebug>
 
 #include <Utils.h>
+#include <global.hpp>
 
 SettingUtils::SettingUtils()
 {
@@ -33,7 +34,6 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
     settings.setIniCodec( "Windows-1251" );
     qDebug()<<"[3]";
-    QList<UnitNode> lsUN;
 
     {
         UnitNode * tmpUN = new UnitNode(root);
@@ -48,7 +48,6 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
         root->addTreeChild(tmpUN);
         root = tmpUN;
-        lsUN.append(tmpUN);
         listTreeUnitNodes.append(tmpUN);
     }
     qDebug()<<"[4]";
@@ -117,7 +116,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                     root->addTreeChild(tmpUN);
 
                 //Double
-                for(UnitNode * un : listTreeUnitNodes) {
+                for(UnitNode * un : as_const(listTreeUnitNodes)) {
                     if(un->getType() == tmpUN->getType() &&
                             un->getUdpAdress() == tmpUN->getUdpAdress() &&
                             un->getUdpPort() == tmpUN->getUdpPort() &&

@@ -3,6 +3,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
+#include <global.hpp>
 
 ProcessDKWaiter::ProcessDKWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
@@ -84,7 +85,7 @@ void ProcessDKWaiter::init() {
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
-    for(AbstractPort * pt : PortManager::getUdpPortsVector()) {
+    for(AbstractPort * pt : as_const(PortManager::getUdpPortsVector())) {
         if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
             setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
@@ -92,7 +93,7 @@ void ProcessDKWaiter::init() {
         }
     }
 
-    for(UnitNode * uncld : getUnReciver()->getListChilde()) {
+    for(UnitNode * uncld : as_const(getUnReciver()->getListChilde())) {
         if(0 != uncld->getDK() && (TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */)) {
             uncld->setDkInvolved(true);
             uncld->setDkStatus(DKCiclStatus::DKReady);

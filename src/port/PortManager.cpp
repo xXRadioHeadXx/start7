@@ -11,6 +11,7 @@
 #include <SettingUtils.h>
 #include <StatusConnectRequester.h>
 #include <LockWaiter.h>
+#include <global.hpp>
 
 PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), m_dbm(dbm), MAX_COUNT_PORTS(1)
 {
@@ -45,9 +46,10 @@ PortManager::~PortManager()
 //        delete factory;
 //    }
 
-    for (AbstractPort *port : m_udpPortsVector) {
+    for (const auto& port : as_const(m_udpPortsVector)) {
         delete port;
     }
+    m_udpPortsVector.clear();
 }
 
 void PortManager::retranslate() {}
@@ -66,7 +68,7 @@ void PortManager::loadSettings() {
     m_udpPortsVector.clear();
     m_udpPortsVector = loadPortsUdpObj();
 
-    for(AbstractPort * port : m_udpPortsVector) {
+    for(auto& port : as_const(m_udpPortsVector)) {
         switch(port->getProtocol()) {
             case AbstractPort::UDP:
                 Port::typeDefPort(port)->open();
@@ -109,7 +111,7 @@ void PortManager::write() {
 }
 
 void PortManager::write(const QList<DataQueueItem> &data) {
-    for(DataQueueItem itm : data) {
+    for(const auto& itm : data) {
         write(itm);
     }
 }
@@ -208,8 +210,8 @@ void PortManager::setOverallReadQueue(const QList<DataQueueItem> &value)
 }
 
 QList<DataQueueItem> PortManager::popOverallReadQueue() {
-    QList<DataQueueItem> result(getOverallReadQueue());
-    for(DataQueueItem itm : result) {
+    const auto& result(getOverallReadQueue());
+    for(const auto& itm : result) {
         overallReadQueue.removeOne(itm);
     }
     return result;
@@ -235,8 +237,8 @@ void PortManager::setOverallWriteQueue(const QList<DataQueueItem> &value)
 }
 
 QList<DataQueueItem> PortManager::popOverallWriteQueue() {
-    QList<DataQueueItem> result(getOverallWriteQueue());
-    for(DataQueueItem itm : result) {
+    const auto& result(getOverallWriteQueue());
+    for(const auto& itm : result) {
         overallWriteQueue.removeOne(itm);
     }
     return result;
@@ -253,17 +255,17 @@ void PortManager::startStatusRequest(){
 
     disconnect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(UnitNode *)), this, SLOT(unLostedConnect(UnitNode *)));
 
-    for(AbstractRequester * scr : lsSCR) {
+    for(AbstractRequester * scr : as_const(lsSCR)) {
         scr->setBeatStatus(BeatStatus::Unsuccessful);
         delete scr;
     }
     lsSCR.clear();
 
-    for(UnitNode * un : SettingUtils::getSetMetaRealUnitNodes()) {
+    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
         if(TypeUnitNode::BL_IP == un->getType()) {
             StatusConnectRequester * tmpSCR = new StatusConnectRequester(un);
             tmpSCR->init();
-            for(AbstractPort * p : getUdpPortsVector()) {
+            for(const auto& p : as_const(getUdpPortsVector())) {
                 if(Port::typeDefPort(p)->getStIpPort().contains(tmpSCR->getIpPort())) {
                     tmpSCR->setPtrPort(p);
                     break;
@@ -273,7 +275,7 @@ void PortManager::startStatusRequest(){
         }
     }
 
-    for(AbstractRequester * scr : lsSCR) {
+    for(auto& scr : as_const(lsSCR)) {
         scr->startFirstRequest();
     }
 
@@ -288,7 +290,7 @@ void PortManager::requestAlarmReset(UnitNode * selUN) {
                 selUN = un;
             if(nullptr != selUN) {
                 QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
-                for(AbstractPort * pt : m_udpPortsVector) {
+                for(const auto& pt : as_const(m_udpPortsVector)) {
                     if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
 
                         ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
@@ -355,7 +357,7 @@ void PortManager::requestDK(UnitNode * selUN) {
 
     for(UnitNode * un : lsTrgtUN) {
         QPair<QString, QString> tmpPair(un->getUdpAdress(), QVariant(un->getUdpPort()).toString());
-        for(AbstractPort * pt : m_udpPortsVector) {
+        for(const auto& pt : as_const(m_udpPortsVector)) {
             if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
 
                 ProcessDKWaiter * tmpPDKW = new ProcessDKWaiter(un);
@@ -385,9 +387,9 @@ void PortManager::requestDK(UnitNode * selUN) {
 void PortManager::requestAutoOnOffIUCommand(UnitNode *selUN) {
     if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
         QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
-        for(AbstractPort * pt : m_udpPortsVector) {
+        for(const auto& pt : as_const(m_udpPortsVector)) {
             if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
-                for(AbstractRequester * ar : getLsWaiter()) {
+                for(AbstractRequester * ar : as_const(getLsWaiter())) {
                     if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         return;
                 }
@@ -429,7 +431,7 @@ void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
         return;
 
     if(!SettingUtils::getSetMetaRealUnitNodes().contains(reciver)) {
-        for(UnitNode * un : SettingUtils::getSetMetaRealUnitNodes())
+        for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes()))
             if(un->getDoubles().contains(reciver)) {
                 target = reciver = un;
                 break;
@@ -448,79 +450,81 @@ void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
     }
     int type = target->getType();
 
-    for(UnitNode * un : reciver->getListChilde()) {
-        if(type != un->getType())
-            continue;
-        quint8 mask = 0;
-        switch (un->getNum2()) {
-        case 1:
-            mask = 0x01;
-            break;
-        case 2:
-            mask = 0x02;
-            break;
-        case 3:
-            mask = 0x04;
-            break;
-        case 4:
-            mask = 0x08;
-            break;
-        case 5:
-            mask = 0x10;
-            break;
-        case 6:
-            mask = 0x20;
-            break;
-        case 7:
-            mask = 0x40;
-            break;
-        case 8:
-            mask = 0x80;
-            break;
-        default:
-            mask = 0x00;
-            break;
+    if(nullptr != reciver) {
+        for(const auto& un : as_const(reciver->getListChilde())) {
+            if(type != un->getType())
+                continue;
+            quint8 mask = 0;
+            switch (un->getNum2()) {
+            case 1:
+                mask = 0x01;
+                break;
+            case 2:
+                mask = 0x02;
+                break;
+            case 3:
+                mask = 0x04;
+                break;
+            case 4:
+                mask = 0x08;
+                break;
+            case 5:
+                mask = 0x10;
+                break;
+            case 6:
+                mask = 0x20;
+                break;
+            case 7:
+                mask = 0x40;
+                break;
+            case 8:
+                mask = 0x80;
+                break;
+            default:
+                mask = 0x00;
+                break;
+            }
+
+            if(TypeUnitNode::SD_BL_IP == un->getType() &&
+                    Status::Off == un->getStatus2() &&
+                    Status::Uncnown == un->getStatus1())
+                D1 = D1 & ~mask;
+            else if(TypeUnitNode::IU_BL_IP == un->getType() &&
+                    Status::Off == un->getStatus1())
+                D1 = D1 & ~mask;
+            else
+                D1 = D1 | mask;
+
+            if(un == target && value)
+                D1 = D1 | mask;
+            else if(un == target && !value)
+                D1 = D1 & ~mask;
         }
 
-        if(TypeUnitNode::SD_BL_IP == un->getType() &&
-                Status::Off == un->getStatus2() &&
-                Status::Uncnown == un->getStatus1())
-            D1 = D1 & ~mask;
-        else if(TypeUnitNode::IU_BL_IP == un->getType() &&
-                Status::Off == un->getStatus1())
-            D1 = D1 & ~mask;
-        else
-            D1 = D1 | mask;
+        if(TypeUnitNode::BL_IP == reciver->getType()) {
+            ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+            tmpCAW->init();
+            DataQueueItem itm = tmpCAW->getFirstMsg();
+            QByteArray data;
+            if(TypeUnitNode::SD_BL_IP == target->getType())
+                data = DataQueueItem::makeOnOff0x20();
+            else if(TypeUnitNode::IU_BL_IP == target->getType())
+                data = DataQueueItem::makeOnOff0x23();
+            data[4] = D1;
+            data.chop(1);
+            data.append(Utils::getByteSumm(data)); //<CHKS>
+            itm.setData(data);
+            tmpCAW->setFirstMsg(itm);
+            appLsWaiter(tmpCAW);
+    //        tmpCAW->startFirstRequest();
 
-        if(un == target && value)
-            D1 = D1 | mask;
-        else if(un == target && !value)
-            D1 = D1 & ~mask;
-    }
-
-    if(TypeUnitNode::BL_IP == reciver->getType()) {
-        ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
-        tmpCAW->init();
-        DataQueueItem itm = tmpCAW->getFirstMsg();
-        QByteArray data;
-        if(TypeUnitNode::SD_BL_IP == target->getType())
-            data = DataQueueItem::makeOnOff0x20();
-        else if(TypeUnitNode::IU_BL_IP == target->getType())
-            data = DataQueueItem::makeOnOff0x23();
-        data[4] = D1;
-        data.chop(1);
-        data.append(Utils::getByteSumm(data)); //<CHKS>
-        itm.setData(data);
-        tmpCAW->setFirstMsg(itm);
-        appLsWaiter(tmpCAW);
-//        tmpCAW->startFirstRequest();
-
-        if(target->getControl()) {
-            JourEntity msg;
-            msg.setObject(target->getName());
-            msg.setType((value ? 130 : 131));
-            msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
-            DataBaseManager::insertJourMsg_wS(msg);
+            if(target->getControl()) {
+                JourEntity msg;
+                msg.setObject(target->getName());
+                msg.setType((value ? 130 : 131));
+                msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
+                DataBaseManager::insertJourMsg_wS(msg);
+            }
         }
     }
 }
@@ -598,10 +602,10 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
         }
     }
 
-    for(QString prt : stPort) {
+    for(const auto& prt : as_const(stPort)) {
             result.append(PortFactory(AbstractPort::UDP).create(AbstractPort::UDP, result.size()));
         Port::typeDefPort(result.last())->setStrPort(prt);
-        for(QPair<QString, QString> tmp : stIpPort) {
+        for(const auto& tmp : as_const(stIpPort)) {
             if(prt == tmp.second)
                 Port::typeDefPort(result.last())->addToSetIpPort(tmp);
         }
@@ -662,20 +666,20 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 }
                 reciver = reciver->getParentUN();
             }
-
-            for(UnitNode * tmpUN : reciver->getListChilde()) {
-                if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
-                    unLockIuBlIp = tmpUN;
-                    break;
+            if(nullptr != reciver) {
+                for(const auto& tmpUN : as_const(reciver->getListChilde())) {
+                    if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
+                        unLockIuBlIp = tmpUN;
+                        break;
+                    }
                 }
-            }
 
-            for(UnitNode * tmpUN : reciver->getListChilde()) {
-                if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
-                    unLockSdBlIp = tmpUN;
-                    break;
-                }
-            }
+                for(const auto& tmpUN : as_const(reciver->getListChilde())) {
+                    if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
+                        unLockSdBlIp = tmpUN;
+                        break;
+                    }
+                }}
 
             if(nullptr == unLockSdBlIp || nullptr == unLockIuBlIp)
                 isLockPair = false;
@@ -931,7 +935,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                     QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
 
-                    for(AbstractRequester * ar : getLsWaiter()) {
+                    for(AbstractRequester * ar : as_const(getLsWaiter())) {
                         if(ar->getIpPort() == tmpPair && RequesterType::LockRequester == ar->getRequesterType() && ar->getUnTarget() == unLockSdBlIp) {
                             SignalSlotCommutator::getInstance()->emitEndLockWait();
                             if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
@@ -976,7 +980,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() && 0 != un->getBazalt()) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
                 //сохранение Тревога или Норма
                 if(0 != un->treeChildCount()) {
-                    for(UnitNode * iuun : un->treeChild()) {
+                    for(const auto& iuun : as_const(un->treeChild())) {
                         if(TypeUnitNode::IU_BL_IP == iuun->getType()) {
                             qDebug() << "Utils::parcingStatusWord0x41 emitAutoOnOffIU";
                             SignalSlotCommutator::getInstance()->emitAutoOnOffIU(iuun);
@@ -999,12 +1003,12 @@ void PortManager::manageOverallReadQueue()
     QList<DataQueueItem> tmpQueue = popOverallReadQueue();
     for (DataQueueItem itm : tmpQueue) {
         QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
-        AbstractPort * pt = m_udpPortsVector.at(itm.portIndex());
+//        AbstractPort * pt = m_udpPortsVector.value(itm.portIndex(), nullptr);
         if(DataQueueItem::isValideDirectionI(itm)) {
             quint8 CMD = itm.data().at(4);
             switch (CMD) {
             case (quint8)0x41: {
-                for(AbstractRequester * scr : this->lsSCR) {
+                for(AbstractRequester * scr : as_const(this->lsSCR)) {
                     if(scr->getIpPort() == tmpPair) {
                         scr->resetBeatCount();
                         break;
@@ -1015,7 +1019,7 @@ void PortManager::manageOverallReadQueue()
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
                 bool dkWait = false;
-                for(AbstractRequester * ar : getLsWaiter()) {
+                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
                         dkWait = true;
@@ -1025,7 +1029,7 @@ void PortManager::manageOverallReadQueue()
 
                 if(request.isValid() && !dkWait) {
                     UnitNode * reciver = nullptr;
-                    for(UnitNode * un : SettingUtils::getSetMetaRealUnitNodes()) {
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if(TypeUnitNode::BL_IP == reciver->getType() &&
                                 reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
@@ -1045,13 +1049,13 @@ void PortManager::manageOverallReadQueue()
             }
             case (quint8)0x30: {
 
-                for(AbstractRequester * ar : getLsWaiter()) {
+                for(AbstractRequester * ar : as_const(getLsWaiter())) {
                     if(ar->getIpPort() == tmpPair) {
 
                         if(BeatStatus::RequestStep1 == ar->getBeatStatus()) { // переводим в первое ожидание
 
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                for(UnitNode * un : ((ProcessDKWaiter *)ar)->getLsTrackedUN()) {
+                                for(UnitNode * un : as_const(((ProcessDKWaiter *)ar)->getLsTrackedUN())) {
                                     un->setDkInvolved(true);
                                     un->setDkStatus(DKCiclStatus::DKReady);
                                     un->updDoubl();
@@ -1069,7 +1073,7 @@ void PortManager::manageOverallReadQueue()
                         } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) { // удаляем завершившихся и переводим во второе ожидание другие
 
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                for(UnitNode * un : ((ProcessDKWaiter *)ar)->getLsTrackedUN()) {
+                                for(UnitNode * un : as_const(((ProcessDKWaiter *)ar)->getLsTrackedUN())) {
                                     JourEntity msg;
                                     msg.setObject(un->getName());
                                     if(DKCiclStatus::DKDone == un->getDkStatus()) {
@@ -1123,7 +1127,7 @@ void PortManager::manageOverallReadQueue()
             }
 
             bool keypass = true;
-            for(AbstractRequester * ar : getLsWaiter())
+            for(AbstractRequester * ar : as_const(getLsWaiter()))
                 if(BeatStatus::Unsuccessful == ar->getBeatStatus()) {
                     removeLsWaiter(ar);
                 } else if(true == keypass && BeatStatus::Start == ar->getBeatStatus()) {
@@ -1152,13 +1156,13 @@ void PortManager::unLostedConnect(UnitNode *un) const
     }
 
 
-    for(UnitNode * uncld : un->getListChilde()) {
+    for(const auto& uncld : as_const(un->getListChilde())) {
         if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
             unLostedConnect(uncld);
         }
     }
 
-    for(AbstractRequester * scr : lsSCR) {
+    for(AbstractRequester * scr : as_const(lsSCR)) {
         if(scr->getUnReciver() == un && BeatStatus::Unsuccessful == scr->getBeatStatus()) {
             scr->startFirstRequest();
             break;
