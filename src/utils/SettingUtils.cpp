@@ -32,7 +32,11 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     if(0 >= cntTrItm)
         return listTreeUnitNodes;
 
+#if (defined (_WIN32) || defined (_WIN64))
     settings.setIniCodec( "Windows-1251" );
+#else
+    settings.setIniCodec( "UTF-8" );
+#endif
     qDebug()<<"[3]";
 
     {
@@ -191,7 +195,11 @@ QVariant SettingUtils::getValueSettings(const QString key, const QString group, 
     QVariant result;
 
     QSettings settings(fileName, QSettings::IniFormat);
+#if (defined (_WIN32) || defined (_WIN64))
     settings.setIniCodec( "Windows-1251" );
+#else
+    settings.setIniCodec( "UTF-8" );
+#endif
 
     if(!settings.childGroups().contains(group))
         return result;
