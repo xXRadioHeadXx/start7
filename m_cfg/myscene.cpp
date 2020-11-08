@@ -118,7 +118,7 @@ void myScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
        qDebug()<<"Координаты: "<<x<<" "<<y<< X<<" "<<this->Y;
 
-        if(!((x>(this->X-item->boundingRect().x()))||(x<0)||(y>(this->Y-item->boundingRect().y()))||(y<0)))
+        if(!((x>(this->X-item->boundingRect().width()))||(x<0)||(y>(this->Y-item->boundingRect().height()))||(y<0)))
     {
         item->setPos(event->scenePos());
                 this->update();
