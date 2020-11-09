@@ -985,7 +985,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 }
             }
 
-            if(/*!un->getDkInvolved() &&*/ (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
+            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) && (un->getStatus1() & Status::Alarm) && (un->getStatus2() & Status::Was)) {
                 //сохранение Тревога или Норма
                 if(0 != un->treeChildCount()) {
                     for(const auto& iuun : as_const(un->treeChild())) {
