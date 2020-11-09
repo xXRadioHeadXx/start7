@@ -512,6 +512,7 @@ return true;
 void MainWindowCFG::on_actionCreate_triggered()
 {
     qDebug()<<"[Create]";
+    this->modelTreeUN->makeEmptyTree();
 }
 
 void MainWindowCFG::on_actionOpen_triggered()

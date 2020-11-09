@@ -403,6 +403,14 @@ this->endResetModel();
 void TreeModelUnitNode::makeEmptyTree()
 {
 
+    this->beginResetModel();
+
+        listItemUN = SettingUtils::loadEmptyTree(rootItemUN);
+
+    this->endResetModel();
+
+
+
 }
 
 bool TreeModelUnitNode::deleteUnit(QModelIndex index)
@@ -429,8 +437,9 @@ parent->deleteChild(index.row());
 
 
 
-
 //emit dataChanged(index,index);
+
+
 this->endRemoveRows();
 emit dataChanged(index,index);
 return true;

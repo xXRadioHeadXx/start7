@@ -54,6 +54,9 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         root = tmpUN;
         listTreeUnitNodes.append(tmpUN);
     }
+
+
+
     qDebug()<<"[4]";
     for(int index = 0; index < cntTrItm; index++)
     {
@@ -178,8 +181,41 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             }
         }
     }
+
         qDebug()<<"[5]";
-    return listTreeUnitNodes;
+        return listTreeUnitNodes;
+}
+
+QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
+{
+    if(!listTreeUnitNodes.isEmpty()) {
+   //     for(UnitNode *un : listTreeUnitNodes)
+   //         delete un;
+        listTreeUnitNodes.clear();
+    }
+
+
+
+
+    {
+        UnitNode * tmpUN = new UnitNode(root);
+
+        tmpUN->setType(TypeUnitNode::SYSTEM);
+        tmpUN->setNum1(0);
+        tmpUN->setNum2(0);
+        tmpUN->setNum3(0);
+        tmpUN->setLevel(0);
+        tmpUN->setName(QObject::trUtf8("Система"));
+        tmpUN->setMetaNames("Obj_0");
+
+        root->addTreeChild(tmpUN);
+        root = tmpUN;
+        listTreeUnitNodes.append(tmpUN);
+
+
+    }
+
+      return listTreeUnitNodes;
 }
 
 QList<UnitNode *> SettingUtils::getListTreeUnitNodes() {
