@@ -115,3 +115,8 @@ void SignalSlotCommutator::emitRequestDK(UnitNode * un) const
 {
     emit this->requestDK(un);
 }
+
+void SignalSlotCommutator::emitRequestDK(bool out, UnitNode *un) const
+{
+    emit this->requestDK(out, un);
+}

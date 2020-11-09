@@ -142,7 +142,7 @@ void GraphTerminal::manageOverallReadQueue()
             JourEntity msgOn;
             msgOn.setObject(trUtf8("Оператор"));
             msgOn.setType(135);
-            msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
+            msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
             DataBaseManager::insertJourMsg_wS(msgOn);
 
             DataBaseManager::resetAllFlags_wS();
@@ -346,7 +346,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                SignalSlotCommutator::getInstance()->emitRequestDK(unTarget);
+                SignalSlotCommutator::getInstance()->emitRequestDK(true, unTarget);
 
                 qDebug() << "<--";
                 //
@@ -447,7 +447,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     JourEntity msgOn;
                     msgOn.setObject(unTarget->getName());
                     msgOn.setType((unTarget->getControl() ? 137 : 136));
-                    msgOn.setComment(trUtf8("Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
+                    msgOn.setComment(trUtf8("Удал. ком. Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
                     DataBaseManager::insertJourMsg_wS(msgOn);
 
                     dataAnswer = makeEventsAndStates(unTarget, msgOn).toByteArray();
@@ -611,7 +611,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                         JourEntity msgOn;
                         msgOn.setObject(trUtf8("Оператор"));
                         msgOn.setType(135);
-                        msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
+                        msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
                         DataBaseManager::insertJourMsg_wS(msgOn);
 
                         DataBaseManager::resetAllFlags_wS();
@@ -832,13 +832,16 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     QDomElement  statesElement  =  doc.createElement("states");
     deviceElement.appendChild(statesElement);
 
+    QDomElement  stateElement1  =  doc.createElement("state");
     QDomElement  stateElement  =  doc.createElement("state");
     if(0 != jour.getType() && !jour.getComment().isEmpty()) {
-        stateElement  =  doc.createElement("state");
-        stateElement.setAttribute("id", jour.getType());
-        stateElement.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
-        stateElement.setAttribute("name", jour.getComment());
-    } else {
+//        stateElement1  =  doc.createElement("state");
+        stateElement1.setAttribute("id", jour.getType());
+        stateElement1.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement1.setAttribute("name", jour.getComment());
+        statesElement.appendChild(stateElement1);
+    }
+    if(0 == jour.getType() || jour.getComment().isEmpty()/* || 136 == jour.getType()*/ || 137 == jour.getType()){
         QString unName;
         if(nullptr != un)
             unName = un->getName();
@@ -854,11 +857,8 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
             stateElement.setAttribute("datetime", tmpJour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
             stateElement.setAttribute("name", tmpJour->getComment());
         }
+        statesElement.appendChild(stateElement);
     }
-    statesElement.appendChild(stateElement);
-
-
-
 
 //    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
 

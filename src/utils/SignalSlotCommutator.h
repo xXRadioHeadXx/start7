@@ -35,6 +35,7 @@ public slots:
      void emitLockOpenCloseCommand(UnitNode *, bool) const;
      void emitChangeSelectUN (UnitNode *) const;
      void emitRequestDK (UnitNode *) const;
+     void emitRequestDK (bool, UnitNode * un = nullptr) const;
 
 signals:
      void insNewCommandMSG(const quint32 id) const;
@@ -58,6 +59,7 @@ signals:
      void lockOpenCloseCommand(UnitNode *, bool) const;
      void changeSelectUN (UnitNode *) const;
      void requestDK (UnitNode *) const;
+     void requestDK (bool, UnitNode *) const;
 
 };
 

@@ -97,6 +97,7 @@ public slots:
     void write(const DataQueueItem &data);
     void startStatusRequest();
     void requestAlarmReset(UnitNode *selUN = nullptr);
+    void requestDK(bool out, UnitNode *selUN = nullptr);
     void requestDK(UnitNode *selUN = nullptr);
     void requestOnOffCommand(UnitNode *selUN, bool value);
     void requestAutoOnOffIUCommand(UnitNode *selUN);

@@ -501,6 +501,8 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);
         GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
+        if(selUN->getControl())
+            GraphTerminal::sendAbonentEventsAndStates(selUN);
     }
 }
 
