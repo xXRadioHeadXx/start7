@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>781</width>
+    <width>868</width>
     <height>680</height>
    </rect>
   </property>
@@ -29,9 +29,9 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>10</y>
-      <width>301</width>
+      <x>258</x>
+      <y>-2</y>
+      <width>600</width>
       <height>80</height>
      </rect>
     </property>
@@ -43,13 +43,13 @@
     </property>
     <property name="minimumSize">
      <size>
-      <width>301</width>
+      <width>600</width>
       <height>80</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>301</width>
+      <width>431</width>
       <height>80</height>
      </size>
     </property>
@@ -154,10 +154,10 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>100</y>
-      <width>431</width>
-      <height>481</height>
+      <x>258</x>
+      <y>76</y>
+      <width>600</width>
+      <height>385</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -168,14 +168,14 @@
     </property>
     <property name="minimumSize">
      <size>
-      <width>301</width>
-      <height>431</height>
+      <width>600</width>
+      <height>385</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>431</width>
-      <height>16777215</height>
+      <width>600</width>
+      <height>385</height>
      </size>
     </property>
     <property name="title">
@@ -186,9 +186,21 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>411</width>
-       <height>301</height>
+       <width>580</width>
+       <height>211</height>
       </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>580</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>580</width>
+       <height>16777215</height>
+      </size>
      </property>
      <property name="title">
       <string>Параметры</string>
@@ -197,7 +209,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>20</y>
+        <y>14</y>
         <width>47</width>
         <height>13</height>
        </rect>
@@ -210,7 +222,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>40</y>
+        <y>29</y>
         <width>141</width>
         <height>22</height>
        </rect>
@@ -265,7 +277,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>70</y>
+        <y>52</y>
         <width>47</width>
         <height>13</height>
        </rect>
@@ -278,7 +290,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>90</y>
+        <y>68</y>
         <width>141</width>
         <height>20</height>
        </rect>
@@ -288,9 +300,9 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>120</y>
-        <width>241</width>
-        <height>201</height>
+        <y>100</y>
+        <width>551</width>
+        <height>101</height>
        </rect>
       </property>
       <property name="currentIndex">
@@ -1603,38 +1615,13 @@
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>380</y>
+       <x>10</x>
+       <y>230</y>
        <width>379</width>
-       <height>103</height>
+       <height>61</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="3">
-       <widget class="QPushButton" name="pushButton_6">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Вниз</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2">
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -1647,76 +1634,6 @@
          </size>
         </property>
        </spacer>
-      </item>
-      <item row="2" column="2">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="pushButton_5">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Вверх</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QPushButton" name="pushButton_8">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Переименовать</string>
-        </property>
-       </widget>
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="pushButton">
@@ -1793,14 +1710,102 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="2">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="pushButton_5">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Вверх</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Переименовать</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Вниз</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </widget>
    <widget class="QTreeView" name="treeView">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>20</y>
+      <x>4</x>
+      <y>4</y>
       <width>251</width>
       <height>481</height>
      </rect>
@@ -1809,11 +1814,24 @@
    <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>500</y>
+      <x>4</x>
+      <y>484</y>
       <width>251</width>
       <height>71</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>560</y>
+      <width>206</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
     </property>
    </widget>
   </widget>
@@ -1822,7 +1840,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>781</width>
+     <width>868</width>
      <height>21</height>
     </rect>
    </property>

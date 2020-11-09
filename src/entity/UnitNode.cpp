@@ -499,7 +499,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
         }
     }
      if(SubTypeApp::configurator == type) {
-         if(TypeUnitNode::GROUP == getType())
+
+
+         if(TypeUnitNode::GROUP == getType()||TypeUnitNode::SYSTEM == getType())
          {
          if(childCount())
          return Icons::fldr();
