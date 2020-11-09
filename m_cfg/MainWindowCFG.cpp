@@ -114,6 +114,7 @@ this->get_option(unit);
 
 void MainWindowCFG::get_option(UnitNode* unit)
 {
+   this->ui->textEdit->clear();
     qDebug()<<"get option";
 qDebug()
 <<"; Name "<< unit->getName()

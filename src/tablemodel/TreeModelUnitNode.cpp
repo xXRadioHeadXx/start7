@@ -400,6 +400,11 @@ this->endResetModel();
     qDebug()<<"[PROFIT]";
 }
 
+void TreeModelUnitNode::makeEmptyTree()
+{
+
+}
+
 bool TreeModelUnitNode::deleteUnit(QModelIndex index)
 {
 qDebug()<<"TreeModelUnitNode::deleteUnit(QModelIndex index)";
