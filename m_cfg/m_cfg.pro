@@ -21,6 +21,7 @@ include(../src/tablemodel/tablemodel.pri)
 include(../src/utils/utils.pri)
 include(../src/database/database.pri)
 include(../src/requester/requester.pri)
+include(../src/global.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
