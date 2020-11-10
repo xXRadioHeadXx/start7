@@ -193,6 +193,7 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
    //     for(UnitNode *un : listTreeUnitNodes)
    //         delete un;
         listTreeUnitNodes.clear();
+        root->deleteAll();
     }
 
 

@@ -44,6 +44,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     connect(this->map.scene,SIGNAL(point(QString,int,int)),this,SLOT(set_x_y(QString,int,int)));
 
     this->ui->textEdit->clear();
+
+    this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
     QErrorMessage dialog;
@@ -865,9 +867,7 @@ this->ui->textEdit->clear();
 QString string1;
 
 string1.append("Тип: Сота/Сота-М");
-this->ui->textEdit->append(string1);
 
-string1.clear();
 string1.append("Кан: ");
 
 if(unit->getUdpUse()==0)
@@ -876,11 +876,11 @@ if(unit->getUdpUse()==0)
     this->ui->textEdit->append(string1);
     if(unit->getUdpAdress()!="")
     {
-        string1.clear();
+
         string1.append("(");
         string1.append(unit->getUdpAdress());
         string1.append(")");
-        this->ui->textEdit->append(string1);
+
     }
 }
 if(unit->getUdpUse()==1)
@@ -888,11 +888,11 @@ if(unit->getUdpUse()==1)
     string1.append(unit->getUdpAdress());
     string1.append("::");
     string1.append(QString::number(unit->getUdpPort()));
-    this->ui->textEdit->append(string1);
+
 }
 
 
-string1.clear();
+
 string1.append("БОД:");
 string1.append(QString::number(unit->getNum1()));
 this->ui->textEdit->append(string1);
@@ -981,6 +981,7 @@ if(this->ui->BOD_SOTA_M_type_combobox->currentText()=="UDP")
 else
     unit->setUdpUse(0);
 
+unit->setUdpPort(this->ui->BOD_SOTA_MUdpPort_lineedit->text().toInt());
 unit->setUdpAdress(this->ui->BOD_SOTA_M_ipadress_lineedit->text());
 unit->setUdpTimeout(this->ui->BOD_SOTA_M_timeout_lineedit->text().toInt());
 }

@@ -1874,7 +1874,7 @@
            <string>Таймаут, мс</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="BOD_SOTA_M_ipadress_lineedit_2">
+         <widget class="QLineEdit" name="BOD_SOTA_MUdpPort_lineedit">
           <property name="geometry">
            <rect>
             <x>0</x>

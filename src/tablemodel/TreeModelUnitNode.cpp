@@ -405,6 +405,7 @@ void TreeModelUnitNode::makeEmptyTree()
 
     this->beginResetModel();
 
+
         listItemUN = SettingUtils::loadEmptyTree(rootItemUN);
 
     this->endResetModel();
