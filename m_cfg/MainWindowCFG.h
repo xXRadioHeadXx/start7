@@ -21,6 +21,7 @@ private:
 
 
     bool can_i_add_or_not(int type_parrent, int type_child);
+    bool can_i_add_or_not(UnitNode *unit, UnitNode* parrent);
     bool add_unit();
     bool change_unit();
     bool delete_unit();

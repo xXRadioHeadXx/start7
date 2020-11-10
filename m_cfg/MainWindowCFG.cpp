@@ -602,6 +602,28 @@ bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
     return true;
 }
 
+bool MainWindowCFG::can_i_add_or_not(UnitNode *unit, UnitNode *parrent)
+{
+
+//Если БОД Сота-М, то:
+//    Если связь по RS485 - контроль по RS485 порту
+//    Если связь по UDP - контроль по IP адресу
+    if(unit->getType()==TypeUnitNode::BOD_SOTA)
+    {
+        if(unit->getUdpUse()==1)
+        {
+         //проконтроилровать отсутствие в дереве такого же порта
+
+        }
+        else
+        {
+          //проконтроилровать отсутствие в дереве такого же IP адреса
+        }
+    }
+
+    return true;
+}
+
 bool MainWindowCFG::add_unit()
 {
     qDebug()<<"[add_unit()]";
