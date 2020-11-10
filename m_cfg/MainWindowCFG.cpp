@@ -547,10 +547,10 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        case TypeUnitNode::Y4_SOTA:
        this->set_option_Y4_SOTA(unit);
        break;
-   /*
+
        case TypeUnitNode::DD_SOTA:
-       this->get_option_DD_SOTA(unit);
-       break;*/
+       this->set_option_DD_SOTA(unit);
+       break;/**/
 
        case TypeUnitNode::BL_IP:
   //     this->get_option_BL_IP(unit);

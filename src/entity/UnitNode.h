@@ -37,7 +37,7 @@ enum TypeUnitNode {
     DD_T4K_M = 28,//ДД Точка-М/Гряда
     BOD_SOTA =29,//БОД Сота
     Y4_SOTA = 30,//Участок Сота
-    DD_SOTA = 28,//ДД Сота
+    DD_SOTA = 31,//ДД Сота
     BL_IP = 0xFF
 };
 
