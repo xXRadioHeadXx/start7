@@ -545,7 +545,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::Y4_SOTA:
-  //     this->get_option_Y4_SOTA(unit);
+       this->set_option_Y4_SOTA(unit);
        break;
    /*
        case TypeUnitNode::DD_SOTA:
@@ -643,6 +643,13 @@ if(false==pass_to_add_BOD_SOTA(unit,parrent))
     return false;
 }
 
+if(unit->getType()==TypeUnitNode::Y4_SOTA)
+{
+if(false==pass_to_add_Y4_SOTA(unit,parrent))
+    return false;
+}
+
+
 return true;
 }
 
@@ -688,15 +695,62 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
                 {
        //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
                  if((un->getUdpAdress()==unit->getUdpAdress()))
-                 {
+                  {
 
                      dialog.showMessage("этот IP адрес уже  занят");
                      dialog.exec();
                      return false;
-                 }
-               }
+                  }
+                }
             }
             return true;
+}
+
+bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
+{
+    qDebug()<<"[pass_to_add_Y4_SOTA]";
+    //Участок может быть добавлен только к БОД Сота/Сота-М
+    if(parrent->getType()!=TypeUnitNode::BOD_SOTA)
+    {
+        dialog.showMessage("Участок может быть добавлен только к БОД Сота/Сота-М!");
+        dialog.exec();
+        return false;
+
+    }
+
+    //В одном БОД Сота/Сота-М не должно быть "участков" с двумя одинаковыми участками
+
+    //Составить лист участков этого БОДА
+    QList<UnitNode*> List;
+
+    foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+    {
+       qDebug()<<".";
+//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+       QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+       QModelIndex parent_index= this->modelTreeUN->parent(index);
+
+
+     if(this->modelTreeUN->findeIndexUN(parrent)==parent_index)
+      {
+ //       qDebug()<<"Name: "<<un->getName();
+        List.append(un);
+      }
+    }
+
+    foreach(UnitNode *un, List )
+    {
+     qDebug()<<"Name: "<<un->getName();
+     if(un->getNum2()==unit->getNum2())
+     {
+         dialog.showMessage("У этого БОДа такой участок уже существует!");
+         dialog.exec();
+         return false;
+     }
+    }
+    //проконтролировать в нем отсутствие добавляемого участка
+
+    return true;
 }
 
 bool MainWindowCFG::add_unit()
@@ -1084,7 +1138,7 @@ unit->setUdpTimeout(this->ui->BOD_SOTA_M_timeout_lineedit->text().toInt());
 
 void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit)
 {
-
+unit->setNum2(this->ui->U4_Sota_M_combobox->currentText().toInt()*100);
 }
 
 void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit)

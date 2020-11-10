@@ -26,7 +26,7 @@ private:
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
 
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
-
+    bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
 
     bool add_unit();
     bool change_unit();

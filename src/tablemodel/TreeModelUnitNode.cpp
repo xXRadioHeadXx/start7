@@ -352,13 +352,13 @@ QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *tc,
                                         parentTC->treeChild(i));///1
              if(index.isValid())
              {
-                 qDebug() << "findeIndexUN " << index;
+           //      qDebug() << "findeIndexUN " << index;
                  return index;
              }
          }
 
      }
-     qDebug() << "findeIndexUN false 2";
+  //   qDebug() << "findeIndexUN false 2";
      return index;
 }
 
