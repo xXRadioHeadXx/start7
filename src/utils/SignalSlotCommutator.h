@@ -29,6 +29,7 @@ public slots:
      void emitStartLockWait(int interval) const;
      void emitStopLockWait() const;
      void emitEndLockWait() const;
+     void emitAutoOnOffIU(bool, UnitNode *) const;
      void emitAutoOnOffIU(UnitNode *) const;
      void emitLostedConnect(UnitNode *) const;
      void emitRequestOnOffCommand(bool, UnitNode *, bool) const;
@@ -56,6 +57,7 @@ signals:
      void stopLockWait() const;
      void endLockWait() const;
      void autoOnOffIU(UnitNode *) const;
+     void autoOnOffIU(bool, UnitNode *) const;
      void lostConnect(UnitNode *) const;
      void requestOnOffCommand(bool, UnitNode *, bool) const;
      void lockOpenCloseCommand(bool, UnitNode *, bool) const;

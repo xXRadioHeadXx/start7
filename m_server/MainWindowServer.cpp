@@ -11,6 +11,7 @@
 #include <SignalSlotCommutator.h>
 #include <Utils.h>
 #include <SettingUtils.h>
+#include <global.hpp>
 
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
@@ -106,10 +107,6 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SIGNAL(timeout()),
             this,
             SLOT(beatWaitProgressBar()));
-    connect(SignalSlotCommutator::getInstance(),
-            SIGNAL(autoOnOffIU(UnitNode *)),
-            m_portManager,
-            SLOT(requestAutoOnOffIUCommand(UnitNode *)));
 
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(changeSelectUN(UnitNode *)),
@@ -331,7 +328,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         QMenu * menu = new QMenu(ui->treeView);
         /* Set the actions to the menu */
 
-//        menu->addAction(ui->actionTest);
+        menu->addAction(ui->actionTest);
 
         if(sel->treeChildCount()) {
             if(!ui->treeView->isExpanded(selIndex))
@@ -462,14 +459,19 @@ void MainWindowServer::on_actionUNOn_triggered()
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->requestOnOffCommand(false, selUN, true);
+
+    const auto& setUn = Utils::findeSetAutoOnOffUN(selUN);
+    if(setUn.isEmpty())
+        this->m_portManager->requestOnOffCommand(false, selUN, true);
+    else
+        this->m_portManager->requestAutoOnOffIUCommand(false, setUn.toList().first());
 }
 
 void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->requestOnOffCommand(false, selUN, false);
+        this->m_portManager->requestOnOffCommand(false, selUN, false);
 }
 
 void MainWindowServer::on_actionControl_triggered()
@@ -552,7 +554,7 @@ void MainWindowServer::on_actionTest_triggered()
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->requestAutoOnOffIUCommand(selUN);
+    Utils::findeSetAutoOnOffUN(selUN);
 }
 
 void MainWindowServer::on_actionDiagnostics_triggered()

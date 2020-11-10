@@ -23,6 +23,7 @@ PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(bool, UnitNode *, bool)), this, SLOT(requestOnOffCommand(bool, UnitNode *, bool)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(lockOpenCloseCommand(bool, UnitNode *, bool)), this, SLOT(lockOpenCloseCommand(bool, UnitNode *, bool)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(UnitNode *)), this, SLOT(requestDK(UnitNode *)));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(autoOnOffIU(bool, UnitNode *)), this, SLOT(requestAutoOnOffIUCommand(bool, UnitNode *)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, UnitNode *)), this, SLOT(requestDK(bool, UnitNode *)));
 }
 
@@ -402,14 +403,22 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
     }
 }
 
-void PortManager::requestAutoOnOffIUCommand(UnitNode *selUN) {
+void PortManager::requestAutoOnOffIUCommand(UnitNode *selUN)
+{
+    requestAutoOnOffIUCommand(false, selUN);
+}
+
+void PortManager::requestAutoOnOffIUCommand(bool out, UnitNode *selUN) {
     if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
         QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
         for(const auto& pt : as_const(m_udpPortsVector)) {
             if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
                 for(AbstractRequester * ar : as_const(getLsWaiter())) {
-                    if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
-                        return;
+                    if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN))) {
+                        ar->timerTripleStop();
+                        ar->setBeatStatus(BeatStatus::Unsuccessful);
+//                        return;
+                    }
                 }
 
                 OnOffIUWaiter * tmpOOIUW = new OnOffIUWaiter(selUN);
@@ -453,6 +462,22 @@ void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
 
 void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
 {
+    if(!value) {
+        if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
+            QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
+            for(const auto& pt : as_const(m_udpPortsVector)) {
+                if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
+                    for(AbstractRequester * ar : as_const(getLsWaiter())) {
+                        if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN))) {
+                            ar->timerTripleStop();
+                            ar->setBeatStatus(BeatStatus::Unsuccessful);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     UnitNode * reciver = selUN;
     UnitNode * target = selUN;
 

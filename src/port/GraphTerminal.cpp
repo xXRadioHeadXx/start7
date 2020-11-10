@@ -261,20 +261,45 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
 
                 if(0 != unTarget->getBazalt() && Status::Alarm == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
+                    qDebug() << "fuck 1";
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, false);
                 } else if(0 != unTarget->getBazalt() && Status::Norm == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
+                    qDebug() << "fuck 2";
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, true);
                 } else if(0 != unTarget->getBazalt()) {
+                    qDebug() << "fuck 3";
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, value);
                 } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && ((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "101" == idCommand.nodeValue()) {
+                    qDebug() << "fuck 4";
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
                 } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && !((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "100" == idCommand.nodeValue()) {
+                    qDebug() << "fuck 5";
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::On == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
+                    qDebug() << "fuck 6";
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::Off == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                    qDebug() << "fuck 7";
+                    const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
+                    if(setUn.isEmpty()) {
+                        qDebug() << "fuck 71";
+                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                    } else {
+                        qDebug() << "fuck 72";
+                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
+                    }
+                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && "101" == idCommand.nodeValue()) {
+                    qDebug() << "fuck 8";
+                    const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
+                    if(setUn.isEmpty()) {
+                        qDebug() << "fuck 81";
+                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                    } else {
+                        qDebug() << "fuck 82";
+                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
+                    }
                 } else {
+                    qDebug() << "fuck 9";
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, value);
                 }
                 //

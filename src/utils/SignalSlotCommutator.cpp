@@ -86,9 +86,14 @@ void SignalSlotCommutator::emitEndLockWait() const
     emit this->endLockWait();
 }
 
+void SignalSlotCommutator::emitAutoOnOffIU(bool out, UnitNode * un) const
+{
+    emit this->autoOnOffIU(out , un);
+}
+
 void SignalSlotCommutator::emitAutoOnOffIU(UnitNode * un) const
 {
-    emit this->autoOnOffIU(un);
+    emit this->autoOnOffIU(false, un);
 }
 
 void SignalSlotCommutator::emitLostedConnect(UnitNode * un) const

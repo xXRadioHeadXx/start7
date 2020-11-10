@@ -555,11 +555,13 @@ QSet<UnitNode *> UnitNode::getDoubles() const
 void UnitNode::setDoubles(const QSet<UnitNode *> &value)
 {
     doubles = value;
+    doubles.remove(this);
 }
 
 void UnitNode::setDoubles(UnitNode * value)
 {
     doubles.insert(value);
+    doubles.remove(this);
 }
 
 void UnitNode::updDoubl()

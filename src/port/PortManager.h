@@ -101,6 +101,7 @@ public slots:
     void requestDK(UnitNode *selUN = nullptr);
     void requestOnOffCommand(UnitNode *selUN, bool value);
     void requestOnOffCommand(bool out, UnitNode *selUN, bool value);
+    void requestAutoOnOffIUCommand(bool out, UnitNode *selUN);
     void requestAutoOnOffIUCommand(UnitNode *selUN);
     void lockOpenCloseCommand(bool out, UnitNode *selUN, bool value);
     void lockOpenCloseCommand(UnitNode *selUN, bool value);
