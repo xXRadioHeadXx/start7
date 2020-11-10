@@ -31,6 +31,7 @@ private:
     static QDomDocument makeEventsAndStates(JourEntity jour);
     static QDomDocument makeEventsAndStates(UnitNode *un);
     static QDomDocument makeEventsAndStates(UnitNode *un, JourEntity jour);
+    static QDomElement makeStateElement(UnitNode * un, QDomElement &stateElement);
 
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
