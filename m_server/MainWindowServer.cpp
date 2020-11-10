@@ -462,14 +462,14 @@ void MainWindowServer::on_actionUNOn_triggered()
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->requestOnOffCommand(selUN, true);
+    this->m_portManager->requestOnOffCommand(false, selUN, true);
 }
 
 void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->requestOnOffCommand(selUN, false);
+    this->m_portManager->requestOnOffCommand(false, selUN, false);
 }
 
 void MainWindowServer::on_actionControl_triggered()
@@ -501,8 +501,13 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);
         GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
-        if(selUN->getControl())
-            GraphTerminal::sendAbonentEventsAndStates(selUN);
+
+        if(selUN->getControl()) {
+            selUN->setStatus1(Status::Uncnown);
+            selUN->setStatus2(Status::Uncnown);
+        }
+//        if(selUN->getControl())
+//            GraphTerminal::sendAbonentEventsAndStates(selUN);
     }
 }
 
@@ -686,7 +691,7 @@ void MainWindowServer::lockOpenClose(bool val)
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->lockOpenCloseCommand(selUN, val);
+    this->m_portManager->lockOpenCloseCommand(false, selUN, val);
 }
 
 void MainWindowServer::on_actionDataBase_triggered()

@@ -20,8 +20,8 @@ PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent
 
     m_udpPortsVector.reserve(MAX_COUNT_PORTS);
 
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(UnitNode *, bool)), this, SLOT(requestOnOffCommand(UnitNode *, bool)));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(lockOpenCloseCommand(UnitNode *, bool)), this, SLOT(lockOpenCloseCommand(UnitNode *, bool)));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(bool, UnitNode *, bool)), this, SLOT(requestOnOffCommand(bool, UnitNode *, bool)));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(lockOpenCloseCommand(bool, UnitNode *, bool)), this, SLOT(lockOpenCloseCommand(bool, UnitNode *, bool)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(UnitNode *)), this, SLOT(requestDK(UnitNode *)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, UnitNode *)), this, SLOT(requestDK(bool, UnitNode *)));
 }
@@ -423,6 +423,11 @@ void PortManager::requestAutoOnOffIUCommand(UnitNode *selUN) {
 
 void PortManager::lockOpenCloseCommand(UnitNode *selUN, bool value)
 {
+    lockOpenCloseCommand(false, selUN, value);
+}
+
+void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)
+{
 
     LockWaiter * lw = new LockWaiter(selUN);
 
@@ -432,14 +437,21 @@ void PortManager::lockOpenCloseCommand(UnitNode *selUN, bool value)
     JourEntity msg;
     msg.setObject(selUN->getName());
     msg.setType((value ? 151 : 150));
-    msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
+    if(out)
+        msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
+    else
+        msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
     DataBaseManager::insertJourMsg_wS(msg);
-
+    GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
     lw->startFirstRequest();
 }
 
-
 void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
+{
+    requestOnOffCommand(false, selUN, value);
+}
+
+void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
 {
     UnitNode * reciver = selUN;
     UnitNode * target = selUN;
@@ -540,8 +552,12 @@ void PortManager::requestOnOffCommand(UnitNode *selUN, bool value)
                 JourEntity msg;
                 msg.setObject(target->getName());
                 msg.setType((value ? 130 : 131));
-                msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
+                if(out)
+                    msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
+                else
+                    msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
                 DataBaseManager::insertJourMsg_wS(msg);
+                GraphTerminal::sendAbonentEventsAndStates(target, msg);
             }
         }
     }

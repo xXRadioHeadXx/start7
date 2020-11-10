@@ -98,12 +98,22 @@ void SignalSlotCommutator::emitLostedConnect(UnitNode * un) const
 
 void SignalSlotCommutator::emitRequestOnOffCommand(UnitNode * un, bool value) const
 {
-    emit this->requestOnOffCommand(un, value);
+    emit this->requestOnOffCommand(false, un, value);
+}
+
+void SignalSlotCommutator::emitRequestOnOffCommand(bool out, UnitNode * un, bool value) const
+{
+    emit this->requestOnOffCommand(out, un, value);
+}
+
+void SignalSlotCommutator::emitLockOpenCloseCommand(bool out, UnitNode * un, bool value) const
+{
+    emit this->lockOpenCloseCommand(out, un, value);
 }
 
 void SignalSlotCommutator::emitLockOpenCloseCommand(UnitNode * un, bool value) const
 {
-    emit this->lockOpenCloseCommand(un, value);
+    emit this->lockOpenCloseCommand(false, un, value);
 }
 
 void SignalSlotCommutator::emitChangeSelectUN(UnitNode * un) const

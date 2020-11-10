@@ -144,7 +144,7 @@ void GraphTerminal::manageOverallReadQueue()
             msgOn.setType(135);
             msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
             DataBaseManager::insertJourMsg_wS(msgOn);
-
+            GraphTerminal::sendAbonentEventsAndStates(msgOn);
             DataBaseManager::resetAllFlags_wS();
             continue;
         } else if("DbStart" == type) {
@@ -261,21 +261,21 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
 
                 if(0 != unTarget->getBazalt() && Status::Alarm == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, false);
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, false);
                 } else if(0 != unTarget->getBazalt() && Status::Norm == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, true);
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, true);
                 } else if(0 != unTarget->getBazalt()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, value);
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, value);
                 } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && ((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
                 } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && !((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::On == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::Off == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
                 } else {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, value);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, value);
                 }
                 //
             } else/* if("101" == idCommand.nodeValue()) {
@@ -451,6 +451,11 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     DataBaseManager::insertJourMsg_wS(msgOn);
 
                     dataAnswer = makeEventsAndStates(unTarget, msgOn).toByteArray();
+
+                    if(unTarget->getControl()) {
+                        unTarget->setStatus1(Status::Uncnown);
+                        unTarget->setStatus2(Status::Uncnown);
+                    }
                 }
                 qDebug() << "<--";
 
@@ -613,7 +618,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                         msgOn.setType(135);
                         msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
                         DataBaseManager::insertJourMsg_wS(msgOn);
-
+                        GraphTerminal::sendAbonentEventsAndStates(msgOn);
                         DataBaseManager::resetAllFlags_wS();
                     }
 
@@ -841,7 +846,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
         stateElement1.setAttribute("name", jour.getComment());
         statesElement.appendChild(stateElement1);
     }
-    if(0 == jour.getType() || jour.getComment().isEmpty()/* || 136 == jour.getType()*/ || 137 == jour.getType()){
+    if(0 == jour.getType() || jour.getComment().isEmpty()/* || 136 == jour.getType() || 137 == jour.getType()*/){
         QString unName;
         if(nullptr != un)
             unName = un->getName();
