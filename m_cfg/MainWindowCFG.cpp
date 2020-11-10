@@ -650,6 +650,11 @@ if(false==pass_to_add_Y4_SOTA(unit,parrent))
     return false;
 }
 
+if(unit->getType()==TypeUnitNode::DD_SOTA)
+{
+if(false==pass_to_add_DD_SOTA(unit,parrent))
+    return false;
+}
 
 return true;
 }
@@ -775,21 +780,28 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent)
 
     //Ищем нужный БОД. Это родитель родителя.
 
+    QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
+    QModelIndex BOD_ind = this->modelTreeUN->parent(ind);
+    UnitNode* BOD=static_cast<UnitNode*>(BOD_ind.internalPointer());
+
 
 
 
 
     foreach(UnitNode *un, this->modelTreeUN->listItemUN )
     {
+
        qDebug()<<".";
 //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
        QModelIndex index=this->modelTreeUN->findeIndexUN(un);
        QModelIndex parent_index= this->modelTreeUN->parent(index);
 
+       QModelIndex BOD_index= this->modelTreeUN->parent(parent_index);
+
 //если юнит является ДД и принадлежит к одномцу из участков того БОДа что и участок к которому добавляем
 
 
-     if(this->modelTreeUN->findeIndexUN(parrent)==parent_index)
+     if(BOD_index==BOD_ind)
       {
  //       qDebug()<<"Name: "<<un->getName();
         List.append(un);
