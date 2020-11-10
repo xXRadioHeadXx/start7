@@ -326,7 +326,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="U4_Sota_M_groupbox">
        <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -387,7 +387,7 @@
          <string>ДД</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="U4_Sota_M_combobox_2">
+       <widget class="QComboBox" name="DD_Sota_M_combobox">
         <property name="geometry">
          <rect>
           <x>0</x>

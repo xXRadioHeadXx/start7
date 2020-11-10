@@ -36,6 +36,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->BOD_T4K_M_comboBox_Num1->addItem(QString::number(i));
     this->ui->Y4_T4K_M_comboBox_Num1->addItem(QString::number(i));
     this->ui->Y4_T4K_M_comboBox_Num2->addItem(QString::number(i));
+    this->ui->DD_Sota_M_combobox->addItem(QString::number(i));
     }
 
 
@@ -493,7 +494,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
 }
 
-bool MainWindowCFG::set_option(UnitNode *unit)
+bool MainWindowCFG::set_option(UnitNode *unit, UnitNode* parent)
 {
 
 /*
@@ -549,7 +550,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::DD_SOTA:
-       this->set_option_DD_SOTA(unit);
+       this->set_option_DD_SOTA(unit,parent);
        break;/**/
 
        case TypeUnitNode::BL_IP:
@@ -753,6 +754,60 @@ bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
     return true;
 }
 
+bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent)
+{
+    //добавлять только к участку Сота
+    if(parrent->getType()!=TypeUnitNode::Y4_SOTA)
+    {
+        dialog.showMessage("Участок может быть добавлен только к БОД Сота/Сота-М!");
+        dialog.exec();
+        return false;
+
+    }
+
+    //В одном боде нет 2х одинаковых ДД
+
+    //Формируем список всех ДД этого БОДа
+
+    //Сравниваем ДД с добавляемым
+
+    QList<UnitNode*> List;
+
+    //Ищем нужный БОД. Это родитель родителя.
+
+
+
+
+
+    foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+    {
+       qDebug()<<".";
+//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+       QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+       QModelIndex parent_index= this->modelTreeUN->parent(index);
+
+//если юнит является ДД и принадлежит к одномцу из участков того БОДа что и участок к которому добавляем
+
+
+     if(this->modelTreeUN->findeIndexUN(parrent)==parent_index)
+      {
+ //       qDebug()<<"Name: "<<un->getName();
+        List.append(un);
+      }
+    }
+
+    foreach(UnitNode *un, List )
+    {
+     qDebug()<<"Name: "<<un->getName();
+     if(un->getNum2()==unit->getNum2())
+     {
+         dialog.showMessage("У этого БОДа такой участок уже существует!");
+         dialog.exec();
+         return false;
+     }
+    }
+}
+
 bool MainWindowCFG::add_unit()
 {
     qDebug()<<"[add_unit()]";
@@ -785,13 +840,13 @@ bool MainWindowCFG::add_unit()
     unit->setName(this->ui->uName_lineedit->text());
     unit->setType(type);
 
-    set_option(unit);
+
 
     QModelIndex index=this->ui->treeView->currentIndex();
     UnitNode *parrent = static_cast<UnitNode*>(index.internalPointer());
     unit->setLevel(parrent->getLevel()+1);
 
-
+set_option(unit,parrent);
     //Проверить можно ли добавлять юнит к этому родителю
     //Определить тип родителя
     int parrent_type;
@@ -847,8 +902,8 @@ bool MainWindowCFG::change_unit()
 
     }
 
-    if(res==true)
-    set_option(unit);
+ //   if(res==true)
+ //   set_option(unit);
 }
 
 bool MainWindowCFG::delete_unit()
@@ -1141,8 +1196,23 @@ void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit)
 unit->setNum2(this->ui->U4_Sota_M_combobox->currentText().toInt()*100);
 }
 
-void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit)
+void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit,UnitNode *parent)
 {
+   int val=parent->getNum2()-100;
+
+
+   unit->setNum2(this->ui->DD_Sota_M_combobox->currentText().toInt()+val-1);
+//при добавлении ДД к участку к опции ДД добавляется
+// 0 для участка 1
+// 100 для участка 2
+// 200 для участка 3
+// 300 для участка 4
+
+//Найти родителя
+
+//Убедиться что это участок Сота-М
+
+//Добавить значение как указано выше
 
 }
 

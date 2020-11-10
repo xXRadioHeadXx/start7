@@ -27,6 +27,7 @@ private:
 
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent);
 
     bool add_unit();
     bool change_unit();
@@ -51,7 +52,7 @@ private:
     void get_option_BL_IP(UnitNode *unit);
 
 
-    bool set_option(UnitNode *unit);
+    bool set_option(UnitNode *unit,UnitNode *parent);
 
     void set_option_GROUP(UnitNode *unit);
     void set_option_SD_BL_IP(UnitNode *unit);
@@ -64,7 +65,7 @@ private:
     void set_option_DD_T4K_M(UnitNode *unit);
     void set_option_BOD_SOTA(UnitNode *unit);
     void set_option_Y4_SOTA(UnitNode *unit);
-    void set_option_DD_SOTA(UnitNode *unit);
+    void set_option_DD_SOTA(UnitNode *unit,UnitNode *parent);
     void set_option_BL_IP(UnitNode *unit);
 
 
