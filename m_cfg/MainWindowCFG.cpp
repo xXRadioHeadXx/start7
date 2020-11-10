@@ -141,8 +141,8 @@ qDebug()
 <<"; lon "<<QString::number(unit->getLon())
 <<"; UdpUse "<<QString::number(unit->getUdpUse())
 <<"; UdpAdress "<<unit->getUdpAdress()
-<<"; UdpPort "<<unit->getUdpPort();
-
+<<"; UdpPort "<<unit->getUdpPort()
+<<"; UdpTimeout "<<unit->getUdpTimeout();
     selected_type=unit->getType();
 /*QString Name=unit->getName();
 
@@ -278,6 +278,28 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     Type.append("Участок Точка-М/Гряда");
     break;
 
+    case TypeUnitNode::BOD_SOTA:
+    Type.append("БОД Сота/Сота-М");
+    break;
+
+    case TypeUnitNode::Y4_SOTA:
+    Type.append("Участок Сота/Сота-М");
+    break;
+
+    case TypeUnitNode::DD_SOTA:
+    Type.append("ДД Сота/Сота-М");
+    break;
+ /*
+    if(arg1=="БОД Сота/Сота-М")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
+    else
+    if(arg1=="Участок Сота/Сота-М")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+        else
+    if(arg1=="ДД Сота/Сота-М")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
+*/
+
 //Участок Точка-М/Гряда
 //БОД Точка-М/Гряда
     /*
@@ -296,6 +318,15 @@ int MainWindowCFG::Type_from_string_to_int(QString Type)
 
     if(Type=="СД БЛ-IP")
         return TypeUnitNode::SD_BL_IP;
+
+    if(Type=="БОД Сота/Сота-М")
+        return TypeUnitNode::BOD_SOTA;
+
+    if(Type=="Участок Сота/Сота-М")
+        return TypeUnitNode::Y4_SOTA;
+
+    if(Type=="ДД Сота/Сота-М")
+        return TypeUnitNode::DD_SOTA;
     /*
     case TypeUnitNode::GROUP:
 break;
@@ -410,8 +441,19 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     else
     if(arg1=="Участок Точка-М/Гряда")
     this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
+
+    if(arg1=="БОД Сота/Сота-М")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
     else
-    this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
+    if(arg1=="Участок Сота/Сота-М")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+        else
+    if(arg1=="ДД Сота/Сота-М")
+    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
+
+
+    else
+    this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
 
 
 //Участок Точка-М/Гряда
@@ -444,7 +486,7 @@ if(this_name_is_free(this->ui->uName_lineedit->text())==false)
     return false;
 }*/
 
-    qDebug()<<"[PROFIT]";
+    qDebug()<<"[set_option]";
 int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        switch(type)
        {
@@ -482,7 +524,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::BOD_SOTA:
-  //     this->get_option_BOD_SOTA(unit);
+       this->set_option_BOD_SOTA(unit);
        break;
 
        case TypeUnitNode::Y4_SOTA:
@@ -569,7 +611,9 @@ bool MainWindowCFG::add_unit()
     qDebug()<<"[no current index]";
     }
 
-    int type;
+    int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
+
+    /*
     QString type_srtring=this->ui->uType_combobox->currentText();
     if(type_srtring=="Группа")
     type=GROUP;
@@ -581,6 +625,8 @@ bool MainWindowCFG::add_unit()
     type=IU_BL_IP;
     else
     res=0;
+*/
+    qDebug()<<"[Type: "<<type<<"]";
 
     UnitNode *unit=new UnitNode();
     unit->setName(this->ui->uName_lineedit->text());
@@ -606,7 +652,6 @@ bool MainWindowCFG::add_unit()
     {
         if(can_i_add_or_not(parrent_type,child_type))
         if(this_name_is_free(unit->getName()))
-            if(false==this->map.find(unit->getName()))
         {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
         map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
@@ -927,7 +972,17 @@ void MainWindowCFG::set_option_DD_T4K_M(UnitNode *unit)
 
 void MainWindowCFG::set_option_BOD_SOTA(UnitNode *unit)
 {
+qDebug()<<"set_option_BOD_SOTA";
+unit->setNum1(this->ui->BOD_SOTA_M_adress_combobox->currentText().toInt());
+unit->setNum3(this->ui->BOD_SOTA_M_port_combobox->currentText().toInt());
 
+if(this->ui->BOD_SOTA_M_type_combobox->currentText()=="UDP")
+    unit->setUdpUse(1);
+else
+    unit->setUdpUse(0);
+
+unit->setUdpAdress(this->ui->BOD_SOTA_M_ipadress_lineedit->text());
+unit->setUdpTimeout(this->ui->BOD_SOTA_M_timeout_lineedit->text().toInt());
 }
 
 void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit)
@@ -964,6 +1019,8 @@ for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
         settings.setValue("Type",unit->getType());
         settings.setValue("Level",unit->getLevel());
 
+        this->save_option(&settings, unit);
+        /*
         switch(unit->getType())
         {
  //save_option_SD_BL_IP(QSettings  settings,UnitNode*  unit);
@@ -1006,10 +1063,10 @@ for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
         case TypeUnitNode::Y4_SOTA:
    //     this->get_option_Y4_SOTA(unit);
         break;
-    /*
+
         case TypeUnitNode::DD_SOTA:
         this->get_option_DD_SOTA(unit);
-        break;*/
+        break;
 
         case TypeUnitNode::BL_IP:
    //     this->get_option_BL_IP(unit);
@@ -1018,7 +1075,7 @@ for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
 
 
         }
-
+*/
         settings.setValue("X", unit->getX());
         settings.setValue("Y",unit->getY());
 
@@ -1031,6 +1088,43 @@ for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
 
     settings.endGroup();
 
+}
+
+void MainWindowCFG::save_option(QSettings *settings, UnitNode *unit)
+{
+    settings->setValue("Num1", QString::number(unit->getNum1()));
+    settings->setValue("Num2", QString::number(unit->getNum2()));
+    settings->setValue("Num3", QString::number(unit->getNum3()));
+
+    settings->setValue("IconVisible", QString::number(unit->getIconVisible()));
+
+     settings->setValue("X", QString::number(unit->getX()));
+     settings->setValue("Y", QString::number(unit->getY()));
+
+    settings->setValue("DK", QString::number(unit->getDK()));
+    settings->setValue("Bazalt", QString::number(unit->getBazalt()));
+    settings->setValue("Metka", QString::number(unit->getMetka()));
+
+    settings->setValue("Razriv", QString::number(unit->getRazriv()));
+
+    settings->setValue("AdamOff", QString::number(unit->getAdamOff()));
+    settings->setValue("AlarmMsgOn", QString::number(unit->getAlarmMsgOn()));
+
+    settings->setValue("ConnectBlock", QString::number(unit->getConnectBlock()));
+    settings->setValue("OutType", QString::number(unit->getOutType()));
+    settings->setValue("asoosd_kk", QString::number(unit->getAsoosd_kk()));
+    settings->setValue("asoosd_nn", QString::number(unit->getAsoosd_nn()));
+
+    settings->setValue("Description", unit->getDescription());
+
+    settings->setValue("lan",QString::number(unit->getLan()));
+    settings->setValue("lon", unit->getLon());
+
+    settings->setValue("UdpUse", QString::number(unit->getUdpUse()));
+    settings->setValue("UdpAdress", unit->getUdpAdress());
+
+    settings->setValue("UpdPort", QString::number(unit->getUdpPort()));
+    settings->setValue("UdpTimeout", QString::number(unit->getUdpTimeout()));
 }
 
 void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)
@@ -1055,6 +1149,38 @@ void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)
           */
 }
 
+void MainWindowCFG::save_option_BOD_SOTA(QSettings *settings, UnitNode *unit)
+{
+    /*
+    Type=29
+    Num1=1
+    Num2=0
+    Num3=37
+    Level=2
+    Name=БЛ087 Сота: БОД1
+    IconVisible=1
+    X=40
+    Y=40
+    DK=1
+    Bazalt=0
+    Metka=0
+    Razriv=0
+    AdamOff=0
+    AlarmMsgOn=0
+    ConnectBlock=0
+    OutType=0
+    asoosd_kk=0
+    asoosd_nn=0
+    Description=
+    lan=0
+    lon=0
+    UdpUse=0
+    UdpAdress=192.168.0.87
+    UpdPort=50
+    UdpTimeout=50
+    */
+}
+
 
 
 void MainWindowCFG::on_pushButton_2_clicked()
@@ -1075,5 +1201,15 @@ void MainWindowCFG::on_pushButton_7_clicked()
 void MainWindowCFG::on_pushButton_8_clicked()
 {
     show_the_tree();
+
+}
+
+void MainWindowCFG::on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1)
+{
+
+    if(this->ui->BOD_SOTA_M_type_combobox->currentText()=="UDP")
+     this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_UDP);
+    else
+     this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
 
 }

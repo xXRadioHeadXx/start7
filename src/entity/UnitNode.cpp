@@ -275,6 +275,16 @@ void UnitNode::setUdpPort(int value)
     UdpPort = value;
 }
 
+int UnitNode::getUdpTimeout() const
+{
+    return UdpTimeout;
+}
+
+void UnitNode::setUdpTimeout(int value)
+{
+    UdpTimeout = value;
+}
+
 int UnitNode::getMetka1Time_0() const
 {
     return Metka1Time_0;

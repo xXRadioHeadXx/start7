@@ -103,6 +103,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             tmpUN->setMetka4Time_1(settings.value( "Metka4Time_1" , -1 ).toInt());
             tmpUN->setMetkaDopuskTime_0(settings.value( "MetkaDopuskTime_0" , -1 ).toInt());
             tmpUN->setMetkaDopuskTime_1(settings.value( "MetkaDopuskTime_1" , -1 ).toInt());
+            tmpUN->setUdpTimeout(settings.value( "UdpTimeout" , -1 ).toInt());
             settings.endGroup();
 
             if(!tmpUN->getName().isEmpty())

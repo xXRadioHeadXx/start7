@@ -60,8 +60,9 @@ private:
 
 
     void save_ini(QString path);
-
+    void save_option(QSettings* settings,UnitNode*  unit);
     void save_option_SD_BL_IP(QSettings* settings,UnitNode*  unit);
+    void save_option_BOD_SOTA(QSettings* settings,UnitNode*  unit);
 
     QString Type_from_int_to_string(int Type);
     int     Type_from_string_to_int(QString Type);
@@ -100,5 +101,6 @@ private slots:
     void on_pushButton_2_clicked();
     void on_pushButton_7_clicked();
     void on_pushButton_8_clicked();
+    void on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

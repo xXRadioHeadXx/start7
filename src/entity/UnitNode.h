@@ -82,6 +82,7 @@ private:
     int UdpUse;//=0
     QString UdpAdress;//=
     int UdpPort;//=0
+    int UdpTimeout;
     int Metka1Time_0;//=0
     int Metka1Time_1;//=0
     int Metka2Time_0;//=0
@@ -92,6 +93,8 @@ private:
     int Metka4Time_1;//=0
     int MetkaDopuskTime_0;//=0
     int MetkaDopuskTime_1;//=1
+
+
 
     UnitNode *parentUN = nullptr; //родительское устройство
     QList<UnitNode*> listChilde; //список детей
@@ -206,6 +209,9 @@ public:
 
     int getUdpPort() const;
     void setUdpPort(int value);
+
+    int getUdpTimeout() const;
+    void setUdpTimeout(int value);
 
     int getMetka1Time_0() const;
     void setMetka1Time_0(int value);
