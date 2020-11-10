@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <TreeModelUnitNode.h>
 #include "map.h"
+#include <QErrorMessage>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -17,6 +18,7 @@ private:
 
     TreeModelUnitNode *modelTreeUN = nullptr;
 
+    QErrorMessage dialog;
 
 
 

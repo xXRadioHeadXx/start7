@@ -48,7 +48,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
-    QErrorMessage dialog;
+
     dialog.showMessage("this it the test message");
     dialog.exec();
 }
@@ -604,14 +604,29 @@ bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
 
 bool MainWindowCFG::can_i_add_or_not(UnitNode *unit, UnitNode *parrent)
 {
-
+qDebug()<<"[can_i_add_or_not?]";
 //Если БОД Сота-М, то:
 //    Если связь по RS485 - контроль по RS485 порту
 //    Если связь по UDP - контроль по IP адресу
     if(unit->getType()==TypeUnitNode::BOD_SOTA)
     {
-        if(unit->getUdpUse()==1)
+ //     qDebug()<<"[BOD_SOTA]";
+        if(unit->getUdpUse()==0)
         {
+      //            qDebug()<<"[getUdpUse()==0]";
+            foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+            {
+        qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+             if(un->getNum3()==unit->getNum3())
+             {
+
+                 dialog.showMessage("БОД Сота с этим COM портом  уже  занят");
+                 dialog.exec();
+                 return false;
+             }
+
+
+            }
          //проконтроилровать отсутствие в дереве такого же порта
 
         }
@@ -674,8 +689,7 @@ bool MainWindowCFG::add_unit()
 
     if (index.isValid())
     {
-        if(can_i_add_or_not(parrent_type,child_type))
-        if(this_name_is_free(unit->getName()))
+        if(can_i_add_or_not(unit,parrent))
         {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
         map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
