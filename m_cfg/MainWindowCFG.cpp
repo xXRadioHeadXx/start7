@@ -182,10 +182,13 @@ qDebug()
 */
     switch(selected_type)
     {
-        case TypeUnitNode::SD_BL_IP:
-        qDebug()<<"[!!!!!!!!!!!]";
-        this->get_option_SD_BL_IP(unit);
-        break;
+    case TypeUnitNode::GROUP:
+    this->get_option_GROUP(unit);
+    break;
+
+    case TypeUnitNode::SD_BL_IP:
+    this->get_option_SD_BL_IP(unit);
+    break;
 
     case TypeUnitNode::IU_BL_IP:
     this->get_option_IU_BL_IP(unit);
@@ -238,6 +241,13 @@ qDebug()
 
 }
 
+void MainWindowCFG::get_option_GROUP(UnitNode *unit)
+{
+    unit->setNum1(0);
+    unit->setNum2(0);
+    unit->setNum3(0);
+}
+
 
 
 QString MainWindowCFG::Type_from_int_to_string(int int_Type)
@@ -248,7 +258,6 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     switch(int_Type)
     {
     case TypeUnitNode::GROUP:
-
     Type.append("Группа");
     break;
 
@@ -317,6 +326,8 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
 int MainWindowCFG::Type_from_string_to_int(QString Type)
 {
 
+    if(Type=="Группа")
+        return TypeUnitNode::GROUP;
 
     if(Type=="СД БЛ-IP")
         return TypeUnitNode::SD_BL_IP;
@@ -445,11 +456,15 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
 
     if(arg1=="БОД Сота/Сота-М")
+     {
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
+            this->ui->BOD_SOTA_M_type_combobox->setCurrentText("RS485");
+ //   this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+     }
     else
     if(arg1=="Участок Сота/Сота-М")
     this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
-        else
+    else
     if(arg1=="ДД Сота/Сота-М")
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
 
@@ -548,6 +563,11 @@ return true;
 
 }
 
+void MainWindowCFG::set_option_GROUP(UnitNode *unit)
+{
+
+}
+
 
 
 
@@ -602,41 +622,81 @@ bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
     return true;
 }
 
-bool MainWindowCFG::can_i_add_or_not(UnitNode *unit, UnitNode *parrent)
+bool MainWindowCFG::pass_to_add(UnitNode *unit, UnitNode *parrent)
 {
+
 qDebug()<<"[can_i_add_or_not?]";
+
+if(unit->getName()=="")
+{
+    dialog.showMessage("Введите имя устройства");
+    dialog.exec();
+    return false;
+
+}
+
+
 //Если БОД Сота-М, то:
-//    Если связь по RS485 - контроль по RS485 порту
-//    Если связь по UDP - контроль по IP адресу
-    if(unit->getType()==TypeUnitNode::BOD_SOTA)
-    {
- //     qDebug()<<"[BOD_SOTA]";
-        if(unit->getUdpUse()==0)
+if(unit->getType()==TypeUnitNode::BOD_SOTA)
+{
+if(false==pass_to_add_BOD_SOTA(unit,parrent))
+    return false;
+}
+
+return true;
+}
+
+bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
+{
+    //БОД может быть добавлен только к группе
+        if(parrent->getType()!=TypeUnitNode::GROUP)
         {
-      //            qDebug()<<"[getUdpUse()==0]";
-            foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+            dialog.showMessage("БОД может быть добавлен только к группе");
+            dialog.exec();
+            return false;
+
+        }
+
+    //    Если связь по RS485 - контроль по RS485 порту
+    //    Если связь по UDP - контроль по IP адресу
+
+     //     qDebug()<<"[BOD_SOTA]";
+            if(unit->getUdpUse()==0)
             {
-        qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-             if(un->getNum3()==unit->getNum3())
-             {
+          //            qDebug()<<"[getUdpUse()==0]";
+                foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+                {
 
-                 dialog.showMessage("БОД Сота с этим COM портом  уже  занят");
-                 dialog.exec();
-                 return false;
-             }
+            qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+                 if((un->getNum3()==unit->getNum3()))
+                 {
 
+                     dialog.showMessage("этот COM порт  уже  занят");
+                     dialog.exec();
+                     return false;
+                 }
+
+
+                }
+             //проконтроилровать отсутствие в дереве такого же порта
 
             }
-         //проконтроилровать отсутствие в дереве такого же порта
+            if(unit->getUdpUse()==1)
+            {
+              //проконтроилровать отсутствие в дереве такого же IP адреса
+                foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+                {
+       //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+                 if((un->getUdpAdress()==unit->getUdpAdress()))
+                 {
 
-        }
-        else
-        {
-          //проконтроилровать отсутствие в дереве такого же IP адреса
-        }
-    }
-
-    return true;
+                     dialog.showMessage("этот IP адрес уже  занят");
+                     dialog.exec();
+                     return false;
+                 }
+               }
+            }
+            return true;
 }
 
 bool MainWindowCFG::add_unit()
@@ -689,10 +749,10 @@ bool MainWindowCFG::add_unit()
 
     if (index.isValid())
     {
-        if(can_i_add_or_not(unit,parrent))
+        if(pass_to_add(unit,parrent))
         {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
-        map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
+  //      map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
         }
         else
             qDebug()<<"Нельзя добавить юнит к этому родителю";
@@ -748,7 +808,7 @@ bool MainWindowCFG::delete_unit()
         int i=0;
      foreach(UnitNode* un,this->modelTreeUN->listItemUN)
      {
-         if(un->getName()==unit->getName())
+         if(this->modelTreeUN->findeIndexUN(un)==this->modelTreeUN->findeIndexUN(unit))
          {
              qDebug()<<"delete";
               this->modelTreeUN->deleteUnit(index);
@@ -799,15 +859,15 @@ current_index=this->ui->treeView->currentIndex();
 }
 
 void MainWindowCFG::show_the_tree()
-{
+{qDebug()<<"==============================";
     qDebug()<<"[TREE]";
     this->modelTreeUN->listItemUN;
     foreach(UnitNode* unit,modelTreeUN->listItemUN)
     {
-        qDebug()<<"-----------------";
-        qDebug()<<"Name:  "<<unit->getName();
-        qDebug()<<"Type:  "<<this->Type_from_int_to_string(unit->getType());
-        qDebug()<<"Level: "<<unit->getLevel();
+        qDebug()<<"---------------------------------------------------------------------------";
+        qDebug()<<"Name:  "<<unit->getName()
+        <<"/Type:  "<<this->Type_from_int_to_string(unit->getType())
+        <<"/Level: "<<unit->getLevel();
     }
 
 }
@@ -902,14 +962,14 @@ void MainWindowCFG::get_option_BOD_SOTA(UnitNode *unit)
 this->ui->textEdit->clear();
 QString string1;
 
-string1.append("Тип: Сота/Сота-М");
+string1.append("Тип: Сота/Сота-М ");
 
 string1.append("Кан: ");
 
 if(unit->getUdpUse()==0)
 {
     string1.append(QString::number(unit->getNum3()));
-    this->ui->textEdit->append(string1);
+
     if(unit->getUdpAdress()!="")
     {
 
@@ -924,7 +984,7 @@ if(unit->getUdpUse()==1)
     string1.append(unit->getUdpAdress());
     string1.append("::");
     string1.append(QString::number(unit->getUdpPort()));
-
+    string1.append(" ");
 }
 
 

@@ -23,7 +23,11 @@ private:
 
 
     bool can_i_add_or_not(int type_parrent, int type_child);
-    bool can_i_add_or_not(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add(UnitNode *unit, UnitNode* parrent);
+
+    bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
+
+
     bool add_unit();
     bool change_unit();
     bool delete_unit();
@@ -32,6 +36,7 @@ private:
 
     void get_option(UnitNode *unit);
 
+    void get_option_GROUP(UnitNode *unit);
     void get_option_SD_BL_IP(UnitNode *unit);
     void get_option_IU_BL_IP(UnitNode *unit);
     void get_option_TG(UnitNode *unit);
@@ -48,6 +53,7 @@ private:
 
     bool set_option(UnitNode *unit);
 
+    void set_option_GROUP(UnitNode *unit);
     void set_option_SD_BL_IP(UnitNode *unit);
     void set_option_IU_BL_IP(UnitNode *unit);
     void set_option_TG(UnitNode *unit);
@@ -60,6 +66,8 @@ private:
     void set_option_Y4_SOTA(UnitNode *unit);
     void set_option_DD_SOTA(UnitNode *unit);
     void set_option_BL_IP(UnitNode *unit);
+
+
 
 
     void save_ini(QString path);

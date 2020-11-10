@@ -174,14 +174,16 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      qDebug()<<"appendNewUNInStructure";
     this->beginInsertRows(index.parent(),index.row(),index.row());
      UnitNode *parent= static_cast<UnitNode*>(index.internalPointer());
-      qDebug()<<"parrent name: "<<parent->getName();
+
 
 
      int i=0;
      foreach(UnitNode* unit, listItemUN)
      {
          qDebug()<<i<<" "<<unit->getName()<<" "<<parent->getName();
-         if(unit->getName()==parent->getName())
+
+
+         if(findeIndexUN(unit)==index)
          {
           listItemUN.insert(i+1+this->rowCount(index),un);
           parent->addTreeChild(un);
