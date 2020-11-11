@@ -57,13 +57,13 @@ public:
     void loadSettings(QString fileName = "rifx.ini");
 
     void makeEmptyTree(void);
-    void getListFromModel(UnitNode* parentTC,QList<UnitNode *>* List);
+    void getListFromModel(QList<UnitNode *> &list, UnitNode* parentTC = nullptr) const;
 
     bool deleteUnit(QModelIndex index);
 
-    bool move_up(QModelIndex index);
+    bool moveUNUp(QModelIndex index);
 
-    bool move_down(QModelIndex index);
+    bool moveUNDown(QModelIndex index);
 
 
     SubTypeApp getTypeApp() const;

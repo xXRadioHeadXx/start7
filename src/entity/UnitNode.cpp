@@ -12,6 +12,12 @@ QSet<QString> UnitNode::getMetaNames() const
     return metaNames;
 }
 
+void UnitNode::resetMetaNames(const QString &value)
+{
+    metaNames.clear();
+    setMetaNames(value);
+}
+
 void UnitNode::setMetaNames(const QString &value)
 {
     metaNames.insert(value);
@@ -786,16 +792,24 @@ void UnitNode::addTreeChild(UnitNode *tc) noexcept
     }
 }
 
-void UnitNode::move_up(int num)
+void UnitNode::moveTreeChildUNUp(UnitNode * childUN)
 {
-    if(num>0)
-   listTreeChilde.move(num,(num-1));
+    if(!getListTreeChilde().contains(childUN))
+        return;
+    auto index = getListTreeChilde().indexOf(childUN);
+    if(0 < index) {
+        this->listTreeChilde.swap(index - 1, index);
+    }
 }
 
-void UnitNode::move_down(int num)
+void UnitNode::moveTreeChildUNDown(UnitNode *childUN)
 {
-    if(num<this->treeChildCount())
-        listTreeChilde.move(num,(num+1));
+    if(!getListTreeChilde().contains(childUN))
+        return;
+    auto index = getListTreeChilde().indexOf(childUN);
+    if(getListTreeChilde().count() < (index + 1)) {
+        this->listTreeChilde.swap(index + 1, index);
+    }
 }
 
 void UnitNode::addChild(UnitNode *tc) noexcept

@@ -953,7 +953,7 @@ void MainWindowCFG::show_the_tree()
 {qDebug()<<"==============================";
     qDebug()<<"[TREE]";
     QList<UnitNode *> List;
-    this->modelTreeUN->getListFromModel(0,&List);
+    this->modelTreeUN->getListFromModel(List);
     qDebug()<<"[count] "<<List.count();
     foreach(UnitNode* unit,List)
     {
@@ -1286,7 +1286,7 @@ void MainWindowCFG::save_ini(QString path)
     settings.setIniCodec( QTextCodec::codecForLocale() );
 //   foreach(UnitNode* unit,this->modelTreeUN->listItemUN)
     QList<UnitNode *> List;
-    this->modelTreeUN->getListFromModel(0,&List);
+    this->modelTreeUN->getListFromModel(List);
 
     qDebug()<<"[count] "<<List.count();
 for(int i=1;i<List.count();i++)
@@ -1499,7 +1499,7 @@ void MainWindowCFG::on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString
 void MainWindowCFG::on_pushButton_9_clicked()
 {
 QList<UnitNode *> List;
-this->modelTreeUN->getListFromModel(this->modelTreeUN->rootItemUN,&List);
+this->modelTreeUN->getListFromModel(List, this->modelTreeUN->rootItemUN);
 
 
 
@@ -1511,7 +1511,7 @@ void MainWindowCFG::on_pushButton_moveUp_clicked()
     int current_row=this->ui->treeView->currentIndex().row();
     qDebug()<<QString::number(current_row);
 
-this->modelTreeUN->move_up(current);
+this->modelTreeUN->moveUNUp(current);
 
 
 
@@ -1526,6 +1526,6 @@ void MainWindowCFG::on_pushButton_moveDown_clicked()
     qDebug()<<QString::number(current_row);
 
 
-        this->modelTreeUN->move_down(current);
+        this->modelTreeUN->moveUNDown(current);
 
 }

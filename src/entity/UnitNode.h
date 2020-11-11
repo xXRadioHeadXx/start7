@@ -123,8 +123,8 @@ public:
 
     void addTreeChild(UnitNode *tc) noexcept;
 
-    void move_up(int num);
-    void move_down(int num);
+    void moveTreeChildUNUp(UnitNode * childUN);
+    void moveTreeChildUNDown(UnitNode * childUN);
 
     void addChild(UnitNode *tc) noexcept;
     UnitNode* treeChild(int num) noexcept;
@@ -136,6 +136,7 @@ public:
     int columnCount() const noexcept;
 
     QSet<QString> getMetaNames() const;
+    void resetMetaNames(const QString &value);
     void setMetaNames(const QString &value);
     void setMetaNames(const QSet<QString> &value);
 
@@ -287,12 +288,8 @@ public:
 
     void deleteAll();
 
-
 public slots:
-    //    void emitIMUpd();
-
 signals:
-    //    void imUpd();
 };
 
 #endif // UNITNODE_H
