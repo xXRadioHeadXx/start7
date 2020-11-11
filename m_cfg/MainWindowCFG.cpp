@@ -1431,7 +1431,7 @@ void MainWindowCFG::on_pushButton_moveUp_clicked()
     int current_row=this->ui->treeView->currentIndex().row();
     qDebug()<<QString::number(current_row);
 
-this->modelTreeUN->move_up(current);
+this->modelTreeUN->moveUNUp(current);
 
 
 
@@ -1446,6 +1446,6 @@ void MainWindowCFG::on_pushButton_moveDown_clicked()
     qDebug()<<QString::number(current_row);
 
 
-        this->modelTreeUN->move_down(current);
+        this->modelTreeUN->moveUNDown(current);
 
 }

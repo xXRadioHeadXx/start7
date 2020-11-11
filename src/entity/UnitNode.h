@@ -123,8 +123,8 @@ public:
 
     void addTreeChild(UnitNode *tc) noexcept;
 
-    void move_up(int num);
-    void move_down(int num);
+    void moveTreeChildUNUp(UnitNode * childUN);
+    void moveTreeChildUNDown(UnitNode * childUN);
 
     void addChild(UnitNode *tc) noexcept;
     UnitNode* treeChild(int num) noexcept;
@@ -288,12 +288,8 @@ public:
 
     void deleteAll();
 
-
 public slots:
-    //    void emitIMUpd();
-
 signals:
-    //    void imUpd();
 };
 
 #endif // UNITNODE_H
