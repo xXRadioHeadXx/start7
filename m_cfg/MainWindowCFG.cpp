@@ -794,7 +794,7 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent)
 
 
     QList<UnitNode *> List1;
-    this->modelTreeUN->getListFromModel(this->modelTreeUN->rootItemUN,&List1);
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
 
     foreach(UnitNode *un, List1 )
     {
