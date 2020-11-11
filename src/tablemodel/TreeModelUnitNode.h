@@ -13,6 +13,8 @@ class TreeModelUnitNode : public QAbstractItemModel
 public:
     explicit TreeModelUnitNode(QObject *parent = nullptr);
 
+
+
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
     UnitNode *rootItemUN;
     QList<UnitNode*> listItemUN;
@@ -55,6 +57,7 @@ public:
     void loadSettings(QString fileName = "rifx.ini");
 
     void makeEmptyTree(void);
+    void getListFromModel(UnitNode* parentTC,QList<UnitNode *>* List);
 
     bool deleteUnit(QModelIndex index);
 

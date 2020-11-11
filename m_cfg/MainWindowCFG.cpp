@@ -813,11 +813,12 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent)
      qDebug()<<"Name: "<<un->getName();
      if(un->getNum2()==unit->getNum2())
      {
-         dialog.showMessage("У этого БОДа такой участок уже существует!");
+         dialog.showMessage("У этого участка уже существует такой ДД!");
          dialog.exec();
          return false;
      }
     }
+    return true;
 }
 
 bool MainWindowCFG::add_unit()
@@ -926,64 +927,27 @@ bool MainWindowCFG::delete_unit()
 
     if (index.isValid())
     {
-        int i=0;
-     foreach(UnitNode* un,this->modelTreeUN->listItemUN)
-     {
-         if(this->modelTreeUN->findeIndexUN(un)==this->modelTreeUN->findeIndexUN(unit))
-         {
-             qDebug()<<"delete";
+
               this->modelTreeUN->deleteUnit(index);
-             modelTreeUN->listItemUN.removeAt(i);
+
              return true;
 
-         }
-         i++;
+
+
 
      }
 
-
-
-    }
     return false;
 
-
-/*
-    qDebug()<<"============УДАЛЕНИЕ=========";
-            QModelIndex current=this->current_index;
-
-
-        //    if(model->next(current_index).isValid())
-      //      QModelIndex test=model->index(current_index.row(),0,model->parent(current_index));
-
-      //      current_index=model->index(current_index.row()+1,0,model->parent(current_index));
-
-    MyItem *item = static_cast<MyItem*>(current.internalPointer());
-
-    //this->map.remove(item->ID);
-
-
-
-     model->the_way(&List, current);
-   //  QList<QModelIndex> list= model->the_way(current_index);
-    foreach(QModelIndex index,List)
-     {
-        MyItem *item = static_cast<MyItem*>(index.internalPointer());
-        qDebug()<<"ID: "<<item->ID<<" Name: "<<item->Name;
-        this->map.remove(item->ID);
-
-     }
-
-model->delete_item(model->index(current.row(),0,current.parent()));
-current_index=this->ui->treeView->currentIndex();
-
-*/
 }
 
 void MainWindowCFG::show_the_tree()
 {qDebug()<<"==============================";
     qDebug()<<"[TREE]";
-    this->modelTreeUN->listItemUN;
-    foreach(UnitNode* unit,modelTreeUN->listItemUN)
+    QList<UnitNode *> List;
+    this->modelTreeUN->getListFromModel(0,&List);
+    qDebug()<<"[count] "<<List.count();
+    foreach(UnitNode* unit,List)
     {
         qDebug()<<"---------------------------------------------------------------------------";
         qDebug()<<"Name:  "<<unit->getName()
@@ -1240,9 +1204,13 @@ void MainWindowCFG::save_ini(QString path)
     QSettings settings(path,QSettings::IniFormat);
     settings.setIniCodec( QTextCodec::codecForLocale() );
 //   foreach(UnitNode* unit,this->modelTreeUN->listItemUN)
-for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
+    QList<UnitNode *> List;
+    this->modelTreeUN->getListFromModel(0,&List);
+
+    qDebug()<<"[count] "<<List.count();
+for(int i=1;i<List.count();i++)
     {
-    UnitNode* unit=modelTreeUN->listItemUN.at(i);
+    UnitNode* unit=List.at(i);
 
         QString strGroup("Obj_%1");
         strGroup=strGroup.arg(i);
@@ -1317,7 +1285,7 @@ for(int i=1;i<this->modelTreeUN->listItemUN.count();i++)
     }
 
     settings.beginGroup("TREE");
-    settings.setValue("Count",this->modelTreeUN->listItemUN.count()-1);
+    settings.setValue("Count",List.count()-1);
 
     settings.endGroup();
 
@@ -1444,5 +1412,14 @@ void MainWindowCFG::on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString
      this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_UDP);
     else
      this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+
+}
+
+void MainWindowCFG::on_pushButton_9_clicked()
+{
+QList<UnitNode *> List;
+this->modelTreeUN->getListFromModel(this->modelTreeUN->rootItemUN,&List);
+
+
 
 }

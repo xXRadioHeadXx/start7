@@ -177,21 +177,11 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
 
 
 
-     int i=0;
-     foreach(UnitNode* unit, listItemUN)
-     {
-         qDebug()<<i<<" "<<unit->getName()<<" "<<parent->getName();
-
-
-         if(findeIndexUN(unit)==index)
-         {
-          listItemUN.insert(i+1+this->rowCount(index),un);
           parent->addTreeChild(un);
           parent->addChild(un);
-         }
-         i++;
 
-     }/**/
+
+
 
   //   listItemUN.append(un);
 
@@ -412,6 +402,31 @@ void TreeModelUnitNode::makeEmptyTree()
 
     this->endResetModel();
 
+
+
+}
+
+void TreeModelUnitNode::getListFromModel(UnitNode* parentTC,QList<UnitNode *>* List)
+{
+
+
+if(0 == parentTC)
+{
+    qDebug()<<"[List.clear]";
+    List->clear();
+  parentTC = rootItemUN;
+}
+UnitNode* un;
+
+for(int i(0), n(parentTC->treeChildCount()); i < n; i++)
+{
+    un=parentTC->treeChild(i);
+qDebug()<<un->getName();
+List->append(un);
+qDebug()<<"[count] "<<List->count();
+if(un->treeChildCount()>0)
+    getListFromModel(un, List);
+}
 
 
 }
