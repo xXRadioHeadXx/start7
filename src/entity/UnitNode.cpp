@@ -807,8 +807,8 @@ void UnitNode::moveTreeChildUNDown(UnitNode *childUN)
     if(!getListTreeChilde().contains(childUN))
         return;
     auto index = getListTreeChilde().indexOf(childUN);
-    if(getListTreeChilde().count() < (index + 1)) {
-        this->listTreeChilde.swap(index + 1, index);
+    if(getListTreeChilde().count() > (index + 1)) {
+        this->listTreeChilde.swap(index, index + 1);
     }
 }
 
