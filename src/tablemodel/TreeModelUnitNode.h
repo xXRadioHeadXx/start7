@@ -61,6 +61,9 @@ public:
 
     bool deleteUnit(QModelIndex index);
 
+    bool move_up(QModelIndex index);
+
+    bool move_down(QModelIndex index);
 
 
     SubTypeApp getTypeApp() const;

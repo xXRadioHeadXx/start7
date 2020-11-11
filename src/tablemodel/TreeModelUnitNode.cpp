@@ -469,6 +469,49 @@ return false;
 /**/
 }
 
+bool TreeModelUnitNode::move_up(QModelIndex index)
+{
+    if(index.row()>0)
+    {
+
+UnitNode* parent = static_cast<UnitNode*>(this->parent(index).internalPointer());
+        QModelIndex parent_ind =this->parent(index);
+
+        this->beginMoveRows(parent_ind,index.row(),index.row(),parent_ind,(index.row()-1));
+
+      //  this->moveRow(parent_ind,index.row(),parent_ind,(index.row()-1));
+        parent->move_up(index.row());
+
+        this->endMoveRows();
+    return true;
+    }
+return false;
+ //  this->beginMoveRows()
+ //   //    parent->move_up(index.row());
+ //   this->endResetModel();
+}
+
+bool TreeModelUnitNode::move_down(QModelIndex index)
+{
+
+    if(index.row()<(this->rowCount(this->parent(index)))-1)
+    {
+
+UnitNode* parent = static_cast<UnitNode*>(this->parent(index).internalPointer());
+
+        QModelIndex parent_ind =this->parent(index);
+
+        this->beginMoveRows(parent_ind,index.row(),index.row(),parent_ind,(index.row()+2));
+
+      //  this->moveRow(parent,index.row(),parent,(index.row()-1));
+        parent->move_down(index.row());
+
+        this->endMoveRows();
+return true;
+    }
+return false;
+}
+
 void TreeModelUnitNode::createProxySortTree()
 {
 

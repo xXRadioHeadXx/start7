@@ -786,9 +786,10 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent)
 
 
 
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(this->modelTreeUN->rootItemUN,&List1);
 
-
-    foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+    foreach(UnitNode *un, List1 )
     {
 
        qDebug()<<".";
@@ -1421,5 +1422,30 @@ QList<UnitNode *> List;
 this->modelTreeUN->getListFromModel(this->modelTreeUN->rootItemUN,&List);
 
 
+
+}
+
+void MainWindowCFG::on_pushButton_moveUp_clicked()
+{
+    QModelIndex current=this->ui->treeView->currentIndex();
+    int current_row=this->ui->treeView->currentIndex().row();
+    qDebug()<<QString::number(current_row);
+
+this->modelTreeUN->move_up(current);
+
+
+
+
+
+}
+
+void MainWindowCFG::on_pushButton_moveDown_clicked()
+{
+    QModelIndex current=this->ui->treeView->currentIndex();
+    int current_row=this->ui->treeView->currentIndex().row();
+    qDebug()<<QString::number(current_row);
+
+
+        this->modelTreeUN->move_down(current);
 
 }

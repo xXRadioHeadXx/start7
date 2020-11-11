@@ -115,5 +115,7 @@ private slots:
     void on_pushButton_8_clicked();
     void on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1);
     void on_pushButton_9_clicked();
+    void on_pushButton_moveUp_clicked();
+    void on_pushButton_moveDown_clicked();
 };
 #endif // MAINWINDOWCFG_H

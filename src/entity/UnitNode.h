@@ -122,6 +122,10 @@ public:
     UnitNode & operator=(const UnitNode& );
 
     void addTreeChild(UnitNode *tc) noexcept;
+
+    void move_up(int num);
+    void move_down(int num);
+
     void addChild(UnitNode *tc) noexcept;
     UnitNode* treeChild(int num) noexcept;
     QList<UnitNode*> treeChild() noexcept;

@@ -786,6 +786,18 @@ void UnitNode::addTreeChild(UnitNode *tc) noexcept
     }
 }
 
+void UnitNode::move_up(int num)
+{
+    if(num>0)
+   listTreeChilde.move(num,(num-1));
+}
+
+void UnitNode::move_down(int num)
+{
+    if(num<this->treeChildCount())
+        listTreeChilde.move(num,(num+1));
+}
+
 void UnitNode::addChild(UnitNode *tc) noexcept
 {
     if(!tc)
