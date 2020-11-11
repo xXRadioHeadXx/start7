@@ -458,6 +458,10 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                     JourEntity msgOn;
                     msgOn.setObject(unTarget->getName());
+                    msgOn.setObjecttype(unTarget->getType());
+                    msgOn.setD1(unTarget->getNum1());
+                    msgOn.setD2(unTarget->getNum2());
+                    msgOn.setD3(unTarget->getNum3());
                     msgOn.setType((unTarget->getControl() ? 137 : 136));
                     msgOn.setComment(trUtf8("Удал. ком. Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
                     DataBaseManager::insertJourMsg_wS(msgOn);

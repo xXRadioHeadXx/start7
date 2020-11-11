@@ -507,6 +507,10 @@ void MainWindowServer::on_actionControl_triggered()
 
         JourEntity msgOn;
         msgOn.setObject(selUN->getName());
+        msgOn.setObjecttype(selUN->getType());
+        msgOn.setD1(selUN->getNum1());
+        msgOn.setD2(selUN->getNum2());
+        msgOn.setD3(selUN->getNum3());
         msgOn.setType((selUN->getControl() ? 137 : 136));
         msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);
