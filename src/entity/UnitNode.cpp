@@ -12,6 +12,12 @@ QSet<QString> UnitNode::getMetaNames() const
     return metaNames;
 }
 
+void UnitNode::resetMetaNames(const QString &value)
+{
+    metaNames.clear();
+    setMetaNames(value);
+}
+
 void UnitNode::setMetaNames(const QString &value)
 {
     metaNames.insert(value);
@@ -275,6 +281,16 @@ void UnitNode::setUdpPort(int value)
     UdpPort = value;
 }
 
+int UnitNode::getUdpTimeout() const
+{
+    return UdpTimeout;
+}
+
+void UnitNode::setUdpTimeout(int value)
+{
+    UdpTimeout = value;
+}
+
 int UnitNode::getMetka1Time_0() const
 {
     return Metka1Time_0;
@@ -499,7 +515,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
         }
     }
      if(SubTypeApp::configurator == type) {
-         if(TypeUnitNode::GROUP == getType())
+
+
+         if(TypeUnitNode::GROUP == getType()||TypeUnitNode::SYSTEM == getType())
          {
          if(childCount())
          return Icons::fldr();
@@ -814,6 +832,26 @@ void UnitNode::addTreeChild(UnitNode *tc) noexcept
     if(!this->listTreeChilde.contains(tc)) {
         this->listTreeChilde.append(tc);
         tc->setTreeParentUN(this);
+    }
+}
+
+void UnitNode::moveTreeChildUNUp(UnitNode * childUN)
+{
+    if(!getListTreeChilde().contains(childUN))
+        return;
+    auto index = getListTreeChilde().indexOf(childUN);
+    if(0 < index) {
+        this->listTreeChilde.swap(index - 1, index);
+    }
+}
+
+void UnitNode::moveTreeChildUNDown(UnitNode *childUN)
+{
+    if(!getListTreeChilde().contains(childUN))
+        return;
+    auto index = getListTreeChilde().indexOf(childUN);
+    if(getListTreeChilde().count() > (index + 1)) {
+        this->listTreeChilde.swap(index, index + 1);
     }
 }
 

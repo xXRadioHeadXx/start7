@@ -37,7 +37,7 @@ enum TypeUnitNode {
     DD_T4K_M = 28,//ДД Точка-М/Гряда
     BOD_SOTA =29,//БОД Сота
     Y4_SOTA = 30,//Участок Сота
-    DD_SOTA = 28,//ДД Сота
+    DD_SOTA = 31,//ДД Сота
     BL_IP = 0xFF
 };
 
@@ -82,6 +82,7 @@ private:
     int UdpUse;//=0
     QString UdpAdress;//=
     int UdpPort;//=0
+    int UdpTimeout;
     int Metka1Time_0;//=0
     int Metka1Time_1;//=0
     int Metka2Time_0;//=0
@@ -119,6 +120,10 @@ public:
     UnitNode & operator=(const UnitNode& );
 
     void addTreeChild(UnitNode *tc) noexcept;
+
+    void moveTreeChildUNUp(UnitNode * childUN);
+    void moveTreeChildUNDown(UnitNode * childUN);
+
     void addChild(UnitNode *tc) noexcept;
     UnitNode* treeChild(int num) noexcept;
     QList<UnitNode*> treeChild() noexcept;
@@ -129,6 +134,7 @@ public:
     int columnCount() const noexcept;
 
     QSet<QString> getMetaNames() const;
+    void resetMetaNames(const QString &value);
     void setMetaNames(const QString &value);
     void setMetaNames(const QSet<QString> &value);
 
@@ -207,6 +213,9 @@ public:
     int getUdpPort() const;
     void setUdpPort(int value);
 
+    int getUdpTimeout() const;
+    void setUdpTimeout(int value);
+
     int getMetka1Time_0() const;
     void setMetka1Time_0(int value);
 
@@ -281,10 +290,7 @@ public:
 
 
 public slots:
-    //    void emitIMUpd();
-
 signals:
-    //    void imUpd();
 };
 
 #endif // UNITNODE_H

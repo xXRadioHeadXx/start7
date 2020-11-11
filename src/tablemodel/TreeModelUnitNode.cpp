@@ -174,22 +174,14 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      qDebug()<<"appendNewUNInStructure";
     this->beginInsertRows(index.parent(),index.row(),index.row());
      UnitNode *parent= static_cast<UnitNode*>(index.internalPointer());
-      qDebug()<<"parrent name: "<<parent->getName();
 
 
-     int i=0;
-     foreach(UnitNode* unit, listItemUN)
-     {
-         qDebug()<<i<<" "<<unit->getName()<<" "<<parent->getName();
-         if(unit->getName()==parent->getName())
-         {
-          listItemUN.insert(i+1+this->rowCount(index),un);
+
           parent->addTreeChild(un);
           parent->addChild(un);
-         }
-         i++;
 
-     }/**/
+
+
 
   //   listItemUN.append(un);
 
@@ -298,13 +290,13 @@ QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *tc,
                                         parentTC->treeChild(i));///1
              if(index.isValid())
              {
-                 qDebug() << "findeIndexUN " << index;
+           //      qDebug() << "findeIndexUN " << index;
                  return index;
              }
          }
 
      }
-//     qDebug() << "findeIndexUN false 2";
+  //   qDebug() << "findeIndexUN false 2";
      return index;
 }
 
@@ -348,27 +340,97 @@ this->endResetModel();
     qDebug()<<"[PROFIT]";
 }
 
+void TreeModelUnitNode::makeEmptyTree()
+{
+    this->beginResetModel();
+    listItemUN = SettingUtils::loadEmptyTree(rootItemUN);
+    this->endResetModel();
+}
+
+void TreeModelUnitNode::getListFromModel(QList<UnitNode *> &list, UnitNode* parentTC) const
+{
+    if(nullptr == parentTC) {
+        qDebug()<<"[list.clear]";
+        list.clear();
+        parentTC = rootItemUN;
+    }
+
+    for(int i(0), n(parentTC->treeChildCount()); i < n; i++)
+    {
+        auto un = parentTC->treeChild(i);
+        qDebug() << un->getName();
+        un->setMetaNames(QString("Obj_%1").arg(list.count()));
+        list.append(un);
+        qDebug() << "[count] " << list.count();
+        if(0 < un->treeChildCount())
+            getListFromModel(list, un);
+    }
+}
+
 bool TreeModelUnitNode::deleteUnit(QModelIndex index)
 {
-qDebug()<<"TreeModelUnitNode::deleteUnit(QModelIndex index)";
+    qDebug()<<"TreeModelUnitNode::deleteUnit(QModelIndex index)";
 
-if(this->parent(index).isValid())
-{
-    this->beginRemoveRows(index.parent(),index.row(),index.row());
-    UnitNode *parent = static_cast<UnitNode*>(this->parent(index).internalPointer());
-
-    parent->deleteChild(index.row());
-
-    //emit dataChanged(index,index);
-    this->endRemoveRows();
-    emit dataChanged(index,index);
-    return true;
-    }
-    else
-    qDebug()<<"no valid";
+    if(this->parent(index).isValid()) {
+        this->beginRemoveRows(index.parent(),index.row(),index.row());
+        UnitNode *parent = static_cast<UnitNode*>(this->parent(index).internalPointer());
+        parent->deleteChild(index.row());
+        //emit dataChanged(index,index);
+        this->endRemoveRows();
+        emit dataChanged(index,index);
+        return true;
+    } else
+        qDebug()<<"no valid";
 
     return false;
     /**/
+}
+
+bool TreeModelUnitNode::moveUNUp(QModelIndex index)
+{
+    if(index.row()>0) {
+        UnitNode * un = static_cast<UnitNode*>(index.internalPointer());
+        UnitNode * parent = un->getTreeParentUN();
+        QModelIndex parent_ind = this->parent(index);
+
+        this->beginMoveRows(parent_ind,
+                            index.row(),
+                            index.row(),
+                            parent_ind,
+                            (index.row() - 1));
+
+      //  this->moveRow(parent_ind,index.row(),parent_ind,(index.row()-1));
+        parent->moveTreeChildUNUp(un);
+
+        this->endMoveRows();
+        return true;
+    }
+    return false;
+ //  this->beginMoveRows()
+ //   //    parent->move_up(index.row());
+ //   this->endResetModel();
+}
+
+bool TreeModelUnitNode::moveUNDown(QModelIndex index)
+{
+    if(index.row() < (this->rowCount(this->parent(index)) - 1)) {
+        UnitNode * un = static_cast<UnitNode*>(index.internalPointer());
+        UnitNode * parent = un->getTreeParentUN();
+        QModelIndex parent_ind = this->parent(index);
+
+        this->beginMoveRows(parent_ind,
+                            index.row(),
+                            index.row(),
+                            parent_ind,
+                            (index.row() + 2));
+
+      //  this->moveRow(parent,index.row(),parent,(index.row()-1));
+        parent->moveTreeChildUNDown(un);
+
+        this->endMoveRows();
+        return true;
+    }
+    return false;
 }
 
 void TreeModelUnitNode::createProxySortTree()

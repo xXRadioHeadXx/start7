@@ -17,6 +17,8 @@ private:
 public:
     SettingUtils();
     static QList<UnitNode *> loadTreeUnitNodes(UnitNode * root, QString fileName = "rifx.ini");
+    static QList<UnitNode *> loadEmptyTree(UnitNode * root);
+
     static QList<UnitNode *> getListTreeUnitNodes();
     static QSet<UnitNode *> getSetMetaRealUnitNodes();
 

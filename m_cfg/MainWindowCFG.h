@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <TreeModelUnitNode.h>
 #include "map.h"
+#include <QErrorMessage>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -17,10 +18,17 @@ private:
 
     TreeModelUnitNode *modelTreeUN = nullptr;
 
+    QErrorMessage dialog;
 
 
 
     bool can_i_add_or_not(int type_parrent, int type_child);
+    bool pass_to_add(UnitNode *unit, UnitNode* parrent);
+
+    bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent);
+
     bool add_unit();
     bool change_unit();
     bool delete_unit();
@@ -29,6 +37,7 @@ private:
 
     void get_option(UnitNode *unit);
 
+    void get_option_GROUP(UnitNode *unit);
     void get_option_SD_BL_IP(UnitNode *unit);
     void get_option_IU_BL_IP(UnitNode *unit);
     void get_option_TG(UnitNode *unit);
@@ -43,8 +52,9 @@ private:
     void get_option_BL_IP(UnitNode *unit);
 
 
-    bool set_option(UnitNode *unit);
+    bool set_option(UnitNode *unit,UnitNode *parent);
 
+    void set_option_GROUP(UnitNode *unit);
     void set_option_SD_BL_IP(UnitNode *unit);
     void set_option_IU_BL_IP(UnitNode *unit);
     void set_option_TG(UnitNode *unit);
@@ -55,13 +65,16 @@ private:
     void set_option_DD_T4K_M(UnitNode *unit);
     void set_option_BOD_SOTA(UnitNode *unit);
     void set_option_Y4_SOTA(UnitNode *unit);
-    void set_option_DD_SOTA(UnitNode *unit);
+    void set_option_DD_SOTA(UnitNode *unit,UnitNode *parent);
     void set_option_BL_IP(UnitNode *unit);
 
 
-    void save_ini(QString path);
 
+
+    void save_ini(QString path);
+    void save_option(QSettings* settings,UnitNode*  unit);
     void save_option_SD_BL_IP(QSettings* settings,UnitNode*  unit);
+    void save_option_BOD_SOTA(QSettings* settings,UnitNode*  unit);
 
     QString Type_from_int_to_string(int Type);
     int     Type_from_string_to_int(QString Type);
@@ -100,5 +113,9 @@ private slots:
     void on_pushButton_2_clicked();
     void on_pushButton_7_clicked();
     void on_pushButton_8_clicked();
+    void on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1);
+    void on_pushButton_9_clicked();
+    void on_pushButton_moveUp_clicked();
+    void on_pushButton_moveDown_clicked();
 };
 #endif // MAINWINDOWCFG_H

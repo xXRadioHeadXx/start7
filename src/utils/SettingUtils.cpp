@@ -54,6 +54,9 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         root = tmpUN;
         listTreeUnitNodes.append(tmpUN);
     }
+
+
+
     qDebug()<<"[4]";
     for(int index = 0; index < cntTrItm; index++)
     {
@@ -100,6 +103,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             tmpUN->setMetka4Time_1(settings.value( "Metka4Time_1" , -1 ).toInt());
             tmpUN->setMetkaDopuskTime_0(settings.value( "MetkaDopuskTime_0" , -1 ).toInt());
             tmpUN->setMetkaDopuskTime_1(settings.value( "MetkaDopuskTime_1" , -1 ).toInt());
+            tmpUN->setUdpTimeout(settings.value( "UdpTimeout" , -1 ).toInt());
             settings.endGroup();
 
             if(!tmpUN->getName().isEmpty())
@@ -178,8 +182,42 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             }
         }
     }
+
         qDebug()<<"[5]";
-    return listTreeUnitNodes;
+        return listTreeUnitNodes;
+}
+
+QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
+{
+    if(!listTreeUnitNodes.isEmpty()) {
+   //     for(UnitNode *un : listTreeUnitNodes)
+   //         delete un;
+        listTreeUnitNodes.clear();
+        root->deleteAll();
+    }
+
+
+
+
+    {
+        UnitNode * tmpUN = new UnitNode(root);
+
+        tmpUN->setType(TypeUnitNode::SYSTEM);
+        tmpUN->setNum1(0);
+        tmpUN->setNum2(0);
+        tmpUN->setNum3(0);
+        tmpUN->setLevel(0);
+        tmpUN->setName(QObject::trUtf8("Система"));
+        tmpUN->setMetaNames("Obj_0");
+
+        root->addTreeChild(tmpUN);
+        root = tmpUN;
+        listTreeUnitNodes.append(tmpUN);
+
+
+    }
+
+      return listTreeUnitNodes;
 }
 
 QList<UnitNode *> SettingUtils::getListTreeUnitNodes() {
