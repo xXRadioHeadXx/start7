@@ -638,6 +638,47 @@ void UnitNode::deleteAll()
     this->listTreeChilde.clear();
 }
 
+int UnitNode::adamOffToMs(int adamOff)
+{
+    int interval;
+    switch (adamOff) {
+        case 0:
+            interval = 0;
+            break;
+        case 1:
+            interval = 5000;
+            break;
+        case 2:
+            interval = 10000;
+            break;
+        case 3:
+            interval = 30000;
+            break;
+        case 4:
+            interval = 60000;
+            break;
+        case 5:
+            interval = 300000;
+            break;
+        case 6:
+            interval = 600000;
+            break;
+        case 7:
+            interval = 1200000;
+            break;
+        case 8:
+            interval = 2400000;
+            break;
+        case 9:
+            interval = 3600000;
+            break;
+        default:
+            interval = 0;
+            break;
+    }
+    return interval;
+}
+
 UnitNode::UnitNode(QObject *parent) : QObject(parent)
 {
     

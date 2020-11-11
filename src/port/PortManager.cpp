@@ -413,10 +413,13 @@ void PortManager::requestAutoOnOffIUCommand(bool out, UnitNode *selUN) {
         QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
         for(const auto& pt : as_const(m_udpPortsVector)) {
             if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
+                bool needJour = true;
                 for(AbstractRequester * ar : as_const(getLsWaiter())) {
                     if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN))) {
                         ar->timerTripleStop();
                         ar->setBeatStatus(BeatStatus::Unsuccessful);
+
+                        needJour = false;
 //                        return;
                     }
                 }
@@ -425,6 +428,18 @@ void PortManager::requestAutoOnOffIUCommand(bool out, UnitNode *selUN) {
                 tmpOOIUW->init();
                 appLsWaiter(tmpOOIUW);
 //                tmpOOIUW->startFirstRequest();
+
+                JourEntity msg;
+                msg.setObject(selUN->getName());
+                msg.setType(130);
+                if(out)
+                    msg.setComment(trUtf8("Удал. ком. Вкл"));
+                else
+                    msg.setComment(trUtf8("Послана ком. Вкл"));
+                DataBaseManager::insertJourMsg_wS(msg);
+                GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
+
+                break;
             }
         }
     }
@@ -588,26 +603,6 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
     }
 }
 
-//ProcessDKWaiter * PortManager::addProcessDKWaiter(QHostAddress address, int port, int index) {
-////    ProcessDKWaiter * tmpPDKW = new ProcessDKWaiter(this);
-
-////    tmpPDKW->ipPort.first = Utils::hostAddressToString(address);
-////    tmpPDKW->ipPort.second = QVariant(port).toString();
-////    tmpPDKW->portIndex = index;
-////    tmpPDKW->ptrPort = m_udpPortsVector.at(index);
-
-////    DataQueueItem itm1(Utils::makeDK0x21(), address, port, index);
-////    tmpPDKW->sendDKMsg = itm1;
-
-////    DataQueueItem itm2(Utils::makeAlarmReset0x24(), address, port, index);
-////    tmpPDKW->sendResetAlarmMsg = itm2;
-
-////    lsProcessDKWaiter.append(tmpPDKW);
-
-////    return tmpPDKW;
-//    return 0;
-//}
-
 GraphTerminal * PortManager::loadPortsTcpGraphTerminal(QString fileName) {
 
     QSettings settings(fileName, QSettings::IniFormat);
@@ -725,7 +720,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
         UnitNode * unLockSdBlIp = nullptr, * unLockIuBlIp = nullptr;
         bool isLockPair = false;
-        if(1 >= un->getNum2() && 3 >= un->getNum2()) {
+        if(1 >= un->getNum2() && 4 >= un->getNum2()) {
             UnitNode * reciver = un;
             while(nullptr != reciver) {
                 if(TypeUnitNode::BL_IP == reciver->getType()) {
@@ -909,44 +904,44 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                              Status::Norm == newStatus1LockSD &&
                              Status::Off == newStatus1LockIU)) //Закрыто ключом
                     {
-                        qDebug() << "isLockPair continue " << un->getName();
+//                        qDebug() << "isLockPair continue " << un->getName();
                         continue;
                     }
 
                     if(Status::Alarm == oldStatus1LockSD &&
                        Status::Off == oldStatus1LockIU) {
                         //Открыто
-                        qDebug() << "isLockPair Old O " << un->getName();
+//                        qDebug() << "isLockPair Old O " << un->getName();
                     } else if(Status::Norm == oldStatus1LockSD &&
                               Status::On == oldStatus1LockIU) {
                         //Закрыто
-                        qDebug() << "isLockPair Old L " << un->getName();
+//                        qDebug() << "isLockPair Old L " << un->getName();
                     } else if(Status::Alarm == oldStatus1LockSD &&
                               Status::On == oldStatus1LockIU) {
                         //Открыто ключом
-                        qDebug() << "isLockPair Old OK " << un->getName();
+//                        qDebug() << "isLockPair Old OK " << un->getName();
                     } else if(Status::Norm == oldStatus1LockSD &&
                               Status::Off == oldStatus1LockIU) {
                         //Закрыто ключом
-                        qDebug() << "isLockPair Old LK " << un->getName();
+//                        qDebug() << "isLockPair Old LK " << un->getName();
                     }
 
                     if(Status::Alarm == newStatus1LockSD &&
                        Status::Off == newStatus1LockIU) {
                         //Открыто
-                        qDebug() << "isLockPair New O " << un->getName();
+//                        qDebug() << "isLockPair New O " << un->getName();
                     } else if(Status::Norm == newStatus1LockSD &&
                               Status::On == newStatus1LockIU) {
                         //Закрыто
-                        qDebug() << "isLockPair New L " << un->getName();
+//                        qDebug() << "isLockPair New L " << un->getName();
                     } else if(Status::Alarm == newStatus1LockSD &&
                               Status::On == newStatus1LockIU) {
                         //Открыто ключом
-                        qDebug() << "isLockPair New OK " << un->getName();
+//                        qDebug() << "isLockPair New OK " << un->getName();
                     } else if(Status::Norm == newStatus1LockSD &&
                               Status::Off == newStatus1LockIU) {
                         //Закрыто ключом
-                        qDebug() << "isLockPair New LK " << un->getName();
+//                        qDebug() << "isLockPair New LK " << un->getName();
                     }
 
                     msg.setObject(unLockSdBlIp->getName());

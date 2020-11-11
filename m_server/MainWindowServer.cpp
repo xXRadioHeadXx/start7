@@ -196,8 +196,16 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
     if(TypeUnitNode::GROUP == selUN->getType()) {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + ": \"" + sel->getName() + "\"");
-    } else if(TypeUnitNode::SD_BL_IP == selUN->getType() || TypeUnitNode::IU_BL_IP == selUN->getType()) {
+    } else if(TypeUnitNode::SD_BL_IP == selUN->getType()) {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString());
+    } else if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
+        auto setUN = Utils::findeSetAutoOnOffUN(selUN);
+        QString subStr;
+        if(!setUN.isEmpty()) {
+            subStr.append("(Авто %1с.)");
+            subStr = subStr.arg(UnitNode::adamOffToMs(setUN.toList().first()->getAdamOff()) / 1000);
+        }
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
     } else
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + "\t" + sel->getName());
 

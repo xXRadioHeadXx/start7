@@ -277,6 +277,8 @@ public:
 
     void deleteAll();
 
+    static int adamOffToMs(int adamOff);
+
 
 public slots:
     //    void emitIMUpd();

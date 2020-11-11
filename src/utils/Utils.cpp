@@ -353,11 +353,11 @@ QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
     unSetTmp.insert(un);
     unSetTmp = unSetTmp + un->getDoubles();
     for(const auto& unDouble : as_const(unSetTmp.toList())) {
-        qDebug() << "itr :" << unSetTmp;
-        qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
+//        qDebug() << "itr :" << unSetTmp;
+//        qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
         if(nullptr != unDouble->getTreeParentUN()) {
             if(TypeUnitNode::SD_BL_IP == unDouble->getTreeParentUN()->getType()) {
-                qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->getName();
+//                qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->getName();
             } else {
                 unSetTmp.remove(unDouble);
             }
@@ -365,7 +365,7 @@ QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
             unSetTmp.remove(unDouble);
         }
     }
-    qDebug() << "res :" << unSetTmp;
+//    qDebug() << "res :" << unSetTmp;
     return unSetTmp;
 }
 
