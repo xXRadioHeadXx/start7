@@ -12,6 +12,12 @@ QSet<QString> UnitNode::getMetaNames() const
     return metaNames;
 }
 
+void UnitNode::resetMetaNames(const QString &value)
+{
+    metaNames.clear();
+    setMetaNames(value);
+}
+
 void UnitNode::setMetaNames(const QString &value)
 {
     metaNames.insert(value);

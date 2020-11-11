@@ -57,7 +57,7 @@ public:
     void loadSettings(QString fileName = "rifx.ini");
 
     void makeEmptyTree(void);
-    void getListFromModel(UnitNode* parentTC,QList<UnitNode *>* List);
+    void getListFromModel(QList<UnitNode *> &list, UnitNode* parentTC = nullptr) const;
 
     bool deleteUnit(QModelIndex index);
 

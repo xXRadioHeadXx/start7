@@ -406,29 +406,24 @@ void TreeModelUnitNode::makeEmptyTree()
 
 }
 
-void TreeModelUnitNode::getListFromModel(UnitNode* parentTC,QList<UnitNode *>* List)
+void TreeModelUnitNode::getListFromModel(QList<UnitNode *> &list, UnitNode* parentTC) const
 {
+    if(nullptr == parentTC) {
+        qDebug()<<"[list.clear]";
+        list.clear();
+        parentTC = rootItemUN;
+    }
 
-
-if(0 == parentTC)
-{
-    qDebug()<<"[List.clear]";
-    List->clear();
-  parentTC = rootItemUN;
-}
-UnitNode* un;
-
-for(int i(0), n(parentTC->treeChildCount()); i < n; i++)
-{
-    un=parentTC->treeChild(i);
-qDebug()<<un->getName();
-List->append(un);
-qDebug()<<"[count] "<<List->count();
-if(un->treeChildCount()>0)
-    getListFromModel(un, List);
-}
-
-
+    for(int i(0), n(parentTC->treeChildCount()); i < n; i++)
+    {
+        auto un = parentTC->treeChild(i);
+        qDebug() << un->getName();
+        un->setMetaNames(QString("Obj_%1").arg(list.count()));
+        list.append(un);
+        qDebug() << "[count] " << list.count();
+        if(0 < un->treeChildCount())
+            getListFromModel(list, un);
+    }
 }
 
 bool TreeModelUnitNode::deleteUnit(QModelIndex index)

@@ -136,6 +136,7 @@ public:
     int columnCount() const noexcept;
 
     QSet<QString> getMetaNames() const;
+    void resetMetaNames(const QString &value);
     void setMetaNames(const QString &value);
     void setMetaNames(const QSet<QString> &value);
 
