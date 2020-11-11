@@ -50,8 +50,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
   //  this->ui->textEdit->setText("1111111\n 22222");
 
 
-    dialog.showMessage("this it the test message");
-    dialog.exec();
+//    dialog.showMessage("this it the test message");
+//    dialog.exec();
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -226,10 +226,10 @@ qDebug()
     case TypeUnitNode::Y4_SOTA:
     this->get_option_Y4_SOTA(unit);
     break;
-/*
+
     case TypeUnitNode::DD_SOTA:
     this->get_option_DD_SOTA(unit);
-    break;*/
+    break;
 
     case TypeUnitNode::BL_IP:
     this->get_option_BL_IP(unit);
@@ -488,6 +488,13 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 void MainWindowCFG::on_pushButton_4_clicked()
 {
     qDebug()<<"rename_unit()";
+    QModelIndex index=this->ui->treeView->currentIndex();
+    if(index.isValid())
+    {
+        UnitNode* un = static_cast<UnitNode*>(index.internalPointer());
+        un->setName(this->ui->uName_lineedit->text());
+
+    }
 //   change_unit();
 
 
@@ -1048,22 +1055,15 @@ void MainWindowCFG::get_option_BOD_SOTA(UnitNode *unit)
 this->ui->textEdit->clear();
 QString string1;
 
-string1.append("Тип: Сота/Сота-М ");
+string1.append("Сота/Сота-М ");
 
-string1.append("Кан: ");
+string1.append("Кан:");
 
 if(unit->getUdpUse()==0)
 {
     string1.append(QString::number(unit->getNum3()));
 
-    if(unit->getUdpAdress()!="")
-    {
 
-        string1.append("(");
-        string1.append(unit->getUdpAdress());
-        string1.append(")");
-
-    }
 }
 if(unit->getUdpUse()==1)
 {
@@ -1075,8 +1075,24 @@ if(unit->getUdpUse()==1)
 
 
 
-string1.append("БОД:");
+string1.append(" БОД:");
 string1.append(QString::number(unit->getNum1()));
+
+if(unit->getUdpUse()==0)
+{
+
+
+    if(unit->getUdpAdress()!="")
+    {
+
+        string1.append(" (");
+        string1.append(unit->getUdpAdress());
+        string1.append(")");
+
+    }
+}
+
+
 this->ui->textEdit->append(string1);
 qDebug()<<"[+]"<<string1;
 
@@ -1087,11 +1103,75 @@ qDebug()<<"[+]"<<string1;
 void MainWindowCFG::get_option_Y4_SOTA(UnitNode *unit)
 {
 
+    //Ищем его родительский БОД
+
+    //Берем из этого БОДа Num3 - канал
+    //                    Num1 - БОД
+   QModelIndex ind = this->modelTreeUN->findeIndexUN(unit);
+   QModelIndex ind_BOD = this->modelTreeUN->parent(ind);
+   UnitNode* BOD= static_cast<UnitNode*>(ind_BOD.internalPointer());
+
+
+
+   this->ui->textEdit->clear();
+   QString string1;
+
+   string1.append("Сота/Сота-М ");
+
+   string1.append("Кан:");
+
+   string1.append(QString::number(BOD->getNum3()));
+
+   string1.append(" БОД:");
+
+   string1.append(QString::number(BOD->getNum1()));
+
+   string1.append(" Участок:");
+
+   string1.append(QString::number(unit->getNum2()/100));
+
+   this->ui->textEdit->append(string1);
 }
 
 void MainWindowCFG::get_option_DD_SOTA(UnitNode *unit)
 {
+    //Ищем его родительский участок и БОД
 
+    //Берем из этого БОДа Num3 - канал
+    //                    Num1 - БОД
+
+    //Из участка берем Num2 - участок
+   QModelIndex ind = this->modelTreeUN->findeIndexUN(unit);
+   QModelIndex ind_Y4 = this->modelTreeUN->parent(ind);
+   UnitNode* Y4= static_cast<UnitNode*>(ind_Y4.internalPointer());
+
+   QModelIndex ind_BOD = this->modelTreeUN->parent(ind_Y4);
+   UnitNode* BOD= static_cast<UnitNode*>(ind_BOD.internalPointer());
+
+   this->ui->textEdit->clear();
+   QString string1;
+
+   string1.append("Сота/Сота-М ");
+
+   string1.append("Кан:");
+
+   string1.append(QString::number(BOD->getNum3()));
+
+   string1.append(" БОД:");
+
+   string1.append(QString::number(BOD->getNum1()));
+
+   string1.append(" Участок:");
+
+   string1.append(QString::number(Y4->getNum2()/100));
+
+   string1.append(" ДД:");
+
+   string1.append(QString::number(unit->getNum2()-Y4->getNum2()+1));
+
+
+
+   this->ui->textEdit->append(string1);
 }
 
 void MainWindowCFG::get_option_BL_IP(UnitNode *unit)
@@ -1175,7 +1255,7 @@ unit->setNum2(this->ui->U4_Sota_M_combobox->currentText().toInt()*100);
 
 void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit,UnitNode *parent)
 {
-   int val=parent->getNum2()-100;
+   int val=parent->getNum2();
 
 
    unit->setNum2(this->ui->DD_Sota_M_combobox->currentText().toInt()+val-1);
