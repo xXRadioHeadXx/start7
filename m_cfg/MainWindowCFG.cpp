@@ -25,6 +25,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     ui->treeView->setColumnWidth(0,1000);
     ui->treeView->setColumnWidth(1,1000);
     ui->treeView->setColumnWidth(2,1000);
+
+
  //   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
  //    qDebug()<<"patch = "<<patch;
  //   this->modelTreeUN->loadSettings(patch);
@@ -429,49 +431,74 @@ void MainWindowCFG::update_map()
 
 void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 {
-
-
-
-    if(arg1=="Группа")
+    this->ui->type_pxm_label->clear();
+    if(arg1=="Группа"){
     this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
+    }
     else
-    if(arg1=="СД БЛ-IP")
+    if(arg1=="СД БЛ-IP"){
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->CD_BL_IP_groupbox);
+    }
     else
     if(arg1=="ИУ БЛ-IP")
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
+    }
     else
     if(arg1=="Точка/Гарда")
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
+    }
     else
     if(arg1=="РИФ-РЛМ/КРЛ/Трасса")
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+    }
     else
     if(arg1=="РИФ-РЛМ-С")
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
+    }
     else
     if(arg1=="БОД Точка-М/Гряда")
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
+    }
     else
     if(arg1=="Участок Точка-М/Гряда")
-    this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
+    {
 
+    this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
+    }
     if(arg1=="БОД Сота/Сота-М")
-     {
+    {
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-            this->ui->BOD_SOTA_M_type_combobox->setCurrentText("RS485");
- //   this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
-     }
+    this->ui->BOD_SOTA_M_type_combobox->setCurrentText("RS485");
+ // this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+    }
     else
     if(arg1=="Участок Сота/Сота-М")
+    {
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+    }
     else
     if(arg1=="ДД Сота/Сота-М")
+    {
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
-
+    }
 
     else
+    {
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
+    }
 
 
 //Участок Точка-М/Гряда
@@ -1243,9 +1270,9 @@ if(this->ui->BOD_SOTA_M_type_combobox->currentText()=="UDP")
 else
     unit->setUdpUse(0);
 
-unit->setUdpPort(this->ui->BOD_SOTA_MUdpPort_lineedit->text().toInt());
+unit->setUdpPort(this->ui->BOD_SOTA_MUdpPort_doubleSpinBox->text().toInt());
 unit->setUdpAdress(this->ui->BOD_SOTA_M_ipadress_lineedit->text());
-unit->setUdpTimeout(this->ui->BOD_SOTA_M_timeout_lineedit->text().toInt());
+unit->setUdpTimeout(this->ui->BOD_SOTA_M_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit)

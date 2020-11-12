@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>868</width>
-    <height>680</height>
+    <height>677</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -326,7 +326,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>11</number>
       </property>
       <widget class="QWidget" name="U4_Sota_M_groupbox">
        <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1851,16 +1851,6 @@
            <string>Порт</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="BOD_SOTA_M_timeout_lineedit">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>81</width>
-            <height>20</height>
-           </rect>
-          </property>
-         </widget>
          <widget class="QLabel" name="label_7">
           <property name="geometry">
            <rect>
@@ -1874,14 +1864,42 @@
            <string>Таймаут, мс</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="BOD_SOTA_MUdpPort_lineedit">
+         <widget class="QDoubleSpinBox" name="BOD_SOTA_MUdpPort_doubleSpinBox">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>30</y>
             <width>71</width>
-            <height>20</height>
+            <height>22</height>
            </rect>
+          </property>
+          <property name="decimals">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <double>4000.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>4000.000000000000000</double>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="BOD_SOTA_M_timeout_doubleSpinBox">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>30</y>
+            <width>71</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="decimals">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <double>300.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>300.000000000000000</double>
           </property>
          </widget>
         </widget>
@@ -1933,13 +1951,26 @@
        </widget>
       </widget>
      </widget>
+     <widget class="QLabel" name="type_pxm_label">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>27</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>230</y>
-       <width>379</width>
+       <y>320</y>
+       <width>581</width>
        <height>61</height>
       </rect>
      </property>
@@ -2122,6 +2153,101 @@
       </item>
      </layout>
     </widget>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>240</y>
+       <width>581</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Доп.информация (только для режима интеграции с внешним ПО)</string>
+     </property>
+     <widget class="QLineEdit" name="Dop_info_description_lineedit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>141</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>13</x>
+        <y>21</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Описание</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>40</y>
+        <width>101</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>40</y>
+        <width>101</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>21</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Географ.широта</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>21</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Географ.долгота</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="geometry">
+       <rect>
+        <x>454</x>
+        <y>40</y>
+        <width>101</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Изменить</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QTreeView" name="treeView">
     <property name="geometry">
@@ -2146,9 +2272,9 @@
    <widget class="QPushButton" name="pushButton_8">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>0</x>
       <y>560</y>
-      <width>206</width>
+      <width>91</width>
       <height>23</height>
      </rect>
     </property>
@@ -2159,7 +2285,7 @@
    <widget class="QPushButton" name="pushButton_9">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>90</x>
       <y>560</y>
       <width>75</width>
       <height>23</height>
