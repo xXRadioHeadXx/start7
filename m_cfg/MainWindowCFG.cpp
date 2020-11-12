@@ -49,6 +49,14 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->textEdit->clear();
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
+
+    this->ui->tableWidget->setColumnWidth(0,10);
+    this->ui->tableWidget->setColumnWidth(1,70);
+    this->ui->tableWidget->setColumnWidth(2,70);
+    this->ui->tableWidget->setColumnWidth(3,70);
+    this->ui->tableWidget->setColumnWidth(4,70);
+    this->ui->tableWidget->setColumnWidth(5,70);
+    this->ui->tableWidget->setColumnWidth(6,70);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
 
