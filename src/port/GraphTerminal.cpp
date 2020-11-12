@@ -142,9 +142,9 @@ void GraphTerminal::manageOverallReadQueue()
             JourEntity msgOn;
             msgOn.setObject(trUtf8("Оператор"));
             msgOn.setType(135);
-            msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
+            msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
             DataBaseManager::insertJourMsg_wS(msgOn);
-
+            GraphTerminal::sendAbonentEventsAndStates(msgOn);
             DataBaseManager::resetAllFlags_wS();
             continue;
         } else if("DbStart" == type) {
@@ -261,21 +261,33 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
 
                 if(0 != unTarget->getBazalt() && Status::Alarm == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, false);
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, false);
                 } else if(0 != unTarget->getBazalt() && Status::Norm == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, true);
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, true);
                 } else if(0 != unTarget->getBazalt()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(unTarget, value);
+                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, value);
                 } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && ((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
                 } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && !((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::On == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, false);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::Off == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, true);
+                    const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
+                    if(setUn.isEmpty()) {
+                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                    } else {
+                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
+                    }
+                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && "101" == idCommand.nodeValue()) {
+                    const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
+                    if(setUn.isEmpty()) {
+                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                    } else {
+                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
+                    }
                 } else {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(unTarget, value);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, value);
                 }
                 //
             } else/* if("101" == idCommand.nodeValue()) {
@@ -346,7 +358,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                SignalSlotCommutator::getInstance()->emitRequestDK(unTarget);
+                SignalSlotCommutator::getInstance()->emitRequestDK(true, unTarget);
 
                 qDebug() << "<--";
                 //
@@ -447,10 +459,15 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     JourEntity msgOn;
                     msgOn.setObject(unTarget->getName());
                     msgOn.setType((unTarget->getControl() ? 137 : 136));
-                    msgOn.setComment(trUtf8("Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
+                    msgOn.setComment(trUtf8("Удал. ком. Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
                     DataBaseManager::insertJourMsg_wS(msgOn);
 
                     dataAnswer = makeEventsAndStates(unTarget, msgOn).toByteArray();
+
+                    if(unTarget->getControl()) {
+                        unTarget->setStatus1(Status::Uncnown);
+                        unTarget->setStatus2(Status::Uncnown);
+                    }
                 }
                 qDebug() << "<--";
 
@@ -611,9 +628,9 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                         JourEntity msgOn;
                         msgOn.setObject(trUtf8("Оператор"));
                         msgOn.setType(135);
-                        msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
+                        msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
                         DataBaseManager::insertJourMsg_wS(msgOn);
-
+                        GraphTerminal::sendAbonentEventsAndStates(msgOn);
                         DataBaseManager::resetAllFlags_wS();
                     }
 
@@ -693,19 +710,8 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         QDomElement  statesElement  =  doc.createElement("states");
         deviceElement.appendChild(statesElement);
 
-        QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + un->getName() + "')";
-        QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
         QDomElement  stateElement  =  doc.createElement("state");
-        if(tmpList.isEmpty()) {
-            stateElement.setAttribute("id", 0);
-            stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", "Неопр. сост.");
-        } else {
-            JourEntity * jour = tmpList.first();
-            stateElement.setAttribute("id", jour->getType());
-            stateElement.setAttribute("datetime", jour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", jour->getComment());
-        }
+        makeStateElement(un, stateElement);
         statesElement.appendChild(stateElement);
     }
 
@@ -752,20 +758,8 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
 
         QDomElement  statesElement  =  doc.createElement("states");
         deviceElement.appendChild(statesElement);
-
-        QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + un->getName() + "')";
-        QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
         QDomElement  stateElement  =  doc.createElement("state");
-        if(tmpList.isEmpty()) {
-            stateElement.setAttribute("id", 0);
-            stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", "Неопр. сост.");
-        } else {
-            JourEntity * jour = tmpList.first();
-            stateElement.setAttribute("id", jour->getType());
-            stateElement.setAttribute("datetime", jour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", jour->getComment());
-        }
+        makeStateElement(un, stateElement);
         statesElement.appendChild(stateElement);
     }
 
@@ -832,38 +826,115 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     QDomElement  statesElement  =  doc.createElement("states");
     deviceElement.appendChild(statesElement);
 
+    QDomElement  stateElement1  =  doc.createElement("state");
     QDomElement  stateElement  =  doc.createElement("state");
     if(0 != jour.getType() && !jour.getComment().isEmpty()) {
-        stateElement  =  doc.createElement("state");
-        stateElement.setAttribute("id", jour.getType());
-        stateElement.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
-        stateElement.setAttribute("name", jour.getComment());
-    } else {
-        QString unName;
-        if(nullptr != un)
-            unName = un->getName();
-        QString sql = "SELECT j.* FROM jour j WHERE j.id in ( SELECT MAX(j2.id) FROM jour j2 WHERE j2.type in (0, 1, 10, 20, 21, 100, 101, 110, 111) and j2.object = '" + unName + "')";
-        QList<JourEntity *> tmpList = DataBaseManager::getQueryMSGRecord(sql);
-        if(tmpList.isEmpty()) {
-            stateElement.setAttribute("id", 0);
-            stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", "Неопр. сост.");
-        } else {
-            JourEntity * tmpJour = tmpList.first();
-            stateElement.setAttribute("id", tmpJour->getType());
-            stateElement.setAttribute("datetime", tmpJour->getCdate().toString("yyyy-MM-dd hh:mm:ss"));
-            stateElement.setAttribute("name", tmpJour->getComment());
-        }
+//        stateElement1  =  doc.createElement("state");
+        stateElement1.setAttribute("id", jour.getType());
+        stateElement1.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement1.setAttribute("name", jour.getComment());
+        statesElement.appendChild(stateElement1);
     }
-    statesElement.appendChild(stateElement);
-
-
-
+    if(0 == jour.getType() || jour.getComment().isEmpty()/* || 136 == jour.getType()*/ || 137 == jour.getType()){
+        makeStateElement(un, stateElement);
+        statesElement.appendChild(stateElement);
+    }
 
 //    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
 
     return doc;
 
+}
+
+QDomElement GraphTerminal::makeStateElement(UnitNode *un, QDomElement &stateElement)
+{
+    bool isLockPair = false;
+    UnitNode * unLockSdBlIp = nullptr, * unLockIuBlIp = nullptr;
+    if(1 >= un->getNum2() && 4 >= un->getNum2()) {
+        UnitNode * reciver = un;
+        while(nullptr != reciver) {
+            if(TypeUnitNode::BL_IP == reciver->getType()) {
+                break;
+            }
+            reciver = reciver->getParentUN();
+        }
+        if(nullptr != reciver) {
+            for(const auto& tmpUN : as_const(reciver->getListChilde())) {
+                if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
+                    unLockIuBlIp = tmpUN;
+                    break;
+                }
+            }
+
+            for(const auto& tmpUN : as_const(reciver->getListChilde())) {
+                if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
+                    unLockSdBlIp = tmpUN;
+                    break;
+                }
+            }
+        }
+
+        if(nullptr == unLockSdBlIp || nullptr == unLockIuBlIp)
+            isLockPair = false;
+        else if(0 != unLockSdBlIp->getBazalt())
+            isLockPair = true;
+    }
+    //
+
+    if(isLockPair && TypeUnitNode::SD_BL_IP == un->getType()) {
+        if(Status::Alarm == unLockSdBlIp->getStatus1() &&
+           Status::Off == unLockIuBlIp->getStatus1()) {
+            //Открыто
+            stateElement.setAttribute("id", 111);
+            stateElement.setAttribute("name", "Открыто");
+        } else if(Status::Norm == unLockSdBlIp->getStatus1() &&
+                  Status::On == unLockIuBlIp->getStatus1()) {
+            //Закрыто
+            stateElement.setAttribute("id", 110);
+            stateElement.setAttribute("name", "Закрыто");
+        } else if(Status::Alarm == unLockSdBlIp->getStatus1() &&
+                  Status::On == unLockIuBlIp->getStatus1()) {
+            //Открыто ключом
+            stateElement.setAttribute("id", 113);
+            stateElement.setAttribute("name", "Открыто ключом");
+        } else if(Status::Norm == unLockSdBlIp->getStatus1() &&
+                  Status::Off == unLockIuBlIp->getStatus1()) {
+            //Закрыто ключом
+            stateElement.setAttribute("id", 112);
+            stateElement.setAttribute("name", "Закрыто ключом");
+        }
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && ((un->getStatus1() & Status::Alarm) || (un->getStatus2() & Status::Was))) {
+        //сохранение Тревога или Норма
+        stateElement.setAttribute("id", 20);
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", "Тревога-СРАБОТКА");
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Norm)) {
+        stateElement.setAttribute("id", 1);
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", "Норма");
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus2() & Status::Off)) {
+        stateElement.setAttribute("id", 100);
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", "Выкл");
+    } else if((TypeUnitNode::IU_BL_IP == un->getType()) && (un->getStatus1() & Status::Off)) {
+        stateElement.setAttribute("id", 100);
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", "Выкл");
+    } else if((!isLockPair && TypeUnitNode::SD_BL_IP == un->getType() &&
+               Status::Uncnown != un->getStatus1() &&
+               Status::Uncnown != un->getStatus2()) ||
+              (!isLockPair && TypeUnitNode::IU_BL_IP == un->getType() &&
+               Status::Uncnown != un->getStatus1())) {
+         stateElement.setAttribute("id", 101);
+         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+         stateElement.setAttribute("name", "Вкл");
+     } else {
+        stateElement.setAttribute("id", 0);
+        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        stateElement.setAttribute("name", "Неопр. сост.");
+    }
+    return stateElement;
 }
 
 
@@ -901,3 +972,4 @@ void GraphTerminal::sendAbonent(QByteArray ba) {
         }
     }
 }
+

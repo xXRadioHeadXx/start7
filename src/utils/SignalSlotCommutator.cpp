@@ -86,9 +86,14 @@ void SignalSlotCommutator::emitEndLockWait() const
     emit this->endLockWait();
 }
 
+void SignalSlotCommutator::emitAutoOnOffIU(bool out, UnitNode * un) const
+{
+    emit this->autoOnOffIU(out , un);
+}
+
 void SignalSlotCommutator::emitAutoOnOffIU(UnitNode * un) const
 {
-    emit this->autoOnOffIU(un);
+    emit this->autoOnOffIU(false, un);
 }
 
 void SignalSlotCommutator::emitLostedConnect(UnitNode * un) const
@@ -98,12 +103,22 @@ void SignalSlotCommutator::emitLostedConnect(UnitNode * un) const
 
 void SignalSlotCommutator::emitRequestOnOffCommand(UnitNode * un, bool value) const
 {
-    emit this->requestOnOffCommand(un, value);
+    emit this->requestOnOffCommand(false, un, value);
+}
+
+void SignalSlotCommutator::emitRequestOnOffCommand(bool out, UnitNode * un, bool value) const
+{
+    emit this->requestOnOffCommand(out, un, value);
+}
+
+void SignalSlotCommutator::emitLockOpenCloseCommand(bool out, UnitNode * un, bool value) const
+{
+    emit this->lockOpenCloseCommand(out, un, value);
 }
 
 void SignalSlotCommutator::emitLockOpenCloseCommand(UnitNode * un, bool value) const
 {
-    emit this->lockOpenCloseCommand(un, value);
+    emit this->lockOpenCloseCommand(false, un, value);
 }
 
 void SignalSlotCommutator::emitChangeSelectUN(UnitNode * un) const
@@ -114,4 +129,9 @@ void SignalSlotCommutator::emitChangeSelectUN(UnitNode * un) const
 void SignalSlotCommutator::emitRequestDK(UnitNode * un) const
 {
     emit this->requestDK(un);
+}
+
+void SignalSlotCommutator::emitRequestDK(bool out, UnitNode *un) const
+{
+    emit this->requestDK(out, un);
 }

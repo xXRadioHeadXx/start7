@@ -244,69 +244,17 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      return nullptr;
  }
 
-//QModelIndex TreeModelUnitNode::findeIndexUNL(UnitNode *un,
-//                                             UnitNode *parentUN)
-//{
-//    return this->findeIndexUN(un, 0, parentUN);
-//}
-
 QModelIndex TreeModelUnitNode::findeIndexUNL(UnitNode *tc,
                                              UnitNode *parentTC)
 {
     return this->findeIndexUN(tc, 0, parentTC);
 }
 
-//QModelIndex TreeModelUnitNode::findeIndexUNR(UnitNode *un,
-//                                             UnitNode *parentUN)
-//{
-//    return this->findeIndexUN(un, 4, parentUN);///2
-//}
-
 QModelIndex TreeModelUnitNode::findeIndexUNR(UnitNode *tc,
                                              UnitNode *parentTC)
 {
     return this->findeIndexUN(tc, 4, parentTC);///2
 }
-
-
-//QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *un,
-//                                            int lr,
-//                                            UnitNode *parentUN)
-//{
-//     QModelIndex index;
-
-//     if (0 == parentUN)
-//     {
-//         parentUN = rootItemUN;
-//         if(parentUN == un)
-//         {
-//             qDebug() << "findeIndexUN false 1";
-//             return index;
-//         }
-//     }
-
-//     for(int i(0), n(un->childCount()); i < n; i++)
-//     {
-//         if (parentUN->child(i) == un)
-//         {
-//             return createIndex(i, lr, un);
-//         }
-//         else
-//         {
-//             index = this->findeIndexUN(un,
-//                                        lr,
-//                                        parentUN);///1
-//             if(index.isValid())
-//             {
-//                 qDebug() << "findeIndexUN " << index;
-//                 return index;
-//             }
-//         }
-
-//     }
-//     qDebug() << "findeIndexUN false 2";
-//     return index;
-//}
 
 QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *tc)
 {
@@ -324,7 +272,7 @@ QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *tc,
          parentTC = rootItemUN;
          if(parentTC == tc)
          {
-             qDebug() << "findeIndexUN false 1";
+//             qDebug() << "findeIndexUN false 1";
              return index;
          }
      }
@@ -493,87 +441,6 @@ void TreeModelUnitNode::createProxySortTree()
 
     sortingListItemUN();
 
-//    //добавление новых в sortProxyListItemTC -->
-//    for(int i(0), n(listItemUN.size()); i < n; i++)
-//    {
-//        bool appendKey(true);
-//        for(int j(0); j < sortProxyListItemTC.size(); j++)
-//        {
-//            if(listItemUN.at(i) == sortProxyListItemTC.at(j)->m_un)
-//            {
-//                appendKey = false;
-//                break;
-//            }
-//        }
-
-//        if(appendKey)
-//        {
-//            UnitNode *newTC(new UnitNode);
-//            newTC->insertUN(0, listItemUN.at(i));
-
-//            sortProxyListItemTC.append(newTC);
-//        }
-//    }
-//    //добавление новых в sortProxyListItemTC <--
-
-//    //добавление новых в sortProxyListParentItemTC -->
-//    for(int i(0), n(sortProxyListItemTC.size()); i < n; i++)
-//    {
-//        bool appendKey(true);
-//        for(int j(0); j < sortProxyListParentItemTC.size(); j++)
-//        {
-//            if(sortProxyListParentItemTC.at(j)->numArea == sortProxyListItemTC.at(i)->numArea)
-//            {
-//                appendKey = false;
-//                break;
-//            }
-//        }
-//        if(appendKey)
-//        {
-//            UnitNode *newTC(new UnitNode);
-//            newTC->insertUN(sortProxyListItemTC.at(i)->numArea, 0);
-//            newTC->treeParent = this->rootItemSortUN;
-//            this->rootItemSortUN->appendChild(newTC);
-
-//            sortProxyListParentItemTC.append(newTC);
-//        }
-//    }
-//    //добавление новых в sortProxyListParentItemTC <--
-
-//    //удаление из sortProxyListParentItemTC -->
-//    for(int i(0); i < sortProxyListParentItemTC.size(); i++)
-//    {
-//        bool removeKey(true);
-//        for(int j(0); j < sortProxyListItemTC.size(); j++)
-//        {
-//            if(sortProxyListParentItemTC.at(i)->numArea == sortProxyListItemTC.at(j)->numArea)
-//            {
-//                removeKey = false;
-//                break;
-//            }
-//        }
-//        if(removeKey)
-//        {
-//            sortProxyListParentItemTC.at(i)->treeParent = nullptr;
-//            sortProxyListParentItemTC.at(i)->listChilde.clear();
-//            sortProxyListParentItemTC.removeAt(i);
-//        }
-//    }
-//    //удаление из sortProxyListParentItemTC <--
-//    //добавление sortProxyListItemTC к sortProxyListParentItemTC -->
-//    for(int i(0); i < sortProxyListParentItemTC.size(); i++)
-//    {
-//        for(int j(0); j < sortProxyListItemTC.size(); j++)
-//        {
-//            if(sortProxyListParentItemTC.at(i)->numArea == sortProxyListItemTC.at(j)->numArea)
-//            {
-//                sortProxyListItemTC.at(j)->treeParent = sortProxyListParentItemTC.at(i);
-//                sortProxyListParentItemTC.at(i)->appendChild(sortProxyListItemTC.at(j));
-//            }
-//        }
-//    }
-//    //добавление sortProxyListItemTC к sortProxyListParentItemTC <--
-////    this->endResetModel();
 }
 
 void TreeModelUnitNode::sortingListItemUN()

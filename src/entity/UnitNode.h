@@ -94,8 +94,6 @@ private:
     int MetkaDopuskTime_0;//=0
     int MetkaDopuskTime_1;//=1
 
-
-
     UnitNode *parentUN = nullptr; //родительское устройство
     QList<UnitNode*> listChilde; //список детей
 
@@ -287,6 +285,9 @@ public:
     void deleteChild(int row);
 
     void deleteAll();
+
+    static int adamOffToMs(int adamOff);
+
 
 public slots:
 signals:

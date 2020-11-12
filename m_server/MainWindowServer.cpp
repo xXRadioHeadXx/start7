@@ -11,6 +11,7 @@
 #include <SignalSlotCommutator.h>
 #include <Utils.h>
 #include <SettingUtils.h>
+#include <global.hpp>
 
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
@@ -106,10 +107,6 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SIGNAL(timeout()),
             this,
             SLOT(beatWaitProgressBar()));
-    connect(SignalSlotCommutator::getInstance(),
-            SIGNAL(autoOnOffIU(UnitNode *)),
-            m_portManager,
-            SLOT(requestAutoOnOffIUCommand(UnitNode *)));
 
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(changeSelectUN(UnitNode *)),
@@ -199,8 +196,16 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
     if(TypeUnitNode::GROUP == selUN->getType()) {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + ": \"" + sel->getName() + "\"");
-    } else if(TypeUnitNode::SD_BL_IP == selUN->getType() || TypeUnitNode::IU_BL_IP == selUN->getType()) {
+    } else if(TypeUnitNode::SD_BL_IP == selUN->getType()) {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString());
+    } else if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
+        auto setUN = Utils::findeSetAutoOnOffUN(selUN);
+        QString subStr;
+        if(!setUN.isEmpty()) {
+            subStr.append("(Авто %1с.)");
+            subStr = subStr.arg(UnitNode::adamOffToMs(setUN.toList().first()->getAdamOff()) / 1000);
+        }
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
     } else
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + "\t" + sel->getName());
 
@@ -331,7 +336,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         QMenu * menu = new QMenu(ui->treeView);
         /* Set the actions to the menu */
 
-//        menu->addAction(ui->actionTest);
+        menu->addAction(ui->actionTest);
 
         if(sel->treeChildCount()) {
             if(!ui->treeView->isExpanded(selIndex))
@@ -462,14 +467,19 @@ void MainWindowServer::on_actionUNOn_triggered()
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->requestOnOffCommand(selUN, true);
+
+    const auto& setUn = Utils::findeSetAutoOnOffUN(selUN);
+    if(setUn.isEmpty())
+        this->m_portManager->requestOnOffCommand(false, selUN, true);
+    else
+        this->m_portManager->requestAutoOnOffIUCommand(false, setUn.toList().first());
 }
 
 void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->requestOnOffCommand(selUN, false);
+        this->m_portManager->requestOnOffCommand(false, selUN, false);
 }
 
 void MainWindowServer::on_actionControl_triggered()
@@ -501,6 +511,13 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);
         GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
+
+        if(selUN->getControl()) {
+            selUN->setStatus1(Status::Uncnown);
+            selUN->setStatus2(Status::Uncnown);
+        }
+//        if(selUN->getControl())
+//            GraphTerminal::sendAbonentEventsAndStates(selUN);
     }
 }
 
@@ -545,7 +562,7 @@ void MainWindowServer::on_actionTest_triggered()
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->requestAutoOnOffIUCommand(selUN);
+    Utils::findeSetAutoOnOffUN(selUN);
 }
 
 void MainWindowServer::on_actionDiagnostics_triggered()
@@ -684,7 +701,7 @@ void MainWindowServer::lockOpenClose(bool val)
 {
     if(nullptr == selUN)
         return;
-    this->m_portManager->lockOpenCloseCommand(selUN, val);
+    this->m_portManager->lockOpenCloseCommand(false, selUN, val);
 }
 
 void MainWindowServer::on_actionDataBase_triggered()

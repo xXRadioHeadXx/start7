@@ -29,12 +29,16 @@ public slots:
      void emitStartLockWait(int interval) const;
      void emitStopLockWait() const;
      void emitEndLockWait() const;
+     void emitAutoOnOffIU(bool, UnitNode *) const;
      void emitAutoOnOffIU(UnitNode *) const;
      void emitLostedConnect(UnitNode *) const;
+     void emitRequestOnOffCommand(bool, UnitNode *, bool) const;
      void emitRequestOnOffCommand(UnitNode *, bool) const;
+     void emitLockOpenCloseCommand(bool, UnitNode *, bool) const;
      void emitLockOpenCloseCommand(UnitNode *, bool) const;
      void emitChangeSelectUN (UnitNode *) const;
      void emitRequestDK (UnitNode *) const;
+     void emitRequestDK (bool, UnitNode * un = nullptr) const;
 
 signals:
      void insNewCommandMSG(const quint32 id) const;
@@ -53,11 +57,13 @@ signals:
      void stopLockWait() const;
      void endLockWait() const;
      void autoOnOffIU(UnitNode *) const;
+     void autoOnOffIU(bool, UnitNode *) const;
      void lostConnect(UnitNode *) const;
-     void requestOnOffCommand(UnitNode *, bool) const;
-     void lockOpenCloseCommand(UnitNode *, bool) const;
+     void requestOnOffCommand(bool, UnitNode *, bool) const;
+     void lockOpenCloseCommand(bool, UnitNode *, bool) const;
      void changeSelectUN (UnitNode *) const;
      void requestDK (UnitNode *) const;
+     void requestDK (bool, UnitNode *) const;
 
 };
 
