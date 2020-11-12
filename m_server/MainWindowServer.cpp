@@ -511,6 +511,7 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setD1(selUN->getNum1());
         msgOn.setD2(selUN->getNum2());
         msgOn.setD3(selUN->getNum3());
+        msgOn.setDirection(selUN->getUdpAdress());
         msgOn.setType((selUN->getControl() ? 137 : 136));
         msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);

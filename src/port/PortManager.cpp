@@ -390,6 +390,7 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
             msg.setD1(un->getNum1());
             msg.setD2(un->getNum2());
             msg.setD3(un->getNum3());
+            msg.setDirection(un->getUdpAdress());
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(msg);
         }
@@ -401,6 +402,8 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
         msg.setD1(selUN->getNum1());
         msg.setD2(selUN->getNum2());
         msg.setD3(selUN->getNum3());
+        msg.setDirection(selUN->getUdpAdress());
+
         if(out)
             msg.setComment(trUtf8("Удал. ком. ДК"));
         else
@@ -444,6 +447,8 @@ void PortManager::requestAutoOnOffIUCommand(bool out, UnitNode *selUN) {
                 msg.setD2(selUN->getNum2());
                 msg.setD3(selUN->getNum3());
                 msg.setType(130);
+                msg.setDirection(selUN->getUdpAdress());
+
                 if(out)
                     msg.setComment(trUtf8("Удал. ком. Вкл"));
                 else
@@ -476,6 +481,8 @@ void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)
     msg.setD1(selUN->getNum1());
     msg.setD2(selUN->getNum2());
     msg.setD3(selUN->getNum3());
+    msg.setDirection(selUN->getUdpAdress());
+
     msg.setType((value ? 151 : 150));
     if(out)
         msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
@@ -611,6 +618,8 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
                 msg.setD1(target->getNum1());
                 msg.setD2(target->getNum2());
                 msg.setD3(target->getNum3());
+                msg.setDirection(target->getUdpAdress());
+
                 msg.setType((value ? 130 : 131));
                 if(out)
                     msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
@@ -897,6 +906,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 msg.setD1(un->getNum1());
                 msg.setD2(un->getNum2());
                 msg.setD3(un->getNum3());
+                msg.setDirection(un->getUdpAdress());
 
                 if((!isLockPair && TypeUnitNode::SD_BL_IP == un->getType() &&
                     Status::Uncnown == oldStatus1 &&
@@ -915,6 +925,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msgOn.setD2(un->getNum2());
                     msgOn.setD3(un->getNum3());
                     msgOn.setType(101);
+                    msgOn.setDirection(un->getUdpAdress());
                     msgOn.setComment(QObject::trUtf8("Вкл"));
                     DataBaseManager::insertJourMsg_wS(msgOn);
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
@@ -1170,6 +1181,8 @@ void PortManager::manageOverallReadQueue()
                                     msg.setD1(un->getNum1());
                                     msg.setD2(un->getNum2());
                                     msg.setD3(un->getNum3());
+                                    msg.setDirection(un->getUdpAdress());
+
                                     if(DKCiclStatus::DKDone == un->getDkStatus()) {
                                         msg.setComment(trUtf8("Ком. ДК выполнена"));
                                         msg.setType(3);
@@ -1247,6 +1260,7 @@ void PortManager::unLostedConnect(UnitNode *un) const
             msg.setD1(un->getNum1());
             msg.setD2(un->getNum2());
             msg.setD3(un->getNum3());
+            msg.setDirection(un->getUdpAdress());
             msg.setComment(trUtf8("Нет связи"));
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);

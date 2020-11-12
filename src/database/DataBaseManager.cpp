@@ -717,21 +717,21 @@ QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2,
 //    }
     case JourEntity::oSD: {
         sqlFlt += " (objecttype=3 OR objecttype=33)";  /* СД */
-        if(0 != d1)
+        if(0 < d1)
             sqlFlt += " AND d1=" + QString::number(d1);
-        if(0 != d2)
+        if(0 < d2)
             sqlFlt += " AND d2=" + QString::number(d2);
-        if(0 != d3)
+        if(0 < d3)
             sqlFlt += " AND d3=" + QString::number(d3);
         break;
     }
     case JourEntity::oIU: {
         sqlFlt += " (objecttype=4 OR objecttype=43)";  /* ИУ */
-        if(0 != d1)
+        if(0 < d1)
             sqlFlt += " AND d1=" + QString::number(d1);
-        if(0 != d2)
+        if(0 < d2)
             sqlFlt += " AND d2=" + QString::number(d2);
-        if(0 != d3)
+        if(0 < d3)
             sqlFlt += " AND d3=" + QString::number(d3);
         break;
     }

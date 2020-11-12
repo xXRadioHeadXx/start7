@@ -143,6 +143,7 @@ void GraphTerminal::manageOverallReadQueue()
             msgOn.setObject(trUtf8("Оператор"));
             msgOn.setType(135);
             msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
+            msgOn.setDirection(Utils::hostAddressToString(itm.address()));
             DataBaseManager::insertJourMsg_wS(msgOn);
             GraphTerminal::sendAbonentEventsAndStates(msgOn);
             DataBaseManager::resetAllFlags_wS();
@@ -462,6 +463,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     msgOn.setD1(unTarget->getNum1());
                     msgOn.setD2(unTarget->getNum2());
                     msgOn.setD3(unTarget->getNum3());
+                    msgOn.setDirection(Utils::hostAddressToString(itm.address()));
                     msgOn.setType((unTarget->getControl() ? 137 : 136));
                     msgOn.setComment(trUtf8("Удал. ком. Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
                     DataBaseManager::insertJourMsg_wS(msgOn);
@@ -633,6 +635,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                         msgOn.setObject(trUtf8("Оператор"));
                         msgOn.setType(135);
                         msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
+                        msgOn.setDirection(Utils::hostAddressToString(itm.address()));
                         DataBaseManager::insertJourMsg_wS(msgOn);
                         GraphTerminal::sendAbonentEventsAndStates(msgOn);
                         DataBaseManager::resetAllFlags_wS();
