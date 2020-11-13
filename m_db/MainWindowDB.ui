@@ -433,5 +433,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>comboBox_4</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>pushButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>142</x>
+     <y>214</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>142</x>
+     <y>398</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

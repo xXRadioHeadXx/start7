@@ -5,6 +5,7 @@
 #include <TablePrint.h>
 #include <global.hpp>
 
+GraphTerminal * MainWindowDB::graphTerminal = nullptr;
 
 MainWindowDB::MainWindowDB(QWidget *parent)
     : QMainWindow(parent)
@@ -43,6 +44,7 @@ MainWindowDB::MainWindowDB(QWidget *parent)
     ui->label_9->setVisible(false);
     ui->label_10->setVisible(false);
     ui->label_11->setVisible(false);
+    ui->label_12->setVisible(false);
 
     ui->dateEdit->setVisible(false);
     ui->dateEdit_2->setVisible(false);
@@ -53,6 +55,7 @@ MainWindowDB::MainWindowDB(QWidget *parent)
     ui->comboBox_7->setVisible(false);
     ui->comboBox_8->setVisible(false);
     ui->comboBox_9->setVisible(false);
+    ui->comboBox_4->setVisible(false);
 
     m_dbManager = new DataBaseManager(this);
 
@@ -77,6 +80,16 @@ MainWindowDB::MainWindowDB(QWidget *parent)
 
     ui->tableView->setItemDelegateForColumn(4, new ComboBoxDelegate("reason", this));
     ui->tableView->setItemDelegateForColumn(5, new ComboBoxDelegate("measures", this));
+
+    graphTerminal = loadPortsTcpGraphTerminal();
+
+    QRegExp regExpIP("localhost|((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[\\.]){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])");
+//    QRegExp regExpNetPort("((6553[0-5])|[655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[0-9])");
+    QRegExpValidator *pReg = new QRegExpValidator(regExpIP, this);
+    ui->comboBox_4->setValidator(pReg);
+
+    updComboBoxAddress();
+
 }
 
 MainWindowDB::~MainWindowDB()
@@ -107,11 +120,13 @@ void MainWindowDB::on_comboBox_2_currentIndexChanged(int index)
         ui->label_9->setVisible(true);
         ui->label_10->setVisible(true);
         ui->label_11->setVisible(true);
+        ui->label_12->setVisible(false);
 
         ui->comboBox_6->setVisible(true);
         ui->comboBox_7->setVisible(true);
         ui->comboBox_8->setVisible(true);
         ui->comboBox_9->setVisible(true);
+        ui->comboBox_4->setVisible(false);
 
         break;
     }
@@ -127,11 +142,35 @@ void MainWindowDB::on_comboBox_2_currentIndexChanged(int index)
         ui->label_9->setVisible(true);
         ui->label_10->setVisible(true);
         ui->label_11->setVisible(false);
+        ui->label_12->setVisible(false);
 
         ui->comboBox_6->setVisible(true);
         ui->comboBox_7->setVisible(true);
         ui->comboBox_8->setVisible(true);
         ui->comboBox_9->setVisible(false);
+        ui->comboBox_4->setVisible(false);
+
+        break;
+    }
+    case JourEntity::oSDBLIP:
+    case JourEntity::oIUBLIP: {
+        ui->comboBox_3->clear();
+        ui->comboBox_3->addItem(mapEvent.value(JourEntity::eAllEvent), JourEntity::eAllEvent);
+        ui->comboBox_3->addItem(mapEvent.value(JourEntity::eAlarm), JourEntity::eAlarm);
+        ui->comboBox_3->addItem(mapEvent.value(JourEntity::eFault), JourEntity::eFault);
+        ui->comboBox_3->addItem(mapEvent.value(JourEntity::eCommand), JourEntity::eCommand);
+
+        ui->label_8->setVisible(false);
+        ui->label_9->setVisible(false);
+        ui->label_10->setVisible(false);
+        ui->label_11->setVisible(false);
+        ui->label_12->setVisible(true);
+
+        ui->comboBox_6->setVisible(false);
+        ui->comboBox_7->setVisible(false);
+        ui->comboBox_8->setVisible(false);
+        ui->comboBox_9->setVisible(false);
+        ui->comboBox_4->setVisible(true);
 
         break;
     }
@@ -146,11 +185,13 @@ void MainWindowDB::on_comboBox_2_currentIndexChanged(int index)
         ui->label_9->setVisible(false);
         ui->label_10->setVisible(false);
         ui->label_11->setVisible(false);
+        ui->label_12->setVisible(false);
 
         ui->comboBox_6->setVisible(false);
         ui->comboBox_7->setVisible(false);
         ui->comboBox_8->setVisible(false);
         ui->comboBox_9->setVisible(false);
+        ui->comboBox_4->setVisible(false);
 
         break;
     }
@@ -170,6 +211,7 @@ void MainWindowDB::on_comboBox_currentIndexChanged(int index)
         ui->label_9->setVisible(false);
         ui->label_10->setVisible(false);
         ui->label_11->setVisible(false);
+        ui->label_12->setVisible(false);
 
         ui->dateEdit->setVisible(false);
         ui->dateEdit_2->setVisible(false);
@@ -180,6 +222,7 @@ void MainWindowDB::on_comboBox_currentIndexChanged(int index)
         ui->comboBox_7->setVisible(false);
         ui->comboBox_8->setVisible(false);
         ui->comboBox_9->setVisible(false);
+        ui->comboBox_4->setVisible(false);
 
         break;
     }
@@ -215,6 +258,13 @@ QString MainWindowDB::createEventFilter() {
                                      (JourEntity::TypeObject)ui->comboBox_2->currentData().toInt());
 }
 
+QString MainWindowDB::createDirectionFilter()
+{
+    if(!ui->comboBox_4->isVisible())
+        return "";
+    return DataBaseManager::directionFlt(ui->comboBox_4->currentText());
+}
+
 QString MainWindowDB::createObjectFilter() {
     if(!ui->comboBox_2->isVisible())
         return "";
@@ -241,6 +291,7 @@ QString MainWindowDB::createCompositFilter() {
     QString sqlDateFlt = createDateFilter();
     QString sqlObjectFlt = createObjectFilter();
     QString sqlEventFlt = createEventFilter();
+    QString sqlDirectionFlt = createDirectionFilter();
 
     if(!sqlDateFlt.isEmpty() || !sqlObjectFlt.isEmpty() || !sqlEventFlt.isEmpty()) {
         sqlFlt += " WHERE ";
@@ -258,6 +309,10 @@ QString MainWindowDB::createCompositFilter() {
         if(!sqlDopFlt.isEmpty() && !sqlEventFlt.isEmpty())
             sqlDopFlt += " AND ";
         sqlDopFlt += sqlEventFlt;
+
+        if(!sqlDopFlt.isEmpty() && !sqlDirectionFlt.isEmpty())
+            sqlDopFlt += " AND ";
+        sqlDopFlt += sqlDirectionFlt;
 
         sqlFlt += sqlDopFlt;
     }
@@ -313,6 +368,11 @@ void MainWindowDB::updComboBoxTakenMeasures() {
     updComboBox(DataBaseManager::getMeasuresGroup(), ui->comboBoxTakenMeasures);
 }
 
+void MainWindowDB::updComboBoxAddress()
+{
+    updComboBox(DataBaseManager::getDirectionGroup(), ui->comboBox_4);
+}
+
 void MainWindowDB::updComboBox(QList<QString> lst, QComboBox * cmb) {
     cmb->clear();
     cmb->addItems(lst);
@@ -364,6 +424,8 @@ void MainWindowDB::on_tableView_clicked(const QModelIndex &index)
     } else {
         ui->comboBoxTakenMeasures->setEditText(sel->getMeasures());
     }
+
+     GraphTerminal::sendAbonentEventBook(selMsg);
 }
 
 void MainWindowDB::on_toolButtonRemoveReason_clicked()
@@ -459,4 +521,28 @@ void MainWindowDB::updSqlQueryStr(QString sql)
 void MainWindowDB::setCurrentSqlQueryStr(const QString &value)
 {
     currentSqlQueryStr = value;
+}
+
+GraphTerminal * MainWindowDB::loadPortsTcpGraphTerminal(QString fileName) {
+
+    QSettings settings(fileName, QSettings::IniFormat);
+#if (defined (_WIN32) || defined (_WIN64))
+    settings.setIniCodec( "Windows-1251" );
+#else
+    settings.setIniCodec( "UTF-8" );
+#endif
+
+    settings.beginGroup("INTEGRATION");
+    int nPort = settings.value( "Port", -1 ).toInt();
+    settings.endGroup();
+
+    if(-1 != nPort)
+        return new GraphTerminal(nPort);
+
+    return nullptr;
+}
+
+void MainWindowDB::on_comboBox_4_editTextChanged(const QString &arg1)
+{
+
 }

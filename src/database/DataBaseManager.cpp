@@ -535,8 +535,8 @@ QList<QString> DataBaseManager::getReasonGroup() {
     sql = " SELECT reason \
             FROM public.jour \
             WHERE reason is not null and reason != '' \
-            group by reason, mdate \
-            order by mdate DESC, reason ASC ";
+            group by reason \
+            order by reason ASC ";
 
     QSqlQuery query(m_db());
     query.prepare(sql);
@@ -560,8 +560,8 @@ QList<QString> DataBaseManager::getMeasuresGroup() {
     sql = " SELECT measures \
             FROM public.jour \
             WHERE measures is not null and measures != '' \
-            group by measures, mdate \
-            order by mdate DESC, measures ASC ";
+            group by measures \
+            order by measures ASC ";
 
     QSqlQuery query(m_db());
     query.prepare(sql);
@@ -572,6 +572,31 @@ QList<QString> DataBaseManager::getMeasuresGroup() {
         {
             QSqlRecord rec = query.record();
             result.append(rec.value("measures").toString());
+        }
+    }
+//    qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";
+    return result;
+}
+
+QList<QString> DataBaseManager::getDirectionGroup() {
+    QList<QString> result;
+
+    QString sql;
+    sql = " SELECT direction \
+            FROM public.jour \
+            WHERE direction is not null and direction != '' \
+            group by direction \
+            order by direction ASC ";
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            QSqlRecord rec = query.record();
+            result.append(rec.value("direction").toString());
         }
     }
 //    qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";
@@ -706,6 +731,15 @@ QString DataBaseManager::connectObjectFlt(JourEntity::TypeConnectObject coType) 
         sqlFlt = "(" + sqlFlt + ")";
     return sqlFlt;
 
+}
+
+QString DataBaseManager::directionFlt(QString direction)
+{
+    if(direction.isEmpty())
+        return "";
+    QString sqlFlt;
+    sqlFlt += " (direction='" + direction + "') ";
+    return sqlFlt;
 }
 
 QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2, int d3) {
