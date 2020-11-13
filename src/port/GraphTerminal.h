@@ -23,7 +23,7 @@ private:
     void procEventBook(QDomElement root);
     void procEventsAndStates(DataQueueItem itm);
     void procAlarmsReset(QDomElement root);
-    void procDbStart(QDomElement root);
+    void procDbStart(DataQueueItem itm);
 
     QDomDocument makeInitialStatus(QString docType = "InitialStatus");
     QDomDocument makeEventsAndStates(QString docType = "EventsAndStates");
@@ -31,7 +31,8 @@ private:
     static QDomDocument makeEventsAndStates(JourEntity jour);
     static QDomDocument makeEventsAndStates(UnitNode *un);
     static QDomDocument makeEventsAndStates(UnitNode *un, JourEntity jour);
-    static QDomElement makeStateElement(UnitNode * un, QDomElement &stateElement);
+    static QDomElement makeActualStateElement(UnitNode * un, QDomElement &stateElement);
+    static QDomDocument makeEventBook(JourEntity jour);
 
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
@@ -57,6 +58,7 @@ public slots:
     void pushReadQueue(const DataQueueItem &value);
     void pushOverallWriteQueue(const DataQueueItem &value);
 
+    static void sendAbonentEventBook(JourEntity jour);
     static void sendAbonentEventsAndStates(JourEntity jour);
     static void sendAbonentEventsAndStates(UnitNode *un);
     static void sendAbonentEventsAndStates(UnitNode *un, JourEntity jour);

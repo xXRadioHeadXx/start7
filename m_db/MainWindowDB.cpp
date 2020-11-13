@@ -3,6 +3,8 @@
 
 #include <ComboBoxDelegate.h>
 #include <TablePrint.h>
+#include <global.hpp>
+
 
 MainWindowDB::MainWindowDB(QWidget *parent)
     : QMainWindow(parent)
@@ -21,13 +23,13 @@ MainWindowDB::MainWindowDB(QWidget *parent)
 //    ui->dateEdit->setTime(QTime::fromString("23:59.99", "hh:MM.ms"));
 
 
-    QMap<int, QString> mapObject = JourEntity::getMapTypeObject();
-    for(int key : mapObject.keys()) {
+    const auto& mapObject = JourEntity::getMapTypeObject(); // QMap<int, QString>
+    for(int key : as_const(mapObject.keys())) {
         ui->comboBox_2->addItem(mapObject.value(key), key);
     }
 
-    QMap<int, QString> mapConnectObject = JourEntity::getMapTypeConnectObject();
-    for(int key : mapConnectObject.keys()) {
+    const auto& mapConnectObject = JourEntity::getMapTypeConnectObject(); // QMap<int, QString>
+    for(int key : as_const(mapConnectObject.keys())) {
         ui->comboBox_9->addItem(mapConnectObject.value(key), key);
     }
 

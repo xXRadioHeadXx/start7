@@ -112,6 +112,10 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SIGNAL(changeSelectUN(UnitNode *)),
             this,
             SLOT(changeSelectUN(UnitNode *)));
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(forcedNewDuty(bool)),
+            this,
+            SLOT(forcedNewDuty(bool)));
 
     ui->treeView->resizeColumnToContents(0);
 
@@ -203,7 +207,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
         QString subStr;
         if(!setUN.isEmpty()) {
             subStr.append("(Авто %1с.)");
-            subStr = subStr.arg(UnitNode::adamOffToMs(setUN.toList().first()->getAdamOff()) / 1000);
+            subStr = subStr.arg(UnitNode::adamOffToMs(setUN.values().first()->getAdamOff()) / 1000);
         }
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
     } else
@@ -234,6 +238,8 @@ void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
     } else {
         ui->comboBoxTakenMeasures->setEditText(sel->getMeasures());
     }
+
+    GraphTerminal::sendAbonentEventBook(sel);
 }
 
 void MainWindowServer::on_toolButtonReason_clicked()
@@ -472,7 +478,7 @@ void MainWindowServer::on_actionUNOn_triggered()
     if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, selUN, true);
     else
-        this->m_portManager->requestAutoOnOffIUCommand(false, setUn.toList().first());
+        this->m_portManager->requestAutoOnOffIUCommand(false, setUn.values().first());
 }
 
 void MainWindowServer::on_actionUNOff_triggered()
@@ -672,24 +678,32 @@ void MainWindowServer::on_actionNewScheme_triggered()
             }
         }
 
-        JourEntity msg;
-        msg.setObject(trUtf8("Оператор"));
-        msg.setType(902);
-        msg.setComment(trUtf8("Начата новая смена"));
-        msg.setFlag(0);
-
-        QString sql = " update public.jour set flag = 0 where flag != 0 ;";
-        DataBaseManager::executeQuery(sql);
-
-        DataBaseManager::insertJourMsg_wS(msg);
-        GraphTerminal::sendAbonentEventsAndStates(msg);
-
-        DataBaseManager::setIdStartLastDuty();
-
-        modelMSG->updateAllRecords();
-
-        initLabelOperator();
+        forcedNewDuty(false);
     }
+}
+
+void MainWindowServer::forcedNewDuty(bool out)
+{
+    JourEntity msg;
+    msg.setObject(trUtf8("Оператор"));
+    msg.setType(902);
+    if(out)
+        msg.setComment(trUtf8("Начата новая смена"));
+    else
+        msg.setComment(trUtf8("Удал. ком. Начата новая смена"));
+    msg.setFlag(0);
+
+    QString sql = " update public.jour set flag = 0 where flag != 0 ;";
+    DataBaseManager::executeQuery(sql);
+
+    DataBaseManager::insertJourMsg_wS(msg);
+    GraphTerminal::sendAbonentEventsAndStates(msg);
+
+    DataBaseManager::setIdStartLastDuty();
+
+    modelMSG->updateAllRecords();
+
+    initLabelOperator();
 }
 
 void MainWindowServer::on_actionOpen_triggered()

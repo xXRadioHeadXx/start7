@@ -39,6 +39,7 @@ public slots:
      void emitChangeSelectUN (UnitNode *) const;
      void emitRequestDK (UnitNode *) const;
      void emitRequestDK (bool, UnitNode * un = nullptr) const;
+     void emitForcedNewDuty(bool out) const;
 
 signals:
      void insNewCommandMSG(const quint32 id) const;
@@ -64,6 +65,7 @@ signals:
      void changeSelectUN (UnitNode *) const;
      void requestDK (UnitNode *) const;
      void requestDK (bool, UnitNode *) const;
+     void forcedNewDuty(bool out) const;
 
 };
 

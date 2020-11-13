@@ -105,6 +105,7 @@ bool TablePrint::print()
     QFile tmpf("tmpprint");
     if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Can`t read file tmpprint";
+        delete loc_document;
         return false;
     } else {
         QTextStream sin(&tmpf);

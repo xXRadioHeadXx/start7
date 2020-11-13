@@ -440,21 +440,23 @@ void PortManager::requestAutoOnOffIUCommand(bool out, UnitNode *selUN) {
                 appLsWaiter(tmpOOIUW);
 //                tmpOOIUW->startFirstRequest();
 
-                JourEntity msg;
-                msg.setObject(selUN->getName());
-                msg.setObjecttype(selUN->getType());
-                msg.setD1(selUN->getNum1());
-                msg.setD2(selUN->getNum2());
-                msg.setD3(selUN->getNum3());
-                msg.setType(130);
-                msg.setDirection(selUN->getUdpAdress());
+                if(needJour) {
+                    JourEntity msg;
+                    msg.setObject(selUN->getName());
+                    msg.setObjecttype(selUN->getType());
+                    msg.setD1(selUN->getNum1());
+                    msg.setD2(selUN->getNum2());
+                    msg.setD3(selUN->getNum3());
+                    msg.setType(130);
+                    msg.setDirection(selUN->getUdpAdress());
 
-                if(out)
-                    msg.setComment(trUtf8("Удал. ком. Вкл"));
-                else
-                    msg.setComment(trUtf8("Послана ком. Вкл"));
-                DataBaseManager::insertJourMsg_wS(msg);
-                GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
+                    if(out)
+                        msg.setComment(trUtf8("Удал. ком. Вкл"));
+                    else
+                        msg.setComment(trUtf8("Послана ком. Вкл"));
+                    DataBaseManager::insertJourMsg_wS(msg);
+                    GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
+                }
 
                 break;
             }
