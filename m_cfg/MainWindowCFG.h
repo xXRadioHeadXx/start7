@@ -20,6 +20,8 @@ private:
 
     QErrorMessage dialog;
 
+    QString get_unit_name(int type);
+
 
 
     bool can_i_add_or_not(int type_parrent, int type_child);
@@ -86,6 +88,20 @@ private:
     int selected_type;
 
     QModelIndex current_index;
+
+    QString str_GROUP;
+    QString str_KL;
+    QString str_SD_BL_IP;
+    QString str_IU_BL_IP;
+    QString str_TG;
+    QString str_RLM_KRL;
+    QString str_RLM_C;
+    QString str_BOD_T4K_M;
+    QString str_Y4_T4K_M;
+    QString str_DD_T4K_M;
+    QString str_BOD_SOTA;
+    QString str_Y4_SOTA;
+    QString str_DD_SOTA;
 
 public:
     MainWindowCFG(QWidget *parent = nullptr);

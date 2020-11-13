@@ -10,7 +10,40 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowCFG)
 {
+
+    str_GROUP="Группа";
+    str_SD_BL_IP="БЛ-IP СД";
+    str_IU_BL_IP="БЛ-IP ИУ";
+    str_KL = "КЛ1 (концентратор) СД";
+    str_TG ="Точка/Гарда";
+    str_RLM_KRL = "РИФ-РЛМ/КРЛ/Трасса";
+    str_RLM_C = "РИФ-РЛМ-С";
+    str_BOD_T4K_M = "БОД Точка-М/Гарда";
+    str_Y4_T4K_M = "Участок Точка-М/Гарда";
+    str_DD_T4K_M = "ДД Точка-М/Гарда";
+    str_BOD_SOTA = "БОД Сота/Сота-М";
+    str_Y4_SOTA = "Участок Сота/Сота-М";
+    str_DD_SOTA = "ДД Сота/Сота-М";
+
+
+
+
     ui->setupUi(this);
+
+    this->ui->uType_combobox->addItem(str_GROUP);
+    this->ui->uType_combobox->addItem(str_SD_BL_IP);
+    this->ui->uType_combobox->addItem(str_IU_BL_IP);
+    this->ui->uType_combobox->addItem(str_KL);
+    this->ui->uType_combobox->addItem(str_TG);
+    this->ui->uType_combobox->addItem(str_RLM_KRL);
+    this->ui->uType_combobox->addItem(str_RLM_C);
+    this->ui->uType_combobox->addItem(str_BOD_T4K_M);
+    this->ui->uType_combobox->addItem(str_Y4_T4K_M);
+    this->ui->uType_combobox->addItem(str_DD_T4K_M);
+    this->ui->uType_combobox->addItem(str_BOD_SOTA);
+    this->ui->uType_combobox->addItem(str_Y4_SOTA);
+    this->ui->uType_combobox->addItem(str_DD_SOTA);
+
   //  this->current_index=nullptr;
 
 
@@ -35,6 +68,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     for(int i=1;i<100;i++)
     {
+
+
     this->ui->BOD_T4K_M_comboBox_Num1->addItem(QString::number(i));
     this->ui->Y4_T4K_M_comboBox_Num1->addItem(QString::number(i));
     this->ui->Y4_T4K_M_comboBox_Num2->addItem(QString::number(i));
@@ -62,6 +97,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
+    this->ui->stackedWidget->setCurrentWidget(this->ui->CD_BL_IP_groupbox);
+
+
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -269,56 +307,56 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     switch(int_Type)
     {
     case TypeUnitNode::GROUP:
-    Type.append("Группа");
+    Type.append(str_GROUP);
     break;
 
     case TypeUnitNode::SD_BL_IP:
-    Type.append("СД БЛ-IP");
+    Type.append(str_SD_BL_IP);
     break;
 
     case TypeUnitNode::IU_BL_IP:
-    Type.append("ИУ БЛ-IP");
+    Type.append(str_IU_BL_IP);
     break;
 
     case TypeUnitNode::TG:
-    Type.append("Точка/Гарда");
+    Type.append(str_TG);
     break;
 
     case TypeUnitNode::RLM_KRL:
-    Type.append("РИФ-РЛМ/КРЛ/Трасса");
+    Type.append(str_TG);
     break;
 
     case TypeUnitNode::RLM_C:
-    Type.append("РИФ-РЛМ-С");
+    Type.append(str_RLM_C);
     break;
 
     case TypeUnitNode::BOD_T4K_M:
-    Type.append("БОД Точка-М/Гряда");
+    Type.append(str_BOD_T4K_M);
     break;
 
     case TypeUnitNode::Y4_T4K_M:
-    Type.append("Участок Точка-М/Гряда");
+    Type.append("Участок Точка-М/Гарда");
     break;
 
     case TypeUnitNode::BOD_SOTA:
-    Type.append("БОД Сота/Сота-М");
+    Type.append(str_BOD_SOTA);
     break;
 
     case TypeUnitNode::Y4_SOTA:
-    Type.append("Участок Сота/Сота-М");
+    Type.append(str_Y4_SOTA);
     break;
 
     case TypeUnitNode::DD_SOTA:
-    Type.append("ДД Сота/Сота-М");
+    Type.append(str_DD_SOTA);
     break;
  /*
-    if(arg1=="БОД Сота/Сота-М")
+    if(arg1==str_BOD_SOTA)
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
     else
-    if(arg1=="Участок Сота/Сота-М")
+    if(arg1==str_Y4_SOTA)
     this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
         else
-    if(arg1=="ДД Сота/Сота-М")
+    if(arg1==str_DD_SOTA)
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
 */
 
@@ -337,54 +375,54 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
 int MainWindowCFG::Type_from_string_to_int(QString Type)
 {
 
-    if(Type=="Группа")
+    if(Type==str_GROUP)
         return TypeUnitNode::GROUP;
 
-    if(Type=="СД БЛ-IP")
+    if(Type==str_SD_BL_IP)
         return TypeUnitNode::SD_BL_IP;
 
-    if(Type=="БОД Сота/Сота-М")
+    if(Type==str_BOD_SOTA)
         return TypeUnitNode::BOD_SOTA;
 
-    if(Type=="Участок Сота/Сота-М")
+    if(Type==str_Y4_SOTA)
         return TypeUnitNode::Y4_SOTA;
 
-    if(Type=="ДД Сота/Сота-М")
+    if(Type==str_DD_SOTA)
         return TypeUnitNode::DD_SOTA;
     /*
     case TypeUnitNode::GROUP:
 break;
 
 
-    Type.append("Группа");
+    Type.append(str_GROUP);
     break;
 
     case TypeUnitNode::SD_BL_IP:
-    Type.append("СД БЛ-IP");
+    Type.append(str_SD_BL_IP);
     break;
 
     case TypeUnitNode::IU_BL_IP:
-    Type.append("ИУ БЛ-IP");
+    Type.append(str_IU_BL_IP);
     break;
 
     case TypeUnitNode::TG:
-    Type.append("Точка/Гарда");
+    Type.append(str_TG);
     break;
 
     case TypeUnitNode::RLM_KRL:
-    Type.append("РИФ-РЛМ/КРЛ/Трасса");
+    Type.append(str_RLM_KRL);
     break;
 
     case TypeUnitNode::RLM_C:
-    Type.append("РИФ-РЛМ-С");
+    Type.append(str_RLM_C);
     break;
 
     case TypeUnitNode::BOD_T4K_M:
-    Type.append("БОД Точка-М/Гряда");
+    Type.append(str_BOD_T4K_M);
     break;
 
     case TypeUnitNode::Y4_T4K_M:
-    Type.append("Участок Точка-М/Гряда");
+    Type.append("Участок Точка-М/Гарда");
     break;
     */
 }
@@ -440,51 +478,52 @@ void MainWindowCFG::update_map()
 void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 {
     this->ui->type_pxm_label->clear();
-    if(arg1=="Группа"){
+    if(arg1==str_GROUP){
     this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
     }
     else
-    if(arg1=="СД БЛ-IP"){
-
+    if(arg1==str_SD_BL_IP){
+    qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->CD_BL_IP_groupbox);
     }
     else
-    if(arg1=="ИУ БЛ-IP")
+    if(arg1==str_IU_BL_IP)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
     }
     else
-    if(arg1=="Точка/Гарда")
+    if(arg1==str_TG)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
     }
     else
-    if(arg1=="РИФ-РЛМ/КРЛ/Трасса")
+    if(arg1==str_RLM_KRL)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
     }
     else
-    if(arg1=="РИФ-РЛМ-С")
+    if(arg1==str_RLM_C)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
     }
     else
-    if(arg1=="БОД Точка-М/Гряда")
+    if(arg1==str_BOD_T4K_M)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
     }
     else
-    if(arg1=="Участок Точка-М/Гряда")
+    if(arg1=="Участок Точка-М/Гарда")
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
     }
-    if(arg1=="БОД Сота/Сота-М")
+    if(arg1==str_BOD_SOTA)
     {
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
@@ -492,19 +531,20 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
  // this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
     }
     else
-    if(arg1=="Участок Сота/Сота-М")
+    if(arg1==str_Y4_SOTA)
     {
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
     }
     else
-    if(arg1=="ДД Сота/Сота-М")
+    if(arg1==str_DD_SOTA)
     {
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
     }
 
     else
     {
+        qDebug()<<"EMPTY";
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
     }
 
@@ -659,6 +699,11 @@ void MainWindowCFG::on_pushButton_clicked()
    add_unit();
 }
 
+
+QString MainWindowCFG::get_unit_name(int type)
+{
+
+}
 
 bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
 {
@@ -879,13 +924,13 @@ bool MainWindowCFG::add_unit()
 
     /*
     QString type_srtring=this->ui->uType_combobox->currentText();
-    if(type_srtring=="Группа")
+    if(type_srtring==str_GROUP)
     type=GROUP;
     else
-    if(type_srtring=="СД БЛ-IP")
+    if(type_srtring==str_SD_BL_IP)
     type=SD_BL_IP;
     else
-    if(type_srtring=="ИУ БЛ-IP")
+    if(type_srtring==str_IU_BL_IP)
     type=IU_BL_IP;
     else
     res=0;
@@ -1039,12 +1084,6 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 
 
 
-    this->ui->CD_comboBox_Num2->setCurrentText(QString::number(unit->getNum2()));
-
-
-    this->ui->CD_DK_checkBox->setChecked(DK);
-    this->ui->CD_Bazalt_checkBox->setChecked(Bazalt);
-    this->ui->CD_connectblock_checkBox->setChecked(connectblock);
 
 }
 
@@ -1216,11 +1255,6 @@ void MainWindowCFG::get_option_BL_IP(UnitNode *unit)
 
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 {
-    unit->setName(this->ui->uName_lineedit->text());
-    unit->setNum2(this->ui->CD_comboBox_Num2->currentText().toInt());
-    unit->setDK(this->ui->CD_DK_checkBox->isChecked()?1:0);
-    unit->setBazalt(this->ui->CD_Bazalt_checkBox->isChecked()?1:0);
-    unit->setConnectBlock(this->ui->CD_connectblock_checkBox->isChecked()?1:0);
 
     qDebug()<<"Name: "<<unit->getName()
             <<" Type:"<<this->Type_from_int_to_string(unit->getType())
