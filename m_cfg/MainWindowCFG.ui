@@ -551,7 +551,7 @@
                </size>
               </property>
              </widget>
-             <widget class="QComboBox" name="CD_BL_IP_num_combobox">
+             <widget class="QComboBox" name="SD_BL_IP_num_combobox">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -614,7 +614,7 @@
                <string>СД</string>
               </property>
              </widget>
-             <widget class="QComboBox" name="CD_BL_IP_UDP_RS485_combobox">
+             <widget class="QComboBox" name="SD_BL_IP_UDP_RS485_combobox">
               <property name="geometry">
                <rect>
                 <x>110</x>
@@ -634,7 +634,7 @@
                </property>
               </item>
              </widget>
-             <widget class="QStackedWidget" name="CD_BL_IP_UDP_RS485_stacked_2">
+             <widget class="QStackedWidget" name="SD_BL_IP_UDP_RS485_stacked">
               <property name="geometry">
                <rect>
                 <x>340</x>
@@ -644,9 +644,9 @@
                </rect>
               </property>
               <property name="currentIndex">
-               <number>0</number>
+               <number>1</number>
               </property>
-              <widget class="QWidget" name="BOD_UDP_2">
+              <widget class="QWidget" name="SD_UDP">
                <widget class="QLabel" name="label_63">
                 <property name="geometry">
                  <rect>
@@ -712,8 +712,8 @@
                 </property>
                </widget>
               </widget>
-              <widget class="QWidget" name="BOD_RS485_2">
-               <widget class="QComboBox" name="CD_BL_IP_M_port_combobox_2">
+              <widget class="QWidget" name="SD_RS485">
+               <widget class="QComboBox" name="SD_BL_IP_M_port_combobox">
                 <property name="geometry">
                  <rect>
                   <x>10</x>

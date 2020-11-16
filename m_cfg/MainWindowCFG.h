@@ -22,10 +22,12 @@ private:
 
     QString get_unit_name(int type);
 
-
+    QMenu* contextMenu;
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
+
+    bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
 
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
@@ -133,5 +135,7 @@ private slots:
     void on_pushButton_9_clicked();
     void on_pushButton_moveUp_clicked();
     void on_pushButton_moveDown_clicked();
+    void on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+    void on_treeView_customContextMenuRequested(const QPoint &pos);
 };
 #endif // MAINWINDOWCFG_H

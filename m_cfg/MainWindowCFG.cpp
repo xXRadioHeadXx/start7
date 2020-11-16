@@ -60,6 +60,11 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     ui->treeView->setColumnWidth(2,1000);
 
 
+     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+     contextMenu = new QMenu(ui->treeView);
+     contextMenu->addAction("hello");
+     contextMenu->addAction("world");
+
  //   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
  //    qDebug()<<"patch = "<<patch;
  //   this->modelTreeUN->loadSettings(patch);
@@ -523,6 +528,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
     }
+    else
     if(arg1==str_BOD_SOTA)
     {
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
@@ -743,7 +749,26 @@ if(false==pass_to_add_DD_SOTA(unit,parrent))
     return false;
 }
 
+if(unit->getType()==TypeUnitNode::SD_BL_IP)
+{
+if(false==this->pass_to_add_SD_BL_IP(unit,parrent))
+    return false;
+}
+
 return true;
+}
+
+bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
+{
+    //СД может быть добавлен только к группе или к системе
+        if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
+        {
+         //   dialog.showMessage("СД может быть добавлен только к группе или к системе ");
+            dialog.exec();
+            return false;
+
+        }
+        return true;
 }
 
 bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
@@ -1264,6 +1289,11 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
             <<" connectblock:"<<QString::number(unit->getConnectBlock())
             <<" UdpUse:"<<QString::number(unit->getUdpUse())
             <<" UdpAdress:"<<unit->getUdpAdress();
+
+    unit->setNum1(0);
+    unit->setNum2(this->ui->SD_BL_IP_num_combobox->currentText().toInt());
+    unit->setNum3(this->ui->SD_BL_IP_M_port_combobox->currentText().toInt());
+
 }
 
 void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
@@ -1597,4 +1627,24 @@ void MainWindowCFG::on_pushButton_moveDown_clicked()
 
         this->modelTreeUN->moveUNDown(current);
 
+}
+
+void MainWindowCFG::on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->SD_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+       this->ui->SD_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->SD_UDP);
+    else
+  //   this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+        this->ui->SD_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->SD_RS485);
+
+}
+
+void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
+{
+    qDebug()<<"[ContextMenuRequested]";
+    QModelIndex index = ui->treeView->indexAt(pos);
+        if (index.isValid()) {
+            qDebug()<<"[.]";
+            contextMenu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+        }
 }
