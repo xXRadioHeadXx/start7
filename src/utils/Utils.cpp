@@ -187,162 +187,196 @@ void Utils::fillDiagnosticTable(QTableWidget *table, UnitNode * selUN)
         if(nullptr == selUN || nullptr == table)
             return;
 
-        UnitNode * parent = selUN->getParentUN();
-        if((TypeUnitNode::SD_BL_IP == selUN->getType() ||
-                TypeUnitNode::IU_BL_IP == selUN->getType()) &&
-                nullptr != parent) {
-            while(TypeUnitNode::BL_IP != parent->getType()) {
-                parent = parent->getParentUN();
-                if(nullptr == parent)
-                    return;
-            }
-        } else {
-            return;
-        }
-
-        table->setColumnWidth(0, 60);
-        table->setColumnWidth(1, 150);
-        table->setColumnWidth(3, 150);
-
-        table->setItem(0,0, new QTableWidgetItem(QObject::trUtf8("Параметр"))); // ("Параметр"));
-        table->setItem(0,1, new QTableWidgetItem(QObject::trUtf8("Вход"))); // ("Вход"));
-        table->setItem(0,2, new QTableWidgetItem(QObject::trUtf8("Статус"))); // ("Статус"));
-
-        table->setItem(1,0, new QTableWidgetItem(QObject::trUtf8("СД1"))); // ("СД1"));
-        table->setItem(2,0, new QTableWidgetItem(QObject::trUtf8("СД2"))); // ("СД2"));
-        table->setItem(3,0, new QTableWidgetItem(QObject::trUtf8("СД3"))); // ("СД3"));
-        table->setItem(4,0, new QTableWidgetItem(QObject::trUtf8("СД4"))); // ("СД4"));
-        table->setItem(5,0, new QTableWidgetItem(QObject::trUtf8("СД5"))); // ("СД5"));
-        table->setItem(6,0, new QTableWidgetItem(QObject::trUtf8("СД6"))); // ("СД6"));
-        table->setItem(7,0, new QTableWidgetItem(QObject::trUtf8("СД7"))); // ("СД7"));
-        table->setItem(8,0, new QTableWidgetItem(QObject::trUtf8("СД8"))); // ("СД8"));
-
-        table->setItem(9,0, new QTableWidgetItem(""));
-        table->setItem(9,1, new QTableWidgetItem(QObject::trUtf8("Выход"))); // ("Выход"));
-        table->setItem(9,2, new QTableWidgetItem(QObject::trUtf8("Статус"))); // ("Статус"));
-
-        table->setItem(10,0, new QTableWidgetItem(QObject::trUtf8("ДК"))); // ("ДК"));
-        table->setItem(11,0, new QTableWidgetItem(QObject::trUtf8("ИУ1"))); // ("ИУ1"));
-        table->setItem(12,0, new QTableWidgetItem(QObject::trUtf8("ИУ2"))); // ("ИУ2"));
-        table->setItem(13,0, new QTableWidgetItem(QObject::trUtf8("ИУ3"))); // ("ИУ3"));
-        table->setItem(14,0, new QTableWidgetItem(QObject::trUtf8("ИУ4"))); // ("ИУ4"));
-
-        table->setItem(1,1, new QTableWidgetItem("?"));
-        table->setItem(1,2, new QTableWidgetItem("?"));
-        table->setItem(2,1, new QTableWidgetItem("?"));
-        table->setItem(2,2, new QTableWidgetItem("?"));
-        table->setItem(3,1, new QTableWidgetItem("?"));
-        table->setItem(3,2, new QTableWidgetItem("?"));
-        table->setItem(4,1, new QTableWidgetItem("?"));
-        table->setItem(4,2, new QTableWidgetItem("?"));
-        table->setItem(5,1, new QTableWidgetItem("?"));
-        table->setItem(5,2, new QTableWidgetItem("?"));
-        table->setItem(6,1, new QTableWidgetItem("?"));
-        table->setItem(6,2, new QTableWidgetItem("?"));
-        table->setItem(7,1, new QTableWidgetItem("?"));
-        table->setItem(7,2, new QTableWidgetItem("?"));
-        table->setItem(8,1, new QTableWidgetItem("?"));
-        table->setItem(8,2, new QTableWidgetItem("?"));
-
-        table->setItem(10,1, new QTableWidgetItem("?"));
-        table->setItem(10,2, new QTableWidgetItem("?"));
-
-        table->setItem(11,1, new QTableWidgetItem("?"));
-        table->setItem(11,2, new QTableWidgetItem(""));
-        table->setItem(12,1, new QTableWidgetItem("?"));
-        table->setItem(12,2, new QTableWidgetItem(""));
-        table->setItem(13,1, new QTableWidgetItem("?"));
-        table->setItem(13,2, new QTableWidgetItem(""));
-        table->setItem(14,1, new QTableWidgetItem("?"));
-        table->setItem(14,2, new QTableWidgetItem(""));
-
-        for(int i = 0, n = 3; i < n; i++)
-            for(int j = 0, m = 15; j < m; j++)
-                table->item(j, i)->setBackground(cellGray);
-
-        if(TypeUnitNode::BL_IP == parent->getType()) {
-            int row = 10;
-
-            quint8 status2 = parent->getStatus2();
-            if(status2 & Status::Was) {
-                table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Было"))); // "Тревога"
-                table->item(row, 2)->setBackground(cellRed);
-            } else if(status2 & Status::Not) {
-                table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Норма"
-                table->item(row, 2)->setBackground(cellGreen);
-            }
-
-            quint8 status1 = parent->getStatus1();
-            if(status1 & Status::Exists) {
-                table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Есть"))); // "Было"
-                table->item(row, 1)->setBackground(cellRed);
-            } else if(status1 & Status::Not) {
-                table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Нет"
-                table->item(row, 1)->setBackground(cellGreen);
-            }
-        }
-
-        QList<UnitNode *> tmpLs = parent->getListChilde();
-        for(UnitNode * un : tmpLs) {
-            quint8 status1 = un->getStatus1();
-            quint8 status2 = un->getStatus2();
-            int row = -1;
-
-            if((status1 & Status::NoConnection) && (status2 & Status::NoConnection)) {
-                if(TypeUnitNode::SD_BL_IP == un->getType()) {
-                    row = un->getNum2();
-                } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
-                    row = 10 + un->getNum2();
-                }
-                table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Нет связи"))); // "Норма"
-                table->item(row, 1)->setBackground(cellYellow);
-            } else if(TypeUnitNode::SD_BL_IP == un->getType()) {
-                row = un->getNum2();
-                if(status1 & Status::Alarm) {
-                    table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Тревога"))); // "Тревога"
-                    table->item(row, 1)->setBackground(cellRed);
-                }
-                else if(status1 & Status::Norm) {
-                    table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Норма"))); // "Норма"
-                    table->item(row, 1)->setBackground(cellGreen);
-                }
-
-                if(status2 & Status::Was) {
-                    table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Было"))); // "Было"
-                    table->item(row, 2)->setBackground(cellRed);
-                } else if(status2 & Status::Not) {
-                    table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Нет"
-                    table->item(row, 2)->setBackground(cellGreen);
-                }
-
-                if((status2 & Status::Off) && (Status::Uncnown == status1))
-                {
-                     table->setItem(row, 1, new QTableWidgetItem("-"));
-                     table->item(row, 1)->setBackground(cellGray);
-                     table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Выкл"))); // "Выкл"
-                     table->item(row, 2)->setBackground(cellGray);
-                }
-
-            } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
-                row = 10 + un->getNum2();
-                if(status1 & Status::On) {
-                    table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Вкл"))); // "Вкл"
-                    table->item(row, 1)->setBackground(cellRed);
-                    table->setItem(row, 2, new QTableWidgetItem(""));
-                    table->item(row, 2)->setBackground(cellGray);
-                } else if(status1 & Status::Off) {
-                    table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Выкл"))); // "Выкл"
-                    table->item(row, 1)->setBackground(cellGreen);
-                    table->setItem(row, 2, new QTableWidgetItem(""));
-                    table->item(row, 2)->setBackground(cellGray);
-                }
-
-            }
-        }
+        table->clear();
+        if(TypeUnitNode::SD_BL_IP == selUN->getType() || TypeUnitNode::IU_BL_IP == selUN->getType())
+            Utils::fillDiagnosticTableBLIP(table, selUN);
     } catch (...) {
         qDebug() << "fillDiagnosticTable catch exception ...";
     }
 }
+
+void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
+    UnitNode * parent = selUN->getParentUN();
+    if((TypeUnitNode::SD_BL_IP == selUN->getType() ||
+            TypeUnitNode::IU_BL_IP == selUN->getType()) &&
+            nullptr != parent) {
+        while(TypeUnitNode::BL_IP != parent->getType()) {
+            parent = parent->getParentUN();
+            if(nullptr == parent)
+                return;
+        }
+    } else {
+        return;
+    }
+
+    table->setRowCount(15);
+    table->setColumnCount(3);
+
+    table->setColumnWidth(0, 60);
+    table->setColumnWidth(1, 150);
+    table->setColumnWidth(3, 150);
+
+    table->setItem(0,0, new QTableWidgetItem(QObject::trUtf8("Параметр"))); // ("Параметр"));
+    table->setItem(0,1, new QTableWidgetItem(QObject::trUtf8("Вход"))); // ("Вход"));
+    table->setItem(0,2, new QTableWidgetItem(QObject::trUtf8("Статус"))); // ("Статус"));
+
+    table->setItem(1,0, new QTableWidgetItem(QObject::trUtf8("СД1"))); // ("СД1"));
+    table->setItem(2,0, new QTableWidgetItem(QObject::trUtf8("СД2"))); // ("СД2"));
+    table->setItem(3,0, new QTableWidgetItem(QObject::trUtf8("СД3"))); // ("СД3"));
+    table->setItem(4,0, new QTableWidgetItem(QObject::trUtf8("СД4"))); // ("СД4"));
+    table->setItem(5,0, new QTableWidgetItem(QObject::trUtf8("СД5"))); // ("СД5"));
+    table->setItem(6,0, new QTableWidgetItem(QObject::trUtf8("СД6"))); // ("СД6"));
+    table->setItem(7,0, new QTableWidgetItem(QObject::trUtf8("СД7"))); // ("СД7"));
+    table->setItem(8,0, new QTableWidgetItem(QObject::trUtf8("СД8"))); // ("СД8"));
+
+    table->setItem(9,0, new QTableWidgetItem(""));
+    table->setItem(9,1, new QTableWidgetItem(QObject::trUtf8("Выход"))); // ("Выход"));
+    table->setItem(9,2, new QTableWidgetItem(QObject::trUtf8("Статус"))); // ("Статус"));
+
+    table->setItem(10,0, new QTableWidgetItem(QObject::trUtf8("ДК"))); // ("ДК"));
+    table->setItem(11,0, new QTableWidgetItem(QObject::trUtf8("ИУ1"))); // ("ИУ1"));
+    table->setItem(12,0, new QTableWidgetItem(QObject::trUtf8("ИУ2"))); // ("ИУ2"));
+    table->setItem(13,0, new QTableWidgetItem(QObject::trUtf8("ИУ3"))); // ("ИУ3"));
+    table->setItem(14,0, new QTableWidgetItem(QObject::trUtf8("ИУ4"))); // ("ИУ4"));
+
+    table->setItem(1,1, new QTableWidgetItem("?"));
+    table->setItem(1,2, new QTableWidgetItem("?"));
+    table->setItem(2,1, new QTableWidgetItem("?"));
+    table->setItem(2,2, new QTableWidgetItem("?"));
+    table->setItem(3,1, new QTableWidgetItem("?"));
+    table->setItem(3,2, new QTableWidgetItem("?"));
+    table->setItem(4,1, new QTableWidgetItem("?"));
+    table->setItem(4,2, new QTableWidgetItem("?"));
+    table->setItem(5,1, new QTableWidgetItem("?"));
+    table->setItem(5,2, new QTableWidgetItem("?"));
+    table->setItem(6,1, new QTableWidgetItem("?"));
+    table->setItem(6,2, new QTableWidgetItem("?"));
+    table->setItem(7,1, new QTableWidgetItem("?"));
+    table->setItem(7,2, new QTableWidgetItem("?"));
+    table->setItem(8,1, new QTableWidgetItem("?"));
+    table->setItem(8,2, new QTableWidgetItem("?"));
+
+    table->setItem(10,1, new QTableWidgetItem("?"));
+    table->setItem(10,2, new QTableWidgetItem("?"));
+
+    table->setItem(11,1, new QTableWidgetItem("?"));
+    table->setItem(11,2, new QTableWidgetItem(""));
+    table->setItem(12,1, new QTableWidgetItem("?"));
+    table->setItem(12,2, new QTableWidgetItem(""));
+    table->setItem(13,1, new QTableWidgetItem("?"));
+    table->setItem(13,2, new QTableWidgetItem(""));
+    table->setItem(14,1, new QTableWidgetItem("?"));
+    table->setItem(14,2, new QTableWidgetItem(""));
+
+    for(int i = 0, n = 3; i < n; i++)
+        for(int j = 0, m = 15; j < m; j++)
+            table->item(j, i)->setBackground(cellGray);
+
+    if(TypeUnitNode::BL_IP == parent->getType()) {
+        int row = 10;
+
+        quint8 status2 = parent->getStatus2();
+        if(status2 & Status::Was) {
+            table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Было"))); // "Тревога"
+            table->item(row, 2)->setBackground(cellRed);
+        } else if(status2 & Status::Not) {
+            table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Норма"
+            table->item(row, 2)->setBackground(cellGreen);
+        }
+
+        quint8 status1 = parent->getStatus1();
+        if(status1 & Status::Exists) {
+            table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Есть"))); // "Было"
+            table->item(row, 1)->setBackground(cellRed);
+        } else if(status1 & Status::Not) {
+            table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Нет"
+            table->item(row, 1)->setBackground(cellGreen);
+        }
+    }
+
+    QList<UnitNode *> tmpLs = parent->getListChilde();
+    for(UnitNode * un : tmpLs) {
+        quint8 status1 = un->getStatus1();
+        quint8 status2 = un->getStatus2();
+        int row = -1;
+
+        if((status1 & Status::NoConnection) && (status2 & Status::NoConnection)) {
+            if(TypeUnitNode::SD_BL_IP == un->getType()) {
+                row = un->getNum2();
+            } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
+                row = 10 + un->getNum2();
+            }
+            table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Нет связи"))); // "Норма"
+            table->item(row, 1)->setBackground(cellYellow);
+        } else if(TypeUnitNode::SD_BL_IP == un->getType()) {
+            row = un->getNum2();
+            if(status1 & Status::Alarm) {
+                table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Тревога"))); // "Тревога"
+                table->item(row, 1)->setBackground(cellRed);
+            }
+            else if(status1 & Status::Norm) {
+                table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Норма"))); // "Норма"
+                table->item(row, 1)->setBackground(cellGreen);
+            }
+
+            if(status2 & Status::Was) {
+                table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Было"))); // "Было"
+                table->item(row, 2)->setBackground(cellRed);
+            } else if(status2 & Status::Not) {
+                table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Нет"
+                table->item(row, 2)->setBackground(cellGreen);
+            }
+
+            if((status2 & Status::Off) && (Status::Uncnown == status1))
+            {
+                 table->setItem(row, 1, new QTableWidgetItem("-"));
+                 table->item(row, 1)->setBackground(cellGray);
+                 table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Выкл"))); // "Выкл"
+                 table->item(row, 2)->setBackground(cellGray);
+            }
+
+        } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
+            row = 10 + un->getNum2();
+            if(status1 & Status::On) {
+                table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Вкл"))); // "Вкл"
+                table->item(row, 1)->setBackground(cellRed);
+                table->setItem(row, 2, new QTableWidgetItem(""));
+                table->item(row, 2)->setBackground(cellGray);
+            } else if(status1 & Status::Off) {
+                table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Выкл"))); // "Выкл"
+                table->item(row, 1)->setBackground(cellGreen);
+                table->setItem(row, 2, new QTableWidgetItem(""));
+                table->item(row, 2)->setBackground(cellGray);
+            }
+
+        }
+    }
+}
+
+void Utils::fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode *selUN)
+{
+    table->setRowCount(7);
+    table->setColumnCount(4);
+
+    table->setColumnWidth(0, 60);
+    table->setColumnWidth(1, 150);
+    table->setColumnWidth(2, 150);
+    table->setColumnWidth(3, 150);
+
+    table->setItem(0,0, new QTableWidgetItem(QObject::trUtf8("Параметр")));
+    table->setItem(0,1, new QTableWidgetItem(QObject::trUtf8("Значение")));
+    table->setItem(0,2, new QTableWidgetItem(QObject::trUtf8("Параметр")));
+    table->setItem(0,3, new QTableWidgetItem(QObject::trUtf8("Значение")));
+
+    table->setItem(1,0, new QTableWidgetItem(QObject::trUtf8("Состояние")));
+    table->setItem(2,0, new QTableWidgetItem(QObject::trUtf8("Тревога")));
+    table->setItem(3,0, new QTableWidgetItem(QObject::trUtf8("Сработка")));
+    table->setItem(4,0, new QTableWidgetItem(QObject::trUtf8("Вскрытие")));
+    table->setItem(5,0, new QTableWidgetItem(QObject::trUtf8("ДК")));
+    table->setItem(6,0, new QTableWidgetItem(QObject::trUtf8("Уровень")));
+
+}
+
 
 QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
 {

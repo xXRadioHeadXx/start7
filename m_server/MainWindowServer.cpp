@@ -310,9 +310,6 @@ void MainWindowServer::createDiagnosticTable()
 
     ui->groupBox_4->setTitle(trUtf8("Диагностика: БЛ-IP"));
 
-    ui->tableWidget->setRowCount(15);
-    ui->tableWidget->setColumnCount(3);
-
     Utils::fillDiagnosticTable(ui->tableWidget, this->selUN);
 }
 
@@ -337,17 +334,19 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         this->selUN = sel;
         selIndex = index;
 
+        if(nullptr == selUN)
+            return;
 
         /* Create an object context menu */
         QMenu * menu = new QMenu(ui->treeView);
         /* Set the actions to the menu */
 
-        menu->addAction(ui->actionTest);
+//        menu->addAction(ui->actionTest);
 
         if(sel->treeChildCount()) {
-            if(!ui->treeView->isExpanded(selIndex))
+            if(!ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
                 menu->addAction(ui->actionExpandUNTree);
-            if(ui->treeView->isExpanded(selIndex))
+            if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
                 menu->addAction(ui->actionCollapseUNTree);
         }
         if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType())
