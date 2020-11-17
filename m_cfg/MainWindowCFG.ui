@@ -468,7 +468,7 @@
               </property>
              </widget>
             </widget>
-            <widget class="QWidget" name="CD_BL_IP_groupbox">
+            <widget class="QWidget" name="SD_BL_IP_groupbox">
              <widget class="QLabel" name="CD_UdpAdress_label">
               <property name="geometry">
                <rect>

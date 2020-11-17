@@ -102,9 +102,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
-    this->ui->stackedWidget->setCurrentWidget(this->ui->CD_BL_IP_groupbox);
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
 
-    action_setDK=new QAction(trUtf8("Редактировать"), this);
+    action_setDK=new QAction(trUtf8("Выполнять команду ДК"), this);
     action_setDK->setCheckable(true);
 
     connect (action_setDK, SIGNAL(triggered()  ) , this,SLOT     (setDK())  );
@@ -493,7 +493,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     if(arg1==str_SD_BL_IP){
     qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
-    this->ui->stackedWidget->setCurrentWidget(this->ui->CD_BL_IP_groupbox);
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
     }
     else
     if(arg1==str_IU_BL_IP)
@@ -795,6 +795,60 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
             return false;
 
         }
+   //Num2 от нуля до восьми
+    if(unit->getNum2()<0||unit->getNum2()>8)
+        return false;
+
+    //Если выбран RS-485
+    if(unit->getUdpUse()==0)
+    {
+        qDebug()<<"[RS485]";
+        //Контролируем отсутствие юнита с таким же Num2 и Num3
+
+           QList<UnitNode *> List1;
+           this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+           foreach(UnitNode *un, List1 )
+           {
+            if(un->getUdpUse()==unit->getUdpUse())
+            if(un->getNum3()==unit->getNum3())
+            if(un->getNum2()==unit->getNum2())
+            {
+                dialog.showMessage("в этом БЛ-IP уже есть СД с этим номером");
+                dialog.exec();
+                return false;
+            }
+           }
+
+    }
+
+    //Если выбран UDP
+        if(unit->getUdpUse()==1)
+        {
+                    qDebug()<<"[UDP]";
+         //Контролируем отсутствие юнита с таким же Num2 и Num3
+
+               QList<UnitNode *> List1;
+               this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+               foreach(UnitNode *un, List1 )
+            {
+
+                   if(un->getUdpUse()==unit->getUdpUse())
+                   if(un->getUdpAdress()==unit->getUdpAdress())
+                   if(un->getNum2()==unit->getNum2())
+             {
+
+                 dialog.showMessage("в этом БЛ-IP уже есть СД с этим номером");
+                 dialog.exec();
+                 return false;
+             }
+            }
+         }
+
+
+
+
+        //Находим все СД с таким же UdpAdress
+        //Контролируем отсутствие юнита с таким же Num2 и UdpAdress
         return true;
 }
 
@@ -816,7 +870,9 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
             if(unit->getUdpUse()==0)
             {
           //            qDebug()<<"[getUdpUse()==0]";
-                foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+                QList<UnitNode *> List1;
+                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                foreach(UnitNode *un, List1 )
                 {
 
             qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
@@ -836,7 +892,9 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
             if(unit->getUdpUse()==1)
             {
               //проконтроилровать отсутствие в дереве такого же IP адреса
-                foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+                QList<UnitNode *> List1;
+                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                foreach(UnitNode *un, List1 )
                 {
        //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
                  if((un->getUdpAdress()==unit->getUdpAdress()))
@@ -868,7 +926,9 @@ bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
     //Составить лист участков этого БОДА
     QList<UnitNode*> List;
 
-    foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    foreach(UnitNode *un, List1 )
     {
        qDebug()<<".";
 //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
@@ -1308,6 +1368,23 @@ void MainWindowCFG::get_option_BL_IP(UnitNode *unit)
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 {
 
+
+
+    unit->setNum1(0);
+    unit->setNum2(this->ui->SD_BL_IP_num_combobox->currentText().toInt());
+    unit->setNum3(this->ui->SD_BL_IP_M_port_combobox->currentText().toInt());
+
+    if(this->ui->SD_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+    {
+            unit->setUdpUse(1);
+    }
+
+    else
+    {
+            unit->setUdpUse(0);
+    }
+
+
     qDebug()<<"Name: "<<unit->getName()
             <<" Type:"<<this->Type_from_int_to_string(unit->getType())
             <<" Num2:"<<QString::number(unit->getNum2())
@@ -1316,10 +1393,6 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
             <<" connectblock:"<<QString::number(unit->getConnectBlock())
             <<" UdpUse:"<<QString::number(unit->getUdpUse())
             <<" UdpAdress:"<<unit->getUdpAdress();
-
-    unit->setNum1(0);
-    unit->setNum2(this->ui->SD_BL_IP_num_combobox->currentText().toInt());
-    unit->setNum3(this->ui->SD_BL_IP_M_port_combobox->currentText().toInt());
 
 }
 
@@ -1699,7 +1772,4 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
         }
 }
 
-void MainWindowCFG::on_pushButton_16_clicked()
-{
-    this->setDK();
-}
+
