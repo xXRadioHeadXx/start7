@@ -724,7 +724,7 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         id.remove("Obj_");
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
-        deviceElement.setAttribute("type", un->getType());
+        deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
         deviceElement.setAttribute("num1", un->getNum1());
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
@@ -733,7 +733,7 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
-        deviceElement.setAttribute("dk", un->getDK());
+        deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
         deviceElement.setAttribute("option", 0);
 
         devicesElement.appendChild(deviceElement);
@@ -774,7 +774,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
         id.remove("Obj_");
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
-        deviceElement.setAttribute("type", un->getType());
+        deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
         deviceElement.setAttribute("num1", un->getNum1());
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
@@ -782,7 +782,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
         deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
-//        deviceElement.setAttribute("dk", un->getDK());
+//        deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
 //        deviceElement.setAttribute("option", 0);
 
         devicesElement.appendChild(deviceElement);
@@ -839,7 +839,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
         id = id.remove("Obj_");
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
-        deviceElement.setAttribute("type", un->getType());
+        deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
         deviceElement.setAttribute("num1", un->getNum1());
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
@@ -848,7 +848,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
         deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
-        deviceElement.setAttribute("dk", un->getDK());
+        deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
         deviceElement.setAttribute("option", 0);
     }
 
@@ -1042,7 +1042,7 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
         id = id.remove("Obj_");
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
-        deviceElement.setAttribute("type", un->getType());
+        deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
         deviceElement.setAttribute("num1", un->getNum1());
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
@@ -1051,7 +1051,7 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
         deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
-        deviceElement.setAttribute("dk", un->getDK());
+        deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
         deviceElement.setAttribute("option", 0);
     }
 
