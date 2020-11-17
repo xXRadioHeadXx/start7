@@ -315,15 +315,26 @@ void MainWindowServer::createDiagnosticTable()
 
 void MainWindowServer::on_pushButtonAlarmReset_clicked()
 {
-//    this->m_portManager->requestAlarmReset();
-    JourEntity msgOn;
-    msgOn.setObject(trUtf8("Оператор"));
-    msgOn.setType(135);
-    msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
-    DataBaseManager::insertJourMsg_wS(msgOn);
-    GraphTerminal::sendAbonentEventsAndStates(msgOn);
+    this->m_portManager->requestAlarmReset();
+    {
+        JourEntity msgOn;
+        msgOn.setObject(trUtf8("Оператор"));
+        msgOn.setType(135);
+        msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
+        DataBaseManager::insertJourMsg_wS(msgOn);
+        GraphTerminal::sendAbonentEventsAndStates(msgOn);
+    }
 
     DataBaseManager::resetAllFlags_wS();
+
+    {
+        JourEntity msgOn;
+        msgOn.setObject(trUtf8("Оператор"));
+        msgOn.setType(903);
+        msgOn.setComment(trUtf8("Выполнен сброс тревог"));
+        DataBaseManager::insertJourMsg_wS(msgOn);
+        GraphTerminal::sendAbonentEventsAndStates(msgOn);
+    }
 }
 
 void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
@@ -686,10 +697,13 @@ void MainWindowServer::forcedNewDuty(bool out)
     JourEntity msg;
     msg.setObject(trUtf8("Оператор"));
     msg.setType(902);
-    if(out)
+    if(out) {
         msg.setComment(trUtf8("Начата новая смена"));
-    else
+        msg.setType(902);
+    } else {
         msg.setComment(trUtf8("Удал. ком. Начата новая смена"));
+        msg.setType(1902);
+    }
     msg.setFlag(0);
 
     QString sql = " update public.jour set flag = 0 where flag != 0 ;";

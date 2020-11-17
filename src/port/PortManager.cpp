@@ -25,6 +25,7 @@ PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(UnitNode *)), this, SLOT(requestDK(UnitNode *)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(autoOnOffIU(bool, UnitNode *)), this, SLOT(requestAutoOnOffIUCommand(bool, UnitNode *)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, UnitNode *)), this, SLOT(requestDK(bool, UnitNode *)));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(alarmReset(UnitNode *)), this, SLOT(requestAlarmsReset(UnitNode *)));
 }
 
 QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
@@ -485,11 +486,13 @@ void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)
     msg.setD3(selUN->getNum3());
     msg.setDirection(selUN->getUdpAdress());
 
-    msg.setType((value ? 151 : 150));
-    if(out)
+    if(out) {
         msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
-    else
+        msg.setType((value ? 1004 : 1003));
+    } else {
+        msg.setType((value ? 150 : 151));
         msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
+    }
     DataBaseManager::insertJourMsg_wS(msg);
     GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
     lw->startFirstRequest();
@@ -622,11 +625,13 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
                 msg.setD3(target->getNum3());
                 msg.setDirection(target->getUdpAdress());
 
-                msg.setType((value ? 130 : 131));
-                if(out)
+                if(out) {
                     msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
-                else
+                    msg.setType((value ? 1000 : 1001));
+                } else {
                     msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
+                    msg.setType((value ? 130 : 131));
+                }
                 DataBaseManager::insertJourMsg_wS(msg);
                 GraphTerminal::sendAbonentEventsAndStates(target, msg);
             }

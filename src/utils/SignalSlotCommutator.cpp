@@ -140,3 +140,8 @@ void SignalSlotCommutator::emitForcedNewDuty(bool out) const
 {
     emit this->forcedNewDuty(out);
 }
+
+void SignalSlotCommutator::emitAlarmsReset(UnitNode *un) const
+{
+    emit this->alarmsReset(un);
+}

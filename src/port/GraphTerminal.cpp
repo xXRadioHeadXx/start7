@@ -139,14 +139,25 @@ void GraphTerminal::manageOverallReadQueue()
             continue;
         } else if("AlarmsReset" == type) {
 //            requestAlarmReset();
-            JourEntity msgOn;
-            msgOn.setObject(trUtf8("Оператор"));
-            msgOn.setType(135);
-            msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
-            msgOn.setDirection(Utils::hostAddressToString(itm.address()));
-            DataBaseManager::insertJourMsg_wS(msgOn);
-            GraphTerminal::sendAbonentEventsAndStates(msgOn);
-            DataBaseManager::resetAllFlags_wS();
+            {
+                JourEntity msgOn;
+                msgOn.setObject(trUtf8("Оператор"));
+                msgOn.setType(1903);
+                msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
+                msgOn.setDirection(Utils::hostAddressToString(itm.address()));
+                DataBaseManager::insertJourMsg_wS(msgOn);
+                GraphTerminal::sendAbonentEventsAndStates(msgOn);
+                DataBaseManager::resetAllFlags_wS();
+            }
+            SignalSlotCommutator::getInstance()->emitAlarmsReset(nullptr);
+            {
+                JourEntity msgOn;
+                msgOn.setObject(trUtf8("Оператор"));
+                msgOn.setType(903);
+                msgOn.setComment(trUtf8("Выполнен сброс тревог"));
+                DataBaseManager::insertJourMsg_wS(msgOn);
+                GraphTerminal::sendAbonentEventsAndStates(msgOn);
+            }
             continue;
         } else if("DbStart" == type) {
             procDbStart(itm);
@@ -465,7 +476,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     msgOn.setD2(unTarget->getNum2());
                     msgOn.setD3(unTarget->getNum3());
                     msgOn.setDirection(Utils::hostAddressToString(itm.address()));
-                    msgOn.setType((unTarget->getControl() ? 137 : 136));
+                    msgOn.setType((unTarget->getControl() ? 1137 : 1136));
                     msgOn.setComment(trUtf8("Удал. ком. Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
                     DataBaseManager::insertJourMsg_wS(msgOn);
 
@@ -631,15 +642,27 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                     qDebug() << "GraphTerminal::procEventsAndStates() " << doc.toString();
 
                     if("903" == idState.nodeValue()) {
-//                        this->m_portManager->requestAlarmReset();
-                        JourEntity msgOn;
-                        msgOn.setObject(trUtf8("Оператор"));
-                        msgOn.setType(135);
-                        msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
-                        msgOn.setDirection(Utils::hostAddressToString(itm.address()));
-                        DataBaseManager::insertJourMsg_wS(msgOn);
-                        GraphTerminal::sendAbonentEventsAndStates(msgOn);
-                        DataBaseManager::resetAllFlags_wS();
+                        {
+                            JourEntity msgOn;
+                            msgOn.setObject(trUtf8("Оператор"));
+                            msgOn.setType(1903);
+                            msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
+                            msgOn.setDirection(Utils::hostAddressToString(itm.address()));
+                            DataBaseManager::insertJourMsg_wS(msgOn);
+                            GraphTerminal::sendAbonentEventsAndStates(msgOn);
+                            DataBaseManager::resetAllFlags_wS();
+                        }
+
+                        SignalSlotCommutator::getInstance()->emitAlarmsReset(nullptr);
+
+                        {
+                            JourEntity msgOn;
+                            msgOn.setObject(trUtf8("Оператор"));
+                            msgOn.setType(903);
+                            msgOn.setComment(trUtf8("Выполнен сброс тревог"));
+                            DataBaseManager::insertJourMsg_wS(msgOn);
+                            GraphTerminal::sendAbonentEventsAndStates(msgOn);
+                        }
                     }
 
                     if(!docAnswer.isNull()) {
@@ -838,15 +861,12 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     QDomElement  stateElement  =  doc.createElement("state");
     if(0 != jour.getType() && !jour.getComment().isEmpty()) {
 //        stateElement1  =  doc.createElement("state");
-        int idValu = jour.getType();
-        if(135 == idValu)
-            idValu = 903;
-        stateElement1.setAttribute("id", idValu);
+        stateElement1.setAttribute("id", jour.getType());
         stateElement1.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement1.setAttribute("name", jour.getComment());
         statesElement.appendChild(stateElement1);
     }
-    if(0 == jour.getType() || jour.getComment().isEmpty()/* || 136 == jour.getType()*/ || 137 == jour.getType()){
+    if(0 == jour.getType() || jour.getComment().isEmpty()/* || 136 == jour.getType() || 137 == jour.getType()*/){
         makeActualStateElement(un, stateElement);
         statesElement.appendChild(stateElement);
     }
