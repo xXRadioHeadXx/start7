@@ -61,9 +61,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
      ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
-     contextMenu = new QMenu(ui->treeView);
-     contextMenu->addAction("hello");
-     contextMenu->addAction("world");
+     menu = new QMenu(ui->treeView);
+     menu->addAction("hello");
+     menu->addAction("world");
 
  //   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
  //    qDebug()<<"patch = "<<patch;
@@ -104,7 +104,10 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 //    dialog.exec();
     this->ui->stackedWidget->setCurrentWidget(this->ui->CD_BL_IP_groupbox);
 
+    action_setDK=new QAction(trUtf8("Редактировать"), this);
+    action_setDK->setCheckable(true);
 
+    connect (action_setDK, SIGNAL(triggered()  ) , this,SLOT     (setDK())  );
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -708,6 +711,30 @@ void MainWindowCFG::on_pushButton_clicked()
 
 QString MainWindowCFG::get_unit_name(int type)
 {
+
+}
+
+void MainWindowCFG::setDK()
+{
+//    qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!]";
+QModelIndex index = this->ui->treeView->currentIndex();
+UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+qDebug()<<un->getName();
+
+if(un->getDK()==0)
+{
+
+    qDebug()<<"[0]";
+    un->setDK(true);
+    qDebug()<<"[1]";
+}
+else
+{
+    qDebug()<<"[1]";
+    un->setDK(false);
+    qDebug()<<"[0]";
+}
+
 
 }
 
@@ -1641,10 +1668,38 @@ void MainWindowCFG::on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QStr
 
 void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 {
+    menu->clear();
     qDebug()<<"[ContextMenuRequested]";
     QModelIndex index = ui->treeView->indexAt(pos);
         if (index.isValid()) {
-            qDebug()<<"[.]";
-            contextMenu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+            UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+            if(un->getType()==TypeUnitNode::SD_BL_IP)
+            {
+             menu->addAction(action_setDK);
+    //         connect (action_setDK, SIGNAL(triggered()) , this, SLOT(setDK()));
+
+             qDebug()<<un->getName();
+
+             if(un->getDK()==0)
+             {
+                 qDebug()<<"[0]";
+                 action_setDK->setChecked(false);
+             }
+             else
+             {
+                 qDebug()<<"[1]";
+                action_setDK->setChecked(true);
+             }
+
+
+
+            }
+            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+
         }
+}
+
+void MainWindowCFG::on_pushButton_16_clicked()
+{
+    this->setDK();
 }

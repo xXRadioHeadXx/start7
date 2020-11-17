@@ -22,7 +22,10 @@ private:
 
     QString get_unit_name(int type);
 
-    QMenu* contextMenu;
+    QMenu* menu;
+
+    QAction* action_setDK;
+
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
@@ -114,6 +117,8 @@ public:
     Map map;
 
 private slots:
+
+    void setDK();
 
     void select(QString Name);
 
