@@ -207,7 +207,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 dataAnswer = makeInitialStatus("InitialStatus answer command 0").toByteArray();
                 //
             } else if("10000" == idCommand.nodeValue()) {
-                dataAnswer = makeEventsAndStates("EventsAndStates answer command 10000").toByteArray();
+//                dataAnswer = makeEventsAndStates("EventsAndStates answer command 10000").toByteArray();
 
                 QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
                 for(QTcpSocket * socket : as_const(buffers.keys())) {
@@ -782,16 +782,16 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
         deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
-//        deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
-//        deviceElement.setAttribute("option", 0);
+        deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
+        deviceElement.setAttribute("option", 0);
 
         devicesElement.appendChild(deviceElement);
 
-//        QDomElement  statesElement  =  doc.createElement("states");
-//        deviceElement.appendChild(statesElement);
-//        QDomElement  stateElement  =  doc.createElement("state");
-//        makeActualStateElement(un, stateElement);
-//        statesElement.appendChild(stateElement);
+        QDomElement  statesElement  =  doc.createElement("states");
+        deviceElement.appendChild(statesElement);
+        QDomElement  stateElement  =  doc.createElement("state");
+        makeActualStateElement(un, stateElement);
+        statesElement.appendChild(stateElement);
     }
 
 //    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();

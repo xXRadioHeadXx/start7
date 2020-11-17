@@ -358,11 +358,13 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
     if(nullptr == selUN) {
         JourEntity msg;
         msg.setObject(trUtf8("РИФ Общий"));
-        msg.setType(133);
-        if(out)
-            msg.setComment(trUtf8("Удал. ком. ДК"));
-        else
+        if(out) {
+            msg.setComment(trUtf8("Удал. ком. ДК Послана ком. ДК"));
+            msg.setType(1133);
+        } else {
             msg.setComment(trUtf8("Послана ком. ДК"));
+            msg.setType(133);
+        }
         DataBaseManager::insertJourMsg_wS(msg);
         GraphTerminal::sendAbonentEventsAndStates(msg);
     }
@@ -381,11 +383,13 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
         }
         if(nullptr == selUN && !un->getName().isEmpty() && un->getControl()) {
             JourEntity msg;
-            msg.setType(133);
-            if(out)
-                msg.setComment(trUtf8("Удал. ком. ДК"));
-            else
+            if(out) {
+                msg.setComment(trUtf8("Удал. ком. ДК Послана ком. ДК"));
+                msg.setType(1133);
+            } else {
                 msg.setComment(trUtf8("Послана ком. ДК"));
+                msg.setType(133);
+            }
             msg.setObject(un->getName());
             msg.setObjecttype(un->getType());
             msg.setD1(un->getNum1());
@@ -398,17 +402,19 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
     }
     if(nullptr != selUN && selUN->getControl()) {
         JourEntity msg;
-        msg.setType(133);
         msg.setObjecttype(selUN->getType());
         msg.setD1(selUN->getNum1());
         msg.setD2(selUN->getNum2());
         msg.setD3(selUN->getNum3());
         msg.setDirection(selUN->getUdpAdress());
 
-        if(out)
-            msg.setComment(trUtf8("Удал. ком. ДК"));
-        else
+        if(out) {
+            msg.setComment(trUtf8("Удал. ком. ДК Послана ком. ДК"));
+            msg.setType(1133);
+        } else {
             msg.setComment(trUtf8("Послана ком. ДК"));
+            msg.setType(133);
+        }
         msg.setObject(selUN->getName());
         DataBaseManager::insertJourMsg_wS(msg);
         GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
