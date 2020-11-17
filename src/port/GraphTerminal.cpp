@@ -764,11 +764,11 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
 
         devicesElement.appendChild(deviceElement);
 
-        QDomElement  statesElement  =  doc.createElement("states");
-        deviceElement.appendChild(statesElement);
-        QDomElement  stateElement  =  doc.createElement("state");
-        makeActualStateElement(un, stateElement);
-        statesElement.appendChild(stateElement);
+//        QDomElement  statesElement  =  doc.createElement("states");
+//        deviceElement.appendChild(statesElement);
+//        QDomElement  stateElement  =  doc.createElement("state");
+//        makeActualStateElement(un, stateElement);
+//        statesElement.appendChild(stateElement);
     }
 
 //    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
@@ -838,7 +838,10 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     QDomElement  stateElement  =  doc.createElement("state");
     if(0 != jour.getType() && !jour.getComment().isEmpty()) {
 //        stateElement1  =  doc.createElement("state");
-        stateElement1.setAttribute("id", jour.getType());
+        int idValu = jour.getType();
+        if(135 == idValu)
+            idValu = 903;
+        stateElement1.setAttribute("id", idValu);
         stateElement1.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement1.setAttribute("name", jour.getComment());
         statesElement.appendChild(stateElement1);
