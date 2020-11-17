@@ -25,7 +25,7 @@ PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(UnitNode *)), this, SLOT(requestDK(UnitNode *)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(autoOnOffIU(bool, UnitNode *)), this, SLOT(requestAutoOnOffIUCommand(bool, UnitNode *)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, UnitNode *)), this, SLOT(requestDK(bool, UnitNode *)));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(alarmReset(UnitNode *)), this, SLOT(requestAlarmsReset(UnitNode *)));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(alarmsReset(UnitNode *)), this, SLOT(requestAlarmReset(UnitNode *)));
 }
 
 QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
