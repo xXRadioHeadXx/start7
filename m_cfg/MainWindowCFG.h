@@ -141,6 +141,17 @@ private slots:
 
     void setAdamOff();
 
+    void setAdamOff_off();
+    void setAdamOff_5_sec();
+    void setAdamOff_10_sec();
+    void setAdamOff_30_sec();
+    void setAdamOff_1_min();
+    void setAdamOff_5_min();
+    void setAdamOff_10_min();
+    void setAdamOff_20_min();
+    void setAdamOff_30_min();
+    void setAdamOff_1_hour();
+
 
     void select(QString Name);
 

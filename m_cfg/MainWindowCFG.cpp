@@ -123,8 +123,23 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     action_setAdamOff_30_min= new QAction(trUtf8("30 мин"), this);
     action_setAdamOff_1_hour= new QAction(trUtf8("1 час"), this);
 
+    action_setAdamOff_off->setCheckable(true);
+    action_setAdamOff_5_sec->setCheckable(true);
+    action_setAdamOff_10_sec->setCheckable(true);
+    action_setAdamOff_30_sec->setCheckable(true);
+    action_setAdamOff_1_min->setCheckable(true);
+    action_setAdamOff_5_min->setCheckable(true);
+    action_setAdamOff_10_min->setCheckable(true);
+    action_setAdamOff_20_min->setCheckable(true);
+    action_setAdamOff_30_min->setCheckable(true);
+    action_setAdamOff_1_hour->setCheckable(true);
+
+
+
+
     menuAdamOff = new QMenu(menu);
     menuAdamOff->setTitle("Автовыключение");
+    menuAdamOff->addAction(this->action_setAdamOff_off);
     menuAdamOff->addAction(this->action_setAdamOff_5_sec);
     menuAdamOff->addAction(this->action_setAdamOff_10_sec);
     menuAdamOff->addAction(this->action_setAdamOff_30_sec);
@@ -143,6 +158,18 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     connect (action_setDK, SIGNAL(triggered()  ) , this,SLOT     (setDK())  );
     connect (action_YZ_MONOLIT, SIGNAL(triggered()  ) , this,SLOT     (YZ_MONOLIT())  );
     connect (action_setAlarmMsgOn, SIGNAL(triggered()  ) , this,SLOT     (setAlarmMsgOn())  );
+
+        connect (action_setAdamOff_off, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_off())  );
+        connect (action_setAdamOff_5_sec, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_5_sec())  );
+        connect (action_setAdamOff_10_sec, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_10_sec())  );
+        connect (action_setAdamOff_30_sec, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_30_sec())  );
+        connect (action_setAdamOff_1_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_1_min())  );
+        connect (action_setAdamOff_10_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_10_min())  );
+        connect (action_setAdamOff_20_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_20_min())  );
+        connect (action_setAdamOff_30_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_30_min())  );
+        connect (action_setAdamOff_1_hour, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_1_hour())  );
+
+
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -824,7 +851,77 @@ void MainWindowCFG::setAlarmMsgOn()
 
 void MainWindowCFG::setAdamOff()
 {
-qDebug()<<QString::number(val_for_setAdamoff);
+    qDebug()<<QString::number(val_for_setAdamoff);
+}
+
+void MainWindowCFG::setAdamOff_off()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(0);
+}
+
+void MainWindowCFG::setAdamOff_5_sec()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(1);
+}
+
+void MainWindowCFG::setAdamOff_10_sec()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(2);
+}
+
+void MainWindowCFG::setAdamOff_30_sec()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(3);
+}
+
+void MainWindowCFG::setAdamOff_1_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(4);
+}
+
+void MainWindowCFG::setAdamOff_5_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(5);
+}
+
+void MainWindowCFG::setAdamOff_10_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(6);
+}
+
+void MainWindowCFG::setAdamOff_20_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(7);
+}
+
+void MainWindowCFG::setAdamOff_30_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(8);
+}
+
+void MainWindowCFG::setAdamOff_1_hour()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(9);
 }
 
 bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
@@ -905,6 +1002,7 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
            foreach(UnitNode *un, List1 )
            {
+            if(un->getType()==unit->getType())
             if(un->getUdpUse()==unit->getUdpUse())
             if(un->getNum3()==unit->getNum3())
             if(un->getNum2()==unit->getNum2())
@@ -927,7 +1025,7 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
                foreach(UnitNode *un, List1 )
             {
-
+                   if(un->getType()==unit->getType())
                    if(un->getUdpUse()==unit->getUdpUse())
                    if(un->getUdpAdress()==unit->getUdpAdress())
                    if(un->getNum2()==unit->getNum2())
@@ -974,6 +1072,7 @@ bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
                 this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
                 foreach(UnitNode *un, List1 )
                 {
+                 if(un->getType()==unit->getType())
                  if(un->getUdpUse()==unit->getUdpUse())
                  if(un->getNum3()==unit->getNum3())
                  if(un->getNum2()==unit->getNum2())
@@ -996,7 +1095,7 @@ bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
                     this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
                     foreach(UnitNode *un, List1 )
                  {
-
+                        if(un->getType()==unit->getType())
                         if(un->getUdpUse()==unit->getUdpUse())
                         if(un->getUdpAdress()==unit->getUdpAdress())
                         if(un->getNum2()==unit->getNum2())
@@ -2013,18 +2112,75 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 
             menu->addAction(action_setAlarmMsgOn);
 
-           if(un->getAlarmMsgOn()==0)
-           {
-               qDebug()<<"[0]";
-               action_setAlarmMsgOn->setChecked(false);
-           }
-           else
-           {
-               qDebug()<<"[1]";
-              action_setAlarmMsgOn->setChecked(true);
-           }
+               if(un->getAlarmMsgOn()==0)
+               {
+                   qDebug()<<"[0]";
+                   action_setAlarmMsgOn->setChecked(false);
+               }
+               else
+               {
+                   qDebug()<<"[1]";
+                }
+            }
+            if(un->getType()==TypeUnitNode::IU_BL_IP)
+            {
+                action_setAlarmMsgOn->setChecked(true);
 
-           menu->addMenu(menuAdamOff);
+
+
+             action_setAdamOff_off->setChecked(false);
+             action_setAdamOff_5_sec->setChecked(false);
+             action_setAdamOff_10_sec->setChecked(false);
+             action_setAdamOff_30_sec->setChecked(false);
+             action_setAdamOff_1_min->setChecked(false);
+             action_setAdamOff_5_min->setChecked(false);
+             action_setAdamOff_10_min->setChecked(false);
+             action_setAdamOff_20_min->setChecked(false);
+             action_setAdamOff_30_min->setChecked(false);
+             action_setAdamOff_1_hour->setChecked(false);
+             menu->addMenu(menuAdamOff);
+             switch(un->getAdamOff())
+             {
+             case 0:
+             action_setAdamOff_off->setChecked(true);
+             break;
+
+             case 1:
+             action_setAdamOff_5_sec->setChecked(true);
+             break;
+
+             case 2:
+             action_setAdamOff_10_sec->setChecked(true);
+             break;
+
+             case 3:
+             action_setAdamOff_30_sec->setChecked(true);
+             break;
+
+             case 4:
+             action_setAdamOff_1_min->setChecked(true);
+             break;
+
+             case 5:
+             action_setAdamOff_5_min->setChecked(true);
+             break;
+
+             case 6:
+             action_setAdamOff_10_min->setChecked(true);
+             break;
+
+             case 7:
+             action_setAdamOff_20_min->setChecked(true);
+             break;
+
+             case 8:
+             action_setAdamOff_30_min->setChecked(true);
+             break;
+
+             case 9:
+             action_setAdamOff_1_hour->setChecked(true);
+             break;
+             }
 
             }
             menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
