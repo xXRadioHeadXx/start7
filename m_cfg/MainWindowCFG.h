@@ -24,6 +24,7 @@ private:
 
     QString get_unit_name(int type);
 
+
     QMenu* menu;
 
     QAction* action_setDK;
