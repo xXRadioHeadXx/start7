@@ -5,6 +5,8 @@
 #include <QMainWindow>
 #include <TableModelMSG.h>
 
+#include <GraphTerminal.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowDB; }
 QT_END_NAMESPACE
@@ -51,6 +53,8 @@ private slots:
 
     void on_tableView_doubleClicked(const QModelIndex &index);
 
+    void on_comboBox_4_editTextChanged(const QString &arg1);
+
 private:
     Ui::MainWindowDB *ui;
 
@@ -60,17 +64,21 @@ private:
     QTimer timerUpd;
     JourEntity * selMsg = nullptr;
     QString currentSqlQueryStr;
+    static GraphTerminal * graphTerminal;
 
     void setCurrentSqlQueryStr(const QString &value);
     QString createCompositFilter();
     QString createDateFilter();
     QString createObjectFilter();
     QString createEventFilter();
+    QString createDirectionFilter();
     bool getBlockSignal() const;
     void setBlockSignal(bool value);
     void updComboBoxReason();
     void updComboBoxTakenMeasures();
+    void updComboBoxAddress();
     void updComboBox(QList<QString> lst, QComboBox * cmb);
+    static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = "rifx.ini");
 
 };
 #endif // MAINWINDOWDB_H

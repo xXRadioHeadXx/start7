@@ -211,7 +211,7 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
         tmpUN->setMetaNames("Obj_0");
 
         root->addTreeChild(tmpUN);
-        root = tmpUN;
+//        root = tmpUN;
         listTreeUnitNodes.append(tmpUN);
 
 

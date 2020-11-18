@@ -135,3 +135,13 @@ void SignalSlotCommutator::emitRequestDK(bool out, UnitNode *un) const
 {
     emit this->requestDK(out, un);
 }
+
+void SignalSlotCommutator::emitForcedNewDuty(bool out) const
+{
+    emit this->forcedNewDuty(out);
+}
+
+void SignalSlotCommutator::emitAlarmsReset(UnitNode *un) const
+{
+    emit this->alarmsReset(un);
+}

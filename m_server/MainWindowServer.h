@@ -79,6 +79,7 @@ private slots:
     void on_actionReduce_triggered();
 
     void on_actionNewScheme_triggered();
+    void forcedNewDuty(bool out);
 
     void on_actionOpen_triggered();
 

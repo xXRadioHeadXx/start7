@@ -28,6 +28,8 @@ public:
     static QList<T> reversed( const QList<T> & in );
     static int calcDkStatus(int type, int status1, int status2);
     static void fillDiagnosticTable(QTableWidget * table, UnitNode *selUN);
+    static void fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN);
+    static void fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode * selUN);
     static QSet<UnitNode *> findeSetAutoOnOffUN(UnitNode *un);
 };
 

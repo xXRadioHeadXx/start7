@@ -112,6 +112,10 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SIGNAL(changeSelectUN(UnitNode *)),
             this,
             SLOT(changeSelectUN(UnitNode *)));
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(forcedNewDuty(bool)),
+            this,
+            SLOT(forcedNewDuty(bool)));
 
     ui->treeView->resizeColumnToContents(0);
 
@@ -203,7 +207,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
         QString subStr;
         if(!setUN.isEmpty()) {
             subStr.append("(Авто %1с.)");
-            subStr = subStr.arg(UnitNode::adamOffToMs(setUN.toList().first()->getAdamOff()) / 1000);
+            subStr = subStr.arg(UnitNode::adamOffToMs(setUN.values().first()->getAdamOff()) / 1000);
         }
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
     } else
@@ -234,6 +238,8 @@ void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
     } else {
         ui->comboBoxTakenMeasures->setEditText(sel->getMeasures());
     }
+
+    GraphTerminal::sendAbonentEventBook(sel);
 }
 
 void MainWindowServer::on_toolButtonReason_clicked()
@@ -304,23 +310,31 @@ void MainWindowServer::createDiagnosticTable()
 
     ui->groupBox_4->setTitle(trUtf8("Диагностика: БЛ-IP"));
 
-    ui->tableWidget->setRowCount(15);
-    ui->tableWidget->setColumnCount(3);
-
     Utils::fillDiagnosticTable(ui->tableWidget, this->selUN);
 }
 
 void MainWindowServer::on_pushButtonAlarmReset_clicked()
 {
-//    this->m_portManager->requestAlarmReset();
-    JourEntity msgOn;
-    msgOn.setObject(trUtf8("Оператор"));
-    msgOn.setType(135);
-    msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
-    DataBaseManager::insertJourMsg_wS(msgOn);
-    GraphTerminal::sendAbonentEventsAndStates(msgOn);
+    this->m_portManager->requestAlarmReset();
+    {
+        JourEntity msgOn;
+        msgOn.setObject(trUtf8("Оператор"));
+        msgOn.setType(135);
+        msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
+        DataBaseManager::insertJourMsg_wS(msgOn);
+        GraphTerminal::sendAbonentEventsAndStates(msgOn);
+    }
 
     DataBaseManager::resetAllFlags_wS();
+
+    {
+        JourEntity msgOn;
+        msgOn.setObject(trUtf8("Оператор"));
+        msgOn.setType(903);
+        msgOn.setComment(trUtf8("Выполнен сброс тревог"));
+        DataBaseManager::insertJourMsg_wS(msgOn);
+        GraphTerminal::sendAbonentEventsAndStates(msgOn);
+    }
 }
 
 void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
@@ -331,17 +345,19 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         this->selUN = sel;
         selIndex = index;
 
+        if(nullptr == selUN)
+            return;
 
         /* Create an object context menu */
         QMenu * menu = new QMenu(ui->treeView);
         /* Set the actions to the menu */
 
-        menu->addAction(ui->actionTest);
+//        menu->addAction(ui->actionTest);
 
         if(sel->treeChildCount()) {
-            if(!ui->treeView->isExpanded(selIndex))
+            if(!ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
                 menu->addAction(ui->actionExpandUNTree);
-            if(ui->treeView->isExpanded(selIndex))
+            if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
                 menu->addAction(ui->actionCollapseUNTree);
         }
         if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType())
@@ -472,7 +488,7 @@ void MainWindowServer::on_actionUNOn_triggered()
     if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, selUN, true);
     else
-        this->m_portManager->requestAutoOnOffIUCommand(false, setUn.toList().first());
+        this->m_portManager->requestAutoOnOffIUCommand(false, setUn.values().first());
 }
 
 void MainWindowServer::on_actionUNOff_triggered()
@@ -507,6 +523,11 @@ void MainWindowServer::on_actionControl_triggered()
 
         JourEntity msgOn;
         msgOn.setObject(selUN->getName());
+        msgOn.setObjecttype(selUN->getType());
+        msgOn.setD1(selUN->getNum1());
+        msgOn.setD2(selUN->getNum2());
+        msgOn.setD3(selUN->getNum3());
+        msgOn.setDirection(selUN->getUdpAdress());
         msgOn.setType((selUN->getControl() ? 137 : 136));
         msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);
@@ -667,24 +688,35 @@ void MainWindowServer::on_actionNewScheme_triggered()
             }
         }
 
-        JourEntity msg;
-        msg.setObject(trUtf8("Оператор"));
-        msg.setType(902);
-        msg.setComment(trUtf8("Начата новая смена"));
-        msg.setFlag(0);
-
-        QString sql = " update public.jour set flag = 0 where flag != 0 ;";
-        DataBaseManager::executeQuery(sql);
-
-        DataBaseManager::insertJourMsg_wS(msg);
-        GraphTerminal::sendAbonentEventsAndStates(msg);
-
-        DataBaseManager::setIdStartLastDuty();
-
-        modelMSG->updateAllRecords();
-
-        initLabelOperator();
+        forcedNewDuty(false);
     }
+}
+
+void MainWindowServer::forcedNewDuty(bool out)
+{
+    JourEntity msg;
+    msg.setObject(trUtf8("Оператор"));
+    msg.setType(902);
+    if(out) {
+        msg.setComment(trUtf8("Начата новая смена"));
+        msg.setType(902);
+    } else {
+        msg.setComment(trUtf8("Удал. ком. Начата новая смена"));
+        msg.setType(1902);
+    }
+    msg.setFlag(0);
+
+    QString sql = " update public.jour set flag = 0 where flag != 0 ;";
+    DataBaseManager::executeQuery(sql);
+
+    DataBaseManager::insertJourMsg_wS(msg);
+    GraphTerminal::sendAbonentEventsAndStates(msg);
+
+    DataBaseManager::setIdStartLastDuty();
+
+    modelMSG->updateAllRecords();
+
+    initLabelOperator();
 }
 
 void MainWindowServer::on_actionOpen_triggered()

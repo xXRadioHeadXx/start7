@@ -42,6 +42,7 @@ public:
 
     static QList<QString> getReasonGroup();
     static QList<QString> getMeasuresGroup();
+    static QList<QString> getDirectionGroup();
 
     void loadSettings(QString fileName = "rifx.ini");
 
@@ -49,6 +50,8 @@ public:
     static QString objectFlt(JourEntity::TypeObject oType, int d1 = 0, int d2 = 0, int d3 = 0);
     static QString eventFlt(JourEntity::TypeEvent eType, JourEntity::TypeObject oType);
     static QString connectObjectFlt(JourEntity::TypeConnectObject coType);
+    static QString directionFlt(QString direction);
+
 
     static qint64 getIdStartLastDuty();
     static void setIdStartLastDuty(qint64 value);
