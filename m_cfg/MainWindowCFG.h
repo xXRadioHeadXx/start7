@@ -20,10 +20,34 @@ private:
 
     QErrorMessage dialog;
 
+    QString get_unit_name(int type);
+
+    QMenu* menu;
+
+    QAction* action_setDK;
+    QAction* action_YZ_MONOLIT;
+    QAction* action_setAlarmMsgOn;
+
+    QMenu*  menuAdamOff;
+    QAction* action_setAdamOff_off;
+    QAction* action_setAdamOff_5_sec;
+    QAction* action_setAdamOff_10_sec;
+    QAction* action_setAdamOff_30_sec;
+    QAction* action_setAdamOff_1_min;
+    QAction* action_setAdamOff_5_min;
+    QAction* action_setAdamOff_10_min;
+    QAction* action_setAdamOff_20_min;
+    QAction* action_setAdamOff_30_min;
+    QAction* action_setAdamOff_1_hour;
+
+    int val_for_setAdamoff;
 
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
+
+    bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode* parrent);
 
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
@@ -87,6 +111,20 @@ private:
 
     QModelIndex current_index;
 
+    QString str_GROUP;
+    QString str_KL;
+    QString str_SD_BL_IP;
+    QString str_IU_BL_IP;
+    QString str_TG;
+    QString str_RLM_KRL;
+    QString str_RLM_C;
+    QString str_BOD_T4K_M;
+    QString str_Y4_T4K_M;
+    QString str_DD_T4K_M;
+    QString str_BOD_SOTA;
+    QString str_Y4_SOTA;
+    QString str_DD_SOTA;
+
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
@@ -96,6 +134,24 @@ public:
     Map map;
 
 private slots:
+
+    void setDK();
+    void YZ_MONOLIT();
+    void setAlarmMsgOn();
+
+    void setAdamOff();
+
+    void setAdamOff_off();
+    void setAdamOff_5_sec();
+    void setAdamOff_10_sec();
+    void setAdamOff_30_sec();
+    void setAdamOff_1_min();
+    void setAdamOff_5_min();
+    void setAdamOff_10_min();
+    void setAdamOff_20_min();
+    void setAdamOff_30_min();
+    void setAdamOff_1_hour();
+
 
     void select(QString Name);
 
@@ -117,5 +173,8 @@ private slots:
     void on_pushButton_9_clicked();
     void on_pushButton_moveUp_clicked();
     void on_pushButton_moveDown_clicked();
+    void on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+    void on_treeView_customContextMenuRequested(const QPoint &pos);
+    void on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

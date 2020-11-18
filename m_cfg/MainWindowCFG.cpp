@@ -10,7 +10,40 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowCFG)
 {
+
+    str_GROUP="Группа";
+    str_SD_BL_IP="БЛ-IP СД";
+    str_IU_BL_IP="БЛ-IP ИУ";
+    str_KL = "КЛ1 (концентратор) СД";
+    str_TG ="Точка/Гарда";
+    str_RLM_KRL = "РИФ-РЛМ/КРЛ/Трасса";
+    str_RLM_C = "РИФ-РЛМ-С";
+    str_BOD_T4K_M = "БОД Точка-М/Гарда";
+    str_Y4_T4K_M = "Участок Точка-М/Гарда";
+    str_DD_T4K_M = "ДД Точка-М/Гарда";
+    str_BOD_SOTA = "БОД Сота/Сота-М";
+    str_Y4_SOTA = "Участок Сота/Сота-М";
+    str_DD_SOTA = "ДД Сота/Сота-М";
+
+
+
+
     ui->setupUi(this);
+
+    this->ui->uType_combobox->addItem(str_GROUP);
+    this->ui->uType_combobox->addItem(str_SD_BL_IP);
+    this->ui->uType_combobox->addItem(str_IU_BL_IP);
+    this->ui->uType_combobox->addItem(str_KL);
+    this->ui->uType_combobox->addItem(str_TG);
+    this->ui->uType_combobox->addItem(str_RLM_KRL);
+    this->ui->uType_combobox->addItem(str_RLM_C);
+    this->ui->uType_combobox->addItem(str_BOD_T4K_M);
+    this->ui->uType_combobox->addItem(str_Y4_T4K_M);
+    this->ui->uType_combobox->addItem(str_DD_T4K_M);
+    this->ui->uType_combobox->addItem(str_BOD_SOTA);
+    this->ui->uType_combobox->addItem(str_Y4_SOTA);
+    this->ui->uType_combobox->addItem(str_DD_SOTA);
+
   //  this->current_index=nullptr;
 
 
@@ -25,6 +58,13 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     ui->treeView->setColumnWidth(0,1000);
     ui->treeView->setColumnWidth(1,1000);
     ui->treeView->setColumnWidth(2,1000);
+
+
+     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+     menu = new QMenu(ui->treeView);
+     menu->addAction("hello");
+     menu->addAction("world");
+
  //   QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
  //    qDebug()<<"patch = "<<patch;
  //   this->modelTreeUN->loadSettings(patch);
@@ -33,6 +73,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     for(int i=1;i<100;i++)
     {
+
+
     this->ui->BOD_T4K_M_comboBox_Num1->addItem(QString::number(i));
     this->ui->Y4_T4K_M_comboBox_Num1->addItem(QString::number(i));
     this->ui->Y4_T4K_M_comboBox_Num2->addItem(QString::number(i));
@@ -47,11 +89,87 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->textEdit->clear();
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
+
+    this->ui->tableWidget->setColumnWidth(0,10);
+    this->ui->tableWidget->setColumnWidth(1,70);
+    this->ui->tableWidget->setColumnWidth(2,70);
+    this->ui->tableWidget->setColumnWidth(3,70);
+    this->ui->tableWidget->setColumnWidth(4,70);
+    this->ui->tableWidget->setColumnWidth(5,70);
+    this->ui->tableWidget->setColumnWidth(6,70);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
 
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+
+    action_setDK = new QAction(trUtf8("Выполнять команду ДК"), this);
+    action_YZ_MONOLIT = new QAction(trUtf8("УЗ Монолит"), this);
+    action_setAlarmMsgOn  =new QAction(trUtf8("Выдавать сообщение при тревогах"), this);
+
+    action_setDK->setCheckable(true);
+    action_YZ_MONOLIT->setCheckable(true);
+    action_setAlarmMsgOn->setCheckable(true);
+
+    action_setAdamOff_off = new QAction(trUtf8("выкл"), this);
+    action_setAdamOff_5_sec = new QAction(trUtf8("5 сек"), this);
+    action_setAdamOff_10_sec= new QAction(trUtf8("10 сек"), this);
+    action_setAdamOff_30_sec= new QAction(trUtf8("30 сек"), this);
+    action_setAdamOff_1_min= new QAction(trUtf8("1 мин"), this);
+    action_setAdamOff_5_min= new QAction(trUtf8("5 мин"), this);
+    action_setAdamOff_10_min= new QAction(trUtf8("10 мин"), this);
+    action_setAdamOff_20_min= new QAction(trUtf8("20 мин"), this);
+    action_setAdamOff_30_min= new QAction(trUtf8("30 мин"), this);
+    action_setAdamOff_1_hour= new QAction(trUtf8("1 час"), this);
+
+    action_setAdamOff_off->setCheckable(true);
+    action_setAdamOff_5_sec->setCheckable(true);
+    action_setAdamOff_10_sec->setCheckable(true);
+    action_setAdamOff_30_sec->setCheckable(true);
+    action_setAdamOff_1_min->setCheckable(true);
+    action_setAdamOff_5_min->setCheckable(true);
+    action_setAdamOff_10_min->setCheckable(true);
+    action_setAdamOff_20_min->setCheckable(true);
+    action_setAdamOff_30_min->setCheckable(true);
+    action_setAdamOff_1_hour->setCheckable(true);
+
+
+
+
+    menuAdamOff = new QMenu(menu);
+    menuAdamOff->setTitle("Автовыключение");
+    menuAdamOff->addAction(this->action_setAdamOff_off);
+    menuAdamOff->addAction(this->action_setAdamOff_5_sec);
+    menuAdamOff->addAction(this->action_setAdamOff_10_sec);
+    menuAdamOff->addAction(this->action_setAdamOff_30_sec);
+    menuAdamOff->addAction(this->action_setAdamOff_1_min);
+    menuAdamOff->addAction(this->action_setAdamOff_10_min);
+    menuAdamOff->addAction(this->action_setAdamOff_20_min);
+    menuAdamOff->addAction(this->action_setAdamOff_30_min);
+    menuAdamOff->addAction(this->action_setAdamOff_1_hour);
+
+
+
+
+    menu->addMenu(menuAdamOff);
+
+
+    connect (action_setDK, SIGNAL(triggered()  ) , this,SLOT     (setDK())  );
+    connect (action_YZ_MONOLIT, SIGNAL(triggered()  ) , this,SLOT     (YZ_MONOLIT())  );
+    connect (action_setAlarmMsgOn, SIGNAL(triggered()  ) , this,SLOT     (setAlarmMsgOn())  );
+
+        connect (action_setAdamOff_off, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_off())  );
+        connect (action_setAdamOff_5_sec, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_5_sec())  );
+        connect (action_setAdamOff_10_sec, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_10_sec())  );
+        connect (action_setAdamOff_30_sec, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_30_sec())  );
+        connect (action_setAdamOff_1_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_1_min())  );
+        connect (action_setAdamOff_10_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_10_min())  );
+        connect (action_setAdamOff_20_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_20_min())  );
+        connect (action_setAdamOff_30_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_30_min())  );
+        connect (action_setAdamOff_1_hour, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_1_hour())  );
+
+
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -259,56 +377,56 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     switch(int_Type)
     {
     case TypeUnitNode::GROUP:
-    Type.append("Группа");
+    Type.append(str_GROUP);
     break;
 
     case TypeUnitNode::SD_BL_IP:
-    Type.append("СД БЛ-IP");
+    Type.append(str_SD_BL_IP);
     break;
 
     case TypeUnitNode::IU_BL_IP:
-    Type.append("ИУ БЛ-IP");
+    Type.append(str_IU_BL_IP);
     break;
 
     case TypeUnitNode::TG:
-    Type.append("Точка/Гарда");
+    Type.append(str_TG);
     break;
 
     case TypeUnitNode::RLM_KRL:
-    Type.append("РИФ-РЛМ/КРЛ/Трасса");
+    Type.append(str_TG);
     break;
 
     case TypeUnitNode::RLM_C:
-    Type.append("РИФ-РЛМ-С");
+    Type.append(str_RLM_C);
     break;
 
     case TypeUnitNode::BOD_T4K_M:
-    Type.append("БОД Точка-М/Гряда");
+    Type.append(str_BOD_T4K_M);
     break;
 
     case TypeUnitNode::Y4_T4K_M:
-    Type.append("Участок Точка-М/Гряда");
+    Type.append("Участок Точка-М/Гарда");
     break;
 
     case TypeUnitNode::BOD_SOTA:
-    Type.append("БОД Сота/Сота-М");
+    Type.append(str_BOD_SOTA);
     break;
 
     case TypeUnitNode::Y4_SOTA:
-    Type.append("Участок Сота/Сота-М");
+    Type.append(str_Y4_SOTA);
     break;
 
     case TypeUnitNode::DD_SOTA:
-    Type.append("ДД Сота/Сота-М");
+    Type.append(str_DD_SOTA);
     break;
  /*
-    if(arg1=="БОД Сота/Сота-М")
+    if(arg1==str_BOD_SOTA)
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
     else
-    if(arg1=="Участок Сота/Сота-М")
+    if(arg1==str_Y4_SOTA)
     this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
         else
-    if(arg1=="ДД Сота/Сота-М")
+    if(arg1==str_DD_SOTA)
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
 */
 
@@ -327,54 +445,57 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
 int MainWindowCFG::Type_from_string_to_int(QString Type)
 {
 
-    if(Type=="Группа")
+    if(Type==str_GROUP)
         return TypeUnitNode::GROUP;
 
-    if(Type=="СД БЛ-IP")
+    if(Type==str_SD_BL_IP)
         return TypeUnitNode::SD_BL_IP;
 
-    if(Type=="БОД Сота/Сота-М")
+    if(Type==str_IU_BL_IP)
+        return TypeUnitNode::IU_BL_IP;
+
+    if(Type==str_BOD_SOTA)
         return TypeUnitNode::BOD_SOTA;
 
-    if(Type=="Участок Сота/Сота-М")
+    if(Type==str_Y4_SOTA)
         return TypeUnitNode::Y4_SOTA;
 
-    if(Type=="ДД Сота/Сота-М")
+    if(Type==str_DD_SOTA)
         return TypeUnitNode::DD_SOTA;
     /*
     case TypeUnitNode::GROUP:
 break;
 
 
-    Type.append("Группа");
+    Type.append(str_GROUP);
     break;
 
     case TypeUnitNode::SD_BL_IP:
-    Type.append("СД БЛ-IP");
+    Type.append(str_SD_BL_IP);
     break;
 
     case TypeUnitNode::IU_BL_IP:
-    Type.append("ИУ БЛ-IP");
+    Type.append(str_IU_BL_IP);
     break;
 
     case TypeUnitNode::TG:
-    Type.append("Точка/Гарда");
+    Type.append(str_TG);
     break;
 
     case TypeUnitNode::RLM_KRL:
-    Type.append("РИФ-РЛМ/КРЛ/Трасса");
+    Type.append(str_RLM_KRL);
     break;
 
     case TypeUnitNode::RLM_C:
-    Type.append("РИФ-РЛМ-С");
+    Type.append(str_RLM_C);
     break;
 
     case TypeUnitNode::BOD_T4K_M:
-    Type.append("БОД Точка-М/Гряда");
+    Type.append(str_BOD_T4K_M);
     break;
 
     case TypeUnitNode::Y4_T4K_M:
-    Type.append("Участок Точка-М/Гряда");
+    Type.append("Участок Точка-М/Гарда");
     break;
     */
 }
@@ -429,49 +550,78 @@ void MainWindowCFG::update_map()
 
 void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 {
-
-
-
-    if(arg1=="Группа")
+    this->ui->type_pxm_label->clear();
+    if(arg1==str_GROUP){
     this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
+    }
     else
-    if(arg1=="СД БЛ-IP")
-    this->ui->stackedWidget->setCurrentWidget(this->ui->CD_BL_IP_groupbox);
+    if(arg1==str_SD_BL_IP){
+    qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+        this->ui->SD_BL_IP_UDP_RS485_combobox->setCurrentText("RS485");
+    }
     else
-    if(arg1=="ИУ БЛ-IP")
+    if(arg1==str_IU_BL_IP)
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
+    }
     else
-    if(arg1=="Точка/Гарда")
+    if(arg1==str_TG)
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
+    }
     else
-    if(arg1=="РИФ-РЛМ/КРЛ/Трасса")
+    if(arg1==str_RLM_KRL)
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+    }
     else
-    if(arg1=="РИФ-РЛМ-С")
+    if(arg1==str_RLM_C)
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
+    }
     else
-    if(arg1=="БОД Точка-М/Гряда")
+    if(arg1==str_BOD_T4K_M)
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
+    }
     else
-    if(arg1=="Участок Точка-М/Гряда")
+    if(arg1=="Участок Точка-М/Гарда")
+    {
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
-
-    if(arg1=="БОД Сота/Сота-М")
-     {
+    }
+    else
+    if(arg1==str_BOD_SOTA)
+    {
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-            this->ui->BOD_SOTA_M_type_combobox->setCurrentText("RS485");
- //   this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
-     }
+    this->ui->BOD_SOTA_M_type_combobox->setCurrentText("RS485");
+ // this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+    }
     else
-    if(arg1=="Участок Сота/Сота-М")
+    if(arg1==str_Y4_SOTA)
+    {
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+    }
     else
-    if(arg1=="ДД Сота/Сота-М")
+    if(arg1==str_DD_SOTA)
+    {
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
-
+    }
 
     else
+    {
+        qDebug()<<"EMPTY";
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
+    }
 
 
 //Участок Точка-М/Гряда
@@ -521,7 +671,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::IU_BL_IP:
-       this->get_option_IU_BL_IP(unit);
+       this->set_option_IU_BL_IP(unit);
        break;
 
        case TypeUnitNode::TG:
@@ -625,6 +775,155 @@ void MainWindowCFG::on_pushButton_clicked()
 }
 
 
+QString MainWindowCFG::get_unit_name(int type)
+{
+
+}
+
+void MainWindowCFG::setDK()
+{
+//    qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!]";
+QModelIndex index = this->ui->treeView->currentIndex();
+UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+qDebug()<<un->getName();
+
+if(un->getDK()==0)
+{
+
+    qDebug()<<"[0]";
+    un->setDK(true);
+    qDebug()<<"[1]";
+}
+else
+{
+    qDebug()<<"[1]";
+    un->setDK(false);
+    qDebug()<<"[0]";
+}
+
+
+}
+
+void MainWindowCFG::YZ_MONOLIT()
+{
+
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    qDebug()<<un->getName();
+
+    qDebug()<<"YZ_MONOLIT()";
+    if(un->getBazalt()==0)
+    {
+
+        qDebug()<<"[0]";
+        un->setBazalt(true);
+        qDebug()<<"[1]";
+    }
+    else
+    {
+        qDebug()<<"[1]";
+        un->setBazalt(false);
+        qDebug()<<"[0]";
+    }
+}
+
+void MainWindowCFG::setAlarmMsgOn()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    qDebug()<<un->getName();
+
+    qDebug()<<"YZ_MONOLIT()";
+    if(un->getAlarmMsgOn()==0)
+    {
+
+        qDebug()<<"[0]";
+        un->setAlarmMsgOn(true);
+        qDebug()<<"[1]";
+    }
+    else
+    {
+        qDebug()<<"[1]";
+        un->setAlarmMsgOn(false);
+        qDebug()<<"[0]";
+    }
+}
+
+void MainWindowCFG::setAdamOff()
+{
+    qDebug()<<QString::number(val_for_setAdamoff);
+}
+
+void MainWindowCFG::setAdamOff_off()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(0);
+}
+
+void MainWindowCFG::setAdamOff_5_sec()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(1);
+}
+
+void MainWindowCFG::setAdamOff_10_sec()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(2);
+}
+
+void MainWindowCFG::setAdamOff_30_sec()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(3);
+}
+
+void MainWindowCFG::setAdamOff_1_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(4);
+}
+
+void MainWindowCFG::setAdamOff_5_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(5);
+}
+
+void MainWindowCFG::setAdamOff_10_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(6);
+}
+
+void MainWindowCFG::setAdamOff_20_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(7);
+}
+
+void MainWindowCFG::setAdamOff_30_min()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(8);
+}
+
+void MainWindowCFG::setAdamOff_1_hour()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    un->setAdamOff(9);
+}
+
 bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
 {
     return true;
@@ -632,6 +931,7 @@ bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
 
 bool MainWindowCFG::pass_to_add(UnitNode *unit, UnitNode *parrent)
 {
+
 
 qDebug()<<"[can_i_add_or_not?]";
 
@@ -663,7 +963,153 @@ if(false==pass_to_add_DD_SOTA(unit,parrent))
     return false;
 }
 
+if(unit->getType()==TypeUnitNode::SD_BL_IP)
+{
+if(false==this->pass_to_add_SD_BL_IP(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::IU_BL_IP)
+{
+if(false==this->pass_to_add_IU_BL_IP(unit,parrent))
+    return false;
+}
+
 return true;
+}
+
+bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
+{
+    //СД может быть добавлен только к группе или к системе
+        if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
+        {
+            dialog.showMessage("СД может быть добавлен только к группе или к системе");
+            dialog.exec();
+            return false;
+
+        }
+   //Num2 от нуля до восьми
+    if(unit->getNum2()<0||unit->getNum2()>8)
+        return false;
+
+    //Если выбран RS-485
+    if(unit->getUdpUse()==0)
+    {
+        qDebug()<<"[RS485]";
+        //Контролируем отсутствие юнита с таким же Num2 и Num3
+
+           QList<UnitNode *> List1;
+           this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+           foreach(UnitNode *un, List1 )
+           {
+            if(un->getType()==unit->getType())
+            if(un->getUdpUse()==unit->getUdpUse())
+            if(un->getNum3()==unit->getNum3())
+            if(un->getNum2()==unit->getNum2())
+            {
+                dialog.showMessage("в этом БЛ-IP уже есть СД с этим номером");
+                dialog.exec();
+                return false;
+            }
+           }
+
+    }
+
+    //Если выбран UDP
+        if(unit->getUdpUse()==1)
+        {
+                    qDebug()<<"[UDP]";
+         //Контролируем отсутствие юнита с таким же Num2 и Num3
+
+               QList<UnitNode *> List1;
+               this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+               foreach(UnitNode *un, List1 )
+            {
+                   if(un->getType()==unit->getType())
+                   if(un->getUdpUse()==unit->getUdpUse())
+                   if(un->getUdpAdress()==unit->getUdpAdress())
+                   if(un->getNum2()==unit->getNum2())
+             {
+
+                 dialog.showMessage("в этом БЛ-IP уже есть СД с этим номером");
+                 dialog.exec();
+                 return false;
+             }
+            }
+         }
+
+
+
+
+        //Находим все СД с таким же UdpAdress
+        //Контролируем отсутствие юнита с таким же Num2 и UdpAdress
+        return true;
+}
+
+bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
+{
+    //ИУ может быть добавлен только к группе или к системе
+        if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
+        {
+            dialog.showMessage("ИУ может быть добавлен только к группе или к системе");
+            dialog.exec();
+            return false;
+
+        }
+
+        //Num2 от нуля до четырех
+         if(unit->getNum2()<0||unit->getNum2()>4)
+
+             return false;
+
+         //Если выбран RS-485
+         if(unit->getUdpUse()==0)
+         {
+             qDebug()<<"[RS485]";
+             //Контролируем отсутствие юнита с таким же Num2 и Num3
+
+                QList<UnitNode *> List1;
+                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                foreach(UnitNode *un, List1 )
+                {
+                 if(un->getType()==unit->getType())
+                 if(un->getUdpUse()==unit->getUdpUse())
+                 if(un->getNum3()==unit->getNum3())
+                 if(un->getNum2()==unit->getNum2())
+                 {
+                     dialog.showMessage("в этом БЛ-IP уже есть ИУ с этим номером");
+                     dialog.exec();
+                     return false;
+                 }
+                }
+
+         }
+
+         //Если выбран UDP
+             if(unit->getUdpUse()==1)
+             {
+                         qDebug()<<"[UDP]";
+              //Контролируем отсутствие юнита с таким же Num2 и Num3
+
+                    QList<UnitNode *> List1;
+                    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                    foreach(UnitNode *un, List1 )
+                 {
+                        if(un->getType()==unit->getType())
+                        if(un->getUdpUse()==unit->getUdpUse())
+                        if(un->getUdpAdress()==unit->getUdpAdress())
+                        if(un->getNum2()==unit->getNum2())
+                  {
+
+                      dialog.showMessage("в этом БЛ-IP уже есть ИУ с этим номером");
+                      dialog.exec();
+                      return false;
+                  }
+                 }
+              }
+
+        return true;
+
 }
 
 bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
@@ -684,7 +1130,9 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
             if(unit->getUdpUse()==0)
             {
           //            qDebug()<<"[getUdpUse()==0]";
-                foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+                QList<UnitNode *> List1;
+                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                foreach(UnitNode *un, List1 )
                 {
 
             qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
@@ -704,7 +1152,9 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
             if(unit->getUdpUse()==1)
             {
               //проконтроилровать отсутствие в дереве такого же IP адреса
-                foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+                QList<UnitNode *> List1;
+                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                foreach(UnitNode *un, List1 )
                 {
        //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
                  if((un->getUdpAdress()==unit->getUdpAdress()))
@@ -736,7 +1186,9 @@ bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
     //Составить лист участков этого БОДА
     QList<UnitNode*> List;
 
-    foreach(UnitNode *un, this->modelTreeUN->listItemUN )
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    foreach(UnitNode *un, List1 )
     {
        qDebug()<<".";
 //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
@@ -844,13 +1296,13 @@ bool MainWindowCFG::add_unit()
 
     /*
     QString type_srtring=this->ui->uType_combobox->currentText();
-    if(type_srtring=="Группа")
+    if(type_srtring==str_GROUP)
     type=GROUP;
     else
-    if(type_srtring=="СД БЛ-IP")
+    if(type_srtring==str_SD_BL_IP)
     type=SD_BL_IP;
     else
-    if(type_srtring=="ИУ БЛ-IP")
+    if(type_srtring==str_IU_BL_IP)
     type=IU_BL_IP;
     else
     res=0;
@@ -1001,15 +1453,61 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
             <<" UdpAdress:"<<UdpAdress;
 */
 
+    this->ui->textEdit->clear();
+    QString string1;
 
 
+    string1.append("БЛ-IP ");
 
-    this->ui->CD_comboBox_Num2->setCurrentText(QString::number(unit->getNum2()));
+    string1.append("Кан:");
+
+    if(unit->getBazalt()==1)
+    {
+        string1.append("БЛ-IP Уз");
+        string1.append("Кан:");
+    }
+    if(unit->getBazalt()==0)
+    {
+        string1.append("БЛ-IP ");
+        string1.append("Кан:");
+    }
+
+    if(unit->getUdpUse()==0)
+    {
+        string1.append(QString::number(unit->getNum3()));
+        string1.append(" ");
+        string1.append("СД:");
+        string1.append(QString::number(unit->getNum2()));
+
+        if(unit->getBazalt()==1)
+        {
+            string1.append(" - ");
+            string1.append("ИУ");
+            string1.append(QString::number(unit->getNum2()));
+        }
+
+        if(unit->getUdpAdress()!="")
+        {
+            string1.append(" ");
+            string1.append("(");
+            string1.append(unit->getUdpAdress());
+            string1.append(")");
+        }
+    }
+    if(unit->getUdpUse()==1)
+    {
+        string1.append(unit->getUdpAdress());
+        string1.append("::");
+        string1.append(QString::number(unit->getUdpPort()));
+        string1.append(" ");
+        string1.append("СД:");
+        string1.append(QString::number(unit->getNum2()));
+    }
 
 
-    this->ui->CD_DK_checkBox->setChecked(DK);
-    this->ui->CD_Bazalt_checkBox->setChecked(Bazalt);
-    this->ui->CD_connectblock_checkBox->setChecked(connectblock);
+this->ui->textEdit->append(string1);
+
+
 
 }
 
@@ -1181,11 +1679,27 @@ void MainWindowCFG::get_option_BL_IP(UnitNode *unit)
 
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 {
-    unit->setName(this->ui->uName_lineedit->text());
-    unit->setNum2(this->ui->CD_comboBox_Num2->currentText().toInt());
-    unit->setDK(this->ui->CD_DK_checkBox->isChecked()?1:0);
-    unit->setBazalt(this->ui->CD_Bazalt_checkBox->isChecked()?1:0);
-    unit->setConnectBlock(this->ui->CD_connectblock_checkBox->isChecked()?1:0);
+
+
+
+    unit->setNum1(0);
+    unit->setNum2(this->ui->SD_BL_IP_num_combobox->currentText().toInt());
+    unit->setNum3(this->ui->SD_BL_IP_M_port_combobox->currentText().toInt());
+
+    if(this->ui->SD_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+    {
+            unit->setUdpUse(1);
+    }
+
+    else
+    {
+            unit->setUdpUse(0);
+    }
+
+    unit->setUdpAdress(this->ui->SD_BL_IP_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->SD_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->SD_BL_IP_timeout_doubleSpinBox->text().toInt());
+
 
     qDebug()<<"Name: "<<unit->getName()
             <<" Type:"<<this->Type_from_int_to_string(unit->getType())
@@ -1195,11 +1709,28 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
             <<" connectblock:"<<QString::number(unit->getConnectBlock())
             <<" UdpUse:"<<QString::number(unit->getUdpUse())
             <<" UdpAdress:"<<unit->getUdpAdress();
+
 }
 
 void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
 {
+    unit->setNum1(0);
+    unit->setNum2(this->ui->IU_BL_IP_num_combobox->currentText().toInt());
+    unit->setNum3(this->ui->IU_BL_IP_M_port_combobox->currentText().toInt());
 
+    if(this->ui->IU_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+    {
+            unit->setUdpUse(1);
+    }
+
+    else
+    {
+            unit->setUdpUse(0);
+    }
+
+    unit->setUdpAdress(this->ui->IU_BL_IP_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->IU_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->IU_BL_IP_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_TG(UnitNode *unit)
@@ -1243,9 +1774,9 @@ if(this->ui->BOD_SOTA_M_type_combobox->currentText()=="UDP")
 else
     unit->setUdpUse(0);
 
-unit->setUdpPort(this->ui->BOD_SOTA_MUdpPort_lineedit->text().toInt());
+unit->setUdpPort(this->ui->BOD_SOTA_MUdpPort_doubleSpinBox->text().toInt());
 unit->setUdpAdress(this->ui->BOD_SOTA_M_ipadress_lineedit->text());
-unit->setUdpTimeout(this->ui->BOD_SOTA_M_timeout_lineedit->text().toInt());
+unit->setUdpTimeout(this->ui->BOD_SOTA_M_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit)
@@ -1528,4 +2059,141 @@ void MainWindowCFG::on_pushButton_moveDown_clicked()
 
         this->modelTreeUN->moveUNDown(current);
 
+}
+
+void MainWindowCFG::on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->SD_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+       this->ui->SD_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->SD_UDP);
+    else
+  //   this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+        this->ui->SD_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->SD_RS485);
+
+}
+
+void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
+{
+    menu->clear();
+    qDebug()<<"[ContextMenuRequested]";
+    QModelIndex index = ui->treeView->indexAt(pos);
+        if (index.isValid()) {
+            UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+            if(un->getType()==TypeUnitNode::SD_BL_IP)
+            {
+             menu->addAction(action_setDK);
+    //         connect (action_setDK, SIGNAL(triggered()) , this, SLOT(setDK()));
+
+             qDebug()<<un->getName();
+
+             if(un->getDK()==0)
+             {
+                 qDebug()<<"[0]";
+                 action_setDK->setChecked(false);
+             }
+             else
+             {
+                 qDebug()<<"[1]";
+                action_setDK->setChecked(true);
+             }
+
+            if(un->getNum2()==1||un->getNum2()==2||un->getNum2()==3)
+             menu->addAction(action_YZ_MONOLIT);
+
+            if(un->getBazalt()==0)
+            {
+                qDebug()<<"[0]";
+                action_YZ_MONOLIT->setChecked(false);
+            }
+            else
+            {
+                qDebug()<<"[1]";
+               action_YZ_MONOLIT->setChecked(true);
+            }
+
+            menu->addAction(action_setAlarmMsgOn);
+
+               if(un->getAlarmMsgOn()==0)
+               {
+                   qDebug()<<"[0]";
+                   action_setAlarmMsgOn->setChecked(false);
+               }
+               else
+               {
+                   qDebug()<<"[1]";
+                }
+            }
+            if(un->getType()==TypeUnitNode::IU_BL_IP)
+            {
+                action_setAlarmMsgOn->setChecked(true);
+
+
+
+             action_setAdamOff_off->setChecked(false);
+             action_setAdamOff_5_sec->setChecked(false);
+             action_setAdamOff_10_sec->setChecked(false);
+             action_setAdamOff_30_sec->setChecked(false);
+             action_setAdamOff_1_min->setChecked(false);
+             action_setAdamOff_5_min->setChecked(false);
+             action_setAdamOff_10_min->setChecked(false);
+             action_setAdamOff_20_min->setChecked(false);
+             action_setAdamOff_30_min->setChecked(false);
+             action_setAdamOff_1_hour->setChecked(false);
+             menu->addMenu(menuAdamOff);
+             switch(un->getAdamOff())
+             {
+             case 0:
+             action_setAdamOff_off->setChecked(true);
+             break;
+
+             case 1:
+             action_setAdamOff_5_sec->setChecked(true);
+             break;
+
+             case 2:
+             action_setAdamOff_10_sec->setChecked(true);
+             break;
+
+             case 3:
+             action_setAdamOff_30_sec->setChecked(true);
+             break;
+
+             case 4:
+             action_setAdamOff_1_min->setChecked(true);
+             break;
+
+             case 5:
+             action_setAdamOff_5_min->setChecked(true);
+             break;
+
+             case 6:
+             action_setAdamOff_10_min->setChecked(true);
+             break;
+
+             case 7:
+             action_setAdamOff_20_min->setChecked(true);
+             break;
+
+             case 8:
+             action_setAdamOff_30_min->setChecked(true);
+             break;
+
+             case 9:
+             action_setAdamOff_1_hour->setChecked(true);
+             break;
+             }
+
+            }
+            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+
+        }
+}
+
+
+
+void MainWindowCFG::on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->IU_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui ->IU_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_UDP);
+    else
+     this->ui->IU_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
 }

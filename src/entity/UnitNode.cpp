@@ -524,7 +524,13 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
          else
          return Icons::fldr_empt();
          }
-         else if(TypeUnitNode::SD_BL_IP    == getType()) {return Icons_cfg::sd();        }
+         else
+             if(TypeUnitNode::SD_BL_IP    == getType())
+             {
+                 if(this->getBazalt()==1)
+                     return Icons_cfg::sd_basalt();
+                 return Icons_cfg::sd();
+             }
          else if(TypeUnitNode::IU_BL_IP    == getType()) {return Icons_cfg::iu();        }
          else if(TypeUnitNode::BOD_T4K_M   == getType()) {return Icons_cfg::BOD_T4K_M(); }
          else if(TypeUnitNode::BOD_SOTA    == getType()) {return Icons_cfg::BOD_T4K_M(); }
