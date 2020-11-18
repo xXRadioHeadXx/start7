@@ -105,9 +105,12 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
 
     action_setDK=new QAction(trUtf8("Выполнять команду ДК"), this);
+    action_YZ_MONOLIT=new QAction(trUtf8("УЗ Монолит"), this);
     action_setDK->setCheckable(true);
+    action_YZ_MONOLIT->setCheckable(true);
 
     connect (action_setDK, SIGNAL(triggered()  ) , this,SLOT     (setDK())  );
+    connect (action_YZ_MONOLIT, SIGNAL(triggered()  ) , this,SLOT     (YZ_MONOLIT())  );
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -738,6 +741,29 @@ else
 
 }
 
+void MainWindowCFG::YZ_MONOLIT()
+{
+
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    qDebug()<<un->getName();
+
+    qDebug()<<"YZ_MONOLIT()";
+    if(un->getBazalt()==0)
+    {
+
+        qDebug()<<"[0]";
+        un->setBazalt(true);
+        qDebug()<<"[1]";
+    }
+    else
+    {
+        qDebug()<<"[1]";
+        un->setBazalt(false);
+        qDebug()<<"[0]";
+    }
+}
+
 bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
 {
     return true;
@@ -1193,7 +1219,59 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
             <<" UdpAdress:"<<UdpAdress;
 */
 
+    this->ui->textEdit->clear();
+    QString string1;
 
+
+    string1.append("БЛ-IP ");
+
+    string1.append("Кан:");
+
+    if(unit->getBazalt()==1)
+    {
+        string1.append("БЛ-IP Уз");
+        string1.append("Кан:");
+    }
+    if(unit->getBazalt()==0)
+    {
+        string1.append("БЛ-IP ");
+        string1.append("Кан:");
+    }
+
+    if(unit->getUdpUse()==0)
+    {
+        string1.append(QString::number(unit->getNum3()));
+        string1.append(" ");
+        string1.append("СД:");
+        string1.append(QString::number(unit->getNum2()));
+
+        if(unit->getBazalt()==1)
+        {
+            string1.append(" - ");
+            string1.append("ИУ");
+            string1.append(QString::number(unit->getNum2()));
+        }
+
+        if(unit->getUdpAdress()!="")
+        {
+            string1.append(" ");
+            string1.append("(");
+            string1.append(unit->getUdpAdress());
+            string1.append(")");
+        }
+    }
+    if(unit->getUdpUse()==1)
+    {
+        string1.append(unit->getUdpAdress());
+        string1.append("::");
+        string1.append(QString::number(unit->getUdpPort()));
+        string1.append(" ");
+        string1.append("СД:");
+        string1.append(QString::number(unit->getNum2()));
+    }
+
+
+this->ui->textEdit->append(string1);
 
 
 
@@ -1383,6 +1461,10 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
     {
             unit->setUdpUse(0);
     }
+
+    unit->setUdpAdress(this->ui->SD_BL_IP_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->SD_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->SD_BL_IP_timeout_doubleSpinBox->text().toInt());
 
 
     qDebug()<<"Name: "<<unit->getName()
@@ -1764,7 +1846,19 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                 action_setDK->setChecked(true);
              }
 
+            if(un->getNum2()==1||un->getNum2()==2||un->getNum2()==3)
+             menu->addAction(action_YZ_MONOLIT);
 
+            if(un->getBazalt()==0)
+            {
+                qDebug()<<"[0]";
+                action_YZ_MONOLIT->setChecked(false);
+            }
+            else
+            {
+                qDebug()<<"[1]";
+               action_YZ_MONOLIT->setChecked(true);
+            }
 
             }
             menu->exec(ui->treeView->viewport()->mapToGlobal(pos));

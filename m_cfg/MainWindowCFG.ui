@@ -644,7 +644,7 @@
                </rect>
               </property>
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="SD_UDP">
                <widget class="QLabel" name="label_63">
@@ -673,7 +673,7 @@
                  <string>Таймаут, мс</string>
                 </property>
                </widget>
-               <widget class="QDoubleSpinBox" name="CD_BL_IP_MUdpPort_doubleSpinBox_2">
+               <widget class="QDoubleSpinBox" name="SD_BL_IP_MUdpPort_doubleSpinBox">
                 <property name="geometry">
                  <rect>
                   <x>0</x>
@@ -692,7 +692,7 @@
                  <double>4000.000000000000000</double>
                 </property>
                </widget>
-               <widget class="QDoubleSpinBox" name="CD_BL_IP_timeout_doubleSpinBox_2">
+               <widget class="QDoubleSpinBox" name="SD_BL_IP_timeout_doubleSpinBox">
                 <property name="geometry">
                  <rect>
                   <x>80</x>
@@ -758,7 +758,7 @@
                </widget>
               </widget>
              </widget>
-             <widget class="QLineEdit" name="BOD_SOTA_M_ipadress_lineedit_2">
+             <widget class="QLineEdit" name="SD_BL_IP_ipadress_lineedit">
               <property name="geometry">
                <rect>
                 <x>190</x>

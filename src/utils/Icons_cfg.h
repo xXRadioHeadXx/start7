@@ -10,6 +10,7 @@ public:
     Icons_cfg();
 
     static QPixmap sd();
+    static QPixmap sd_basalt();
     static QPixmap iu();
     static QPixmap BOD_T4K_M();
     static QPixmap Y4_T4K_M();

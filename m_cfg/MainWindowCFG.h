@@ -25,7 +25,7 @@ private:
     QMenu* menu;
 
     QAction* action_setDK;
-
+    QAction* action_YZ_MONOLIT;
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
@@ -119,7 +119,7 @@ public:
 private slots:
 
     void setDK();
-
+    void YZ_MONOLIT();
     void select(QString Name);
 
     void set_x_y(QString Name,int x,int y);
