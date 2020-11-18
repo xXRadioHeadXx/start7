@@ -20,6 +20,8 @@ private:
 
     QErrorMessage dialog;
 
+    QList<Operator*> operators;
+
     QString get_unit_name(int type);
 
     QMenu* menu;
@@ -41,6 +43,8 @@ private:
     QAction* action_setAdamOff_1_hour;
 
     int val_for_setAdamoff;
+
+    int operators_use;
 
 
     bool can_i_add_or_not(int type_parrent, int type_child);
@@ -176,5 +180,6 @@ private slots:
     void on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
     void on_treeView_customContextMenuRequested(const QPoint &pos);
     void on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+    void on_operators_use_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

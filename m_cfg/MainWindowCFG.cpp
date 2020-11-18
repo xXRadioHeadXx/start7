@@ -11,6 +11,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
 
+    operators_use=0;
+
     str_GROUP="Группа";
     str_SD_BL_IP="БЛ-IP СД";
     str_IU_BL_IP="БЛ-IP ИУ";
@@ -33,13 +35,13 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->uType_combobox->addItem(str_GROUP);
     this->ui->uType_combobox->addItem(str_SD_BL_IP);
     this->ui->uType_combobox->addItem(str_IU_BL_IP);
-    this->ui->uType_combobox->addItem(str_KL);
-    this->ui->uType_combobox->addItem(str_TG);
-    this->ui->uType_combobox->addItem(str_RLM_KRL);
-    this->ui->uType_combobox->addItem(str_RLM_C);
-    this->ui->uType_combobox->addItem(str_BOD_T4K_M);
-    this->ui->uType_combobox->addItem(str_Y4_T4K_M);
-    this->ui->uType_combobox->addItem(str_DD_T4K_M);
+//    this->ui->uType_combobox->addItem(str_KL);
+//    this->ui->uType_combobox->addItem(str_TG);
+//    this->ui->uType_combobox->addItem(str_RLM_KRL);
+//    this->ui->uType_combobox->addItem(str_RLM_C);
+//    this->ui->uType_combobox->addItem(str_BOD_T4K_M);
+//    this->ui->uType_combobox->addItem(str_Y4_T4K_M);
+//    this->ui->uType_combobox->addItem(str_DD_T4K_M);
     this->ui->uType_combobox->addItem(str_BOD_SOTA);
     this->ui->uType_combobox->addItem(str_Y4_SOTA);
     this->ui->uType_combobox->addItem(str_DD_SOTA);
@@ -1457,9 +1459,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
     QString string1;
 
 
-    string1.append("БЛ-IP ");
 
-    string1.append("Кан:");
 
     if(unit->getBazalt()==1)
     {
@@ -1513,6 +1513,48 @@ this->ui->textEdit->append(string1);
 
 void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
 {
+
+    this->ui->textEdit->clear();
+    QString string1;
+
+
+
+
+
+        string1.append("БЛ-IP ");
+        string1.append("Кан:");
+
+
+    if(unit->getUdpUse()==0)
+    {
+        string1.append(QString::number(unit->getNum3()));
+        string1.append(" ");
+        string1.append("ИУ:");
+        string1.append(QString::number(unit->getNum2()));
+
+
+
+        if(unit->getUdpAdress()!="")
+        {
+            string1.append(" ");
+            string1.append("(");
+            string1.append(unit->getUdpAdress());
+            string1.append(")");
+        }
+    }
+    if(unit->getUdpUse()==1)
+    {
+        string1.append(unit->getUdpAdress());
+        string1.append("::");
+        string1.append(QString::number(unit->getUdpPort()));
+        string1.append(" ");
+        string1.append("ИУ:");
+        string1.append(QString::number(unit->getNum2()));
+    }
+
+
+this->ui->textEdit->append(string1);
+
 
 }
 
@@ -1901,6 +1943,11 @@ for(int i=1;i<List.count();i++)
 
     settings.endGroup();
 
+    settings.beginGroup("OPERATORS");
+    settings.setValue("Use",operators_use);
+
+    settings.endGroup();
+
 }
 
 void MainWindowCFG::save_option(QSettings *settings, UnitNode *unit)
@@ -2196,4 +2243,20 @@ void MainWindowCFG::on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QStr
      this->ui ->IU_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_UDP);
     else
      this->ui->IU_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+}
+
+void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &arg1)
+{
+    if(arg1=="Без операторов")
+    {
+
+      qDebug()<<"[без операторов]";
+      operators_use=0;
+    }
+    if(arg1=="С операторами")
+    {
+      qDebug()<<"[с операторами]";
+      operators_use=1;
+    }
+
 }

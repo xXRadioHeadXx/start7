@@ -51,5 +51,6 @@
         <file>images/unknown.png</file>
         <file>images/Y4_SOTA.png</file>
         <file>images/БЛ-IP СД.png</file>
+        <file>icons/iu.png</file>
     </qresource>
 </RCC>
