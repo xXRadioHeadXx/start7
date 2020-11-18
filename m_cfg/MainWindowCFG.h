@@ -26,11 +26,28 @@ private:
 
     QAction* action_setDK;
     QAction* action_YZ_MONOLIT;
+    QAction* action_setAlarmMsgOn;
+
+    QMenu*  menuAdamOff;
+    QAction* action_setAdamOff_off;
+    QAction* action_setAdamOff_5_sec;
+    QAction* action_setAdamOff_10_sec;
+    QAction* action_setAdamOff_30_sec;
+    QAction* action_setAdamOff_1_min;
+    QAction* action_setAdamOff_5_min;
+    QAction* action_setAdamOff_10_min;
+    QAction* action_setAdamOff_20_min;
+    QAction* action_setAdamOff_30_min;
+    QAction* action_setAdamOff_1_hour;
+
+    int val_for_setAdamoff;
+
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
 
     bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode* parrent);
 
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
@@ -120,6 +137,11 @@ private slots:
 
     void setDK();
     void YZ_MONOLIT();
+    void setAlarmMsgOn();
+
+    void setAdamOff();
+
+
     void select(QString Name);
 
     void set_x_y(QString Name,int x,int y);
@@ -142,5 +164,6 @@ private slots:
     void on_pushButton_moveDown_clicked();
     void on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
     void on_treeView_customContextMenuRequested(const QPoint &pos);
+    void on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

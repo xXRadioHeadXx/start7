@@ -104,13 +104,45 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 //    dialog.exec();
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
 
-    action_setDK=new QAction(trUtf8("Выполнять команду ДК"), this);
-    action_YZ_MONOLIT=new QAction(trUtf8("УЗ Монолит"), this);
+    action_setDK = new QAction(trUtf8("Выполнять команду ДК"), this);
+    action_YZ_MONOLIT = new QAction(trUtf8("УЗ Монолит"), this);
+    action_setAlarmMsgOn  =new QAction(trUtf8("Выдавать сообщение при тревогах"), this);
+
     action_setDK->setCheckable(true);
     action_YZ_MONOLIT->setCheckable(true);
+    action_setAlarmMsgOn->setCheckable(true);
+
+    action_setAdamOff_off = new QAction(trUtf8("выкл"), this);
+    action_setAdamOff_5_sec = new QAction(trUtf8("5 сек"), this);
+    action_setAdamOff_10_sec= new QAction(trUtf8("10 сек"), this);
+    action_setAdamOff_30_sec= new QAction(trUtf8("30 сек"), this);
+    action_setAdamOff_1_min= new QAction(trUtf8("1 мин"), this);
+    action_setAdamOff_5_min= new QAction(trUtf8("5 мин"), this);
+    action_setAdamOff_10_min= new QAction(trUtf8("10 мин"), this);
+    action_setAdamOff_20_min= new QAction(trUtf8("20 мин"), this);
+    action_setAdamOff_30_min= new QAction(trUtf8("30 мин"), this);
+    action_setAdamOff_1_hour= new QAction(trUtf8("1 час"), this);
+
+    menuAdamOff = new QMenu(menu);
+    menuAdamOff->setTitle("Автовыключение");
+    menuAdamOff->addAction(this->action_setAdamOff_5_sec);
+    menuAdamOff->addAction(this->action_setAdamOff_10_sec);
+    menuAdamOff->addAction(this->action_setAdamOff_30_sec);
+    menuAdamOff->addAction(this->action_setAdamOff_1_min);
+    menuAdamOff->addAction(this->action_setAdamOff_10_min);
+    menuAdamOff->addAction(this->action_setAdamOff_20_min);
+    menuAdamOff->addAction(this->action_setAdamOff_30_min);
+    menuAdamOff->addAction(this->action_setAdamOff_1_hour);
+
+
+
+
+    menu->addMenu(menuAdamOff);
+
 
     connect (action_setDK, SIGNAL(triggered()  ) , this,SLOT     (setDK())  );
     connect (action_YZ_MONOLIT, SIGNAL(triggered()  ) , this,SLOT     (YZ_MONOLIT())  );
+    connect (action_setAlarmMsgOn, SIGNAL(triggered()  ) , this,SLOT     (setAlarmMsgOn())  );
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -392,6 +424,9 @@ int MainWindowCFG::Type_from_string_to_int(QString Type)
     if(Type==str_SD_BL_IP)
         return TypeUnitNode::SD_BL_IP;
 
+    if(Type==str_IU_BL_IP)
+        return TypeUnitNode::IU_BL_IP;
+
     if(Type==str_BOD_SOTA)
         return TypeUnitNode::BOD_SOTA;
 
@@ -497,6 +532,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+        this->ui->SD_BL_IP_UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_IU_BL_IP)
@@ -608,7 +644,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::IU_BL_IP:
-       this->get_option_IU_BL_IP(unit);
+       this->set_option_IU_BL_IP(unit);
        break;
 
        case TypeUnitNode::TG:
@@ -764,6 +800,33 @@ void MainWindowCFG::YZ_MONOLIT()
     }
 }
 
+void MainWindowCFG::setAlarmMsgOn()
+{
+    QModelIndex index = this->ui->treeView->currentIndex();
+    UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+    qDebug()<<un->getName();
+
+    qDebug()<<"YZ_MONOLIT()";
+    if(un->getAlarmMsgOn()==0)
+    {
+
+        qDebug()<<"[0]";
+        un->setAlarmMsgOn(true);
+        qDebug()<<"[1]";
+    }
+    else
+    {
+        qDebug()<<"[1]";
+        un->setAlarmMsgOn(false);
+        qDebug()<<"[0]";
+    }
+}
+
+void MainWindowCFG::setAdamOff()
+{
+qDebug()<<QString::number(val_for_setAdamoff);
+}
+
 bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
 {
     return true;
@@ -771,6 +834,7 @@ bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
 
 bool MainWindowCFG::pass_to_add(UnitNode *unit, UnitNode *parrent)
 {
+
 
 qDebug()<<"[can_i_add_or_not?]";
 
@@ -808,6 +872,12 @@ if(false==this->pass_to_add_SD_BL_IP(unit,parrent))
     return false;
 }
 
+if(unit->getType()==TypeUnitNode::IU_BL_IP)
+{
+if(false==this->pass_to_add_IU_BL_IP(unit,parrent))
+    return false;
+}
+
 return true;
 }
 
@@ -816,7 +886,7 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
     //СД может быть добавлен только к группе или к системе
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
-         //   dialog.showMessage("СД может быть добавлен только к группе или к системе ");
+            dialog.showMessage("СД может быть добавлен только к группе или к системе");
             dialog.exec();
             return false;
 
@@ -876,6 +946,71 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
         //Находим все СД с таким же UdpAdress
         //Контролируем отсутствие юнита с таким же Num2 и UdpAdress
         return true;
+}
+
+bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
+{
+    //ИУ может быть добавлен только к группе или к системе
+        if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
+        {
+            dialog.showMessage("ИУ может быть добавлен только к группе или к системе");
+            dialog.exec();
+            return false;
+
+        }
+
+        //Num2 от нуля до четырех
+         if(unit->getNum2()<0||unit->getNum2()>4)
+
+             return false;
+
+         //Если выбран RS-485
+         if(unit->getUdpUse()==0)
+         {
+             qDebug()<<"[RS485]";
+             //Контролируем отсутствие юнита с таким же Num2 и Num3
+
+                QList<UnitNode *> List1;
+                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                foreach(UnitNode *un, List1 )
+                {
+                 if(un->getUdpUse()==unit->getUdpUse())
+                 if(un->getNum3()==unit->getNum3())
+                 if(un->getNum2()==unit->getNum2())
+                 {
+                     dialog.showMessage("в этом БЛ-IP уже есть ИУ с этим номером");
+                     dialog.exec();
+                     return false;
+                 }
+                }
+
+         }
+
+         //Если выбран UDP
+             if(unit->getUdpUse()==1)
+             {
+                         qDebug()<<"[UDP]";
+              //Контролируем отсутствие юнита с таким же Num2 и Num3
+
+                    QList<UnitNode *> List1;
+                    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                    foreach(UnitNode *un, List1 )
+                 {
+
+                        if(un->getUdpUse()==unit->getUdpUse())
+                        if(un->getUdpAdress()==unit->getUdpAdress())
+                        if(un->getNum2()==unit->getNum2())
+                  {
+
+                      dialog.showMessage("в этом БЛ-IP уже есть ИУ с этим номером");
+                      dialog.exec();
+                      return false;
+                  }
+                 }
+              }
+
+        return true;
+
 }
 
 bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
@@ -1480,7 +1615,23 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 
 void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
 {
+    unit->setNum1(0);
+    unit->setNum2(this->ui->IU_BL_IP_num_combobox->currentText().toInt());
+    unit->setNum3(this->ui->IU_BL_IP_M_port_combobox->currentText().toInt());
 
+    if(this->ui->IU_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+    {
+            unit->setUdpUse(1);
+    }
+
+    else
+    {
+            unit->setUdpUse(0);
+    }
+
+    unit->setUdpAdress(this->ui->IU_BL_IP_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->IU_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->IU_BL_IP_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_TG(UnitNode *unit)
@@ -1860,6 +2011,21 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                action_YZ_MONOLIT->setChecked(true);
             }
 
+            menu->addAction(action_setAlarmMsgOn);
+
+           if(un->getAlarmMsgOn()==0)
+           {
+               qDebug()<<"[0]";
+               action_setAlarmMsgOn->setChecked(false);
+           }
+           else
+           {
+               qDebug()<<"[1]";
+              action_setAlarmMsgOn->setChecked(true);
+           }
+
+           menu->addMenu(menuAdamOff);
+
             }
             menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 
@@ -1867,3 +2033,11 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 }
 
 
+
+void MainWindowCFG::on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->IU_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui ->IU_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_UDP);
+    else
+     this->ui->IU_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+}
