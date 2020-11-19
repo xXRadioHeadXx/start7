@@ -1904,7 +1904,42 @@ this->ui->textEdit->append(string1);
 
 void MainWindowCFG::get_option_TG(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
 
+    string1.append("Точка/Гарда: ");
+    string1.append(QString::number(unit->getNum1()));
+    string1.append(" ");
+    string1.append("ЧЭ: ");
+    string1.append(QString::number(unit->getNum2()));
+    string1.append(" ");
+    string1.append("Кан: ");
+
+    if(unit->getUdpUse()==0)
+    {
+   string1.append(QString::number(unit->getNum3()));
+   if(unit->getUdpAdress()!="")
+   {
+       string1.append(" ");
+       string1.append("(");
+       string1.append(unit->getUdpAdress());
+       string1.append(")");
+   }
+
+
+    }
+
+    if(unit->getUdpUse()==1)
+    {
+        string1.append(unit->getUdpAdress());
+        string1.append("::");
+        string1.append(QString::number(unit->getUdpPort()));
+        string1.append(" ");
+
+    }
+
+    this->ui->textEdit->append(string1);
+    qDebug()<<"[+]"<<string1;
 }
 
 void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
