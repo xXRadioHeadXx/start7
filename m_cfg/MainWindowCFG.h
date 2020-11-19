@@ -62,7 +62,7 @@ private:
     bool pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parrent);
-
+    bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
 
     bool add_unit();
     bool change_unit();
@@ -189,5 +189,6 @@ private slots:
     void on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
     void on_operators_use_combobox_currentTextChanged(const QString &arg1);
     void on_BOD_T4K_M_type_combobox_currentTextChanged(const QString &arg1);
+    void on_TG_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

@@ -36,7 +36,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->uType_combobox->addItem(str_SD_BL_IP);
     this->ui->uType_combobox->addItem(str_IU_BL_IP);
 //    this->ui->uType_combobox->addItem(str_KL);
-//    this->ui->uType_combobox->addItem(str_TG);
+    this->ui->uType_combobox->addItem(str_TG);
 //    this->ui->uType_combobox->addItem(str_RLM_KRL);
 //    this->ui->uType_combobox->addItem(str_RLM_C);
     this->ui->uType_combobox->addItem(str_BOD_T4K_M);
@@ -401,7 +401,7 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     break;
 
     case TypeUnitNode::RLM_KRL:
-    Type.append(str_TG);
+    Type.append(str_RLM_KRL);
     break;
 
     case TypeUnitNode::RLM_C:
@@ -488,6 +488,9 @@ int MainWindowCFG::Type_from_string_to_int(QString Type)
 
     if(Type==str_DD_T4K_M)
         return TypeUnitNode::DD_T4K_M;
+
+    if(Type==str_TG)
+        return TypeUnitNode::TG;
     /*
     case TypeUnitNode::GROUP:
 break;
@@ -598,6 +601,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
+    this->ui->TG_UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_RLM_KRL)
@@ -699,7 +703,8 @@ if(this_name_is_free(this->ui->uName_lineedit->text())==false)
 
     //По умолчанию - если не является устройством, которое подключается по RS-485 к БЛ-IP
     //если является - то значение Num1 присвоится далее в одной из функций
-    unit->setNum1(-1);
+    unit->setNum1(0);
+    unit->setNum2(0);
 
     qDebug()<<"[set_option]";
 int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
@@ -715,7 +720,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::TG:
-  //     this->get_option_TG(unit);
+       this->set_option_TG(unit);
        break;
 
        case TypeUnitNode::RLM_KRL:
@@ -1034,6 +1039,11 @@ if(false==pass_to_add_DD_T4K_M(unit,parrent))
 }
 
 
+if(unit->getType()==TypeUnitNode::TG)
+{
+if(false==pass_to_add_TG(unit,parrent))
+    return false;
+}
 
 return true;
 }
@@ -1516,7 +1526,105 @@ bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)
      }
     }
     return true;
-   return true;
+    return true;
+}
+
+bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
+{
+
+   //ЧЭ от одного до четырех
+     if(unit->getNum2()<0||unit->getNum2()>4)
+     {
+         dialog.showMessage("ЧЭ от одного до четырех !");
+         dialog.exec();
+         return false;
+
+     }
+   //только к группе
+    if(parrent->getType()!=TypeUnitNode::GROUP)
+    {
+        dialog.showMessage("устройство Точка/Гарда может быть добавлено только к группе !");
+        dialog.exec();
+        return false;
+
+    }
+
+    //на свободный адрес этого ком порта
+    if(unit->getUdpUse()==0)
+    {
+  //            qDebug()<<"[getUdpUse()==0]";
+        QList<UnitNode *> List1;
+        this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+        foreach(UnitNode *un, List1 )
+        {
+
+    qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+         if((un->getNum3()==unit->getNum3()))
+             if((un->getNum1()==unit->getNum1()))
+             {
+                 if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
+                  {
+
+                     dialog.showMessage("этот COM порт уже  занят");
+                     dialog.exec();
+                     return false;
+                  }
+                 if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
+                  {
+                     if(un->getNum2()==unit->getNum2())
+                     {
+                         dialog.showMessage("на этом адресе этого порта уже есть такое ЧЭ");
+                         dialog.exec();
+                         return false;
+
+                     }
+
+                  }
+
+             }
+
+
+        }
+     //проконтроилровать отсутствие в дереве такого же порта
+
+    }
+
+    if(unit->getUdpUse()==1)
+    {
+      //проконтроилровать отсутствие в дереве такого же IP адреса
+        QList<UnitNode *> List1;
+        this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+        foreach(UnitNode *un, List1 )
+        {
+//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+         if((un->getUdpAdress()==unit->getUdpAdress()))
+         if((un->getNum1()==unit->getNum1()))
+         {
+             if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
+              {
+
+                 dialog.showMessage("этот IP адрес уже  занят");
+                 dialog.exec();
+                 return false;
+              }
+             if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
+              {
+                 if(un->getNum2()==unit->getNum2())
+                 {
+                     dialog.showMessage("на этом адресе этого порта уже есть такое Ч");
+                     dialog.exec();
+                     return false;
+
+                 }
+
+              }
+
+         }
+
+        }
+    }
+
+return true;
 }
 
 bool MainWindowCFG::add_unit()
@@ -2117,10 +2225,33 @@ void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
     unit->setUdpAdress(this->ui->IU_BL_IP_ipadress_lineedit->text());
     unit->setUdpPort(this->ui->IU_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
     unit->setUdpTimeout(this->ui->IU_BL_IP_timeout_doubleSpinBox->text().toInt());
+
+
+    unit->setUdpAdress(this->ui->IU_BL_IP_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->IU_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->IU_BL_IP_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_TG(UnitNode *unit)
 {
+unit->setNum1(this->ui->TG_adress_combobox->currentText().toInt());
+unit->setNum2(this->ui->TG_U4_4A_combobox->currentText().toInt());
+unit->setNum3(this->ui->TG_M_port_combobox->currentText().toInt());
+
+if(this->ui->TG_UDP_RS485_combobox->currentText()=="UDP")
+    {
+            unit->setUdpUse(1);
+    }
+
+else
+    {
+            unit->setUdpUse(0);
+    }
+
+unit->setUdpAdress(this->ui->TG_ipadress_lineedit->text());
+unit->setUdpPort(this->ui->TG_MUdpPort_doubleSpinBox->text().toInt());
+unit->setUdpTimeout(this->ui->TG_timeout_doubleSpinBox->text().toInt());
+
 
 }
 
@@ -2626,4 +2757,15 @@ void MainWindowCFG::on_BOD_T4K_M_type_combobox_currentTextChanged(const QString 
     else
      this->ui->BOD_T4K_M_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_T4K_M_RS485);
 
+}
+
+void MainWindowCFG::on_TG_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->TG_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui->TG_UDP_RS485_stacked->setCurrentWidget(this->ui->TG_UDP);
+    else
+    {
+        qDebug()<<"[!!!!!!!!!!!!!!!]";
+     this->ui->TG_UDP_RS485_stacked->setCurrentWidget(this->ui->TG_RS485);
+    }
 }
