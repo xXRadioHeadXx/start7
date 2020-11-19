@@ -370,9 +370,9 @@ qDebug()
 
 void MainWindowCFG::get_option_GROUP(UnitNode *unit)
 {
-    unit->setNum1(0);
-    unit->setNum2(0);
-    unit->setNum3(0);
+    unit->setNum1(-1);
+    unit->setNum2(-1);
+    unit->setNum3(-1);
 }
 
 
@@ -696,6 +696,10 @@ if(this_name_is_free(this->ui->uName_lineedit->text())==false)
     qDebug()<<"[ERROR]";
     return false;
 }*/
+
+    //По умолчанию - если не является устройством, которое подключается по RS-485 к БЛ-IP
+    //если является - то значение Num1 присвоится далее в одной из функций
+    unit->setNum1(-1);
 
     qDebug()<<"[set_option]";
 int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
@@ -1193,9 +1197,10 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
 
             qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
                  if((un->getNum3()==unit->getNum3()))
+                 if((un->getNum1()==unit->getNum1()))
                  {
 
-                     dialog.showMessage("этот COM порт  уже  занят");
+                     dialog.showMessage("в этом СОМ порте такой адрес уже  занят");
                      dialog.exec();
                      return false;
                  }
@@ -1214,9 +1219,10 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
                 {
        //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
                  if((un->getUdpAdress()==unit->getUdpAdress()))
+                 if((un->getNum1()==unit->getNum1()))
                   {
 
-                     dialog.showMessage("этот IP адрес уже  занят");
+                     dialog.showMessage("по этому IP адресу такой адрес уже  занят");
                      dialog.exec();
                      return false;
                   }
@@ -1362,6 +1368,7 @@ bool MainWindowCFG::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode *parrent)
 
             qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
                  if((un->getNum3()==unit->getNum3()))
+                 if((un->getNum1()==unit->getNum1()))
                  {
 
                      dialog.showMessage("этот COM порт  уже  занят");
@@ -1384,6 +1391,7 @@ bool MainWindowCFG::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode *parrent)
                 {
        //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
                  if((un->getUdpAdress()==unit->getUdpAdress()))
+                 if((un->getNum1()==unit->getNum1()))
                   {
 
                      dialog.showMessage("этот IP адрес уже  занят");
@@ -2060,7 +2068,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 
 
 
-    unit->setNum1(0);
+
     unit->setNum2(this->ui->SD_BL_IP_num_combobox->currentText().toInt());
     unit->setNum3(this->ui->SD_BL_IP_M_port_combobox->currentText().toInt());
 
@@ -2092,7 +2100,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 
 void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
 {
-    unit->setNum1(0);
+
     unit->setNum2(this->ui->IU_BL_IP_num_combobox->currentText().toInt());
     unit->setNum3(this->ui->IU_BL_IP_M_port_combobox->currentText().toInt());
 
