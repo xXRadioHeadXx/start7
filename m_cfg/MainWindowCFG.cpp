@@ -10,6 +10,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowCFG)
 {
+    ui->setupUi(this);
 
     operators_use=0;
 
@@ -27,17 +28,12 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     str_Y4_SOTA = "Участок Сота/Сота-М";
     str_DD_SOTA = "ДД Сота/Сота-М";
 
-
-
-
-    ui->setupUi(this);
-
     this->ui->uType_combobox->addItem(str_GROUP);
     this->ui->uType_combobox->addItem(str_SD_BL_IP);
     this->ui->uType_combobox->addItem(str_IU_BL_IP);
 //    this->ui->uType_combobox->addItem(str_KL);
     this->ui->uType_combobox->addItem(str_TG);
-//    this->ui->uType_combobox->addItem(str_RLM_KRL);
+    this->ui->uType_combobox->addItem(str_RLM_KRL);
 //    this->ui->uType_combobox->addItem(str_RLM_C);
     this->ui->uType_combobox->addItem(str_BOD_T4K_M);
     this->ui->uType_combobox->addItem(str_Y4_T4K_M);
@@ -45,6 +41,23 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->uType_combobox->addItem(str_BOD_SOTA);
     this->ui->uType_combobox->addItem(str_Y4_SOTA);
     this->ui->uType_combobox->addItem(str_DD_SOTA);
+
+
+
+    str_RIF_RLM="РИФ-РЛМ";
+    str_RIF_RLM_24="РИФ-РЛМ24";
+    str_RIF_RLM_B="РИФ-РЛМ(Б)";
+    str_RIF_KRL="РИФ-КРЛ";
+    str_Razriv="Разрыв";
+    str_trassa1l="Трасса-1л";
+
+this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM);
+this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM_24);
+this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM_B);
+this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_KRL);
+this->ui->RLM_KRL_type_comboBox->addItem(str_Razriv);
+this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
+
 
   //  this->current_index=nullptr;
 
@@ -83,9 +96,11 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     {
 
 
-
+    this->ui->RLM_KRL_adress_combobox->addItem(QString::number(i));
     this->ui->DD_Sota_M_combobox->addItem(QString::number(i));
     }
+
+
 
 
     connect(this->map.scene,SIGNAL(select(QString)),this,SLOT(select(QString)));
@@ -433,7 +448,7 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     break;
 
 
-    break;
+
 
 
  /*
@@ -491,6 +506,13 @@ int MainWindowCFG::Type_from_string_to_int(QString Type)
 
     if(Type==str_TG)
         return TypeUnitNode::TG;
+
+
+    if(Type==str_RLM_KRL)
+        return TypeUnitNode::RLM_KRL;
+
+
+
     /*
     case TypeUnitNode::GROUP:
 break;
@@ -608,6 +630,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+     this->ui->RLM_KRL_UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_RLM_C)
@@ -724,7 +747,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::RLM_KRL:
-  //     this->get_option_RLM_KRL(unit);
+       this->set_option_RLM_KRL(unit);
        break;
 
        case TypeUnitNode::RLM_C:
@@ -1044,6 +1067,13 @@ if(unit->getType()==TypeUnitNode::TG)
 if(false==pass_to_add_TG(unit,parrent))
     return false;
 }
+
+if(unit->getType()==TypeUnitNode::RLM_KRL)
+{
+if(false==pass_to_add_RLM_KRL(unit,parrent))
+    return false;
+}
+
 
 return true;
 }
@@ -1624,7 +1654,67 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
         }
     }
 
-return true;
+    return true;
+}
+
+bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
+{
+    // может быть добавлен только к группе
+        if(parrent->getType()!=TypeUnitNode::GROUP)
+        {
+            dialog.showMessage(" может быть добавлен только к группе");
+            dialog.exec();
+            return false;
+
+        }
+
+    //    Если связь по RS485 - контроль по RS485 порту
+    //    Если связь по UDP - контроль по IP адресу
+
+
+            if(unit->getUdpUse()==0)
+            {
+          //            qDebug()<<"[getUdpUse()==0]";
+                QList<UnitNode *> List1;
+                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                foreach(UnitNode *un, List1 )
+                {
+
+            qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+                 if((un->getNum3()==unit->getNum3()))
+                 if((un->getNum1()==unit->getNum1()))
+                 {
+
+                     dialog.showMessage("этот COM порт  уже  занят");
+                     dialog.exec();
+                     return false;
+                 }
+
+
+                }
+             //проконтроилровать отсутствие в дереве такого же порта
+
+            }
+
+            if(unit->getUdpUse()==1)
+            {
+              //проконтроилровать отсутствие в дереве такого же IP адреса
+                QList<UnitNode *> List1;
+                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+                foreach(UnitNode *un, List1 )
+                {
+       //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+                 if((un->getUdpAdress()==unit->getUdpAdress()))
+                 if((un->getNum1()==unit->getNum1()))
+                  {
+
+                     dialog.showMessage("этот IP адрес уже  занят");
+                     dialog.exec();
+                     return false;
+                  }
+                }
+            }
+            return true;
 }
 
 bool MainWindowCFG::add_unit()
@@ -1944,6 +2034,40 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
 
 void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
+
+
+    if(0==unit->getAdamOff())
+    string1.append(str_RIF_RLM);
+
+    if(1==unit->getAdamOff())
+    string1.append(str_RIF_RLM_24);
+
+    if(2==unit->getAdamOff())
+    string1.append(str_RIF_RLM_B);
+
+    if(3==unit->getAdamOff())
+    string1.append(str_RIF_KRL);
+
+    if(4==unit->getAdamOff())
+    string1.append(str_Razriv);
+
+    if(5==unit->getAdamOff())
+    string1.append(str_trassa1l);
+
+    string1.append(":");
+
+    string1.append(QString::number(unit->getNum1()));
+    string1.append(" ");
+
+
+    string1.append("Кан:");
+
+    string1.append(QString::number(unit->getNum3()));
+    string1.append(" ");
+
+    this->ui->textEdit->append(string1);
 
 }
 
@@ -2292,6 +2416,41 @@ unit->setUdpTimeout(this->ui->TG_timeout_doubleSpinBox->text().toInt());
 
 void MainWindowCFG::set_option_RLM_KRL(UnitNode *unit)
 {
+    unit->setNum1(this->ui->RLM_KRL_adress_combobox->currentText().toInt());
+
+    unit->setNum3(this->ui->RLM_KRL_M_port_combobox->currentText().toInt());
+
+    if(this->ui->RLM_KRL_UDP_RS485_combobox->currentText()=="UDP")
+        {
+                unit->setUdpUse(1);
+        }
+
+    else
+        {
+                unit->setUdpUse(0);
+        }
+
+    unit->setUdpAdress(this->ui->RLM_KRL_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->RLM_KRL_UdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->RLM_KRL_timeout_doubleSpinBox->text().toInt());
+
+    if(this->ui->RLM_KRL_type_comboBox->currentText()==str_RIF_RLM)
+    unit->setAdamOff(0);
+
+    if(this->ui->RLM_KRL_type_comboBox->currentText()==str_RIF_RLM_24)
+    unit->setAdamOff(1);
+
+    if(this->ui->RLM_KRL_type_comboBox->currentText()==str_RIF_RLM_B)
+    unit->setAdamOff(2);
+
+    if(this->ui->RLM_KRL_type_comboBox->currentText()==str_RIF_KRL)
+    unit->setAdamOff(3);
+
+    if(this->ui->RLM_KRL_type_comboBox->currentText()==str_Razriv)
+    unit->setAdamOff(4);
+
+    if(this->ui->RLM_KRL_type_comboBox->currentText()==str_trassa1l)
+    unit->setAdamOff(5);
 
 }
 
@@ -2803,4 +2962,13 @@ void MainWindowCFG::on_TG_UDP_RS485_combobox_currentTextChanged(const QString &a
         qDebug()<<"[!!!!!!!!!!!!!!!]";
      this->ui->TG_UDP_RS485_stacked->setCurrentWidget(this->ui->TG_RS485);
     }
+}
+
+void MainWindowCFG::on_RLM_KRL_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->RLM_KRL_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui->RLM_KRL_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_KRL_UDP);
+    else
+     this->ui->RLM_KRL_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_KRL_RS485);
+
 }

@@ -63,6 +63,7 @@ private:
     bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
 
     bool add_unit();
     bool change_unit();
@@ -136,6 +137,13 @@ private:
     QString str_Y4_SOTA;
     QString str_DD_SOTA;
 
+    QString str_RIF_RLM;
+    QString str_RIF_RLM_24;
+    QString str_RIF_RLM_B;
+    QString str_RIF_KRL;
+    QString str_Razriv;
+    QString str_trassa1l;
+
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
@@ -190,5 +198,6 @@ private slots:
     void on_operators_use_combobox_currentTextChanged(const QString &arg1);
     void on_BOD_T4K_M_type_combobox_currentTextChanged(const QString &arg1);
     void on_TG_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+    void on_RLM_KRL_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
