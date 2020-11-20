@@ -2478,7 +2478,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-32</y>
              <width>598</width>
              <height>1018</height>
             </rect>
@@ -2728,7 +2728,7 @@
                    <string>Режим</string>
                   </property>
                  </widget>
-                 <widget class="QPushButton" name="pushButton_10">
+                 <widget class="QPushButton" name="add_operator_button">
                   <property name="geometry">
                    <rect>
                     <x>460</x>
@@ -2741,7 +2741,7 @@
                    <string>Добавить</string>
                   </property>
                  </widget>
-                 <widget class="QPushButton" name="pushButton_11">
+                 <widget class="QPushButton" name="change_operator_button">
                   <property name="geometry">
                    <rect>
                     <x>460</x>
@@ -2754,7 +2754,7 @@
                    <string>Изменить</string>
                   </property>
                  </widget>
-                 <widget class="QPushButton" name="pushButton_12">
+                 <widget class="QPushButton" name="delete_operator_button">
                   <property name="geometry">
                    <rect>
                     <x>460</x>

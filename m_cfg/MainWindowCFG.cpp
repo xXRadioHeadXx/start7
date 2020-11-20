@@ -84,14 +84,14 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
  //    qDebug()<<"patch = "<<patch;
  //   this->modelTreeUN->loadSettings(patch);
 
+operators.clear();
 
-
-     this->ui->tableWidget->insertRow(0);
-     this->ui->tableWidget->insertRow(1);
-     this->ui->tableWidget->insertRow(2);
-     this->ui->tableWidget->insertRow(3);
-     this->ui->tableWidget->insertRow(4);
-     this->ui->tableWidget->insertRow(5);
+ //    this->ui->tableWidget->insertRow(0);
+ //    this->ui->tableWidget->insertRow(1);
+ //    this->ui->tableWidget->insertRow(2);
+ //    this->ui->tableWidget->insertRow(3);
+ //    this->ui->tableWidget->insertRow(4);
+ //    this->ui->tableWidget->insertRow(5);
     for(int i=1;i<100;i++)
     {
 
@@ -842,6 +842,24 @@ void MainWindowCFG::on_pushButton_clicked()
    add_unit();
 }
 
+
+void MainWindowCFG::update_operators_table()
+{
+      ui->tableWidget->setRowCount(0);
+    qDebug()<<"количество операторов "<<operators.count();
+    int cnt;
+    foreach(Operator* op, operators)
+    {
+
+        qDebug()<<op->getN1()<<" "<<op->getN2()<<" "<<op->getFN();
+
+        cnt=this->ui->tableWidget->rowCount();
+        this->ui->tableWidget->insertRow(cnt);
+        this->ui->tableWidget->setItem(cnt,1, new QTableWidgetItem(op->getN1()));
+        this->ui->tableWidget->setItem(cnt,2, new QTableWidgetItem(op->getN2()));
+        this->ui->tableWidget->setItem(cnt,3, new QTableWidgetItem(op->getFN()));
+    }
+}
 
 QString MainWindowCFG::get_unit_name(int type)
 {
@@ -2970,5 +2988,29 @@ void MainWindowCFG::on_RLM_KRL_UDP_RS485_combobox_currentTextChanged(const QStri
      this->ui->RLM_KRL_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_KRL_UDP);
     else
      this->ui->RLM_KRL_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_KRL_RS485);
+
+}
+
+void MainWindowCFG::on_add_operator_button_clicked()
+{
+    Operator* op = new Operator();
+    op->setN1("Ivan");
+    op->setN2("Ivanovich");
+    op->setFN("Ivanoff");
+    operators.append(op);
+
+    update_operators_table();
+}
+
+void MainWindowCFG::on_tableWidget_cellClicked(int row, int column)
+{
+
+}
+
+void MainWindowCFG::on_delete_operator_button_clicked()
+{
+    int row = this->ui->tableWidget->currentRow();
+    operators.removeAt(row);
+    update_operators_table();
 
 }

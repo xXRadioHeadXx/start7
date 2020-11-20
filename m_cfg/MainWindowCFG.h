@@ -22,6 +22,8 @@ private:
 
     QList<Operator*> operators;
 
+    void update_operators_table();
+
     QString get_unit_name(int type);
 
 
@@ -199,5 +201,9 @@ private slots:
     void on_BOD_T4K_M_type_combobox_currentTextChanged(const QString &arg1);
     void on_TG_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
     void on_RLM_KRL_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+    void on_add_operator_button_clicked();
+
+    void on_tableWidget_cellClicked(int row, int column);
+    void on_delete_operator_button_clicked();
 };
 #endif // MAINWINDOWCFG_H
