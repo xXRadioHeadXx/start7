@@ -176,7 +176,7 @@ operators.clear();
     menu->addMenu(menuAdamOff);
 
 
-
+connect(&op_f, SIGNAL(res(QString,QString,QString,QString  )) , this, SLOT     (get_from_op_f(QString,QString,QString,QString))  );
 
     connect (action_setDK, SIGNAL(triggered()  ) , this,SLOT     (setDK())  );
     connect (action_YZ_MONOLIT, SIGNAL(triggered()  ) , this,SLOT     (YZ_MONOLIT())  );
@@ -843,6 +843,24 @@ void MainWindowCFG::on_pushButton_clicked()
 }
 
 
+void MainWindowCFG::operator_add(Operator * op)
+{
+   qDebug()<<"operator_add";
+   operators.append(op);
+   update_operators_table();
+}
+
+void MainWindowCFG::operator_edit(Operator *)
+{
+   qDebug()<<"operator_edit";
+}
+
+void MainWindowCFG::operator_delete()
+{
+   qDebug()<<"operator_delete";
+
+}
+
 void MainWindowCFG::update_operators_table()
 {
       ui->tableWidget->setRowCount(0);
@@ -855,9 +873,10 @@ void MainWindowCFG::update_operators_table()
 
         cnt=this->ui->tableWidget->rowCount();
         this->ui->tableWidget->insertRow(cnt);
-        this->ui->tableWidget->setItem(cnt,1, new QTableWidgetItem(op->getN1()));
-        this->ui->tableWidget->setItem(cnt,2, new QTableWidgetItem(op->getN2()));
-        this->ui->tableWidget->setItem(cnt,3, new QTableWidgetItem(op->getFN()));
+        this->ui->tableWidget->setItem(cnt,1, new QTableWidgetItem(op->getFN()));
+        this->ui->tableWidget->setItem(cnt,2, new QTableWidgetItem(op->getN1()));
+        this->ui->tableWidget->setItem(cnt,3, new QTableWidgetItem(op->getN2()));
+
     }
 }
 
@@ -2993,13 +3012,15 @@ void MainWindowCFG::on_RLM_KRL_UDP_RS485_combobox_currentTextChanged(const QStri
 
 void MainWindowCFG::on_add_operator_button_clicked()
 {
-    Operator* op = new Operator();
-    op->setN1("Ivan");
-    op->setN2("Ivanovich");
-    op->setFN("Ivanoff");
-    operators.append(op);
+  Operator* op = new Operator();
+   opt_tbl_request=1;
+   op_f.show();
+ //   op->setN1("Ivan");
+ //   op->setN2("Ivanovich");
+ //   op->setFN("Ivanoff");
+ //   operators.append(op);
 
-    update_operators_table();
+ //   update_operators_table();
 }
 
 void MainWindowCFG::on_tableWidget_cellClicked(int row, int column)
@@ -3013,4 +3034,38 @@ void MainWindowCFG::on_delete_operator_button_clicked()
     operators.removeAt(row);
     update_operators_table();
 
+}
+
+void MainWindowCFG::get_from_op_f(QString FN, QString N1, QString N2, QString ps)
+{
+
+    Operator* op=new Operator();
+    op->setFN(FN);
+    op->setN1(N1);
+    op->setN2(N2);
+    op->setPW(ps);
+
+    switch(opt_tbl_request)
+    {
+    case 1:
+    operator_add(op);
+    break;
+
+    case 2:
+    operator_edit(op);
+    break;
+
+    case 3:
+    operator_delete();
+    break;
+
+
+    }
+
+}
+
+void MainWindowCFG::on_change_operator_button_clicked()
+{
+    opt_tbl_request=2;
+    op_f.show();
 }

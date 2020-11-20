@@ -5,10 +5,18 @@
 #include <TreeModelUnitNode.h>
 #include "map.h"
 #include <QErrorMessage>
+#include "operator_form.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
 QT_END_NAMESPACE
+
+enum op_tbl {
+    Add = 1,
+    Edit = 2,
+    Delete = 3
+
+};
 
 class MainWindowCFG : public QMainWindow
 {
@@ -21,6 +29,10 @@ private:
     QErrorMessage dialog;
 
     QList<Operator*> operators;
+    int opt_tbl_request;
+    void operator_add(Operator*);
+    void operator_edit(Operator*);
+    void operator_delete();
 
     void update_operators_table();
 
@@ -154,6 +166,10 @@ public:
 
     Map map;
 
+    operator_form op_f;
+
+
+
 private slots:
 
     void setDK();
@@ -205,5 +221,9 @@ private slots:
 
     void on_tableWidget_cellClicked(int row, int column);
     void on_delete_operator_button_clicked();
+
+
+    void get_from_op_f(QString FN, QString N1, QString N2, QString ps);
+    void on_change_operator_button_clicked();
 };
 #endif // MAINWINDOWCFG_H

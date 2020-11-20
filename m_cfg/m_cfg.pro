@@ -29,7 +29,8 @@ SOURCES += \
     main.cpp \
     map.cpp \
     mydrawobject.cpp \
-    myscene.cpp
+    myscene.cpp \
+    operator_form.cpp
 
 
 
@@ -38,13 +39,15 @@ HEADERS += \
     backgroundimage.h \
     map.h \
     mydrawobject.h \
-    myscene.h
+    myscene.h \
+    operator_form.h
 
 
 
 FORMS += \
     MainWindowCFG.ui \
-    map.ui
+    map.ui \
+    operator_form.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
