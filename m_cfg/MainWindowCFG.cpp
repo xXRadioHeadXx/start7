@@ -11,6 +11,19 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
     ui->setupUi(this);
+ this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
+    for(int i(1), n(100); i < n; i++)
+    {
+        qDebug()<<"i= "<<i;
+        QString str("COM%1");
+        str = str.arg(i);
+        this->ui->RifPort_comboBox->addItem(str,str);
+      //  ui->comboBox->addItem(str, str);
+        //this->ui->tableWidget->setColumnWidth(0,500);
+        //this->ui->uartWindow->setColumnWidth(0,400);
+        //this->ui->uartWindow->setColumnWidth(1,500);
+
+    }/**/
 
     this->ui->operators_use_combobox->setCurrentText("Без операторов");
     this->ui->tableWidget->setEnabled(false);
@@ -3103,3 +3116,9 @@ void MainWindowCFG::on_change_operator_button_clicked()
     op_f.show();
 }
 
+
+
+void MainWindowCFG::on_RifPort_comboBox_currentIndexChanged(int index)
+{
+qDebug()<<"val "<<QString::number(index);
+}

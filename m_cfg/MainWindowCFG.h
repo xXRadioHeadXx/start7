@@ -6,6 +6,7 @@
 #include "map.h"
 #include <QErrorMessage>
 #include "operator_form.h"
+#include "comport.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -27,6 +28,8 @@ private:
     TreeModelUnitNode *modelTreeUN = nullptr;
 
     QErrorMessage dialog;
+
+    QList<ComPort*> comports;
 
     QList<Operator*> operators;
     int opt_tbl_request;
@@ -225,6 +228,6 @@ private slots:
 
     void get_from_op_f(QString FN, QString N1, QString N2, QString ps);
     void on_change_operator_button_clicked();
-    void on_operators_use_combobox_activated(const QString &arg1);
+    void on_RifPort_comboBox_currentIndexChanged(int index);
 };
 #endif // MAINWINDOWCFG_H

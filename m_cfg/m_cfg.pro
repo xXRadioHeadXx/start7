@@ -26,6 +26,7 @@ include(../src/global.pri)
 SOURCES += \
     MainWindowCFG.cpp \
     backgroundimage.cpp \
+    comport.cpp \
     main.cpp \
     map.cpp \
     mydrawobject.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
 HEADERS += \
     MainWindowCFG.h \
     backgroundimage.h \
+    comport.h \
     map.h \
     mydrawobject.h \
     myscene.h \
