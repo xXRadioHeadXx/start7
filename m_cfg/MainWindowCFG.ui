@@ -2478,7 +2478,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-32</y>
+             <y>-146</y>
              <width>598</width>
              <height>1018</height>
             </rect>
@@ -2658,9 +2658,9 @@
                   <property name="geometry">
                    <rect>
                     <x>0</x>
-                    <y>60</y>
+                    <y>50</y>
                     <width>431</width>
-                    <height>111</height>
+                    <height>101</height>
                    </rect>
                   </property>
                   <property name="maximumSize">
@@ -2699,7 +2699,7 @@
                   <property name="geometry">
                    <rect>
                     <x>50</x>
-                    <y>30</y>
+                    <y>20</y>
                     <width>151</width>
                     <height>22</height>
                    </rect>
@@ -2719,7 +2719,7 @@
                   <property name="geometry">
                    <rect>
                     <x>10</x>
-                    <y>30</y>
+                    <y>20</y>
                     <width>101</width>
                     <height>16</height>
                    </rect>

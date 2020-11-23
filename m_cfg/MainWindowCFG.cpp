@@ -12,6 +12,11 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->ui->operators_use_combobox->setCurrentText("Без операторов");
+    this->ui->tableWidget->setEnabled(false);
+    this->ui->add_operator_button->setEnabled(false);
+    this->ui->change_operator_button->setEnabled(false);
+    this->ui->delete_operator_button->setEnabled(false);
     operators_use=0;
 
     str_GROUP="Группа";
@@ -2665,8 +2670,28 @@ for(int i=1;i<List.count();i++)
 
     settings.beginGroup("OPERATORS");
     settings.setValue("Use",operators_use);
+    settings.setValue("Count",operators.count());
 
-    settings.endGroup();
+        settings.endGroup();
+
+    for(int i=0;i<operators.count();i++)
+        {
+           Operator* op=operators.at(i);
+
+        QString strGroup("OPERATOR_%1");
+        strGroup=strGroup.arg(i);
+        settings.beginGroup(strGroup);
+
+        settings.setValue("FN",op->getFN());
+        settings.setValue("N1",op->getN1());
+        settings.setValue("N2",op->getN2());
+        settings.setValue("PW",op->getPW());
+
+        settings.endGroup();
+        }
+
+
+
 
 }
 
@@ -2971,11 +2996,19 @@ void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &
     {
 
       qDebug()<<"[без операторов]";
+      this->ui->tableWidget->setEnabled(false);
+      this->ui->add_operator_button->setEnabled(false);
+      this->ui->change_operator_button->setEnabled(false);
+      this->ui->delete_operator_button->setEnabled(false);
       operators_use=0;
     }
     if(arg1=="С операторами")
     {
       qDebug()<<"[с операторами]";
+            this->ui->tableWidget->setEnabled(true);
+      this->ui->add_operator_button->setEnabled(true);
+      this->ui->change_operator_button->setEnabled(true);
+      this->ui->delete_operator_button->setEnabled(true);
       operators_use=1;
     }
 
@@ -3069,3 +3102,4 @@ void MainWindowCFG::on_change_operator_button_clicked()
     opt_tbl_request=2;
     op_f.show();
 }
+

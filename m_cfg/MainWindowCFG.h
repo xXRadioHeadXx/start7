@@ -225,5 +225,6 @@ private slots:
 
     void get_from_op_f(QString FN, QString N1, QString N2, QString ps);
     void on_change_operator_button_clicked();
+    void on_operators_use_combobox_activated(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
