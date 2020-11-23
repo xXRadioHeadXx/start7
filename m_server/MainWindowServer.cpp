@@ -766,3 +766,61 @@ void MainWindowServer::changeSelectUN(UnitNode *un)
     QModelIndex index = this->modelTreeUN->findeIndexUN(un);
     ui->treeView->setCurrentIndex(index);
 }
+
+void MainWindowServer::preparePageRLM()
+{
+    ui->comboBox_RLMTactPeriod;
+    ui->comboBox_RLMEdge;
+    ui->comboBox_RLMCondition;
+
+}
+
+void MainWindowServer::preparePagePoint()
+{
+    ui->comboBox_PointInput;
+    ui->checkBox_PointFlt1;
+    ui->checkBox_PointFlt2;
+    ui->checkBox_PointFlt3;
+    ui->spinBox_PointFlt1Edge;
+    ui->spinBox_PointFlt2Edge;
+    ui->spinBox_PointFlt3Edge;
+}
+
+void MainWindowServer::preparePageSota1()
+{
+    ui->comboBox_Sota1F1;
+    ui->comboBox_Sota1F2;
+    ui->comboBox_Sota1CountAffectF1;
+    ui->comboBox_Sota1CountAffectF2;
+    ui->comboBox_Sota1TimeAffectF1;
+    ui->comboBox_Sota1TimeAffectF2;
+    ui->spinBox_Sota1DurationF1;
+    ui->spinBox_Sota1DurationF2;
+    ui->spinBox_Sota1EdgeF1;
+    ui->spinBox_Sota1EdgeF2;
+}
+
+void MainWindowServer::preparePageSota2()
+{
+    ui->comboBox_Sota2C1F1;
+    ui->comboBox_Sota2C1F2;
+    ui->comboBox_Sota2CountAffectC1F1;
+    ui->comboBox_Sota2CountAffectC1F2;
+    ui->comboBox_Sota2TimeAffectC1F1;
+    ui->comboBox_Sota2TimeAffectC1F2;
+    ui->spinBox_Sota2DurationC1F1;
+    ui->spinBox_Sota2DurationC1F2;
+    ui->spinBox_Sota2EdgeC1F1;
+    ui->spinBox_Sota2EdgeC1F2;
+
+    ui->comboBox_Sota2C2F1;
+    ui->comboBox_Sota2C2F2;
+    ui->comboBox_Sota2CountAffectC2F1;
+    ui->comboBox_Sota2CountAffectC2F2;
+    ui->comboBox_Sota2TimeAffectC2F1;
+    ui->comboBox_Sota2TimeAffectC2F2;
+    ui->spinBox_Sota2DurationC2F1;
+    ui->spinBox_Sota2DurationC2F2;
+    ui->spinBox_Sota2EdgeC2F1;
+    ui->spinBox_Sota2EdgeC2F2;
+}

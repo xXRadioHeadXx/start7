@@ -2,7 +2,7 @@
 #define MAINWINDOWSERVER_H
 
 #include <QMainWindow>
-#include <QUdpSocket>
+//#include <QUdpSocket>
 #include <QDebug>
 #include <QTableWidget>
 
@@ -93,6 +93,10 @@ private slots:
 
     void changeSelectUN(UnitNode * un);
 
+    void preparePageRLM();
+    void preparePagePoint();
+    void preparePageSota1();
+    void preparePageSota2();
 protected:
     void closeEvent(QCloseEvent * event);
 
