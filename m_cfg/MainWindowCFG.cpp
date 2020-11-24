@@ -11,6 +11,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
     ui->setupUi(this);
+
  this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
     for(int i(1), n(100); i < n; i++)
     {
@@ -98,6 +99,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
  //   QString patch="C:/WORK1/start7/rifx.ini";
 
     this->modelTreeUN = new TreeModelUnitNode(this);
+
+    this->modelTreeUN->makeEmptyTree();
 
     modelTreeUN->setTypeApp(SubTypeApp::configurator);
 
@@ -293,10 +296,20 @@ void MainWindowCFG::set_x_y(QString Name, int x, int y)
 void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
     current_index=index;
+    if(index.isValid())
+    {
+        qDebug()<<"[+]";
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
 
 
 this->get_option(unit);
+    }
+    else
+    {
+   qDebug()<<"!!!";
+
+    }
+
 }
 
 
@@ -1920,12 +1933,21 @@ bool MainWindowCFG::add_unit()
 {
     qDebug()<<"[add_unit()]";
     bool res=1;
-    QModelIndex current=this->ui->treeView->currentIndex();
-    if (!current_index.isValid())
+
+
+
+    QModelIndex index=this->ui->treeView->currentIndex();
+    UnitNode* parrent;
+    if(index.isValid())
     {
-        res=0;
-    qDebug()<<"[no current index]";
+    parrent = static_cast<UnitNode*>(index.internalPointer());
     }
+    else
+    {
+    parrent = this->modelTreeUN->rootItemUN;
+    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(parrent));
+    }
+
 
     int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
 
@@ -1950,8 +1972,8 @@ bool MainWindowCFG::add_unit()
 
 
 
-    QModelIndex index=this->ui->treeView->currentIndex();
-    UnitNode *parrent = static_cast<UnitNode*>(index.internalPointer());
+
+
     unit->setLevel(parrent->getLevel()+1);
 
 set_option(unit,parrent);
