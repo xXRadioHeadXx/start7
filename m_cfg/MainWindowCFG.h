@@ -30,6 +30,8 @@ private:
     QErrorMessage dialog;
 
     QList<ComPort*> comports;
+    int autoDK;
+    int TochkaDirectionInterval;
 
     QList<Operator*> operators;
     int opt_tbl_request;
@@ -231,5 +233,7 @@ private slots:
     void on_RifPort_comboBox_currentIndexChanged(int index);
     void on_RifPortSpeed_comboBox_currentTextChanged(const QString &arg1);
     void on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1);
+    void on_comboBox_17_currentIndexChanged(int index);
+    void on_doubleSpinBox_10_valueChanged(double arg1);
 };
 #endif // MAINWINDOWCFG_H

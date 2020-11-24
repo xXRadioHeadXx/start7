@@ -27,6 +27,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     }/**/
 
+    autoDK=0;
+    TochkaDirectionInterval=0;
 
     this->ui->RifPortSpeed_comboBox->addItem("4800");
     this->ui->RifPortSpeed_comboBox->addItem("9600");
@@ -2742,6 +2744,9 @@ for(int i=1;i<List.count();i++)
 
        }
 
+       settings.setValue("AutoDK", autoDK);
+       settings.setValue("TochkaDirectionInterval", TochkaDirectionInterval);
+
        settings.endGroup();
 
 
@@ -3205,4 +3210,16 @@ qDebug()<<QString::number(port->get_RifPortInterval());
 
             qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
           }
+}
+
+void MainWindowCFG::on_comboBox_17_currentIndexChanged(int index)
+{
+autoDK=index;
+}
+
+void MainWindowCFG::on_doubleSpinBox_10_valueChanged(double arg1)
+{
+    TochkaDirectionInterval=arg1;
+
+    qDebug()<<TochkaDirectionInterval;
 }

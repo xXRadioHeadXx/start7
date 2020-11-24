@@ -2787,6 +2787,31 @@
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
+                  <item>
+                   <property name="text">
+                    <string>ВЫКЛ</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>1 час</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>2 часа</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>3 часа</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>4 часа</string>
+                   </property>
+                  </item>
                  </widget>
                 </item>
                </layout>
