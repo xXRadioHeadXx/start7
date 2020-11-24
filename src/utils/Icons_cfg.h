@@ -18,7 +18,7 @@ public:
     static QPixmap RLM_KRL();
     static QPixmap Y4_SOTA();
     static QPixmap DD_SOTA();
-
+    static QPixmap KL();
     //         Y4_SOTA = 30,//Участок Сота
     //         DD_SOTA = 28,//ДД Сота
 };

@@ -84,6 +84,8 @@ private:
     bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
 
+    bool pass_to_add_KL(UnitNode *unit, UnitNode* parrent);
+
     bool add_unit();
     bool change_unit();
     bool delete_unit();
@@ -105,7 +107,7 @@ private:
     void get_option_Y4_SOTA(UnitNode *unit);
     void get_option_DD_SOTA(UnitNode *unit);
     void get_option_BL_IP(UnitNode *unit);
-
+    void get_option_KL(UnitNode *unit);
 
     bool set_option(UnitNode *unit,UnitNode *parent);
 
@@ -122,7 +124,7 @@ private:
     void set_option_Y4_SOTA(UnitNode *unit);
     void set_option_DD_SOTA(UnitNode *unit,UnitNode *parent);
     void set_option_BL_IP(UnitNode *unit);
-
+    void set_option_KL(UnitNode *unit);
 
 
 
@@ -235,5 +237,6 @@ private slots:
     void on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1);
     void on_comboBox_17_currentIndexChanged(int index);
     void on_doubleSpinBox_10_valueChanged(double arg1);
+    void on_KL_type_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

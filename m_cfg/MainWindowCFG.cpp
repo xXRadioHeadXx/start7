@@ -64,7 +64,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->uType_combobox->addItem(str_GROUP);
     this->ui->uType_combobox->addItem(str_SD_BL_IP);
     this->ui->uType_combobox->addItem(str_IU_BL_IP);
-//    this->ui->uType_combobox->addItem(str_KL);
+    this->ui->uType_combobox->addItem(str_KL);
     this->ui->uType_combobox->addItem(str_TG);
     this->ui->uType_combobox->addItem(str_RLM_KRL);
 //    this->ui->uType_combobox->addItem(str_RLM_C);
@@ -131,6 +131,17 @@ operators.clear();
 
     this->ui->RLM_KRL_adress_combobox->addItem(QString::number(i));
     this->ui->DD_Sota_M_combobox->addItem(QString::number(i));
+    this->ui->KL_adress_combobox->addItem(QString::number(i));
+
+
+    this->ui->SD_BL_IP_M_port_combobox->addItem(QString::number(i));
+    this->ui->IU_BL_IP_M_port_combobox->addItem(QString::number(i));
+    this->ui->TG_M_port_combobox->addItem(QString::number(i));
+    this->ui->RLM_KRL_M_port_combobox->addItem(QString::number(i));
+    this->ui->BOD_T4K_M_port_combobox->addItem(QString::number(i));
+    this->ui->BOD_SOTA_M_port_combobox->addItem(QString::number(i));
+    this->ui->KL_port_combobox->addItem(QString::number(i));
+
     }
 
 
@@ -480,7 +491,9 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
     Type.append(str_DD_SOTA);
     break;
 
-
+    case TypeUnitNode::KL:
+    Type.append(str_KL);
+    break;
 
 
 
@@ -545,6 +558,8 @@ int MainWindowCFG::Type_from_string_to_int(QString Type)
         return TypeUnitNode::RLM_KRL;
 
 
+    if(Type==str_KL)
+        return TypeUnitNode::KL;
 
     /*
     case TypeUnitNode::GROUP:
@@ -710,6 +725,12 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     if(arg1==str_DD_SOTA)
     {
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
+    }
+    else
+    if(arg1==str_KL)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
+    this->ui->KL_type_combobox->setCurrentText("RS485");
     }
 
     else
@@ -1797,6 +1818,104 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
             return true;
 }
 
+bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
+{
+    //СД от одного до четырех
+      if(unit->getNum2()<0||unit->getNum2()>4)
+      {
+          dialog.showMessage("СД от одного до четырех !");
+          dialog.exec();
+          return false;
+
+      }
+
+
+    // может быть добавлен только к группе
+        if(parrent->getType()!=TypeUnitNode::GROUP)
+        {
+            dialog.showMessage(" может быть добавлен только к группе");
+            dialog.exec();
+            return false;
+        }
+
+        //на свободный адрес этого ком порта
+        if(unit->getUdpUse()==0)
+        {
+      //            qDebug()<<"[getUdpUse()==0]";
+            QList<UnitNode *> List1;
+            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+            foreach(UnitNode *un, List1 )
+            {
+
+        qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+             if((un->getNum3()==unit->getNum3()))
+                 if((un->getNum1()==unit->getNum1()))
+                 {
+                     if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
+                      {
+
+                         dialog.showMessage("этот COM порт уже  занят");
+                         dialog.exec();
+                         return false;
+                      }
+                     if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
+                      {
+                         if(un->getNum2()==unit->getNum2())
+                         {
+                             dialog.showMessage("на этом адресе этого порта уже есть такое СД");
+                             dialog.exec();
+                             return false;
+
+                         }
+
+                      }
+
+                 }
+
+
+            }
+         //проконтроилровать отсутствие в дереве такого же порта
+
+        }
+
+        if(unit->getUdpUse()==1)
+        {
+          //проконтроилровать отсутствие в дереве такого же IP адреса
+            QList<UnitNode *> List1;
+            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+            foreach(UnitNode *un, List1 )
+            {
+    //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+             if((un->getUdpAdress()==unit->getUdpAdress()))
+             if((un->getNum1()==unit->getNum1()))
+             {
+                 if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
+                  {
+
+                     dialog.showMessage("этот IP адрес уже  занят");
+                     dialog.exec();
+                     return false;
+                  }
+                 if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
+                  {
+                     if(un->getNum2()==unit->getNum2())
+                     {
+                         dialog.showMessage("на этом адресе этого порта уже есть такое СД");
+                         dialog.exec();
+                         return false;
+
+                     }
+
+                  }
+
+             }
+
+            }
+        }
+
+        return true;
+}
+
 bool MainWindowCFG::add_unit()
 {
     qDebug()<<"[add_unit()]";
@@ -2410,6 +2529,42 @@ void MainWindowCFG::get_option_BL_IP(UnitNode *unit)
 
 }
 
+void MainWindowCFG::get_option_KL(UnitNode *unit)
+{
+    this->ui->textEdit->clear();
+    QString string1;
+
+    string1.append("Концентратор: ");
+    string1.append(QString::number(unit->getNum1()));
+    string1.append(" ");
+    string1.append("СД: ");
+    string1.append(QString::number(unit->getNum2()));
+    string1.append(" ");
+    string1.append("Кан: ");
+
+    if(unit->getUdpUse()==0)
+    {
+   string1.append(QString::number(unit->getNum3()));
+   if(unit->getUdpAdress()!="")
+   {
+       string1.append(" ");
+       string1.append("(");
+       string1.append(unit->getUdpAdress());
+       string1.append(")");
+   }
+
+
+    }
+
+    if(unit->getUdpUse()==1)
+    {
+        string1.append(unit->getUdpAdress());
+        string1.append("::");
+        string1.append(QString::number(unit->getUdpPort()));
+        string1.append(" ");
+    }
+}
+
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 {
 
@@ -2612,6 +2767,22 @@ void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit,UnitNode *parent)
 void MainWindowCFG::set_option_BL_IP(UnitNode *unit)
 {
 
+}
+
+void MainWindowCFG::set_option_KL(UnitNode *unit)
+{
+    unit->setNum1(this->ui->KL_adress_combobox->currentText().toInt());
+    unit->setNum2(this->ui->KL_CD_combobox->currentText().toInt());
+    unit->setNum3(this->ui->KL_port_combobox->currentText().toInt());
+
+    if(this->ui->KL_type_combobox->currentText()=="UDP")
+        unit->setUdpUse(1);
+    else
+        unit->setUdpUse(0);
+
+    unit->setUdpPort(this->ui->KL_UdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpAdress(this->ui->KL_ipadress_lineedit->text());
+    unit->setUdpTimeout(this->ui->KL_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::save_ini(QString path)
@@ -3232,4 +3403,15 @@ void MainWindowCFG::on_doubleSpinBox_10_valueChanged(double arg1)
     TochkaDirectionInterval=arg1;
 
     qDebug()<<TochkaDirectionInterval;
+}
+
+void MainWindowCFG::on_KL_type_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->KL_type_combobox->currentText()=="UDP")
+     this->ui->KL_UDP_RS485_stacked->setCurrentWidget(this->ui->KL_UDP);
+    else
+    {
+        qDebug()<<"[!!!!!!!!!!!!!!!]";
+     this->ui->KL_UDP_RS485_stacked->setCurrentWidget(this->ui->KL_RS485);
+    }
 }
