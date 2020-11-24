@@ -18,12 +18,25 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
         QString str("COM%1");
         str = str.arg(i);
         this->ui->RifPort_comboBox->addItem(str,str);
+        ComPort* port = new ComPort();
+        comports.append(port);
       //  ui->comboBox->addItem(str, str);
         //this->ui->tableWidget->setColumnWidth(0,500);
         //this->ui->uartWindow->setColumnWidth(0,400);
         //this->ui->uartWindow->setColumnWidth(1,500);
 
     }/**/
+
+
+    this->ui->RifPortSpeed_comboBox->addItem("4800");
+    this->ui->RifPortSpeed_comboBox->addItem("9600");
+    this->ui->RifPortSpeed_comboBox->addItem("19200");
+    this->ui->RifPortSpeed_comboBox->addItem("38400");
+    this->ui->RifPortSpeed_comboBox->addItem("57600");
+    this->ui->RifPortSpeed_comboBox->addItem("115200");
+    this->ui->RifPortSpeed_comboBox->addItem("250000");
+
+
 
     this->ui->operators_use_combobox->setCurrentText("Без операторов");
     this->ui->tableWidget->setEnabled(false);
@@ -2701,7 +2714,35 @@ for(int i=1;i<List.count();i++)
         settings.setValue("PW",op->getPW());
 
         settings.endGroup();
+
         }
+       settings.beginGroup("RIF");
+
+       for(int i; i<comports.count();i++)
+       {
+           ComPort *port = comports.at(i);
+           int speed = port->get_RifPortSpeed();
+           int interval = port->get_RifPortInterval();
+
+           if(speed!=4800)
+           {
+               QString str="RifPortSpeed%1";
+               str=str.arg(i);
+           settings.setValue(str,speed);
+           }
+
+           if(interval!=50)
+           {
+               QString str="RifPortInterval%1";
+               str=str.arg(i);
+           settings.setValue(str,interval);
+           }
+
+
+
+       }
+
+       settings.endGroup();
 
 
 
@@ -3120,5 +3161,48 @@ void MainWindowCFG::on_change_operator_button_clicked()
 
 void MainWindowCFG::on_RifPort_comboBox_currentIndexChanged(int index)
 {
-qDebug()<<"val "<<QString::number(index);
+
+
+int ind = this->ui->RifPort_comboBox->currentIndex();
+if(ind<comports.count())
+    {
+
+        ComPort* port = comports.at(ind);
+        this->ui->RifPortSpeed_comboBox->setCurrentText(QString::number(port->get_RifPortSpeed()));
+        this->ui->RifPortInterval_doubleSpinBox->setValue(static_cast<double>(port->get_RifPortInterval()));
+        qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
+
+    }
+
+}
+
+
+
+
+void MainWindowCFG::on_RifPortSpeed_comboBox_currentTextChanged(const QString &arg1)
+{
+    int ind = this->ui->RifPort_comboBox->currentIndex();
+    if(ind<comports.count())
+        {
+
+    ComPort* port = comports.at(ind);
+    port->set_RifPortSpeed(arg1.toInt());
+    qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
+
+    }
+}
+
+void MainWindowCFG::on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1)
+{
+      int ind = this->ui->RifPort_comboBox->currentIndex();
+    if(ind<comports.count())
+        {
+
+
+    ComPort* port = comports.at(ind);
+    port->set_RifPortInterval(this->ui->RifPortInterval_doubleSpinBox->value());
+qDebug()<<QString::number(port->get_RifPortInterval());
+
+            qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
+          }
 }

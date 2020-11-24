@@ -32,7 +32,15 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>258</width>
+      <height>328</height>
+     </rect>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QTreeView" name="treeView">
@@ -2337,7 +2345,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>-294</y>
+       <y>-302</y>
        <width>598</width>
        <height>1018</height>
       </rect>
@@ -2639,12 +2647,12 @@
            <property name="title">
             <string>Подсистема РИФ</string>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
              <rect>
               <x>11</x>
               <y>21</y>
-              <width>351</width>
+              <width>369</width>
               <height>182</height>
              </rect>
             </property>
@@ -2712,16 +2720,6 @@
                  </rect>
                 </property>
                </widget>
-               <widget class="QComboBox" name="RifPortInterval_comboBox">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>150</y>
-                  <width>69</width>
-                  <height>22</height>
-                 </rect>
-                </property>
-               </widget>
                <widget class="QLabel" name="label_56">
                 <property name="geometry">
                  <rect>
@@ -2735,10 +2733,29 @@
                  <string>Интервал опроса, мсек</string>
                 </property>
                </widget>
+               <widget class="QDoubleSpinBox" name="RifPortInterval_doubleSpinBox">
+                <property name="geometry">
+                 <rect>
+                  <x>20</x>
+                  <y>150</y>
+                  <width>62</width>
+                  <height>22</height>
+                 </rect>
+                </property>
+                <property name="minimum">
+                 <double>50.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>5000.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>5.000000000000000</double>
+                </property>
+               </widget>
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="" native="true">
+              <widget class="QWidget" name="widget" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -2776,7 +2793,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="" native="true">
+              <widget class="QWidget" name="widget" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>

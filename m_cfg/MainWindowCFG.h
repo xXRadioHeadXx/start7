@@ -229,5 +229,7 @@ private slots:
     void get_from_op_f(QString FN, QString N1, QString N2, QString ps);
     void on_change_operator_button_clicked();
     void on_RifPort_comboBox_currentIndexChanged(int index);
+    void on_RifPortSpeed_comboBox_currentTextChanged(const QString &arg1);
+    void on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
