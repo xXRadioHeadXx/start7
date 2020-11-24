@@ -19,6 +19,9 @@ public:
     static QPixmap Y4_SOTA();
     static QPixmap DD_SOTA();
     static QPixmap KL();
+    static QPixmap NET_DEV();
+    static QPixmap ONVIF();
+
     //         Y4_SOTA = 30,//Участок Сота
     //         DD_SOTA = 28,//ДД Сота
 };

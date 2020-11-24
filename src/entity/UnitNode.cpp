@@ -541,7 +541,11 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
          else if(TypeUnitNode::RLM_C       == getType()) {return Icons_cfg::RLM_KRL();   }
          else if(TypeUnitNode::Y4_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
          else if(TypeUnitNode::DD_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
-         else if(TypeUnitNode::KL          == getType()) {return Icons_cfg::KL();   }
+         else if(TypeUnitNode::KL          == getType()) {return Icons_cfg::KL();        }
+         else if(TypeUnitNode::NET_DEV     == getType()) {return Icons_cfg::NET_DEV();   }
+         else if(TypeUnitNode::ONVIF       == getType()) {return Icons_cfg::ONVIF();     }
+
+
 //         Y4_SOTA = 30,//Участок Сота
 //         DD_SOTA = 28,//ДД Сота
 
