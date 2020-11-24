@@ -1500,6 +1500,31 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
 
     qDebug()<<"Name: "<<un->getName()<<" участок "<<QString::number(parent->getNum2());
 
+    if((100==un->getNum2())||((200==un->getNum2())))
+    {
+        if((100==parrent->getNum2())||((200==parrent->getNum2())))
+        {
+
+
+
+
+            if((un->getNum2())==(unit->getNum2()))
+            {
+
+
+                dialog.showMessage("У этого участка уже существует такой ДД!");
+                dialog.exec();
+                return false;
+            }
+
+
+
+        }
+
+
+
+    }
+
 
 
 
