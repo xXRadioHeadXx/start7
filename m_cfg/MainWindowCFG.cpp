@@ -883,9 +883,19 @@ void MainWindowCFG::operator_add(Operator * op)
    update_operators_table();
 }
 
-void MainWindowCFG::operator_edit(Operator *)
+void MainWindowCFG::operator_edit(Operator *op)
 {
    qDebug()<<"operator_edit";
+   int row=this->ui->tableWidget->currentRow();
+   Operator* true_op = operators.at(row);
+   true_op->setFN(op->getFN());
+   true_op->setN1(op->getN1());
+   true_op->setN2(op->getN2());
+   true_op->setPW(op->getPW());
+   update_operators_table();
+
+
+
 }
 
 void MainWindowCFG::operator_delete()
