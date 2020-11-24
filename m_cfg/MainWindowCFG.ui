@@ -356,7 +356,7 @@
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>7</number>
         </property>
         <widget class="QWidget" name="U4_Sota_M_groupbox">
          <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1264,26 +1264,6 @@
             <height>22</height>
            </rect>
           </property>
-          <item>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>4</string>
-           </property>
-          </item>
          </widget>
          <widget class="QLabel" name="label_73">
           <property name="geometry">

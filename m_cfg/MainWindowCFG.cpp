@@ -144,6 +144,7 @@ operators.clear();
     this->ui->BOD_T4K_M_port_combobox->addItem(QString::number(i));
     this->ui->BOD_SOTA_M_port_combobox->addItem(QString::number(i));
     this->ui->KL_port_combobox->addItem(QString::number(i));
+    this->ui->TG_adress_combobox->addItem(QString::number(i));
 
     }
 
@@ -1434,7 +1435,7 @@ bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
     return true;
 }
 
-bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent)
+bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //номера ДД можно добавлять только один раз в участки 1-2 и 3-4
 {
     //добавлять только к участку Сота
     if(parrent->getType()!=TypeUnitNode::Y4_SOTA)
@@ -1486,9 +1487,26 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent)
 
     foreach(UnitNode *un, List )
     {
-     qDebug()<<"Name: "<<un->getName();
+    qDebug()<<"Name: "<<un->getName();
+
+    //номер ДД
+
+    //его индекс
+    QModelIndex ind = this->modelTreeUN->findeIndexUN(un);
+    //индекс его родителя
+    QModelIndex parent_ind =  this->modelTreeUN->parent(ind);
+    //юнит его родителя
+    UnitNode *parent = static_cast<UnitNode*>(parent_ind.internalPointer());
+
+    qDebug()<<"Name: "<<un->getName()<<" участок "<<QString::number(parent->getNum2());
+
+
+
+
      if(un->getNum2()==unit->getNum2())
      {
+
+
          dialog.showMessage("У этого участка уже существует такой ДД!");
          dialog.exec();
          return false;
@@ -1609,7 +1627,7 @@ bool MainWindowCFG::pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode *parrent)
 
 }
 
-bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)
+bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)//номера ДД можно добавлять только один раз в участки 1-2 и 3-4
 {
     //добавлять только к участку Сота
     if(parrent->getType()!=TypeUnitNode::Y4_T4K_M)
