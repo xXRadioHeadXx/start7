@@ -382,8 +382,8 @@ qDebug()
 <<"; UdpTimeout "<<unit->getUdpTimeout()
 <<"; Icon1Path "<<unit->getIcon1Path()
 <<"; Icon2Path "<<unit->getIcon2Path()
-<<"; Icon3Path "<<unit->getIcon3Path();
-
+<<"; Icon3Path "<<unit->getIcon3Path()
+<<"; Icon4Path "<<unit->getIcon4Path();
 
     selected_type=unit->getType();
 /*QString Name=unit->getName();
@@ -468,6 +468,18 @@ qDebug()
 
     case TypeUnitNode::DD_SOTA:
     this->get_option_DD_SOTA(unit);
+    break;
+
+    case TypeUnitNode::ONVIF:
+    this->get_option_ONVIF(unit);
+    break;
+
+    case TypeUnitNode::NET_DEV:
+    this->get_option_NET_DEV(unit);
+    break;
+
+    case TypeUnitNode::STRAZH_IP:
+    this->get_option_STRAZH_IP(unit);
     break;
 
     case TypeUnitNode::BL_IP:
@@ -1289,7 +1301,23 @@ if(false==pass_to_add_KL(unit,parrent))
     return false;
 }
 
+if(unit->getType()==TypeUnitNode::NET_DEV)
+{
+if(false==pass_to_add_NET_DEV(unit,parrent))
+    return false;
+}
 
+if(unit->getType()==TypeUnitNode::ONVIF)
+{
+if(false==pass_to_add_ONVIF(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::STRAZH_IP)
+{
+if(false==pass_to_add_STRAZH_IP(unit,parrent))
+    return false;
+}
 
 return true;
 }
@@ -1970,6 +1998,7 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
 {
     // может быть добавлен только к группе
         if(parrent->getType()!=TypeUnitNode::GROUP)
+        if(parrent->getType()!=TypeUnitNode::SYSTEM)
         {
             dialog.showMessage(" может быть добавлен только к группе");
             dialog.exec();
@@ -2129,19 +2158,88 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
         return true;
 }
 
-void MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit)
+bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
 {
+    if(parrent->getType()!=TypeUnitNode::GROUP)
+    if(parrent->getType()!=TypeUnitNode::SYSTEM)
+    {
+        dialog.showMessage("БОД может быть добавлен только к группе");
+        dialog.exec();
+        return false;
 
+    }
+
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    foreach(UnitNode *un, List1 )
+    {
+     if(un->getType()==unit->getType())
+     if(un->getIcon1Path()==unit->getIcon1Path())
+     {
+         dialog.showMessage("Такой обьект уже есть");
+         dialog.exec();
+         return false;
+
+     }
+
+    }
+        return true;
 }
 
-void MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit)
+bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
 {
+    if(parrent->getType()!=TypeUnitNode::GROUP)
+    if(parrent->getType()!=TypeUnitNode::SYSTEM)
+    {
+        dialog.showMessage("БОД может быть добавлен только к группе");
+        dialog.exec();
+        return false;
 
+    }
+
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    foreach(UnitNode *un, List1 )
+    {
+     if(un->getType()==unit->getType())
+     if((un->getIcon1Path()==unit->getIcon1Path())||
+        (un->getIcon4Path()==unit->getIcon4Path()))
+     {
+         dialog.showMessage("Такой обьект уже есть");
+         dialog.exec();
+         return false;
+
+     }
+
+    }
+        return true;
 }
 
-void MainWindowCFG::pass_to_add_NET_DEV(UnitNode *unit)
+bool  MainWindowCFG::pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent)
 {
+    if(parrent->getType()!=TypeUnitNode::GROUP)
+    if(parrent->getType()!=TypeUnitNode::SYSTEM)
+    {
+        dialog.showMessage("БОД может быть добавлен только к группе");
+        dialog.exec();
+        return false;
 
+    }
+
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    foreach(UnitNode *un, List1 )
+    {
+     if(un->getType()==unit->getType())
+     if(un->getIcon1Path()==unit->getIcon1Path())
+     {
+         dialog.showMessage("Такой обьект уже есть");
+         dialog.exec();
+         return false;
+
+     }
+
+    }
 }
 
 bool MainWindowCFG::add_unit()
@@ -2800,21 +2898,45 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
     }
+  this->ui->textEdit->append(string1);
 }
 
 void MainWindowCFG::get_option_ONVIF(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
+    string1.append("ONVIF-камера: ");
+    string1.append(unit->getIcon1Path());
 
+
+
+   this->ui->textEdit->append(string1);
 }
 
 void MainWindowCFG::get_option_STRAZH_IP(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
+    string1.append("Страж- IP: ");
+    string1.append(unit->getIcon1Path());
+    string1.append("; ");
+    string1.append(unit->getIcon4Path());
+
+
+   this->ui->textEdit->append(string1);
 
 }
 
 void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
+    string1.append("Сетевое устройство: ");
+    string1.append(unit->getIcon1Path());
 
+
+
+   this->ui->textEdit->append(string1);
 }
 
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
@@ -3047,12 +3169,15 @@ void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
 
 void MainWindowCFG::set_option_STRAZH_IP(UnitNode *unit)
 {
-
+    unit->setIcon1Path(this->ui->STRAZH_IP_lineEdit__IPaddr->text());
+    unit->setIcon2Path(this->ui->STRAZH_IP_lineEdit__login->text());
+    unit->setIcon3Path(this->ui->STRAZH_IP_lineEdit__password->text());
+    unit->setIcon4Path(this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->text());
 }
 
 void MainWindowCFG::set_option_NET_DEV(UnitNode *unit)
 {
-
+    unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
 }
 
 void MainWindowCFG::save_ini(QString path)
@@ -3249,6 +3374,9 @@ void MainWindowCFG::save_option(QSettings *settings, UnitNode *unit)
 
     if(unit->getIcon3Path()!="")
          settings->setValue("Icon3Path", unit->getIcon3Path());
+
+    if(unit->getIcon4Path()!="")
+         settings->setValue("Icon4Path", unit->getIcon4Path());
 }
 
 void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)

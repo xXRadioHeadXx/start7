@@ -738,6 +738,16 @@ void UnitNode::setIcon3Path(const QString &value)
     Icon3Path = value;
 }
 
+QString UnitNode::getIcon4Path() const
+{
+    return Icon4Path;
+}
+
+void UnitNode::setIcon4Path(const QString &value)
+{
+    Icon4Path = value;
+}
+
 UnitNode::UnitNode(QObject *parent) : QObject(parent)
 {
     

@@ -114,6 +114,9 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             if(settings.value("Icon3Path").isValid())
              tmpUN->setIcon3Path(settings.value( "Icon3Path" , -1 ).toString());
 
+            if(settings.value("Icon4Path").isValid())
+             tmpUN->setIcon4Path(settings.value( "Icon4Path" , -1 ).toString());
+
             settings.endGroup();
 
             if(!tmpUN->getName().isEmpty())

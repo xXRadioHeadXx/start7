@@ -101,6 +101,7 @@ private:
     QString Icon1Path;
     QString Icon2Path;
     QString Icon3Path;
+    QString Icon4Path;
 
     UnitNode *parentUN = nullptr; //родительское устройство
     QList<UnitNode*> listChilde; //список детей
@@ -305,6 +306,9 @@ public:
 
     QString getIcon3Path() const;
     void setIcon3Path(const QString &value);
+
+    QString getIcon4Path() const;
+    void setIcon4Path(const QString &value);
 
 public slots:
 signals:

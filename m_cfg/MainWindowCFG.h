@@ -80,9 +80,9 @@ private:
     bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_KL(UnitNode *unit, UnitNode* parrent);
-    void pass_to_add_ONVIF(UnitNode *unit);
-    void pass_to_add_STRAZH_IP(UnitNode *unit);
-    void pass_to_add_NET_DEV(UnitNode *unit);
+    bool pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent);
+    bool pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent);
+    bool pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent);
 
     bool add_unit();
     bool change_unit();
