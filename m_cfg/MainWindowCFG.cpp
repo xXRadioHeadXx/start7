@@ -120,33 +120,56 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
  //    qDebug()<<"patch = "<<patch;
  //   this->modelTreeUN->loadSettings(patch);
 
-operators.clear();
+    operators.clear();
 
- //    this->ui->tableWidget->insertRow(0);
- //    this->ui->tableWidget->insertRow(1);
- //    this->ui->tableWidget->insertRow(2);
- //    this->ui->tableWidget->insertRow(3);
- //    this->ui->tableWidget->insertRow(4);
- //    this->ui->tableWidget->insertRow(5);
-    for(int i=1;i<100;i++)
+     //    this->ui->tableWidget->insertRow(0);
+     //    this->ui->tableWidget->insertRow(1);
+     //    this->ui->tableWidget->insertRow(2);
+     //    this->ui->tableWidget->insertRow(3);
+     //    this->ui->tableWidget->insertRow(4);
+     //    this->ui->tableWidget->insertRow(5);
+    for(int i=1;i<257;i++)
+        {
+
+
+        this->ui->SD_BL_IP_M_port_combobox->addItem(QString::number(i));
+        this->ui->IU_BL_IP_M_port_combobox->addItem(QString::number(i));
+        this->ui->TG_M_port_combobox->addItem(QString::number(i));
+        this->ui->RLM_KRL_M_port_combobox->addItem(QString::number(i));
+        this->ui->BOD_T4K_M_port_combobox->addItem(QString::number(i));
+        this->ui->BOD_SOTA_M_port_combobox->addItem(QString::number(i));
+        this->ui->KL_port_combobox->addItem(QString::number(i));
+
+
+        }
+
+    for(int i=1;i<101;i++)
     {
 
-
-    this->ui->RLM_KRL_adress_combobox->addItem(QString::number(i));
-    this->ui->DD_Sota_M_combobox->addItem(QString::number(i));
-    this->ui->KL_adress_combobox->addItem(QString::number(i));
-
-
-    this->ui->SD_BL_IP_M_port_combobox->addItem(QString::number(i));
-    this->ui->IU_BL_IP_M_port_combobox->addItem(QString::number(i));
-    this->ui->TG_M_port_combobox->addItem(QString::number(i));
-    this->ui->RLM_KRL_M_port_combobox->addItem(QString::number(i));
-    this->ui->BOD_T4K_M_port_combobox->addItem(QString::number(i));
-    this->ui->BOD_SOTA_M_port_combobox->addItem(QString::number(i));
-    this->ui->KL_port_combobox->addItem(QString::number(i));
-    this->ui->TG_adress_combobox->addItem(QString::number(i));
+        this->ui->DD_Sota_M_combobox->addItem(QString::number(i));
 
     }
+
+    for(int i=1;i<100;i++)
+        {
+
+        this->ui->RLM_KRL_adress_combobox->addItem(QString::number(i));
+        this->ui->KL_adress_combobox->addItem(QString::number(i));
+        this->ui->TG_adress_combobox->addItem(QString::number(i));
+        this->ui->BOD_T4K_M_adress_combobox->addItem(QString::number(i));
+        this->ui->BOD_SOTA_M_adress_combobox->addItem(QString::number(i));
+
+
+        }
+
+
+     for(int i=1;i<27;i++)
+        {
+
+        this->ui->DD_T4K_M_combobox->addItem(QString::number(i));
+
+        }
+
 
 
 
@@ -171,7 +194,7 @@ operators.clear();
 
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
-    this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+
 
     action_setDK = new QAction(trUtf8("Выполнять команду ДК"), this);
     action_YZ_MONOLIT = new QAction(trUtf8("УЗ Монолит"), this);
@@ -1485,6 +1508,15 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
       }
     }
 
+    //номер ДД
+
+    //его индекс
+
+
+    int m_val = unit->getNum2()-parrent->getNum2();
+
+    qDebug()<<QString::number(m_val);
+
     foreach(UnitNode *un, List )
     {
     qDebug()<<"Name: "<<un->getName();
@@ -1500,43 +1532,43 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
 
     qDebug()<<"Name: "<<un->getName()<<" участок "<<QString::number(parent->getNum2());
 
-    if((100==un->getNum2())||((200==un->getNum2())))
-    {
-        if((100==parrent->getNum2())||((200==parrent->getNum2())))
+    if((100==parrent->getNum2())||((200==parrent->getNum2())))
         {
-
-
-
-
-            if((un->getNum2())==(unit->getNum2()))
+            if((100==parent->getNum2())||((200==parent->getNum2())))
             {
+                int val = un->getNum2()-parent->getNum2();
+                 qDebug()<<QString::number(m_val)<<" "<<QString::number(val);
+                if(m_val==val)
+                {
 
 
-                dialog.showMessage("У этого участка уже существует такой ДД!");
-                dialog.exec();
-                return false;
+                    dialog.showMessage("У этого участка уже существует такой ДД!");
+                    dialog.exec();
+                    return false;
+                }
             }
+        }
+    if((300==parrent->getNum2())||((400==parrent->getNum2())))
+        {
+            if((300==parent->getNum2())||((400==parent->getNum2())))
+            {
+                int val = un->getNum2()-parent->getNum2();
+                 qDebug()<<QString::number(m_val)<<" "<<QString::number(val);
+                if(m_val==val)
+                {
 
 
-
+                    dialog.showMessage("У этого участка уже существует такой ДД!");
+                    dialog.exec();
+                    return false;
+                }
+            }
         }
 
-
-
     }
 
 
 
-
-     if(un->getNum2()==unit->getNum2())
-     {
-
-
-         dialog.showMessage("У этого участка уже существует такой ДД!");
-         dialog.exec();
-         return false;
-     }
-    }
     return true;
 }
 
@@ -1702,17 +1734,59 @@ bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)//н�
       }
     }
 
+    int m_val = unit->getNum2()-parrent->getNum2();
+
+    qDebug()<<QString::number(m_val);
+
     foreach(UnitNode *un, List )
     {
-     qDebug()<<"Name: "<<un->getName();
-     if(un->getNum2()==unit->getNum2())
-     {
-         dialog.showMessage("У этого участка уже существует такой ДД!");
-         dialog.exec();
-         return false;
-     }
+    qDebug()<<"Name: "<<un->getName();
+
+    //номер ДД
+
+    //его индекс
+    QModelIndex ind = this->modelTreeUN->findeIndexUN(un);
+    //индекс его родителя
+    QModelIndex parent_ind =  this->modelTreeUN->parent(ind);
+    //юнит его родителя
+    UnitNode *parent = static_cast<UnitNode*>(parent_ind.internalPointer());
+
+    qDebug()<<"Name: "<<un->getName()<<" участок "<<QString::number(parent->getNum2());
+
+    if((100==parrent->getNum2())||((200==parrent->getNum2())))
+        {
+            if((100==parent->getNum2())||((200==parent->getNum2())))
+            {
+                int val = un->getNum2()-parent->getNum2();
+                 qDebug()<<QString::number(m_val)<<" "<<QString::number(val);
+                if(m_val==val)
+                {
+
+
+                    dialog.showMessage("У этого участка уже существует такой ДД!");
+                    dialog.exec();
+                    return false;
+                }
+            }
+        }
+    if((300==parrent->getNum2())||((400==parrent->getNum2())))
+        {
+            if((300==parent->getNum2())||((400==parent->getNum2())))
+            {
+                int val = un->getNum2()-parent->getNum2();
+                 qDebug()<<QString::number(m_val)<<" "<<QString::number(val);
+                if(m_val==val)
+                {
+
+
+                    dialog.showMessage("У этого участка уже существует такой ДД!");
+                    dialog.exec();
+                    return false;
+                }
+            }
+        }
+
     }
-    return true;
     return true;
 }
 
