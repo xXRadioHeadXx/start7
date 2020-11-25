@@ -58,30 +58,36 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     str_STRAZH_IP = "ТВ+тепловиз.Страж-IP";
     str_NET_DEV = "Сетевое устройство";
     str_ONVIF = "ТВ-камера ONVIF";
-    str_BOD_T4K_M = "БОД Точка-М/Гарда";
-    str_Y4_T4K_M = "Участок Точка-М/Гарда";
-    str_DD_T4K_M = "ДД Точка-М/Гарда";
-    str_BOD_SOTA = "БОД Сота/Сота-М";
-    str_Y4_SOTA = "Участок Сота/Сота-М";
-    str_DD_SOTA = "ДД Сота/Сота-М";
+    str_BOD_T4K_M = "Точка-М/Гарда БОД";
+    str_Y4_T4K_M = "Точка-М/Гарда Участок";
+    str_DD_T4K_M = "Точка-М/Гарда ДД";
+    str_BOD_SOTA = "Сота/Сота-М БОД";
+    str_Y4_SOTA = "Сота/Сота-М Участок";
+    str_DD_SOTA = "Сота/Сота-М ДД";
 
 
     this->ui->uType_combobox->addItem(str_GROUP);
-    this->ui->uType_combobox->addItem(str_SD_BL_IP);
     this->ui->uType_combobox->addItem(str_IU_BL_IP);
+    this->ui->uType_combobox->addItem(str_SD_BL_IP);
     this->ui->uType_combobox->addItem(str_KL);
-    this->ui->uType_combobox->addItem(str_TG);
     this->ui->uType_combobox->addItem(str_RLM_KRL);
-//    this->ui->uType_combobox->addItem(str_RLM_C);
-    this->ui->uType_combobox->addItem(str_BOD_T4K_M);
-    this->ui->uType_combobox->addItem(str_Y4_T4K_M);
-    this->ui->uType_combobox->addItem(str_DD_T4K_M);
+    this->ui->uType_combobox->addItem(str_RLM_C);
+    this->ui->uType_combobox->addItem(str_NET_DEV);
     this->ui->uType_combobox->addItem(str_BOD_SOTA);
     this->ui->uType_combobox->addItem(str_Y4_SOTA);
     this->ui->uType_combobox->addItem(str_DD_SOTA);
     this->ui->uType_combobox->addItem(str_STRAZH_IP);
-    this->ui->uType_combobox->addItem(str_NET_DEV);
     this->ui->uType_combobox->addItem(str_ONVIF);
+    this->ui->uType_combobox->addItem(str_TG);
+    this->ui->uType_combobox->addItem(str_BOD_T4K_M);
+    this->ui->uType_combobox->addItem(str_Y4_T4K_M);
+    this->ui->uType_combobox->addItem(str_DD_T4K_M);
+
+
+
+
+
+
 
 
 
@@ -2055,6 +2061,11 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
             return true;
 }
 
+bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
+{
+
+}
+
 bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
 {
       qDebug()<<"[----------------------------------------------]";
@@ -3820,5 +3831,18 @@ void MainWindowCFG::on_KL_type_combobox_currentTextChanged(const QString &arg1)
     {
         qDebug()<<"[!!!!!!!!!!!!!!!]";
      this->ui->KL_UDP_RS485_stacked->setCurrentWidget(this->ui->KL_RS485);
+    }
+}
+
+
+
+void MainWindowCFG::on_RLM_C_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->RLM_C_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui->RLM_C_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_C_UDP);
+    else
+    {
+        qDebug()<<"[!!!!!!!!!!!!!!!]";
+     this->ui->RLM_C_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_C_RS485);
     }
 }

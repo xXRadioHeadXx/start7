@@ -79,6 +79,7 @@ private:
     bool pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_RLM_C(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_KL(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent);
     bool pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent);
@@ -247,5 +248,7 @@ private slots:
     void on_comboBox_17_currentIndexChanged(int index);
     void on_doubleSpinBox_10_valueChanged(double arg1);
     void on_KL_type_combobox_currentTextChanged(const QString &arg1);
+
+    void on_RLM_C_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
