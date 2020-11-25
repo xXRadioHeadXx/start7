@@ -157,6 +157,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
         this->ui->BOD_T4K_M_port_combobox->addItem(QString::number(i));
         this->ui->BOD_SOTA_M_port_combobox->addItem(QString::number(i));
         this->ui->KL_port_combobox->addItem(QString::number(i));
+        this->ui->RLM_C_port_combobox->addItem(QString::number(i));
 
 
         }
@@ -176,7 +177,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
         this->ui->TG_adress_combobox->addItem(QString::number(i));
         this->ui->BOD_T4K_M_adress_combobox->addItem(QString::number(i));
         this->ui->BOD_SOTA_M_adress_combobox->addItem(QString::number(i));
-
+        this->ui->RLM_C_adress_combobox->addItem(QString::number(i));
 
         }
 
@@ -652,6 +653,9 @@ int MainWindowCFG::Type_from_string_to_int(QString Type)
     if(Type==str_ONVIF)
         return TypeUnitNode::ONVIF;
 
+    if(Type==str_RLM_C)
+        return TypeUnitNode::RLM_C;
+
     /*
     case TypeUnitNode::GROUP:
 break;
@@ -915,7 +919,7 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::RLM_C:
-  //     this->get_option_RLM_C(unit);
+       this->set_option_RLM_C(unit);
        break;
 
        case TypeUnitNode::BOD_T4K_M:
@@ -1298,6 +1302,13 @@ if(false==pass_to_add_TG(unit,parrent))
 if(unit->getType()==TypeUnitNode::RLM_KRL)
 {
 if(false==pass_to_add_RLM_KRL(unit,parrent))
+    return false;
+}
+
+
+if(unit->getType()==TypeUnitNode::RLM_C)
+{
+if(false==pass_to_add_RLM_C(unit,parrent))
     return false;
 }
 
@@ -2063,7 +2074,62 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
 
 bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
 {
+    if(parrent->getType()!=TypeUnitNode::GROUP)
+    if(parrent->getType()!=TypeUnitNode::SYSTEM)
+    {
+        dialog.showMessage(" может быть добавлен только к группе");
+        dialog.exec();
+        return false;
 
+    }
+
+//    Если связь по RS485 - контроль по RS485 порту
+//    Если связь по UDP - контроль по IP адресу
+
+
+        if(unit->getUdpUse()==0)
+        {
+      //            qDebug()<<"[getUdpUse()==0]";
+            QList<UnitNode *> List1;
+            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+            foreach(UnitNode *un, List1 )
+            {
+
+        qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+             if((un->getNum3()==unit->getNum3()))
+             if((un->getNum1()==unit->getNum1()))
+             {
+
+                 dialog.showMessage("этот COM порт  уже  занят");
+                 dialog.exec();
+                 return false;
+             }
+
+
+            }
+         //проконтроилровать отсутствие в дереве такого же порта
+
+        }
+
+        if(unit->getUdpUse()==1)
+        {
+          //проконтроилровать отсутствие в дереве такого же IP адреса
+            QList<UnitNode *> List1;
+            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+            foreach(UnitNode *un, List1 )
+            {
+   //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+             if((un->getUdpAdress()==unit->getUdpAdress()))
+             if((un->getNum1()==unit->getNum1()))
+              {
+
+                 dialog.showMessage("этот IP адрес уже  занят");
+                 dialog.exec();
+                 return false;
+              }
+            }
+        }
+        return true;
 }
 
 bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
@@ -2612,13 +2678,77 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     string1.append(QString::number(unit->getNum3()));
     string1.append(" ");
 
+    if(unit->getUdpUse()==0)
+    {
+   string1.append(QString::number(unit->getNum3()));
+   if(unit->getUdpAdress()!="")
+   {
+       string1.append(" ");
+       string1.append("(");
+       string1.append(unit->getUdpAdress());
+       string1.append(")");
+   }
+
+
+    }
+
+    if(unit->getUdpUse()==1)
+    {
+        string1.append(unit->getUdpAdress());
+        string1.append("::");
+        string1.append(QString::number(unit->getUdpPort()));
+        string1.append(" ");
+
+    }
+
     this->ui->textEdit->append(string1);
 
 }
 
 void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
 
+
+
+
+
+    string1.append("РИФ-РЛМ-С:");
+
+    string1.append(QString::number(unit->getNum1()));
+    string1.append(" ");
+
+
+    string1.append("Кан:");
+
+    string1.append(QString::number(unit->getNum3()));
+    string1.append(" ");
+
+    if(unit->getUdpUse()==0)
+    {
+   string1.append(QString::number(unit->getNum3()));
+   if(unit->getUdpAdress()!="")
+   {
+       string1.append(" ");
+       string1.append("(");
+       string1.append(unit->getUdpAdress());
+       string1.append(")");
+   }
+
+
+    }
+
+    if(unit->getUdpUse()==1)
+    {
+        string1.append(unit->getUdpAdress());
+        string1.append("::");
+        string1.append(QString::number(unit->getUdpPort()));
+        string1.append(" ");
+
+    }
+
+    this->ui->textEdit->append(string1);
 }
 
 void MainWindowCFG::get_option_BOD_T4K_M(UnitNode *unit)
@@ -3076,7 +3206,23 @@ void MainWindowCFG::set_option_RLM_KRL(UnitNode *unit)
 
 void MainWindowCFG::set_option_RLM_C(UnitNode *unit)
 {
+    unit->setNum1(this->ui->RLM_C_adress_combobox->currentText().toInt());
 
+    unit->setNum3(this->ui->RLM_C_port_combobox->currentText().toInt());
+
+    if(this->ui->RLM_C_UDP_RS485_combobox->currentText()=="UDP")
+        {
+                unit->setUdpUse(1);
+        }
+
+    else
+        {
+                unit->setUdpUse(0);
+        }
+
+    unit->setUdpAdress(this->ui->RLM_CL_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->RLM_C_UdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->RLM_C_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_BOD_T4K_M(UnitNode *unit)
