@@ -128,7 +128,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
      //    this->ui->tableWidget->insertRow(3);
      //    this->ui->tableWidget->insertRow(4);
      //    this->ui->tableWidget->insertRow(5);
-    for(int i=1;i<257;i++)
+    for(int i=1;i<256;i++)
         {
 
 
