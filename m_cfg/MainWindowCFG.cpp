@@ -379,7 +379,12 @@ qDebug()
 <<"; UdpUse "<<QString::number(unit->getUdpUse())
 <<"; UdpAdress "<<unit->getUdpAdress()
 <<"; UdpPort "<<unit->getUdpPort()
-<<"; UdpTimeout "<<unit->getUdpTimeout();
+<<"; UdpTimeout "<<unit->getUdpTimeout()
+<<"; Icon1Path "<<unit->getIcon1Path()
+<<"; Icon2Path "<<unit->getIcon2Path()
+<<"; Icon3Path "<<unit->getIcon3Path();
+
+
     selected_type=unit->getType();
 /*QString Name=unit->getName();
 
@@ -542,6 +547,16 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
 
     case TypeUnitNode::KL:
     Type.append(str_KL);
+
+    case TypeUnitNode::NET_DEV:
+    Type.append(str_NET_DEV);
+
+    case TypeUnitNode::STRAZH_IP:
+    Type.append(str_STRAZH_IP);
+
+    case TypeUnitNode::ONVIF:
+    Type.append(str_ONVIF);
+
     break;
 
 
@@ -609,6 +624,15 @@ int MainWindowCFG::Type_from_string_to_int(QString Type)
 
     if(Type==str_KL)
         return TypeUnitNode::KL;
+
+    if(Type==str_NET_DEV)
+        return TypeUnitNode::NET_DEV;
+
+    if(Type==str_STRAZH_IP)
+        return TypeUnitNode::STRAZH_IP;
+
+    if(Type==str_ONVIF)
+        return TypeUnitNode::ONVIF;
 
     /*
     case TypeUnitNode::GROUP:
@@ -902,6 +926,18 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
 
        case TypeUnitNode::KL:
        this->set_option_KL(unit);
+       break;/**/
+
+       case TypeUnitNode::ONVIF:
+       this->set_option_ONVIF(unit);
+       break;/**/
+
+       case TypeUnitNode::STRAZH_IP:
+       this->set_option_STRAZH_IP(unit);
+       break;/**/
+
+       case TypeUnitNode::NET_DEV:
+       this->set_option_NET_DEV(unit);
        break;/**/
 
        case TypeUnitNode::BL_IP:
@@ -3003,6 +3039,9 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
 
 void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
 {
+    unit->setIcon1Path(this->ui->ONVIF_lineEdit__IPaddr->text());
+    unit->setIcon2Path(this->ui->ONVIF_lineEdit__login->text());
+    unit->setIcon3Path(this->ui->ONVIF_lineEdit__password->text());
 
 }
 
@@ -3201,6 +3240,15 @@ void MainWindowCFG::save_option(QSettings *settings, UnitNode *unit)
 
     settings->setValue("UpdPort", QString::number(unit->getUdpPort()));
     settings->setValue("UdpTimeout", QString::number(unit->getUdpTimeout()));
+
+    if(unit->getIcon1Path()!="")
+         settings->setValue("Icon1Path", unit->getIcon1Path());
+
+    if(unit->getIcon2Path()!="")
+         settings->setValue("Icon2Path", unit->getIcon2Path());
+
+    if(unit->getIcon3Path()!="")
+         settings->setValue("Icon3Path", unit->getIcon3Path());
 }
 
 void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)

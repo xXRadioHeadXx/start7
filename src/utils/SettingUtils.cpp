@@ -104,6 +104,16 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             tmpUN->setMetkaDopuskTime_0(settings.value( "MetkaDopuskTime_0" , -1 ).toInt());
             tmpUN->setMetkaDopuskTime_1(settings.value( "MetkaDopuskTime_1" , -1 ).toInt());
             tmpUN->setUdpTimeout(settings.value( "UdpTimeout" , -1 ).toInt());
+
+            if(settings.value("Icon1Path").isValid())
+             tmpUN->setIcon1Path(settings.value( "Icon1Path" , -1 ).toString());
+
+            if(settings.value("Icon2Path").isValid())
+             tmpUN->setIcon2Path(settings.value( "Icon2Path" , -1 ).toString());
+
+            if(settings.value("Icon3Path").isValid())
+             tmpUN->setIcon3Path(settings.value( "Icon3Path" , -1 ).toString());
+
             settings.endGroup();
 
             if(!tmpUN->getName().isEmpty())

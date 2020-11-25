@@ -98,6 +98,10 @@ private:
     int MetkaDopuskTime_0;//=0
     int MetkaDopuskTime_1;//=1
 
+    QString Icon1Path;
+    QString Icon2Path;
+    QString Icon3Path;
+
     UnitNode *parentUN = nullptr; //родительское устройство
     QList<UnitNode*> listChilde; //список детей
 
@@ -292,6 +296,15 @@ public:
 
     static int adamOffToMs(int adamOff);
 
+
+    QString getIcon1Path() const;
+    void setIcon1Path(const QString &value);
+
+    QString getIcon2Path() const;
+    void setIcon2Path(const QString &value);
+
+    QString getIcon3Path() const;
+    void setIcon3Path(const QString &value);
 
 public slots:
 signals:
