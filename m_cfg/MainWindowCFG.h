@@ -157,6 +157,9 @@ private:
     QString str_BOD_SOTA;
     QString str_Y4_SOTA;
     QString str_DD_SOTA;
+    QString str_ONVIF;
+    QString str_STRAZH_IP;
+    QString str_NET_DEV;
 
     QString str_RIF_RLM;
     QString str_RIF_RLM_24;

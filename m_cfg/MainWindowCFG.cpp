@@ -55,12 +55,16 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     str_TG ="Точка/Гарда";
     str_RLM_KRL = "РИФ-РЛМ/КРЛ/Трасса";
     str_RLM_C = "РИФ-РЛМ-С";
+    str_STRAZH_IP = "ТВ+тепловиз.Страж-IP";
+    str_NET_DEV = "Сетевое устройство";
+    str_ONVIF = "ТВ-камера ONVIF";
     str_BOD_T4K_M = "БОД Точка-М/Гарда";
     str_Y4_T4K_M = "Участок Точка-М/Гарда";
     str_DD_T4K_M = "ДД Точка-М/Гарда";
     str_BOD_SOTA = "БОД Сота/Сота-М";
     str_Y4_SOTA = "Участок Сота/Сота-М";
     str_DD_SOTA = "ДД Сота/Сота-М";
+
 
     this->ui->uType_combobox->addItem(str_GROUP);
     this->ui->uType_combobox->addItem(str_SD_BL_IP);
@@ -75,6 +79,14 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     this->ui->uType_combobox->addItem(str_BOD_SOTA);
     this->ui->uType_combobox->addItem(str_Y4_SOTA);
     this->ui->uType_combobox->addItem(str_DD_SOTA);
+    this->ui->uType_combobox->addItem(str_STRAZH_IP);
+    this->ui->uType_combobox->addItem(str_NET_DEV);
+    this->ui->uType_combobox->addItem(str_ONVIF);
+
+
+
+
+
 
 
 
@@ -769,6 +781,25 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
     this->ui->KL_type_combobox->setCurrentText("RS485");
     }
+    else
+    if(arg1==str_ONVIF)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->ONVIF_groupbox);
+
+    }
+    else
+    if(arg1==str_STRAZH_IP)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->STRAZH_IP_groupbox);
+
+    }
+    else
+    if(arg1==str_NET_DEV)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
+
+    }
+
 
     else
     {
