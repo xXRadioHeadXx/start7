@@ -867,6 +867,10 @@ int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
 
        case TypeUnitNode::DD_SOTA:
        this->set_option_DD_SOTA(unit,parent);
+       break;
+
+       case TypeUnitNode::KL:
+       this->set_option_KL(unit);
        break;/**/
 
        case TypeUnitNode::BL_IP:
@@ -1211,6 +1215,13 @@ if(unit->getType()==TypeUnitNode::RLM_KRL)
 if(false==pass_to_add_RLM_KRL(unit,parrent))
     return false;
 }
+
+if(unit->getType()==TypeUnitNode::KL)
+{
+if(false==pass_to_add_KL(unit,parrent))
+    return false;
+}
+
 
 
 return true;
@@ -1950,6 +1961,7 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
 
 bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
 {
+      qDebug()<<"[----------------------------------------------]";
     //СД от одного до четырех
       if(unit->getNum2()<0||unit->getNum2()>4)
       {
@@ -1976,13 +1988,15 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
             this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
             foreach(UnitNode *un, List1 )
             {
-
-        qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+  qDebug()<<"[1]";
+        qDebug()<<un->getName()<<" "<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
              if((un->getNum3()==unit->getNum3()))
                  if((un->getNum1()==unit->getNum1()))
                  {
+                       qDebug()<<"[2]";
                      if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
                       {
+                           qDebug()<<"[3]";
 
                          dialog.showMessage("этот COM порт уже  занят");
                          dialog.exec();
@@ -1990,8 +2004,10 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                       }
                      if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
                       {
+                           qDebug()<<"[4]";
                          if(un->getNum2()==unit->getNum2())
                          {
+                               qDebug()<<"[5]";
                              dialog.showMessage("на этом адресе этого порта уже есть такое СД");
                              dialog.exec();
                              return false;
