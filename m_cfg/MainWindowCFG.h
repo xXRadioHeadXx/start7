@@ -69,22 +69,20 @@ private:
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
-
     bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode* parrent);
-
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent);
-
-
     bool pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
-
     bool pass_to_add_KL(UnitNode *unit, UnitNode* parrent);
+    void pass_to_add_ONVIF(UnitNode *unit);
+    void pass_to_add_STRAZH_IP(UnitNode *unit);
+    void pass_to_add_NET_DEV(UnitNode *unit);
 
     bool add_unit();
     bool change_unit();
@@ -108,6 +106,11 @@ private:
     void get_option_DD_SOTA(UnitNode *unit);
     void get_option_BL_IP(UnitNode *unit);
     void get_option_KL(UnitNode *unit);
+    void get_option_ONVIF(UnitNode *unit);
+    void get_option_STRAZH_IP(UnitNode *unit);
+    void get_option_NET_DEV(UnitNode *unit);
+
+
 
     bool set_option(UnitNode *unit,UnitNode *parent);
 
@@ -125,6 +128,9 @@ private:
     void set_option_DD_SOTA(UnitNode *unit,UnitNode *parent);
     void set_option_BL_IP(UnitNode *unit);
     void set_option_KL(UnitNode *unit);
+    void set_option_ONVIF(UnitNode *unit);
+    void set_option_STRAZH_IP(UnitNode *unit);
+    void set_option_NET_DEV(UnitNode *unit);
 
 
 

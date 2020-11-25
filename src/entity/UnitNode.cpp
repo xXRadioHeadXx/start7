@@ -544,7 +544,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
          else if(TypeUnitNode::KL          == getType()) {return Icons_cfg::KL();        }
          else if(TypeUnitNode::NET_DEV     == getType()) {return Icons_cfg::NET_DEV();   }
          else if(TypeUnitNode::ONVIF       == getType()) {return Icons_cfg::ONVIF();     }
-
+         else if(TypeUnitNode::STRAZH_IP   == getType()) {return Icons_cfg::ONVIF();     }
 
 //         Y4_SOTA = 30,//Участок Сота
 //         DD_SOTA = 28,//ДД Сота

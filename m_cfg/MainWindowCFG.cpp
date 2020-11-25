@@ -2093,6 +2093,21 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
         return true;
 }
 
+void MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::pass_to_add_NET_DEV(UnitNode *unit)
+{
+
+}
+
 bool MainWindowCFG::add_unit()
 {
     qDebug()<<"[add_unit()]";
@@ -2751,6 +2766,21 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
     }
 }
 
+void MainWindowCFG::get_option_ONVIF(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_STRAZH_IP(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
+{
+
+}
+
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 {
 
@@ -2969,6 +2999,21 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
     unit->setUdpPort(this->ui->KL_UdpPort_doubleSpinBox->text().toInt());
     unit->setUdpAdress(this->ui->KL_ipadress_lineedit->text());
     unit->setUdpTimeout(this->ui->KL_timeout_doubleSpinBox->text().toInt());
+}
+
+void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_STRAZH_IP(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_NET_DEV(UnitNode *unit)
+{
+
 }
 
 void MainWindowCFG::save_ini(QString path)
