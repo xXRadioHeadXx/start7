@@ -93,10 +93,13 @@ private slots:
 
     void changeSelectUN(UnitNode * un);
 
-    void preparePageRLM();
-    void preparePagePoint();
-    void preparePageSota1();
-    void preparePageSota2();
+    void preparePageCustomization(int typeUN);
+    void preparePageRLM(int typeUN);
+    void preparePagePoint(int typeUN);
+    void preparePageSota1(int typeUN);
+    void preparePageSota2(int typeUN);
+    void on_actionCustomization_triggered();
+
 protected:
     void closeEvent(QCloseEvent * event);
 

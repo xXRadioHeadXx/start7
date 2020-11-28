@@ -170,7 +170,7 @@
               <enum>QFrame::Box</enum>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="page_RLM">
               <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -200,21 +200,9 @@
                        <height>22</height>
                       </size>
                      </property>
-                     <item>
-                      <property name="text">
-                       <string>Неопределено</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>Основной</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>Дополнительный</string>
-                      </property>
-                     </item>
+                     <property name="editable">
+                      <bool>true</bool>
+                     </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
@@ -224,6 +212,9 @@
                        <width>16777215</width>
                        <height>22</height>
                       </size>
+                     </property>
+                     <property name="editable">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
@@ -261,31 +252,9 @@
                        <height>22</height>
                       </size>
                      </property>
-                     <item>
-                      <property name="text">
-                       <string>Неопределено</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>Такт 1</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>Такт 2</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>Такт 3</string>
-                      </property>
-                     </item>
-                     <item>
-                      <property name="text">
-                       <string>Такт 4</string>
-                      </property>
-                     </item>
+                     <property name="editable">
+                      <bool>true</bool>
+                     </property>
                     </widget>
                    </item>
                    <item row="4" column="0" colspan="2">
@@ -332,7 +301,7 @@
                    <rect>
                     <x>0</x>
                     <y>-41</y>
-                    <width>422</width>
+                    <width>421</width>
                     <height>243</height>
                    </rect>
                   </property>
@@ -546,8 +515,8 @@
                   <property name="geometry">
                    <rect>
                     <x>0</x>
-                    <y>-404</y>
-                    <width>422</width>
+                    <y>0</y>
+                    <width>421</width>
                     <height>606</height>
                    </rect>
                   </property>
@@ -1506,6 +1475,9 @@
    </property>
   </action>
   <action name="actionCustomization">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Настройка</string>
    </property>
