@@ -30,6 +30,12 @@ public:
     static void fillDiagnosticTable(QTableWidget * table, UnitNode *selUN);
     static void fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN);
     static void fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode * selUN);
+    static void fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *selUN);
+    static void fillDiagnosticTableTG(QTableWidget *table, UnitNode *selUN);
+    static void fillDiagnosticTableDD_T4K_M(QTableWidget *table, UnitNode *selUN);
+    static void fillDiagnosticTableDD_SOTA(QTableWidget *table, UnitNode *selUN);
+    static void fillDiagnosticTableY4_SOTA(QTableWidget *table, UnitNode *selUN);
+    static void fillDiagnosticTableY4_T4K_M(QTableWidget *table, UnitNode *selUN);
     static QSet<UnitNode *> findeSetAutoOnOffUN(UnitNode *un);
 };
 

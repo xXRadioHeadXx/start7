@@ -301,7 +301,16 @@ void MainWindowServer::createDiagnosticTable()
         return;
 
     if(TypeUnitNode::IU_BL_IP == selUN->getType() ||
-            TypeUnitNode::SD_BL_IP == selUN->getType())
+            TypeUnitNode::SD_BL_IP == selUN->getType() ||
+            TypeUnitNode::RLM_KRL == selUN->getType() ||
+            TypeUnitNode::RLM_C == selUN->getType() ||
+            TypeUnitNode::TG == selUN->getType() ||
+            TypeUnitNode::DD_T4K_M == selUN->getType() ||
+            TypeUnitNode::DD_SOTA == selUN->getType() ||
+            TypeUnitNode::Y4_SOTA == selUN->getType() ||
+            TypeUnitNode::BOD_SOTA == selUN->getType() ||
+            TypeUnitNode::BOD_T4K_M == selUN->getType() ||
+            TypeUnitNode::Y4_T4K_M == selUN->getType())
         ui->groupBox_4->setVisible(true);
     else
         ui->groupBox_4->setVisible(false);
@@ -313,7 +322,20 @@ void MainWindowServer::createDiagnosticTable()
     ui->tableWidget->verticalHeader()->hide();
     ui->tableWidget->horizontalHeader()->hide();
 
-    ui->groupBox_4->setTitle(trUtf8("Диагностика: БЛ-IP"));
+    if(TypeUnitNode::RLM_KRL == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: РИФ-РЛМ(КРП),Трасса"));
+    else if(TypeUnitNode::RLM_C == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: РИФ-РЛМ-С"));
+    else if(TypeUnitNode::TG == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: Точка/Гарда"));
+    else if(TypeUnitNode::DD_SOTA == selUN->getType() || TypeUnitNode::DD_T4K_M == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
+    else if(TypeUnitNode::Y4_SOTA == selUN->getType() || TypeUnitNode::BOD_SOTA == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: Сота/Сота-М"));
+    else if(TypeUnitNode::BOD_T4K_M == selUN->getType() || TypeUnitNode::Y4_T4K_M == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: Точка-М/Гарда-М"));
+    else if(TypeUnitNode::SD_BL_IP == selUN->getType() || TypeUnitNode::IU_BL_IP == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: БЛ-IP"));
 
     Utils::fillDiagnosticTable(ui->tableWidget, this->selUN);
 }
