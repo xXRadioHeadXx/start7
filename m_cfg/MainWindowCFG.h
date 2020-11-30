@@ -223,17 +223,12 @@ private slots:
     void on_pushButton_2_clicked();
     void on_pushButton_7_clicked();
     void on_pushButton_8_clicked();
-    void on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1);
-    void on_pushButton_9_clicked();
+       void on_pushButton_9_clicked();
     void on_pushButton_moveUp_clicked();
     void on_pushButton_moveDown_clicked();
-    void on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
     void on_treeView_customContextMenuRequested(const QPoint &pos);
-    void on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
     void on_operators_use_combobox_currentTextChanged(const QString &arg1);
-    void on_BOD_T4K_M_type_combobox_currentTextChanged(const QString &arg1);
-    void on_TG_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
-    void on_RLM_KRL_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+
     void on_add_operator_button_clicked();
 
     void on_tableWidget_cellClicked(int row, int column);
@@ -247,8 +242,7 @@ private slots:
     void on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1);
     void on_comboBox_17_currentIndexChanged(int index);
     void on_doubleSpinBox_10_valueChanged(double arg1);
-    void on_KL_type_combobox_currentTextChanged(const QString &arg1);
 
-    void on_RLM_C_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+    void on_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
