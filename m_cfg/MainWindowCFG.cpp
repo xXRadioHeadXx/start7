@@ -12,9 +12,6 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->ui->UDP_485_Widget->setVisible(false);
-    this->ui->groupBox_additional_information->setVisible(false);
-
  this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
     for(int i(1), n(100); i < n; i++)
     {
@@ -153,7 +150,14 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
         {
 
 
-        this->ui->port_combobox->addItem(QString::number(i));
+        this->ui->SD_BL_IP_M_port_combobox->addItem(QString::number(i));
+        this->ui->IU_BL_IP_M_port_combobox->addItem(QString::number(i));
+        this->ui->TG_M_port_combobox->addItem(QString::number(i));
+        this->ui->RLM_KRL_M_port_combobox->addItem(QString::number(i));
+        this->ui->BOD_T4K_M_port_combobox->addItem(QString::number(i));
+        this->ui->BOD_SOTA_M_port_combobox->addItem(QString::number(i));
+        this->ui->KL_port_combobox->addItem(QString::number(i));
+        this->ui->RLM_C_port_combobox->addItem(QString::number(i));
 
 
         }
@@ -740,9 +744,6 @@ void MainWindowCFG::update_map()
 
 void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 {
-
-    this->ui->UDP_485_Widget->setVisible(false);
-    this->ui->groupBox_additional_information->setVisible(false);
     this->ui->type_pxm_label->clear();
     if(arg1==str_GROUP){
     this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
@@ -750,54 +751,42 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     else
     if(arg1==str_SD_BL_IP){
     qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
- //   this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
-              this->ui->UDP_485_Widget->setVisible(true);
-        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
-        this->ui->groupBox_additional_information->setVisible(true);
+        this->ui->SD_BL_IP_UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_IU_BL_IP)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
-
-        this->ui->UDP_485_Widget->setVisible(true);
-  this->ui->UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_TG)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
-        this->ui->UDP_485_Widget->setVisible(true);
-  this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+    this->ui->TG_UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_RLM_KRL)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
-        this->ui->UDP_485_Widget->setVisible(true);
-  this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+     this->ui->RLM_KRL_UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_RLM_C)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
-        this->ui->UDP_485_Widget->setVisible(true);
-  this->ui->UDP_RS485_combobox->setCurrentText("RS485");
-                this->ui->groupBox_additional_information->setVisible(true);
     }
     else
     if(arg1==str_BOD_T4K_M)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
-        this->ui->UDP_485_Widget->setVisible(true);
-  this->ui->UDP_RS485_combobox->setCurrentText("RS485");
-                this->ui->groupBox_additional_information->setVisible(true);
+     this->ui->BOD_T4K_M_type_combobox->setCurrentText("RS485");
 
     }
     else
@@ -811,7 +800,6 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_T4K_M_groupbox);
-                this->ui->groupBox_additional_information->setVisible(true);
 
     }
     else
@@ -819,9 +807,8 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     {
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-        this->ui->UDP_485_Widget->setVisible(true);
-  this->ui->UDP_RS485_combobox->setCurrentText("RS485");
-                this->ui->groupBox_additional_information->setVisible(true);
+    this->ui->BOD_SOTA_M_type_combobox->setCurrentText("RS485");
+ // this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
     }
     else
     if(arg1==str_Y4_SOTA)
@@ -833,15 +820,12 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     if(arg1==str_DD_SOTA)
     {
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
-                this->ui->groupBox_additional_information->setVisible(true);
     }
     else
     if(arg1==str_KL)
     {
-   this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
-   this->ui->UDP_485_Widget->setVisible(true);
-   this->ui->UDP_RS485_combobox->setCurrentText("RS485");
-   this->ui->groupBox_additional_information->setVisible(true);
+    this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
+    this->ui->KL_type_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_ONVIF)
@@ -3103,9 +3087,9 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 
 
     unit->setNum2(this->ui->SD_BL_IP_num_combobox->currentText().toInt());
-    unit->setNum3(this->ui->port_combobox->currentText().toInt());
+    unit->setNum3(this->ui->SD_BL_IP_M_port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->SD_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
     {
             unit->setUdpUse(1);
     }
@@ -3115,9 +3099,9 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
             unit->setUdpUse(0);
     }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-    unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+    unit->setUdpAdress(this->ui->SD_BL_IP_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->SD_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->SD_BL_IP_timeout_doubleSpinBox->text().toInt());
 
 
     qDebug()<<"Name: "<<unit->getName()
@@ -3135,9 +3119,9 @@ void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
 {
 
     unit->setNum2(this->ui->IU_BL_IP_num_combobox->currentText().toInt());
-    unit->setNum3(this->ui->port_combobox->currentText().toInt());
+    unit->setNum3(this->ui->IU_BL_IP_M_port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->IU_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
     {
             unit->setUdpUse(1);
     }
@@ -3147,23 +3131,23 @@ void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
             unit->setUdpUse(0);
     }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-    unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+    unit->setUdpAdress(this->ui->IU_BL_IP_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->IU_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->IU_BL_IP_timeout_doubleSpinBox->text().toInt());
 
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-    unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+    unit->setUdpAdress(this->ui->IU_BL_IP_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->IU_BL_IP_MUdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->IU_BL_IP_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_TG(UnitNode *unit)
 {
 unit->setNum1(this->ui->TG_adress_combobox->currentText().toInt());
 unit->setNum2(this->ui->TG_U4_4A_combobox->currentText().toInt());
-unit->setNum3(this->ui->port_combobox->currentText().toInt());
+unit->setNum3(this->ui->TG_M_port_combobox->currentText().toInt());
 
-if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+if(this->ui->TG_UDP_RS485_combobox->currentText()=="UDP")
     {
             unit->setUdpUse(1);
     }
@@ -3173,9 +3157,9 @@ else
             unit->setUdpUse(0);
     }
 
-unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+unit->setUdpAdress(this->ui->TG_ipadress_lineedit->text());
+unit->setUdpPort(this->ui->TG_MUdpPort_doubleSpinBox->text().toInt());
+unit->setUdpTimeout(this->ui->TG_timeout_doubleSpinBox->text().toInt());
 
 
 }
@@ -3184,9 +3168,9 @@ void MainWindowCFG::set_option_RLM_KRL(UnitNode *unit)
 {
     unit->setNum1(this->ui->RLM_KRL_adress_combobox->currentText().toInt());
 
-    unit->setNum3(this->ui->port_combobox->currentText().toInt());
+    unit->setNum3(this->ui->RLM_KRL_M_port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->RLM_KRL_UDP_RS485_combobox->currentText()=="UDP")
         {
                 unit->setUdpUse(1);
         }
@@ -3196,9 +3180,9 @@ void MainWindowCFG::set_option_RLM_KRL(UnitNode *unit)
                 unit->setUdpUse(0);
         }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-    unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+    unit->setUdpAdress(this->ui->RLM_KRL_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->RLM_KRL_UdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->RLM_KRL_timeout_doubleSpinBox->text().toInt());
 
     if(this->ui->RLM_KRL_type_comboBox->currentText()==str_RIF_RLM)
     unit->setAdamOff(0);
@@ -3224,9 +3208,9 @@ void MainWindowCFG::set_option_RLM_C(UnitNode *unit)
 {
     unit->setNum1(this->ui->RLM_C_adress_combobox->currentText().toInt());
 
-    unit->setNum3(this->ui->port_combobox->currentText().toInt());
+    unit->setNum3(this->ui->RLM_C_port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->RLM_C_UDP_RS485_combobox->currentText()=="UDP")
         {
                 unit->setUdpUse(1);
         }
@@ -3236,25 +3220,25 @@ void MainWindowCFG::set_option_RLM_C(UnitNode *unit)
                 unit->setUdpUse(0);
         }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-    unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+    unit->setUdpAdress(this->ui->RLM_CL_ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->RLM_C_UdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->RLM_C_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_BOD_T4K_M(UnitNode *unit)
 {
     qDebug()<<"set_option_BOD_T4K_M";
     unit->setNum1(this->ui->BOD_T4K_M_adress_combobox->currentText().toInt());
-    unit->setNum3(this->ui->port_combobox->currentText().toInt());
+    unit->setNum3(this->ui->BOD_T4K_M_port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->BOD_T4K_M_type_combobox->currentText()=="UDP")
         unit->setUdpUse(1);
     else
         unit->setUdpUse(0);
 
-    unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-    unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+    unit->setUdpPort(this->ui->BOD_T4K_M_UdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpAdress(this->ui->BOD_T4K_M_ipadress_lineedit->text());
+    unit->setUdpTimeout(this->ui->BOD_T4K_M_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_Y4_T4K_M(UnitNode *unit)
@@ -3274,16 +3258,16 @@ void MainWindowCFG::set_option_BOD_SOTA(UnitNode *unit)
 {
 qDebug()<<"set_option_BOD_SOTA";
 unit->setNum1(this->ui->BOD_SOTA_M_adress_combobox->currentText().toInt());
-unit->setNum3(this->ui->port_combobox->currentText().toInt());
+unit->setNum3(this->ui->BOD_SOTA_M_port_combobox->currentText().toInt());
 
-if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+if(this->ui->BOD_SOTA_M_type_combobox->currentText()=="UDP")
     unit->setUdpUse(1);
 else
     unit->setUdpUse(0);
 
-unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+unit->setUdpPort(this->ui->BOD_SOTA_MUdpPort_doubleSpinBox->text().toInt());
+unit->setUdpAdress(this->ui->BOD_SOTA_M_ipadress_lineedit->text());
+unit->setUdpTimeout(this->ui->BOD_SOTA_M_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit)
@@ -3320,16 +3304,16 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
 {
     unit->setNum1(this->ui->KL_adress_combobox->currentText().toInt());
     unit->setNum2(this->ui->KL_CD_combobox->currentText().toInt());
-    unit->setNum3(this->ui->port_combobox->currentText().toInt());
+    unit->setNum3(this->ui->KL_port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->KL_type_combobox->currentText()=="UDP")
         unit->setUdpUse(1);
     else
         unit->setUdpUse(0);
 
-    unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-    unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+    unit->setUdpPort(this->ui->KL_UdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpAdress(this->ui->KL_ipadress_lineedit->text());
+    unit->setUdpTimeout(this->ui->KL_timeout_doubleSpinBox->text().toInt());
 }
 
 void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
@@ -3629,6 +3613,16 @@ void MainWindowCFG::on_pushButton_8_clicked()
 
 }
 
+void MainWindowCFG::on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1)
+{
+
+    if(this->ui->BOD_SOTA_M_type_combobox->currentText()=="UDP")
+     this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_UDP);
+    else
+     this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+
+}
+
 void MainWindowCFG::on_pushButton_9_clicked()
 {
 QList<UnitNode *> List;
@@ -3663,7 +3657,15 @@ void MainWindowCFG::on_pushButton_moveDown_clicked()
 
 }
 
+void MainWindowCFG::on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->SD_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+       this->ui->SD_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->SD_UDP);
+    else
+  //   this->ui->BOD_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
+        this->ui->SD_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->SD_RS485);
 
+}
 
 void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 {
@@ -3784,6 +3786,13 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 
 
 
+void MainWindowCFG::on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->IU_BL_IP_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui ->IU_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->IU_UDP);
+    else
+     this->ui->IU_BL_IP_UDP_RS485_stacked->setCurrentWidget(this->ui->IU_RS485);
+}
 
 void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &arg1)
 {
@@ -3809,10 +3818,34 @@ void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &
 
 }
 
+void MainWindowCFG::on_BOD_T4K_M_type_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->BOD_T4K_M_type_combobox->currentText()=="UDP")
+     this->ui->BOD_T4K_M_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_T4K_M_UDP);
+    else
+     this->ui->BOD_T4K_M_UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_T4K_M_RS485);
 
+}
 
+void MainWindowCFG::on_TG_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->TG_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui->TG_UDP_RS485_stacked->setCurrentWidget(this->ui->TG_UDP);
+    else
+    {
+        qDebug()<<"[!!!!!!!!!!!!!!!]";
+     this->ui->TG_UDP_RS485_stacked->setCurrentWidget(this->ui->TG_RS485);
+    }
+}
 
+void MainWindowCFG::on_RLM_KRL_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->RLM_KRL_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui->RLM_KRL_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_KRL_UDP);
+    else
+     this->ui->RLM_KRL_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_KRL_RS485);
 
+}
 
 void MainWindowCFG::on_add_operator_button_clicked()
 {
@@ -3936,17 +3969,26 @@ void MainWindowCFG::on_doubleSpinBox_10_valueChanged(double arg1)
     qDebug()<<TochkaDirectionInterval;
 }
 
-
-
-
-
-
-
-void MainWindowCFG::on_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+void MainWindowCFG::on_KL_type_combobox_currentTextChanged(const QString &arg1)
 {
-
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
-     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->UDP);
+    if(this->ui->KL_type_combobox->currentText()=="UDP")
+     this->ui->KL_UDP_RS485_stacked->setCurrentWidget(this->ui->KL_UDP);
     else
-     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    {
+        qDebug()<<"[!!!!!!!!!!!!!!!]";
+     this->ui->KL_UDP_RS485_stacked->setCurrentWidget(this->ui->KL_RS485);
+    }
+}
+
+
+
+void MainWindowCFG::on_RLM_C_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
+{
+    if(this->ui->RLM_C_UDP_RS485_combobox->currentText()=="UDP")
+     this->ui->RLM_C_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_C_UDP);
+    else
+    {
+        qDebug()<<"[!!!!!!!!!!!!!!!]";
+     this->ui->RLM_C_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_C_RS485);
+    }
 }
