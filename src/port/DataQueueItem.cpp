@@ -87,10 +87,15 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
         DataQueueItem::data0x22.append((quint8)0xFF);      //<ADDR>
         DataQueueItem::data0x22.append((char)0x00);        //<NBB> 0x00
         DataQueueItem::data0x22.append((quint8)0x22);      //<CMD> 0x22
-        DataQueueItem::data0x22.append(Utils::getByteSumm(DataQueueItem::data0x22)); //<CHKS>
     }
 
-    return QByteArray(DataQueueItem::data0x22);
+    QByteArray out = DataQueueItem::data0x22;
+    if(nullptr != un) {
+        out[1] = (quint8)un->getNum1();
+    }
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    return out;
 }
 
 QByteArray DataQueueItem::data0x24 = QByteArray();

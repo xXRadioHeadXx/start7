@@ -6,7 +6,6 @@
 #include <QQueue>
 #include <ProcessDKWaiter.h>
 
-#include <StatusRequester.h>
 #include <DataBaseManager.h>
 #include <UnitNode.h>
 #include <Port.h>
@@ -32,7 +31,6 @@ private:
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    QList<StatusRequester *> lsStatusRequester;
     static QList<StatusConnectRequester *> lsSCR;
     static QList<AbstractRequester *> lsWaiter;
 
