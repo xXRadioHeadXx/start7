@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>787</width>
-    <height>740</height>
+    <height>716</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>256</width>
-    <height>561</height>
+    <width>530</width>
+    <height>716</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -47,7 +47,7 @@
    <property name="minimumSize">
     <size>
      <width>550</width>
-     <height>561</height>
+     <height>635</height>
     </size>
    </property>
    <layout class="QGridLayout" name="gridLayout_3">
@@ -1440,7 +1440,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="UDP">
              <widget class="QLabel" name="label_80">
@@ -1836,7 +1836,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-572</y>
             <width>598</width>
             <height>1018</height>
            </rect>

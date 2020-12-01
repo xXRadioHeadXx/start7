@@ -750,7 +750,9 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+
     }
     else
     if(arg1==str_IU_BL_IP)
@@ -764,7 +766,8 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
-            this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_RLM_KRL)
@@ -772,13 +775,17 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
-            this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_RLM_C)
     {
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_BOD_T4K_M)
@@ -786,7 +793,8 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
-            this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
 
     }
     else
@@ -808,7 +816,8 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
-            this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_Y4_SOTA)
@@ -826,7 +835,8 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     {
     this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
-            this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
     }
     else
     if(arg1==str_ONVIF)
@@ -3947,11 +3957,12 @@ void MainWindowCFG::on_RLM_C_UDP_RS485_combobox_currentTextChanged(const QString
 */
 void MainWindowCFG::on_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
 {
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    qDebug()<<"[!!!!!!!!!!!!!!!]";
+    if(arg1=="UDP")
      this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->UDP);
     else
     {
-        qDebug()<<"[!!!!!!!!!!!!!!!]";
+
      this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
     }
 }
