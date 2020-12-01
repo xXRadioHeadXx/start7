@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>765</width>
-    <height>994</height>
+    <width>774</width>
+    <height>680</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -32,84 +32,12 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="widget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>6</x>
-      <y>6</y>
-      <width>150</width>
-      <height>861</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <widget class="QTreeView" name="treeView">
-     <property name="geometry">
-      <rect>
-       <x>6</x>
-       <y>6</y>
-       <width>150</width>
-       <height>651</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>651</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="textEdit">
-     <property name="geometry">
-      <rect>
-       <x>6</x>
-       <y>663</y>
-       <width>150</width>
-       <height>192</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>127</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="sizeIncrement">
-      <size>
-       <width>256</width>
-       <height>91</height>
-      </size>
-     </property>
-    </widget>
-   </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>10</y>
-      <width>600</width>
+      <x>180</x>
+      <y>0</y>
+      <width>570</width>
       <height>80</height>
      </rect>
     </property>
@@ -121,13 +49,13 @@
     </property>
     <property name="minimumSize">
      <size>
-      <width>600</width>
+      <width>570</width>
       <height>80</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>600</width>
+      <width>570</width>
       <height>80</height>
      </size>
     </property>
@@ -262,9 +190,9 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>90</y>
-      <width>600</width>
+      <x>180</x>
+      <y>80</y>
+      <width>570</width>
       <height>385</height>
      </rect>
     </property>
@@ -276,13 +204,13 @@
     </property>
     <property name="minimumSize">
      <size>
-      <width>600</width>
+      <width>570</width>
       <height>385</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>600</width>
+      <width>570</width>
       <height>385</height>
      </size>
     </property>
@@ -294,19 +222,19 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>580</width>
-       <height>211</height>
+       <width>550</width>
+       <height>281</height>
       </rect>
      </property>
      <property name="minimumSize">
       <size>
-       <width>580</width>
+       <width>550</width>
        <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>580</width>
+       <width>550</width>
        <height>16777215</height>
       </size>
      </property>
@@ -1288,6 +1216,101 @@
        <string/>
       </property>
      </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>531</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Доп.информация (только для режима интеграции с внешним ПО)</string>
+      </property>
+      <widget class="QLineEdit" name="Dop_info_description_lineedit">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>141</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_13">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>21</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Описание</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>40</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>40</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>21</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Географ.широта</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>21</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Географ.долгота</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="geometry">
+        <rect>
+         <x>420</x>
+         <y>40</y>
+         <width>101</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Изменить</string>
+       </property>
+      </widget>
+     </widget>
      <widget class="QWidget" name="UDP_RS485_Widget" native="true">
       <property name="geometry">
        <rect>
@@ -1315,11 +1338,11 @@
          <x>156</x>
          <y>1</y>
          <width>154</width>
-         <height>119</height>
+         <height>61</height>
         </rect>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="UDP">
         <widget class="QLabel" name="label_80">
@@ -1498,107 +1521,12 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>240</y>
-       <width>581</width>
-       <height>71</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Доп.информация (только для режима интеграции с внешним ПО)</string>
-     </property>
-     <widget class="QLineEdit" name="Dop_info_description_lineedit">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>40</y>
-        <width>141</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_13">
-      <property name="geometry">
-       <rect>
-        <x>13</x>
-        <y>21</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Описание</string>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>40</y>
-        <width>101</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
-        <y>40</y>
-        <width>101</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_14">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>21</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Географ.широта</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_15">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
-        <y>21</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Географ.долгота</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_5">
-      <property name="geometry">
-       <rect>
-        <x>470</x>
-        <y>40</y>
-        <width>101</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Изменить</string>
-      </property>
-     </widget>
-    </widget>
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>310</y>
-       <width>581</width>
+       <width>551</width>
        <height>61</height>
       </rect>
      </property>
@@ -1785,10 +1713,10 @@
    <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>480</y>
-      <width>600</width>
-      <height>384</height>
+      <x>180</x>
+      <y>470</y>
+      <width>570</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -1799,13 +1727,13 @@
     </property>
     <property name="minimumSize">
      <size>
-      <width>600</width>
+      <width>570</width>
       <height>0</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>600</width>
+      <width>570</width>
       <height>16777215</height>
      </size>
     </property>
@@ -1815,8 +1743,8 @@
     <widget class="QWidget" name="scrollAreaWidgetContents_2">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>0</y>
+       <x>-20</x>
+       <y>-345</y>
        <width>598</width>
        <height>1018</height>
       </rect>
@@ -2899,13 +2827,88 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
+   <widget class="QGroupBox" name="groupBox_12">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>171</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Дерево устройств</string>
+    </property>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>520</y>
+       <width>151</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="sizeIncrement">
+      <size>
+       <width>256</width>
+       <height>91</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QTreeView" name="treeView">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>150</width>
+       <height>500</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>500</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>500</height>
+      </size>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>765</width>
+     <width>774</width>
      <height>21</height>
     </rect>
    </property>
