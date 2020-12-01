@@ -364,12 +364,12 @@
        <rect>
         <x>10</x>
         <y>100</y>
-        <width>551</width>
+        <width>201</width>
         <height>101</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>11</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="U4_Sota_M_groupbox">
        <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -462,110 +462,6 @@
        </widget>
       </widget>
       <widget class="QWidget" name="KL_groupbox">
-       <widget class="QStackedWidget" name="KL_UDP_RS485_stacked">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>40</y>
-          <width>171</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="KL_UDP">
-         <widget class="QLabel" name="label_34">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>47</width>
-            <height>13</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Порт</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_35">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>10</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Таймаут, мс</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="KL_UdpPort_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>4001.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4000.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="KL_timeout_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>300.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>300.000000000000000</double>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="KL_RS485">
-         <widget class="QComboBox" name="KL_port_combobox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>81</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_36">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>61</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>COM-Порт</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
        <widget class="QLabel" name="label_43">
         <property name="geometry">
          <rect>
@@ -577,19 +473,6 @@
         </property>
         <property name="text">
          <string>СД</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_44">
-        <property name="geometry">
-         <rect>
-          <x>270</x>
-          <y>50</y>
-          <width>47</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>IP-адрес</string>
         </property>
        </widget>
        <widget class="QComboBox" name="KL_CD_combobox">
@@ -635,16 +518,6 @@
          <string>Адрес</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="KL_ipadress_lineedit">
-        <property name="geometry">
-         <rect>
-          <x>270</x>
-          <y>70</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QComboBox" name="KL_adress_combobox">
         <property name="geometry">
          <rect>
@@ -675,44 +548,6 @@
          </property>
         </item>
        </widget>
-       <widget class="QLabel" name="label_46">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>50</y>
-          <width>47</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Тип</string>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="KL_type_combobox">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>70</y>
-          <width>81</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string/>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>UDP</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>RS485</string>
-         </property>
-        </item>
-       </widget>
       </widget>
       <widget class="QWidget" name="ONVIF_groupbox">
        <widget class="QLabel" name="label_89">
@@ -731,8 +566,8 @@
        <widget class="QLabel" name="label_90">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>10</y>
+          <x>10</x>
+          <y>50</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -757,8 +592,8 @@
        <widget class="QLineEdit" name="ONVIF_lineEdit__password">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>30</y>
+          <x>10</x>
+          <y>70</y>
           <width>113</width>
           <height>20</height>
          </rect>
@@ -769,7 +604,7 @@
          <rect>
           <x>130</x>
           <y>30</y>
-          <width>113</width>
+          <width>61</width>
           <height>20</height>
          </rect>
         </property>
@@ -790,8 +625,8 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
-          <width>113</width>
+          <y>30</y>
+          <width>91</width>
           <height>20</height>
          </rect>
         </property>
@@ -800,7 +635,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>50</y>
+          <y>10</y>
           <width>91</width>
           <height>16</height>
          </rect>
@@ -812,7 +647,7 @@
        <widget class="QLabel" name="label_86">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>10</x>
           <y>50</y>
           <width>47</width>
           <height>13</height>
@@ -825,9 +660,9 @@
        <widget class="QLineEdit" name="STRAZH_IP_lineEdit__login">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>10</x>
           <y>70</y>
-          <width>113</width>
+          <width>91</width>
           <height>20</height>
          </rect>
         </property>
@@ -835,8 +670,8 @@
        <widget class="QLabel" name="label_87">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>50</y>
+          <x>110</x>
+          <y>10</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -848,9 +683,9 @@
        <widget class="QLineEdit" name="STRAZH_IP_lineEdit__password">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>70</y>
-          <width>113</width>
+          <x>110</x>
+          <y>30</y>
+          <width>81</width>
           <height>20</height>
          </rect>
         </property>
@@ -858,9 +693,9 @@
        <widget class="QLabel" name="label_88">
         <property name="geometry">
          <rect>
-          <x>370</x>
+          <x>110</x>
           <y>50</y>
-          <width>171</width>
+          <width>81</width>
           <height>16</height>
          </rect>
         </property>
@@ -871,9 +706,9 @@
        <widget class="QLineEdit" name="STRAZH_IP_lineEdit__IPaddres_rotary_device">
         <property name="geometry">
          <rect>
-          <x>370</x>
+          <x>110</x>
           <y>70</y>
-          <width>151</width>
+          <width>81</width>
           <height>20</height>
          </rect>
         </property>
@@ -1066,175 +901,8 @@
          <string>СД</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="SD_BL_IP_UDP_RS485_combobox">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>70</y>
-          <width>69</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>RS485</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>UDP</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QStackedWidget" name="SD_BL_IP_UDP_RS485_stacked">
-        <property name="geometry">
-         <rect>
-          <x>340</x>
-          <y>40</y>
-          <width>171</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="SD_UDP">
-         <widget class="QLabel" name="label_63">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>47</width>
-            <height>13</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Порт</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_64">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>10</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Таймаут, мс</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="SD_BL_IP_MUdpPort_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>4001.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4000.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="SD_BL_IP_timeout_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>300.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>300.000000000000000</double>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="SD_RS485">
-         <widget class="QComboBox" name="SD_BL_IP_M_port_combobox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>81</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_66">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>61</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>COM-Порт</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
-       <widget class="QLineEdit" name="SD_BL_IP_ipadress_lineedit">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>70</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_67">
-        <property name="geometry">
-         <rect>
-          <x>230</x>
-          <y>50</y>
-          <width>47</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>IP-адрес</string>
-        </property>
-       </widget>
       </widget>
       <widget class="QWidget" name="IU_BL_IP_groupbox">
-       <widget class="QComboBox" name="IU_BL_IP_UDP_RS485_combobox">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>60</y>
-          <width>69</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>RS485</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>UDP</string>
-         </property>
-        </item>
-       </widget>
        <widget class="QComboBox" name="IU_BL_IP_num_combobox">
         <property name="geometry">
          <rect>
@@ -1265,120 +933,6 @@
          </property>
         </item>
        </widget>
-       <widget class="QLineEdit" name="IU_BL_IP_ipadress_lineedit">
-        <property name="geometry">
-         <rect>
-          <x>200</x>
-          <y>60</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QStackedWidget" name="IU_BL_IP_UDP_RS485_stacked">
-        <property name="geometry">
-         <rect>
-          <x>350</x>
-          <y>30</y>
-          <width>171</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="IU_UDP">
-         <widget class="QLabel" name="label_68">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>47</width>
-            <height>13</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Порт</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_69">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>10</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Таймаут, мс</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="IU_BL_IP_MUdpPort_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>4001.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4000.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="IU_BL_IP_timeout_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>300.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>300.000000000000000</double>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="IU_RS485">
-         <widget class="QComboBox" name="IU_BL_IP_M_port_combobox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>81</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_70">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>61</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>COM-Порт</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
        <widget class="QLabel" name="label_71">
         <property name="geometry">
          <rect>
@@ -1390,19 +944,6 @@
         </property>
         <property name="text">
          <string>ИУ</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_72">
-        <property name="geometry">
-         <rect>
-          <x>200</x>
-          <y>40</y>
-          <width>61</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>IP-адресс</string>
         </property>
        </widget>
       </widget>
@@ -1433,26 +974,6 @@
          <string>Режим работы: UDP</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="TG_UDP_RS485_combobox">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>60</y>
-          <width>69</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>RS485</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>UDP</string>
-         </property>
-        </item>
-       </widget>
        <widget class="QComboBox" name="TG_adress_combobox">
         <property name="geometry">
          <rect>
@@ -1475,133 +996,6 @@
         <property name="text">
          <string>Адрес</string>
         </property>
-       </widget>
-       <widget class="QLabel" name="label_74">
-        <property name="geometry">
-         <rect>
-          <x>250</x>
-          <y>40</y>
-          <width>61</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Адрес</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="TG_ipadress_lineedit">
-        <property name="geometry">
-         <rect>
-          <x>240</x>
-          <y>60</y>
-          <width>91</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QStackedWidget" name="TG_UDP_RS485_stacked">
-        <property name="geometry">
-         <rect>
-          <x>340</x>
-          <y>30</y>
-          <width>171</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="TG_UDP">
-         <widget class="QLabel" name="label_75">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>47</width>
-            <height>13</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Порт</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_76">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>10</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Таймаут, мс</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="TG_MUdpPort_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>4001.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4000.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="TG_timeout_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>300.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>300.000000000000000</double>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="TG_RS485">
-         <widget class="QComboBox" name="TG_M_port_combobox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>81</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_77">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>61</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>COM-Порт</string>
-          </property>
-         </widget>
-        </widget>
        </widget>
        <widget class="QComboBox" name="TG_U4_4A_combobox">
         <property name="geometry">
@@ -1691,153 +1085,6 @@
          </property>
         </item>
        </widget>
-       <widget class="QLineEdit" name="RLM_KRL_ipadress_lineedit">
-        <property name="geometry">
-         <rect>
-          <x>240</x>
-          <y>60</y>
-          <width>91</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QStackedWidget" name="RLM_KRL_UDP_RS485_stacked">
-        <property name="geometry">
-         <rect>
-          <x>340</x>
-          <y>30</y>
-          <width>171</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="RLM_KRL_UDP">
-         <widget class="QLabel" name="label_80">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>47</width>
-            <height>13</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Порт</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_81">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>10</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Таймаут, мс</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="RLM_KRL_UdpPort_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>4001.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4000.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="RLM_KRL_timeout_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>300.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>300.000000000000000</double>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="RLM_KRL_RS485">
-         <widget class="QComboBox" name="RLM_KRL_M_port_combobox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>81</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_82">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>61</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>COM-Порт</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
-       <widget class="QComboBox" name="RLM_KRL_UDP_RS485_combobox">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>60</y>
-          <width>69</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>RS485</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>UDP</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QLabel" name="label_83">
-        <property name="geometry">
-         <rect>
-          <x>250</x>
-          <y>40</y>
-          <width>61</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Адрес</string>
-        </property>
-       </widget>
        <widget class="QComboBox" name="RLM_KRL_type_comboBox">
         <property name="geometry">
          <rect>
@@ -1873,133 +1120,6 @@
          </rect>
         </property>
        </widget>
-       <widget class="QLabel" name="label_92">
-        <property name="geometry">
-         <rect>
-          <x>260</x>
-          <y>40</y>
-          <width>61</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Адрес</string>
-        </property>
-       </widget>
-       <widget class="QStackedWidget" name="RLM_C_UDP_RS485_stacked">
-        <property name="geometry">
-         <rect>
-          <x>350</x>
-          <y>30</y>
-          <width>171</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="RLM_C_UDP">
-         <widget class="QLabel" name="label_93">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>47</width>
-            <height>13</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Порт</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_94">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>10</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Таймаут, мс</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="RLM_C_UdpPort_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>4001.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4000.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="RLM_C_timeout_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>300.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>300.000000000000000</double>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="RLM_C_RS485">
-         <widget class="QComboBox" name="RLM_C_port_combobox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>81</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_95">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>61</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>COM-Порт</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
-       <widget class="QLineEdit" name="RLM_CL_ipadress_lineedit">
-        <property name="geometry">
-         <rect>
-          <x>250</x>
-          <y>60</y>
-          <width>91</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QLabel" name="label_96">
         <property name="geometry">
          <rect>
@@ -2012,26 +1132,6 @@
         <property name="text">
          <string>Адрес</string>
         </property>
-       </widget>
-       <widget class="QComboBox" name="RLM_C_UDP_RS485_combobox">
-        <property name="geometry">
-         <rect>
-          <x>170</x>
-          <y>60</y>
-          <width>69</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>RS485</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>UDP</string>
-         </property>
-        </item>
        </widget>
       </widget>
       <widget class="QWidget" name="BOD_T4K_M_groupbox">
@@ -2046,44 +1146,6 @@
         </property>
         <property name="text">
          <string>Адрес</string>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="BOD_T4K_M_type_combobox">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>70</y>
-          <width>81</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string/>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>UDP</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>RS485</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QLabel" name="label_19">
-        <property name="geometry">
-         <rect>
-          <x>260</x>
-          <y>50</y>
-          <width>47</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>IP-адрес</string>
         </property>
        </widget>
        <widget class="QComboBox" name="BOD_T4K_M_adress_combobox">
@@ -2115,133 +1177,6 @@
           <string>4</string>
          </property>
         </item>
-       </widget>
-       <widget class="QLineEdit" name="BOD_T4K_M_ipadress_lineedit">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>70</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QStackedWidget" name="BOD_T4K_M_UDP_RS485_stacked">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>40</y>
-          <width>171</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="BOD_T4K_M_UDP">
-         <widget class="QLabel" name="label_37">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>47</width>
-            <height>13</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Порт</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_38">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>10</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Таймаут, мс</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="BOD_T4K_M_UdpPort_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>4000.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4000.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="BOD_T4K_M_timeout_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>300.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>300.000000000000000</double>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="BOD_T4K_M_RS485">
-         <widget class="QComboBox" name="BOD_T4K_M_port_combobox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>81</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_39">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>61</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>COM-Порт</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
-       <widget class="QLabel" name="label_40">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>50</y>
-          <width>47</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Тип</string>
-        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="Y4_T4K_M_groupbox">
@@ -2325,54 +1260,6 @@
          </rect>
         </property>
        </widget>
-       <widget class="QComboBox" name="BOD_SOTA_M_type_combobox">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>70</y>
-          <width>81</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string/>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>UDP</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>RS485</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QLineEdit" name="BOD_SOTA_M_ipadress_lineedit">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>70</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_5">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>50</y>
-          <width>47</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Тип</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="label_6">
         <property name="geometry">
          <rect>
@@ -2385,123 +1272,6 @@
         <property name="text">
          <string>Адрес</string>
         </property>
-       </widget>
-       <widget class="QLabel" name="label_9">
-        <property name="geometry">
-         <rect>
-          <x>260</x>
-          <y>50</y>
-          <width>47</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>IP-адрес</string>
-        </property>
-       </widget>
-       <widget class="QStackedWidget" name="BOD_UDP_RS485_stacked">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>40</y>
-          <width>171</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="BOD_UDP">
-         <widget class="QLabel" name="label_10">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>47</width>
-            <height>13</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Порт</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_7">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>10</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Таймаут, мс</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="BOD_SOTA_MUdpPort_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>4001.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4000.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="BOD_SOTA_M_timeout_doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>80</x>
-            <y>30</y>
-            <width>71</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="decimals">
-           <number>0</number>
-          </property>
-          <property name="maximum">
-           <double>300.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>300.000000000000000</double>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="BOD_RS485">
-         <widget class="QComboBox" name="BOD_SOTA_M_port_combobox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>81</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_11">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>10</y>
-            <width>61</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>COM-Порт</string>
-          </property>
-         </widget>
-        </widget>
        </widget>
       </widget>
      </widget>
@@ -2516,6 +1286,153 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QStackedWidget" name="UDP_RS485_stacked">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>140</y>
+        <width>171</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="UDP">
+       <widget class="QLabel" name="label_80">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Порт</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_81">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>10</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Таймаут, мс</string>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="UdpPort_doubleSpinBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>30</y>
+          <width>71</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>4001.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>4000.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="timeout_doubleSpinBox">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>30</y>
+          <width>71</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>300.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>300.000000000000000</double>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="RS485">
+       <widget class="QComboBox" name="port_combobox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>81</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_82">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>61</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>COM-Порт</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QComboBox" name="UDP_RS485_combobox">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>170</y>
+        <width>69</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>RS485</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>UDP</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_83">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>150</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Адрес</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="ipadress_lineedit">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>170</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
       </property>
      </widget>
     </widget>
@@ -2838,8 +1755,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>592</width>
-       <height>1012</height>
+       <width>598</width>
+       <height>1018</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
@@ -3927,7 +2844,7 @@
      <x>0</x>
      <y>0</y>
      <width>765</width>
-     <height>30</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
