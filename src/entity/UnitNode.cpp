@@ -591,6 +591,7 @@ void UnitNode::setDoubles(UnitNode * value)
 void UnitNode::updDoubl()
 {
     for(auto c : as_const(this->doubles)) {
+        c->stateWord = this->stateWord;
         c->status1 = this->status1;
         c->status2 = this->status2;
         c->dkStatus = this->dkStatus;
@@ -703,6 +704,153 @@ int UnitNode::adamOffToMs(int adamOff)
     return interval;
 }
 
+QByteArray UnitNode::getStateWord() const
+{
+    return stateWord;
+}
+
+void UnitNode::setStateWord(const QByteArray &value)
+{
+    stateWord = value;
+}
+
+int UnitNode::isConnected()
+{
+    if(getStateWord().isEmpty())
+        return 0;
+    else
+        return 1;
+}
+
+quint8 UnitNode_SD_BL_IP::mask()
+{
+    quint8 mask = 0;
+    switch (this->getNum2()) {
+    case 1:
+        mask = 0x01;
+        break;
+    case 2:
+        mask = 0x02;
+        break;
+    case 3:
+        mask = 0x04;
+        break;
+    case 4:
+        mask = 0x08;
+        break;
+    case 5:
+        mask = 0x10;
+        break;
+    case 6:
+        mask = 0x20;
+        break;
+    case 7:
+        mask = 0x40;
+        break;
+    case 8:
+        mask = 0x80;
+        break;
+    default:
+        mask = 0x00;
+        break;
+    }
+    return mask;
+}
+
+int UnitNode_SD_BL_IP::isAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(0) & mask())
+        return 1; //Status::Alarm);
+    else
+        return 0; //Status::Norm);
+}
+
+int UnitNode_SD_BL_IP::isNorm()
+{
+    int isalarm = isAlarm();
+    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+}
+
+int UnitNode_SD_BL_IP::isWasAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(2) & mask())
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not);
+}
+
+int UnitNode_SD_BL_IP::isOn()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)0 == ((quint8)getStateWord().at(3) & mask()))
+        return 0; //Status::Off;
+    else
+        return 1; //
+}
+
+int UnitNode_SD_BL_IP::isOff()
+{
+    int ison = isOn();
+    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+}
+
+
+quint8 UnitNode_IU_BL_IP::mask()
+{
+    quint8 mask = 0;
+    switch (this->getNum2()) {
+    case 1:
+        mask = 0x01;
+        break;
+    case 2:
+        mask = 0x02;
+        break;
+    case 3:
+        mask = 0x04;
+        break;
+    case 4:
+        mask = 0x08;
+        break;
+    case 5:
+        mask = 0x10;
+        break;
+    case 6:
+        mask = 0x20;
+        break;
+    case 7:
+        mask = 0x40;
+        break;
+    case 8:
+        mask = 0x80;
+        break;
+    default:
+        mask = 0x00;
+        break;
+    }
+    return mask;
+}
+
+int UnitNode_IU_BL_IP::isOn()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & mask())
+        return 1; //Status::On);
+    else
+        return 0; //Status::Off;
+}
+
+int UnitNode_IU_BL_IP::isOff()
+{
+    int ison = isOn();
+    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+}
+
 UnitNode::UnitNode(QObject *parent) : QObject(parent)
 {
     
@@ -755,6 +903,7 @@ UnitNode::UnitNode(const UnitNode & parent) :
 }
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
+    stateWord = c.stateWord;
     metaNames = c.metaNames;
     Type = c.Type;
     Num1 = c.Num1;
@@ -912,3 +1061,23 @@ int UnitNode::columnCount() const noexcept
 }
 
 
+
+int UnitNode_BL_IP::isExistDK()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & 0x80)
+        return 1; // Status::Exists);
+    else
+        return 0; // Status::Not);
+}
+
+int UnitNode_BL_IP::isWasAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & 0x40)
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not);
+}

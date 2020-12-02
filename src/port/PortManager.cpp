@@ -721,6 +721,7 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
 DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest)
 {
 //    qDebug() << "Utils::parcingStatusWord0x41 -->";
+    QByteArray stateWord = item.data().mid(5, 4);
     resultRequest = item;
     resultRequest.setData();
 
@@ -783,7 +784,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         unLockSdBlIp = tmpUN;
                         break;
                     }
-                }}
+                }
+            }
 
             if(nullptr == unLockSdBlIp || nullptr == unLockIuBlIp)
                 isLockPair = false;
@@ -838,6 +840,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             if(newStatus1 != un->getStatus1() || newStatus2 != un->getStatus2()) {
                 un->setStatus1(newStatus1);
                 un->setStatus2(newStatus2);
+                un->setStateWord(stateWord);
                 un->updDoubl();
                 SignalSlotCommutator::getInstance()->emitUpdUN();
             }
@@ -898,14 +901,14 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             quint8 oldStatus1 = un->getStatus1(), oldStatus2 = un->getStatus2();
             un->setStatus1(newStatus1);
             un->setStatus2(newStatus2);
-
+            un->setStateWord(stateWord);
             if(isLockPair) {
                 unLockSdBlIp->setStatus1(newStatus1LockSD);
                 unLockSdBlIp->setStatus2(newStatus2LockSD);
-
+                unLockSdBlIp->setStateWord(stateWord);
                 unLockIuBlIp->setStatus1(newStatus1LockIU);
                 unLockIuBlIp->setStatus2(newStatus2LockIU);
-
+                unLockIuBlIp->setStateWord(stateWord);
             }
 
             un->updDoubl();

@@ -292,20 +292,22 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
     if(TypeUnitNode::BL_IP == parent->getType()) {
         int row = 10;
 
-        quint8 status2 = parent->getStatus2();
-        if(status2 & Status::Was) {
+//        quint8 status2 = parent->getStatus2();
+//        if(status2 & Status::Was) {
+        if(1 == parent->isWasDK()) {
             table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Было"))); // "Тревога"
             table->item(row, 2)->setBackground(cellRed);
-        } else if(status2 & Status::Not) {
+        } else {//if(status2 & Status::Not) {
             table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Норма"
             table->item(row, 2)->setBackground(cellGreen);
         }
 
-        quint8 status1 = parent->getStatus1();
-        if(status1 & Status::Exists) {
+//        quint8 status1 = parent->getStatus1();
+//        if(status1 & Status::Exists) {
+        if(1 == parent->isExistDK()) {
             table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Есть"))); // "Было"
             table->item(row, 1)->setBackground(cellRed);
-        } else if(status1 & Status::Not) {
+        } else {//if(status1 & Status::Not) {
             table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Нет"
             table->item(row, 1)->setBackground(cellGreen);
         }

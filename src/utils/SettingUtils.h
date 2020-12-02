@@ -2,7 +2,7 @@
 #define SETTINGUTILS_H
 
 #include <QSettings>
-#include <UnitNode.h>
+#include <UnitNodeFactory.h>
 //#include <AbstractPort.h>
 //#include <PortFactory.h>
 
