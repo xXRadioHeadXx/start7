@@ -27,6 +27,7 @@ SOURCES += \
     MainWindowCFG.cpp \
     backgroundimage.cpp \
     comport.cpp \
+    dbform.cpp \
     main.cpp \
     map.cpp \
     mydrawobject.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     MainWindowCFG.h \
     backgroundimage.h \
     comport.h \
+    dbform.h \
     map.h \
     mydrawobject.h \
     myscene.h \
@@ -50,6 +52,7 @@ HEADERS += \
 
 FORMS += \
     MainWindowCFG.ui \
+    dbform.ui \
     map.ui \
     operator_form.ui
 

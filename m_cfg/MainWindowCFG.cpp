@@ -3981,7 +3981,7 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     qDebug()<<"connect to MySQL";
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName(this->ui->SQL_server_lineEdit->text());
- //   db.setDatabaseName("test");
+//    db.setDatabaseName("QWERTY");
     db.setUserName(this->ui->SQL_login_lineEdit->text());
     db.setPassword(this->ui->SQL_password_lineEdit->text());
     if (!db.open()){
@@ -3989,8 +3989,12 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     }
     else{
         qDebug()<<"PROFIT";
+
+
+
+
     }
-//where is some fucking changes
+
     }
     if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
     {
