@@ -31,7 +31,8 @@ SOURCES += \
     map.cpp \
     mydrawobject.cpp \
     myscene.cpp \
-    operator_form.cpp
+    operator_form.cpp \
+    sqlunit.cpp
 
 
 
@@ -42,7 +43,8 @@ HEADERS += \
     map.h \
     mydrawobject.h \
     myscene.h \
-    operator_form.h
+    operator_form.h \
+    sqlunit.h
 
 
 

@@ -12,6 +12,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
     ui->setupUi(this);
 
+//    this->ui->SQL_server_lineEdit->setReadOnly(true);
     this->ui->UDP_RS485_Widget->setVisible(false);
 
  this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
@@ -3964,5 +3965,35 @@ void MainWindowCFG::on_UDP_RS485_combobox_currentTextChanged(const QString &arg1
     {
 
      this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    }
+}
+
+
+void MainWindowCFG::on_SQL_find_server_pushButton_clicked()
+{
+    this->ui->SQL_server_lineEdit->setText(QHostInfo::localHostName());
+}
+
+void MainWindowCFG::on_SQL_connect_pushButton_clicked()
+{
+    if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
+    {
+    qDebug()<<"connect to MySQL";
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName(this->ui->SQL_server_lineEdit->text());
+ //   db.setDatabaseName("test");
+    db.setUserName(this->ui->SQL_login_lineEdit->text());
+    db.setPassword(this->ui->SQL_password_lineEdit->text());
+    if (!db.open()){
+        qDebug()<<db.lastError().text();
+    }
+    else{
+        qDebug()<<"PROFIT";
+    }
+//where is some fucking changes
+    }
+    if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
+    {
+    qDebug()<<"connect to PostgreSQL";
     }
 }

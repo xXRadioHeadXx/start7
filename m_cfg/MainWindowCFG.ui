@@ -2477,6 +2477,12 @@
                  <height>22</height>
                 </rect>
                </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <double>9999.000000000000000</double>
+               </property>
               </widget>
               <widget class="QPushButton" name="pushButton_24">
                <property name="geometry">
@@ -2556,7 +2562,7 @@
               <property name="title">
                <string>Сервер My</string>
               </property>
-              <widget class="QComboBox" name="comboBox_7">
+              <widget class="QComboBox" name="SQL_type_comboBox">
                <property name="geometry">
                 <rect>
                  <x>10</x>
@@ -2625,6 +2631,15 @@
                  <width>91</width>
                  <height>22</height>
                 </rect>
+               </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <double>9999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>3306.000000000000000</double>
                </property>
               </widget>
               <widget class="QLabel" name="label_28">

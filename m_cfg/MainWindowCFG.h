@@ -7,6 +7,8 @@
 #include <QErrorMessage>
 #include "operator_form.h"
 #include "comport.h"
+#include "sqlunit.h"
+#include <QHostInfo>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -43,6 +45,9 @@ private:
 
     QString get_unit_name(int type);
 
+
+    SQLunit MySQL_unit;
+    SQLunit Postgre_unit;
 
     QMenu* menu;
 
@@ -250,5 +255,7 @@ private slots:
 
 
         void on_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+        void on_SQL_find_server_pushButton_clicked();
+        void on_SQL_connect_pushButton_clicked();
 };
 #endif // MAINWINDOWCFG_H
