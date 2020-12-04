@@ -20,6 +20,8 @@ public:
     // и отобразить в таблице все бд с названием rif_bd0 (1,2,3)
     void find_rif_db(QSqlDatabase db);
 
+    QList<QString> databases;
+
 private slots:
     void on_pushButton_4_clicked();
 

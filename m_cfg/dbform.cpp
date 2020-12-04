@@ -27,9 +27,29 @@ qDebug()<<"[find_rif_db]";
     query.prepare("show databases");
     query.exec();
 
-
+    databases.clear();
+    int cnt=0;
     while(query.next())
-        qDebug()<<query.value(0).toString();
+    {
+        QString db_name=query.value(0).toString();
+        qDebug()<<db_name;
+        if((db_name=="rif_db0")||
+           (db_name=="rif_db1")||
+           (db_name=="rif_db2")||
+           (db_name=="rif_db3"))
+        {
+            databases.append(query.value(0).toString());
+            cnt=this->ui->database_tableWidget->rowCount();
+            this->ui->database_tableWidget->insertRow(cnt);
+            this->ui->database_tableWidget->setItem(cnt,0, new QTableWidgetItem(query.value(0).toString()));
+
+        }
+
+
+    }
+
+
+
 qDebug()<<"[/find_rif_db]";
 }
 

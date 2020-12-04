@@ -157,7 +157,7 @@
      <string>Удалить</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget_2">
+   <widget class="QTableWidget" name="database_tableWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
