@@ -66,10 +66,11 @@ void DBform::on_add_DB_pushButton_clicked()
 
 void DBform::on_drop_BD_pushButton_clicked()
 {
-    emit drop_db(this->ui->comboBox->currentText());
+    emit drop_db(this->ui->database_tableWidget->currentItem()->text());
+
 }
 
 void DBform::on_use_DB_pushButton_clicked()
 {
-    emit use_db(this->ui->comboBox->currentText());
+    emit use_db(this->ui->database_tableWidget->currentItem()->text());
 }

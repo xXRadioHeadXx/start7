@@ -14,6 +14,10 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
    db_mysql = QSqlDatabase::addDatabase("QMYSQL");
 
+   this->ui->SQL_server_lineEdit->setText("localhost");
+   this->ui->SQL_login_lineEdit->setText("root");
+   this->ui->SQL_password_lineEdit->setText("123456");
+
 //    this->ui->SQL_server_lineEdit->setReadOnly(true);
     this->ui->UDP_RS485_Widget->setVisible(false);
 
@@ -3498,7 +3502,47 @@ for(int i=1;i<List.count();i++)
 
        settings.endGroup();
 
+      settings.beginGroup("MYSQL");
 
+      if(this->ui->SQL_type_comboBox->currentText()=="Выкл"){
+      settings.setValue("Use", 0);
+      }
+
+      if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL"){
+      settings.setValue("Use", 0);
+      }
+
+      if(this->ui->SQL_type_comboBox->currentText()=="MySQL"){
+       settings.setValue("Use", 1);
+      }
+
+       settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
+       settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
+       settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
+       settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
+       settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
+
+       if(this->ui->SQL_P1_checkBox->isChecked())
+       settings.setValue("P1", 1);
+       else
+       settings.setValue("P1", 0);
+
+
+       if(this->ui->SQL_P2_checkBox->isChecked())
+       settings.setValue("P2", 1);
+       else
+       settings.setValue("P2", 0);
+
+       if(this->ui->SQL_AutoDbStart_checkBox->isChecked())
+       settings.setValue("AutoDbStart", 1);
+       else
+       settings.setValue("AutoDbStart", 0);
+
+
+       settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
+       settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
+
+       settings.beginGroup("endgroup");
 
 
 }
@@ -4024,9 +4068,23 @@ void MainWindowCFG::create_db(QString db_name)
 void MainWindowCFG::drop_db(QString db_name)
 {
 qDebug()<<"drop "<<db_name;
+QSqlQuery query(db_mysql);
+
+QString sql_cmd="DROP DATABASE ";
+sql_cmd.append(db_name);
+
+query.prepare(sql_cmd);
+query.exec();
+  this->db_f.find_rif_db(db_mysql);
+
+if(this->ui->SQL_database_lineEdit->text()==db_name){
+   this->ui->SQL_database_lineEdit->setText("");
+}
+
 }
 
 void MainWindowCFG::use_db(QString db_name)
 {
-
+MySQL_unit.SQL_database=db_name;
+this->ui->SQL_database_lineEdit->setText(db_name);
 }

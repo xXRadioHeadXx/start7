@@ -1837,8 +1837,8 @@
          <widget class="QWidget" name="scrollAreaWidgetContents_2">
           <property name="geometry">
            <rect>
-            <x>-8</x>
-            <y>-588</y>
+            <x>0</x>
+            <y>-603</y>
             <width>598</width>
             <height>1018</height>
            </rect>
@@ -2750,7 +2750,7 @@
                 <string>Подключиться</string>
                </property>
               </widget>
-              <widget class="QCheckBox" name="checkBox">
+              <widget class="QCheckBox" name="SQL_P1_checkBox">
                <property name="geometry">
                 <rect>
                  <x>280</x>
@@ -2763,7 +2763,7 @@
                 <string>Обязательное заполнение причин</string>
                </property>
               </widget>
-              <widget class="QCheckBox" name="checkBox_2">
+              <widget class="QCheckBox" name="SQL_P2_checkBox">
                <property name="geometry">
                 <rect>
                  <x>280</x>
@@ -2776,7 +2776,7 @@
                 <string>Обязательное заполнение принятых мер</string>
                </property>
               </widget>
-              <widget class="QCheckBox" name="checkBox_3">
+              <widget class="QCheckBox" name="SQL_AutoDbStart_checkBox">
                <property name="geometry">
                 <rect>
                  <x>10</x>
@@ -2789,7 +2789,7 @@
                 <string>Автоматическое начало смены в</string>
                </property>
               </widget>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+              <widget class="QDoubleSpinBox" name="SQL_AutoDbStartHour_doubleSpinBox">
                <property name="geometry">
                 <rect>
                  <x>210</x>
@@ -2799,7 +2799,7 @@
                 </rect>
                </property>
               </widget>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+              <widget class="QDoubleSpinBox" name="SQL_AutoDbStartMinute_doubleSpinBox">
                <property name="geometry">
                 <rect>
                  <x>330</x>
