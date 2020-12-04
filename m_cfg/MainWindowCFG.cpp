@@ -3989,6 +3989,9 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     }
     else{
         qDebug()<<"PROFIT";
+        this->db_f.find_rif_db(db);
+        db_f.show();
+
 
 
 

@@ -25,6 +25,7 @@ include(../src/global.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
+    add_sql_user_form.cpp \
     backgroundimage.cpp \
     comport.cpp \
     dbform.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
 
 HEADERS += \
     MainWindowCFG.h \
+    add_sql_user_form.h \
     backgroundimage.h \
     comport.h \
     dbform.h \
@@ -52,6 +54,7 @@ HEADERS += \
 
 FORMS += \
     MainWindowCFG.ui \
+    add_sql_user_form.ui \
     dbform.ui \
     map.ui \
     operator_form.ui

@@ -6,6 +6,7 @@
 #include "map.h"
 #include <QErrorMessage>
 #include "operator_form.h"
+#include <dbform.h>
 #include "comport.h"
 #include "sqlunit.h"
 #include <QHostInfo>
@@ -189,6 +190,7 @@ public:
     Map map;
 
     operator_form op_f;
+    DBform db_f;
 
 
 
