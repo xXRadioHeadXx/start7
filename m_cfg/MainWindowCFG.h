@@ -29,6 +29,7 @@ private:
     Ui::MainWindowCFG *ui;
 
     QSqlDatabase db_mysql;
+    QSqlDatabase db_psql;
 
     TreeModelUnitNode *modelTreeUN = nullptr;
 

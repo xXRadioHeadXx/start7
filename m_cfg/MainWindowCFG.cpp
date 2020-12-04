@@ -13,6 +13,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     ui->setupUi(this);
 
    db_mysql = QSqlDatabase::addDatabase("QMYSQL");
+   db_psql = QSqlDatabase::addDatabase("QPSQL");
+
 
    this->ui->SQL_server_lineEdit->setText("localhost");
    this->ui->SQL_login_lineEdit->setText("root");
@@ -4027,7 +4029,8 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
     {
     qDebug()<<"connect to MySQL";
-    QSqlDatabase db_mysql = QSqlDatabase::addDatabase("QMYSQL");
+    db_mysql = QSqlDatabase::addDatabase("QMYSQL");
+    qDebug()<<"db_mysql.driver() "<<db_mysql.driver()<<"; db_mysql.driverName() "<<db_mysql.driverName();
     db_mysql.setHostName(this->ui->SQL_server_lineEdit->text());
 //    db.setDatabaseName("QWERTY");
     db_mysql.setUserName(this->ui->SQL_login_lineEdit->text());
@@ -4039,17 +4042,31 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
         qDebug()<<"PROFIT";
         this->db_f.find_rif_db(db_mysql);
         db_f.show();
-
-
-
-
-
     }
+
+
+
+
 
     }
     if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
     {
     qDebug()<<"connect to PostgreSQL";
+
+    db_psql = QSqlDatabase::addDatabase("QPSQL");
+    qDebug()<<"db_mysql.driver() "<<db_psql.driver()<<"; db_mysql.driverName() "<<db_psql.driverName();
+    db_mysql.setHostName(this->ui->SQL_server_lineEdit->text());
+//    db.setDatabaseName("QWERTY");
+    db_mysql.setUserName(this->ui->SQL_login_lineEdit->text());
+    db_mysql.setPassword(this->ui->SQL_password_lineEdit->text());
+    if (!db_mysql.open()){
+        qDebug()<<db_mysql.lastError().text();
+    }
+    else{
+        qDebug()<<"PROFIT";
+        this->db_f.find_rif_db(db_mysql);
+        db_f.show();
+    }
     }
 }
 

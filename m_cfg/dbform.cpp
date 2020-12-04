@@ -23,8 +23,17 @@ qDebug()<<"[find_rif_db]";
  //   SELECT name FROM system.databases
     QSqlQuery query(db);
 
- //   query.exec("SELECT name FROM system.databases");
-    query.prepare("show databases");
+    QString cmd;
+    if(db.driverName()=="QMYSQL"){
+         cmd="show databases";
+    }
+    if(db.driverName()=="QPSQL"){
+         cmd="/l";
+    }
+      query.prepare(cmd);
+
+
+
     query.exec();
 
     databases.clear();
