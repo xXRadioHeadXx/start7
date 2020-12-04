@@ -23,15 +23,21 @@ public:
     QList<QString> databases;
 
 private slots:
-    void on_pushButton_4_clicked();
 
 
+    void on_add_DB_pushButton_clicked();
+
+    void on_drop_BD_pushButton_clicked();
+
+    void on_use_DB_pushButton_clicked();
 
 private:
     Ui::DBform *ui;
 
 signals:
     void create_db(QString db_name);
+    void drop_db(QString db_name);
+    void use_db(QString db_name);
 };
 
 #endif // DBFORM_H

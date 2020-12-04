@@ -118,25 +118,25 @@
    <property name="title">
     <string>GroupBox</string>
    </property>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="use_DB_pushButton">
     <property name="geometry">
      <rect>
       <x>360</x>
       <y>150</y>
-      <width>75</width>
+      <width>81</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Изменить</string>
+     <string>Использовать</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="add_DB_pushButton">
     <property name="geometry">
      <rect>
       <x>360</x>
       <y>90</y>
-      <width>75</width>
+      <width>81</width>
       <height>23</height>
      </rect>
     </property>
@@ -144,12 +144,12 @@
      <string>Добавить</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="drop_BD_pushButton">
     <property name="geometry">
      <rect>
       <x>360</x>
       <y>120</y>
-      <width>75</width>
+      <width>81</width>
       <height>23</height>
      </rect>
     </property>

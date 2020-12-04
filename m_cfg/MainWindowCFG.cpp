@@ -12,6 +12,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
     ui->setupUi(this);
 
+   db_mysql = QSqlDatabase::addDatabase("QMYSQL");
+
 //    this->ui->SQL_server_lineEdit->setReadOnly(true);
     this->ui->UDP_RS485_Widget->setVisible(false);
 
@@ -278,7 +280,9 @@ connect(&op_f, SIGNAL(res(QString,QString,QString,QString  )) , this, SLOT     (
         connect (action_setAdamOff_30_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_30_min())  );
         connect (action_setAdamOff_1_hour, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_1_hour())  );
 
-
+        connect(&this->db_f, SIGNAL(create_db(QString)  ) , this,SLOT     (create_db(QString)));
+        connect(&this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
+        connect(&this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -3979,17 +3983,17 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
     {
     qDebug()<<"connect to MySQL";
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName(this->ui->SQL_server_lineEdit->text());
+    QSqlDatabase db_mysql = QSqlDatabase::addDatabase("QMYSQL");
+    db_mysql.setHostName(this->ui->SQL_server_lineEdit->text());
 //    db.setDatabaseName("QWERTY");
-    db.setUserName(this->ui->SQL_login_lineEdit->text());
-    db.setPassword(this->ui->SQL_password_lineEdit->text());
-    if (!db.open()){
-        qDebug()<<db.lastError().text();
+    db_mysql.setUserName(this->ui->SQL_login_lineEdit->text());
+    db_mysql.setPassword(this->ui->SQL_password_lineEdit->text());
+    if (!db_mysql.open()){
+        qDebug()<<db_mysql.lastError().text();
     }
     else{
         qDebug()<<"PROFIT";
-        this->db_f.find_rif_db(db);
+        this->db_f.find_rif_db(db_mysql);
         db_f.show();
 
 
@@ -4003,4 +4007,26 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     {
     qDebug()<<"connect to PostgreSQL";
     }
+}
+
+void MainWindowCFG::create_db(QString db_name)
+{
+    QSqlQuery query(db_mysql);
+
+    QString sql_cmd="CREATE DATABASE ";
+    sql_cmd.append(db_name);
+
+    query.prepare(sql_cmd);
+    query.exec();
+      this->db_f.find_rif_db(db_mysql);
+}
+
+void MainWindowCFG::drop_db(QString db_name)
+{
+qDebug()<<"drop "<<db_name;
+}
+
+void MainWindowCFG::use_db(QString db_name)
+{
+
 }

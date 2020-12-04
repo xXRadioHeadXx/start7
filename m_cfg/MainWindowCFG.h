@@ -28,6 +28,8 @@ class MainWindowCFG : public QMainWindow
 private:
     Ui::MainWindowCFG *ui;
 
+    QSqlDatabase db_mysql;
+
     TreeModelUnitNode *modelTreeUN = nullptr;
 
     QErrorMessage dialog;
@@ -256,8 +258,12 @@ private slots:
     void on_doubleSpinBox_10_valueChanged(double arg1);
 
 
-        void on_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
-        void on_SQL_find_server_pushButton_clicked();
-        void on_SQL_connect_pushButton_clicked();
+   void on_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+   void on_SQL_find_server_pushButton_clicked();
+   void on_SQL_connect_pushButton_clicked();
+
+   void create_db(QString db_name);
+   void drop_db(QString db_name);
+   void use_db(QString db_name);
 };
 #endif // MAINWINDOWCFG_H
