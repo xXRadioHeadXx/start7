@@ -390,19 +390,19 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType())
             menu->addAction(ui->actionControl);
         menu->addSeparator();
-        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && ((Status::Off == sel->getStatus2()) && (Status::Uncnown == sel->getStatus1()))) {
+        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && (1 == sel->isOff())) {
             menu->addAction(ui->actionUNOn);
-        } else if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && !((Status::Off == sel->getStatus2()) && (Status::Uncnown == sel->getStatus1()))) {
+        } else if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && !(1 == sel->isOff())) {
             menu->addAction(ui->actionUNOff);
-        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && Status::On == sel->getStatus1()) {
+        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOn())) {
             menu->addAction(ui->actionUNOff);
-        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && Status::Off == sel->getStatus1()) {
+        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOff())) {
             menu->addAction(ui->actionUNOn);
         }
 //        menu->addAction(ui->actionOnOff);
-        if(0 != sel->getBazalt() && Status::Alarm == sel->getStatus1()) {
+        if(0 != sel->getBazalt() && (1 == sel->isAlarm())) {
             menu->addAction(ui->actionClose);
-        } else if(0 != sel->getBazalt() && Status::Norm == sel->getStatus1()) {
+        } else if(0 != sel->getBazalt() && (1 == sel->isNorm())) {
             menu->addAction(ui->actionOpen);
         }
         menu->addSeparator();

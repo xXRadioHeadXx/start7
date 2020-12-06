@@ -423,13 +423,6 @@ void UnitNode::setTimeIntervalStatusRequest(int value)
 //    updDoubl();
 }
 
-//void UnitNode::emitIMUpd()
-//{
-//    qDebug() << "emitIMUpd " << getName() << " " << getStatus1() << getStatus2();
-//    SignalSlotCommutator::getInstance()->emitUpdUN();
-////    emit imUpd();
-//}
-
 QList<UnitNode *> UnitNode::getListTreeChilde() const
 {
     return listTreeChilde;
@@ -474,21 +467,21 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::fldr_empt();
         } else if(TypeUnitNode::SD_BL_IP == getType()) {
             if(0 == getBazalt()) {
-                if(Status::Was == getStatus2() && getControl()) {
+                if(1 == isWasAlarm() && getControl()) {
                     return Icons::sqr_rd();
-                } else if(Status::Was == getStatus2() && !getControl()) {
+                } else if(1 == isWasAlarm() && !getControl()) {
                     return Icons::sqr_blk_crs_rd();
-                } else if(Status::Alarm == getStatus1() && getControl()) {
+                } else if(1 == isAlarm() && getControl()) {
                     return Icons::sqr_rd();
-                } else if(Status::Alarm == getStatus1() && !getControl()) {
+                } else if(1 == isAlarm() && !getControl()) {
                     return Icons::sqr_blk_crs_rd();
-                } else if((Status::Off == getStatus2()) && (Status::Uncnown == getStatus1()) && getControl()) {
+                } else if(1 == isOff() && getControl()) {
                     return Icons::sqr_gry();
-                } else if((Status::Off == getStatus2()) && (Status::Uncnown == getStatus1()) && !getControl()) {
+                } else if(1 == isOff() && !getControl()) {
                     return Icons::sqr_blk_crs_gry();
-                } else if(Status::Norm == getStatus1() && getControl()) {
+                } else if(1 == isNorm() && getControl()) {
                     return Icons::sqr_grn();
-                } else if(Status::Norm == getStatus1() && !getControl()) {
+                } else if(1 == isNorm() && !getControl()) {
                     return Icons::sqr_blk_crs_grn();
                 } else if(getControl()) {
                     return Icons::sqr_ylw();
@@ -496,9 +489,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                     return Icons::sqr_blk_crs_ylw();
                 }
             } else {
-                if(Status::Alarm == getStatus1()) {
+                if(1 == isAlarm()) {
                     return Icons::sqr_rd_opn();
-                } else if(Status::Norm == getStatus1()) {
+                } else if(1 == isNorm()) {
                     return Icons::sqr_grn_cls();
                 } else {
                     return Icons::sqr_ylw();
@@ -506,9 +499,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             }
 
         } else if(TypeUnitNode::IU_BL_IP == getType()) {
-            if(Status::On == getStatus1()) {
+            if(1 == isOn()) {
                 return Icons::sqr_grn_crs2_rd();
-            } else if(Status::Off == getStatus1()) {
+            } else if(1 == isOff()) {
                 return Icons::sqr_grn_mns_gry();
             } else
                 return Icons::sqr_ylw();
@@ -851,17 +844,13 @@ int UnitNode_IU_BL_IP::isOff()
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
-UnitNode::UnitNode(QObject *parent) : QObject(parent)
-{
-    
-}
-
 UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 {
     this->parentUN = parent;
 }
 
 UnitNode::UnitNode(const UnitNode & parent) :
+    stateWord(parent.stateWord),
     metaNames(parent.metaNames),
     Type(parent.Type),
     Num1(parent.Num1),
@@ -897,7 +886,9 @@ UnitNode::UnitNode(const UnitNode & parent) :
     Metka4Time_0(parent.Metka4Time_0),
     Metka4Time_1(parent.Metka4Time_1),
     MetkaDopuskTime_0(parent.MetkaDopuskTime_0),
-    MetkaDopuskTime_1(parent.MetkaDopuskTime_1)
+    MetkaDopuskTime_1(parent.MetkaDopuskTime_1),
+    dkStatus(parent.dkStatus),
+    dkInvolved(parent.dkInvolved)
 {
 
 }
@@ -941,6 +932,8 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     MetkaDopuskTime_0 = c.MetkaDopuskTime_0;
     MetkaDopuskTime_1 = c.MetkaDopuskTime_1;
 
+    dkStatus = c.dkStatus;
+    dkInvolved = c.dkInvolved;
     return *this;
 }
 

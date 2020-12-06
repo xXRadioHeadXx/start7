@@ -151,30 +151,6 @@ QList<T> Utils::reversed( const QList<T> & in ) {
     return result;
 }
 
-int Utils::calcDkStatus(int type, int status1, int status2)
-{
-    if(TypeUnitNode::GROUP == type) {
-        return DKCiclStatus::DKIgnore;
-    } else if(TypeUnitNode::SD_BL_IP == type) {
-        if(Status::Was == status2 && Status::Alarm == status1) {
-            return DKCiclStatus::DKWasAlarn;
-        } else if(Status::Norm == status1 && Status::Was == status2) {
-            return DKCiclStatus::DKWas;
-//            return DKCiclStatus::DKWrong;
-        } else if(Status::Alarm == status1) {
-            return DKCiclStatus::DKWrong;
-//            return DKCiclStatus::DKWasAlarn;
-        } else if((Status::Off == status2) && (Status::Uncnown == status1)) {
-            return DKCiclStatus::DKWrong;
-        } else if(Status::Norm == status1) {
-            return DKCiclStatus::DKNorm;
-        }
-        return DKCiclStatus::DKWrong;
-    } else if(TypeUnitNode::IU_BL_IP == type) {
-        return DKCiclStatus::DKIgnore;
-    }
-}
-
 QColor Utils::cellRed = QColor(0xE3, 0x06, 0x13);
 QColor Utils::cellGreen = QColor(0x00, 0x96, 0x40);
 QColor Utils::cellGray = QColor(0xCF, 0xCF, 0xCF);
@@ -292,8 +268,6 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
     if(TypeUnitNode::BL_IP == parent->getType()) {
         int row = 10;
 
-//        quint8 status2 = parent->getStatus2();
-//        if(status2 & Status::Was) {
         if(1 == parent->isWasDK()) {
             table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Было"))); // "Тревога"
             table->item(row, 2)->setBackground(cellRed);
@@ -302,12 +276,10 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
             table->item(row, 2)->setBackground(cellGreen);
         }
 
-//        quint8 status1 = parent->getStatus1();
-//        if(status1 & Status::Exists) {
         if(1 == parent->isExistDK()) {
             table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Есть"))); // "Было"
             table->item(row, 1)->setBackground(cellRed);
-        } else {//if(status1 & Status::Not) {
+        } else if(0 == parent->isExistDK()) {
             table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Нет"
             table->item(row, 1)->setBackground(cellGreen);
         }
@@ -315,11 +287,9 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
 
     QList<UnitNode *> tmpLs = parent->getListChilde();
     for(UnitNode * un : tmpLs) {
-        quint8 status1 = un->getStatus1();
-        quint8 status2 = un->getStatus2();
         int row = -1;
 
-        if((status1 & Status::NoConnection) && (status2 & Status::NoConnection)) {
+        if(un->getStateWord().isEmpty()) {
             if(TypeUnitNode::SD_BL_IP == un->getType()) {
                 row = un->getNum2();
             } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
@@ -329,24 +299,24 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
             table->item(row, 1)->setBackground(cellYellow);
         } else if(TypeUnitNode::SD_BL_IP == un->getType()) {
             row = un->getNum2();
-            if(status1 & Status::Alarm) {
+            if(1 == un->isAlarm()) {
                 table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Тревога"))); // "Тревога"
                 table->item(row, 1)->setBackground(cellRed);
             }
-            else if(status1 & Status::Norm) {
+            else if(1 == un->isNorm()) {
                 table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Норма"))); // "Норма"
                 table->item(row, 1)->setBackground(cellGreen);
             }
 
-            if(status2 & Status::Was) {
+            if(1 == un->isWasAlarm()) {
                 table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Было"))); // "Было"
                 table->item(row, 2)->setBackground(cellRed);
-            } else if(status2 & Status::Not) {
+            } else if(0 == un->isWasAlarm()) {
                 table->setItem(row, 2, new QTableWidgetItem(QObject::trUtf8("Нет"))); // "Нет"
                 table->item(row, 2)->setBackground(cellGreen);
             }
 
-            if((status2 & Status::Off) && (Status::Uncnown == status1))
+            if(1 == un->isOff())
             {
                  table->setItem(row, 1, new QTableWidgetItem("-"));
                  table->item(row, 1)->setBackground(cellGray);
@@ -356,12 +326,12 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
 
         } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
             row = 10 + un->getNum2();
-            if(status1 & Status::On) {
+            if(1 == un->isOn()) {
                 table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Вкл"))); // "Вкл"
                 table->item(row, 1)->setBackground(cellRed);
                 table->setItem(row, 2, new QTableWidgetItem(""));
                 table->item(row, 2)->setBackground(cellGray);
-            } else if(status1 & Status::Off) {
+            } else if(1 == un->isOff()) {
                 table->setItem(row, 1, new QTableWidgetItem(QObject::trUtf8("Выкл"))); // "Выкл"
                 table->item(row, 1)->setBackground(cellGreen);
                 table->setItem(row, 2, new QTableWidgetItem(""));
