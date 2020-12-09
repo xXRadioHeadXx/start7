@@ -17,8 +17,10 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
    this->ui->SQL_server_lineEdit->setText("localhost");
-   this->ui->SQL_login_lineEdit->setText("root");
+//   this->ui->SQL_login_lineEdit->setText("root");
    this->ui->SQL_password_lineEdit->setText("123456");
+
+   this->ui->SQL_login_lineEdit->setText("postgres");
 
 //    this->ui->SQL_server_lineEdit->setReadOnly(true);
     this->ui->UDP_RS485_Widget->setVisible(false);

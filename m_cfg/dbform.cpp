@@ -28,8 +28,11 @@ qDebug()<<"[find_rif_db]";
          cmd="show databases";
     }
     if(db.driverName()=="QPSQL"){
-         cmd="/l";
+
+
+         cmd="SELECT datname FROM pg_database";
     }
+    qDebug()<<"cmd "<<cmd;
       query.prepare(cmd);
 
 
