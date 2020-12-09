@@ -3506,19 +3506,29 @@ for(int i=1;i<List.count();i++)
 
        settings.endGroup();
 
-      settings.beginGroup("MYSQL");
+      if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
+      {
+            settings.beginGroup("MYSQL");
+        settings.setValue("Use", 1);
 
-      if(this->ui->SQL_type_comboBox->currentText()=="Выкл"){
-      settings.setValue("Use", 0);
       }
 
-      if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL"){
-      settings.setValue("Use", 0);
+
+      if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
+      {
+             settings.beginGroup("PostgreSQL");
+        settings.setValue("Use", 1);
       }
 
-      if(this->ui->SQL_type_comboBox->currentText()=="MySQL"){
-       settings.setValue("Use", 1);
+      if(this->ui->SQL_type_comboBox->currentText()=="Выкл")
+      {
+            settings.beginGroup("MYSQL");
+        settings.setValue("Use", 0);
+
       }
+
+
+
 
        settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
        settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
@@ -4074,17 +4084,45 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 
 void MainWindowCFG::create_db(QString db_name)
 {
+    qDebug()<<"[create_db]";
+    if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
+    {
+    qDebug()<<"[mysql]";
+
     QSqlQuery query(db_mysql);
+
+
 
     QString sql_cmd="CREATE DATABASE ";
     sql_cmd.append(db_name);
 
     query.prepare(sql_cmd);
     query.exec();
-      this->db_f.find_rif_db(db_mysql);
+    this->db_f.find_rif_db(db_mysql);
+    }
+    if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
+    {
+        qDebug()<<"[psql]";
+        QSqlQuery query(db_psql);
+
+
+
+        QString sql_cmd="CREATE DATABASE ";
+        sql_cmd.append(db_name);
+       sql_cmd.append(";");
+        query.prepare(sql_cmd);
+
+        qDebug()<<sql_cmd;
+        query.exec(sql_cmd);
+        this->db_f.find_rif_db(db_psql);
+
+    }
+
 }
 
 void MainWindowCFG::drop_db(QString db_name)
+{
+if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
 {
 qDebug()<<"drop "<<db_name;
 QSqlQuery query(db_mysql);
@@ -4096,9 +4134,29 @@ query.prepare(sql_cmd);
 query.exec();
   this->db_f.find_rif_db(db_mysql);
 
+
+}
+if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
+{
+QSqlQuery query(db_psql);
+
+QString sql_cmd="DROP DATABASE ";
+sql_cmd.append(db_name);
+sql_cmd.append(";");
+query.prepare(sql_cmd);
+
+qDebug()<<sql_cmd;
+query.exec(sql_cmd);
+  this->db_f.find_rif_db(db_psql);
+
+
+}
+
+
 if(this->ui->SQL_database_lineEdit->text()==db_name){
    this->ui->SQL_database_lineEdit->setText("");
 }
+
 
 }
 
