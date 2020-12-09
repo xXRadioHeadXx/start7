@@ -4055,16 +4055,16 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 
     db_psql = QSqlDatabase::addDatabase("QPSQL");
     qDebug()<<"db_mysql.driver() "<<db_psql.driver()<<"; db_mysql.driverName() "<<db_psql.driverName();
-    db_mysql.setHostName(this->ui->SQL_server_lineEdit->text());
+    db_psql.setHostName(this->ui->SQL_server_lineEdit->text());
 //    db.setDatabaseName("QWERTY");
-    db_mysql.setUserName(this->ui->SQL_login_lineEdit->text());
-    db_mysql.setPassword(this->ui->SQL_password_lineEdit->text());
-    if (!db_mysql.open()){
-        qDebug()<<db_mysql.lastError().text();
+    db_psql.setUserName(this->ui->SQL_login_lineEdit->text());
+    db_psql.setPassword(this->ui->SQL_password_lineEdit->text());
+    if (!db_psql.open()){
+        qDebug()<<db_psql.lastError().text();
     }
     else{
         qDebug()<<"PROFIT";
-        this->db_f.find_rif_db(db_mysql);
+        this->db_f.find_rif_db(db_psql);
         db_f.show();
     }
     }
