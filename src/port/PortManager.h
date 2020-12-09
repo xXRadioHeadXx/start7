@@ -40,6 +40,7 @@ private:
     static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = "rifx.ini");
     static QList<AbstractPort *> loadPortsUdpObj(QString fileName = "rifx.ini");
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
+    static DataQueueItem parcingStatusWord0x31(DataQueueItem &item, DataQueueItem & resultRequest);
 
 
 public:

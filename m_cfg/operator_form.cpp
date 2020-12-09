@@ -1,6 +1,6 @@
 #include "operator_form.h"
 #include "ui_operator_form.h"
-#include <qDebug>
+#include <QDebug>
 
 operator_form::operator_form(QWidget *parent) :
     QDialog(parent),

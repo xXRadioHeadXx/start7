@@ -265,7 +265,8 @@ void PortManager::startStatusRequest(){
     lsSCR.clear();
 
     for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
-        if(TypeUnitNode::BL_IP == un->getType()) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::RLM_C == un->getType()) {
             StatusConnectRequester * tmpSCR = new StatusConnectRequester(un);
             tmpSCR->init();
             for(const auto& p : as_const(getUdpPortsVector())) {
@@ -1008,6 +1009,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
     return resultRequest;
 }
 
+DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueItem &resultRequest)
+{
+
+}
+
 void PortManager::manageOverallReadQueue()
 {
     QList<DataQueueItem> tmpQueue = popOverallReadQueue();
@@ -1026,6 +1032,46 @@ void PortManager::manageOverallReadQueue()
                 }
                 DataQueueItem request;
                 parcingStatusWord0x41(itm, request);
+
+                QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
+                bool dkWait = false;
+                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                    if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
+                        ar->getIpPort() == tmpPair) {
+                        dkWait = true;
+                        break;
+                    }
+                }
+
+                if(request.isValid() && !dkWait) {
+                    UnitNode * reciver = nullptr;
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                        reciver = un;
+                        if(TypeUnitNode::BL_IP == reciver->getType() &&
+                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                                reciver->getUdpPort() == request.port())
+                            break;
+
+                    }
+
+                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    tmpCAW->init();
+                    tmpCAW->setUnReciver(reciver);
+                    tmpCAW->setFirstMsg(request);
+                    preppLsWaiter(tmpCAW);
+//                    tmpCAW->startFirstRequest();
+                }
+                break;
+            }
+            case (quint8)0x31: {
+                for(AbstractRequester * scr : as_const(this->lsSCR)) {
+                    if(scr->getIpPort() == tmpPair && (quint8)scr->getUnReciver()->getNum1() == (quint8)itm.data().at(2)) {
+                        scr->resetBeatCount();
+                        break;
+                    }
+                }
+                DataQueueItem request;
+                parcingStatusWord0x31(itm, request);
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
                 bool dkWait = false;

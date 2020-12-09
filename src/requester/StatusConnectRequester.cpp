@@ -45,7 +45,12 @@ DataQueueItem StatusConnectRequester::makeFirstMsg() {
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
+    if(TypeUnitNode::BL_IP == getUnReciver()->getType() ||
+       TypeUnitNode::SD_BL_IP == getUnReciver()->getType() ||
+       TypeUnitNode::IU_BL_IP == getUnReciver()->getType() ||
+       TypeUnitNode::RLM_C == getUnReciver()->getType()) {
     result.setData(DataQueueItem::makeStatusRequest0x22(getUnReciver()));
+    }
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
@@ -69,7 +74,9 @@ void StatusConnectRequester::init() {
     if(nullptr != getUnTarget()) {
         UnitNode * un = getUnTarget();
         while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType() /* или датчик */) {
+
+            if(TypeUnitNode::BL_IP == un->getType() /* или датчик */ ||
+               TypeUnitNode::RLM_C == getUnReciver()->getType()) {
                 setUnReciver(un);
                 break;
             }

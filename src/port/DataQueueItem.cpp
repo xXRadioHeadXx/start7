@@ -91,9 +91,11 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
 
     QByteArray out = DataQueueItem::data0x22;
     if(nullptr != un) {
-        if(TypeUnitNode::BL_IP == un->getType()) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::SD_BL_IP == un->getType() ||
+           TypeUnitNode::IU_BL_IP == un->getType()) {
             out[1] = (quint8)0xFF;
-        } else {
+        } else if(TypeUnitNode::RLM_C == un->getType()) {
             out[1] = (quint8)un->getNum1();
         }
     }
