@@ -1838,7 +1838,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-603</y>
+            <y>-500</y>
             <width>598</width>
             <height>1018</height>
            </rect>
@@ -2583,7 +2583,7 @@
                </item>
                <item>
                 <property name="text">
-                 <string>PostgreSQL</string>
+                 <string>PostgresSQL</string>
                 </property>
                </item>
               </widget>

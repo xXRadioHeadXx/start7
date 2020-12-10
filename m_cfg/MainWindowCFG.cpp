@@ -1020,6 +1020,8 @@ void MainWindowCFG::on_actionOpen_triggered()
      QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
       qDebug()<<"patch = "<<patch;
      this->modelTreeUN->loadSettings(patch);
+      this->load_other_options_from_ini_file(patch);
+
       this->update_map();
  //    this->modelTreeUN->updateUNStructure();
 
@@ -3101,7 +3103,186 @@ void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
 
 
 
-   this->ui->textEdit->append(string1);
+    this->ui->textEdit->append(string1);
+}
+
+void MainWindowCFG::load_other_options_from_ini_file(QString patch)
+{
+//План и звук
+
+//Параметры
+//Ключ администратора
+
+//Список операторов
+
+//Подсистема РИФ
+
+//Интеграция с внешним ПО
+
+// Сервер БД
+
+// Резервное копирование
+
+}
+
+void MainWindowCFG::get_PARAMS(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_PARAMS(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_RIF(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_RIF(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_SSOI(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_SSOI(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_RASTRMTV(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_RASTRMTV(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_INTEGRATION(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_INTEGRATION(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_MYSQL(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_MYSQL(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_RASTR(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_RASTR(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_SOLID(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_SOLID(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_ADAM4068(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_ADAM4068(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_TABLO(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_TABLO(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_RASTRMSSOI(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_RASTRMSSOI(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_BACKUP(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_BACKUP(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_PORT(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_PORT(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_OPERATORS(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_OPERATORS(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_ASOOSD(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_ASOOSD(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::get_PostgresSQL(QSettings settings)
+{
+
+}
+
+void MainWindowCFG::set_PostgresSQL(QSettings settings)
+{
+
 }
 
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
@@ -3511,52 +3692,95 @@ for(int i=1;i<List.count();i++)
             settings.beginGroup("MYSQL");
         settings.setValue("Use", 1);
 
+        settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
+        settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
+        settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
+        settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
+        settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
+
+        if(this->ui->SQL_P1_checkBox->isChecked())
+        settings.setValue("P1", 1);
+        else
+        settings.setValue("P1", 0);
+
+
+        if(this->ui->SQL_P2_checkBox->isChecked())
+        settings.setValue("P2", 1);
+        else
+        settings.setValue("P2", 0);
+
+        if(this->ui->SQL_AutoDbStart_checkBox->isChecked())
+        settings.setValue("AutoDbStart", 1);
+        else
+        settings.setValue("AutoDbStart", 0);
+
+
+        settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
+        settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
+
+        settings.endGroup();
+
+        settings.beginGroup("PostgresSQL");
+        settings.setValue("Use", 0);
+        settings.endGroup();
+
       }
 
 
-      if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
+      if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
       {
-             settings.beginGroup("PostgreSQL");
+             settings.beginGroup("PostgresSQL");
         settings.setValue("Use", 1);
+
+        settings.setValue("HostName", this->ui->SQL_server_lineEdit->text());
+        settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
+        settings.setValue("UserName", this->ui->SQL_login_lineEdit->text());
+        settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
+        settings.setValue("DatabaseName", this->ui->SQL_database_lineEdit->text());
+
+        if(this->ui->SQL_P1_checkBox->isChecked())
+        settings.setValue("P1", 1);
+        else
+        settings.setValue("P1", 0);
+
+
+        if(this->ui->SQL_P2_checkBox->isChecked())
+        settings.setValue("P2", 1);
+        else
+        settings.setValue("P2", 0);
+
+        if(this->ui->SQL_AutoDbStart_checkBox->isChecked())
+        settings.setValue("AutoDbStart", 1);
+        else
+        settings.setValue("AutoDbStart", 0);
+
+
+        settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
+        settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
+
+         settings.endGroup();
+
+        settings.beginGroup("MYSQL");
+        settings.setValue("Use", 0);
+        settings.endGroup();
       }
 
       if(this->ui->SQL_type_comboBox->currentText()=="Выкл")
       {
-            settings.beginGroup("MYSQL");
+        settings.beginGroup("MYSQL");
         settings.setValue("Use", 0);
+        settings.endGroup();
+
+        settings.beginGroup("PostgresSQL");
+        settings.setValue("Use", 0);
+        settings.endGroup();
 
       }
 
 
 
 
-       settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
-       settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
-       settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
-       settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
-       settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
 
-       if(this->ui->SQL_P1_checkBox->isChecked())
-       settings.setValue("P1", 1);
-       else
-       settings.setValue("P1", 0);
-
-
-       if(this->ui->SQL_P2_checkBox->isChecked())
-       settings.setValue("P2", 1);
-       else
-       settings.setValue("P2", 0);
-
-       if(this->ui->SQL_AutoDbStart_checkBox->isChecked())
-       settings.setValue("AutoDbStart", 1);
-       else
-       settings.setValue("AutoDbStart", 0);
-
-
-       settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
-       settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
-
-       settings.beginGroup("endgroup");
 
 
 }
@@ -4061,9 +4285,9 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 
 
     }
-    if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
+    if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
     {
-    qDebug()<<"connect to PostgreSQL";
+    qDebug()<<"connect to PostgresSQL";
 
     db_psql = QSqlDatabase::addDatabase("QPSQL");
     qDebug()<<"db_mysql.driver() "<<db_psql.driver()<<"; db_mysql.driverName() "<<db_psql.driverName();
@@ -4100,7 +4324,7 @@ void MainWindowCFG::create_db(QString db_name)
     query.exec();
     this->db_f.find_rif_db(db_mysql);
     }
-    if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
+    if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
     {
         qDebug()<<"[psql]";
         QSqlQuery query(db_psql);
@@ -4136,7 +4360,7 @@ query.exec();
 
 
 }
-if(this->ui->SQL_type_comboBox->currentText()=="PostgreSQL")
+if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
 {
 QSqlQuery query(db_psql);
 

@@ -120,6 +120,63 @@ private:
     void get_option_STRAZH_IP(UnitNode *unit);
     void get_option_NET_DEV(UnitNode *unit);
 
+    void load_other_options_from_ini_file(QString patch);
+
+    void get_PARAMS(QSettings settings);
+    void set_PARAMS(QSettings settings);
+
+    void get_RIF(QSettings settings);
+    void set_RIF(QSettings settings);
+
+    void get_SSOI(QSettings settings);
+    void set_SSOI(QSettings settings);
+
+    void get_RASTRMTV(QSettings settings);
+    void set_RASTRMTV(QSettings settings);
+
+    void get_INTEGRATION(QSettings settings);
+    void set_INTEGRATION(QSettings settings);
+
+    void get_MYSQL(QSettings settings);
+    void set_MYSQL(QSettings settings);
+
+    void get_RASTR(QSettings settings);
+    void set_RASTR(QSettings settings);
+
+    void get_SOLID(QSettings settings);
+    void set_SOLID(QSettings settings);
+
+    void get_ADAM4068(QSettings settings);
+    void set_ADAM4068(QSettings settings);
+
+    void get_TABLO(QSettings settings);
+    void set_TABLO(QSettings settings);
+
+    void get_RASTRMSSOI(QSettings settings);
+    void set_RASTRMSSOI(QSettings settings);
+
+    void get_BACKUP(QSettings settings);
+    void set_BACKUP(QSettings settings);
+
+    void get_PORT(QSettings settings);
+    void set_PORT(QSettings settings);
+
+    void get_OPERATORS(QSettings settings);
+    void set_OPERATORS(QSettings settings);
+
+    void get_ASOOSD(QSettings settings);
+    void set_ASOOSD(QSettings settings);
+
+    void get_PostgresSQL(QSettings settings);
+    void set_PostgresSQL(QSettings settings);
+
+
+
+
+
+
+
+
 
 
     bool set_option(UnitNode *unit,UnitNode *parent);
