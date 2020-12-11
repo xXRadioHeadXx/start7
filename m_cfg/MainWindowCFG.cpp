@@ -73,12 +73,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
 
-    this->ui->operators_use_combobox->setCurrentText("Без операторов");
-    this->ui->tableWidget->setEnabled(false);
-    this->ui->add_operator_button->setEnabled(false);
-    this->ui->change_operator_button->setEnabled(false);
-    this->ui->delete_operator_button->setEnabled(false);
-    operators_use=0;
+default_OPERATORS();
 
     str_GROUP="Группа";
     str_SD_BL_IP="БЛ-IP СД";
@@ -1034,6 +1029,7 @@ void MainWindowCFG::on_actionCreate_triggered()
     this->modelTreeUN->makeEmptyTree();
 
     default_PARAMS();
+    default_OPERATORS();
 }
 
 void MainWindowCFG::on_actionOpen_triggered()
@@ -1043,6 +1039,8 @@ void MainWindowCFG::on_actionOpen_triggered()
      QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
       qDebug()<<"patch = "<<patch;
      this->modelTreeUN->loadSettings(patch);
+
+      this->default_OPERATORS();
       this->load_other_options_from_ini_file(patch);
 
       this->update_map();
@@ -3129,25 +3127,25 @@ void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
     this->ui->textEdit->append(string1);
 }
 
-void MainWindowCFG::load_other_options_from_ini_file(QString fileName)
+void MainWindowCFG::load_other_options_from_ini_file(QString filename)
 {
+    get_PARAMS(filename);
+    get_RIF(filename);
+    get_SSOI(filename);
+    get_RASTRMTV(filename);
+    get_INTEGRATION(filename);
+    get_MYSQL(filename);
+    get_RASTR(filename);
+    get_SOLID(filename);
+    get_ADAM4068(filename);
+    get_TABLO(filename);
+    get_RASTRMSSOI(filename);
+    get_BACKUP(filename);
+    get_PORT(filename);
+    get_OPERATORS(filename);
+    get_ASOOSD(filename);
+    get_PostgresSQL(filename);
 
-//План и звук
-this->get_PARAMS(fileName);
-
-//Параметры
-
-//Ключ администратора
-
-//Список операторов
-
-//Подсистема РИФ
-
-//Интеграция с внешним ПО
-
-// Сервер БД
-
-// Резервное копирование
 
 
 
@@ -3387,17 +3385,111 @@ void MainWindowCFG::default_PORT()
 
 void MainWindowCFG::get_OPERATORS(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+
+
+    settings.beginGroup("OPERATORS");
+
+    if(0==settings.value("Use",-1).toInt()){
+        this->ui->operators_use_combobox->setCurrentText("Без операторов");
+         qDebug()<<"OPERATORS Use = 0";
+    }
+    else
+    {
+        this->ui->operators_use_combobox->setCurrentText("С операторами");
+        int Count=settings.value("Count",-1).toInt();
+
+        qDebug()<<"OPERATORS Count = "<<Count;
+        settings.endGroup();
+
+        for(int i=0;i<Count;i++)
+        {
+            QString operatorGroup("Operator_%1");
+            operatorGroup = operatorGroup.arg(i);
+            qDebug()<<operatorGroup;
+            if(settings.childGroups().contains(operatorGroup))
+            {
+                settings.beginGroup(operatorGroup);
+                Operator* op = new Operator();
+                op->setFN(settings.value("FN",-1).toString());
+                op->setN1(settings.value("N1",-1).toString());
+                op->setN2(settings.value("N2",-1).toString());
+                op->setPW(settings.value("PW",-1).toString());
+                operators.append(op);
+
+                settings.endGroup();
+            }
+
+        }
+
+        this->update_operators_table();
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
 void MainWindowCFG::set_OPERATORS(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
 
+    settings.beginGroup("OPERATORS");
+    settings.setValue("Use",operators_use);
+    settings.setValue("Count",operators.count());
+
+        settings.endGroup();
+
+    for(int i=0;i<operators.count();i++)
+        {
+           Operator* op=operators.at(i);
+
+        QString strGroup("Operator_%1");
+        strGroup=strGroup.arg(i);
+        settings.beginGroup(strGroup);
+
+        settings.setValue("FN",op->getFN());
+        settings.setValue("N1",op->getN1());
+        settings.setValue("N2",op->getN2());
+        settings.setValue("PW",op->getPW());
+
+        settings.endGroup();
+
+        }
 }
 
 void MainWindowCFG::default_OPERATORS()
 {
-
+    this->operators.clear();
+    this->update_operators_table();
+    this->ui->operators_use_combobox->setCurrentText("Без операторов");
+    this->ui->tableWidget->setEnabled(false);
+    this->ui->add_operator_button->setEnabled(false);
+    this->ui->change_operator_button->setEnabled(false);
+    this->ui->delete_operator_button->setEnabled(false);
+    operators_use=0;
 }
 
 void MainWindowCFG::get_ASOOSD(QString filename)
@@ -3687,11 +3779,11 @@ void MainWindowCFG::set_option_NET_DEV(UnitNode *unit)
     unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
 }
 
-void MainWindowCFG::save_ini(QString fileName)
+void MainWindowCFG::save_ini(QString filename)
 {
     qDebug()<<"save ini";
 
-    QSettings settings(fileName,QSettings::IniFormat);
+    QSettings settings(filename,QSettings::IniFormat);
     settings.setIniCodec( QTextCodec::codecForLocale() );
 //   foreach(UnitNode* unit,this->modelTreeUN->listItemUN)
     QList<UnitNode *> List;
@@ -3779,30 +3871,25 @@ for(int i=1;i<List.count();i++)
 
     settings.endGroup();
 
-    this->set_PARAMS(fileName);
+    set_PARAMS(filename);
+    set_RIF(filename);
+    set_SSOI(filename);
+    set_RASTRMTV(filename);
+    set_INTEGRATION(filename);
+    set_MYSQL(filename);
+    set_RASTR(filename);
+    set_SOLID(filename);
+    set_ADAM4068(filename);
+    set_TABLO(filename);
+    set_RASTRMSSOI(filename);
+    set_BACKUP(filename);
+    set_PORT(filename);
+    set_OPERATORS(filename);
+    set_ASOOSD(filename);
+    set_PostgresSQL(filename);
 
-    settings.beginGroup("OPERATORS");
-    settings.setValue("Use",operators_use);
-    settings.setValue("Count",operators.count());
 
-        settings.endGroup();
 
-    for(int i=0;i<operators.count();i++)
-        {
-           Operator* op=operators.at(i);
-
-        QString strGroup("OPERATOR_%1");
-        strGroup=strGroup.arg(i);
-        settings.beginGroup(strGroup);
-
-        settings.setValue("FN",op->getFN());
-        settings.setValue("N1",op->getN1());
-        settings.setValue("N2",op->getN2());
-        settings.setValue("PW",op->getPW());
-
-        settings.endGroup();
-
-        }
        settings.beginGroup("RIF");
 
        for(int i; i<comports.count();i++)
@@ -4256,6 +4343,7 @@ void MainWindowCFG::on_add_operator_button_clicked()
 {
   Operator* op = new Operator();
    opt_tbl_request=1;
+    op_f.clear_operator_data_on_form();
    op_f.show();
  //   op->setN1("Ivan");
  //   op->setN2("Ivanovich");
@@ -4309,6 +4397,14 @@ void MainWindowCFG::get_from_op_f(QString FN, QString N1, QString N2, QString ps
 void MainWindowCFG::on_change_operator_button_clicked()
 {
     opt_tbl_request=2;
+
+    int index = this->ui->tableWidget->currentRow();
+
+
+    op_f.set_operator_data_on_form(operators.at(index)->getFN(),
+                                   operators.at(index)->getN1(),
+                                   operators.at(index)->getN2(),
+                                   operators.at(index)->getPW());
     op_f.show();
 }
 
