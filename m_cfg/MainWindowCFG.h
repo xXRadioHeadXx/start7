@@ -122,53 +122,54 @@ private:
 
     void load_other_options_from_ini_file(QString patch);
 
-    void get_PARAMS(QSettings settings);
-    void set_PARAMS(QSettings settings);
+    QMap <int,QString> map_PARAMS;
+    void get_PARAMS(QString filename);
+    void set_PARAMS(QString filename);
 
-    void get_RIF(QSettings settings);
-    void set_RIF(QSettings settings);
+    void get_RIF(QString filename);
+    void set_RIF(QString filename);
 
-    void get_SSOI(QSettings settings);
-    void set_SSOI(QSettings settings);
+    void get_SSOI(QString filename);
+    void set_SSOI(QString filename);
 
-    void get_RASTRMTV(QSettings settings);
-    void set_RASTRMTV(QSettings settings);
+    void get_RASTRMTV(QString filename);
+    void set_RASTRMTV(QString filename);
 
-    void get_INTEGRATION(QSettings settings);
-    void set_INTEGRATION(QSettings settings);
+    void get_INTEGRATION(QString filename);
+    void set_INTEGRATION(QString filename);
 
-    void get_MYSQL(QSettings settings);
-    void set_MYSQL(QSettings settings);
+    void get_MYSQL(QString filename);
+    void set_MYSQL(QString filename);
 
-    void get_RASTR(QSettings settings);
-    void set_RASTR(QSettings settings);
+    void get_RASTR(QString filename);
+    void set_RASTR(QString filename);
 
-    void get_SOLID(QSettings settings);
-    void set_SOLID(QSettings settings);
+    void get_SOLID(QString filename);
+    void set_SOLID(QString filename);
 
-    void get_ADAM4068(QSettings settings);
-    void set_ADAM4068(QSettings settings);
+    void get_ADAM4068(QString filename);
+    void set_ADAM4068(QString filename);
 
-    void get_TABLO(QSettings settings);
-    void set_TABLO(QSettings settings);
+    void get_TABLO(QString filename);
+    void set_TABLO(QString filename);
 
-    void get_RASTRMSSOI(QSettings settings);
-    void set_RASTRMSSOI(QSettings settings);
+    void get_RASTRMSSOI(QString filename);
+    void set_RASTRMSSOI(QString filename);
 
-    void get_BACKUP(QSettings settings);
-    void set_BACKUP(QSettings settings);
+    void get_BACKUP(QString filename);
+    void set_BACKUP(QString filename);
 
-    void get_PORT(QSettings settings);
-    void set_PORT(QSettings settings);
+    void get_PORT(QString filename);
+    void set_PORT(QString filename);
 
-    void get_OPERATORS(QSettings settings);
-    void set_OPERATORS(QSettings settings);
+    void get_OPERATORS(QString filename);
+    void set_OPERATORS(QString filename);
 
-    void get_ASOOSD(QSettings settings);
-    void set_ASOOSD(QSettings settings);
+    void get_ASOOSD(QString filename);
+    void set_ASOOSD(QString filename);
 
-    void get_PostgresSQL(QSettings settings);
-    void set_PostgresSQL(QSettings settings);
+    void get_PostgresSQL(QString filename);
+    void set_PostgresSQL(QString filename);
 
 
 

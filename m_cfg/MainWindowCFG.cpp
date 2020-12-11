@@ -12,6 +12,18 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
     ui->setupUi(this);
 
+    map_PARAMS[0]="план";
+    map_PARAMS[1]="граф.модуль";
+    map_PARAMS[2]="не использовать";
+
+    for(int i=0;i<map_PARAMS.count();i++)
+    {
+        this->ui->PlanType_comboBox->addItem(map_PARAMS[i]);
+    }
+
+
+
+
    db_mysql = QSqlDatabase::addDatabase("QMYSQL");
    db_psql = QSqlDatabase::addDatabase("QPSQL");
 
@@ -3106,9 +3118,11 @@ void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
     this->ui->textEdit->append(string1);
 }
 
-void MainWindowCFG::load_other_options_from_ini_file(QString patch)
+void MainWindowCFG::load_other_options_from_ini_file(QString fileName)
 {
+
 //План и звук
+this->get_PARAMS(fileName);
 
 //Параметры
 //Ключ администратора
@@ -3123,164 +3137,201 @@ void MainWindowCFG::load_other_options_from_ini_file(QString patch)
 
 // Резервное копирование
 
+
+
+
 }
 
-void MainWindowCFG::get_PARAMS(QSettings settings)
+/*
+  PlanType=0 - план
+  PlanType=1 - граф.модуль
+  PlanType=2 - не использовать
+
+ */
+
+void MainWindowCFG::get_PARAMS(QString filename)
+{
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+
+    settings.beginGroup("PARAMS");
+    int val = settings.value("PlanType",-1).toInt();
+
+
+    this->ui->PlanType_comboBox->setCurrentIndex(val);
+
+    settings.endGroup();
+
+}
+
+void MainWindowCFG::set_PARAMS(QString filename)
+{
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+
+
+    settings.beginGroup("PARAMS");
+
+    int PlanType=this->ui->PlanType_comboBox->currentIndex();
+    settings.setValue("PlanType",PlanType);
+
+    settings.endGroup();
+}
+
+void MainWindowCFG::get_RIF(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_PARAMS(QSettings settings)
+void MainWindowCFG::set_RIF(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_RIF(QSettings settings)
+void MainWindowCFG::get_SSOI(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_RIF(QSettings settings)
+void MainWindowCFG::set_SSOI(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_SSOI(QSettings settings)
+void MainWindowCFG::get_RASTRMTV(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_SSOI(QSettings settings)
+void MainWindowCFG::set_RASTRMTV(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_RASTRMTV(QSettings settings)
+void MainWindowCFG::get_INTEGRATION(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_RASTRMTV(QSettings settings)
+void MainWindowCFG::set_INTEGRATION(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_INTEGRATION(QSettings settings)
+void MainWindowCFG::get_MYSQL(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_INTEGRATION(QSettings settings)
+void MainWindowCFG::set_MYSQL(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_MYSQL(QSettings settings)
+void MainWindowCFG::get_RASTR(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_MYSQL(QSettings settings)
+void MainWindowCFG::set_RASTR(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_RASTR(QSettings settings)
+void MainWindowCFG::get_SOLID(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_RASTR(QSettings settings)
+void MainWindowCFG::set_SOLID(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_SOLID(QSettings settings)
+void MainWindowCFG::get_ADAM4068(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_SOLID(QSettings settings)
+void MainWindowCFG::set_ADAM4068(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_ADAM4068(QSettings settings)
+void MainWindowCFG::get_TABLO(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_ADAM4068(QSettings settings)
+void MainWindowCFG::set_TABLO(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_TABLO(QSettings settings)
+void MainWindowCFG::get_RASTRMSSOI(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_TABLO(QSettings settings)
+void MainWindowCFG::set_RASTRMSSOI(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_RASTRMSSOI(QSettings settings)
+void MainWindowCFG::get_BACKUP(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_RASTRMSSOI(QSettings settings)
+void MainWindowCFG::set_BACKUP(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_BACKUP(QSettings settings)
+void MainWindowCFG::get_PORT(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_BACKUP(QSettings settings)
+void MainWindowCFG::set_PORT(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_PORT(QSettings settings)
+void MainWindowCFG::get_OPERATORS(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_PORT(QSettings settings)
+void MainWindowCFG::set_OPERATORS(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_OPERATORS(QSettings settings)
+void MainWindowCFG::get_ASOOSD(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_OPERATORS(QSettings settings)
+void MainWindowCFG::set_ASOOSD(QString filename)
 {
 
 }
 
-void MainWindowCFG::get_ASOOSD(QSettings settings)
+void MainWindowCFG::get_PostgresSQL(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_ASOOSD(QSettings settings)
-{
-
-}
-
-void MainWindowCFG::get_PostgresSQL(QSettings settings)
-{
-
-}
-
-void MainWindowCFG::set_PostgresSQL(QSettings settings)
+void MainWindowCFG::set_PostgresSQL(QString filename)
 {
 
 }
@@ -3542,11 +3593,11 @@ void MainWindowCFG::set_option_NET_DEV(UnitNode *unit)
     unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
 }
 
-void MainWindowCFG::save_ini(QString path)
+void MainWindowCFG::save_ini(QString fileName)
 {
     qDebug()<<"save ini";
 
-    QSettings settings(path,QSettings::IniFormat);
+    QSettings settings(fileName,QSettings::IniFormat);
     settings.setIniCodec( QTextCodec::codecForLocale() );
 //   foreach(UnitNode* unit,this->modelTreeUN->listItemUN)
     QList<UnitNode *> List;
@@ -3633,6 +3684,8 @@ for(int i=1;i<List.count();i++)
     settings.setValue("Count",List.count()-1);
 
     settings.endGroup();
+
+    this->set_PARAMS(fileName);
 
     settings.beginGroup("OPERATORS");
     settings.setValue("Use",operators_use);
