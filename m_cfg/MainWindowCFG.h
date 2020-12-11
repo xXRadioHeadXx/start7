@@ -125,53 +125,69 @@ private:
 
     void get_PARAMS(QString filename);
     void set_PARAMS(QString filename);
+    void default_PARAMS();
     QMap <int,QString> map_PARAMS_PlanType;
     QMap <int,QString> map_PARAMS_SoundType;
 
     void get_RIF(QString filename);
     void set_RIF(QString filename);
+    void default_RIF();
 
     void get_SSOI(QString filename);
     void set_SSOI(QString filename);
+    void default_SSOI();
 
     void get_RASTRMTV(QString filename);
     void set_RASTRMTV(QString filename);
+    void default_RASTRMTV();
 
     void get_INTEGRATION(QString filename);
     void set_INTEGRATION(QString filename);
+    void default_INTEGRATION();
 
     void get_MYSQL(QString filename);
     void set_MYSQL(QString filename);
+    void default_MYSQL();
 
     void get_RASTR(QString filename);
     void set_RASTR(QString filename);
+    void default_RASTR();
 
     void get_SOLID(QString filename);
     void set_SOLID(QString filename);
+    void default_SOLID();
 
     void get_ADAM4068(QString filename);
     void set_ADAM4068(QString filename);
+    void default_ADAM4068();
 
     void get_TABLO(QString filename);
     void set_TABLO(QString filename);
+    void default_TABLO();
 
     void get_RASTRMSSOI(QString filename);
     void set_RASTRMSSOI(QString filename);
+    void default_RASTRMSSOI();
 
     void get_BACKUP(QString filename);
     void set_BACKUP(QString filename);
+    void default_BACKUP();
 
     void get_PORT(QString filename);
     void set_PORT(QString filename);
+    void default_PORT();
 
     void get_OPERATORS(QString filename);
     void set_OPERATORS(QString filename);
+    void default_OPERATORS();
 
     void get_ASOOSD(QString filename);
     void set_ASOOSD(QString filename);
+    void default_ASOOSD();
 
     void get_PostgresSQL(QString filename);
     void set_PostgresSQL(QString filename);
+    void default_PostgresSQL();
 
 
 

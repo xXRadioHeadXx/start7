@@ -310,6 +310,8 @@ connect(&op_f, SIGNAL(res(QString,QString,QString,QString  )) , this, SLOT     (
         connect(&this->db_f, SIGNAL(create_db(QString)  ) , this,SLOT     (create_db(QString)));
         connect(&this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
         connect(&this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
+
+        this->on_actionCreate_triggered();
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -1030,6 +1032,8 @@ void MainWindowCFG::on_actionCreate_triggered()
 {
     qDebug()<<"[Create]";
     this->modelTreeUN->makeEmptyTree();
+
+    default_PARAMS();
 }
 
 void MainWindowCFG::on_actionOpen_triggered()
@@ -3195,12 +3199,23 @@ void MainWindowCFG::set_PARAMS(QString filename)
     settings.endGroup();
 }
 
+void MainWindowCFG::default_PARAMS()
+{
+    this->ui->PlanType_comboBox->setCurrentIndex(1);
+    this->ui->SoundType_comboBox->setCurrentIndex(2);
+}
+
 void MainWindowCFG::get_RIF(QString filename)
 {
 
 }
 
 void MainWindowCFG::set_RIF(QString filename)
+{
+
+}
+
+void MainWindowCFG::default_RIF()
 {
 
 }
@@ -3215,12 +3230,22 @@ void MainWindowCFG::set_SSOI(QString filename)
 
 }
 
+void MainWindowCFG::default_SSOI()
+{
+
+}
+
 void MainWindowCFG::get_RASTRMTV(QString filename)
 {
 
 }
 
 void MainWindowCFG::set_RASTRMTV(QString filename)
+{
+
+}
+
+void MainWindowCFG::default_RASTRMTV()
 {
 
 }
@@ -3235,12 +3260,22 @@ void MainWindowCFG::set_INTEGRATION(QString filename)
 
 }
 
+void MainWindowCFG::default_INTEGRATION()
+{
+
+}
+
 void MainWindowCFG::get_MYSQL(QString filename)
 {
 
 }
 
 void MainWindowCFG::set_MYSQL(QString filename)
+{
+
+}
+
+void MainWindowCFG::default_MYSQL()
 {
 
 }
@@ -3255,12 +3290,22 @@ void MainWindowCFG::set_RASTR(QString filename)
 
 }
 
+void MainWindowCFG::default_RASTR()
+{
+
+}
+
 void MainWindowCFG::get_SOLID(QString filename)
 {
 
 }
 
 void MainWindowCFG::set_SOLID(QString filename)
+{
+
+}
+
+void MainWindowCFG::default_SOLID()
 {
 
 }
@@ -3275,12 +3320,22 @@ void MainWindowCFG::set_ADAM4068(QString filename)
 
 }
 
+void MainWindowCFG::default_ADAM4068()
+{
+
+}
+
 void MainWindowCFG::get_TABLO(QString filename)
 {
 
 }
 
 void MainWindowCFG::set_TABLO(QString filename)
+{
+
+}
+
+void MainWindowCFG::default_TABLO()
 {
 
 }
@@ -3295,12 +3350,22 @@ void MainWindowCFG::set_RASTRMSSOI(QString filename)
 
 }
 
+void MainWindowCFG::default_RASTRMSSOI()
+{
+
+}
+
 void MainWindowCFG::get_BACKUP(QString filename)
 {
 
 }
 
 void MainWindowCFG::set_BACKUP(QString filename)
+{
+
+}
+
+void MainWindowCFG::default_BACKUP()
 {
 
 }
@@ -3315,12 +3380,22 @@ void MainWindowCFG::set_PORT(QString filename)
 
 }
 
+void MainWindowCFG::default_PORT()
+{
+
+}
+
 void MainWindowCFG::get_OPERATORS(QString filename)
 {
 
 }
 
 void MainWindowCFG::set_OPERATORS(QString filename)
+{
+
+}
+
+void MainWindowCFG::default_OPERATORS()
 {
 
 }
@@ -3335,12 +3410,22 @@ void MainWindowCFG::set_ASOOSD(QString filename)
 
 }
 
+void MainWindowCFG::default_ASOOSD()
+{
+
+}
+
 void MainWindowCFG::get_PostgresSQL(QString filename)
 {
 
 }
 
 void MainWindowCFG::set_PostgresSQL(QString filename)
+{
+
+}
+
+void MainWindowCFG::default_PostgresSQL()
 {
 
 }
