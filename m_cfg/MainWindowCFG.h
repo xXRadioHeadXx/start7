@@ -122,9 +122,11 @@ private:
 
     void load_other_options_from_ini_file(QString patch);
 
-    QMap <int,QString> map_PARAMS;
+
     void get_PARAMS(QString filename);
     void set_PARAMS(QString filename);
+    QMap <int,QString> map_PARAMS_PlanType;
+    QMap <int,QString> map_PARAMS_SoundType;
 
     void get_RIF(QString filename);
     void set_RIF(QString filename);

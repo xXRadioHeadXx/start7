@@ -12,17 +12,24 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
     ui->setupUi(this);
 
-    map_PARAMS[0]="план";
-    map_PARAMS[1]="граф.модуль";
-    map_PARAMS[2]="не использовать";
+    map_PARAMS_PlanType[0]="план";
+    map_PARAMS_PlanType[1]="граф.модуль";
+    map_PARAMS_PlanType[2]="не использовать";
 
-    for(int i=0;i<map_PARAMS.count();i++)
+    for(int i=1;i<map_PARAMS_PlanType.count();i++)
     {
-        this->ui->PlanType_comboBox->addItem(map_PARAMS[i]);
+        this->ui->PlanType_comboBox->addItem(map_PARAMS_PlanType[i]);
     }
 
 
+    map_PARAMS_SoundType[0]="звуковая карта";
+    map_PARAMS_SoundType[1]="системный динамик";
+    map_PARAMS_SoundType[2]="без звука";
 
+    for(int i=0;i<map_PARAMS_SoundType.count();i++)
+    {
+        this->ui->SoundType_comboBox->addItem(map_PARAMS_SoundType[i]);
+    }
 
    db_mysql = QSqlDatabase::addDatabase("QMYSQL");
    db_psql = QSqlDatabase::addDatabase("QPSQL");
@@ -3125,6 +3132,7 @@ void MainWindowCFG::load_other_options_from_ini_file(QString fileName)
 this->get_PARAMS(fileName);
 
 //Параметры
+
 //Ключ администратора
 
 //Список операторов
@@ -3159,11 +3167,12 @@ void MainWindowCFG::get_PARAMS(QString filename)
   #endif
 
     settings.beginGroup("PARAMS");
-    int val = settings.value("PlanType",-1).toInt();
 
 
-    this->ui->PlanType_comboBox->setCurrentIndex(val);
+    qDebug()<<"SoundType  "<<settings.value("SoundType",-1).toInt();
 
+    this->ui->PlanType_comboBox->setCurrentIndex(settings.value("PlanType",-1).toInt());
+    this->ui->SoundType_comboBox->setCurrentIndex(settings.value("SoundType",-1).toInt());
     settings.endGroup();
 
 }
@@ -3180,8 +3189,8 @@ void MainWindowCFG::set_PARAMS(QString filename)
 
     settings.beginGroup("PARAMS");
 
-    int PlanType=this->ui->PlanType_comboBox->currentIndex();
-    settings.setValue("PlanType",PlanType);
+    settings.setValue("PlanType",this->ui->PlanType_comboBox->currentIndex());
+    settings.setValue("SoundType",this->ui->SoundType_comboBox->currentIndex());
 
     settings.endGroup();
 }
