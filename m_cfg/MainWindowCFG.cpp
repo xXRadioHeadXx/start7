@@ -3136,7 +3136,7 @@ void MainWindowCFG::load_other_options_from_ini_file(QString filename)
     get_SSOI(filename);
     get_RASTRMTV(filename);
     get_INTEGRATION(filename);
-    get_MYSQL(filename);
+    get_SQL(filename);
     get_RASTR(filename);
     get_SOLID(filename);
     get_ADAM4068(filename);
@@ -3146,7 +3146,7 @@ void MainWindowCFG::load_other_options_from_ini_file(QString filename)
     get_PORT(filename);
     get_OPERATORS(filename);
     get_ASOOSD(filename);
-    get_PostgresSQL(filename);
+
 
 
 
@@ -3363,17 +3363,70 @@ void MainWindowCFG::default_INTEGRATION()
 
 }
 
-void MainWindowCFG::get_MYSQL(QString filename)
+void MainWindowCFG::get_SQL(QString filename)
 {
 
 }
 
-void MainWindowCFG::set_MYSQL(QString filename)
+void MainWindowCFG::set_SQL(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+int res=0;
+    if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
+    {
 
+      settings.beginGroup("MYSQL");
+      settings.setValue("Use", 1);
+      res=1;
+    }
+    if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
+    {
+      settings.beginGroup("PostgresSQL");
+      settings.setValue("Use", 1);
+      res=1;
+    }
+    if(res==1)
+    {
+
+
+      settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
+      settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
+      settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
+      settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
+      settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
+
+      if(this->ui->SQL_P1_checkBox->isChecked())
+      settings.setValue("P1", 1);
+      else
+      settings.setValue("P1", 0);
+
+
+      if(this->ui->SQL_P2_checkBox->isChecked())
+      settings.setValue("P2", 1);
+      else
+      settings.setValue("P2", 0);
+
+      if(this->ui->SQL_AutoDbStart_checkBox->isChecked())
+      settings.setValue("AutoDbStart", 1);
+      else
+      settings.setValue("AutoDbStart", 0);
+
+
+      settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
+      settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
+
+      settings.endGroup();
+
+
+    }
 }
 
-void MainWindowCFG::default_MYSQL()
+void MainWindowCFG::default_SQL()
 {
 
 }
@@ -3607,20 +3660,7 @@ void MainWindowCFG::default_ASOOSD()
 
 }
 
-void MainWindowCFG::get_PostgresSQL(QString filename)
-{
 
-}
-
-void MainWindowCFG::set_PostgresSQL(QString filename)
-{
-
-}
-
-void MainWindowCFG::default_PostgresSQL()
-{
-
-}
 
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 {
@@ -3976,7 +4016,7 @@ for(int i=1;i<List.count();i++)
     set_SSOI(filename);
     set_RASTRMTV(filename);
     set_INTEGRATION(filename);
-    set_MYSQL(filename);
+    set_SQL(filename);
     set_RASTR(filename);
     set_SOLID(filename);
     set_ADAM4068(filename);
@@ -3986,101 +4026,18 @@ for(int i=1;i<List.count();i++)
     set_PORT(filename);
     set_OPERATORS(filename);
     set_ASOOSD(filename);
-    set_PostgresSQL(filename);
 
 
 
 
 
-      if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
-      {
-            settings.beginGroup("MYSQL");
-        settings.setValue("Use", 1);
-
-        settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
-        settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
-        settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
-        settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
-        settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
-
-        if(this->ui->SQL_P1_checkBox->isChecked())
-        settings.setValue("P1", 1);
-        else
-        settings.setValue("P1", 0);
 
 
-        if(this->ui->SQL_P2_checkBox->isChecked())
-        settings.setValue("P2", 1);
-        else
-        settings.setValue("P2", 0);
-
-        if(this->ui->SQL_AutoDbStart_checkBox->isChecked())
-        settings.setValue("AutoDbStart", 1);
-        else
-        settings.setValue("AutoDbStart", 0);
 
 
-        settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
-        settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
-
-        settings.endGroup();
-
-        settings.beginGroup("PostgresSQL");
-        settings.setValue("Use", 0);
-        settings.endGroup();
-
-      }
 
 
-      if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
-      {
-             settings.beginGroup("PostgresSQL");
-        settings.setValue("Use", 1);
 
-        settings.setValue("HostName", this->ui->SQL_server_lineEdit->text());
-        settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
-        settings.setValue("UserName", this->ui->SQL_login_lineEdit->text());
-        settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
-        settings.setValue("DatabaseName", this->ui->SQL_database_lineEdit->text());
-
-        if(this->ui->SQL_P1_checkBox->isChecked())
-        settings.setValue("P1", 1);
-        else
-        settings.setValue("P1", 0);
-
-
-        if(this->ui->SQL_P2_checkBox->isChecked())
-        settings.setValue("P2", 1);
-        else
-        settings.setValue("P2", 0);
-
-        if(this->ui->SQL_AutoDbStart_checkBox->isChecked())
-        settings.setValue("AutoDbStart", 1);
-        else
-        settings.setValue("AutoDbStart", 0);
-
-
-        settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
-        settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
-
-         settings.endGroup();
-
-        settings.beginGroup("MYSQL");
-        settings.setValue("Use", 0);
-        settings.endGroup();
-      }
-
-      if(this->ui->SQL_type_comboBox->currentText()=="Выкл")
-      {
-        settings.beginGroup("MYSQL");
-        settings.setValue("Use", 0);
-        settings.endGroup();
-
-        settings.beginGroup("PostgresSQL");
-        settings.setValue("Use", 0);
-        settings.endGroup();
-
-      }
 
 
 

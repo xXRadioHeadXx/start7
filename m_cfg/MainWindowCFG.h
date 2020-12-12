@@ -144,9 +144,9 @@ private:
     void set_INTEGRATION(QString filename);
     void default_INTEGRATION();
 
-    void get_MYSQL(QString filename);
-    void set_MYSQL(QString filename);
-    void default_MYSQL();
+    void get_SQL(QString filename);
+    void set_SQL(QString filename);
+    void default_SQL();
 
     void get_RASTR(QString filename);
     void set_RASTR(QString filename);
@@ -184,9 +184,6 @@ private:
     void set_ASOOSD(QString filename);
     void default_ASOOSD();
 
-    void get_PostgresSQL(QString filename);
-    void set_PostgresSQL(QString filename);
-    void default_PostgresSQL();
 
 
 
