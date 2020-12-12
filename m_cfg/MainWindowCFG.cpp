@@ -3303,7 +3303,7 @@ void MainWindowCFG::set_RIF(QString filename)
 void MainWindowCFG::default_RIF()
 {
     qDebug()<<"comports.count "<<comports.count();
-    for(int i(1), n(100); i < n; i++)
+    for(int i(0), n(100); i < n; i++)
     {
 qDebug()<<"---"<<i;
         if(i<comports.count())
@@ -3313,6 +3313,10 @@ qDebug()<<"---"<<i;
         }
     }
     this->ui->RifPort_comboBox->setCurrentIndex(0);
+
+    this->ui->RifPortSpeed_comboBox->setCurrentText(QString::number(comports.at(0)->get_RifPortSpeed()));
+    this->ui->RifPortInterval_doubleSpinBox->setValue(comports.at(0)->get_RifPortInterval());
+
 
     this->ui->RIF_AutoDK_comboBox->setCurrentIndex(0);
     this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->setValue(20);
@@ -3365,6 +3369,72 @@ void MainWindowCFG::default_INTEGRATION()
 
 void MainWindowCFG::get_SQL(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+      int res=0;
+          if(settings.childGroups().contains("MYSQL"))
+          {
+            settings.beginGroup("MYSQL");
+            if(settings.value("Use", -1).toInt()==1)
+            {
+                this->ui->SQL_type_comboBox->setCurrentText("MySQL");
+                res=1;
+
+            }
+
+          }
+
+          if(settings.childGroups().contains("PostgresSQL"))
+          {
+             settings.beginGroup("PostgresSQL");
+             if(settings.value("Use", -1).toInt()==1)
+             {
+                 this->ui->SQL_type_comboBox->setCurrentText("PostgresSQL");
+                 res=1;
+
+             }
+
+          }
+
+          if(res==1)
+          {
+
+
+              this->ui->SQL_server_lineEdit->setText(settings.value("Host",-1).toString());
+              this->ui->SQL_port_doubleSpinBox->setValue(settings.value("Port",-1).toDouble());
+              this->ui->SQL_login_lineEdit->setText(settings.value("Login",-1).toString());
+              this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
+              this->ui->SQL_database_lineEdit->setText(settings.value("DbName",-1).toString());
+
+                if(settings.value("P1",-1).toInt()==1)
+                 this->ui->SQL_P1_checkBox->setChecked(true);
+
+                if(settings.value("P1",-1).toInt()==0)
+                 this->ui->SQL_P1_checkBox->setChecked(false);
+
+                if(settings.value("P2",-1).toInt()==1)
+                 this->ui->SQL_P2_checkBox->setChecked(true);
+
+                if(settings.value("P2",-1).toInt()==0)
+                 this->ui->SQL_P2_checkBox->setChecked(false);
+
+                if(settings.value("AutoDbStart",-1).toInt()==1)
+                 this->ui->SQL_AutoDbStart_checkBox->setChecked(true);
+
+                if(settings.value("AutoDbStart",-1).toInt()==0)
+                 this->ui->SQL_AutoDbStart_checkBox->setChecked(false);
+
+              this->ui->SQL_AutoDbStartHour_doubleSpinBox->setValue(settings.value("AutoDbStartHour",-1).toDouble());
+              this->ui->SQL_AutoDbStartMinute_doubleSpinBox->setValue(settings.value("AutoDbStartMinute",-1).toDouble());
+
+              settings.endGroup();
+          }
+          else
+                 this->ui->SQL_type_comboBox->setCurrentText("Выкл");
 
 }
 
