@@ -44,21 +44,22 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 //    this->ui->SQL_server_lineEdit->setReadOnly(true);
     this->ui->UDP_RS485_Widget->setVisible(false);
 
- this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
-    for(int i(1), n(100); i < n; i++)
-    {
-        qDebug()<<"i= "<<i;
-        QString str("COM%1");
-        str = str.arg(i);
-        this->ui->RifPort_comboBox->addItem(str,str);
-        ComPort* port = new ComPort();
-        comports.append(port);
-      //  ui->comboBox->addItem(str, str);
-        //this->ui->tableWidget->setColumnWidth(0,500);
-        //this->ui->uartWindow->setColumnWidth(0,400);
-        //this->ui->uartWindow->setColumnWidth(1,500);
 
-    }/**/
+
+  this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
+   for(int i(1), n(100); i < n; i++)
+   {
+       qDebug()<<"i= "<<i;
+       QString str("COM%1");
+       str = str.arg(i);
+       this->ui->RifPort_comboBox->addItem(str,str);
+
+       ComPort* port = new ComPort();
+       comports.append(port);
+   }
+
+
+    default_RIF();
 
     autoDK=0;
     TochkaDirectionInterval=0;
@@ -1030,6 +1031,7 @@ void MainWindowCFG::on_actionCreate_triggered()
 
     default_PARAMS();
     default_OPERATORS();
+    default_RIF();
 }
 
 void MainWindowCFG::on_actionOpen_triggered()
@@ -1041,6 +1043,7 @@ void MainWindowCFG::on_actionOpen_triggered()
      this->modelTreeUN->loadSettings(patch);
 
       this->default_OPERATORS();
+      this->default_RIF();
       this->load_other_options_from_ini_file(patch);
 
       this->update_map();
@@ -3205,7 +3208,52 @@ void MainWindowCFG::default_PARAMS()
 
 void MainWindowCFG::get_RIF(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
 
+
+    settings.beginGroup("RIF");
+
+    for(int i=0;i<99;i++)
+    {
+        ComPort* port=comports.at(i);
+
+
+      QString str_RifPortSpeed("RifPortSpeed%1");
+      str_RifPortSpeed = str_RifPortSpeed.arg(i);
+
+      int RifPortSpeed = settings.value(str_RifPortSpeed,-1).toInt();
+
+      if(RifPortSpeed!=-1)
+      {
+          qDebug()<<str_RifPortSpeed<<" "<<QString::number(RifPortSpeed);
+                  port->set_RifPortSpeed(RifPortSpeed);
+
+      }
+
+      QString str_RifPortInterval("RifPortInterval%1");
+      str_RifPortInterval = str_RifPortInterval.arg(i);
+
+      int RifPortInterval = settings.value(str_RifPortInterval,-1).toInt();
+
+      if(RifPortInterval!=-1)
+      {
+          qDebug()<<str_RifPortInterval<<" "<<QString::number(RifPortInterval);
+          port->set_RifPortInterval(RifPortInterval);
+
+      }
+
+
+
+    }
+
+
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::set_RIF(QString filename)
@@ -3215,7 +3263,17 @@ void MainWindowCFG::set_RIF(QString filename)
 
 void MainWindowCFG::default_RIF()
 {
-
+    qDebug()<<"comports.count "<<comports.count();
+    for(int i(1), n(100); i < n; i++)
+    {
+qDebug()<<"---"<<i;
+        if(i<comports.count())
+        {
+        comports.at(i)->set_RifPortSpeed(4800);
+        comports.at(i)->set_RifPortInterval(50);
+        }
+    }
+    this->ui->RifPort_comboBox->setCurrentIndex(0);
 }
 
 void MainWindowCFG::get_SSOI(QString filename)
