@@ -61,8 +61,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     default_RIF();
 
-    autoDK=0;
-    TochkaDirectionInterval=0;
+
 
     this->ui->RifPortSpeed_comboBox->addItem("4800");
     this->ui->RifPortSpeed_comboBox->addItem("9600");
@@ -3251,14 +3250,54 @@ void MainWindowCFG::get_RIF(QString filename)
 
     }
 
+    this->ui->RIF_AutoDK_comboBox->setCurrentIndex(settings.value("AutoDK",-1).toInt());
+    this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->setValue(settings.value("TochkaDirectionInterval",-1).toDouble());
 
+//    settings.setValue("AutoDK", autoDK);
+//    settings.setValue("TochkaDirectionInterval", TochkaDirectionInterval);
 
     settings.endGroup();
 }
 
 void MainWindowCFG::set_RIF(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
 
+    settings.beginGroup("RIF");
+
+    for(int i; i<comports.count();i++)
+    {
+        ComPort *port = comports.at(i);
+        int speed = port->get_RifPortSpeed();
+        int interval = port->get_RifPortInterval();
+
+        if(speed!=4800)
+        {
+            QString str="RifPortSpeed%1";
+            str=str.arg(i);
+        settings.setValue(str,speed);
+        }
+
+        if(interval!=50)
+        {
+            QString str="RifPortInterval%1";
+            str=str.arg(i);
+        settings.setValue(str,interval);
+        }
+
+
+
+    }
+
+    settings.setValue("AutoDK", this->ui->RIF_AutoDK_comboBox->currentIndex());
+    settings.setValue("TochkaDirectionInterval", this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->value());
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::default_RIF()
@@ -3274,6 +3313,9 @@ qDebug()<<"---"<<i;
         }
     }
     this->ui->RifPort_comboBox->setCurrentIndex(0);
+
+    this->ui->RIF_AutoDK_comboBox->setCurrentIndex(0);
+    this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->setValue(20);
 }
 
 void MainWindowCFG::get_SSOI(QString filename)
@@ -3948,36 +3990,7 @@ for(int i=1;i<List.count();i++)
 
 
 
-       settings.beginGroup("RIF");
 
-       for(int i; i<comports.count();i++)
-       {
-           ComPort *port = comports.at(i);
-           int speed = port->get_RifPortSpeed();
-           int interval = port->get_RifPortInterval();
-
-           if(speed!=4800)
-           {
-               QString str="RifPortSpeed%1";
-               str=str.arg(i);
-           settings.setValue(str,speed);
-           }
-
-           if(interval!=50)
-           {
-               QString str="RifPortInterval%1";
-               str=str.arg(i);
-           settings.setValue(str,interval);
-           }
-
-
-
-       }
-
-       settings.setValue("AutoDK", autoDK);
-       settings.setValue("TochkaDirectionInterval", TochkaDirectionInterval);
-
-       settings.endGroup();
 
       if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
       {
@@ -4516,17 +4529,6 @@ qDebug()<<QString::number(port->get_RifPortInterval());
           }
 }
 
-void MainWindowCFG::on_comboBox_17_currentIndexChanged(int index)
-{
-autoDK=index;
-}
-
-void MainWindowCFG::on_doubleSpinBox_10_valueChanged(double arg1)
-{
-    TochkaDirectionInterval=arg1;
-
-    qDebug()<<TochkaDirectionInterval;
-}
 
 /*
 

@@ -1808,7 +1808,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-191</y>
             <width>598</width>
             <height>1018</height>
            </rect>
@@ -2267,7 +2267,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="comboBox_17">
+                    <widget class="QComboBox" name="RIF_AutoDK_comboBox">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -2349,7 +2349,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QDoubleSpinBox" name="doubleSpinBox_10"/>
+                    <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox"/>
                    </item>
                   </layout>
                  </widget>
