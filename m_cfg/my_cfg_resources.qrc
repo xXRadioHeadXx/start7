@@ -54,5 +54,6 @@
         <file>icons/iu.png</file>
         <file>icons/сетевое_устройство.png</file>
         <file>icons/onvif.png</file>
+        <file>icons/exec.png</file>
     </qresource>
 </RCC>

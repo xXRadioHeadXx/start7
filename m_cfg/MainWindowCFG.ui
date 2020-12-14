@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1201</width>
+    <width>927</width>
     <height>999</height>
    </rect>
   </property>
@@ -1359,9 +1359,21 @@
              <rect>
               <x>400</x>
               <y>40</y>
-              <width>71</width>
+              <width>101</width>
               <height>23</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>101</width>
+              <height>23</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>101</width>
+              <height>23</height>
+             </size>
             </property>
             <property name="text">
              <string>Изменить</string>
@@ -1408,7 +1420,7 @@
                 <x>10</x>
                 <y>10</y>
                 <width>47</width>
-                <height>13</height>
+                <height>16</height>
                </rect>
               </property>
               <property name="text">
@@ -1471,15 +1483,15 @@
              <widget class="QComboBox" name="port_combobox">
               <property name="geometry">
                <rect>
-                <x>10</x>
+                <x>2</x>
                 <y>30</y>
-                <width>81</width>
+                <width>91</width>
                 <height>20</height>
                </rect>
               </property>
               <property name="minimumSize">
                <size>
-                <width>81</width>
+                <width>91</width>
                 <height>20</height>
                </size>
               </property>
@@ -1588,8 +1600,8 @@
           <zorder>uName_lineedit</zorder>
           <zorder>type_pxm_label</zorder>
           <zorder>groupBox_4</zorder>
-          <zorder>UDP_RS485_Widget</zorder>
           <zorder>stackedWidget</zorder>
+          <zorder>UDP_RS485_Widget</zorder>
          </widget>
          <widget class="QWidget" name="widget" native="true">
           <property name="geometry">
@@ -1808,7 +1820,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-191</y>
+            <y>-459</y>
             <width>598</width>
             <height>1018</height>
            </rect>
@@ -2949,7 +2961,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1201</width>
+     <width>927</width>
      <height>21</height>
     </rect>
    </property>
