@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 //First change
 
     MainWindowCFG w;
-    w.setWindowIcon(QIcon::fromTheme(":icons/exec.png"));
+    w.setWindowIcon(QIcon::fromTheme(":icons/exec.ico"));
     w.show();
 
     return a.exec();
