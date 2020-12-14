@@ -296,6 +296,8 @@ public:
     //
     virtual quint8 mask() {return 0;};
     virtual int isAlarm() {return -1;};
+    virtual int isInAlarm() {return -1;};
+    virtual int isOutAlarm() {return -1;};
     virtual int isNorm() {return -1;};
     virtual int isWasDK() {return -1;};
     virtual int isExistDK() {return -1;};
@@ -304,6 +306,8 @@ public:
     virtual int isOff() {return -1;}
     virtual int isConnected();
     virtual int calcDKStatus() {return DKCiclStatus::DKIgnore;}
+    //
+    virtual float voltage(){return 0.0;};
     //
 
 public slots:
@@ -376,6 +380,17 @@ class UnitNode_RLM_C : public UnitNode {
 public:
     explicit UnitNode_RLM_C(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_C(const UnitNode & parent) : UnitNode(parent) {}
+    virtual int isAlarm() final;
+    virtual int isInAlarm() final;
+    virtual int isOutAlarm() final;
+    virtual int isNorm() final;
+    virtual int isWasDK() final;//
+    virtual int isExistDK() final;//
+    virtual int isWasAlarm() final;
+    virtual int isOn() final;//
+    virtual int isOff() final;//
+    virtual float voltage() final;//
+
 };
 class UnitNode_BOD_T4K_M : public UnitNode {
 public:

@@ -234,16 +234,20 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
         return false;
 
     try {
+        if(6 > item.data().size())
+            return false;
         quint8 SB = item.data().at(0),
                 ADDR_r = item.data().at(1),
                 ADDR_s = item.data().at(2),
                 NBB = item.data().at(3),
                 CMD = item.data().at(4);
+        if((6 + NBB) > item.data().size())
+            return false;
         quint8 CHKS = item.data().at(5 + NBB);
 
         if((quint8)0xB5 != SB ||
-                (quint8)0xFE != ADDR_r ||
-                (quint8)0xFF != ADDR_s)
+                (quint8)0xFE != ADDR_r /*||
+                (quint8)0xFF != ADDR_s*/)
             return false;
 
         QByteArray tmpData = item.data();
@@ -253,6 +257,11 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
 
         switch (CMD) {
         case (quint8)0x41: {
+            if((quint8)0x04 != NBB)
+                return false;
+            return true;
+        }
+        case (quint8)0x31: {
             if((quint8)0x04 != NBB)
                 return false;
             return true;

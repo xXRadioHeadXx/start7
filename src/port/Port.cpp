@@ -102,12 +102,12 @@ void Port::write(const DataQueueItem &data, bool dbIns) {
 //            qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
             ((QUdpSocket *)m_ptrSocket)->writeDatagram(data.data(), data.address(), data.port());
 
-            if(dbIns && Utils::isSavedMsg(data.data())) {
-                MessageEntity msg;
-                msg.setDirection("S");
-                msg.setBytearraydata(data.data());
-                m_dbm->insertCommandMsg_wS(msg);
-            }
+//            if(dbIns && Utils::isSavedMsg(data.data())) {
+//                MessageEntity msg;
+//                msg.setDirection("S");
+//                msg.setBytearraydata(data.data());
+//                m_dbm->insertCommandMsg_wS(msg);
+//            }
         }
         break;
     case AbstractPort::TCP:
@@ -220,19 +220,19 @@ void Port::readUdpDatagrams()
         bool conversionOK = false;
         quint16 port;
         ((QUdpSocket *)m_ptrSocket)->readDatagram(datagram.data(), datagram.size(), &ip6Address, &port);
-//        qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
+        qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
         QHostAddress ip4Address(ip6Address.toIPv4Address(&conversionOK));
         if (conversionOK && getStHostAddress().contains(ip4Address) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
         {
             pushLocalReadQueue(DataQueueItem(datagram, ip4Address, port, getPortIndex()));
-            // временно -->
-            if(Utils::isSavedMsg(datagram)) {
-                MessageEntity msg;
-                msg.setDirection("R");
-                msg.setBytearraydata(datagram);
-                m_dbm->insertCommandMsg_wS(msg);
-            }
-            // временно <--
+//            // временно -->
+//            if(Utils::isSavedMsg(datagram)) {
+//                MessageEntity msg;
+//                msg.setDirection("R");
+//                msg.setBytearraydata(datagram);
+//                m_dbm->insertCommandMsg_wS(msg);
+//            }
+//            // временно <--
         }
     } while (((QUdpSocket *)m_ptrSocket)->hasPendingDatagrams());
 

@@ -1074,3 +1074,92 @@ int UnitNode_BL_IP::isWasAlarm()
     else
         return 0; //Status::Not);
 }
+
+int UnitNode_RLM_C::isAlarm()
+{
+    if(-1 == isInAlarm() || -1 == isWasAlarm())
+        return -1;
+    else if(1 == isInAlarm() || 1 == isWasAlarm())
+        return 1;
+    else
+        return 0;
+}
+
+int UnitNode_RLM_C::isInAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x02)
+        return 1; //Status::Alarm);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isOutAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x04)
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isNorm()
+{
+    int isalarm = isAlarm();
+    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+}
+
+int UnitNode_RLM_C::isWasDK()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x20)
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isExistDK()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x10)
+        return 1; //Status::Exist);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isWasAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x08)
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isOn()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x01)
+        return 1; //Status::On);
+    else
+        return 0; //Status::Off;
+}
+//b5fe6304312c011600d9
+int UnitNode_RLM_C::isOff()
+{
+    int ison = isOn();
+    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+}
+
+float UnitNode_RLM_C::voltage()
+{
+    if(getStateWord().isEmpty())
+        return 0.0;
+    return 5.0 - 5.0 * (quint8)getStateWord().at(0) / 0xFF;
+}

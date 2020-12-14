@@ -76,7 +76,7 @@ void StatusConnectRequester::init() {
         while(nullptr != un) {
 
             if(TypeUnitNode::BL_IP == un->getType() /* или датчик */ ||
-               TypeUnitNode::RLM_C == getUnReciver()->getType()) {
+               TypeUnitNode::RLM_C == un->getType()) {
                 setUnReciver(un);
                 break;
             }
