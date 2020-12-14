@@ -10,6 +10,7 @@
 #include "comport.h"
 #include "sqlunit.h"
 #include <QHostInfo>
+#include <QStandardItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -270,6 +271,8 @@ public:
 
 
 private slots:
+
+    void unitNameChanged(QStandardItem*);
 
     void setDK();
     void YZ_MONOLIT();

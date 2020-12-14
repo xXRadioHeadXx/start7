@@ -156,6 +156,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     ui->treeView->setColumnWidth(2,1000);
 
 
+
+
      ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
      menu = new QMenu(ui->treeView);
      menu->addAction("hello");
@@ -306,6 +308,8 @@ connect(&op_f, SIGNAL(res(QString,QString,QString,QString  )) , this, SLOT     (
         connect(&this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
         connect(&this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
 
+
+
         this->on_actionCreate_triggered();
 }
 
@@ -324,6 +328,11 @@ bool MainWindowCFG::load(QString patch)
 
 
     return res;
+}
+
+void MainWindowCFG::unitNameChanged(QStandardItem *item)
+{
+    qDebug()<<"[unitNameChanged]";
 }
 
 void MainWindowCFG::select(QString Name)

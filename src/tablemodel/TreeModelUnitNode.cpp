@@ -19,6 +19,7 @@ TreeModelUnitNode::TreeModelUnitNode(QObject *parent) :
     rootItemUN = new UnitNode;
     rootItemUN->setLevel(0);
 
+
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(updUN()),
             this,
@@ -106,7 +107,19 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
 //     }
 //     else
      {
-         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+         if (typeApp!=SubTypeApp::configurator){
+         return Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
+         }
+         if (typeApp==SubTypeApp::configurator){
+         if(static_cast<UnitNode*>(index.internalPointer())->getType()==TypeUnitNode::SYSTEM){
+         //    qDebug()<<"[ItemIsEnabled | Qt::ItemIsSelectable]";
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+         }
+         else{
+         //                 qDebug()<<"[Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable]";
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+         }
+         }
      }
  }
 
