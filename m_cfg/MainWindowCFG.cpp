@@ -2427,6 +2427,50 @@ bool MainWindowCFG::add_unit()
     qDebug()<<"[Type: "<<type<<"]";
 
     UnitNode *unit=new UnitNode();
+    unit->setType(0);
+    unit->setNum1(0);
+    unit->setNum2(0);
+    unit->setNum3(0);
+    unit->setLevel(0);
+    unit->setName("");
+    unit->setIconVisible(0);
+    unit->setX(0);
+    unit->setY(0);
+    unit->setDK(0);
+    unit->setBazalt(0);
+    unit->setMetka(0);
+    unit->setRazriv(0);
+    unit->setAdamOff(0);
+    unit->setAlarmMsgOn(0);
+    unit->setConnectBlock(0);
+    unit->setOutType(0);
+    unit->setAsoosd_kk(0);
+    unit->setAsoosd_nn(0);
+    unit->setDescription("");
+    unit->setLan(0);
+    unit->setLon(0);
+    unit->setUdpUse(0);
+    unit->setUdpAdress("");
+    unit->setUdpPort(0);
+    unit->setUdpTimeout(0);
+    unit->setMetka1Time_0(0);
+    unit->setMetka1Time_1(0);
+    unit->setMetka2Time_0(0);
+    unit->setMetka2Time_1(0);
+    unit->setMetka3Time_0(0);
+    unit->setMetka3Time_1(0);
+    unit->setMetka4Time_0(0);
+    unit->setMetka4Time_1(0);
+    unit->setMetkaDopuskTime_0(0);
+    unit->setMetkaDopuskTime_1(0);
+    unit->setTimeIntervalStatusRequest(0);
+
+
+
+
+
+
+
     unit->setName(this->ui->uName_lineedit->text());
     unit->setType(type);
 
