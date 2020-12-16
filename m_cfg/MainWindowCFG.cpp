@@ -12,14 +12,26 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
     ui->setupUi(this);
 
-    map_PARAMS_PlanType[0]="план";
-    map_PARAMS_PlanType[1]="граф.модуль";
-    map_PARAMS_PlanType[2]="не использовать";
+ //   map_PARAMS_PlanType[0]="план";
+ //   map_PARAMS_PlanType[1]="граф.модуль";
+ //   map_PARAMS_PlanType[2]="не использовать";
 
-    for(int i=1;i<map_PARAMS_PlanType.count();i++)
+    map_PARAMS_PlanType.insert(1,"граф.модуль");
+    map_PARAMS_PlanType.insert(2,"не использовать");
+
+
+
+     foreach (QString str, map_PARAMS_PlanType)
+     {
+
+     this->ui->PlanType_comboBox->addItem(str);
+     }
+
+ /*   for(int i=1;i<map_PARAMS_PlanType.count();i++)
     {
         this->ui->PlanType_comboBox->addItem(map_PARAMS_PlanType[i]);
     }
+*/
 
 
     map_PARAMS_SoundType[0]="звуковая карта";
@@ -3184,8 +3196,67 @@ void MainWindowCFG::get_PARAMS(QString filename)
 
     qDebug()<<"SoundType  "<<settings.value("SoundType",-1).toInt();
 
-    this->ui->PlanType_comboBox->setCurrentIndex(settings.value("PlanType",-1).toInt());
-    this->ui->SoundType_comboBox->setCurrentIndex(settings.value("SoundType",-1).toInt());
+    int PlanType,SoundType;
+
+    PlanType =settings.value("PlanType",-1).toInt();
+
+    if(PlanType!=1 && PlanType!=2)
+    {
+        QString msg;
+        msg.clear();
+        msg.append("Параметр PlanType указан неверно !!! (допустимые значения:");
+
+        foreach(QString str,map_PARAMS_PlanType)
+        {
+         msg.append(QString::number(map_PARAMS_PlanType.key(str)));
+         msg.append(" - ");
+         msg.append(str);
+         msg.append(";");
+
+
+
+        }
+
+
+        dialog.showMessage(msg);
+        dialog.exec();
+
+    }
+
+    SoundType =settings.value("SoundType",-1).toInt();
+
+    if(SoundType!=1 && SoundType!=2)
+    {
+        QString msg;
+        msg.clear();
+        msg.append("Параметр SoundType указан неверно !!! (допустимые значения:");
+
+        foreach(QString str,map_PARAMS_SoundType)
+        {
+         msg.append(QString::number(map_PARAMS_SoundType.key(str)));
+         msg.append(" - ");
+         msg.append(str);
+         msg.append("; ");
+
+
+
+        }
+
+
+        dialog.showMessage(msg);
+        dialog.exec();
+
+    }
+
+
+
+
+
+       this->ui->PlanType_comboBox->setCurrentText(map_PARAMS_PlanType.value(settings.value("PlanType",-1).toInt()));
+       this->ui->SoundType_comboBox->setCurrentText(map_PARAMS_SoundType.value(settings.value("SoundType",-1).toInt()));
+
+
+
     settings.endGroup();
 
 }
@@ -3202,16 +3273,40 @@ void MainWindowCFG::set_PARAMS(QString filename)
 
     settings.beginGroup("PARAMS");
 
-    settings.setValue("PlanType",this->ui->PlanType_comboBox->currentIndex());
-    settings.setValue("SoundType",this->ui->SoundType_comboBox->currentIndex());
+
+
+         settings.setValue("PlanType",map_PARAMS_PlanType.key(this->ui->PlanType_comboBox->currentText()));
+
+
+
+
+         settings.setValue("SoundType",map_PARAMS_SoundType.key(this->ui->SoundType_comboBox->currentText()));
+
+
+ //   settings.setValue("PlanType",this->ui->PlanType_comboBox->currentIndex());
+ //   settings.setValue("SoundType",this->ui->SoundType_comboBox->currentIndex());
 
     settings.endGroup();
 }
 
 void MainWindowCFG::default_PARAMS()
 {
-    this->ui->PlanType_comboBox->setCurrentIndex(1);
-    this->ui->SoundType_comboBox->setCurrentIndex(2);
+    /*
+    map_PARAMS_PlanType.insert(1,"граф.модуль");
+    map_PARAMS_PlanType.insert(2,"не использовать");
+
+
+
+     foreach (QString str, map_PARAMS_PlanType)
+     {
+
+     this->ui->PlanType_comboBox->addItem(str);
+     }
+    */
+
+
+    this->ui->PlanType_comboBox->setCurrentText("не использовать");
+    this->ui->SoundType_comboBox->setCurrentText("без звука");
 }
 
 void MainWindowCFG::get_RIF(QString filename)
