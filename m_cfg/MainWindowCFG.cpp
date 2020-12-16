@@ -3269,7 +3269,7 @@ void MainWindowCFG::get_PARAMS(QString filename)
 
     SoundType =settings.value("SoundType",-1).toInt();
 
-    if(SoundType!=1 && SoundType!=2)
+    if(SoundType!=1 && SoundType!=2 && SoundType!=0)
     {
         QString msg;
         msg.clear();
@@ -3892,6 +3892,8 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
     if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
     {
             unit->setUdpUse(1);
+
+
     }
 
     else
