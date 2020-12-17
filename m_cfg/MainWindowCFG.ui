@@ -1820,7 +1820,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-459</y>
+            <y>-306</y>
             <width>598</width>
             <height>1018</height>
            </rect>
@@ -1910,7 +1910,7 @@
                 </rect>
                </property>
               </widget>
-              <widget class="QComboBox" name="comboBox_4">
+              <widget class="QComboBox" name="PARAMS_AutoStart_comboBox">
                <property name="geometry">
                 <rect>
                  <x>420</x>
@@ -1919,16 +1919,6 @@
                  <height>22</height>
                 </rect>
                </property>
-               <item>
-                <property name="text">
-                 <string>Ручной</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Автозагрузка</string>
-                </property>
-               </item>
               </widget>
               <widget class="QLabel" name="label_17">
                <property name="geometry">
@@ -2407,7 +2397,7 @@
                 <string>Порт сервера</string>
                </property>
               </widget>
-              <widget class="QComboBox" name="comboBox_13">
+              <widget class="QComboBox" name="INTEGRATION_Use_comboBox">
                <property name="geometry">
                 <rect>
                  <x>10</x>
@@ -2416,16 +2406,6 @@
                  <height>22</height>
                 </rect>
                </property>
-               <item>
-                <property name="text">
-                 <string>Выкл</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Вкл</string>
-                </property>
-               </item>
               </widget>
               <widget class="QLabel" name="label_51">
                <property name="geometry">
@@ -2440,7 +2420,7 @@
                 <string>Режим</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="lineEdit_13">
+              <widget class="QLineEdit" name="INTEGRATION_Host_lineEdit">
                <property name="geometry">
                 <rect>
                  <x>90</x>
@@ -2450,7 +2430,7 @@
                 </rect>
                </property>
               </widget>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_7">
+              <widget class="QDoubleSpinBox" name="INTEGRATION_Port_doubleSpinBox">
                <property name="geometry">
                 <rect>
                  <x>180</x>
@@ -2466,7 +2446,7 @@
                 <double>9999.000000000000000</double>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushButton_24">
+              <widget class="QPushButton" name="INTEGRATION_pushButton">
                <property name="geometry">
                 <rect>
                  <x>90</x>
@@ -2479,7 +2459,7 @@
                 <string>Определить</string>
                </property>
               </widget>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_8">
+              <widget class="QDoubleSpinBox" name="INTEGRATION_Port2_doubleSpinBox">
                <property name="geometry">
                 <rect>
                  <x>276</x>
@@ -2487,6 +2467,9 @@
                  <width>91</width>
                  <height>22</height>
                 </rect>
+               </property>
+               <property name="maximum">
+                <double>9999.000000000000000</double>
                </property>
               </widget>
               <widget class="QLabel" name="label_52">
@@ -2515,7 +2498,7 @@
                 <string>Интервал &quot;Я жив&quot;, сек</string>
                </property>
               </widget>
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_9">
+              <widget class="QDoubleSpinBox" name="INTEGRATION_KeepAliveInterval_doubleSpinBox">
                <property name="geometry">
                 <rect>
                  <x>370</x>

@@ -12,6 +12,26 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
     ui->setupUi(this);
 
+
+    map_INTEGRATION_Use.insert(0,"Выкл");
+    map_INTEGRATION_Use.insert(1,"Вкл");
+    foreach (QString str, map_INTEGRATION_Use)
+    {
+    this->ui->INTEGRATION_Use_comboBox->addItem(str);
+
+    }
+
+
+    map_PARAMS_AutoStart.insert(0,"Ручной");
+    map_PARAMS_AutoStart.insert(1,"Автозагрузка");
+    foreach (QString str, map_PARAMS_AutoStart)
+    {
+    this->ui->PARAMS_AutoStart_comboBox->addItem(str);
+
+    }
+
+
+
  //   map_PARAMS_PlanType[0]="план";
  //   map_PARAMS_PlanType[1]="граф.модуль";
  //   map_PARAMS_PlanType[2]="не использовать";
@@ -1052,6 +1072,8 @@ void MainWindowCFG::on_actionCreate_triggered()
     default_PARAMS();
     default_OPERATORS();
     default_RIF();
+    default_INTEGRATION();
+    default_SQL();
 }
 
 void MainWindowCFG::on_actionOpen_triggered()
@@ -3299,7 +3321,7 @@ void MainWindowCFG::get_PARAMS(QString filename)
        this->ui->PlanType_comboBox->setCurrentText(map_PARAMS_PlanType.value(settings.value("PlanType",-1).toInt()));
        this->ui->SoundType_comboBox->setCurrentText(map_PARAMS_SoundType.value(settings.value("SoundType",-1).toInt()));
 
-
+       this->ui->PARAMS_AutoStart_comboBox->setCurrentText(map_PARAMS_AutoStart.value(settings.value("AutoStart",-1).toInt()));
 
     settings.endGroup();
 
@@ -3326,7 +3348,7 @@ void MainWindowCFG::set_PARAMS(QString filename)
 
          settings.setValue("SoundType",map_PARAMS_SoundType.key(this->ui->SoundType_comboBox->currentText()));
 
-
+         settings.setValue("AutoStart",map_PARAMS_AutoStart.key(this->ui->PARAMS_AutoStart_comboBox->currentText()));
  //   settings.setValue("PlanType",this->ui->PlanType_comboBox->currentIndex());
  //   settings.setValue("SoundType",this->ui->SoundType_comboBox->currentIndex());
 
@@ -3349,8 +3371,9 @@ void MainWindowCFG::default_PARAMS()
     */
 
 
-    this->ui->PlanType_comboBox->setCurrentText("не использовать");
-    this->ui->SoundType_comboBox->setCurrentText("без звука");
+    this->ui->PlanType_comboBox->setCurrentText(map_PARAMS_PlanType.value(0));
+    this->ui->SoundType_comboBox->setCurrentText(map_PARAMS_SoundType.value(0));
+    this->ui->PARAMS_AutoStart_comboBox->setCurrentText(map_PARAMS_AutoStart.value(0));
 }
 
 void MainWindowCFG::get_RIF(QString filename)
@@ -3502,17 +3525,52 @@ void MainWindowCFG::default_RASTRMTV()
 
 void MainWindowCFG::get_INTEGRATION(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+
+      settings.beginGroup("INTEGRATION");
+
+      this->ui->INTEGRATION_Use_comboBox->setCurrentText(map_INTEGRATION_Use.value(settings.value("Use",-1).toInt()));
+      this->ui->INTEGRATION_Host_lineEdit->setText(settings.value("Host",-1).toString());
+      this->ui->INTEGRATION_Port_doubleSpinBox->setValue(settings.value("Port",-1).toInt());
+      this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(settings.value("Port2",-1).toInt());
+      this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(settings.value("KeepAliveInterval",-1).toInt());
+
+      settings.endGroup();
 
 }
 
 void MainWindowCFG::set_INTEGRATION(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
 
+      settings.beginGroup("INTEGRATION");
+
+      settings.setValue("Use",map_INTEGRATION_Use.key(this->ui->INTEGRATION_Use_comboBox->currentText()));
+      settings.setValue("Host",this->ui->INTEGRATION_Host_lineEdit->text());
+      settings.setValue("Port",this->ui->INTEGRATION_Port_doubleSpinBox->value());
+      settings.setValue("Port2",this->ui->INTEGRATION_Port2_doubleSpinBox->value());
+      settings.setValue("KeepAliveInterval",this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->value());
+
+      settings.endGroup();
 }
 
 void MainWindowCFG::default_INTEGRATION()
 {
-
+    this->ui->INTEGRATION_Use_comboBox->setCurrentText(map_INTEGRATION_Use.value(0));
+    this->ui->INTEGRATION_Host_lineEdit->setText("");
+    this->ui->INTEGRATION_Port_doubleSpinBox->setValue(0);
+    this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(0);
+    this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(0);
 }
 
 void MainWindowCFG::get_SQL(QString filename)
@@ -3598,15 +3656,28 @@ int res=0;
     if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
     {
 
+      settings.beginGroup("PostgresSQL");
+      settings.setValue("Use", 0);
+      settings.endGroup();
+
       settings.beginGroup("MYSQL");
       settings.setValue("Use", 1);
       res=1;
+
+
     }
     if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
     {
+      settings.beginGroup("MYSQL");
+      settings.setValue("Use", 0);
+      settings.endGroup();
+
       settings.beginGroup("PostgresSQL");
       settings.setValue("Use", 1);
       res=1;
+
+
+
     }
     if(res==1)
     {
@@ -3641,12 +3712,40 @@ int res=0;
       settings.endGroup();
 
 
+
+
+    }
+    else
+    {
+        settings.beginGroup("MYSQL");
+        settings.setValue("Use", 0);
+        settings.endGroup();
+        settings.beginGroup("PostgresSQL");
+        settings.setValue("Use", 0);
+        settings.endGroup();
     }
 }
 
 void MainWindowCFG::default_SQL()
 {
+this->ui->SQL_type_comboBox->setCurrentText("Выкл");
+    this->ui->SQL_server_lineEdit->setText("");
+    this->ui->SQL_port_doubleSpinBox->setValue(0);
+    this->ui->SQL_login_lineEdit->setText("");
+    this->ui->SQL_password_lineEdit->setText("");
+    this->ui->SQL_database_lineEdit->setText("");
 
+
+       this->ui->SQL_P1_checkBox->setChecked(false);
+
+
+       this->ui->SQL_P2_checkBox->setChecked(false);
+
+
+       this->ui->SQL_AutoDbStart_checkBox->setChecked(false);
+
+    this->ui->SQL_AutoDbStartHour_doubleSpinBox->setValue(0);
+    this->ui->SQL_AutoDbStartMinute_doubleSpinBox->setValue(0);
 }
 
 void MainWindowCFG::get_RASTR(QString filename)
@@ -4230,6 +4329,7 @@ for(int i=1;i<List.count();i++)
     settings.setValue("Count",List.count()-1);
 
     settings.endGroup();
+
 
     set_PARAMS(filename);
     set_RIF(filename);

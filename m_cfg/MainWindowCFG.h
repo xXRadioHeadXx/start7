@@ -128,6 +128,7 @@ private:
     void default_PARAMS();
     QMap <int,QString> map_PARAMS_PlanType;
     QMap <int,QString> map_PARAMS_SoundType;
+    QMap <int,QString> map_PARAMS_AutoStart;
 
     void get_RIF(QString filename);
     void set_RIF(QString filename);
@@ -144,6 +145,7 @@ private:
     void get_INTEGRATION(QString filename);
     void set_INTEGRATION(QString filename);
     void default_INTEGRATION();
+        QMap <int,QString> map_INTEGRATION_Use;
 
     void get_SQL(QString filename);
     void set_SQL(QString filename);
