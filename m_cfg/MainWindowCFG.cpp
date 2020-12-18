@@ -1082,13 +1082,23 @@ void MainWindowCFG::on_actionOpen_triggered()
      this->modelTreeUN->rootItemUN->deleteAll();
      QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
       qDebug()<<"patch = "<<patch;
-     this->modelTreeUN->loadSettings(patch);
+      if(patch!="")
+      {
+          this->modelTreeUN->loadSettings(patch);
 
-      this->default_OPERATORS();
-      this->default_RIF();
-      this->load_other_options_from_ini_file(patch);
+          if(modelTreeUN->rowCount()==0)
+          {
+          this->modelTreeUN->makeEmptyTree();
+          }
 
-      this->update_map();
+           this->default_OPERATORS();
+           this->default_RIF();
+           this->load_other_options_from_ini_file(patch);
+
+           this->update_map();
+
+      }
+
  //    this->modelTreeUN->updateUNStructure();
 
 }
@@ -3371,8 +3381,8 @@ void MainWindowCFG::default_PARAMS()
     */
 
 
-    this->ui->PlanType_comboBox->setCurrentText(map_PARAMS_PlanType.value(0));
-    this->ui->SoundType_comboBox->setCurrentText(map_PARAMS_SoundType.value(0));
+    this->ui->PlanType_comboBox->setCurrentText(map_PARAMS_PlanType.value(2));
+    this->ui->SoundType_comboBox->setCurrentText(map_PARAMS_SoundType.value(2));
     this->ui->PARAMS_AutoStart_comboBox->setCurrentText(map_PARAMS_AutoStart.value(0));
 }
 

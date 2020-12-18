@@ -28,6 +28,8 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     int cntTrItm = settings.value( "Count", -1 ).toInt();
     settings.endGroup();
 
+
+
     qDebug() << "cntTrItm" << cntTrItm;
     if(0 >= cntTrItm)
         return listTreeUnitNodes;
