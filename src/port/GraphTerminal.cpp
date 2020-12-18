@@ -273,19 +273,19 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
 
-                if(0 != unTarget->getBazalt() && Status::Alarm == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
+                if(0 != unTarget->getBazalt() && 1 == unTarget->isAlarm() && "100" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, false);
-                } else if(0 != unTarget->getBazalt() && Status::Norm == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
+                } else if(0 != unTarget->getBazalt() && 1 == unTarget->isNorm() && "101" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, true);
                 } else if(0 != unTarget->getBazalt()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, value);
-                } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && ((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "101" == idCommand.nodeValue()) {
+                } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && (1 == unTarget->isOff()) && "101" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
-                } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && !((Status::Off == unTarget->getStatus2()) && (Status::Uncnown == unTarget->getStatus1())) && "100" == idCommand.nodeValue()) {
+                } else if(0 == unTarget->getBazalt() && TypeUnitNode::SD_BL_IP == unTarget->getType() && !(1 == unTarget->isOff()) && "100" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
-                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::On == unTarget->getStatus1() && "100" == idCommand.nodeValue()) {
+                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && 1 == unTarget->isOn() && "100" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
-                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && Status::Off == unTarget->getStatus1() && "101" == idCommand.nodeValue()) {
+                } else if(TypeUnitNode::IU_BL_IP == unTarget->getType() && 1 == unTarget->isOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
                         SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
@@ -913,50 +913,49 @@ QDomElement GraphTerminal::makeActualStateElement(UnitNode *un, QDomElement &sta
     //
 
     if(isLockPair && TypeUnitNode::SD_BL_IP == un->getType()) {
-        if(Status::Alarm == unLockSdBlIp->getStatus1() &&
-           Status::Off == unLockIuBlIp->getStatus1()) {
+        if(1 == unLockSdBlIp->isAlarm() &&
+           1 == unLockIuBlIp->isOff()) {
             //Открыто
             stateElement.setAttribute("id", 111);
             stateElement.setAttribute("name", "Открыто");
-        } else if(Status::Norm == unLockSdBlIp->getStatus1() &&
-                  Status::On == unLockIuBlIp->getStatus1()) {
+        } else if(1 == unLockSdBlIp->isNorm() &&
+                  1 == unLockIuBlIp->isOn()) {
             //Закрыто
             stateElement.setAttribute("id", 110);
             stateElement.setAttribute("name", "Закрыто");
-        } else if(Status::Alarm == unLockSdBlIp->getStatus1() &&
-                  Status::On == unLockIuBlIp->getStatus1()) {
+        } else if(1 == unLockSdBlIp->isAlarm() &&
+                  1 == unLockIuBlIp->isOn()) {
             //Открыто ключом
             stateElement.setAttribute("id", 113);
             stateElement.setAttribute("name", "Открыто ключом");
-        } else if(Status::Norm == unLockSdBlIp->getStatus1() &&
-                  Status::Off == unLockIuBlIp->getStatus1()) {
+        } else if(1 == unLockSdBlIp->isNorm() &&
+                  1 == unLockIuBlIp->isOff()) {
             //Закрыто ключом
             stateElement.setAttribute("id", 112);
             stateElement.setAttribute("name", "Закрыто ключом");
         }
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && ((un->getStatus1() & Status::Alarm) || (un->getStatus2() & Status::Was))) {
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && ((1 == un->isAlarm()) || (1 == un->isWasAlarm()))) {
         //сохранение Тревога или Норма
         stateElement.setAttribute("id", 20);
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", "Тревога-СРАБОТКА");
-    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus1() & Status::Norm)) {
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isNorm())) {
         stateElement.setAttribute("id", 1);
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", "Норма");
-    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (un->getStatus2() & Status::Off)) {
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isOff())) {
         stateElement.setAttribute("id", 100);
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", "Выкл");
-    } else if((TypeUnitNode::IU_BL_IP == un->getType()) && (un->getStatus1() & Status::Off)) {
+    } else if((TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->isOff())) {
         stateElement.setAttribute("id", 100);
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", "Выкл");
     } else if((!isLockPair && TypeUnitNode::SD_BL_IP == un->getType() &&
-               Status::Uncnown != un->getStatus1() &&
-               Status::Uncnown != un->getStatus2()) ||
+               !un->getStateWord().isEmpty()) ||
               (!isLockPair && TypeUnitNode::IU_BL_IP == un->getType() &&
-               Status::Uncnown != un->getStatus1())) {
+               !un->getStateWord().isEmpty())) {
          stateElement.setAttribute("id", 101);
          stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
          stateElement.setAttribute("name", "Вкл");

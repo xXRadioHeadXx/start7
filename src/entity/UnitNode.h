@@ -59,6 +59,7 @@ class UnitNode : public QObject
 {
     Q_OBJECT
 private:
+    QByteArray stateWord;
     QSet<UnitNode *> doubles; //[Obj_1]
     QSet<QString> metaNames; //[Obj_1]
     int Type;//=0
@@ -121,9 +122,8 @@ private:
 
 public:
 
-    explicit UnitNode(QObject *parent = nullptr);
-    UnitNode(const UnitNode & parent);
-    UnitNode(UnitNode *parent);
+    explicit UnitNode(UnitNode *parent = nullptr);
+    explicit UnitNode(const UnitNode & parent);
     QVariant data(int column) const noexcept;
 
     UnitNode & operator=(const UnitNode& );
@@ -275,7 +275,7 @@ public:
 
     QPixmap getPxm(SubTypeApp type = SubTypeApp::server);
 
-    int calcDkStatus() const;
+//    int calcDkStatus() const;
     int getDkStatus() const;
     void setDkStatus(int value);
 
@@ -298,6 +298,7 @@ public:
     static int adamOffToMs(int adamOff);
 
 
+<<<<<<< HEAD
     QString getIcon1Path() const;
     void setIcon1Path(const QString &value);
 
@@ -309,9 +310,146 @@ public:
 
     QString getIcon4Path() const;
     void setIcon4Path(const QString &value);
+=======
+    QByteArray getStateWord() const;
+    void setStateWord(const QByteArray &value);
+
+    //
+    virtual quint8 mask() {return 0;};
+    virtual int isAlarm() {return -1;};
+    virtual int isInAlarm() {return -1;};
+    virtual int isOutAlarm() {return -1;};
+    virtual int isNorm() {return -1;};
+    virtual int isWasDK() {return -1;};
+    virtual int isExistDK() {return -1;};
+    virtual int isWasAlarm() {return -1;};
+    virtual int isOn() {return -1;}
+    virtual int isOff() {return -1;}
+    virtual int isConnected();
+    virtual int calcDKStatus() {return DKCiclStatus::DKIgnore;}
+    //
+    virtual float voltage(){return 0.0;};
+    //
+>>>>>>> dev_server
 
 public slots:
+
 signals:
+
+};
+
+class UnitNode_SYSTEM : public UnitNode {
+public:
+    explicit UnitNode_SYSTEM(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_SYSTEM(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_GROUP : public UnitNode {
+public:
+    explicit UnitNode_GROUP(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_GROUP(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_KL : public UnitNode {
+public:
+    explicit UnitNode_KL(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_KL(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_SD_BL_IP : public UnitNode {
+public:
+    explicit UnitNode_SD_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_SD_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
+    virtual quint8 mask() final;
+    virtual int isAlarm() final;
+    virtual int isNorm() final;
+    virtual int isWasAlarm() final;
+    virtual int isOn() final;
+    virtual int isOff() final;
+    virtual int calcDKStatus() final {
+        if(1 == isWasAlarm() && 1 == isAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+            return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+        } else if(1 == isAlarm()) {
+            return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == isOff()) {
+            return DKCiclStatus::DKWrong;
+        } else if(1 == isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
+        return DKCiclStatus::DKWrong;
+    }
+};
+class UnitNode_IU_BL_IP : public UnitNode {
+public:
+    explicit UnitNode_IU_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_IU_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
+    virtual quint8 mask() final;
+    virtual int isOn() final;
+    virtual int isOff() final;
+};
+class UnitNode_TG : public UnitNode {
+public:
+    explicit UnitNode_TG(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_RLM_KRL : public UnitNode {
+public:
+    explicit UnitNode_RLM_KRL(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_RLM_KRL(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_RLM_C : public UnitNode {
+public:
+    explicit UnitNode_RLM_C(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_RLM_C(const UnitNode & parent) : UnitNode(parent) {}
+    virtual int isAlarm() final;
+    virtual int isInAlarm() final;
+    virtual int isOutAlarm() final;
+    virtual int isNorm() final;
+    virtual int isWasDK() final;//
+    virtual int isExistDK() final;//
+    virtual int isWasAlarm() final;
+    virtual int isOn() final;//
+    virtual int isOff() final;//
+    virtual float voltage() final;//
+
+};
+class UnitNode_BOD_T4K_M : public UnitNode {
+public:
+    explicit UnitNode_BOD_T4K_M(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_BOD_T4K_M(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_Y4_T4K_M : public UnitNode {
+public:
+    explicit UnitNode_Y4_T4K_M(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_Y4_T4K_M(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_DD_T4K_M : public UnitNode {
+public:
+    explicit UnitNode_DD_T4K_M(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_DD_T4K_M(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_BOD_SOTA : public UnitNode {
+public:
+    explicit UnitNode_BOD_SOTA(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_BOD_SOTA(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_Y4_SOTA : public UnitNode {
+public:
+    explicit UnitNode_Y4_SOTA(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_Y4_SOTA(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_DD_SOTA : public UnitNode {
+public:
+    explicit UnitNode_DD_SOTA(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_DD_SOTA(const UnitNode & parent) : UnitNode(parent) {}
+};
+class UnitNode_BL_IP : public UnitNode {
+public:
+    explicit UnitNode_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
+    explicit UnitNode_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
+    virtual int isExistDK() final;
+    virtual int isWasAlarm() final;
 };
 
 #endif // UNITNODE_H

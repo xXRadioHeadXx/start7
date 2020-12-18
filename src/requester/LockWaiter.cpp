@@ -127,32 +127,32 @@ void LockWaiter::init() {
     }
 
 
-    if(Status::Alarm == unReciverSdBlIp->getStatus1() &&
-       Status::Off == unReciverIuBlIp->getStatus1()) {
+    if(1 == unReciverSdBlIp->isAlarm() &&
+       1 == unReciverIuBlIp->isOff()) {
 //        qDebug() << "LockRequester::init 1";
         //Открыто
         initVarianrt = 1;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
-    } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
-              Status::On == unReciverIuBlIp->getStatus1()) {
+    } else if(1 == unReciverSdBlIp->isNorm() &&
+              1 == unReciverIuBlIp->isOn()) {
 //        qDebug() << "LockRequester::init 2";
         //Закрыто
         initVarianrt = 2;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
-    } else if(Status::Alarm == unReciverSdBlIp->getStatus1() &&
-              Status::On == unReciverIuBlIp->getStatus1()) {
+    } else if(1 == unReciverSdBlIp->isAlarm() &&
+              1 == unReciverIuBlIp->isOn()) {
 //        qDebug() << "LockRequester::init 3";
         //Открыто ключом
         initVarianrt = 3;
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);
         setTimeIntervalRequest(500);
-    } else if(Status::Norm == unReciverSdBlIp->getStatus1() &&
-              Status::Off == unReciverIuBlIp->getStatus1()) {
+    } else if(1 == unReciverSdBlIp->isNorm() &&
+              1 == unReciverIuBlIp->isOff()) {
 //        qDebug() << "LockRequester::init 4";
         //Закрыто ключом
         initVarianrt = 4;

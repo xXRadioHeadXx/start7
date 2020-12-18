@@ -6,7 +6,6 @@
 #include <QQueue>
 #include <ProcessDKWaiter.h>
 
-#include <StatusRequester.h>
 #include <DataBaseManager.h>
 #include <UnitNode.h>
 #include <Port.h>
@@ -32,7 +31,6 @@ private:
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    QList<StatusRequester *> lsStatusRequester;
     static QList<StatusConnectRequester *> lsSCR;
     static QList<AbstractRequester *> lsWaiter;
 
@@ -42,6 +40,7 @@ private:
     static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = "C:/Users/Gleb/Desktop/rifx.ini");
     static QList<AbstractPort *> loadPortsUdpObj(QString fileName = "C:/Users/Gleb/Desktop/rifx.ini");
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
+    static DataQueueItem parcingStatusWord0x31(DataQueueItem &item, DataQueueItem & resultRequest);
 
 
 public:

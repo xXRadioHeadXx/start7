@@ -42,7 +42,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     qDebug()<<"[3]";
 
     {
-        UnitNode * tmpUN = new UnitNode(root);
+        UnitNode * tmpUN = UnitNodeFactory::make(TypeUnitNode::SYSTEM, root);
 
         tmpUN->setType(TypeUnitNode::SYSTEM);
         tmpUN->setNum1(0);
@@ -67,7 +67,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         if(settings.childGroups().contains(strGroup))
         {
             settings.beginGroup(strGroup);
-            UnitNode * tmpUN = new UnitNode(root);
+            UnitNode * tmpUN = UnitNodeFactory::make((TypeUnitNode)settings.value( "Type" , -1 ).toInt(), root);
             tmpUN->setMetaNames(strGroup);
 
             tmpUN->setType(settings.value( "Type" , -1 ).toInt());
@@ -161,9 +161,10 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                     tmpUN->setParentUN(tmpUN->getDoubles().toList().first()->getParentUN());
                 } else if(tmpUN->getDoubles().isEmpty() &&
                         (TypeUnitNode::SD_BL_IP == tmpUN->getType() ||
-                        TypeUnitNode::IU_BL_IP == tmpUN->getType())) {
+                        TypeUnitNode::IU_BL_IP == tmpUN->getType() ||
+                        TypeUnitNode::RLM_C == tmpUN->getType())) {
                     key = true;
-                    UnitNode * tmpParentUN = new UnitNode();
+                    UnitNode * tmpParentUN = UnitNodeFactory::make(TypeUnitNode::BL_IP);
                     tmpParentUN->setType(TypeUnitNode::BL_IP);
                     tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
                     tmpParentUN->setUdpPort(tmpUN->getUdpPort());
@@ -215,7 +216,7 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
 
 
     {
-        UnitNode * tmpUN = new UnitNode(root);
+        UnitNode * tmpUN = UnitNodeFactory::make(TypeUnitNode::SYSTEM, root);
 
         tmpUN->setType(TypeUnitNode::SYSTEM);
         tmpUN->setNum1(0);

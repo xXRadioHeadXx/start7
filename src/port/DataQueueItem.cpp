@@ -87,10 +87,21 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
         DataQueueItem::data0x22.append((quint8)0xFF);      //<ADDR>
         DataQueueItem::data0x22.append((char)0x00);        //<NBB> 0x00
         DataQueueItem::data0x22.append((quint8)0x22);      //<CMD> 0x22
-        DataQueueItem::data0x22.append(Utils::getByteSumm(DataQueueItem::data0x22)); //<CHKS>
     }
 
-    return QByteArray(DataQueueItem::data0x22);
+    QByteArray out = DataQueueItem::data0x22;
+    if(nullptr != un) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::SD_BL_IP == un->getType() ||
+           TypeUnitNode::IU_BL_IP == un->getType()) {
+            out[1] = (quint8)0xFF;
+        } else if(TypeUnitNode::RLM_C == un->getType()) {
+            out[1] = (quint8)un->getNum1();
+        }
+    }
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    return out;
 }
 
 QByteArray DataQueueItem::data0x24 = QByteArray();
@@ -186,43 +197,13 @@ QByteArray DataQueueItem::makeOnOff0x23(UnitNode *un, bool onOff, UnitNode *pun)
         for(auto un : as_const(reciver->getListChilde())) {
             if(type != un->getType())
                 continue;
-            quint8 mask = 0;
-            switch (un->getNum2()) {
-            case 1:
-                mask = 0x01;
-                break;
-            case 2:
-                mask = 0x02;
-                break;
-            case 3:
-                mask = 0x04;
-                break;
-            case 4:
-                mask = 0x08;
-                break;
-            case 5:
-                mask = 0x10;
-                break;
-            case 6:
-                mask = 0x20;
-                break;
-            case 7:
-                mask = 0x40;
-                break;
-            case 8:
-                mask = 0x80;
-                break;
-            default:
-                mask = 0x00;
-                break;
-            }
+            quint8 mask = un->mask();
 
             if(TypeUnitNode::SD_BL_IP == un->getType() &&
-                    Status::Off == un->getStatus2() &&
-                    Status::Uncnown == un->getStatus1())
+                    1 == un->isOff())
                 D1 = D1 & ~mask;
             else if(TypeUnitNode::IU_BL_IP == un->getType() &&
-                    Status::Off == un->getStatus1())
+                    1 == un->isOff())
                 D1 = D1 & ~mask;
             else
                 D1 = D1 | mask;
@@ -253,16 +234,20 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
         return false;
 
     try {
+        if(6 > item.data().size())
+            return false;
         quint8 SB = item.data().at(0),
                 ADDR_r = item.data().at(1),
                 ADDR_s = item.data().at(2),
                 NBB = item.data().at(3),
                 CMD = item.data().at(4);
+        if((6 + NBB) > item.data().size())
+            return false;
         quint8 CHKS = item.data().at(5 + NBB);
 
         if((quint8)0xB5 != SB ||
-                (quint8)0xFE != ADDR_r ||
-                (quint8)0xFF != ADDR_s)
+                (quint8)0xFE != ADDR_r /*||
+                (quint8)0xFF != ADDR_s*/)
             return false;
 
         QByteArray tmpData = item.data();
@@ -272,6 +257,11 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
 
         switch (CMD) {
         case (quint8)0x41: {
+            if((quint8)0x04 != NBB)
+                return false;
+            return true;
+        }
+        case (quint8)0x31: {
             if((quint8)0x04 != NBB)
                 return false;
             return true;

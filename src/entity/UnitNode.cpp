@@ -423,13 +423,6 @@ void UnitNode::setTimeIntervalStatusRequest(int value)
 //    updDoubl();
 }
 
-//void UnitNode::emitIMUpd()
-//{
-//    qDebug() << "emitIMUpd " << getName() << " " << getStatus1() << getStatus2();
-//    SignalSlotCommutator::getInstance()->emitUpdUN();
-////    emit imUpd();
-//}
-
 QList<UnitNode *> UnitNode::getListTreeChilde() const
 {
     return listTreeChilde;
@@ -474,21 +467,21 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::fldr_empt();
         } else if(TypeUnitNode::SD_BL_IP == getType()) {
             if(0 == getBazalt()) {
-                if(Status::Was == getStatus2() && getControl()) {
+                if(1 == isWasAlarm() && getControl()) {
                     return Icons::sqr_rd();
-                } else if(Status::Was == getStatus2() && !getControl()) {
+                } else if(1 == isWasAlarm() && !getControl()) {
                     return Icons::sqr_blk_crs_rd();
-                } else if(Status::Alarm == getStatus1() && getControl()) {
+                } else if(1 == isAlarm() && getControl()) {
                     return Icons::sqr_rd();
-                } else if(Status::Alarm == getStatus1() && !getControl()) {
+                } else if(1 == isAlarm() && !getControl()) {
                     return Icons::sqr_blk_crs_rd();
-                } else if((Status::Off == getStatus2()) && (Status::Uncnown == getStatus1()) && getControl()) {
+                } else if(1 == isOff() && getControl()) {
                     return Icons::sqr_gry();
-                } else if((Status::Off == getStatus2()) && (Status::Uncnown == getStatus1()) && !getControl()) {
+                } else if(1 == isOff() && !getControl()) {
                     return Icons::sqr_blk_crs_gry();
-                } else if(Status::Norm == getStatus1() && getControl()) {
+                } else if(1 == isNorm() && getControl()) {
                     return Icons::sqr_grn();
-                } else if(Status::Norm == getStatus1() && !getControl()) {
+                } else if(1 == isNorm() && !getControl()) {
                     return Icons::sqr_blk_crs_grn();
                 } else if(getControl()) {
                     return Icons::sqr_ylw();
@@ -496,9 +489,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                     return Icons::sqr_blk_crs_ylw();
                 }
             } else {
-                if(Status::Alarm == getStatus1()) {
+                if(1 == isAlarm()) {
                     return Icons::sqr_rd_opn();
-                } else if(Status::Norm == getStatus1()) {
+                } else if(1 == isNorm()) {
                     return Icons::sqr_grn_cls();
                 } else {
                     return Icons::sqr_ylw();
@@ -506,9 +499,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             }
 
         } else if(TypeUnitNode::IU_BL_IP == getType()) {
-            if(Status::On == getStatus1()) {
+            if(1 == isOn()) {
                 return Icons::sqr_grn_crs2_rd();
-            } else if(Status::Off == getStatus1()) {
+            } else if(1 == isOff()) {
                 return Icons::sqr_grn_mns_gry();
             } else
                 return Icons::sqr_ylw();
@@ -596,6 +589,7 @@ void UnitNode::setDoubles(UnitNode * value)
 void UnitNode::updDoubl()
 {
     for(auto c : as_const(this->doubles)) {
+        c->stateWord = this->stateWord;
         c->status1 = this->status1;
         c->status2 = this->status2;
         c->dkStatus = this->dkStatus;
@@ -708,6 +702,7 @@ int UnitNode::adamOffToMs(int adamOff)
     return interval;
 }
 
+<<<<<<< HEAD
 QString UnitNode::getIcon1Path() const
 {
     return Icon1Path;
@@ -749,8 +744,153 @@ void UnitNode::setIcon4Path(const QString &value)
 }
 
 UnitNode::UnitNode(QObject *parent) : QObject(parent)
+=======
+QByteArray UnitNode::getStateWord() const
 {
-    
+    return stateWord;
+}
+
+void UnitNode::setStateWord(const QByteArray &value)
+{
+    stateWord = value;
+}
+
+int UnitNode::isConnected()
+{
+    if(getStateWord().isEmpty())
+        return 0;
+    else
+        return 1;
+}
+
+quint8 UnitNode_SD_BL_IP::mask()
+{
+    quint8 mask = 0;
+    switch (this->getNum2()) {
+    case 1:
+        mask = 0x01;
+        break;
+    case 2:
+        mask = 0x02;
+        break;
+    case 3:
+        mask = 0x04;
+        break;
+    case 4:
+        mask = 0x08;
+        break;
+    case 5:
+        mask = 0x10;
+        break;
+    case 6:
+        mask = 0x20;
+        break;
+    case 7:
+        mask = 0x40;
+        break;
+    case 8:
+        mask = 0x80;
+        break;
+    default:
+        mask = 0x00;
+        break;
+    }
+    return mask;
+}
+
+int UnitNode_SD_BL_IP::isAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(0) & mask())
+        return 1; //Status::Alarm);
+    else
+        return 0; //Status::Norm);
+}
+
+int UnitNode_SD_BL_IP::isNorm()
+{
+    int isalarm = isAlarm();
+    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+}
+
+int UnitNode_SD_BL_IP::isWasAlarm()
+>>>>>>> dev_server
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(2) & mask())
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not);
+}
+
+int UnitNode_SD_BL_IP::isOn()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)0 == ((quint8)getStateWord().at(3) & mask()))
+        return 0; //Status::Off;
+    else
+        return 1; //
+}
+
+int UnitNode_SD_BL_IP::isOff()
+{
+    int ison = isOn();
+    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+}
+
+
+quint8 UnitNode_IU_BL_IP::mask()
+{
+    quint8 mask = 0;
+    switch (this->getNum2()) {
+    case 1:
+        mask = 0x01;
+        break;
+    case 2:
+        mask = 0x02;
+        break;
+    case 3:
+        mask = 0x04;
+        break;
+    case 4:
+        mask = 0x08;
+        break;
+    case 5:
+        mask = 0x10;
+        break;
+    case 6:
+        mask = 0x20;
+        break;
+    case 7:
+        mask = 0x40;
+        break;
+    case 8:
+        mask = 0x80;
+        break;
+    default:
+        mask = 0x00;
+        break;
+    }
+    return mask;
+}
+
+int UnitNode_IU_BL_IP::isOn()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & mask())
+        return 1; //Status::On);
+    else
+        return 0; //Status::Off;
+}
+
+int UnitNode_IU_BL_IP::isOff()
+{
+    int ison = isOn();
+    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
 UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
@@ -759,6 +899,7 @@ UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 }
 
 UnitNode::UnitNode(const UnitNode & parent) :
+    stateWord(parent.stateWord),
     metaNames(parent.metaNames),
     Type(parent.Type),
     Num1(parent.Num1),
@@ -794,12 +935,15 @@ UnitNode::UnitNode(const UnitNode & parent) :
     Metka4Time_0(parent.Metka4Time_0),
     Metka4Time_1(parent.Metka4Time_1),
     MetkaDopuskTime_0(parent.MetkaDopuskTime_0),
-    MetkaDopuskTime_1(parent.MetkaDopuskTime_1)
+    MetkaDopuskTime_1(parent.MetkaDopuskTime_1),
+    dkStatus(parent.dkStatus),
+    dkInvolved(parent.dkInvolved)
 {
 
 }
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
+    stateWord = c.stateWord;
     metaNames = c.metaNames;
     Type = c.Type;
     Num1 = c.Num1;
@@ -837,6 +981,8 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     MetkaDopuskTime_0 = c.MetkaDopuskTime_0;
     MetkaDopuskTime_1 = c.MetkaDopuskTime_1;
 
+    dkStatus = c.dkStatus;
+    dkInvolved = c.dkInvolved;
     return *this;
 }
 
@@ -957,3 +1103,112 @@ int UnitNode::columnCount() const noexcept
 }
 
 
+
+int UnitNode_BL_IP::isExistDK()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & 0x80)
+        return 1; // Status::Exists);
+    else
+        return 0; // Status::Not);
+}
+
+int UnitNode_BL_IP::isWasAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & 0x40)
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not);
+}
+
+int UnitNode_RLM_C::isAlarm()
+{
+    if(-1 == isInAlarm() || -1 == isWasAlarm())
+        return -1;
+    else if(1 == isInAlarm() || 1 == isWasAlarm())
+        return 1;
+    else
+        return 0;
+}
+
+int UnitNode_RLM_C::isInAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x02)
+        return 1; //Status::Alarm);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isOutAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x04)
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isNorm()
+{
+    int isalarm = isAlarm();
+    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+}
+
+int UnitNode_RLM_C::isWasDK()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x20)
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isExistDK()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x10)
+        return 1; //Status::Exist);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isWasAlarm()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x08)
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not;
+}
+
+int UnitNode_RLM_C::isOn()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x01)
+        return 1; //Status::On);
+    else
+        return 0; //Status::Off;
+}
+//b5fe6304312c011600d9
+int UnitNode_RLM_C::isOff()
+{
+    int ison = isOn();
+    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+}
+
+float UnitNode_RLM_C::voltage()
+{
+    if(getStateWord().isEmpty())
+        return 0.0;
+    return 5.0 - 5.0 * (quint8)getStateWord().at(0) / 0xFF;
+}

@@ -132,6 +132,10 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     initLabelOperator();
 
     GraphTerminal::sendAbonentEventsAndStates(msg);
+
+    preparePageCustomization(-1);
+
+
 }
 
 MainWindowServer::~MainWindowServer()
@@ -197,6 +201,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
     selIndex = index;
 
     createDiagnosticTable();
+    preparePageCustomization(selUN->getType());
 
     if(TypeUnitNode::GROUP == selUN->getType()) {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + ": \"" + sel->getName() + "\"");
@@ -296,7 +301,16 @@ void MainWindowServer::createDiagnosticTable()
         return;
 
     if(TypeUnitNode::IU_BL_IP == selUN->getType() ||
-            TypeUnitNode::SD_BL_IP == selUN->getType())
+            TypeUnitNode::SD_BL_IP == selUN->getType() ||
+            TypeUnitNode::RLM_KRL == selUN->getType() ||
+            TypeUnitNode::RLM_C == selUN->getType() ||
+            TypeUnitNode::TG == selUN->getType() ||
+            TypeUnitNode::DD_T4K_M == selUN->getType() ||
+            TypeUnitNode::DD_SOTA == selUN->getType() ||
+            TypeUnitNode::Y4_SOTA == selUN->getType() ||
+            TypeUnitNode::BOD_SOTA == selUN->getType() ||
+            TypeUnitNode::BOD_T4K_M == selUN->getType() ||
+            TypeUnitNode::Y4_T4K_M == selUN->getType())
         ui->groupBox_4->setVisible(true);
     else
         ui->groupBox_4->setVisible(false);
@@ -308,7 +322,20 @@ void MainWindowServer::createDiagnosticTable()
     ui->tableWidget->verticalHeader()->hide();
     ui->tableWidget->horizontalHeader()->hide();
 
-    ui->groupBox_4->setTitle(trUtf8("Диагностика: БЛ-IP"));
+    if(TypeUnitNode::RLM_KRL == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: РИФ-РЛМ(КРП),Трасса"));
+    else if(TypeUnitNode::RLM_C == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: РИФ-РЛМ-С"));
+    else if(TypeUnitNode::TG == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: Точка/Гарда"));
+    else if(TypeUnitNode::DD_SOTA == selUN->getType() || TypeUnitNode::DD_T4K_M == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
+    else if(TypeUnitNode::Y4_SOTA == selUN->getType() || TypeUnitNode::BOD_SOTA == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: Сота/Сота-М"));
+    else if(TypeUnitNode::BOD_T4K_M == selUN->getType() || TypeUnitNode::Y4_T4K_M == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: Точка-М/Гарда-М"));
+    else if(TypeUnitNode::SD_BL_IP == selUN->getType() || TypeUnitNode::IU_BL_IP == selUN->getType())
+        ui->groupBox_4->setTitle(trUtf8("Диагностика: БЛ-IP"));
 
     Utils::fillDiagnosticTable(ui->tableWidget, this->selUN);
 }
@@ -363,19 +390,19 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType())
             menu->addAction(ui->actionControl);
         menu->addSeparator();
-        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && ((Status::Off == sel->getStatus2()) && (Status::Uncnown == sel->getStatus1()))) {
+        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && (1 == sel->isOff())) {
             menu->addAction(ui->actionUNOn);
-        } else if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && !((Status::Off == sel->getStatus2()) && (Status::Uncnown == sel->getStatus1()))) {
+        } else if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && !(1 == sel->isOff())) {
             menu->addAction(ui->actionUNOff);
-        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && Status::On == sel->getStatus1()) {
+        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOn())) {
             menu->addAction(ui->actionUNOff);
-        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && Status::Off == sel->getStatus1()) {
+        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOff())) {
             menu->addAction(ui->actionUNOn);
         }
 //        menu->addAction(ui->actionOnOff);
-        if(0 != sel->getBazalt() && Status::Alarm == sel->getStatus1()) {
+        if(0 != sel->getBazalt() && (1 == sel->isAlarm())) {
             menu->addAction(ui->actionClose);
-        } else if(0 != sel->getBazalt() && Status::Norm == sel->getStatus1()) {
+        } else if(0 != sel->getBazalt() && (1 == sel->isNorm())) {
             menu->addAction(ui->actionOpen);
         }
         menu->addSeparator();
@@ -765,4 +792,379 @@ void MainWindowServer::changeSelectUN(UnitNode *un)
 {
     QModelIndex index = this->modelTreeUN->findeIndexUN(un);
     ui->treeView->setCurrentIndex(index);
+}
+
+void MainWindowServer::preparePageCustomization(int typeUN)
+{
+    ui->groupBox_Customization->setVisible(false);
+
+    if(!ui->actionCustomization->isChecked())
+        return;
+
+    if(nullptr == selUN)
+        return;
+
+    switch (selUN->getType()) {
+    case TypeUnitNode::RLM_KRL:
+    case TypeUnitNode::RLM_C:
+        preparePageRLM(selUN->getType());
+        ui->stackedWidget->setCurrentIndex(0);
+        break;
+    case TypeUnitNode::TG:
+        preparePagePoint(selUN->getType());
+        ui->stackedWidget->setCurrentIndex(3);
+        break;
+    case TypeUnitNode::DD_SOTA:
+        preparePageSota1(selUN->getType());
+        ui->stackedWidget->setCurrentIndex(1);
+        break;
+    case TypeUnitNode::DD_T4K_M:
+        preparePageSota2(selUN->getType());
+        ui->stackedWidget->setCurrentIndex(2);
+        break;
+    default:
+        ui->groupBox_Customization->setVisible(false);
+        return;
+    }
+
+    ui->groupBox_Customization->setVisible(true);
+}
+
+void MainWindowServer::preparePageRLM(int typeUN)
+{
+    ui->comboBox_RLMTactPeriod->clear();
+    ui->comboBox_RLMTactPeriod->setEnabled(false);
+    ui->comboBox_RLMTactPeriod->setEditable(false);
+    ui->comboBox_RLMTactPeriod->addItem(trUtf8("Неопределено"));
+    for(int i = 0, n = ((TypeUnitNode::RLM_KRL == typeUN) ? 4 : ((TypeUnitNode::RLM_C == typeUN) ? 5 : 0)); i < n; i++) {
+        ui->comboBox_RLMTactPeriod->addItem(QString(trUtf8("Такт") + " %1").arg(i + 1));
+    }
+    ui->comboBox_RLMTactPeriod->setEnabled(true);
+
+
+    ui->comboBox_RLMCondition->clear();
+    ui->comboBox_RLMCondition->setEnabled(false);
+    ui->comboBox_RLMCondition->setEditable(false);
+    ui->comboBox_RLMCondition->addItems({trUtf8("Неопределено"), trUtf8("Основной"), trUtf8("Дополнительный")});
+    if(TypeUnitNode::RLM_C == typeUN) {
+        ui->comboBox_RLMCondition->addItems({trUtf8("Ползущий (Плз)"), trUtf8("2-й ярус (2Яр)")});
+    }
+    ui->comboBox_RLMCondition->setEnabled(true);
+
+    ui->comboBox_RLMEdge->clear();
+    ui->comboBox_RLMEdge->setEnabled(false);
+    ui->comboBox_RLMEdge->setEditable(false);
+    ui->comboBox_RLMEdge->addItem(trUtf8("Неопределено"));
+    for(int i = 0, n = 6; i < n; i++) {
+        if(0 == i) {
+            ui->comboBox_RLMEdge->addItem(QString(".%1 (" + trUtf8("самый груб.") + ")").arg(i + 1));
+        } else {
+            ui->comboBox_RLMEdge->addItem(QString(".%1").arg(i + 1));
+        }
+    }
+    for(int i = 0, n = 10; i < n; i++) {
+        if(0 == i) {
+            ui->comboBox_RLMEdge->addItem(QString("%1 (" + trUtf8("грубый") + ")").arg(i + 1, 2, 10, QLatin1Char('0')));
+        } else if(9 <= i) {
+            ui->comboBox_RLMEdge->addItem(QString("%1 (" + trUtf8("чувств") + ")").arg(i + 1, 2, 10, QLatin1Char('0')));
+        } else {
+            ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')));
+        }
+    }
+    ui->comboBox_RLMEdge->setEnabled(true);
+}
+
+void MainWindowServer::preparePagePoint(int typeUN)
+{
+    ui->comboBox_PointInput->clear();
+    ui->comboBox_PointInput->setEnabled(false);
+    ui->comboBox_PointInput->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_PointInput->addItem(QString::number(i + 1));
+    }
+    ui->comboBox_PointInput->setEnabled(true);
+
+    ui->checkBox_PointFlt1->setCheckState(Qt::Unchecked);
+    ui->checkBox_PointFlt2->setCheckState(Qt::Unchecked);
+    ui->checkBox_PointFlt3->setCheckState(Qt::Unchecked);
+
+    ui->spinBox_PointFlt1Edge->clear();
+    ui->spinBox_PointFlt1Edge->setEnabled(false);
+    ui->spinBox_PointFlt1Edge->setValue(0);
+    ui->spinBox_PointFlt1Edge->setMaximum(65535);
+    ui->spinBox_PointFlt1Edge->setMinimum(0);
+    ui->spinBox_PointFlt1Edge->setEnabled(true);
+
+    ui->spinBox_PointFlt2Edge->clear();
+    ui->spinBox_PointFlt2Edge->setEnabled(false);
+    ui->spinBox_PointFlt2Edge->setValue(0);
+    ui->spinBox_PointFlt2Edge->setMaximum(65535);
+    ui->spinBox_PointFlt2Edge->setMinimum(0);
+    ui->spinBox_PointFlt2Edge->setEnabled(true);
+
+    ui->spinBox_PointFlt3Edge->clear();
+    ui->spinBox_PointFlt3Edge->setEnabled(false);
+    ui->spinBox_PointFlt3Edge->setValue(0);
+    ui->spinBox_PointFlt3Edge->setMaximum(65535);
+    ui->spinBox_PointFlt3Edge->setMinimum(0);
+    ui->spinBox_PointFlt3Edge->setEnabled(true);
+}
+
+void MainWindowServer::preparePageSota1(int typeUN)
+{
+    if(0 == typeUN)
+        return;
+
+    ui->comboBox_Sota1F1->clear();
+    ui->comboBox_Sota1F1->setEnabled(false);
+    ui->comboBox_Sota1F1->setEditable(false);
+    ui->comboBox_Sota1F1->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota1F1->setEnabled(true);
+
+    ui->comboBox_Sota1F2->clear();
+    ui->comboBox_Sota1F2->setEnabled(false);
+    ui->comboBox_Sota1F2->setEditable(false);
+    ui->comboBox_Sota1F2->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota1F2->setEnabled(true);
+
+    ui->spinBox_Sota1EdgeF1->clear();
+    ui->spinBox_Sota1EdgeF1->setEnabled(false);
+    ui->spinBox_Sota1EdgeF1->setValue(0);
+    ui->spinBox_Sota1EdgeF1->setMaximum(65535);
+    ui->spinBox_Sota1EdgeF1->setMinimum(0);
+    ui->spinBox_Sota1EdgeF1->setEnabled(true);
+
+    ui->spinBox_Sota1EdgeF2->clear();
+    ui->spinBox_Sota1EdgeF2->setEnabled(false);
+    ui->spinBox_Sota1EdgeF2->setValue(0);
+    ui->spinBox_Sota1EdgeF2->setMaximum(65535);
+    ui->spinBox_Sota1EdgeF2->setMinimum(0);
+    ui->spinBox_Sota1EdgeF2->setEnabled(true);
+
+    ui->comboBox_Sota1TimeAffectF1->clear();
+    ui->comboBox_Sota1TimeAffectF1->setEnabled(false);
+    ui->comboBox_Sota1TimeAffectF1->setEditable(false);
+    for(int i = 0, n = 40; i < n; i++) {
+        ui->comboBox_Sota1TimeAffectF1->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+    }
+    ui->comboBox_Sota1TimeAffectF1->setEnabled(true);
+
+    ui->comboBox_Sota1TimeAffectF2->clear();
+    ui->comboBox_Sota1TimeAffectF2->setEnabled(false);
+    ui->comboBox_Sota1TimeAffectF2->setEditable(false);
+    for(int i = 0, n = 40; i < n; i++) {
+        ui->comboBox_Sota1TimeAffectF2->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+    }
+    ui->comboBox_Sota1TimeAffectF2->setEnabled(true);
+
+
+    ui->comboBox_Sota1CountAffectF1;
+    ui->comboBox_Sota1CountAffectF1->clear();
+    ui->comboBox_Sota1CountAffectF1->setEnabled(false);
+    ui->comboBox_Sota1CountAffectF1->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_Sota1CountAffectF1->addItem(QString("%1").arg(i + 1));
+    }
+    ui->comboBox_Sota1CountAffectF1->setEnabled(true);
+
+    ui->comboBox_Sota1CountAffectF2;
+    ui->comboBox_Sota1CountAffectF2->clear();
+    ui->comboBox_Sota1CountAffectF2->setEnabled(false);
+    ui->comboBox_Sota1CountAffectF2->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_Sota1CountAffectF2->addItem(QString("%1").arg(i + 1));
+    }
+    ui->comboBox_Sota1CountAffectF2->setEnabled(true);
+
+    ui->spinBox_Sota1DurationF1->clear();
+    ui->spinBox_Sota1DurationF1->setEnabled(false);
+    ui->spinBox_Sota1DurationF1->setValue(0);
+    ui->spinBox_Sota1DurationF1->setMaximum(100);
+    ui->spinBox_Sota1DurationF1->setMinimum(0);
+    ui->spinBox_Sota1DurationF1->setEnabled(true);
+
+    ui->spinBox_Sota1DurationF2->clear();
+    ui->spinBox_Sota1DurationF2->setEnabled(false);
+    ui->spinBox_Sota1DurationF2->setValue(0);
+    ui->spinBox_Sota1DurationF2->setMaximum(100);
+    ui->spinBox_Sota1DurationF2->setMinimum(0);
+    ui->spinBox_Sota1DurationF2->setEnabled(true);
+}
+
+void MainWindowServer::preparePageSota2(int typeUN)
+{
+    if(0 == typeUN)
+        return;
+
+    //C1
+    ui->comboBox_Sota2C1F1->clear();
+    ui->comboBox_Sota2C1F1->setEnabled(false);
+    ui->comboBox_Sota2C1F1->setEditable(false);
+    ui->comboBox_Sota2C1F1->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota2C1F1->setEnabled(true);
+
+    ui->comboBox_Sota2C1F2->clear();
+    ui->comboBox_Sota2C1F2->setEnabled(false);
+    ui->comboBox_Sota2C1F2->setEditable(false);
+    ui->comboBox_Sota2C1F2->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota2C1F2->setEnabled(true);
+
+    ui->spinBox_Sota2EdgeC1F1->clear();
+    ui->spinBox_Sota2EdgeC1F1->setEnabled(false);
+    ui->spinBox_Sota2EdgeC1F1->setValue(0);
+    ui->spinBox_Sota2EdgeC1F1->setMaximum(65535);
+    ui->spinBox_Sota2EdgeC1F1->setMinimum(0);
+    ui->spinBox_Sota2EdgeC1F1->setEnabled(true);
+
+    ui->spinBox_Sota2EdgeC1F2->clear();
+    ui->spinBox_Sota2EdgeC1F2->setEnabled(false);
+    ui->spinBox_Sota2EdgeC1F2->setValue(0);
+    ui->spinBox_Sota2EdgeC1F2->setMaximum(65535);
+    ui->spinBox_Sota2EdgeC1F2->setMinimum(0);
+    ui->spinBox_Sota2EdgeC1F2->setEnabled(true);
+
+    ui->comboBox_Sota2TimeAffectC1F1->clear();
+    ui->comboBox_Sota2TimeAffectC1F1->setEnabled(false);
+    ui->comboBox_Sota2TimeAffectC1F1->setEditable(false);
+    for(int i = 0, n = 40; i < n; i++) {
+        ui->comboBox_Sota2TimeAffectC1F1->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+    }
+    ui->comboBox_Sota2TimeAffectC1F1->setEnabled(true);
+
+    ui->comboBox_Sota2TimeAffectC1F2->clear();
+    ui->comboBox_Sota2TimeAffectC1F2->setEnabled(false);
+    ui->comboBox_Sota2TimeAffectC1F2->setEditable(false);
+    for(int i = 0, n = 40; i < n; i++) {
+        ui->comboBox_Sota2TimeAffectC1F2->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+    }
+    ui->comboBox_Sota2TimeAffectC1F2->setEnabled(true);
+
+
+    ui->comboBox_Sota2CountAffectC1F1->clear();
+    ui->comboBox_Sota2CountAffectC1F1->setEnabled(false);
+    ui->comboBox_Sota2CountAffectC1F1->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_Sota2CountAffectC1F1->addItem(QString("%1").arg(i + 1));
+    }
+    ui->comboBox_Sota2CountAffectC1F1->setEnabled(true);
+
+    ui->comboBox_Sota2CountAffectC1F2->clear();
+    ui->comboBox_Sota2CountAffectC1F2->setEnabled(false);
+    ui->comboBox_Sota2CountAffectC1F2->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_Sota2CountAffectC1F2->addItem(QString("%1").arg(i + 1));
+    }
+    ui->comboBox_Sota2CountAffectC1F2->setEnabled(true);
+
+    ui->spinBox_Sota2DurationC1F1->clear();
+    ui->spinBox_Sota2DurationC1F1->setEnabled(false);
+    ui->spinBox_Sota2DurationC1F1->setValue(0);
+    ui->spinBox_Sota2DurationC1F1->setMaximum(100);
+    ui->spinBox_Sota2DurationC1F1->setMinimum(0);
+    ui->spinBox_Sota2DurationC1F1->setEnabled(true);
+
+    ui->spinBox_Sota2DurationC1F2->clear();
+    ui->spinBox_Sota2DurationC1F2->setEnabled(false);
+    ui->spinBox_Sota2DurationC1F2->setValue(0);
+    ui->spinBox_Sota2DurationC1F2->setMaximum(100);
+    ui->spinBox_Sota2DurationC1F2->setMinimum(0);
+    ui->spinBox_Sota2DurationC1F2->setEnabled(true);
+
+    ui->comboBox_Sota2WeakeningC1;
+    ui->comboBox_Sota2WeakeningC1->clear();
+    ui->comboBox_Sota2WeakeningC1->setEnabled(false);
+    ui->comboBox_Sota2WeakeningC1->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_Sota2WeakeningC1->addItem(QString("%1").arg(i + 1));
+    }
+    ui->comboBox_Sota2WeakeningC1->setEnabled(true);
+
+    //C2
+    ui->comboBox_Sota2C2F1->clear();
+    ui->comboBox_Sota2C2F1->setEnabled(false);
+    ui->comboBox_Sota2C2F1->setEditable(false);
+    ui->comboBox_Sota2C2F1->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota2C2F1->setEnabled(true);
+
+    ui->comboBox_Sota2C2F2->clear();
+    ui->comboBox_Sota2C2F2->setEnabled(false);
+    ui->comboBox_Sota2C2F2->setEditable(false);
+    ui->comboBox_Sota2C2F2->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota2C2F2->setEnabled(true);
+
+    ui->spinBox_Sota2EdgeC2F1->clear();
+    ui->spinBox_Sota2EdgeC2F1->setEnabled(false);
+    ui->spinBox_Sota2EdgeC2F1->setValue(0);
+    ui->spinBox_Sota2EdgeC2F1->setMaximum(65535);
+    ui->spinBox_Sota2EdgeC2F1->setMinimum(0);
+    ui->spinBox_Sota2EdgeC2F1->setEnabled(true);
+
+    ui->spinBox_Sota2EdgeC2F2->clear();
+    ui->spinBox_Sota2EdgeC2F2->setEnabled(false);
+    ui->spinBox_Sota2EdgeC2F2->setValue(0);
+    ui->spinBox_Sota2EdgeC2F2->setMaximum(65535);
+    ui->spinBox_Sota2EdgeC2F2->setMinimum(0);
+    ui->spinBox_Sota2EdgeC2F2->setEnabled(true);
+
+    ui->comboBox_Sota2TimeAffectC2F1->clear();
+    ui->comboBox_Sota2TimeAffectC2F1->setEnabled(false);
+    ui->comboBox_Sota2TimeAffectC2F1->setEditable(false);
+    for(int i = 0, n = 40; i < n; i++) {
+        ui->comboBox_Sota2TimeAffectC2F1->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+    }
+    ui->comboBox_Sota2TimeAffectC2F1->setEnabled(true);
+
+    ui->comboBox_Sota2TimeAffectC2F2->clear();
+    ui->comboBox_Sota2TimeAffectC2F2->setEnabled(false);
+    ui->comboBox_Sota2TimeAffectC2F2->setEditable(false);
+    for(int i = 0, n = 40; i < n; i++) {
+        ui->comboBox_Sota2TimeAffectC2F2->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+    }
+    ui->comboBox_Sota2TimeAffectC2F2->setEnabled(true);
+
+
+    ui->comboBox_Sota2CountAffectC2F1->clear();
+    ui->comboBox_Sota2CountAffectC2F1->setEnabled(false);
+    ui->comboBox_Sota2CountAffectC2F1->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_Sota2CountAffectC2F1->addItem(QString("%1").arg(i + 1));
+    }
+    ui->comboBox_Sota2CountAffectC2F1->setEnabled(true);
+
+    ui->comboBox_Sota2CountAffectC2F2->clear();
+    ui->comboBox_Sota2CountAffectC2F2->setEnabled(false);
+    ui->comboBox_Sota2CountAffectC2F2->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_Sota2CountAffectC2F2->addItem(QString("%1").arg(i + 1));
+    }
+    ui->comboBox_Sota2CountAffectC2F2->setEnabled(true);
+
+    ui->spinBox_Sota2DurationC2F1->clear();
+    ui->spinBox_Sota2DurationC2F1->setEnabled(false);
+    ui->spinBox_Sota2DurationC2F1->setValue(0);
+    ui->spinBox_Sota2DurationC2F1->setMaximum(100);
+    ui->spinBox_Sota2DurationC2F1->setMinimum(0);
+    ui->spinBox_Sota2DurationC2F1->setEnabled(true);
+
+    ui->spinBox_Sota2DurationC2F2->clear();
+    ui->spinBox_Sota2DurationC2F2->setEnabled(false);
+    ui->spinBox_Sota2DurationC2F2->setValue(0);
+    ui->spinBox_Sota2DurationC2F2->setMaximum(100);
+    ui->spinBox_Sota2DurationC2F2->setMinimum(0);
+    ui->spinBox_Sota2DurationC2F2->setEnabled(true);
+
+    ui->comboBox_Sota2WeakeningC2;
+    ui->comboBox_Sota2WeakeningC2->clear();
+    ui->comboBox_Sota2WeakeningC2->setEnabled(false);
+    ui->comboBox_Sota2WeakeningC2->setEditable(false);
+    for(int i = 0, n = 10; i < n; i++) {
+        ui->comboBox_Sota2WeakeningC2->addItem(QString("%1").arg(i + 1));
+    }
+    ui->comboBox_Sota2WeakeningC2->setEnabled(true);
+}
+
+void MainWindowServer::on_actionCustomization_triggered()
+{
+    ui->actionCustomization->setChecked(ui->actionCustomization->isChecked());
+    preparePageCustomization(-1);
 }
