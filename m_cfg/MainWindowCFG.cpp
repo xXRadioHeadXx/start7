@@ -4998,3 +4998,10 @@ void MainWindowCFG::on_INTEGRATION_pushButton_clicked()
 {
         this->ui->INTEGRATION_Host_lineEdit->setText(QHostInfo::localHostName());
 }
+
+void MainWindowCFG::on_BACKUP_pushButton_clicked()
+{
+    QString patch=QFileDialog::getExistingDirectory(this, "Выбрать каталог","");
+     qDebug()<<"patch = "<<patch;
+     this->ui->BACKUP_patch_lineedit->setText(patch);
+}
