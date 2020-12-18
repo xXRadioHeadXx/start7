@@ -174,6 +174,8 @@ private:
     void get_BACKUP(QString filename);
     void set_BACKUP(QString filename);
     void default_BACKUP();
+    QMap <int,QString> map_BACKUP_MaxBdStringCnt;
+
 
     void get_PORT(QString filename);
     void set_PORT(QString filename);

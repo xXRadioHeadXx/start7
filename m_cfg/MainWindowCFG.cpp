@@ -13,6 +13,23 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     ui->setupUi(this);
 
 
+    map_BACKUP_MaxBdStringCnt.insert(0,"1 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(1,"2 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(2,"3 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(3,"4 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(4,"5 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(5,"6 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(6,"7 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(7,"8 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(8,"9 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(9,"10 000 000");
+    map_BACKUP_MaxBdStringCnt.insert(10,"-");
+    foreach (QString str, map_BACKUP_MaxBdStringCnt)
+    {
+    this->ui->BACKUP_MaxBdStringCnt_comboBox->addItem(str);
+
+    }
+
     map_INTEGRATION_Use.insert(0,"Выкл");
     map_INTEGRATION_Use.insert(1,"Вкл");
     foreach (QString str, map_INTEGRATION_Use)
@@ -1075,6 +1092,7 @@ void MainWindowCFG::on_actionCreate_triggered()
     default_RIF();
     default_INTEGRATION();
     default_SQL();
+    default_BACKUP();
 }
 
 void MainWindowCFG::on_actionOpen_triggered()
@@ -3849,16 +3867,48 @@ void MainWindowCFG::default_RASTRMSSOI()
 void MainWindowCFG::get_BACKUP(QString filename)
 {
 
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+int res=0;
+
+    settings.beginGroup("BACKUP");
+    QString BackupPath=settings.value("BackupPath",-1).toString();
+    this->ui->BACKUP_BackupPath_lineedit->setText(BackupPath);
+
+    int MaxBdStringCnt =  settings.value("MaxBdStringCnt",-1).toInt();
+    this->ui->BACKUP_MaxBdStringCnt_comboBox->setCurrentText(map_BACKUP_MaxBdStringCnt.value(MaxBdStringCnt));
+
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::set_BACKUP(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+int res=0;
 
+    settings.beginGroup("BACKUP");
+
+    settings.setValue("BackupPath",this->ui->BACKUP_BackupPath_lineedit->text());
+    settings.setValue("MaxBdStringCnt",map_BACKUP_MaxBdStringCnt.key(this->ui->BACKUP_MaxBdStringCnt_comboBox->currentText()));
+
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::default_BACKUP()
 {
-
+    this->ui->BACKUP_BackupPath_lineedit->setText("");
+    this->ui->BACKUP_MaxBdStringCnt_comboBox->setCurrentText(map_BACKUP_MaxBdStringCnt.value(10));
 }
 
 void MainWindowCFG::get_PORT(QString filename)
@@ -5003,5 +5053,5 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
 {
     QString patch=QFileDialog::getExistingDirectory(this, "Выбрать каталог","");
      qDebug()<<"patch = "<<patch;
-     this->ui->BACKUP_patch_lineedit->setText(patch);
+     this->ui->BACKUP_BackupPath_lineedit->setText(patch);
 }
