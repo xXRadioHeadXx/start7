@@ -341,5 +341,6 @@ private slots:
    void create_db(QString db_name);
    void drop_db(QString db_name);
    void use_db(QString db_name);
+   void on_INTEGRATION_pushButton_clicked();
 };
 #endif // MAINWINDOWCFG_H

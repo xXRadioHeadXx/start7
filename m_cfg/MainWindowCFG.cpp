@@ -4979,3 +4979,8 @@ void MainWindowCFG::use_db(QString db_name)
 MySQL_unit.SQL_database=db_name;
 this->ui->SQL_database_lineEdit->setText(db_name);
 }
+
+void MainWindowCFG::on_INTEGRATION_pushButton_clicked()
+{
+        this->ui->INTEGRATION_Host_lineEdit->setText(QHostInfo::localHostName());
+}
