@@ -469,12 +469,11 @@ qDebug()
 <<"; UdpAdress "<<unit->getUdpAdress()
 <<"; UdpPort "<<unit->getUdpPort()
 <<"; UdpTimeout "<<unit->getUdpTimeout()
-  /*
 <<"; Icon1Path "<<unit->getIcon1Path()
 <<"; Icon2Path "<<unit->getIcon2Path()
 <<"; Icon3Path "<<unit->getIcon3Path()
 <<"; Icon4Path "<<unit->getIcon4Path();
-*/;
+;
     selected_type=unit->getType();
 /*QString Name=unit->getName();
 
@@ -2369,7 +2368,7 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
 
     QList<UnitNode *> List1;
     this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-  /*  foreach(UnitNode *un, List1 )
+    foreach(UnitNode *un, List1 )
     {
      if(un->getType()==unit->getType())
      if(un->getIcon1Path()==unit->getIcon1Path())
@@ -2380,7 +2379,7 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
 
      }
 
-    }*/
+    }
         return true;
 }
 
@@ -2397,7 +2396,7 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
 
     QList<UnitNode *> List1;
     this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-   /* foreach(UnitNode *un, List1 )
+    foreach(UnitNode *un, List1 )
     {
 
      if(un->getType()==unit->getType())
@@ -2411,7 +2410,7 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
 
      }
 
-    }*/
+    }
 
         return true;
 }
@@ -3229,9 +3228,9 @@ void MainWindowCFG::get_option_STRAZH_IP(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
     string1.append("Страж- IP: ");
-//    string1.append(unit->getIcon1Path());
-//    string1.append("; ");
-//    string1.append(unit->getIcon4Path());
+    string1.append(unit->getIcon1Path());
+    string1.append("; ");
+    string1.append(unit->getIcon4Path());
 
 
    this->ui->textEdit->append(string1);
@@ -3243,7 +3242,7 @@ void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
     string1.append("Сетевое устройство: ");
-//    string1.append(unit->getIcon1Path());
+    string1.append(unit->getIcon1Path());
 
 
 
@@ -4475,7 +4474,7 @@ void MainWindowCFG::save_option(QSettings *settings, UnitNode *unit)
 
     settings->setValue("UpdPort", QString::number(unit->getUdpPort()));
     settings->setValue("UdpTimeout", QString::number(unit->getUdpTimeout()));
-/*
+
     if(unit->getIcon1Path()!="")
          settings->setValue("Icon1Path", unit->getIcon1Path());
 
@@ -4487,7 +4486,7 @@ void MainWindowCFG::save_option(QSettings *settings, UnitNode *unit)
 
     if(unit->getIcon4Path()!="")
          settings->setValue("Icon4Path", unit->getIcon4Path());
-    */
+
 }
 
 void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)
