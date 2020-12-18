@@ -702,49 +702,7 @@ int UnitNode::adamOffToMs(int adamOff)
     return interval;
 }
 
-<<<<<<< HEAD
-QString UnitNode::getIcon1Path() const
-{
-    return Icon1Path;
-}
 
-void UnitNode::setIcon1Path(const QString &value)
-{
-    Icon1Path = value;
-}
-
-QString UnitNode::getIcon2Path() const
-{
-    return Icon2Path;
-}
-
-void UnitNode::setIcon2Path(const QString &value)
-{
-    Icon2Path = value;
-}
-
-QString UnitNode::getIcon3Path() const
-{
-    return Icon3Path;
-}
-
-void UnitNode::setIcon3Path(const QString &value)
-{
-    Icon3Path = value;
-}
-
-QString UnitNode::getIcon4Path() const
-{
-    return Icon4Path;
-}
-
-void UnitNode::setIcon4Path(const QString &value)
-{
-    Icon4Path = value;
-}
-
-UnitNode::UnitNode(QObject *parent) : QObject(parent)
-=======
 QByteArray UnitNode::getStateWord() const
 {
     return stateWord;
@@ -815,7 +773,6 @@ int UnitNode_SD_BL_IP::isNorm()
 }
 
 int UnitNode_SD_BL_IP::isWasAlarm()
->>>>>>> dev_server
 {
     if(getStateWord().isEmpty())
         return -1;

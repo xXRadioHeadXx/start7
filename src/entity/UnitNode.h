@@ -298,19 +298,7 @@ public:
     static int adamOffToMs(int adamOff);
 
 
-<<<<<<< HEAD
-    QString getIcon1Path() const;
-    void setIcon1Path(const QString &value);
 
-    QString getIcon2Path() const;
-    void setIcon2Path(const QString &value);
-
-    QString getIcon3Path() const;
-    void setIcon3Path(const QString &value);
-
-    QString getIcon4Path() const;
-    void setIcon4Path(const QString &value);
-=======
     QByteArray getStateWord() const;
     void setStateWord(const QByteArray &value);
 
@@ -330,7 +318,7 @@ public:
     //
     virtual float voltage(){return 0.0;};
     //
->>>>>>> dev_server
+
 
 public slots:
 

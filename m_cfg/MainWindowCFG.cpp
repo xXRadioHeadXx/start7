@@ -452,11 +452,12 @@ qDebug()
 <<"; UdpAdress "<<unit->getUdpAdress()
 <<"; UdpPort "<<unit->getUdpPort()
 <<"; UdpTimeout "<<unit->getUdpTimeout()
+  /*
 <<"; Icon1Path "<<unit->getIcon1Path()
 <<"; Icon2Path "<<unit->getIcon2Path()
 <<"; Icon3Path "<<unit->getIcon3Path()
 <<"; Icon4Path "<<unit->getIcon4Path();
-
+*/;
     selected_type=unit->getType();
 /*QString Name=unit->getName();
 
@@ -2350,7 +2351,7 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
 
     QList<UnitNode *> List1;
     this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-    foreach(UnitNode *un, List1 )
+  /*  foreach(UnitNode *un, List1 )
     {
      if(un->getType()==unit->getType())
      if(un->getIcon1Path()==unit->getIcon1Path())
@@ -2361,7 +2362,7 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
 
      }
 
-    }
+    }*/
         return true;
 }
 
@@ -2378,9 +2379,11 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
 
     QList<UnitNode *> List1;
     this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-    foreach(UnitNode *un, List1 )
+   /* foreach(UnitNode *un, List1 )
     {
+
      if(un->getType()==unit->getType())
+
      if((un->getIcon1Path()==unit->getIcon1Path())||
         (un->getIcon4Path()==unit->getIcon4Path()))
      {
@@ -2390,7 +2393,8 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
 
      }
 
-    }
+    }*/
+
         return true;
 }
 
@@ -2407,7 +2411,7 @@ bool  MainWindowCFG::pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent)
 
     QList<UnitNode *> List1;
     this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-    foreach(UnitNode *un, List1 )
+ /*   foreach(UnitNode *un, List1 )
     {
      if(un->getType()==unit->getType())
      if(un->getIcon1Path()==unit->getIcon1Path())
@@ -2418,8 +2422,10 @@ bool  MainWindowCFG::pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent)
 
      }
 
-    }
+    }*/
+    return true;
 }
+
 
 bool MainWindowCFG::add_unit()
 {
@@ -3193,7 +3199,7 @@ void MainWindowCFG::get_option_ONVIF(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
     string1.append("ONVIF-камера: ");
-    string1.append(unit->getIcon1Path());
+//    string1.append(unit->getIcon1Path());
 
 
 
@@ -3205,9 +3211,9 @@ void MainWindowCFG::get_option_STRAZH_IP(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
     string1.append("Страж- IP: ");
-    string1.append(unit->getIcon1Path());
-    string1.append("; ");
-    string1.append(unit->getIcon4Path());
+//    string1.append(unit->getIcon1Path());
+//    string1.append("; ");
+//    string1.append(unit->getIcon4Path());
 
 
    this->ui->textEdit->append(string1);
@@ -3219,7 +3225,7 @@ void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
     string1.append("Сетевое устройство: ");
-    string1.append(unit->getIcon1Path());
+//    string1.append(unit->getIcon1Path());
 
 
 
@@ -3585,6 +3591,7 @@ void MainWindowCFG::default_INTEGRATION()
 
 void MainWindowCFG::get_SQL(QString filename)
 {
+      qDebug()<< "[get_SQL]";
     QSettings settings(filename, QSettings::IniFormat);
   #if (defined (_WIN32) || defined (_WIN64))
       settings.setIniCodec( "Windows-1251" );
@@ -3592,6 +3599,8 @@ void MainWindowCFG::get_SQL(QString filename)
       settings.setIniCodec( "UTF-8" );
   #endif
       int res=0;
+
+
           if(settings.childGroups().contains("MYSQL"))
           {
             settings.beginGroup("MYSQL");
@@ -3601,11 +3610,14 @@ void MainWindowCFG::get_SQL(QString filename)
                 res=1;
 
             }
+            else
+            settings.endGroup();
 
           }
 
           if(settings.childGroups().contains("PostgresSQL"))
           {
+             qDebug()<< "(settings.childGroups().contains(\"PostgresSQL\"))";
              settings.beginGroup("PostgresSQL");
              if(settings.value("Use", -1).toInt()==1)
              {
@@ -3613,7 +3625,8 @@ void MainWindowCFG::get_SQL(QString filename)
                  res=1;
 
              }
-
+             else
+             settings.endGroup();
           }
 
           if(res==1)
@@ -4229,23 +4242,23 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
 
 void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
 {
-    unit->setIcon1Path(this->ui->ONVIF_lineEdit__IPaddr->text());
-    unit->setIcon2Path(this->ui->ONVIF_lineEdit__login->text());
-    unit->setIcon3Path(this->ui->ONVIF_lineEdit__password->text());
+//    unit->setIcon1Path(this->ui->ONVIF_lineEdit__IPaddr->text());
+//    unit->setIcon2Path(this->ui->ONVIF_lineEdit__login->text());
+//    unit->setIcon3Path(this->ui->ONVIF_lineEdit__password->text());
 
 }
 
 void MainWindowCFG::set_option_STRAZH_IP(UnitNode *unit)
 {
-    unit->setIcon1Path(this->ui->STRAZH_IP_lineEdit__IPaddr->text());
-    unit->setIcon2Path(this->ui->STRAZH_IP_lineEdit__login->text());
-    unit->setIcon3Path(this->ui->STRAZH_IP_lineEdit__password->text());
-    unit->setIcon4Path(this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->text());
+//    unit->setIcon1Path(this->ui->STRAZH_IP_lineEdit__IPaddr->text());
+//    unit->setIcon2Path(this->ui->STRAZH_IP_lineEdit__login->text());
+//    unit->setIcon3Path(this->ui->STRAZH_IP_lineEdit__password->text());
+//    unit->setIcon4Path(this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->text());
 }
 
 void MainWindowCFG::set_option_NET_DEV(UnitNode *unit)
 {
-    unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
+//    unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
 }
 
 void MainWindowCFG::save_ini(QString filename)
@@ -4412,7 +4425,7 @@ void MainWindowCFG::save_option(QSettings *settings, UnitNode *unit)
 
     settings->setValue("UpdPort", QString::number(unit->getUdpPort()));
     settings->setValue("UdpTimeout", QString::number(unit->getUdpTimeout()));
-
+/*
     if(unit->getIcon1Path()!="")
          settings->setValue("Icon1Path", unit->getIcon1Path());
 
@@ -4424,6 +4437,7 @@ void MainWindowCFG::save_option(QSettings *settings, UnitNode *unit)
 
     if(unit->getIcon4Path()!="")
          settings->setValue("Icon4Path", unit->getIcon4Path());
+    */
 }
 
 void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)
