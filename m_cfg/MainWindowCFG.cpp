@@ -53,8 +53,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
  //   map_PARAMS_PlanType[1]="граф.модуль";
  //   map_PARAMS_PlanType[2]="не использовать";
 
-    map_PARAMS_PlanType.insert(1,"граф.модуль");
-    map_PARAMS_PlanType.insert(2,"не использовать");
+    map_PARAMS_PlanType.insert(1," граф.модуль");
+    map_PARAMS_PlanType.insert(2," не использовать");
 
 
 
@@ -71,9 +71,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 */
 
 
-    map_PARAMS_SoundType[0]="звуковая карта";
-    map_PARAMS_SoundType[1]="системный динамик";
-    map_PARAMS_SoundType[2]="без звука";
+    map_PARAMS_SoundType[0]=" звуковая карта";
+    map_PARAMS_SoundType[1]=" системный динамик";
+    map_PARAMS_SoundType[2]=" без звука";
 
     for(int i=0;i<map_PARAMS_SoundType.count();i++)
     {
@@ -99,7 +99,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
    for(int i(1), n(100); i < n; i++)
    {
        qDebug()<<"i= "<<i;
-       QString str("COM%1");
+       QString str(" COM%1");
        str = str.arg(i);
        this->ui->RifPort_comboBox->addItem(str,str);
 
@@ -124,22 +124,22 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 default_OPERATORS();
 
-    str_GROUP="Группа";
-    str_SD_BL_IP="БЛ-IP СД";
-    str_IU_BL_IP="БЛ-IP ИУ";
-    str_KL = "КЛ1 (концентратор) СД";
-    str_TG ="Точка/Гарда";
-    str_RLM_KRL = "РИФ-РЛМ/КРЛ/Трасса";
-    str_RLM_C = "РИФ-РЛМ-С";
-    str_STRAZH_IP = "ТВ+тепловиз.Страж-IP";
-    str_NET_DEV = "Сетевое устройство";
-    str_ONVIF = "ТВ-камера ONVIF";
-    str_BOD_T4K_M = "Точка-М/Гарда БОД";
-    str_Y4_T4K_M = "Точка-М/Гарда Участок";
-    str_DD_T4K_M = "Точка-М/Гарда ДД";
-    str_BOD_SOTA = "Сота/Сота-М БОД";
-    str_Y4_SOTA = "Сота/Сота-М Участок";
-    str_DD_SOTA = "Сота/Сота-М ДД";
+    str_GROUP=" Группа";
+    str_SD_BL_IP=" БЛ-IP СД";
+    str_IU_BL_IP=" БЛ-IP ИУ";
+    str_KL = " КЛ1 (концентратор) СД";
+    str_TG =" Точка/Гарда";
+    str_RLM_KRL = " РИФ-РЛМ/КРЛ/Трасса";
+    str_RLM_C = " РИФ-РЛМ-С";
+    str_STRAZH_IP = " ТВ+тепловиз.Страж-IP";
+    str_NET_DEV = " Сетевое устройство";
+    str_ONVIF = " ТВ-камера ONVIF";
+    str_BOD_T4K_M = " Точка-М/Гарда БОД";
+    str_Y4_T4K_M = " Точка-М/Гарда Участок";
+    str_DD_T4K_M = " Точка-М/Гарда ДД";
+    str_BOD_SOTA = " Сота/Сота-М БОД";
+    str_Y4_SOTA = " Сота/Сота-М Участок";
+    str_DD_SOTA = " Сота/Сота-М ДД";
 
 
     this->ui->uType_combobox->addItem(str_GROUP);
@@ -172,12 +172,12 @@ default_OPERATORS();
 
 
 
-    str_RIF_RLM="РИФ-РЛМ";
-    str_RIF_RLM_24="РИФ-РЛМ24";
-    str_RIF_RLM_B="РИФ-РЛМ(Б)";
-    str_RIF_KRL="РИФ-КРЛ";
-    str_Razriv="Разрыв";
-    str_trassa1l="Трасса-1л";
+    str_RIF_RLM=" РИФ-РЛМ";
+    str_RIF_RLM_24=" РИФ-РЛМ24";
+    str_RIF_RLM_B=" РИФ-РЛМ(Б)";
+    str_RIF_KRL=" РИФ-КРЛ";
+    str_Razriv=" Разрыв";
+    str_trassa1l=" Трасса-1л";
 
 this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM);
 this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM_24);
@@ -838,13 +838,15 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
 
     }
     else
     if(arg1==str_IU_BL_IP)
     {
-
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
     }
     else
@@ -854,7 +856,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     }
     else
     if(arg1==str_RLM_KRL)
@@ -863,7 +865,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     }
     else
     if(arg1==str_RLM_C)
@@ -872,7 +874,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     }
     else
     if(arg1==str_BOD_T4K_M)
@@ -881,7 +883,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
 
     }
     else
@@ -904,7 +906,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     }
     else
     if(arg1==str_Y4_SOTA)
@@ -923,7 +925,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText("RS485");
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     }
     else
     if(arg1==str_ONVIF)
@@ -3474,7 +3476,7 @@ void MainWindowCFG::set_RIF(QString filename)
 
     settings.beginGroup("RIF");
 
-    for(int i; i<comports.count();i++)
+    for(int i=0; i<comports.count();i++)
     {
         ComPort *port = comports.at(i);
         int speed = port->get_RifPortSpeed();
@@ -4060,7 +4062,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
     unit->setNum2(this->ui->SD_BL_IP_num_combobox->currentText().toInt());
     unit->setNum3(this->ui->port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
     {
             unit->setUdpUse(1);
 
@@ -4094,7 +4096,7 @@ void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
     unit->setNum2(this->ui->IU_BL_IP_num_combobox->currentText().toInt());
     unit->setNum3(this->ui->port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
     {
             unit->setUdpUse(1);
     }
@@ -4120,7 +4122,7 @@ unit->setNum1(this->ui->TG_adress_combobox->currentText().toInt());
 unit->setNum2(this->ui->TG_U4_4A_combobox->currentText().toInt());
 unit->setNum3(this->ui->port_combobox->currentText().toInt());
 
-if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
     {
             unit->setUdpUse(1);
     }
@@ -4143,7 +4145,7 @@ void MainWindowCFG::set_option_RLM_KRL(UnitNode *unit)
 
     unit->setNum3(this->ui->port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
         {
                 unit->setUdpUse(1);
         }
@@ -4183,7 +4185,7 @@ void MainWindowCFG::set_option_RLM_C(UnitNode *unit)
 
     unit->setNum3(this->ui->port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
         {
                 unit->setUdpUse(1);
         }
@@ -4204,7 +4206,7 @@ void MainWindowCFG::set_option_BOD_T4K_M(UnitNode *unit)
     unit->setNum1(this->ui->BOD_T4K_M_adress_combobox->currentText().toInt());
     unit->setNum3(this->ui->port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
         unit->setUdpUse(1);
     else
         unit->setUdpUse(0);
@@ -4233,7 +4235,7 @@ qDebug()<<"set_option_BOD_SOTA";
 unit->setNum1(this->ui->BOD_SOTA_M_adress_combobox->currentText().toInt());
 unit->setNum3(this->ui->port_combobox->currentText().toInt());
 
-if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
     unit->setUdpUse(1);
 else
     unit->setUdpUse(0);
@@ -4279,7 +4281,7 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
     unit->setNum2(this->ui->KL_CD_combobox->currentText().toInt());
     unit->setNum3(this->ui->port_combobox->currentText().toInt());
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
         unit->setUdpUse(1);
     else
         unit->setUdpUse(0);
@@ -4569,7 +4571,7 @@ void MainWindowCFG::on_pushButton_8_clicked()
 void MainWindowCFG::on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1)
 {
 
-    if(this->ui->UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
      this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->UDP);
     else
      this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
@@ -4886,7 +4888,7 @@ qDebug()<<QString::number(port->get_RifPortInterval());
 
 void MainWindowCFG::on_RLM_C_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
 {
-    if(this->ui->RLM_C_UDP_RS485_combobox->currentText()=="UDP")
+    if(this->ui->RLM_C_UDP_RS485_combobox->currentText()==" UDP")
      this->ui->RLM_C_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_C_UDP);
     else
     {
@@ -4898,7 +4900,7 @@ void MainWindowCFG::on_RLM_C_UDP_RS485_combobox_currentTextChanged(const QString
 void MainWindowCFG::on_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
 {
     qDebug()<<"[!!!!!!!!!!!!!!!]";
-    if(arg1=="UDP")
+    if(arg1==" UDP")
      this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->UDP);
     else
     {
