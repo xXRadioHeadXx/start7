@@ -2953,7 +2953,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset resource="my_cfg_resources.qrc">
-     <normaloff>:/images/save-file-icon-3.jpg</normaloff>:/images/save-file-icon-3.jpg</iconset>
+     <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
     <string>Сохранить</string>
