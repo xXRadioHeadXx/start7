@@ -406,7 +406,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionOpen);
         }
         menu->addSeparator();
-        if(0 == sel->getBazalt() && 0 != sel->getDK() && (TypeUnitNode::SD_BL_IP == sel->getType() || TypeUnitNode::IU_BL_IP == sel->getType()))
+        if(0 == sel->getBazalt() && 0 != sel->getDK() && (TypeUnitNode::SD_BL_IP == sel->getType() || TypeUnitNode::IU_BL_IP == sel->getType() || TypeUnitNode::RLM_C == sel->getType()))
             menu->addAction(ui->actionDK);
         menu->addSeparator();
 //        menu->addAction(ui->actionRemoteControlOn);

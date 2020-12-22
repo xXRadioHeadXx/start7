@@ -41,6 +41,7 @@ private:
     static QList<AbstractPort *> loadPortsUdpObj(QString fileName = "rifx.ini");
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
     static DataQueueItem parcingStatusWord0x31(DataQueueItem &item, DataQueueItem & resultRequest);
+    static void procDK(UnitNode * current, UnitNode * previous);
 
 
 public:
@@ -104,6 +105,7 @@ public slots:
     void requestAutoOnOffIUCommand(UnitNode *selUN);
     void lockOpenCloseCommand(bool out, UnitNode *selUN, bool value);
     void lockOpenCloseCommand(UnitNode *selUN, bool value);
+
 
     void manageOverallReadQueue();
     void unLostedConnect(UnitNode *un) const;

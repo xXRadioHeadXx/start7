@@ -340,12 +340,12 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
     if(nullptr == selUN) {
         QSet<UnitNode *> lsTmp = SettingUtils::getSetMetaRealUnitNodes();
         for(UnitNode * un : lsTmp)
-            if(TypeUnitNode::BL_IP == un->getType() /* или датчик */)
+            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType()/* или датчик */)
                 lsTrgtUN.append(un);
     } else if(nullptr != selUN) {
         UnitNode * un = selUN;
         while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType() /* или датчик */) {
+            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType()/* или датчик */) {
                 lsTrgtUN.append(un);
                 break;
             }
@@ -1022,18 +1022,135 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             continue;
 
         QPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+
+        if(nullptr == un || previousCopyUN.isNull())
+            continue;
+
         un->setStateWord(newStateWord);
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
+        procDK(un, previousCopyUN);
+
         if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+            if(!un->getDkInvolved()) {
+
+                JourEntity msg;
+                msg.setObject(un->getName());
+                msg.setObjecttype(un->getType());
+                msg.setD1(un->getNum1());
+                msg.setD2(un->getNum2());
+                msg.setD3(un->getNum3());
+                msg.setDirection(un->getUdpAdress());
+
+                if((un->getControl() && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->isOn() && 1 == un->isOn())) {
+                    JourEntity msgOn;
+                    msgOn.setObject(un->getName());
+                    msgOn.setObjecttype(un->getType());
+                    msgOn.setD1(un->getNum1());
+                    msgOn.setD2(un->getNum2());
+                    msgOn.setD3(un->getNum3());
+                    msgOn.setType(101);
+                    msgOn.setDirection(un->getUdpAdress());
+                    msgOn.setComment(QObject::trUtf8("Вкл"));
+                    DataBaseManager::insertJourMsg_wS(msgOn);
+                    GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
+                }
+
+                if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
+                    //сохранение Тревога или Норма
+                    msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
+                    msg.setType(20);
+                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    //нужен сброс
+                    resultRequest.setData(DataQueueItem::makeAlarmReset0x24());
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
+                    msg.setComment(QObject::trUtf8("Норма"));
+                    msg.setType(1);
+                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
+                    msg.setComment(QObject::trUtf8("Выкл"));
+                    msg.setType(100);
+                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                } if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
+                    msg.setComment(QObject::trUtf8("Вкл"));
+                    msg.setType(101);
+                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
+                    msg.setComment(QObject::trUtf8("Выкл"));
+                    msg.setType(100);
+                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
+                    msg.setComment(QObject::trUtf8("Вкл"));
+                    msg.setType(101);
+                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                }
+            }
+
+            if(!un->getDkInvolved() && (TypeUnitNode::RLM_C == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
+                //сохранение Тревога или Норма
+                if(0 != un->treeChildCount()) {
+                    for(const auto& iuun : as_const(un->treeChild())) {
+                        if(TypeUnitNode::SYSTEM == iuun->getType()) {
+//                            qDebug() << "Utils::parcingStatusWord0x31 emitAutoOnOffIU";
+                            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(iuun);
+                        }
+                    }
+                }
+
+                //нужен сброс
+            }
 
         }
 
     }
 //    qDebug() << "Utils::parcingStatusWord0x31 -->";
-
+    return resultRequest;
 }
+
+void PortManager::procDK(UnitNode * current, UnitNode * previous) {
+    if(nullptr == current || nullptr == previous)
+        return;
+    if(0 != current->getDK() &&
+       DKCiclStatus::DKIgnore != previous->getDkStatus() &&
+       DKCiclStatus::DKWrong != previous->getDkStatus() &&
+       DKCiclStatus::DKDone != previous->getDkStatus() &&
+       current->getDkInvolved()) {
+//            qDebug() << "DkStatus --> " << current->getName();
+        int unCalcDkStatus = current->calcDKStatus();
+//            qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
+//            qDebug() << "DkStatus -- unDkStatus " << current->getDkStatus();
+        if(DKCiclStatus::DKReady == previous->getDkStatus() &&
+                DKCiclStatus::DKNorm == unCalcDkStatus)
+            current->setDkStatus(DKCiclStatus::DKNorm);
+        else if((DKCiclStatus::DKNorm == previous->getDkStatus() || DKCiclStatus::DKReady == previous->getDkStatus())&&
+                DKCiclStatus::DKWasAlarn == unCalcDkStatus)
+            current->setDkStatus(DKCiclStatus::DKWasAlarn);
+        else if(DKCiclStatus::DKWasAlarn == previous->getDkStatus() &&
+                DKCiclStatus::DKNorm == unCalcDkStatus)
+            current->setDkStatus(DKCiclStatus::DKDone);
+        else if(DKCiclStatus::DKWasAlarn == previous->getDkStatus() &&
+                DKCiclStatus::DKWas == unCalcDkStatus)
+            current->setDkStatus(DKCiclStatus::DKDone);
+        else if((DKCiclStatus::DKNorm == previous->getDkStatus() &&
+                 DKCiclStatus::DKNorm == unCalcDkStatus) ||
+                (DKCiclStatus::DKWasAlarn == previous->getDkStatus() &&
+                 DKCiclStatus::DKWasAlarn == unCalcDkStatus))
+            current->setDkStatus(previous->getDkStatus());
+        else
+            current->setDkStatus(DKCiclStatus::DKWrong);
+        current->updDoubl();
+//            qDebug() << "DkStatus -- unNewDkStatus " << current->getDkStatus();
+//            qDebug() << "DkStatus <--";
+    }
+}
+
 
 void PortManager::manageOverallReadQueue()
 {

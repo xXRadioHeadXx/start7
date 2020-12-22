@@ -402,6 +402,22 @@ public:
     virtual float threshold() final;
     virtual int clockPeriod() final;
     virtual int modeProcessing() final;
+    virtual int calcDKStatus() final {
+        if(1 == isWasAlarm() && 1 == isAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+            return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+        } else if(1 == isAlarm()) {
+            return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == isOff()) {
+            return DKCiclStatus::DKWrong;
+        } else if(1 == isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
+        return DKCiclStatus::DKWrong;
+    }
 
 };
 class UnitNode_BOD_T4K_M : public UnitNode {
