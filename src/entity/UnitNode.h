@@ -307,7 +307,12 @@ public:
     virtual int isConnected();
     virtual int calcDKStatus() {return DKCiclStatus::DKIgnore;}
     //
-    virtual float voltage(){return 0.0;};
+    virtual float voltage(){return -1.0;};
+    virtual int isExternalSynchronization(){return -1;};
+    virtual int isInternalSynchronization(){return -1;};
+    virtual float threshold(){return -1.0;};
+    virtual int clockPeriod(){return -1;};
+    virtual int modeProcessing(){return -1;};
     //
 
 public slots:
@@ -337,6 +342,7 @@ public:
     explicit UnitNode_SD_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
     virtual quint8 mask() final;
     virtual int isAlarm() final;
+    virtual int isInAlarm() final;
     virtual int isNorm() final;
     virtual int isWasAlarm() final;
     virtual int isOn() final;
@@ -363,6 +369,7 @@ public:
     explicit UnitNode_IU_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_IU_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
     virtual quint8 mask() final;
+    virtual int isOutAlarm() final;
     virtual int isOn() final;
     virtual int isOff() final;
 };
@@ -384,12 +391,17 @@ public:
     virtual int isInAlarm() final;
     virtual int isOutAlarm() final;
     virtual int isNorm() final;
-    virtual int isWasDK() final;//
-    virtual int isExistDK() final;//
+    virtual int isWasDK() final;
+    virtual int isExistDK() final;
     virtual int isWasAlarm() final;
-    virtual int isOn() final;//
-    virtual int isOff() final;//
-    virtual float voltage() final;//
+    virtual int isOn() final;
+    virtual int isOff() final;
+    virtual float voltage() final;
+    virtual int isExternalSynchronization() final;
+    virtual int isInternalSynchronization() final;
+    virtual float threshold() final;
+    virtual int clockPeriod() final;
+    virtual int modeProcessing() final;
 
 };
 class UnitNode_BOD_T4K_M : public UnitNode {

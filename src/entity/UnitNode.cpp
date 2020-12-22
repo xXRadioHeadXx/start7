@@ -752,6 +752,11 @@ quint8 UnitNode_SD_BL_IP::mask()
 
 int UnitNode_SD_BL_IP::isAlarm()
 {
+    return isInAlarm();
+}
+
+int UnitNode_SD_BL_IP::isInAlarm()
+{
     if(getStateWord().isEmpty())
         return -1;
     if((quint8)getStateWord().at(0) & mask())
@@ -759,6 +764,7 @@ int UnitNode_SD_BL_IP::isAlarm()
     else
         return 0; //Status::Norm);
 }
+
 
 int UnitNode_SD_BL_IP::isNorm()
 {
@@ -828,7 +834,7 @@ quint8 UnitNode_IU_BL_IP::mask()
     return mask;
 }
 
-int UnitNode_IU_BL_IP::isOn()
+int UnitNode_IU_BL_IP::isOutAlarm()
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -836,6 +842,11 @@ int UnitNode_IU_BL_IP::isOn()
         return 1; //Status::On);
     else
         return 0; //Status::Off;
+}
+
+int UnitNode_IU_BL_IP::isOn()
+{
+    return isOutAlarm();
 }
 
 int UnitNode_IU_BL_IP::isOff()
@@ -850,6 +861,7 @@ UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 }
 
 UnitNode::UnitNode(const UnitNode & parent) :
+    QObject(nullptr),
     stateWord(parent.stateWord),
     metaNames(parent.metaNames),
     Type(parent.Type),
@@ -1077,12 +1089,7 @@ int UnitNode_BL_IP::isWasAlarm()
 
 int UnitNode_RLM_C::isAlarm()
 {
-    if(-1 == isInAlarm() || -1 == isWasAlarm())
-        return -1;
-    else if(1 == isInAlarm() || 1 == isWasAlarm())
-        return 1;
-    else
-        return 0;
+    return isInAlarm();
 }
 
 int UnitNode_RLM_C::isInAlarm()
@@ -1160,6 +1167,61 @@ int UnitNode_RLM_C::isOff()
 float UnitNode_RLM_C::voltage()
 {
     if(getStateWord().isEmpty())
-        return 0.0;
-    return 5.0 - 5.0 * (quint8)getStateWord().at(0) / 0xFF;
+        return -1.0;
+    return 5.0 - 5.0 * (float)getStateWord().at(0) / (float)0xFF;
+}
+
+int UnitNode_RLM_C::isExternalSynchronization()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x40)
+        return 1; //External);
+    else
+        return 0; //Internal;
+}
+
+int UnitNode_RLM_C::isInternalSynchronization()
+{
+    int ises = isExternalSynchronization();
+    return ((0 == ises) ? 1 : ((1 == ises) ? 0 : ises));
+}
+
+float UnitNode_RLM_C::threshold()
+{
+    if(getStateWord().isEmpty())
+        return -1.0;
+    switch ((quint8)getStateWord().at(2) & (quint8)0x0F) {
+    case (quint8)0:  return 10.0;
+    case (quint8)1:  return 09.0;
+    case (quint8)2:  return 08.0;
+    case (quint8)3:  return 07.0;
+    case (quint8)4:  return 06.0;
+    case (quint8)5:  return 05.0;
+    case (quint8)6:  return 04.0;
+    case (quint8)7:  return 03.0;
+    case (quint8)8:  return 02.0;
+    case (quint8)9:  return 01.0;
+    case (quint8)10: return 00.6;
+    case (quint8)11: return 00.5;
+    case (quint8)12: return 00.4;
+    case (quint8)13: return 00.3;
+    case (quint8)14: return 00.2;
+    case (quint8)15: return 00.1;
+    default: return -1.0;
+    }
+}
+
+int UnitNode_RLM_C::clockPeriod()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    return (quint8)getStateWord().at(2) & (quint8)0x70;
+}
+
+int UnitNode_RLM_C::modeProcessing()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    return (quint8)getStateWord().at(3) & (quint8)0x03;
 }

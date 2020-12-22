@@ -1011,6 +1011,27 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
 DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueItem &resultRequest)
 {
+//    qDebug() << "Utils::parcingStatusWord0x31 -->";
+    QByteArray newStateWord = item.data().mid(5, 4);
+    resultRequest = item;
+    resultRequest.setData();
+
+    QSet<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes();
+    for(UnitNode * un : tmpSet) {
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || (quint8)item.data().at(2) != (quint8)un->getNum1())
+            continue;
+
+        QPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+        un->setStateWord(newStateWord);
+        un->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+
+        }
+
+    }
+//    qDebug() << "Utils::parcingStatusWord0x31 -->";
 
 }
 
