@@ -4,6 +4,7 @@
 #include "QFileDialog"
 #include <QErrorMessage>
 #include <QStorageInfo>
+#include <Windows.h>
 
 
 
@@ -27,6 +28,70 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
            qDebug() << "Bytes free:" << volume.bytesFree();
            qDebug() << "Bytes total:" << volume.bytesTotal() << endl;
        }
+
+
+
+
+qDebug()<<"[0]";
+    LPWSTR lpbuffer;
+
+    lpbuffer = new TCHAR[255];
+
+qDebug()<<"[1]";
+    for( int i = 0; i < 255; i++ ) lpbuffer[i] = 0;
+    char dr[10];
+   for( int i = 0; i < 10; i++ ) dr[i] = 0;
+qDebug()<<"[2]";
+    GetLogicalDriveStringsW(255,lpbuffer);
+
+qDebug()<<"[3]";
+
+    for( int i = 0; i < 255; i++ )
+    {
+        qDebug()<<"[4]";
+       if( lpbuffer[i] == ':' )
+       {
+       dr[0] = lpbuffer[i-1];
+       dr[1] = lpbuffer[i];
+       dr[2] = lpbuffer[i+1];
+  //     dr[3] = lpbuffer[i+2];
+
+       QString str = dr;
+       LPCWSTR path = (const wchar_t*) str.utf16();
+
+       qDebug()<<"str: "<<str;
+
+//GetDriveTypeW()
+    if( GetDriveTypeW(path) == DRIVE_REMOVABLE )
+    {
+       qDebug()<<"[PROFIT] str: "<<str;
+    this->ui->AdmAud_comboBox->addItem(str);
+    }
+       }
+    }
+ /*   */
+
+ /*
+AnsiString str;
+
+   char pwchar[255];
+   for( int i = 0; i < 255; i++ ) pwchar[i] = 0;
+   char dr[10];
+
+   GetLogicalDriveStrings(255,pwchar);
+   for( int i = 0; i < 255; i++ )
+   {
+      if( pwchar[i] == ':' )
+      dr[0] = pwchar[i-1];
+      dr[1] = pwchar[i];
+      dr[2] = pwchar[i+1];
+      dr[3] = pwchar[i+2];
+
+      AnsiString str = dr;
+
+      if( GetDriveType(dr) == DRIVE_REMOVABLE )
+
+   */
 
 
     map_BACKUP_MaxBdStringCnt.insert(0,"1 000 000");
