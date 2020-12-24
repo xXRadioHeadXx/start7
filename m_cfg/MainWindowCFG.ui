@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>819</width>
-    <height>536</height>
+    <width>1049</width>
+    <height>1532</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -149,8 +149,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>552</width>
-          <height>1419</height>
+          <width>638</width>
+          <height>1425</height>
          </rect>
         </property>
         <property name="minimumSize">
@@ -1516,6 +1516,12 @@
               <height>61</height>
              </rect>
             </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
               <widget class="QPushButton" name="pushButton">
@@ -1700,7 +1706,7 @@
          <item row="2" column="0">
           <widget class="QGroupBox" name="groupBox_5">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -1738,7 +1744,7 @@
             <property name="title">
              <string>Ключ администратора</string>
             </property>
-            <widget class="QComboBox" name="comboBox_3">
+            <widget class="QComboBox" name="AdmAud_comboBox">
              <property name="geometry">
               <rect>
                <x>10</x>
@@ -1761,7 +1767,7 @@
               <string>Ключевой диск</string>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLineEdit" name="AdmAud_version_lineEdit">
              <property name="geometry">
               <rect>
                <x>130</x>
@@ -1771,7 +1777,7 @@
               </rect>
              </property>
             </widget>
-            <widget class="QLineEdit" name="lineEdit_2">
+            <widget class="QLineEdit" name="AdmAud_DateTime_lineEdit">
              <property name="geometry">
               <rect>
                <x>250</x>
@@ -1830,7 +1836,7 @@
               <string>Режим запуска сервера</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_6">
+            <widget class="QPushButton" name="AdmAud_Create_pushButton">
              <property name="geometry">
               <rect>
                <x>10</x>
@@ -1843,7 +1849,7 @@
               <string>Создать</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_7">
+            <widget class="QPushButton" name="AdmAud_ChekIn_pushButton">
              <property name="geometry">
               <rect>
                <x>130</x>
@@ -2755,7 +2761,7 @@
          <item row="0" column="0">
           <widget class="QGroupBox" name="groupBox">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -2763,7 +2769,7 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>0</height>
+             <height>80</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -2883,7 +2889,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>819</width>
+     <width>1049</width>
      <height>21</height>
     </rect>
    </property>

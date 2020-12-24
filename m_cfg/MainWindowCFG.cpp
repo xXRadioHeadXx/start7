@@ -3,6 +3,7 @@
 
 #include "QFileDialog"
 #include <QErrorMessage>
+#include <QStorageInfo>
 
 
 
@@ -11,6 +12,21 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
     ui->setupUi(this);
+
+    for (auto volume : QStorageInfo::mountedVolumes()) {
+           qDebug() << "Name:" << volume.name();
+           qDebug() << "Display name:" << volume.displayName();
+           qDebug() << "Device:" << volume.device();
+           qDebug() << "Root path:" << volume.rootPath();
+           qDebug() << "File system type:" << volume.fileSystemType();
+           qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
+           qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
+           qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
+           qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
+           qDebug() << "Bytes available:" << volume.bytesAvailable();
+           qDebug() << "Bytes free:" << volume.bytesFree();
+           qDebug() << "Bytes total:" << volume.bytesTotal() << endl;
+       }
 
 
     map_BACKUP_MaxBdStringCnt.insert(0,"1 000 000");
@@ -3218,7 +3234,7 @@ void MainWindowCFG::get_option_ONVIF(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
     string1.append("ONVIF-камера: ");
-//    string1.append(unit->getIcon1Path());
+    string1.append(unit->getIcon1Path());
 
 
 
