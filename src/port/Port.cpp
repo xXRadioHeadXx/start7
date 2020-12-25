@@ -47,8 +47,8 @@ Port::~Port() {
 
 // interface -->
 void Port::retranslate() {}
-void Port::loadConfig(QSettings *config) {}
-void Port::saveConfig(QSettings *config) {}
+void Port::loadConfig(QSettings */*config*/) {}
+void Port::saveConfig(QSettings */*config*/) {}
 
 bool Port::open() {
     bool status = false;
@@ -95,19 +95,13 @@ void Port::write(const QList<DataQueueItem> &data) {
     }
 }
 
-void Port::write(const DataQueueItem &data, bool dbIns) {
+void Port::write(const DataQueueItem &data, bool /*dbIns*/) {
     switch (getProtocol()) {
     case AbstractPort::UDP:
         if (m_ptrSocket) {
 //            qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
             ((QUdpSocket *)m_ptrSocket)->writeDatagram(data.data(), data.address(), data.port());
 
-//            if(dbIns && Utils::isSavedMsg(data.data())) {
-//                MessageEntity msg;
-//                msg.setDirection("S");
-//                msg.setBytearraydata(data.data());
-//                m_dbm->insertCommandMsg_wS(msg);
-//            }
         }
         break;
     case AbstractPort::TCP:
@@ -125,7 +119,7 @@ void Port::write() {
      write(popLocalWriteQueue());
 }
 
-bool Port::portStatus(QString *string) { return false; }
+bool Port::portStatus(QString */*string*/) { return false; }
 
 bool Port::isOpen() {
     switch (getProtocol()) {
@@ -220,7 +214,7 @@ void Port::readUdpDatagrams()
         bool conversionOK = false;
         quint16 port;
         ((QUdpSocket *)m_ptrSocket)->readDatagram(datagram.data(), datagram.size(), &ip6Address, &port);
-        qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
+//        qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
         QHostAddress ip4Address(ip6Address.toIPv4Address(&conversionOK));
         if (conversionOK && getStHostAddress().contains(ip4Address) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
         {

@@ -13,7 +13,7 @@
 #include <LockWaiter.h>
 #include <global.hpp>
 
-PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), m_dbm(dbm), MAX_COUNT_PORTS(1)
+PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {
 //    m_portFactorys.reserve(1);
 //    m_portFactorys.insert(Protocol::UDP, new PortFactory());
@@ -65,7 +65,7 @@ void PortManager::saveConfig(QSettings *config, const int index) {
     m_udpPortsVector.at(index)->saveConfig(config);
 }
 
-void PortManager::loadSettings(QSettings *config, const int index) {}
+void PortManager::loadSettings(QSettings */*config*/, const int /*index*/) {}
 
 void PortManager::loadSettings() {
     m_udpPortsVector.clear();
@@ -200,6 +200,7 @@ bool PortManager::preparePort(QString ip, QString port, int index) {
         return false;
 
     Port::typeDefPort(m_udpPortsVector.at(index))->prepareUdpScoket(ip, port);
+    return true;
 }
 
 QList<DataQueueItem> PortManager::getOverallReadQueue() const
@@ -265,7 +266,7 @@ void PortManager::startStatusRequest(){
     lsSCR.clear();
 
     for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
-        if(/*TypeUnitNode::BL_IP == un->getType() ||*/
+        if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::RLM_C == un->getType()) {
             StatusConnectRequester * tmpSCR = new StatusConnectRequester(un);
             tmpSCR->init();
@@ -1163,7 +1164,7 @@ void PortManager::manageOverallReadQueue()
             switch (CMD) {
             case (quint8)0x41: {
                 for(AbstractRequester * scr : as_const(this->lsSCR)) {
-                    if(scr->getIpPort() == tmpPair) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::BL_IP == (quint8)scr->getUnReciver()->getType()) {
                         scr->resetBeatCount();
                         break;
                     }
@@ -1327,13 +1328,14 @@ void PortManager::manageOverallReadQueue()
             }
 
             bool keypass = true;
-            for(AbstractRequester * ar : as_const(getLsWaiter()))
+            for(AbstractRequester * ar : as_const(getLsWaiter())) {
                 if(BeatStatus::Unsuccessful == ar->getBeatStatus()) {
                     removeLsWaiter(ar);
                 } else if(true == keypass && BeatStatus::Start == ar->getBeatStatus()) {
                     keypass = false;
                     ar->startFirstRequest();
                 }
+            }
         }
     }
 }
@@ -1341,7 +1343,7 @@ void PortManager::manageOverallReadQueue()
 void PortManager::unLostedConnect(UnitNode *un) const
 {
     qDebug() << "PortManager::unLostedConnect(" << un << ")";
-    if(!un->getStateWord().isEmpty()) {
+    if(1 == un->isConnected()) {
         un->setStateWord(QByteArray());
 
         if(un->getControl() && !un->getName().isEmpty()) {
