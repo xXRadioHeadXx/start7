@@ -4027,6 +4027,9 @@ void MainWindowCFG::get_OPERATORS(QString filename)
     else
     {
         this->ui->operators_use_combobox->setCurrentText("С операторами");
+
+    }
+
         int Count=settings.value("Count",-1).toInt();
 
         qDebug()<<"OPERATORS Count = "<<Count;
@@ -4057,7 +4060,7 @@ void MainWindowCFG::get_OPERATORS(QString filename)
 
 
 
-    }
+
 
 
 
@@ -4404,6 +4407,161 @@ void MainWindowCFG::save_ini(QString filename)
     this->modelTreeUN->getListFromModel(List);
 
     qDebug()<<"[count] "<<List.count();
+
+
+
+
+    /*
+        set_PARAMS(filename);
+        set_RIF(filename);
+        set_SSOI(filename);
+        set_RASTRMTV(filename);
+        set_INTEGRATION(filename);
+        set_SQL(filename);
+        set_RASTR(filename);
+        set_SOLID(filename);
+        set_ADAM4068(filename);
+        set_TABLO(filename);
+        set_RASTRMSSOI(filename);
+        set_BACKUP(filename);
+        set_PORT(filename);
+        set_OPERATORS(filename);
+        set_ASOOSD(filename);
+
+        */
+
+settings.beginGroup("PARAMS");
+settings.setValue("PlanType",map_PARAMS_PlanType.key(this->ui->PlanType_comboBox->currentText()));
+settings.setValue("SoundType",map_PARAMS_SoundType.key(this->ui->SoundType_comboBox->currentText()));
+settings.setValue("AutoStart",map_PARAMS_AutoStart.key(this->ui->PARAMS_AutoStart_comboBox->currentText()));
+settings.endGroup();
+
+settings.beginGroup("RIF");
+for(int i=0; i<comports.count();i++){
+    ComPort *port = comports.at(i);
+    int speed = port->get_RifPortSpeed();
+    int interval = port->get_RifPortInterval();
+    if(speed!=4800){
+        QString str="RifPortSpeed%1";
+        str=str.arg(i);
+    settings.setValue(str,speed);
+    }
+    if(interval!=50){
+        QString str="RifPortInterval%1";
+        str=str.arg(i);
+    settings.setValue(str,interval);
+    }
+}
+settings.setValue("AutoDK", this->ui->RIF_AutoDK_comboBox->currentIndex());
+settings.setValue("TochkaDirectionInterval", this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->value());
+settings.endGroup();
+
+settings.beginGroup("INTEGRATION");
+settings.setValue("Use",map_INTEGRATION_Use.key(this->ui->INTEGRATION_Use_comboBox->currentText()));
+settings.setValue("Host",this->ui->INTEGRATION_Host_lineEdit->text());
+settings.setValue("Port",this->ui->INTEGRATION_Port_doubleSpinBox->value());
+settings.setValue("Port2",this->ui->INTEGRATION_Port2_doubleSpinBox->value());
+settings.setValue("KeepAliveInterval",this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->value());
+settings.endGroup();
+
+int res=0;
+    if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
+    {
+      settings.beginGroup("PostgresSQL");
+      settings.setValue("Use", 0);
+      settings.endGroup();
+
+      settings.beginGroup("MYSQL");
+      settings.setValue("Use", 1);
+      res=1;
+    }
+    if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
+    {
+      settings.beginGroup("MYSQL");
+      settings.setValue("Use", 0);
+      settings.endGroup();
+
+      settings.beginGroup("PostgresSQL");
+      settings.setValue("Use", 1);
+      res=1;
+
+
+
+    }
+    if(res==1)
+    {
+
+
+      settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
+      settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
+      settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
+      settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
+      settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
+
+      if(this->ui->SQL_P1_checkBox->isChecked())
+      settings.setValue("P1", 1);
+      else
+      settings.setValue("P1", 0);
+
+
+      if(this->ui->SQL_P2_checkBox->isChecked())
+      settings.setValue("P2", 1);
+      else
+      settings.setValue("P2", 0);
+
+      if(this->ui->SQL_AutoDbStart_checkBox->isChecked())
+      settings.setValue("AutoDbStart", 1);
+      else
+      settings.setValue("AutoDbStart", 0);
+
+
+      settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
+      settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
+
+      settings.endGroup();
+    }
+    else
+    {
+        settings.beginGroup("MYSQL");
+        settings.setValue("Use", 0);
+        settings.endGroup();
+        settings.beginGroup("PostgresSQL");
+        settings.setValue("Use", 0);
+        settings.endGroup();
+    }
+
+
+    settings.beginGroup("BACKUP");
+    settings.setValue("BackupPath",this->ui->BACKUP_BackupPath_lineedit->text());
+    settings.setValue("MaxBdStringCnt",map_BACKUP_MaxBdStringCnt.key(this->ui->BACKUP_MaxBdStringCnt_comboBox->currentText()));
+    settings.endGroup();
+
+    settings.beginGroup("OPERATORS");
+    settings.setValue("Use",operators_use);
+    settings.setValue("Count",operators.count());
+
+        settings.endGroup();
+
+    for(int i=0;i<operators.count();i++)
+        {
+        Operator* op=operators.at(i);
+        QString strGroup("Operator_%1");
+        strGroup=strGroup.arg(i);
+        settings.beginGroup(strGroup);
+        settings.setValue("FN",op->getFN());
+        settings.setValue("N1",op->getN1());
+        settings.setValue("N2",op->getN2());
+        settings.setValue("PW",op->getPW());
+        settings.endGroup();
+        }
+
+
+    settings.beginGroup("TREE");
+    settings.setValue("Count",List.count()-1);
+
+    settings.endGroup();
+
+
 for(int i=1;i<List.count();i++)
     {
     UnitNode* unit=List.at(i);
@@ -4412,11 +4570,58 @@ for(int i=1;i<List.count();i++)
         strGroup=strGroup.arg(i);
 
         settings.beginGroup(strGroup);
-        settings.setValue("Name", unit->getName());
+
         settings.setValue("Type",unit->getType());
+
+        settings.setValue("Num1", QString::number(unit->getNum1()));
+        settings.setValue("Num2", QString::number(unit->getNum2()));
+        settings.setValue("Num3", QString::number(unit->getNum3()));
+
         settings.setValue("Level",unit->getLevel());
 
-        this->save_option(&settings, unit);
+        settings.setValue("Name", unit->getName());
+
+        settings.setValue("IconVisible", QString::number(unit->getIconVisible()));
+
+         settings.setValue("X", QString::number(unit->getX()));
+         settings.setValue("Y", QString::number(unit->getY()));
+
+        settings.setValue("DK", QString::number(unit->getDK()));
+        settings.setValue("Bazalt", QString::number(unit->getBazalt()));
+        settings.setValue("Metka", QString::number(unit->getMetka()));
+
+        settings.setValue("Razriv", QString::number(unit->getRazriv()));
+
+        settings.setValue("AdamOff", QString::number(unit->getAdamOff()));
+        settings.setValue("AlarmMsgOn", QString::number(unit->getAlarmMsgOn()));
+
+        settings.setValue("ConnectBlock", QString::number(unit->getConnectBlock()));
+        settings.setValue("OutType", QString::number(unit->getOutType()));
+        settings.setValue("asoosd_kk", QString::number(unit->getAsoosd_kk()));
+        settings.setValue("asoosd_nn", QString::number(unit->getAsoosd_nn()));
+
+        settings.setValue("Description", unit->getDescription());
+
+        settings.setValue("lan",QString::number(unit->getLan()));
+        settings.setValue("lon", unit->getLon());
+
+        settings.setValue("UdpUse", QString::number(unit->getUdpUse()));
+        settings.setValue("UdpAdress", unit->getUdpAdress());
+
+        settings.setValue("UpdPort", QString::number(unit->getUdpPort()));
+        settings.setValue("UdpTimeout", QString::number(unit->getUdpTimeout()));
+
+        if(unit->getIcon1Path()!="")
+             settings.setValue("Icon1Path", unit->getIcon1Path());
+
+        if(unit->getIcon2Path()!="")
+             settings.setValue("Icon2Path", unit->getIcon2Path());
+
+        if(unit->getIcon3Path()!="")
+             settings.setValue("Icon3Path", unit->getIcon3Path());
+
+        if(unit->getIcon4Path()!="")
+             settings.setValue("Icon4Path", unit->getIcon4Path());
         /*
         switch(unit->getType())
         {
@@ -4480,27 +4685,9 @@ for(int i=1;i<List.count();i++)
 
     }
 
-    settings.beginGroup("TREE");
-    settings.setValue("Count",List.count()-1);
-
-    settings.endGroup();
 
 
-    set_PARAMS(filename);
-    set_RIF(filename);
-    set_SSOI(filename);
-    set_RASTRMTV(filename);
-    set_INTEGRATION(filename);
-    set_SQL(filename);
-    set_RASTR(filename);
-    set_SOLID(filename);
-    set_ADAM4068(filename);
-    set_TABLO(filename);
-    set_RASTRMSSOI(filename);
-    set_BACKUP(filename);
-    set_PORT(filename);
-    set_OPERATORS(filename);
-    set_ASOOSD(filename);
+
 
 
 
