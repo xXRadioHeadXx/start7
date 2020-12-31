@@ -1463,7 +1463,7 @@
                </size>
               </property>
               <property name="text">
-               <string>192.168.111.111</string>
+               <string/>
               </property>
              </widget>
              <widget class="QLabel" name="label_92">

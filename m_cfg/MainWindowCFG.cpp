@@ -920,6 +920,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
     this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(50);
 
     }
     else
@@ -928,25 +929,28 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
+        this->ui->timeout_doubleSpinBox->setValue(50);
+        this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
     }
     else
     if(arg1==str_TG)
     {
 
-    this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
+        this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(75);
     }
     else
     if(arg1==str_RLM_KRL)
     {
 
-    this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+        this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(50);
     }
     else
     if(arg1==str_RLM_C)
@@ -956,6 +960,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+                this->ui->timeout_doubleSpinBox->setValue(50);
     }
     else
     if(arg1==str_BOD_T4K_M)
@@ -965,7 +970,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-
+                this->ui->timeout_doubleSpinBox->setValue(200);
     }
     else
     if(arg1==str_Y4_T4K_M)
@@ -983,30 +988,32 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     else
     if(arg1==str_BOD_SOTA)
     {
-    this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
-    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
+        this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
+     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(300);
     }
     else
     if(arg1==str_Y4_SOTA)
     {
-    this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
-    this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+        this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
+        this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
     }
     else
     if(arg1==str_DD_SOTA)
     {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
+        this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
     }
     else
     if(arg1==str_KL)
     {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
+        this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
         this->ui->UDP_RS485_Widget->setVisible(true);
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(50);
     }
     else
     if(arg1==str_ONVIF)
@@ -5136,4 +5143,35 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
     QString patch=QFileDialog::getExistingDirectory(this, "Выбрать каталог","");
      qDebug()<<"patch = "<<patch;
      this->ui->BACKUP_BackupPath_lineedit->setText(patch);
+}
+
+void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
+{
+    /*
+    Edit4->Text = "";
+    Edit5->Text = "";
+
+    TAdmAudit *AdmAud;
+    AdmAud = new TAdmAudit;
+    AdmAud->Version = 2.00;
+    AdmAud->CreateDt = Now();
+    AdmAud->Crc = AdmAud->Version + AdmAud->CreateDt;
+
+    AnsiString str = ComboBox9->Text;
+
+    unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
+
+    if( DirectoryExists(str) )
+    {
+       str = str + "auidit.adm";
+
+       if( AdmAud->Save(str) )MessageBox (NULL,"Файл аудита создан","Информация",MB_OK|MB_ICONINFORMATION);
+       else MessageBox (NULL,"Ошибка создания файла аудита!","Ошибка",MB_OK|MB_ICONERROR);
+    }
+    else MessageBox (NULL,"Диск не найден!","Ошибка",MB_OK|MB_ICONERROR);
+
+    SetErrorMode ( errmode );
+
+    delete AdmAud;
+    */
 }
