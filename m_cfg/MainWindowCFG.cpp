@@ -668,6 +668,12 @@ void MainWindowCFG::get_option_GROUP(UnitNode *unit)
     unit->setNum1(-1);
     unit->setNum2(-1);
     unit->setNum3(-1);
+
+    this->ui->textEdit->clear();
+    QString string1;
+    string1.append("Группа: ");
+    string1.append(unit->getName());
+    this->ui->textEdit->append(string1);
 }
 
 
@@ -1578,7 +1584,7 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
             if(un->getNum3()==unit->getNum3())
             if(un->getNum2()==unit->getNum2())
             {
-                dialog.showMessage("в этом БЛ-IP уже есть СД с этим номером");
+                dialog.showMessage("Такой обьект уже существует");
                 dialog.exec();
                 return false;
             }
@@ -1602,7 +1608,7 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
                    if(un->getNum2()==unit->getNum2())
              {
 
-                 dialog.showMessage("в этом БЛ-IP уже есть СД с этим номером");
+                 dialog.showMessage("Такой обьект уже существует");
                  dialog.exec();
                  return false;
              }
@@ -1648,7 +1654,7 @@ bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
                  if(un->getNum3()==unit->getNum3())
                  if(un->getNum2()==unit->getNum2())
                  {
-                     dialog.showMessage("в этом БЛ-IP уже есть ИУ с этим номером");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
                  }
@@ -1672,7 +1678,7 @@ bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
                         if(un->getNum2()==unit->getNum2())
                   {
 
-                      dialog.showMessage("в этом БЛ-IP уже есть ИУ с этим номером");
+                      dialog.showMessage("Такой обьект уже существует");
                       dialog.exec();
                       return false;
                   }
@@ -1711,7 +1717,7 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                  {
 
-                     dialog.showMessage("в этом СОМ порте такой адрес уже  занят");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
                  }
@@ -1733,7 +1739,7 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                   {
 
-                     dialog.showMessage("по этому IP адресу такой адрес уже  занят");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
                   }
@@ -1781,7 +1787,7 @@ bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
      qDebug()<<"Name: "<<un->getName();
      if(un->getNum2()==unit->getNum2())
      {
-         dialog.showMessage("У этого БОДа такой участок уже существует!");
+         dialog.showMessage("Такой обьект уже существует");
          dialog.exec();
          return false;
      }
@@ -1875,7 +1881,7 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
                 {
 
 
-                    dialog.showMessage("У этого участка уже существует такой ДД!");
+                    dialog.showMessage("Такой обьект уже существует");
                     dialog.exec();
                     return false;
                 }
@@ -1891,7 +1897,7 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
                 {
 
 
-                    dialog.showMessage("У этого участка уже существует такой ДД!");
+                    dialog.showMessage("Такой обьект уже существует");
                     dialog.exec();
                     return false;
                 }
@@ -1933,7 +1939,7 @@ bool MainWindowCFG::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                  {
 
-                     dialog.showMessage("этот COM порт  уже  занят");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
                  }
@@ -2006,7 +2012,7 @@ bool MainWindowCFG::pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode *parrent)
      qDebug()<<"Name: "<<un->getName();
      if(un->getNum2()==unit->getNum2())
      {
-         dialog.showMessage("У этого БОДа такой участок уже существует!");
+         dialog.showMessage("Такой обьект уже существует");
          dialog.exec();
          return false;
      }
@@ -2096,7 +2102,7 @@ bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)//н�
                 {
 
 
-                    dialog.showMessage("У этого участка уже существует такой ДД!");
+                    dialog.showMessage("Такой обьект уже существует");
                     dialog.exec();
                     return false;
                 }
@@ -2112,7 +2118,7 @@ bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)//н�
                 {
 
 
-                    dialog.showMessage("У этого участка уже существует такой ДД!");
+                    dialog.showMessage("Такой обьект уже существует");
                     dialog.exec();
                     return false;
                 }
@@ -2159,7 +2165,7 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
                  if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
                   {
 
-                     dialog.showMessage("этот COM порт уже  занят");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
                   }
@@ -2167,7 +2173,7 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
                   {
                      if(un->getNum2()==unit->getNum2())
                      {
-                         dialog.showMessage("на этом адресе этого порта уже есть такое ЧЭ");
+                         dialog.showMessage("Такой обьект уже существует");
                          dialog.exec();
                          return false;
 
@@ -2197,7 +2203,7 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
              if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
               {
 
-                 dialog.showMessage("этот IP адрес уже  занят");
+                 dialog.showMessage("Такой обьект уже существует");
                  dialog.exec();
                  return false;
               }
@@ -2205,7 +2211,7 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
               {
                  if(un->getNum2()==unit->getNum2())
                  {
-                     dialog.showMessage("на этом адресе этого порта уже есть такое Ч");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
 
@@ -2250,7 +2256,7 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                  {
 
-                     dialog.showMessage("этот COM порт  уже  занят");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
                  }
@@ -2273,7 +2279,7 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                   {
 
-                     dialog.showMessage("этот IP адрес уже  занят");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
                   }
@@ -2310,7 +2316,7 @@ bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
              if((un->getNum1()==unit->getNum1()))
              {
 
-                 dialog.showMessage("этот COM порт  уже  занят");
+                 dialog.showMessage("Такой обьект уже существует");
                  dialog.exec();
                  return false;
              }
@@ -2333,7 +2339,7 @@ bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
              if((un->getNum1()==unit->getNum1()))
               {
 
-                 dialog.showMessage("этот IP адрес уже  занят");
+                 dialog.showMessage("Такой обьект уже существует");
                  dialog.exec();
                  return false;
               }
@@ -2381,7 +2387,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                       {
                            qDebug()<<"[3]";
 
-                         dialog.showMessage("этот COM порт уже  занят");
+                         dialog.showMessage("Такой обьект уже существует");
                          dialog.exec();
                          return false;
                       }
@@ -2391,7 +2397,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                          if(un->getNum2()==unit->getNum2())
                          {
                                qDebug()<<"[5]";
-                             dialog.showMessage("на этом адресе этого порта уже есть такое СД");
+                             dialog.showMessage("Такой обьект уже существует");
                              dialog.exec();
                              return false;
 
@@ -2421,7 +2427,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                  if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
                   {
 
-                     dialog.showMessage("этот IP адрес уже  занят");
+                     dialog.showMessage("Такой обьект уже существует");
                      dialog.exec();
                      return false;
                   }
@@ -2429,7 +2435,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                   {
                      if(un->getNum2()==unit->getNum2())
                      {
-                         dialog.showMessage("на этом адресе этого порта уже есть такое СД");
+                         dialog.showMessage("Такой обьект уже существует");
                          dialog.exec();
                          return false;
 
@@ -2463,7 +2469,7 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
      if(un->getType()==unit->getType())
      if(un->getIcon1Path()==unit->getIcon1Path())
      {
-         dialog.showMessage("Такой обьект уже есть");
+         dialog.showMessage("Такой обьект уже существует");
          dialog.exec();
          return false;
 
@@ -2494,7 +2500,7 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
      if((un->getIcon1Path()==unit->getIcon1Path())||
         (un->getIcon4Path()==unit->getIcon4Path()))
      {
-         dialog.showMessage("Такой обьект уже есть");
+         dialog.showMessage("Такой обьект уже существует");
          dialog.exec();
          return false;
 
