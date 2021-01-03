@@ -11,6 +11,9 @@
 #include "sqlunit.h"
 #include <QHostInfo>
 #include <QStandardItem>
+#include <libudev.h>
+#include <mntent.h>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -49,6 +52,8 @@ private:
 
     QString get_unit_name(int type);
 
+
+    QList<udev_device*> listDevices();
 
     SQLunit MySQL_unit;
     SQLunit Postgre_unit;
