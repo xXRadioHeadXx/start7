@@ -93,13 +93,20 @@ void ProcessDKWaiter::init() {
         }
     }
 
-    for(UnitNode * uncld : as_const(getUnReciver()->getListChilde())) {
-        if(0 != uncld->getDK() && (TypeUnitNode::SD_BL_IP == uncld->getType() || TypeUnitNode::RLM_C == uncld->getType()/* или датчик */)) {
-            uncld->setDkInvolved(true);
-            uncld->setDkStatus(DKCiclStatus::DKReady);
-            uncld->updDoubl();
-            this->lsTrackedUN.append(uncld);
+    if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
+        for(UnitNode * uncld : as_const(getUnReciver()->getListChilde())) {
+            if(0 != uncld->getDK() && (TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */)) {
+                uncld->setDkInvolved(true);
+                uncld->setDkStatus(DKCiclStatus::DKReady);
+                uncld->updDoubl();
+                this->lsTrackedUN.append(uncld);
+            }
         }
+    } else if(TypeUnitNode::RLM_C == getUnReciver()->getType()) {
+        getUnReciver()->setDkInvolved(true);
+        getUnReciver()->setDkStatus(DKCiclStatus::DKReady);
+        getUnReciver()->updDoubl();
+        this->lsTrackedUN.append(getUnReciver());
     }
 
     setTimeIntervalWaiteFirst(11000);

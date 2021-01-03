@@ -1256,3 +1256,13 @@ int UnitNode_RLM_C::modeProcessing()
         return -1;
     return (quint8)getStateWord().at(3) & (quint8)0x03;
 }
+
+int UnitNode_RLM_C::lowLevl()
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if((quint8)getStateWord().at(1) & (quint8)0x80)
+        return 1; //Status::Error);
+    else
+        return 0; //Status::Not;
+}

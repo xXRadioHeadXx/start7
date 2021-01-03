@@ -313,6 +313,8 @@ public:
     virtual float threshold(){return -1.0;};
     virtual int clockPeriod(){return -1;};
     virtual int modeProcessing(){return -1;};
+    virtual int lowLevl(){return -1;};
+
     //
 
 public slots:
@@ -402,6 +404,7 @@ public:
     virtual float threshold() final;
     virtual int clockPeriod() final;
     virtual int modeProcessing() final;
+    virtual int lowLevl() final;
     virtual int calcDKStatus() final {
         if(1 == isWasAlarm() && 1 == isAlarm()) {
             return DKCiclStatus::DKWasAlarn;

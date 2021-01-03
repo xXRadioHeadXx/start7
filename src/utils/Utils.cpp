@@ -401,7 +401,7 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode *selUN)
 
 }
 
-void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *selUN)
+void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *un)
 {
     table->setRowCount(11);
     table->setColumnCount(4);
@@ -450,9 +450,101 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *selUN)
                 item->setBackground(cellGray);
         }
     }
+
+    if(1 == un->isOn()) {
+        table->setItem(1,1, new QTableWidgetItem(QObject::trUtf8("Вкл[1]")));
+        table->item(1,1)->setBackground(cellGray);
+    } else if(1 == un->isOff()) {
+        table->setItem(1,1, new QTableWidgetItem(QObject::trUtf8("Выкл[0]")));
+        table->item(1,1)->setBackground(cellGray);
+    }
+
+    if(1 == un->isInAlarm()) {
+        table->setItem(2,1, new QTableWidgetItem(QObject::trUtf8("Да[1]")));
+        table->item(2,1)->setBackground(cellRed);
+    } else if(0 == un->isInAlarm()) {
+        table->setItem(2,1, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
+        table->item(2,1)->setBackground(cellGreen);
+    }
+
+    if(1 == un->isOutAlarm()) {
+        table->setItem(2,3, new QTableWidgetItem(QObject::trUtf8("Да[1]")));
+        table->item(2,3)->setBackground(cellRed);
+    } else if(0 == un->isOutAlarm()) {
+        table->setItem(2,3, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
+        table->item(2,3)->setBackground(cellGreen);
+    }
+
+    if(1 == un->isWasAlarm()) {
+        table->setItem(3,1, new QTableWidgetItem(QObject::trUtf8("Да[1]")));
+        table->item(3,1)->setBackground(cellRed);
+    } else if(0 == un->isWasAlarm()) {
+        table->setItem(3,1, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
+        table->item(3,1)->setBackground(cellGreen);
+    }
+
+    if(1 == un->isExistDK()) {
+        table->setItem(4,1, new QTableWidgetItem(QObject::trUtf8("Есть[1]")));
+        table->item(4,1)->setBackground(cellGreen);
+    } else if(0 == un->isExistDK()) {
+        table->setItem(4,1, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
+        table->item(4,1)->setBackground(cellGreen);
+    }
+
+    if(1 == un->isWasDK()) {
+        table->setItem(4,3, new QTableWidgetItem(QObject::trUtf8("Есть[1]")));
+        table->item(4,3)->setBackground(cellGreen);
+    } else if(0 == un->isWasDK()) {
+        table->setItem(4,3, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
+        table->item(4,3)->setBackground(cellGreen);
+    }
+
+    if(1 == un->isExternalSynchronization()) {
+        table->setItem(5,1, new QTableWidgetItem(QObject::trUtf8("Внешняя")));
+        table->item(5,1)->setBackground(cellGray);
+    } else if(0 == un->isExternalSynchronization()) {
+        table->setItem(5,1, new QTableWidgetItem(QObject::trUtf8("Внутренняя")));
+        table->item(5,1)->setBackground(cellGray);
+    }
+
+    if(1 == un->lowLevl()) {
+        table->setItem(6,1, new QTableWidgetItem(QObject::trUtf8("Да[1]")));
+        table->item(6,1)->setBackground(cellRed);
+    } else if(0 == un->lowLevl()) {
+        table->setItem(6,1, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
+        table->item(6,1)->setBackground(cellGreen);
+    }
+
+    if(-1.0 != un->voltage()) {
+        table->setItem(7,1, new QTableWidgetItem(QString::number(un->voltage(), 'f', 2)));
+        table->item(7,1)->setBackground(cellGray);
+    }
+
+    if(-1.0 != un->threshold()) {
+        table->setItem(8,1, new QTableWidgetItem(QString::number(un->threshold(), 'f', 2)));
+        table->item(8,1)->setBackground(cellGray);
+    }
+
+    if(-1 != un->clockPeriod()) {
+        table->setItem(9,1, new QTableWidgetItem(QObject::trUtf8("Такт ") + QString::number(un->clockPeriod() + 1)));
+        table->item(9,1)->setBackground(cellGray);
+    }
+
+    if(-1 != un->modeProcessing()) {
+        QString str;
+        switch (un->modeProcessing()) {
+        case 0: str = QObject::trUtf8("Основной"); break;
+        case 1: str = QObject::trUtf8("Дополнительный"); break;
+        case 2: str = QObject::trUtf8("Ползущий (Плз)"); break;
+        case 3: str = QObject::trUtf8("2-й ярус (2Яр)"); break;
+        }
+        table->setItem(10,1, new QTableWidgetItem(str));
+        table->item(10,1)->setBackground(cellGray);
+    }
+
 }
 
-void Utils::fillDiagnosticTableTG(QTableWidget *table, UnitNode *selUN)
+void Utils::fillDiagnosticTableTG(QTableWidget *table, UnitNode */*selUN*/)
 {
     table->setRowCount(15);
     table->setColumnCount(6);
@@ -525,7 +617,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget *table, UnitNode *selUN)
     }
 }
 
-void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget *table, UnitNode *selUN)
+void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget *table, UnitNode */*selUN*/)
 {
     table->setRowCount(14);
     table->setColumnCount(4);
@@ -586,7 +678,7 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget *table, UnitNode *selUN)
     }
 }
 
-void Utils::fillDiagnosticTableDD_SOTA(QTableWidget *table, UnitNode *selUN)
+void Utils::fillDiagnosticTableDD_SOTA(QTableWidget *table, UnitNode */*selUN*/)
 {
     table->setRowCount(14);
     table->setColumnCount(4);
@@ -646,7 +738,7 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget *table, UnitNode *selUN)
     }
 }
 
-void Utils::fillDiagnosticTableY4_SOTA(QTableWidget *table, UnitNode *selUN)
+void Utils::fillDiagnosticTableY4_SOTA(QTableWidget *table, UnitNode */*selUN*/)
 {
     table->setRowCount(20);
     table->setColumnCount(53);
@@ -704,7 +796,7 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget *table, UnitNode *selUN)
     }
 }
 
-void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget *table, UnitNode *selUN)
+void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget *table, UnitNode */*selUN*/)
 {
     table->setRowCount(22);
     table->setColumnCount(29);

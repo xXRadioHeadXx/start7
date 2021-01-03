@@ -34,7 +34,7 @@ void StatusConnectRequester::addLsTrackedUN(UnitNode *  value)
 
 void StatusConnectRequester::specialReserveSlot() const
 {
-    qDebug () << "StatusConnectRequester::specialReserveSlot()";
+    qDebug () << "StatusConnectRequester::specialReserveSlot(" << getUnReciver() << getUnReciver()->getName() << ")";
 
     SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
 }
