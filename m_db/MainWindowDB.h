@@ -78,7 +78,7 @@ private:
     void updComboBoxTakenMeasures();
     void updComboBoxAddress();
     void updComboBox(QList<QString> lst, QComboBox * cmb);
-    static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = "rifx.ini");
+    static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = "C:/Users/Gleb/Desktop/rifx.ini");
 
 };
 #endif // MAINWINDOWDB_H

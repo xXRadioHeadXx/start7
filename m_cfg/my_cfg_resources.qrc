@@ -41,7 +41,6 @@
         <file>icons/square_yellow_open_20_20.png</file>
         <file>images/create-file-icon.png</file>
         <file>images/open-file-icon.png</file>
-        <file>images/save-file-icon-3.jpg</file>
         <file>images/SD.png</file>
         <file>images/IU.png</file>
         <file>images/BOD_T4K_M.png</file>
@@ -52,5 +51,9 @@
         <file>images/Y4_SOTA.png</file>
         <file>images/БЛ-IP СД.png</file>
         <file>icons/iu.png</file>
+        <file>icons/сетевое_устройство.png</file>
+        <file>icons/onvif.png</file>
+        <file>icons/exec.ico</file>
+        <file>images/save.png</file>
     </qresource>
 </RCC>

@@ -6,7 +6,11 @@
 #include "map.h"
 #include <QErrorMessage>
 #include "operator_form.h"
+#include <dbform.h>
 #include "comport.h"
+#include "sqlunit.h"
+#include <QHostInfo>
+#include <QStandardItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -25,11 +29,15 @@ class MainWindowCFG : public QMainWindow
 private:
     Ui::MainWindowCFG *ui;
 
+    QSqlDatabase db_mysql;
+    QSqlDatabase db_psql;
+
     TreeModelUnitNode *modelTreeUN = nullptr;
 
     QErrorMessage dialog;
 
     QList<ComPort*> comports;
+
 
     QList<Operator*> operators;
     int opt_tbl_request;
@@ -41,6 +49,9 @@ private:
 
     QString get_unit_name(int type);
 
+
+    SQLunit MySQL_unit;
+    SQLunit Postgre_unit;
 
     QMenu* menu;
 
@@ -67,20 +78,21 @@ private:
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
-
     bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode* parrent);
-
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent);
-
-
     bool pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_RLM_C(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_KL(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent);
+    bool pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent);
+    bool pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent);
 
     bool add_unit();
     bool change_unit();
@@ -103,6 +115,88 @@ private:
     void get_option_Y4_SOTA(UnitNode *unit);
     void get_option_DD_SOTA(UnitNode *unit);
     void get_option_BL_IP(UnitNode *unit);
+    void get_option_KL(UnitNode *unit);
+    void get_option_ONVIF(UnitNode *unit);
+    void get_option_STRAZH_IP(UnitNode *unit);
+    void get_option_NET_DEV(UnitNode *unit);
+
+    void load_other_options_from_ini_file(QString patch);
+
+
+    void get_PARAMS(QString filename);
+    void set_PARAMS(QString filename);
+    void default_PARAMS();
+    QMap <int,QString> map_PARAMS_PlanType;
+    QMap <int,QString> map_PARAMS_SoundType;
+    QMap <int,QString> map_PARAMS_AutoStart;
+
+    void get_RIF(QString filename);
+    void set_RIF(QString filename);
+    void default_RIF();
+
+    void get_SSOI(QString filename);
+    void set_SSOI(QString filename);
+    void default_SSOI();
+
+    void get_RASTRMTV(QString filename);
+    void set_RASTRMTV(QString filename);
+    void default_RASTRMTV();
+
+    void get_INTEGRATION(QString filename);
+    void set_INTEGRATION(QString filename);
+    void default_INTEGRATION();
+        QMap <int,QString> map_INTEGRATION_Use;
+
+    void get_SQL(QString filename);
+    void set_SQL(QString filename);
+    void default_SQL();
+
+    void get_RASTR(QString filename);
+    void set_RASTR(QString filename);
+    void default_RASTR();
+
+    void get_SOLID(QString filename);
+    void set_SOLID(QString filename);
+    void default_SOLID();
+
+    void get_ADAM4068(QString filename);
+    void set_ADAM4068(QString filename);
+    void default_ADAM4068();
+
+    void get_TABLO(QString filename);
+    void set_TABLO(QString filename);
+    void default_TABLO();
+
+    void get_RASTRMSSOI(QString filename);
+    void set_RASTRMSSOI(QString filename);
+    void default_RASTRMSSOI();
+
+    void get_BACKUP(QString filename);
+    void set_BACKUP(QString filename);
+    void default_BACKUP();
+    QMap <int,QString> map_BACKUP_MaxBdStringCnt;
+
+
+    void get_PORT(QString filename);
+    void set_PORT(QString filename);
+    void default_PORT();
+
+    void get_OPERATORS(QString filename);
+    void set_OPERATORS(QString filename);
+    void default_OPERATORS();
+
+    void get_ASOOSD(QString filename);
+    void set_ASOOSD(QString filename);
+    void default_ASOOSD();
+
+
+
+
+
+
+
+
+
 
 
     bool set_option(UnitNode *unit,UnitNode *parent);
@@ -120,7 +214,10 @@ private:
     void set_option_Y4_SOTA(UnitNode *unit);
     void set_option_DD_SOTA(UnitNode *unit,UnitNode *parent);
     void set_option_BL_IP(UnitNode *unit);
-
+    void set_option_KL(UnitNode *unit);
+    void set_option_ONVIF(UnitNode *unit);
+    void set_option_STRAZH_IP(UnitNode *unit);
+    void set_option_NET_DEV(UnitNode *unit);
 
 
 
@@ -153,6 +250,9 @@ private:
     QString str_BOD_SOTA;
     QString str_Y4_SOTA;
     QString str_DD_SOTA;
+    QString str_ONVIF;
+    QString str_STRAZH_IP;
+    QString str_NET_DEV;
 
     QString str_RIF_RLM;
     QString str_RIF_RLM_24;
@@ -170,10 +270,13 @@ public:
     Map map;
 
     operator_form op_f;
+    DBform db_f;
 
 
 
 private slots:
+
+    void unitNameChanged(QStandardItem*);
 
     void setDK();
     void YZ_MONOLIT();
@@ -209,17 +312,17 @@ private slots:
     void on_pushButton_2_clicked();
     void on_pushButton_7_clicked();
     void on_pushButton_8_clicked();
-    void on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1);
+
     void on_pushButton_9_clicked();
     void on_pushButton_moveUp_clicked();
     void on_pushButton_moveDown_clicked();
-    void on_SD_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+
     void on_treeView_customContextMenuRequested(const QPoint &pos);
-    void on_IU_BL_IP_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+
     void on_operators_use_combobox_currentTextChanged(const QString &arg1);
-    void on_BOD_T4K_M_type_combobox_currentTextChanged(const QString &arg1);
-    void on_TG_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
-    void on_RLM_KRL_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+
+
+
     void on_add_operator_button_clicked();
 
     void on_tableWidget_cellClicked(int row, int column);
@@ -229,5 +332,19 @@ private slots:
     void get_from_op_f(QString FN, QString N1, QString N2, QString ps);
     void on_change_operator_button_clicked();
     void on_RifPort_comboBox_currentIndexChanged(int index);
+    void on_RifPortSpeed_comboBox_currentTextChanged(const QString &arg1);
+    void on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1);
+
+
+   void on_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+   void on_SQL_find_server_pushButton_clicked();
+   void on_SQL_connect_pushButton_clicked();
+
+   void create_db(QString db_name);
+   void drop_db(QString db_name);
+   void use_db(QString db_name);
+   void on_INTEGRATION_pushButton_clicked();
+   void on_BACKUP_pushButton_clicked();
+   void on_AdmAud_Create_pushButton_clicked();
 };
 #endif // MAINWINDOWCFG_H

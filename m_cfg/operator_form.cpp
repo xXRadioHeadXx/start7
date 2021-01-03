@@ -14,6 +14,25 @@ operator_form::~operator_form()
     delete ui;
 }
 
+void operator_form::set_operator_data_on_form(QString FN,
+                                              QString N1,
+                                              QString N2,
+                                              QString PW)
+{
+    this->ui->FN_lineedit->setText(FN);
+    this->ui->N1_lineedit->setText(N1);
+    this->ui->N2_lineedit->setText(N2);
+    this->ui->PW_lineedit->setText(PW);
+}
+
+void operator_form::clear_operator_data_on_form()
+{
+    this->ui->FN_lineedit->setText("");
+    this->ui->N1_lineedit->setText("");
+    this->ui->N2_lineedit->setText("");
+    this->ui->PW_lineedit->setText("");
+}
+
 
 void operator_form::on_buttonBox_clicked(QAbstractButton *button)
 {

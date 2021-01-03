@@ -17,7 +17,17 @@ public:
     explicit operator_form(QWidget *parent = nullptr);
     ~operator_form();
 
+    void set_operator_data_on_form(QString FN,
+                                 QString N1,
+                                 QString N2,
+                                 QString PW);
+
+    void clear_operator_data_on_form();
+
 private slots:
+
+
+
 
 
     void on_buttonBox_clicked(QAbstractButton *button);
