@@ -19,6 +19,9 @@ private:
     static QByteArray data0x24;
     static QByteArray data0x20;
     static QByteArray data0x23;
+    static QByteArray data0x25;
+    static QByteArray data0x26;
+
 public:
     DataQueueItem() noexcept;
     DataQueueItem(const QByteArray data, QHostAddress address, int port, const int index) noexcept;
@@ -52,6 +55,12 @@ public:
 
     static DataQueueItem makeAlarmReset0x24(DataQueueItem &item, const UnitNode * un = nullptr);
     static QByteArray makeAlarmReset0x24(const UnitNode * un = nullptr);
+
+    static DataQueueItem makeOff0x25(DataQueueItem &item, const UnitNode * un);
+    static QByteArray makeOff0x25(const UnitNode * un);
+
+    static DataQueueItem makeOn0x26(DataQueueItem &item, const UnitNode * un);
+    static QByteArray makeOn0x26(const UnitNode * un);
 
     static QByteArray makeOnOff0x23(UnitNode *un = nullptr, bool onOff = true, UnitNode *pun = nullptr);
     static DataQueueItem makeOnOff0x23(DataQueueItem &item, UnitNode *un = nullptr);

@@ -535,7 +535,8 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
     UnitNode * target = selUN;
 
     if(TypeUnitNode::SD_BL_IP != target->getType() &&
-            TypeUnitNode::IU_BL_IP != target->getType())
+       TypeUnitNode::IU_BL_IP != target->getType() &&
+       TypeUnitNode::RLM_C != target->getType())
         return;
 
     if(!SettingUtils::getSetMetaRealUnitNodes().contains(reciver)) {
@@ -555,28 +556,33 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             }
             reciver = reciver->getParentUN();
         }
+    } else if(TypeUnitNode::RLM_C == target->getType()) {
+        reciver = target;
     }
     int type = target->getType();
 
     if(nullptr != reciver) {
-        for(const auto& un : as_const(reciver->getListChilde())) {
-            if(type != un->getType())
-                continue;
-            quint8 mask = un->mask();
 
-            if(TypeUnitNode::SD_BL_IP == un->getType() &&
-               1 == un->isOff())
-                D1 = D1 & ~mask;
-            else if(TypeUnitNode::IU_BL_IP == un->getType() &&
-                    1 == un->isOff())
-                D1 = D1 & ~mask;
-            else
-                D1 = D1 | mask;
+        if(TypeUnitNode::SD_BL_IP == reciver->getType() || TypeUnitNode::IU_BL_IP == reciver->getType() || TypeUnitNode::BL_IP == reciver->getType()) {
+            for(const auto& un : as_const(reciver->getListChilde())) {
+                if(type != un->getType())
+                    continue;
+                quint8 mask = un->mask();
 
-            if(un == target && value)
-                D1 = D1 | mask;
-            else if(un == target && !value)
-                D1 = D1 & ~mask;
+                if(TypeUnitNode::SD_BL_IP == un->getType() &&
+                   1 == un->isOff())
+                    D1 = D1 & ~mask;
+                else if(TypeUnitNode::IU_BL_IP == un->getType() &&
+                        1 == un->isOff())
+                    D1 = D1 & ~mask;
+                else
+                    D1 = D1 | mask;
+
+                if(un == target && value)
+                    D1 = D1 | mask;
+                else if(un == target && !value)
+                    D1 = D1 & ~mask;
+            }
         }
 
         if(TypeUnitNode::BL_IP == reciver->getType()) {
@@ -596,25 +602,36 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             appLsWaiter(tmpCAW);
     //        tmpCAW->startFirstRequest();
 
-            if(target->getControl()) {
-                JourEntity msg;
-                msg.setObject(target->getName());
-                msg.setObjecttype(target->getType());
-                msg.setD1(target->getNum1());
-                msg.setD2(target->getNum2());
-                msg.setD3(target->getNum3());
-                msg.setDirection(target->getUdpAdress());
+        } else if(TypeUnitNode::RLM_C == reciver->getType()) {
+            ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+            tmpCAW->init();
+            DataQueueItem itm = tmpCAW->getFirstMsg();
+            if(value)
+                itm.setData(DataQueueItem::makeOn0x26(reciver));
+            else
+                itm.setData(DataQueueItem::makeOff0x25(reciver));
+            tmpCAW->setFirstMsg(itm);
+            appLsWaiter(tmpCAW);
+        }
 
-                if(out) {
-                    msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
-                    msg.setType((value ? 1000 : 1001));
-                } else {
-                    msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
-                    msg.setType((value ? 130 : 131));
-                }
-                DataBaseManager::insertJourMsg_wS(msg);
-                GraphTerminal::sendAbonentEventsAndStates(target, msg);
+        if(target->getControl()) {
+            JourEntity msg;
+            msg.setObject(target->getName());
+            msg.setObjecttype(target->getType());
+            msg.setD1(target->getNum1());
+            msg.setD2(target->getNum2());
+            msg.setD3(target->getNum3());
+            msg.setDirection(target->getUdpAdress());
+
+            if(out) {
+                msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
+                msg.setType((value ? 1000 : 1001));
+            } else {
+                msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
+                msg.setType((value ? 130 : 131));
             }
+            DataBaseManager::insertJourMsg_wS(msg);
+            GraphTerminal::sendAbonentEventsAndStates(target, msg);
         }
     }
 }

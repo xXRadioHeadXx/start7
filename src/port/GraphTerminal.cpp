@@ -299,6 +299,10 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     } else {
                         SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
                     }
+                } else if(TypeUnitNode::RLM_C == unTarget->getType() && (1 == unTarget->isOff()) && "101" == idCommand.nodeValue()) {
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                } else if(TypeUnitNode::RLM_C == unTarget->getType() && !(1 == unTarget->isOff()) && "100" == idCommand.nodeValue()) {
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, value);
                 }
@@ -364,7 +368,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 }
 
                 for(const auto& un : as_const(unTargetSet.values())) {
-                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
+                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
                         unTarget = un;
                         qDebug() << unTarget->getName();
                         break;
@@ -452,7 +456,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 }
 
                 for(const auto& un : as_const(unTargetSet.values())) {
-                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
+                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
                         unTarget = un;
                         qDebug() << unTarget->getName();
                         break;
@@ -550,7 +554,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 }
 
                 for(const auto& un : as_const(unTargetSet.values())) {
-                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
+                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
                         unTarget = un;
                         qDebug() << unTarget->getName();
                         break;

@@ -150,6 +150,71 @@ QByteArray DataQueueItem::makeAlarmReset0x24(const UnitNode * un)
     return out;
 }
 
+QByteArray DataQueueItem::data0x25 = QByteArray();
+
+DataQueueItem DataQueueItem::makeOff0x25(DataQueueItem &item, const UnitNode * un)
+{
+    item.setData(DataQueueItem::makeOff0x25(un));
+    return item;
+}
+
+QByteArray DataQueueItem::makeOff0x25(const UnitNode * un)
+{
+    if(DataQueueItem::data0x25.isEmpty()) {
+        DataQueueItem::data0x25.append((quint8)0xB5);      //<SB>
+        DataQueueItem::data0x25.append((quint8)0xFF);      //<ADDR>
+        DataQueueItem::data0x25.append((char)0x00);        //<NBB> 0x00
+        DataQueueItem::data0x25.append((quint8)0x25);      //<CMD> 0x25
+//        DataQueueItem::data0x25.append(Utils::getByteSumm(DataQueueItem::data0x25)); //<CHKS>
+    }
+
+    QByteArray out = DataQueueItem::data0x25;
+    if(nullptr != un) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::SD_BL_IP == un->getType() ||
+           TypeUnitNode::IU_BL_IP == un->getType()) {
+            out[1] = (quint8)0xFF;
+        } else if(TypeUnitNode::RLM_C == un->getType()) {
+            out[1] = (quint8)un->getNum1();
+        }
+    }
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+    return out;
+}
+
+QByteArray DataQueueItem::data0x26 = QByteArray();
+
+DataQueueItem DataQueueItem::makeOn0x26(DataQueueItem &item, const UnitNode * un)
+{
+    item.setData(DataQueueItem::makeOn0x26(un));
+    return item;
+}
+
+QByteArray DataQueueItem::makeOn0x26(const UnitNode * un)
+{
+    if(DataQueueItem::data0x26.isEmpty()) {
+        DataQueueItem::data0x26.append((quint8)0xB5);      //<SB>
+        DataQueueItem::data0x26.append((quint8)0xFF);      //<ADDR>
+        DataQueueItem::data0x26.append((char)0x00);        //<NBB> 0x00
+        DataQueueItem::data0x26.append((quint8)0x26);      //<CMD> 0x26
+//        DataQueueItem::data0x26.append(Utils::getByteSumm(DataQueueItem::data0x26)); //<CHKS>
+    }
+
+    QByteArray out = DataQueueItem::data0x26;
+    if(nullptr != un) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::SD_BL_IP == un->getType() ||
+           TypeUnitNode::IU_BL_IP == un->getType()) {
+            out[1] = (quint8)0xFF;
+        } else if(TypeUnitNode::RLM_C == un->getType()) {
+            out[1] = (quint8)un->getNum1();
+        }
+    }
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+    return out;
+}
+
+
 QByteArray DataQueueItem::data0x20 = QByteArray();
 
 DataQueueItem DataQueueItem::makeOnOff0x20(DataQueueItem &item, const UnitNode * un)

@@ -398,6 +398,10 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionUNOff);
         } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOff())) {
             menu->addAction(ui->actionUNOn);
+        } else if(TypeUnitNode::RLM_C == sel->getType() && (1 == sel->isOn())) {
+            menu->addAction(ui->actionUNOff);
+        } else if(TypeUnitNode::RLM_C == sel->getType() && (1 == sel->isOff())) {
+            menu->addAction(ui->actionUNOn);
         }
 //        menu->addAction(ui->actionOnOff);
         if(0 != sel->getBazalt() && (1 == sel->isAlarm())) {
@@ -522,7 +526,7 @@ void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
-        this->m_portManager->requestOnOffCommand(false, selUN, false);
+    this->m_portManager->requestOnOffCommand(false, selUN, false);
 }
 
 void MainWindowServer::on_actionControl_triggered()
