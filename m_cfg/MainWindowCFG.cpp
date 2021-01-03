@@ -1,11 +1,14 @@
 #include "MainWindowCFG.h"
 #include "ui_MainWindowCFG.h"
+#include <global.hpp>
 
 #include "QFileDialog"
 #include <QErrorMessage>
 #include <QStorageInfo>
-#include <Windows.h>
 
+#ifdef _WIN32 || _WIN_64
+#include <Windows.h>
+#endif
 
 
 MainWindowCFG::MainWindowCFG(QWidget *parent)
@@ -30,7 +33,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
        }
 
 
-
+#ifdef _WIN32 || _WIN_64
 
 qDebug()<<"[0]";
     LPWSTR lpbuffer;
@@ -56,6 +59,7 @@ qDebug()<<"[3]";
        dr[2] = lpbuffer[i+1];
   //     dr[3] = lpbuffer[i+2];
 
+
        QString str = dr;
        LPCWSTR path = (const wchar_t*) str.utf16();
 
@@ -69,6 +73,22 @@ qDebug()<<"[3]";
     }
        }
     }
+
+
+#else
+    qDebug()<<"[LINUX]";
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+
+    qDebug() << storage.rootPath();
+    if (storage.isReadOnly())
+    qDebug() << "isReadOnly:" << storage.isReadOnly();
+
+    qDebug() << "name:" << storage.name();
+    qDebug() << "fileSystemType:" << storage.fileSystemType();
+    qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+    qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+    }
+#endif
  /*   */
 
  /*
@@ -5367,4 +5387,26 @@ void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
 
     delete AdmAud;
     */
+}
+
+
+QList<udev_device*> listDevices()
+{
+    struct udev_enumerate *enu = ::udev_enumerate_new(m_udev);
+    struct udev_list_entry *cur;
+    ::udev_enumerate_add_match_subsystem(enu, "block");
+    ::udev_enumerate_add_match_property(enu, "ID_BUS", "usb");
+    QList<udev_device*> list;
+
+    ::udev_enumerate_scan_devices(enu);
+    udev_list_entry_foreach(cur, ::udev_enumerate_get_list_entry(enu)) {
+        struct udev_device* device = ::udev_device_new_from_syspath(m_udev, ::udev_list_entry_get_name(cur));
+        if(device != Q_NULLPTR) {
+        // для определения точки монтирования (/dev/sdb, /dev/sdb1, ...)
+            // const auto* devname = ::udev_device_get_property_value(device, "DEVNAME");
+            list << device;
+        }
+    }
+    ::udev_enumerate_unref(enu);
+    return list;
 }
