@@ -485,7 +485,7 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *un)
 
     if(1 == un->isExistDK()) {
         table->setItem(4,1, new QTableWidgetItem(QObject::trUtf8("Есть[1]")));
-        table->item(4,1)->setBackground(cellGreen);
+        table->item(4,1)->setBackground(cellYellow);
     } else if(0 == un->isExistDK()) {
         table->setItem(4,1, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
         table->item(4,1)->setBackground(cellGreen);
@@ -493,7 +493,7 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *un)
 
     if(1 == un->isWasDK()) {
         table->setItem(4,3, new QTableWidgetItem(QObject::trUtf8("Есть[1]")));
-        table->item(4,3)->setBackground(cellGreen);
+        table->item(4,3)->setBackground(cellYellow);
     } else if(0 == un->isWasDK()) {
         table->setItem(4,3, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
         table->item(4,3)->setBackground(cellGreen);

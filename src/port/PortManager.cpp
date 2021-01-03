@@ -1220,7 +1220,7 @@ void PortManager::manageOverallReadQueue()
                     UnitNode * reciver = nullptr;
                     for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
-                        if(TypeUnitNode::BL_IP == reciver->getType() &&
+                        if(TypeUnitNode::RLM_C == reciver->getType() &&
                                 reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
                                 reciver->getUdpPort() == request.port())
                             break;
@@ -1233,6 +1233,26 @@ void PortManager::manageOverallReadQueue()
                     tmpCAW->setFirstMsg(request);
                     preppLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
+                } else if(dkWait) {
+                    UnitNode * reciver = nullptr;
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                        reciver = un;
+                        if(TypeUnitNode::RLM_C == reciver->getType() &&
+                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                                reciver->getUdpPort() == request.port()) {
+
+                            if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
+                                ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                                tmpCAW->init();
+                                tmpCAW->setUnReciver(reciver);
+                                DataQueueItem request24 = itm;
+                                request24.setData(DataQueueItem::makeAlarmReset0x24(reciver));
+                                tmpCAW->setFirstMsg(request24);
+                                preppLsWaiter(tmpCAW);
+                            }
+                        }
+
+                    }
                 }
                 break;
             }
