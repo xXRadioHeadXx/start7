@@ -101,29 +101,18 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      if (!index.isValid())
          return 0;
 
-//     if(1 == index.column())
-//     {
-//         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
-//     }
-//     else
+     if (typeApp==SubTypeApp::configurator) //если конфигуратор
      {
+         auto un = static_cast<UnitNode*>(index.internalPointer());
 
-         
-         if (typeApp==SubTypeApp::configurator) //если конфигуратор
-         {
-             if(static_cast<UnitNode*>(index.internalPointer())->getType()==TypeUnitNode::SYSTEM){
-             //    qDebug()<<"[ItemIsEnabled | Qt::ItemIsSelectable]";
-                return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-             }
-             else{
-             //                 qDebug()<<"[Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable]";
-                return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
-             }
+         if(TypeUnitNode::SYSTEM != un->getType()){
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+         } else {
+             return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
          }
-         
-         return Qt::ItemIsEnabled | Qt::ItemIsSelectable ; 
-         
      }
+
+     return Qt::ItemIsEnabled | Qt::ItemIsSelectable ;
  }
 
  QVariant TreeModelUnitNode::headerData(int section, Qt::Orientation orientation,
@@ -186,40 +175,17 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
 
  void TreeModelUnitNode::appendNewUNInStructure(QModelIndex &index, UnitNode* un)
  {
-//Kak tebe takoe Ilon Mask
-     qDebug()<<"appendNewUNInStructure";
-    this->beginInsertRows(index.parent(),index.row(),index.row());
-     UnitNode *parent= static_cast<UnitNode*>(index.internalPointer());
+     qDebug() << "TreeModelUnitNode::appendNewUNInStructure(" << index << ", " << un << ") -->";
+     UnitNode *parent = static_cast<UnitNode*>(index.internalPointer());
 
-
-
-          parent->addTreeChild(un);
-          parent->addChild(un);
-
-
-
-
-  //   listItemUN.append(un);
-
-
+     this->beginInsertRows(index.parent(), index.row(), index.row());
+     parent->addTreeChild(un);
+     parent->addChild(un);
      this->endInsertRows();
 
+     qDebug() << "TreeModelUnitNode::appendNewUNInStructure() <--";
 
-  //   parent->m_child_list.append(item);
-
- //    item->m_parent=parent;
-
-
-//     this->beginResetModel();
-//     this->createProxySortTree();//
-
-//     this->endResetModel();
      return;
-
-//     this->beginInsertRows(this->findeIndexUNL(un->unTreeParent),
-//                           un->unTreeParent->listChilde.indexOf(un),
-//                           un->unTreeParent->listChilde.indexOf(un));
-//     this->endInsertRows();
  }
 
   void TreeModelUnitNode::appendNewUNInStructure(UnitNode* un)
@@ -345,15 +311,9 @@ void TreeModelUnitNode::updateUNs()
 
 void TreeModelUnitNode::loadSettings(QString fileName)
 {
-
-
-this->beginResetModel();
-
+    this->beginResetModel();
     listItemUN = SettingUtils::loadTreeUnitNodes(rootItemUN, fileName);
-
-this->endResetModel();
-
-    qDebug()<<"[PROFIT]";
+    this->endResetModel();
 }
 
 void TreeModelUnitNode::makeEmptyTree()
@@ -366,7 +326,6 @@ void TreeModelUnitNode::makeEmptyTree()
 void TreeModelUnitNode::getListFromModel(QList<UnitNode *> &list, UnitNode* parentTC) const
 {
     if(nullptr == parentTC) {
-        qDebug()<<"[list.clear]";
         list.clear();
         parentTC = rootItemUN;
     }
@@ -374,10 +333,8 @@ void TreeModelUnitNode::getListFromModel(QList<UnitNode *> &list, UnitNode* pare
     for(int i(0), n(parentTC->treeChildCount()); i < n; i++)
     {
         auto un = parentTC->treeChild(i);
-        qDebug() << un->getName();
         un->setMetaNames(QString("Obj_%1").arg(list.count()));
         list.append(un);
-        qDebug() << "[count] " << list.count();
         if(0 < un->treeChildCount())
             getListFromModel(list, un);
     }
@@ -385,7 +342,7 @@ void TreeModelUnitNode::getListFromModel(QList<UnitNode *> &list, UnitNode* pare
 
 bool TreeModelUnitNode::deleteUnit(QModelIndex index)
 {
-    qDebug()<<"TreeModelUnitNode::deleteUnit(QModelIndex index)";
+    qDebug()<<"TreeModelUnitNode::deleteUnit(" << index << ") -->";
 
     if(this->parent(index).isValid()) {
         this->beginRemoveRows(index.parent(),index.row(),index.row());
@@ -394,12 +351,12 @@ bool TreeModelUnitNode::deleteUnit(QModelIndex index)
         //emit dataChanged(index,index);
         this->endRemoveRows();
         emit dataChanged(index,index);
+        qDebug()<<"TreeModelUnitNode::deleteUnit() <-- true";
         return true;
     } else
-        qDebug()<<"no valid";
+        qDebug()<<"TreeModelUnitNode::deleteUnit() <-- false";
 
     return false;
-    /**/
 }
 
 bool TreeModelUnitNode::moveUNUp(QModelIndex index)

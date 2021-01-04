@@ -7,12 +7,12 @@
 
 OnOffIUWaiter::OnOffIUWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "ProcessDKWaiter::ProcessDKWaiter";
+    qDebug() << "OnOffIUWaiter::OnOffIUWaiter(" << this << ") -->";
 }
 
 OnOffIUWaiter::~OnOffIUWaiter()
 {
-    qDebug() << "ProcessDKWaiter::~ProcessDKWaiter()";
+    qDebug() << "OnOffIUWaiter::~OnOffIUWaiter(" << this << ") <--";
 }
 
 void OnOffIUWaiter::init()

@@ -15,13 +15,9 @@ QList<UnitNode *> SettingUtils::listTreeUnitNodes;
 QSet<UnitNode *> SettingUtils::listMetaRealUnitNodes;
 
 QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileName) {
-    qDebug()<<"[1]";
     if(!listTreeUnitNodes.isEmpty()) {
-   //     for(UnitNode *un : listTreeUnitNodes)
-   //         delete un;
         listTreeUnitNodes.clear();
     }
-    qDebug()<<"[2]";
     QSettings settings(fileName, QSettings::IniFormat);
 
     settings.beginGroup("TREE");
@@ -39,7 +35,6 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 #else
     settings.setIniCodec( "UTF-8" );
 #endif
-    qDebug()<<"[3]";
 
     {
         UnitNode * tmpUN = UnitNodeFactory::make(TypeUnitNode::SYSTEM, root);
@@ -57,9 +52,6 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         listTreeUnitNodes.append(tmpUN);
     }
 
-
-
-    qDebug()<<"[4]";
     for(int index = 0; index < cntTrItm; index++)
     {
         QString strGroup("Obj_%1");
@@ -106,8 +98,6 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             tmpUN->setMetkaDopuskTime_0(settings.value( "MetkaDopuskTime_0" , -1 ).toInt());
             tmpUN->setMetkaDopuskTime_1(settings.value( "MetkaDopuskTime_1" , -1 ).toInt());
             tmpUN->setUdpTimeout(settings.value( "UdpTimeout" , -1 ).toInt());
-
-
 
             if(settings.value("Icon1Path").isValid())
              tmpUN->setIcon1Path(settings.value( "Icon1Path" , -1 ).toString());
@@ -201,8 +191,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         }
     }
 
-        qDebug()<<"[5]";
-        return listTreeUnitNodes;
+    return listTreeUnitNodes;
 }
 
 QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
@@ -271,5 +260,5 @@ QVariant SettingUtils::getValueSettings(const QString key, const QString group, 
 
 bool SettingUtils::loadTreeUnitNodes(UnitNode *root, UnitNode *unit)
 {
-    qDebug()<<"SettingUtils::loadTreeUnitNodes";
+//    qDebug()<<"SettingUtils::loadTreeUnitNodes";
 }
