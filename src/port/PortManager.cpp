@@ -1134,10 +1134,10 @@ void PortManager::procDK(UnitNode * current, UnitNode * previous) {
        DKCiclStatus::DKWrong != previous->getDkStatus() &&
        DKCiclStatus::DKDone != previous->getDkStatus() &&
        current->getDkInvolved()) {
-            qDebug() << "DkStatus --> " << current->getName();
+//            qDebug() << "DkStatus --> " << current->getName();
         int unCalcDkStatus = current->calcDKStatus();
-            qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
-            qDebug() << "DkStatus -- unDkStatus " << current->getDkStatus();
+//            qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
+//            qDebug() << "DkStatus -- unDkStatus " << current->getDkStatus();
         if(DKCiclStatus::DKReady == previous->getDkStatus() &&
                 DKCiclStatus::DKNorm == unCalcDkStatus)
             current->setDkStatus(DKCiclStatus::DKNorm);
@@ -1158,8 +1158,8 @@ void PortManager::procDK(UnitNode * current, UnitNode * previous) {
         else
             current->setDkStatus(DKCiclStatus::DKWrong);
         current->updDoubl();
-            qDebug() << "DkStatus -- unNewDkStatus " << current->getDkStatus();
-            qDebug() << "DkStatus <--";
+//            qDebug() << "DkStatus -- unNewDkStatus " << current->getDkStatus();
+//            qDebug() << "DkStatus <--";
     }
 }
 

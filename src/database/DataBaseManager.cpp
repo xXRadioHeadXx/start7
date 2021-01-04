@@ -108,16 +108,14 @@ QSqlDatabase& DataBaseManager::m_db()
             QString userName;
             QString password;
             QString port;
-
             QSettings settings("rifx.ini", QSettings::IniFormat);
             settings.beginGroup("PostgresSQL");
-            hostName = settings.value( "HostName", -1 ).toString();//("127.0.0.1");
+            hostName = settings.value( "Host", -1 ).toString();//("127.0.0.1");
             hostName = Utils::strHostAddress(hostName);
-            databaseName = settings.value( "DatabaseName", -1 ).toString();//("postgres");
-            userName = settings.value( "UserName", -1 ).toString();//("postgres");
+            databaseName = settings.value( "DbName", -1 ).toString();//("postgres");
+            userName = settings.value( "Login", -1 ).toString();//("postgres");
             password = settings.value( "Password", -1 ).toString();//("601275");
             port = settings.value( "Port", -1 ).toString();//(5432);
-            qDebug() << hostName << " " << databaseName << " " << userName << " " << password << " " << port;
             settings.endGroup();
 
             setHostName(hostName);
@@ -125,6 +123,7 @@ QSqlDatabase& DataBaseManager::m_db()
             setUserName(userName);
             setPassword(password);
             setPort(port);
+            qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
         }
 
         db.setHostName(getHostName());
@@ -134,7 +133,6 @@ QSqlDatabase& DataBaseManager::m_db()
         db.setPort(getPort().toUInt());
         db.open(getUserName(), getPassword());
 
-        qDebug() << getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort();
 
         if (!db.isOpen())
         {
@@ -335,7 +333,7 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
 
     if(query.exec())
     {
-        qDebug() << "DataBaseManager::updMsg :" << msg.getId();
+//        qDebug() << "DataBaseManager::updMsg :" << msg.getId();
 //        emit this->updateMSG(msg.getId());
         return msg.getId();
     }
@@ -366,7 +364,7 @@ void DataBaseManager::resetAllFlags()
 
     if(query.exec())
     {
-        qDebug() << "DataBaseManager::resetAllFlags ";
+//        qDebug() << "DataBaseManager::resetAllFlags ";
         return;
     }
     else
@@ -614,7 +612,7 @@ void DataBaseManager::loadSettings(QString fileName)
     setUserName(settings.value( "UserName", -1 ).toString());//("postgres");
     setPassword(settings.value( "Password", -1 ).toString());//("601275");
     setPort(settings.value( "Port", -1 ).toString());//(5432);
-    qDebug() << getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort();
+    qDebug() << "DataBaseManager::loadSettings(" << fileName << " -> " << getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
 
     settings.endGroup();
 }

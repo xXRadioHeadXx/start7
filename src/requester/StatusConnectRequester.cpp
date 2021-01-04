@@ -8,12 +8,12 @@
 
 StatusConnectRequester::StatusConnectRequester(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-//    qDebug() << "StatusConnectRequester::StatusConnectRequester";
+//    qDebug() << "StatusConnectRequester::StatusConnectRequester(" << this << ") -->";
 }
 
 StatusConnectRequester::~StatusConnectRequester()
 {
-//    qDebug() << "StatusConnectRequester::~StatusConnectRequester()";
+//    qDebug() << "StatusConnectRequester::~StatusConnectRequester(" << this << ") <--";
     Port::typeDefPort(getPtrPort())->setProcDK(false);
 }
 

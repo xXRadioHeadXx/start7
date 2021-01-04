@@ -565,6 +565,11 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
          else if(TypeUnitNode::RLM_C       == getType()) {return Icons_cfg::RLM_KRL();   }
          else if(TypeUnitNode::Y4_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
          else if(TypeUnitNode::DD_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
+         else if(TypeUnitNode::KL          == getType()) {return Icons_cfg::KL();        }
+         else if(TypeUnitNode::NET_DEV     == getType()) {return Icons_cfg::NET_DEV();   }
+         else if(TypeUnitNode::ONVIF       == getType()) {return Icons_cfg::ONVIF();     }
+         else if(TypeUnitNode::STRAZH_IP   == getType()) {return Icons_cfg::ONVIF();     }
+
 //         Y4_SOTA = 30,//Участок Сота
 //         DD_SOTA = 28,//ДД Сота
 
@@ -727,6 +732,7 @@ int UnitNode::adamOffToMs(int adamOff)
     }
     return interval;
 }
+
 
 QByteArray UnitNode::getStateWord() const
 {
@@ -1265,4 +1271,44 @@ int UnitNode_RLM_C::lowLevl()
         return 1; //Status::Error);
     else
         return 0; //Status::Not;
+}
+
+QString UnitNode::getIcon1Path() const
+{
+    return Icon1Path;
+}
+
+void UnitNode::setIcon1Path(const QString &value)
+{
+    Icon1Path = value;
+}
+
+QString UnitNode::getIcon2Path() const
+{
+    return Icon2Path;
+}
+
+void UnitNode::setIcon2Path(const QString &value)
+{
+    Icon2Path = value;
+}
+
+QString UnitNode::getIcon3Path() const
+{
+    return Icon3Path;
+}
+
+void UnitNode::setIcon3Path(const QString &value)
+{
+    Icon3Path = value;
+}
+
+QString UnitNode::getIcon4Path() const
+{
+    return Icon4Path;
+}
+
+void UnitNode::setIcon4Path(const QString &value)
+{
+    Icon4Path = value;
 }

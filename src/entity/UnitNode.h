@@ -33,12 +33,15 @@ enum TypeUnitNode {
     TG = 10,      //Точка/Гарда 
     RLM_KRL = 1, //РИФ-РЛМ/КРЛ/Трасса
     RLM_C = 111, //РИФ- РЛМ-С
+    STRAZH_IP = 24,
+    ONVIF = 25, //ONVIF камера
     BOD_T4K_M = 26,//БОД Точка-М/Гарда
     Y4_T4K_M = 27,//Участок Точка-М/Гарда
     DD_T4K_M = 28,//ДД Точка-М/Гарда
     BOD_SOTA =29,//БОД Сота
     Y4_SOTA = 30,//Участок Сота
     DD_SOTA = 31,//ДД Сота
+    NET_DEV = 200,//Сетевое устройство
     BL_IP = 0xFF
 };
 
@@ -95,6 +98,11 @@ private:
     int Metka4Time_1;//=0
     int MetkaDopuskTime_0;//=0
     int MetkaDopuskTime_1;//=1
+
+    QString Icon1Path;
+    QString Icon2Path;
+    QString Icon3Path;
+    QString Icon4Path;
 
     UnitNode *parentUN = nullptr; //родительское устройство
     QList<UnitNode*> listChilde; //список детей
@@ -290,6 +298,7 @@ public:
     static int adamOffToMs(int adamOff);
 
 
+
     QByteArray getStateWord() const;
     void setStateWord(const QByteArray &value);
 
@@ -316,6 +325,19 @@ public:
     virtual int lowLevl(){return -1;};
 
     //
+
+    QString getIcon1Path() const;
+    void setIcon1Path(const QString &value);
+
+    QString getIcon2Path() const;
+    void setIcon2Path(const QString &value);
+
+    QString getIcon3Path() const;
+    void setIcon3Path(const QString &value);
+
+    QString getIcon4Path() const;
+    void setIcon4Path(const QString &value);
+
 
 public slots:
 

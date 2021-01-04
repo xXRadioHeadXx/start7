@@ -7,12 +7,12 @@
 
 LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "LockWaiter::LockWaiter";
+    qDebug() << "LockWaiter::LockWaiter(" << this << ") -->";
 }
 
 LockWaiter::~LockWaiter()
 {
-    qDebug() << "LockWaiter::~LockWaiter()";
+    qDebug() << "LockWaiter::~LockWaiter(" << this << ") <--";
 }
 
 DataQueueItem LockWaiter::getOnMsg()

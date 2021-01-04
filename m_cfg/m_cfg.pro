@@ -25,29 +25,37 @@ include(../src/global.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
+    add_sql_user_form.cpp \
     backgroundimage.cpp \
     comport.cpp \
+    dbform.cpp \
     main.cpp \
     map.cpp \
     mydrawobject.cpp \
     myscene.cpp \
-    operator_form.cpp
+    operator_form.cpp \
+    sqlunit.cpp
 
 
 
 HEADERS += \
     MainWindowCFG.h \
+    add_sql_user_form.h \
     backgroundimage.h \
     comport.h \
+    dbform.h \
     map.h \
     mydrawobject.h \
     myscene.h \
-    operator_form.h
+    operator_form.h \
+    sqlunit.h
 
 
 
 FORMS += \
     MainWindowCFG.ui \
+    add_sql_user_form.ui \
+    dbform.ui \
     map.ui \
     operator_form.ui
 

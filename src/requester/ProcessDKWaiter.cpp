@@ -7,12 +7,12 @@
 
 ProcessDKWaiter::ProcessDKWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "ProcessDKWaiter::ProcessDKWaiter";
+    qDebug() << "ProcessDKWaiter::ProcessDKWaiter(" << this << ") -->";
 }
 
 ProcessDKWaiter::~ProcessDKWaiter()
 {
-    qDebug() << "ProcessDKWaiter::~ProcessDKWaiter()";
+    qDebug() << "ProcessDKWaiter::~ProcessDKWaiter(" << this << ") <--";
     Port::typeDefPort(getPtrPort())->setProcDK(false);
 }
 

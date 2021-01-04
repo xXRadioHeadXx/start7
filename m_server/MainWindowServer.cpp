@@ -651,9 +651,6 @@ void MainWindowServer::on_actionIncrease_triggered()
     ui->tableView->resizeColumnToContents(6);
 
     ui->tableView->update();
-
-    qDebug() << font;
-
 }
 
 void MainWindowServer::on_actionReduce_triggered()
@@ -685,8 +682,6 @@ void MainWindowServer::on_actionReduce_triggered()
     ui->tableView->resizeColumnToContents(6);
 
     ui->tableView->update();
-
-    qDebug() << font;
 }
 
 void MainWindowServer::on_actionNewScheme_triggered()

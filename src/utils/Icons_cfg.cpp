@@ -23,6 +23,13 @@ QPixmap Icons_cfg::Y4_SOTA(){return QPixmap(":icons/square_gray_20_20.png");}
 
 QPixmap Icons_cfg::DD_SOTA(){return QPixmap(":icons/square_gray_20_20.png");}
 
+QPixmap Icons_cfg::KL(){return QPixmap(":icons/square_gray_20_20.png");}
+
+QPixmap Icons_cfg::NET_DEV(){return QPixmap(":icons/сетевое_устройство.png");}
+
+QPixmap Icons_cfg::ONVIF(){return QPixmap(":icons/onvif.png");}
+
+
 
 
 
