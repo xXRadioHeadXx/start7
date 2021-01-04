@@ -98,7 +98,17 @@ private slots:
     void preparePagePoint(int typeUN);
     void preparePageSota1(int typeUN);
     void preparePageSota2(int typeUN);
+
+    void fillPageRLM();
+    void fillPagePoint(int typeUN);
+    void fillPageSota1(int typeUN);
+    void fillPageSota2(int typeUN);
+
     void on_actionCustomization_triggered();
+
+    void on_pushButton_ReadCustomization_clicked();
+
+    void on_pushButton_WriteCustomization_clicked();
 
 protected:
     void closeEvent(QCloseEvent * event);

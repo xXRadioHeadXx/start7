@@ -834,9 +834,9 @@ void MainWindowServer::preparePageRLM(int typeUN)
     ui->comboBox_RLMTactPeriod->clear();
     ui->comboBox_RLMTactPeriod->setEnabled(false);
     ui->comboBox_RLMTactPeriod->setEditable(false);
-    ui->comboBox_RLMTactPeriod->addItem(trUtf8("Неопределено"));
+    ui->comboBox_RLMTactPeriod->addItem(trUtf8("Неопределено"), -1);
     for(int i = 0, n = ((TypeUnitNode::RLM_KRL == typeUN) ? 4 : ((TypeUnitNode::RLM_C == typeUN) ? 5 : 0)); i < n; i++) {
-        ui->comboBox_RLMTactPeriod->addItem(QString(trUtf8("Такт") + " %1").arg(i + 1));
+        ui->comboBox_RLMTactPeriod->addItem(QString(trUtf8("Такт") + " %1").arg(i + 1), i);
     }
     ui->comboBox_RLMTactPeriod->setEnabled(true);
 
@@ -844,9 +844,12 @@ void MainWindowServer::preparePageRLM(int typeUN)
     ui->comboBox_RLMCondition->clear();
     ui->comboBox_RLMCondition->setEnabled(false);
     ui->comboBox_RLMCondition->setEditable(false);
-    ui->comboBox_RLMCondition->addItems({trUtf8("Неопределено"), trUtf8("Основной"), trUtf8("Дополнительный")});
+    ui->comboBox_RLMCondition->addItem(trUtf8("Неопределено"), -1);
+    ui->comboBox_RLMCondition->addItem(trUtf8("Основной"), 0);
+    ui->comboBox_RLMCondition->addItem(trUtf8("Дополнительный"), 1);
     if(TypeUnitNode::RLM_C == typeUN) {
-        ui->comboBox_RLMCondition->addItems({trUtf8("Ползущий (Плз)"), trUtf8("2-й ярус (2Яр)")});
+        ui->comboBox_RLMCondition->addItem(trUtf8("Ползущий (Плз)"), 2);
+        ui->comboBox_RLMCondition->addItem(trUtf8("2-й ярус (2Яр)"), 3);
     }
     ui->comboBox_RLMCondition->setEnabled(true);
 
@@ -856,21 +859,23 @@ void MainWindowServer::preparePageRLM(int typeUN)
     ui->comboBox_RLMEdge->addItem(trUtf8("Неопределено"));
     for(int i = 0, n = 6; i < n; i++) {
         if(0 == i) {
-            ui->comboBox_RLMEdge->addItem(QString(".%1 (" + trUtf8("самый груб.") + ")").arg(i + 1));
+            ui->comboBox_RLMEdge->addItem(QString(".%1 (" + trUtf8("самый груб.") + ")").arg(i + 1), (float)(((float)i + 1.0)/10.0));
         } else {
-            ui->comboBox_RLMEdge->addItem(QString(".%1").arg(i + 1));
+            ui->comboBox_RLMEdge->addItem(QString(".%1").arg(i + 1), (float)(((float)i + 1.0)/10.0));
         }
     }
     for(int i = 0, n = 10; i < n; i++) {
         if(0 == i) {
-            ui->comboBox_RLMEdge->addItem(QString("%1 (" + trUtf8("грубый") + ")").arg(i + 1, 2, 10, QLatin1Char('0')));
+            ui->comboBox_RLMEdge->addItem(QString("%1 (" + trUtf8("грубый") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
         } else if(9 <= i) {
-            ui->comboBox_RLMEdge->addItem(QString("%1 (" + trUtf8("чувств") + ")").arg(i + 1, 2, 10, QLatin1Char('0')));
+            ui->comboBox_RLMEdge->addItem(QString("%1 (" + trUtf8("чувств") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
         } else {
-            ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')));
+            ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
         }
     }
     ui->comboBox_RLMEdge->setEnabled(true);
+
+    fillPageRLM();
 }
 
 void MainWindowServer::preparePagePoint(int typeUN)
@@ -1162,8 +1167,158 @@ void MainWindowServer::preparePageSota2(int typeUN)
     ui->comboBox_Sota2WeakeningC2->setEnabled(true);
 }
 
+void MainWindowServer::fillPageRLM()
+{
+    if(nullptr == selUN)
+        return;
+    if(TypeUnitNode::RLM_C != selUN->getType())
+        return;
+    qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
+    qDebug() << "StateWord " << selUN->getStateWord().toHex();
+    qDebug() << "clockPeriod " << selUN->clockPeriod();
+    qDebug() << "modeProcessing " << selUN->modeProcessing();
+    qDebug() << "threshold " << selUN->threshold();
+
+    int tmpIndex = 0;
+    tmpIndex = ui->comboBox_RLMTactPeriod->findData(selUN->clockPeriod());
+    ui->comboBox_RLMTactPeriod->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+
+    tmpIndex = ui->comboBox_RLMCondition->findData(selUN->modeProcessing());
+    ui->comboBox_RLMCondition->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+
+    tmpIndex = ui->comboBox_RLMEdge->findData(selUN->threshold());
+    ui->comboBox_RLMEdge->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+    qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") <--";
+
+}
+
+void MainWindowServer::fillPagePoint(int typeUN)
+{
+
+}
+
+void MainWindowServer::fillPageSota1(int typeUN)
+{
+
+}
+
+void MainWindowServer::fillPageSota2(int typeUN)
+{
+
+}
+
 void MainWindowServer::on_actionCustomization_triggered()
 {
     ui->actionCustomization->setChecked(ui->actionCustomization->isChecked());
     preparePageCustomization(-1);
+}
+
+void MainWindowServer::on_pushButton_ReadCustomization_clicked()
+{
+    if(!ui->groupBox_Customization->isVisible())
+        return;
+    if(!ui->actionCustomization->isChecked())
+        return;
+    if(nullptr == selUN)
+        return;
+
+    switch (selUN->getType()) {
+    case TypeUnitNode::RLM_KRL:
+    case TypeUnitNode::RLM_C:
+        fillPageRLM(); //CurrentIndex(0);
+        break;
+    case TypeUnitNode::TG:
+        fillPagePoint(selUN->getType()); //setCurrentIndex(3);
+        break;
+    case TypeUnitNode::DD_SOTA:
+        fillPageSota1(selUN->getType()); //CurrentIndex(1);
+        break;
+    case TypeUnitNode::DD_T4K_M:
+        fillPageSota2(selUN->getType()); //CurrentIndex(2);
+        break;
+    default:
+        return;
+    }
+}
+
+void MainWindowServer::on_pushButton_WriteCustomization_clicked()
+{
+    if(!ui->groupBox_Customization->isVisible())
+        return;
+    if(!ui->actionCustomization->isChecked())
+        return;
+    if(nullptr == selUN)
+        return;
+
+    switch (selUN->getType()) {
+    case TypeUnitNode::RLM_KRL:
+    case TypeUnitNode::RLM_C: {
+        auto newStateWord = selUN->getStateWord();
+        if(newStateWord.isEmpty())
+            return;
+
+        auto clockPeriod = ui->comboBox_RLMTactPeriod->currentData().toInt();
+        auto modeProcessing = ui->comboBox_RLMCondition->currentData().toInt();
+        auto threshold = ui->comboBox_RLMEdge->currentData().toDouble();
+
+        if(-1 == clockPeriod || -1 == modeProcessing || -1 == threshold)
+            return;
+
+        newStateWord[2] = (quint8)newStateWord[2] & (quint8)0x80;
+        newStateWord[3] = (quint8)newStateWord[3] & (quint8)0xFC;
+
+        newStateWord[2] = (quint8)newStateWord[2] | ((quint8)clockPeriod * (quint8)0x0F);
+
+        if(10.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)0;
+        } else if(09.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)1;
+        } else if(08.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)2;
+        } else if(07.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)3;
+        } else if(06.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)4;
+        } else if(05.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)5;
+        } else if(04.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)6;
+        } else if(03.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)7;
+        } else if(02.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)8;
+        } else if(01.0 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)9;
+        } else if(00.6 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)10;
+        } else if(00.5 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)11;
+        } else if(00.4 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)12;
+        } else if(00.3 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)13;
+        } else if(00.2 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)14;
+        } else if(00.1 == threshold) {
+            newStateWord[2] = (quint8)newStateWord[2] | (quint8)15;
+        }
+
+        newStateWord[3] = (quint8)newStateWord[3] | (quint8)modeProcessing;
+
+        m_portManager->requestModeSensor(selUN, newStateWord);
+
+        break;
+    }
+    case TypeUnitNode::TG:
+        fillPagePoint(selUN->getType()); //setCurrentIndex(3);
+        break;
+    case TypeUnitNode::DD_SOTA:
+        fillPageSota1(selUN->getType()); //CurrentIndex(1);
+        break;
+    case TypeUnitNode::DD_T4K_M:
+        fillPageSota2(selUN->getType()); //CurrentIndex(2);
+        break;
+    default:
+        return;
+    }
 }

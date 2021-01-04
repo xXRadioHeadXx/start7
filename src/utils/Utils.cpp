@@ -870,7 +870,7 @@ QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
 //        qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
         if(nullptr != unDouble->getTreeParentUN()) {
             if(TypeUnitNode::SD_BL_IP == unDouble->getTreeParentUN()->getType()) {
-//                qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->getName();
+//                qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->toString();
             } else {
                 unSetTmp.remove(unDouble);
             }

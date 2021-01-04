@@ -115,7 +115,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
             if(!tmpUN->getName().isEmpty())
             {
-//                qDebug() << tmpUN->metaName << tmpUN->Name << tmpUN->Type;
+//                qDebug() << tmpUN->metaName << tmpUN->toString();
                 listTreeUnitNodes.append(tmpUN);
                 bool key = true;
                 for (auto rit = listTreeUnitNodes.rbegin(); rit != listTreeUnitNodes.rend(); ++rit) {

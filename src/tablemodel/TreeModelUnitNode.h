@@ -54,7 +54,7 @@ public:
 
     void createProxySortTree();
     void sortingListItemUN();
-    void loadSettings(QString fileName = "C:/Users/Gleb/Desktop/rifx.ini");
+    void loadSettings(QString fileName = "rifx.ini");
 
     void makeEmptyTree(void);
     void getListFromModel(QList<UnitNode *> &list, UnitNode* parentTC = nullptr) const;

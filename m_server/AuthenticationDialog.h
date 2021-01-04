@@ -28,7 +28,7 @@ private:
     QList<Operator> listUser;
     int initialResult = 0;
 
-    int initialForm(const QString fileName = "C:/Users/Gleb/Desktop/rifx.ini");
+    int initialForm(const QString fileName = "rifx.ini");
 };
 
 #endif // AUTHENTICATIONDIALOG_H

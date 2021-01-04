@@ -1253,7 +1253,7 @@ int UnitNode_RLM_C::clockPeriod()
 {
     if(getStateWord().isEmpty())
         return -1;
-    return (quint8)getStateWord().at(2) & (quint8)0x70;
+    return ((quint8)getStateWord().at(2) & (quint8)0x70) / (quint8)0x0F;
 }
 
 int UnitNode_RLM_C::modeProcessing()
@@ -1311,4 +1311,33 @@ QString UnitNode::getIcon4Path() const
 void UnitNode::setIcon4Path(const QString &value)
 {
     Icon4Path = value;
+}
+
+QString UnitNode::toString()
+{
+    QString result;
+    result = "UnitNode(" + QString::number((qulonglong)this, 16) + "@";
+    switch (getType()) {
+    case SYSTEM: result.append("Система"); break; // -1,Система
+    case GROUP: result.append("Группа"); break; // 0,Группа
+    case KL: result.append("Концентратор"); break; // 2,Концентратор КЛ1
+    case SD_BL_IP: result.append("СД БЛ-IP"); break; // 11,СД БЛ-IP
+    case IU_BL_IP: result.append("ИУ БЛ-IP"); break; // 12,ИУ БЛ-IP
+    case TG: result.append("Точка/Гарда"); break; // 10,      //Точка/Гарда
+    case RLM_KRL: result.append("РИФ-РЛМ/КРЛ/Трасса"); break; // 1, //РИФ-РЛМ/КРЛ/Трасса
+    case RLM_C: result.append("РИФ-РЛМ-С"); break; // 111, //РИФ- РЛМ-С
+    case STRAZH_IP: result.append("Страж IP"); break; // 24, //Страж IP
+    case ONVIF: result.append("ONVIF Камера"); break; // 25, //ONVIF камера
+    case BOD_T4K_M: result.append("ОД Точка-М/Гарда"); break; // 26,БОД Точка-М/Гарда
+    case Y4_T4K_M: result.append("Участок Точка-М/Гарда"); break; // 27,Участок Точка-М/Гарда
+    case DD_T4K_M: result.append("ДД Точка-М/Гарда"); break; // 28,ДД Точка-М/Гарда
+    case BOD_SOTA: result.append("БОД Сота"); break; // 29,БОД Сота
+    case Y4_SOTA: result.append("Участок Сота"); break; // 30,Участок Сота
+    case DD_SOTA: result.append("ДД Сота"); break; // 31,ДД Сота
+    case NET_DEV: result.append("Сетевое устройство"); break; // 200,Сетевое устройство
+    case BL_IP: result.append("БЛ-IP"); break; // 0xFF,БЛ IP
+    default: result.append("UNKNOWEN"); break; //
+    }
+    result = result.append(" [" + getName() + "]").append(")");
+    return result;
 }

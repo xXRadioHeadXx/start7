@@ -44,7 +44,7 @@ public:
     static QList<QString> getMeasuresGroup();
     static QList<QString> getDirectionGroup();
 
-    void loadSettings(QString fileName = "C:/Users/Gleb/Desktop/rifx.ini");
+    void loadSettings(QString fileName = "rifx.ini");
 
     static QString dateFlt(QDate from, QDate to);
     static QString objectFlt(JourEntity::TypeObject oType, int d1 = 0, int d2 = 0, int d3 = 0);

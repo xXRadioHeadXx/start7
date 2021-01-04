@@ -36,21 +36,60 @@ DataQueueItem& DataQueueItem::operator=(const DataQueueItem& right) {
     }
 
 bool DataQueueItem::operator==(const DataQueueItem &right) const
-    {
-        if(this == &right)
-            return true;
-        return m_data == right.data() &&
-               m_portIndex == right.portIndex() &&
-               m_address == right.address() &&
-               m_port == right.port();
+{
+    if(this == &right)
+        return true;
+    return m_data == right.data() &&
+           m_portIndex == right.portIndex() &&
+           m_address == right.address() &&
+           m_port == right.port();
+}
+
+void DataQueueItem::setPort(int port) { m_port = port; }
+
+void DataQueueItem::setAddress(const QHostAddress &address) { m_address = address; }
+
+void DataQueueItem::setPortIndex(int portIndex) { m_portIndex = portIndex; }
+
+
+
+QByteArray DataQueueItem::data0x20 = QByteArray();
+
+DataQueueItem DataQueueItem::makeOnOff0x20(DataQueueItem &item, const UnitNode * un)
+{
+    item.setData(DataQueueItem::makeOnOff0x20(un));
+    return item;
+}
+
+QByteArray DataQueueItem::makeOnOff0x20(const UnitNode * un)
+{
+    if(DataQueueItem::data0x20.isEmpty()) {
+        DataQueueItem::data0x20.append((quint8)0xB5);      //<SB>
+        DataQueueItem::data0x20.append((quint8)0xFF);      //<ADDR>
+        DataQueueItem::data0x20.append((quint8)0x01);      //<NBB> 0x00
+        DataQueueItem::data0x20.append((quint8)0x20);      //<CMD> 0x20
+//        DataQueueItem::data0x20.append((quint8)0xFF);      //<D1>
+//        DataQueueItem::data0x20.append(Utils::getByteSumm(DataQueueItem::data0x20)); //<CHKS>
     }
 
-    void DataQueueItem::setPort(int port) { m_port = port; }
+    QByteArray out = DataQueueItem::data0x20;
+    if(nullptr != un) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::SD_BL_IP == un->getType() ||
+           TypeUnitNode::IU_BL_IP == un->getType()) {
+            out[1] = (quint8)0xFF;
+            out[2] = (quint8)0x01;        //<NBB> 0x00
+            out.append((quint8)0xFF);
+        } else if(TypeUnitNode::RLM_C == un->getType()) {
+            out[1] = (quint8)un->getNum1();
+            out[2] = (quint8)0x02;        //<NBB> 0x00
+            out.append(un->getStateWord().right(2));
+        }
+    }
+    out.append(Utils::getByteSumm(out)); //<CHKS>
 
-    void DataQueueItem::setAddress(const QHostAddress &address) { m_address = address; }
-
-    void DataQueueItem::setPortIndex(int portIndex) { m_portIndex = portIndex; }
-
+    return out;
+}
 
 QByteArray DataQueueItem::data0x21 = QByteArray();
 
@@ -116,6 +155,86 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
     out.append(Utils::getByteSumm(out)); //<CHKS>
 
     return out;
+}
+
+QByteArray DataQueueItem::data0x23 = QByteArray();
+
+DataQueueItem DataQueueItem::makeOnOff0x23(DataQueueItem &item, UnitNode *un)
+{
+    item.setData(DataQueueItem::makeOnOff0x23(un, true));
+    return item;
+}
+
+QByteArray DataQueueItem::makeOnOff0x23(UnitNode *un, bool onOff, UnitNode *pun)
+{
+    if(DataQueueItem::data0x23.isEmpty()) {
+        DataQueueItem::data0x23.append((quint8)0xB5);      //<SB>
+        DataQueueItem::data0x23.append((quint8)0xFF);      //<ADDR>
+        DataQueueItem::data0x23.append((char)0x01);        //<NBB> 0x00
+        DataQueueItem::data0x23.append((quint8)0x23);      //<CMD> 0x23
+        DataQueueItem::data0x23.append((quint8)0xFF);      //<D1>
+        DataQueueItem::data0x23.append(Utils::getByteSumm(DataQueueItem::data0x23)); //<CHKS>
+    }
+
+    if(nullptr == un)
+        return QByteArray(DataQueueItem::data0x23);
+    else if(TypeUnitNode::IU_BL_IP != un->getType())
+        return QByteArray(DataQueueItem::data0x23);
+
+    UnitNode * target = un;
+
+    if(nullptr == pun) {
+        pun = target;
+    }
+    if(TypeUnitNode::BL_IP != pun->getType()) {
+        while(nullptr != pun) {
+            if(TypeUnitNode::BL_IP == pun->getType()) {
+                break;
+            }
+            pun = pun->getParentUN();
+        }
+    }
+    UnitNode * reciver = pun;
+
+    quint8 D1 = 0x00;
+    if(TypeUnitNode::SD_BL_IP == target->getType() ||
+            TypeUnitNode::IU_BL_IP == target->getType()) {
+        while(nullptr != reciver) {
+            if(TypeUnitNode::BL_IP == reciver->getType()) {
+                break;
+            }
+            reciver = reciver->getParentUN();
+        }
+    }
+    int type = target->getType();
+
+    if(nullptr != reciver)
+        for(auto un : as_const(reciver->getListChilde())) {
+            if(type != un->getType())
+                continue;
+            quint8 mask = un->mask();
+
+            if(TypeUnitNode::SD_BL_IP == un->getType() &&
+                    1 == un->isOff())
+                D1 = D1 & ~mask;
+            else if(TypeUnitNode::IU_BL_IP == un->getType() &&
+                    1 == un->isOff())
+                D1 = D1 & ~mask;
+            else
+                D1 = D1 | mask;
+
+            if(un == target && onOff)
+                D1 = D1 | mask;
+            else if(un == target && !onOff)
+                D1 = D1 & ~mask;
+        }
+
+    QByteArray data = DataQueueItem::data0x23;
+    data[4] = D1;
+    data.chop(1);
+    data.append(Utils::getByteSumm(data)); //<CHKS>
+
+    return data;
 }
 
 QByteArray DataQueueItem::data0x24 = QByteArray();
@@ -212,110 +331,6 @@ QByteArray DataQueueItem::makeOn0x26(const UnitNode * un)
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
     return out;
-}
-
-
-QByteArray DataQueueItem::data0x20 = QByteArray();
-
-DataQueueItem DataQueueItem::makeOnOff0x20(DataQueueItem &item, const UnitNode * un)
-{
-    item.setData(DataQueueItem::makeOnOff0x20(un));
-    return item;
-}
-
-QByteArray DataQueueItem::makeOnOff0x20(const UnitNode * un)
-{
-    if(DataQueueItem::data0x20.isEmpty()) {
-        DataQueueItem::data0x20.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x20.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x20.append((char)0x01);        //<NBB> 0x00
-        DataQueueItem::data0x20.append((quint8)0x20);      //<CMD> 0x20
-        DataQueueItem::data0x20.append((quint8)0xFF);      //<D1>
-        DataQueueItem::data0x20.append(Utils::getByteSumm(DataQueueItem::data0x20)); //<CHKS>
-    }
-
-    return DataQueueItem::data0x20;
-}
-
-QByteArray DataQueueItem::data0x23 = QByteArray();
-
-
-QByteArray DataQueueItem::makeOnOff0x23(UnitNode *un, bool onOff, UnitNode *pun)
-{
-    if(DataQueueItem::data0x23.isEmpty()) {
-        DataQueueItem::data0x23.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x23.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x23.append((char)0x01);        //<NBB> 0x00
-        DataQueueItem::data0x23.append((quint8)0x23);      //<CMD> 0x23
-        DataQueueItem::data0x23.append((quint8)0xFF);      //<D1>
-        DataQueueItem::data0x23.append(Utils::getByteSumm(DataQueueItem::data0x23)); //<CHKS>
-    }
-
-    if(nullptr == un)
-        return QByteArray(DataQueueItem::data0x23);
-    else if(TypeUnitNode::IU_BL_IP != un->getType())
-        return QByteArray(DataQueueItem::data0x23);
-
-    UnitNode * target = un;
-
-    if(nullptr == pun) {
-        pun = target;
-    }
-    if(TypeUnitNode::BL_IP != pun->getType()) {
-        while(nullptr != pun) {
-            if(TypeUnitNode::BL_IP == pun->getType()) {
-                break;
-            }
-            pun = pun->getParentUN();
-        }
-    }
-    UnitNode * reciver = pun;
-
-    quint8 D1 = 0x00;
-    if(TypeUnitNode::SD_BL_IP == target->getType() ||
-            TypeUnitNode::IU_BL_IP == target->getType()) {
-        while(nullptr != reciver) {
-            if(TypeUnitNode::BL_IP == reciver->getType()) {
-                break;
-            }
-            reciver = reciver->getParentUN();
-        }
-    }
-    int type = target->getType();
-
-    if(nullptr != reciver)
-        for(auto un : as_const(reciver->getListChilde())) {
-            if(type != un->getType())
-                continue;
-            quint8 mask = un->mask();
-
-            if(TypeUnitNode::SD_BL_IP == un->getType() &&
-                    1 == un->isOff())
-                D1 = D1 & ~mask;
-            else if(TypeUnitNode::IU_BL_IP == un->getType() &&
-                    1 == un->isOff())
-                D1 = D1 & ~mask;
-            else
-                D1 = D1 | mask;
-
-            if(un == target && onOff)
-                D1 = D1 | mask;
-            else if(un == target && !onOff)
-                D1 = D1 & ~mask;
-        }
-
-    QByteArray data = DataQueueItem::data0x23;
-    data[4] = D1;
-    data.chop(1);
-    data.append(Utils::getByteSumm(data)); //<CHKS>
-
-    return data;
-}
-
-DataQueueItem DataQueueItem::makeOnOff0x23(DataQueueItem &item, UnitNode *un)
-{
-    item.setData(DataQueueItem::makeOnOff0x23(un, true));
-    return item;
 }
 
 bool DataQueueItem::isValideDirectionI(DataQueueItem &item)

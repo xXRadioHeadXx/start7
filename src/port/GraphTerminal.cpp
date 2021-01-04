@@ -370,7 +370,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& un : as_const(unTargetSet.values())) {
                     if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
                         unTarget = un;
-                        qDebug() << unTarget->getName();
+                        qDebug() << unTarget->toString();
                         break;
                     }
                 }
@@ -458,7 +458,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& un : as_const(unTargetSet.values())) {
                     if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
                         unTarget = un;
-                        qDebug() << unTarget->getName();
+                        qDebug() << unTarget->toString();
                         break;
                     }
                 }
@@ -556,7 +556,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& un : as_const(unTargetSet.values())) {
                     if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
                         unTarget = un;
-                        qDebug() << unTarget->getName();
+                        qDebug() << unTarget->toString();
                         break;
                     }
                 }

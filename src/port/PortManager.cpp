@@ -480,6 +480,31 @@ void PortManager::lockOpenCloseCommand(UnitNode *selUN, bool value)
     lockOpenCloseCommand(false, selUN, value);
 }
 
+void PortManager::requestModeSensor(UnitNode *selUN, QByteArray stateWord)
+{
+    if(nullptr == selUN || stateWord.isEmpty()) {
+        return;
+    } else if(selUN->getStateWord().size() > stateWord.size()) {
+        return;
+    }
+
+    if(TypeUnitNode::RLM_C == selUN->getType()){
+        ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
+        tmpCAW->init();
+
+        DataQueueItem itm = tmpCAW->getFirstMsg();
+        auto data = DataQueueItem::makeOnOff0x20(selUN);
+        data[4] = stateWord.at(2);
+        data[5] = stateWord.at(3);
+        data.chop(1);
+        data.append(Utils::getByteSumm(data)); //<CHKS>
+        itm.setData(data);
+
+        tmpCAW->setFirstMsg(itm);
+        appLsWaiter(tmpCAW);
+    }
+}
+
 void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)
 {
 
@@ -591,7 +616,7 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             DataQueueItem itm = tmpCAW->getFirstMsg();
             QByteArray data;
             if(TypeUnitNode::SD_BL_IP == target->getType())
-                data = DataQueueItem::makeOnOff0x20();
+                data = DataQueueItem::makeOnOff0x20(target);
             else if(TypeUnitNode::IU_BL_IP == target->getType())
                 data = DataQueueItem::makeOnOff0x23();
             data[4] = D1;
@@ -784,7 +809,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
            DKCiclStatus::DKWrong != previousCopyUN->getDkStatus() &&
            DKCiclStatus::DKDone != previousCopyUN->getDkStatus() &&
            un->getDkInvolved()) {
-//            qDebug() << "DkStatus --> " << un->getName();
+//            qDebug() << "DkStatus --> " << un->toString();
             int unCalcDkStatus = un->calcDKStatus();
 //            qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
 //            qDebug() << "DkStatus -- unDkStatus " << un->getDkStatus();
@@ -860,44 +885,44 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                              1 == unLockSdBlIp->isNorm() &&
                              1 == unLockIuBlIp->isOff())) //Закрыто ключом
                     {
-                        qDebug() << "isLockPair continue " << un->getName();
+                        qDebug() << "isLockPair continue " << un->toString();
                         continue;
                     }
 
 /*                    if(1 == previousCopyUNLockSdBlIp->isAlarm() &&
                        1 == previousCopyUNLockIuBlIp->isOff()) {
                         //Открыто
-//                        qDebug() << "isLockPair Old O " << un->getName();
+//                        qDebug() << "isLockPair Old O " << un->toString();
                     } else if(1 == previousCopyUNLockSdBlIp->isNorm() &&
                               1 == previousCopyUNLockIuBlIp->isOn()) {
                         //Закрыто
-//                        qDebug() << "isLockPair Old L " << un->getName();
+//                        qDebug() << "isLockPair Old L " << un->toString();
                     } else if(1 == previousCopyUNLockSdBlIp->isAlarm() &&
                               1 == previousCopyUNLockIuBlIp->isOn()) {
                         //Открыто ключом
-//                        qDebug() << "isLockPair Old OK " << un->getName();
+//                        qDebug() << "isLockPair Old OK " << un->toString();
                     } else if(1 == previousCopyUNLockSdBlIp->isNorm() &&
                               1 == previousCopyUNLockIuBlIp->isOff()) {
                         //Закрыто ключом
-//                        qDebug() << "isLockPair Old LK " << un->getName();
+//                        qDebug() << "isLockPair Old LK " << un->toString();
                     }
 
                     if(1 == unLockSdBlIp->isAlarm() &&
                        1 == unLockIuBlIp->isOff()) {
                         //Открыто
-//                        qDebug() << "isLockPair New O " << un->getName();
+//                        qDebug() << "isLockPair New O " << un->toString();
                     } else if(1 == unLockSdBlIp->isNorm() &&
                               1 == unLockIuBlIp->isOn()) {
                         //Закрыто
-//                        qDebug() << "isLockPair New L " << un->getName();
+//                        qDebug() << "isLockPair New L " << un->toString();
                     } else if(1 == unLockSdBlIp->isAlarm() &&
                               1 == unLockIuBlIp->isOn()) {
                         //Открыто ключом
-//                        qDebug() << "isLockPair New OK " << un->getName();
+//                        qDebug() << "isLockPair New OK " << un->toString();
                     } else if(1 == unLockSdBlIp->isNorm() &&
                               1 == unLockIuBlIp->isOff()) {
                         //Закрыто ключом
-//                        qDebug() << "isLockPair New LK " << un->getName();
+//                        qDebug() << "isLockPair New LK " << un->toString();
                     }*/
 
                     msg.setObject(unLockSdBlIp->getName());
@@ -945,7 +970,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                       1 == unLockSdBlIp->isNorm() &&
                       1 == unLockIuBlIp->isOff())) //Закрыто ключом
                     {
-                        qDebug() << "isLockPair not jour " << un->getName();
+                        qDebug() << "isLockPair not jour " << un->toString();
                     } else {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
@@ -1106,7 +1131,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
             if(!un->getDkInvolved() && (TypeUnitNode::RLM_C == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
                 //сохранение Тревога или Норма
-                qDebug() << "need reset alarm " << un->getName();
+                qDebug() << "need reset alarm " << un->toString();
                 if(0 != un->treeChildCount()) {
                     for(const auto& iuun : as_const(un->treeChild())) {
                         if(TypeUnitNode::SYSTEM == iuun->getType()) {
@@ -1134,7 +1159,7 @@ void PortManager::procDK(UnitNode * current, UnitNode * previous) {
        DKCiclStatus::DKWrong != previous->getDkStatus() &&
        DKCiclStatus::DKDone != previous->getDkStatus() &&
        current->getDkInvolved()) {
-//            qDebug() << "DkStatus --> " << current->getName();
+//            qDebug() << "DkStatus --> " << current->toString();
         int unCalcDkStatus = current->calcDKStatus();
 //            qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
 //            qDebug() << "DkStatus -- unDkStatus " << current->getDkStatus();

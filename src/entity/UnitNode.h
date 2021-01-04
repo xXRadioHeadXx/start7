@@ -25,15 +25,15 @@ enum Status {
 };
 
 enum TypeUnitNode {
-    SYSTEM = -1,
-    GROUP = 0,
-    KL = 2,
+    SYSTEM = -1, //Система
+    GROUP = 0, //Группа
+    KL = 2, //Концентратор КЛ1
     SD_BL_IP = 11,//СД БЛ-IP 
     IU_BL_IP = 12,//ИУ БЛ-IP 
     TG = 10,      //Точка/Гарда 
     RLM_KRL = 1, //РИФ-РЛМ/КРЛ/Трасса
     RLM_C = 111, //РИФ- РЛМ-С
-    STRAZH_IP = 24,
+    STRAZH_IP = 24, //Страж IP
     ONVIF = 25, //ONVIF камера
     BOD_T4K_M = 26,//БОД Точка-М/Гарда
     Y4_T4K_M = 27,//Участок Точка-М/Гарда
@@ -42,7 +42,7 @@ enum TypeUnitNode {
     Y4_SOTA = 30,//Участок Сота
     DD_SOTA = 31,//ДД Сота
     NET_DEV = 200,//Сетевое устройство
-    BL_IP = 0xFF
+    BL_IP = 0xFF //БЛ IP
 };
 
 enum DKCiclStatus {
@@ -337,6 +337,8 @@ public:
 
     QString getIcon4Path() const;
     void setIcon4Path(const QString &value);
+
+    virtual QString toString();
 
 
 public slots:
