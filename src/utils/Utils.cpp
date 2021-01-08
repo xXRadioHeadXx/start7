@@ -508,7 +508,7 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *un)
     }
 
     if(1 == un->lowLevl()) {
-        table->setItem(6,1, new QTableWidgetItem(QObject::trUtf8("Да[1]")));
+        table->setItem(6,1, new QTableWidgetItem(QObject::trUtf8("Да<1>")));
         table->item(6,1)->setBackground(cellRed);
     } else if(0 == un->lowLevl()) {
         table->setItem(6,1, new QTableWidgetItem(QObject::trUtf8("Нет[0]")));
