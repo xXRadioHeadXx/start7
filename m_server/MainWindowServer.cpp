@@ -526,6 +526,16 @@ void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
+    if(TypeUnitNode::RLM_C == selUN->getType()) {
+        int ret = QMessageBox::question(this, trUtf8("Предупреждение"),
+                                       trUtf8("Вы действительно хотите отключить устройство?"),
+                                       QMessageBox::Ok | QMessageBox::Cancel,
+                                       QMessageBox::Ok);
+
+        if(QMessageBox::Ok != ret) {
+            return;
+        }
+    }
     this->m_portManager->requestOnOffCommand(false, selUN, false);
 }
 
