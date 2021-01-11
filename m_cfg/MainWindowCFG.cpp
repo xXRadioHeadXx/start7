@@ -4435,7 +4435,8 @@ void MainWindowCFG::save_ini(QString filename)
     qDebug()<<"save ini";
 
     QSettings settings(filename,QSettings::IniFormat);
-    settings.setIniCodec( QTextCodec::codecForLocale() );
+//    settings.setIniCodec( QTextCodec::codecForLocale() );
+    settings.setIniCodec("UTF-8");
 //   foreach(UnitNode* unit,this->modelTreeUN->listItemUN)
     QList<UnitNode *> List;
     this->modelTreeUN->getListFromModel(List);
