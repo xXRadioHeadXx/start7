@@ -1,0 +1,34 @@
+отсутствуют
+
+[PARAMS]
+PlanPath=C:\Program Files\RIFx_32\Plan1.jpg
+
+[RIF]
+Ul=0
+Uh=5
+
+[SSOI]
+
+[RASTRMTV]
+
+[INTEGRATION]
+DevLine=c:\Program Files\DevLine\Line\observer.exe
+
+[RASTR]
+
+[SOLID]
+
+[ADAM4068]
+
+[TABLO]
+
+[RASTRMSSOI]
+
+[BACKUP]
+BackupPath=C:rogram FilesIFx_32ackup - бэкслэши
+
+[PORT]
+
+[ASOOSD]
+
+
