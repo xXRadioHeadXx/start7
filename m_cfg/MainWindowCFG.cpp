@@ -15,6 +15,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowCFG)
 {
+
     ui->setupUi(this);
 
     for (auto volume : QStorageInfo::mountedVolumes()) {
