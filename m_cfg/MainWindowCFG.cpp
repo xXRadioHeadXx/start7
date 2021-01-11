@@ -5389,7 +5389,7 @@ void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
     */
 }
 
-
+/*
 QList<udev_device*> listDevices()
 {
     struct udev_enumerate *enu = ::udev_enumerate_new(m_udev);
@@ -5410,3 +5410,4 @@ QList<udev_device*> listDevices()
     ::udev_enumerate_unref(enu);
     return list;
 }
+*/
