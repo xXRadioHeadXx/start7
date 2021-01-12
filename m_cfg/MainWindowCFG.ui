@@ -149,8 +149,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>638</width>
-          <height>1425</height>
+          <width>616</width>
+          <height>1413</height>
          </rect>
         </property>
         <property name="minimumSize">
@@ -1231,9 +1231,21 @@
                <rect>
                 <x>170</x>
                 <y>21</y>
-                <width>91</width>
+                <width>111</width>
                 <height>16</height>
                </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>111</width>
+                <height>16</height>
+               </size>
               </property>
               <property name="text">
                <string>Географ.широта</string>
@@ -1244,9 +1256,15 @@
                <rect>
                 <x>290</x>
                 <y>21</y>
-                <width>91</width>
+                <width>121</width>
                 <height>16</height>
                </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>121</horstretch>
+                <verstretch>16</verstretch>
+               </sizepolicy>
               </property>
               <property name="text">
                <string>Географ.долгота</string>
@@ -2902,7 +2920,7 @@
      <x>0</x>
      <y>0</y>
      <width>1049</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
