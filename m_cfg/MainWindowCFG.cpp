@@ -197,7 +197,7 @@ AnsiString str;
 
 
 
-  this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
+  this->ui->RifPort_comboBox->addItem(" ВЫКЛ"," ВЫКЛ");
    for(int i(1), n(100); i < n; i++)
    {
        qDebug()<<"i= "<<i;
@@ -4055,12 +4055,12 @@ void MainWindowCFG::get_OPERATORS(QString filename)
     settings.beginGroup("OPERATORS");
 
     if(0==settings.value("Use",-1).toInt()){
-        this->ui->operators_use_combobox->setCurrentText("Без операторов");
+        this->ui->operators_use_combobox->setCurrentText(" Без операторов");
          qDebug()<<"OPERATORS Use = 0";
     }
     else
     {
-        this->ui->operators_use_combobox->setCurrentText("С операторами");
+        this->ui->operators_use_combobox->setCurrentText(" С операторами");
 
     }
 
@@ -4146,7 +4146,7 @@ void MainWindowCFG::default_OPERATORS()
 {
     this->operators.clear();
     this->update_operators_table();
-    this->ui->operators_use_combobox->setCurrentText("Без операторов");
+    this->ui->operators_use_combobox->setCurrentText(" Без операторов");
     this->ui->tableWidget->setEnabled(false);
     this->ui->add_operator_button->setEnabled(false);
     this->ui->change_operator_button->setEnabled(false);
@@ -5040,7 +5040,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 
 void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &arg1)
 {
-    if(arg1=="Без операторов")
+    if(arg1==" Без операторов")
     {
 
       qDebug()<<"[без операторов]";
@@ -5050,7 +5050,7 @@ void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &
       this->ui->delete_operator_button->setEnabled(false);
       operators_use=0;
     }
-    if(arg1=="С операторами")
+    if(arg1==" С операторами")
     {
       qDebug()<<"[с операторами]";
             this->ui->tableWidget->setEnabled(true);
