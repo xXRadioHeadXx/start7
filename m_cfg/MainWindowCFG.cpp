@@ -2966,7 +2966,7 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
 
     if(unit->getUdpUse()==0)
     {
-   string1.append(QString::number(unit->getNum3()));
+  // string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
        string1.append(" ");
