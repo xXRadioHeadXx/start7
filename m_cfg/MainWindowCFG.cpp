@@ -4435,8 +4435,14 @@ void MainWindowCFG::save_ini(QString filename)
     qDebug()<<"save ini";
 
     QSettings settings(filename,QSettings::IniFormat);
-//    settings.setIniCodec( QTextCodec::codecForLocale() );
-    settings.setIniCodec("UTF-8");
+    settings.setIniCodec( QTextCodec::codecForLocale() );
+    /*
+#if (defined (_WIN32) || defined (_WIN64))
+    settings.setIniCodec( "Windows-1251" );
+#else
+    settings.setIniCodec( "UTF-8" );
+#endif
+    */
 //   foreach(UnitNode* unit,this->modelTreeUN->listItemUN)
     QList<UnitNode *> List;
     this->modelTreeUN->getListFromModel(List);

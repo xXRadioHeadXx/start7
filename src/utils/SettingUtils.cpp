@@ -31,11 +31,11 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         return listTreeUnitNodes;
 
 
-//#if (defined (_WIN32) || defined (_WIN64))
-//    settings.setIniCodec( "Windows-1251" );
-//#else
+#if (defined (_WIN32) || defined (_WIN64))
+    settings.setIniCodec( "Windows-1251" );
+#else
     settings.setIniCodec( "UTF-8" );
-//#endif
+#endif
 
     {
         UnitNode * tmpUN = UnitNodeFactory::make(TypeUnitNode::SYSTEM, root);
