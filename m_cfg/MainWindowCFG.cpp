@@ -197,7 +197,7 @@ AnsiString str;
 
 
 
-  this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
+  this->ui->RifPort_comboBox->addItem(" ВЫКЛ"," ВЫКЛ");
    for(int i(1), n(100); i < n; i++)
    {
        qDebug()<<"i= "<<i;
