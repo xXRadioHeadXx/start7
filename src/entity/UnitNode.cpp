@@ -1205,7 +1205,7 @@ float UnitNode_RLM_C::voltage()
 {
     if(getStateWord().isEmpty())
         return -1.0;
-    return 5.0 - 5.0 * (float)getStateWord().at(0) / (float)0xFF;
+    return static_cast<float>(5.0 - (5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0)));
 }
 
 int UnitNode_RLM_C::isExternalSynchronization()
