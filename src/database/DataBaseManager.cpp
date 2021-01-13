@@ -110,11 +110,11 @@ QSqlDatabase& DataBaseManager::m_db()
             QString port;
             QSettings settings("rifx.ini", QSettings::IniFormat);
             settings.beginGroup("PostgresSQL");
-            hostName = settings.value( "Host", -1 ).toString();//("127.0.0.1");
+            hostName = settings.value( "Host", "127.0.0.1" ).toString();//("127.0.0.1");
             hostName = Utils::strHostAddress(hostName);
-            databaseName = settings.value( "DbName", -1 ).toString();//("postgres");
+            databaseName = settings.value( "DbName", "rif_db0" ).toString();//("postgres");
             userName = settings.value( "Login", -1 ).toString();//("postgres");
-            password = settings.value( "Password", -1 ).toString();//("601275");
+            password = settings.value( "Password", "" ).toString();//("601275");
             port = settings.value( "Port", -1 ).toString();//(5432);
             settings.endGroup();
 
@@ -606,12 +606,12 @@ void DataBaseManager::loadSettings(QString fileName)
     QSettings settings(fileName, QSettings::IniFormat);
     settings.beginGroup("PostgresSQL");
 
-    setHostName(settings.value( "HostName", -1 ).toString());//("127.0.0.1");
+    setHostName(settings.value( "Host", "127.0.0.1" ).toString());//("127.0.0.1");
     setHostName(Utils::strHostAddress(getHostName()));
-    setDatabaseName(settings.value( "DatabaseName", -1 ).toString());//("postgres");
-    setUserName(settings.value( "UserName", -1 ).toString());//("postgres");
-    setPassword(settings.value( "Password", -1 ).toString());//("601275");
-    setPort(settings.value( "Port", -1 ).toString());//(5432);
+    setDatabaseName(settings.value( "DbName", "rif_db0" ).toString());//("postgres");
+    setUserName(settings.value( "Login", "postgres" ).toString());//("postgres");
+    setPassword(settings.value( "Password", "" ).toString());//("601275");
+    setPort(settings.value( "Port", "5432" ).toString());//(5432);
     qDebug() << "DataBaseManager::loadSettings(" << fileName << " -> " << getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
 
     settings.endGroup();

@@ -34,7 +34,7 @@ void StatusConnectRequester::addLsTrackedUN(UnitNode *  value)
 
 void StatusConnectRequester::specialReserveSlot() const
 {
-    qDebug () << "StatusConnectRequester::specialReserveSlot(" << getUnReciver()->toString() << ")";
+//    qDebug () << "StatusConnectRequester::specialReserveSlot(" << getUnReciver()->toString() << ")";
 
     SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
 }
@@ -107,5 +107,5 @@ void StatusConnectRequester::init() {
     setTimeIntervalRequest(100);
     setTimeIntervalWaiteFirst(0);
 
-    connect(this, SIGNAL(unsuccessful()), this, SLOT(specialReserveSlot()));
+    connect(this, SIGNAL(importantBeatStatus()), this, SLOT(specialReserveSlot()));
 }

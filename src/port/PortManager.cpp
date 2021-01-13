@@ -12,6 +12,7 @@
 #include <StatusConnectRequester.h>
 #include <LockWaiter.h>
 #include <global.hpp>
+#include <QMessageBox>
 
 PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {
@@ -501,6 +502,21 @@ void PortManager::requestModeSensor(UnitNode *selUN, QByteArray stateWord)
         itm.setData(data);
 
         tmpCAW->setFirstMsg(itm);
+
+        connect(tmpCAW, &AbstractRequester::successful, [](){
+            QMessageBox::information(nullptr,
+                                 trUtf8("Инфо"),
+                                 trUtf8("Параметры датчика записаны успешно!"),
+                                 QMessageBox::Ok);
+        });
+
+        connect(tmpCAW, &AbstractRequester::unsuccessful, [](){
+            QMessageBox::warning(nullptr,
+                                 trUtf8("Ошибка"),
+                                 trUtf8("Ошибка записи параметров датчика!"),
+                                 QMessageBox::Ok);
+        });
+
         appLsWaiter(tmpCAW);
     }
 }
@@ -1103,14 +1119,16 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
-                if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isOn()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
+                if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
                     //сохранение Тревога или Норма
-                    msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
-                    msg.setType(20);
-                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    //нужен сброс
-                    resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                    if(1 == un->isOn()) {
+                        msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
+                        msg.setType(20);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                        //нужен сброс
+                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                    }
                 } else if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
                     msg.setComment(QObject::trUtf8("Норма"));
                     msg.setType(1);
@@ -1372,7 +1390,7 @@ void PortManager::manageOverallReadQueue()
 
                             removeLsWaiter(ar);
 
-                        } else if(BeatStatus::Unsuccessful == ar->getBeatStatus()) { // точно пора удалять
+                        } else if(BeatStatus::Unsuccessful == ar->getBeatStatus() || BeatStatus::Successful == ar->getBeatStatus()) { // точно пора удалять
                             removeLsWaiter(ar);
                         }
                     }
@@ -1385,8 +1403,8 @@ void PortManager::manageOverallReadQueue()
 
             bool keypass = true;
             for(AbstractRequester * ar : as_const(getLsWaiter())) {
-                if(BeatStatus::Unsuccessful == ar->getBeatStatus()) {
-                    removeLsWaiter(ar);
+                if(BeatStatus::Unsuccessful == ar->getBeatStatus() || BeatStatus::Successful == ar->getBeatStatus()) {
+                    removeLsWaiter(ar); //
                 } else if(true == keypass && BeatStatus::Start == ar->getBeatStatus()) {
                     keypass = false;
                     ar->startFirstRequest();

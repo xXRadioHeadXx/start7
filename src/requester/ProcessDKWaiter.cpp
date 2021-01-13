@@ -112,5 +112,5 @@ void ProcessDKWaiter::init() {
     setTimeIntervalWaiteFirst(11000);
     setTimeIntervalRequest(500);
 
-    connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndDKWait()));
+    connect(this, SIGNAL(importantBeatStatus()), SignalSlotCommutator::getInstance(), SLOT(emitEndDKWait()));
 }

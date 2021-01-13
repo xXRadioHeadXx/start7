@@ -387,7 +387,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
                 menu->addAction(ui->actionCollapseUNTree);
         }
-        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType())
+        if((0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType()) || TypeUnitNode::RLM_C == selUN->getType())
             menu->addAction(ui->actionControl);
         menu->addSeparator();
         if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && (1 == sel->isOff())) {

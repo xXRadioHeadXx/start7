@@ -163,5 +163,5 @@ void LockWaiter::init() {
 
     setMaxBeatCount(5);
 
-    connect(this, SIGNAL(unsuccessful()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockWait()));
+    connect(this, SIGNAL(importantBeatStatus()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockWait()));
 }
