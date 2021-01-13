@@ -87,7 +87,8 @@ QByteArray DataQueueItem::makeOnOff0x20(const UnitNode * un)
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
-
+    if(TypeUnitNode::RLM_C == un->getType())
+        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
     return out;
 }
 
@@ -120,7 +121,8 @@ QByteArray DataQueueItem::makeDK0x21(const UnitNode * un)
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
-
+    if(TypeUnitNode::RLM_C == un->getType())
+        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
     return out;
 }
 
@@ -153,7 +155,8 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
-
+    if(TypeUnitNode::RLM_C == un->getType())
+        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
     return out;
 }
 
@@ -266,6 +269,8 @@ QByteArray DataQueueItem::makeAlarmReset0x24(const UnitNode * un)
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
+    if(TypeUnitNode::RLM_C == un->getType())
+        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
     return out;
 }
 
@@ -298,6 +303,8 @@ QByteArray DataQueueItem::makeOff0x25(const UnitNode * un)
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
+    if(TypeUnitNode::RLM_C == un->getType())
+        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
     return out;
 }
 
@@ -330,6 +337,8 @@ QByteArray DataQueueItem::makeOn0x26(const UnitNode * un)
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
+    if(TypeUnitNode::RLM_C == un->getType())
+        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
     return out;
 }
 
@@ -337,7 +346,7 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
 {
     if(item.data().isEmpty() || item.address().isNull() || 0 > item.port() || -1 > item.portIndex())
         return false;
-
+    return true;
     try {
         if(6 > item.data().size())
             return false;

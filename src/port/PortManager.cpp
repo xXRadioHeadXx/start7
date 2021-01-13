@@ -499,6 +499,9 @@ void PortManager::requestModeSensor(UnitNode *selUN, QByteArray stateWord)
         data[5] = stateWord.at(3);
         data.chop(1);
         data.append(Utils::getByteSumm(data)); //<CHKS>
+
+        data.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
+
         itm.setData(data);
 
         tmpCAW->setFirstMsg(itm);
