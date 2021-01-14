@@ -346,25 +346,28 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
 {
     if(item.data().isEmpty() || item.address().isNull() || 0 > item.port() || -1 > item.portIndex())
         return false;
-    return true;
+    auto itemData = item.data();
+    while(0 == itemData.indexOf((quint8)0xFF)) {
+        itemData.remove(0, 1);
+    }
     try {
-        if(6 > item.data().size())
+        if(6 > itemData.size())
             return false;
-        quint8 SB = item.data().at(0),
-                ADDR_r = item.data().at(1),
-                ADDR_s = item.data().at(2),
-                NBB = item.data().at(3),
-                CMD = item.data().at(4);
-        if((6 + NBB) > item.data().size())
+        quint8 SB = itemData.at(0),
+                ADDR_r = itemData.at(1),
+                ADDR_s = itemData.at(2),
+                NBB = itemData.at(3),
+                CMD = itemData.at(4);
+        if((6 + NBB) > itemData.size())
             return false;
-        quint8 CHKS = item.data().at(5 + NBB);
+        quint8 CHKS = itemData.at(5 + NBB);
 
         if((quint8)0xB5 != SB ||
                 (quint8)0xFE != ADDR_r /*||
                 (quint8)0xFF != ADDR_s*/)
             return false;
 
-        QByteArray tmpData = item.data();
+        QByteArray tmpData = itemData;
         quint8 crc = Utils::getByteSumm(tmpData, 1, 5 + NBB - 1);
         if(crc != CHKS)
             return false;
