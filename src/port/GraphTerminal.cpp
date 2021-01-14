@@ -141,9 +141,9 @@ void GraphTerminal::manageOverallReadQueue()
 //            requestAlarmReset();
             {
                 JourEntity msgOn;
-                msgOn.setObject(trUtf8("Оператор"));
+                msgOn.setObject(tr("Оператор"));
                 msgOn.setType(1903);
-                msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
+                msgOn.setComment(tr("Удал. ком. Сброс тревог"));
                 msgOn.setDirection(Utils::hostAddressToString(itm.address()));
                 DataBaseManager::insertJourMsg_wS(msgOn);
                 GraphTerminal::sendAbonentEventsAndStates(msgOn);
@@ -152,9 +152,9 @@ void GraphTerminal::manageOverallReadQueue()
             SignalSlotCommutator::getInstance()->emitAlarmsReset(nullptr);
             {
                 JourEntity msgOn;
-                msgOn.setObject(trUtf8("Оператор"));
+                msgOn.setObject(tr("Оператор"));
                 msgOn.setType(903);
-                msgOn.setComment(trUtf8("Выполнен сброс тревог"));
+                msgOn.setComment(tr("Выполнен сброс тревог"));
                 DataBaseManager::insertJourMsg_wS(msgOn);
                 GraphTerminal::sendAbonentEventsAndStates(msgOn);
             }
@@ -481,7 +481,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     msgOn.setD3(unTarget->getNum3());
                     msgOn.setDirection(Utils::hostAddressToString(itm.address()));
                     msgOn.setType((unTarget->getControl() ? 1137 : 1136));
-                    msgOn.setComment(trUtf8("Удал. ком. Контроль ") + (val ? trUtf8("Вкл") : trUtf8("Выкл")));
+                    msgOn.setComment(tr("Удал. ком. Контроль ") + (val ? tr("Вкл") : tr("Выкл")));
                     DataBaseManager::insertJourMsg_wS(msgOn);
 
                     dataAnswer = makeEventsAndStates(unTarget, msgOn).toByteArray();
@@ -603,11 +603,11 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
     qDebug() << "GraphTerminal::procCommands() <--";
 }
 
-void GraphTerminal::procKeepAlive(QDomElement root) {
+void GraphTerminal::procKeepAlive(QDomElement /*root*/) {
 
 }
 
-void GraphTerminal::procEventBook(QDomElement root) {
+void GraphTerminal::procEventBook(QDomElement /*root*/) {
 
 }
 
@@ -648,9 +648,9 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                     if("903" == idState.nodeValue()) {
                         {
                             JourEntity msgOn;
-                            msgOn.setObject(trUtf8("Оператор"));
+                            msgOn.setObject(tr("Оператор"));
                             msgOn.setType(1903);
-                            msgOn.setComment(trUtf8("Удал. ком. Сброс тревог"));
+                            msgOn.setComment(tr("Удал. ком. Сброс тревог"));
                             msgOn.setDirection(Utils::hostAddressToString(itm.address()));
                             DataBaseManager::insertJourMsg_wS(msgOn);
                             GraphTerminal::sendAbonentEventsAndStates(msgOn);
@@ -661,9 +661,9 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
 
                         {
                             JourEntity msgOn;
-                            msgOn.setObject(trUtf8("Оператор"));
+                            msgOn.setObject(tr("Оператор"));
                             msgOn.setType(903);
-                            msgOn.setComment(trUtf8("Выполнен сброс тревог"));
+                            msgOn.setComment(tr("Выполнен сброс тревог"));
                             DataBaseManager::insertJourMsg_wS(msgOn);
                             GraphTerminal::sendAbonentEventsAndStates(msgOn);
                         }
@@ -697,15 +697,15 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
     qDebug() << "GraphTerminal::procEventsAndStates() <--";
 }
 
-void GraphTerminal::procAlarmsReset(QDomElement root) {
+void GraphTerminal::procAlarmsReset(QDomElement /*root*/) {
 
 }
 
-void GraphTerminal::procDbStart(DataQueueItem itm) {
+void GraphTerminal::procDbStart(DataQueueItem /*itm*/) {
     SignalSlotCommutator::getInstance()->emitForcedNewDuty(true);
 }
 
-QDomDocument GraphTerminal::makeInitialStatus(QString docType)
+QDomDocument GraphTerminal::makeInitialStatus(QString /*docType*/)
 {
     QDomDocument doc;//(docType);
 
@@ -755,7 +755,7 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
     return doc;
 }
 
-QDomDocument GraphTerminal::makeEventsAndStates(QString docType)
+QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
 {
     QDomDocument doc;//(docType);
 

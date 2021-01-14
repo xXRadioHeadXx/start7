@@ -3,46 +3,46 @@
 #include <Icons.h>
 #include <Utils.h>
 
-QMap<int, QString> JourEntity::mapTypeObject = {{TypeObject::oAllObject, trUtf8("Все")},
-                                                {TypeObject::oSD, trUtf8("СД")},
-                                                {TypeObject::oIU, trUtf8("ИУ")},
-                                                {TypeObject::oRIFRLM, trUtf8("РИФ-РЛМ(КРЛ), Трасса")},
-                                                {TypeObject::oSDCollector, trUtf8("СД концентратора")},
-                                                {TypeObject::oToros, trUtf8("Торос")},
-                                                {TypeObject::oNast, trUtf8("Наст")},
-                                                {TypeObject::oRadar, trUtf8("Радар")},
-                                                {TypeObject::oRazrivBO, trUtf8("Разрыв БО")},
-                                                {TypeObject::oTochkaGard, trUtf8("Точка/Гарда")},
-                                                {TypeObject::oAdam, trUtf8("Адам-406x/4168")},
-                                                {TypeObject::oSDBLIP, trUtf8("СД БЛ-IP")},
-                                                {TypeObject::oIUBLIP, trUtf8("ИУ БЛ-IP")},
-                                                {TypeObject::oRIFRLMS, trUtf8("РИФ-РЛМ-С")},
-                                                {TypeObject::oBODTochkaM, trUtf8("БОД Точка-М/Гарда-М")},
-                                                {TypeObject::oDDTochkaM, trUtf8("ДД Точка-М/Гарда-М")},
-                                                {TypeObject::oBODSota, trUtf8("БОД Сота/Сота-М")},
-                                                {TypeObject::oDDSota, trUtf8("ДД Сота/Сота-М")}};
+QMap<int, QString> JourEntity::mapTypeObject = {{TypeObject::oAllObject, tr("Все")},
+                                                {TypeObject::oSD, tr("СД")},
+                                                {TypeObject::oIU, tr("ИУ")},
+                                                {TypeObject::oRIFRLM, tr("РИФ-РЛМ(КРЛ), Трасса")},
+                                                {TypeObject::oSDCollector, tr("СД концентратора")},
+                                                {TypeObject::oToros, tr("Торос")},
+                                                {TypeObject::oNast, tr("Наст")},
+                                                {TypeObject::oRadar, tr("Радар")},
+                                                {TypeObject::oRazrivBO, tr("Разрыв БО")},
+                                                {TypeObject::oTochkaGard, tr("Точка/Гарда")},
+                                                {TypeObject::oAdam, tr("Адам-406x/4168")},
+                                                {TypeObject::oSDBLIP, tr("СД БЛ-IP")},
+                                                {TypeObject::oIUBLIP, tr("ИУ БЛ-IP")},
+                                                {TypeObject::oRIFRLMS, tr("РИФ-РЛМ-С")},
+                                                {TypeObject::oBODTochkaM, tr("БОД Точка-М/Гарда-М")},
+                                                {TypeObject::oDDTochkaM, tr("ДД Точка-М/Гарда-М")},
+                                                {TypeObject::oBODSota, tr("БОД Сота/Сота-М")},
+                                                {TypeObject::oDDSota, tr("ДД Сота/Сота-М")}};
 
-QMap<int, QString> JourEntity::mapTypeEvent = {{TypeEvent::eAllEvent, trUtf8("Все")},
-                                               {TypeEvent::eAlarm, trUtf8("Тревоги")},
-                                               {TypeEvent::eAlarmWorked, trUtf8("Тревога - СРАБОТКА")},
-                                               {TypeEvent::eAlarmOpening, trUtf8("Тревога - ВСКРЫТИЕ")},
-                                               {TypeEvent::eFault, trUtf8("Неисправности")},
-                                               {TypeEvent::eFaultNoConnect, trUtf8("Нет связи")},
-                                               {TypeEvent::eFaultDK, trUtf8("Ком. ДК не выполнена")},
-                                               {TypeEvent::eFaultCommand, trUtf8("Ком. упр. не выполнена")},
-                                               {TypeEvent::eCommand, trUtf8("Команды")},
-                                               {TypeEvent::eCommandDK, trUtf8("ДК")},
-                                               {TypeEvent::eCommandUZMonolit, trUtf8("УЗ Монолит")},
-                                               {TypeEvent::eCommandOperator, trUtf8("Оператор")}};
+QMap<int, QString> JourEntity::mapTypeEvent = {{TypeEvent::eAllEvent, tr("Все")},
+                                               {TypeEvent::eAlarm, tr("Тревоги")},
+                                               {TypeEvent::eAlarmWorked, tr("Тревога - СРАБОТКА")},
+                                               {TypeEvent::eAlarmOpening, tr("Тревога - ВСКРЫТИЕ")},
+                                               {TypeEvent::eFault, tr("Неисправности")},
+                                               {TypeEvent::eFaultNoConnect, tr("Нет связи")},
+                                               {TypeEvent::eFaultDK, tr("Ком. ДК не выполнена")},
+                                               {TypeEvent::eFaultCommand, tr("Ком. упр. не выполнена")},
+                                               {TypeEvent::eCommand, tr("Команды")},
+                                               {TypeEvent::eCommandDK, tr("ДК")},
+                                               {TypeEvent::eCommandUZMonolit, tr("УЗ Монолит")},
+                                               {TypeEvent::eCommandOperator, tr("Оператор")}};
 
-QMap<int, QString> JourEntity::mapTypeConnectObject = {{TypeConnectObject::coAllConnectObject, trUtf8("не указан")},
-                                                       {TypeConnectObject::coRIFRLM, trUtf8("РИФ-РЛМ")},
-                                                       {TypeConnectObject::coRIFKRL, trUtf8("РИФ-КРЛ")},
-                                                       {TypeConnectObject::coRIFKRLM, trUtf8("РИФ-КРЛМ")},
-                                                       {TypeConnectObject::coRIFRLMS, trUtf8("РИФ-РЛМ-С")},
-                                                       {TypeConnectObject::coTrassa, trUtf8("Трасса")},
-                                                       {TypeConnectObject::coTochkaGard, trUtf8("Точка/Гарда")},
-                                                       {TypeConnectObject::coRazryad, trUtf8("Разряд")}};
+QMap<int, QString> JourEntity::mapTypeConnectObject = {{TypeConnectObject::coAllConnectObject, tr("не указан")},
+                                                       {TypeConnectObject::coRIFRLM, tr("РИФ-РЛМ")},
+                                                       {TypeConnectObject::coRIFKRL, tr("РИФ-КРЛ")},
+                                                       {TypeConnectObject::coRIFKRLM, tr("РИФ-КРЛМ")},
+                                                       {TypeConnectObject::coRIFRLMS, tr("РИФ-РЛМ-С")},
+                                                       {TypeConnectObject::coTrassa, tr("Трасса")},
+                                                       {TypeConnectObject::coTochkaGard, tr("Точка/Гарда")},
+                                                       {TypeConnectObject::coRazryad, tr("Разряд")}};
 
 QMap<int, QString> JourEntity::getMapTypeEvent()
 {
@@ -375,17 +375,17 @@ QVariant JourEntity::data(int column) const noexcept
                     case 0:
                         return "№/#";
                     case 1:
-                        return QObject::trUtf8("Дата"); //"Дата";
+                        return QObject::tr("Дата"); //"Дата";
                     case 2:
-                        return QObject::trUtf8("Сообщение"); //"Сообщение";
+                        return QObject::tr("Сообщение"); //"Сообщение";
                     case 3:
-                        return QObject::trUtf8("Объект"); //"Объект";
+                        return QObject::tr("Объект"); //"Объект";
                     case 4:
-                        return QObject::trUtf8("Причина"); //"Причина";
+                        return QObject::tr("Причина"); //"Причина";
                     case 5:
-                        return QObject::trUtf8("Принятые меры"); //"Принятые меры"
+                        return QObject::tr("Принятые меры"); //"Принятые меры"
                     case 6:
-                        return QObject::trUtf8("Оператор"); //"Оператор"
+                        return QObject::tr("Оператор"); //"Оператор"
                     default:
                         return QVariant();
                 }

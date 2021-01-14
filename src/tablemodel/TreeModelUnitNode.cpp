@@ -36,7 +36,7 @@ int TreeModelUnitNode::columnCount(const QModelIndex &parent) const
      //         return rootItemSortUN->columnCount();
 }
 
-int TreeModelUnitNode::sizeHintForRow(int row) const
+int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
 {
     return 12;
 }
@@ -201,7 +201,7 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
  //     this->endInsertRows();
   }
 
- void TreeModelUnitNode::updateUNStructure(UnitNode* un)
+ void TreeModelUnitNode::updateUNStructure(UnitNode* /*un*/)
  {
      this->beginResetModel();
      this->createProxySortTree();

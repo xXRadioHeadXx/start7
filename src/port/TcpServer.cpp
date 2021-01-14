@@ -9,8 +9,8 @@
 
 //#include <QMessageBox>
 
-static inline qint32 ArrayToInt(QByteArray source);
-static inline QByteArray IntToArray(qint32 source);
+//static inline qint32 ArrayToInt(QByteArray source);
+//static inline QByteArray IntToArray(qint32 source);
 
 TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
  {
@@ -176,19 +176,19 @@ void TcpServer::readyRead()
     }
 }
 
-qint32 ArrayToInt(QByteArray source)
-{
-    qint32 temp;
-    QDataStream data(&source, QIODevice::ReadWrite);
-    data >> temp;
-    return temp;
-}
+//qint32 ArrayToInt(QByteArray source)
+//{
+//    qint32 temp;
+//    QDataStream data(&source, QIODevice::ReadWrite);
+//    data >> temp;
+//    return temp;
+//}
 
-QByteArray IntToArray(qint32 source) //Use qint32 to ensure that the number have 4 bytes
-{
-    //Avoid use of cast, this is the Qt way to serialize objects
-    QByteArray temp;
-    QDataStream data(&temp, QIODevice::ReadWrite);
-    data << source;
-    return temp;
-}
+//QByteArray IntToArray(qint32 source) //Use qint32 to ensure that the number have 4 bytes
+//{
+//    //Avoid use of cast, this is the Qt way to serialize objects
+//    QByteArray temp;
+//    QDataStream data(&temp, QIODevice::ReadWrite);
+//    data << source;
+//    return temp;
+//}

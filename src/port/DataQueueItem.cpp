@@ -64,11 +64,11 @@ DataQueueItem DataQueueItem::makeOnOff0x20(DataQueueItem &item, const UnitNode *
 QByteArray DataQueueItem::makeOnOff0x20(const UnitNode * un)
 {
     if(DataQueueItem::data0x20.isEmpty()) {
-        DataQueueItem::data0x20.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x20.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x20.append((quint8)0x01);      //<NBB> 0x00
-        DataQueueItem::data0x20.append((quint8)0x20);      //<CMD> 0x20
-//        DataQueueItem::data0x20.append((quint8)0xFF);      //<D1>
+        DataQueueItem::data0x20.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x20.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x20.append(static_cast<quint8>(0x01));      //<NBB> 0x00
+        DataQueueItem::data0x20.append(static_cast<quint8>(0x20));      //<CMD> 0x20
+//        DataQueueItem::data0x20.append(static_cast<quint8>(0xFF));      //<D1>
 //        DataQueueItem::data0x20.append(Utils::getByteSumm(DataQueueItem::data0x20)); //<CHKS>
     }
 
@@ -77,18 +77,18 @@ QByteArray DataQueueItem::makeOnOff0x20(const UnitNode * un)
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = (quint8)0xFF;
-            out[2] = (quint8)0x01;        //<NBB> 0x00
-            out.append((quint8)0xFF);
+            out[1] = static_cast<quint8>(0xFF);
+            out[2] = static_cast<quint8>(0x01);        //<NBB> 0x00
+            out.append(static_cast<quint8>(0xFF));
         } else if(TypeUnitNode::RLM_C == un->getType()) {
-            out[1] = (quint8)un->getNum1();
-            out[2] = (quint8)0x02;        //<NBB> 0x00
+            out[1] = static_cast<quint8>(un->getNum1());
+            out[2] = static_cast<quint8>(0x02);        //<NBB> 0x00
             out.append(un->getStateWord().right(2));
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
     if(TypeUnitNode::RLM_C == un->getType())
-        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
+        out.prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF));
     return out;
 }
 
@@ -103,10 +103,10 @@ DataQueueItem DataQueueItem::makeDK0x21(DataQueueItem &item, const UnitNode * un
 QByteArray DataQueueItem::makeDK0x21(const UnitNode * un)
 {
     if(DataQueueItem::data0x21.isEmpty()) {
-        DataQueueItem::data0x21.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x21.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x21.append((char)0x00);        //<NBB> 0x00
-        DataQueueItem::data0x21.append((quint8)0x21);      //<CMD> 0x21
+        DataQueueItem::data0x21.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x21.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x21.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x21.append(static_cast<quint8>(0x21));      //<CMD> 0x21
 //        DataQueueItem::data0x21.append(Utils::getByteSumm(DataQueueItem::data0x21)); //<CHKS>
     }
 
@@ -115,14 +115,14 @@ QByteArray DataQueueItem::makeDK0x21(const UnitNode * un)
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = (quint8)0xFF;
+            out[1] = static_cast<quint8>(0xFF);
         } else if(TypeUnitNode::RLM_C == un->getType()) {
-            out[1] = (quint8)un->getNum1();
+            out[1] = static_cast<quint8>(un->getNum1());
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
     if(TypeUnitNode::RLM_C == un->getType())
-        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
+        out.prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF));
     return out;
 }
 
@@ -137,10 +137,10 @@ DataQueueItem DataQueueItem::makeStatusRequest0x22(DataQueueItem &item, const Un
 QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
 {
     if(DataQueueItem::data0x22.isEmpty()) {
-        DataQueueItem::data0x22.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x22.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x22.append((char)0x00);        //<NBB> 0x00
-        DataQueueItem::data0x22.append((quint8)0x22);      //<CMD> 0x22
+        DataQueueItem::data0x22.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x22.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x22.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x22.append(static_cast<quint8>(0x22));      //<CMD> 0x22
 //        DataQueueItem::data0x22.append(Utils::getByteSumm(DataQueueItem::data0x22)); //<CHKS>
     }
 
@@ -149,14 +149,14 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = (quint8)0xFF;
+            out[1] = static_cast<quint8>(0xFF);
         } else if(TypeUnitNode::RLM_C == un->getType()) {
-            out[1] = (quint8)un->getNum1();
+            out[1] = static_cast<quint8>(un->getNum1());
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
     if(TypeUnitNode::RLM_C == un->getType())
-        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
+        out.prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF));
     return out;
 }
 
@@ -171,11 +171,11 @@ DataQueueItem DataQueueItem::makeOnOff0x23(DataQueueItem &item, UnitNode *un)
 QByteArray DataQueueItem::makeOnOff0x23(UnitNode *un, bool onOff, UnitNode *pun)
 {
     if(DataQueueItem::data0x23.isEmpty()) {
-        DataQueueItem::data0x23.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x23.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x23.append((char)0x01);        //<NBB> 0x00
-        DataQueueItem::data0x23.append((quint8)0x23);      //<CMD> 0x23
-        DataQueueItem::data0x23.append((quint8)0xFF);      //<D1>
+        DataQueueItem::data0x23.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x23.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x23.append(static_cast<quint8>(0x01));        //<NBB> 0x00
+        DataQueueItem::data0x23.append(static_cast<quint8>(0x23));      //<CMD> 0x23
+        DataQueueItem::data0x23.append(static_cast<quint8>(0xFF));      //<D1>
         DataQueueItem::data0x23.append(Utils::getByteSumm(DataQueueItem::data0x23)); //<CHKS>
     }
 
@@ -251,10 +251,10 @@ DataQueueItem DataQueueItem::makeAlarmReset0x24(DataQueueItem &item, const UnitN
 QByteArray DataQueueItem::makeAlarmReset0x24(const UnitNode * un)
 {
     if(DataQueueItem::data0x24.isEmpty()) {
-        DataQueueItem::data0x24.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x24.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x24.append((char)0x00);        //<NBB> 0x00
-        DataQueueItem::data0x24.append((quint8)0x24);      //<CMD> 0x24
+        DataQueueItem::data0x24.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x24.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x24.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x24.append(static_cast<quint8>(0x24));      //<CMD> 0x24
 //        DataQueueItem::data0x24.append(Utils::getByteSumm(DataQueueItem::data0x24)); //<CHKS>
     }
 
@@ -263,14 +263,14 @@ QByteArray DataQueueItem::makeAlarmReset0x24(const UnitNode * un)
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = (quint8)0xFF;
+            out[1] = static_cast<quint8>(0xFF);
         } else if(TypeUnitNode::RLM_C == un->getType()) {
-            out[1] = (quint8)un->getNum1();
+            out[1] = static_cast<quint8>(un->getNum1());
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
     if(TypeUnitNode::RLM_C == un->getType())
-        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
+        out.prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF));
     return out;
 }
 
@@ -285,10 +285,10 @@ DataQueueItem DataQueueItem::makeOff0x25(DataQueueItem &item, const UnitNode * u
 QByteArray DataQueueItem::makeOff0x25(const UnitNode * un)
 {
     if(DataQueueItem::data0x25.isEmpty()) {
-        DataQueueItem::data0x25.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x25.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x25.append((char)0x00);        //<NBB> 0x00
-        DataQueueItem::data0x25.append((quint8)0x25);      //<CMD> 0x25
+        DataQueueItem::data0x25.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x25.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x25.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x25.append(static_cast<quint8>(0x25));      //<CMD> 0x25
 //        DataQueueItem::data0x25.append(Utils::getByteSumm(DataQueueItem::data0x25)); //<CHKS>
     }
 
@@ -297,14 +297,14 @@ QByteArray DataQueueItem::makeOff0x25(const UnitNode * un)
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = (quint8)0xFF;
+            out[1] = static_cast<quint8>(0xFF);
         } else if(TypeUnitNode::RLM_C == un->getType()) {
-            out[1] = (quint8)un->getNum1();
+            out[1] = static_cast<quint8>(un->getNum1());
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
     if(TypeUnitNode::RLM_C == un->getType())
-        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
+        out.prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF));
     return out;
 }
 
@@ -319,10 +319,10 @@ DataQueueItem DataQueueItem::makeOn0x26(DataQueueItem &item, const UnitNode * un
 QByteArray DataQueueItem::makeOn0x26(const UnitNode * un)
 {
     if(DataQueueItem::data0x26.isEmpty()) {
-        DataQueueItem::data0x26.append((quint8)0xB5);      //<SB>
-        DataQueueItem::data0x26.append((quint8)0xFF);      //<ADDR>
-        DataQueueItem::data0x26.append((char)0x00);        //<NBB> 0x00
-        DataQueueItem::data0x26.append((quint8)0x26);      //<CMD> 0x26
+        DataQueueItem::data0x26.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x26.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x26.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x26.append(static_cast<quint8>(0x26));      //<CMD> 0x26
 //        DataQueueItem::data0x26.append(Utils::getByteSumm(DataQueueItem::data0x26)); //<CHKS>
     }
 
@@ -331,14 +331,14 @@ QByteArray DataQueueItem::makeOn0x26(const UnitNode * un)
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = (quint8)0xFF;
+            out[1] = static_cast<quint8>(0xFF);
         } else if(TypeUnitNode::RLM_C == un->getType()) {
-            out[1] = (quint8)un->getNum1();
+            out[1] = static_cast<quint8>(un->getNum1());
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
     if(TypeUnitNode::RLM_C == un->getType())
-        out.prepend((quint8)0xFF).prepend((quint8)0xFF).prepend((quint8)0xFF);
+        out.prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF));
     return out;
 }
 
@@ -347,7 +347,7 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
     if(item.data().isEmpty() || item.address().isNull() || 0 > item.port() || -1 > item.portIndex())
         return false;
     auto itemData = item.data();
-    while(0 == itemData.indexOf((quint8)0xFF)) {
+    while(0 == itemData.indexOf(static_cast<quint8>(0xFF))) {
         itemData.remove(0, 1);
     }
     try {
@@ -355,16 +355,16 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
             return false;
         quint8 SB = itemData.at(0),
                 ADDR_r = itemData.at(1),
-                ADDR_s = itemData.at(2),
+//                ADDR_s = itemData.at(2),
                 NBB = itemData.at(3),
                 CMD = itemData.at(4);
         if((6 + NBB) > itemData.size())
             return false;
         quint8 CHKS = itemData.at(5 + NBB);
 
-        if((quint8)0xB5 != SB ||
-                (quint8)0xFE != ADDR_r /*||
-                (quint8)0xFF != ADDR_s*/)
+        if(static_cast<quint8>(0xB5) != SB ||
+                static_cast<quint8>(0xFE) != ADDR_r /*||
+                static_cast<quint8>(0xFF != ADDR_s*/)
             return false;
 
         QByteArray tmpData = itemData;
@@ -373,18 +373,18 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
             return false;
 
         switch (CMD) {
-        case (quint8)0x41: {
-            if((quint8)0x04 != NBB)
+        case static_cast<quint8>(0x41): {
+            if(static_cast<quint8>(0x04) != NBB)
                 return false;
             return true;
         }
-        case (quint8)0x31: {
-            if((quint8)0x04 != NBB)
+        case static_cast<quint8>(0x31): {
+            if(static_cast<quint8>(0x04) != NBB)
                 return false;
             return true;
         }
-        case (quint8)0x30: {
-            if((quint8)0x00 != NBB)
+        case static_cast<quint8>(0x30): {
+            if(static_cast<quint8>(0x00) != NBB)
                 return false;
             return true;
         }

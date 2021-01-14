@@ -45,7 +45,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
         tmpUN->setNum2(0);
         tmpUN->setNum3(0);
         tmpUN->setLevel(0);
-        tmpUN->setName(QObject::trUtf8("Система"));
+        tmpUN->setName(QObject::tr("Система"));
         tmpUN->setMetaNames("Obj_0");
 
         root->addTreeChild(tmpUN);
@@ -215,7 +215,7 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
         tmpUN->setNum2(0);
         tmpUN->setNum3(0);
         tmpUN->setLevel(0);
-        tmpUN->setName(QObject::trUtf8("Система"));
+        tmpUN->setName(QObject::tr("Система"));
         tmpUN->setMetaNames("Obj_0");
 
         root->addTreeChild(tmpUN);
@@ -259,7 +259,7 @@ QVariant SettingUtils::getValueSettings(const QString key, const QString group, 
     return result;
 }
 
-bool SettingUtils::loadTreeUnitNodes(UnitNode *root, UnitNode *unit)
+bool SettingUtils::loadTreeUnitNodes(UnitNode */*root*/, UnitNode */*unit*/)
 {
 //    qDebug()<<"SettingUtils::loadTreeUnitNodes";
 }

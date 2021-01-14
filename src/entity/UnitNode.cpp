@@ -796,7 +796,7 @@ int UnitNode_SD_BL_IP::isInAlarm()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(0) & mask())
+    if(static_cast<quint8>(getStateWord().at(0)) & mask())
         return 1; //Status::Alarm);
     else
         return 0; //Status::Norm);
@@ -813,7 +813,7 @@ int UnitNode_SD_BL_IP::isWasAlarm()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(2) & mask())
+    if(static_cast<quint8>(getStateWord().at(2)) & mask())
         return 1; //Status::Was);
     else
         return 0; //Status::Not);
@@ -823,7 +823,7 @@ int UnitNode_SD_BL_IP::isOn()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)0 == ((quint8)getStateWord().at(3) & mask()))
+    if(static_cast<quint8>(0) == (static_cast<quint8>(getStateWord().at(3)) & mask()))
         return 0; //Status::Off;
     else
         return 1; //
@@ -875,7 +875,7 @@ int UnitNode_IU_BL_IP::isOutAlarm()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & mask())
+    if(static_cast<quint8>(getStateWord().at(1)) & mask())
         return 1; //Status::On);
     else
         return 0; //Status::Off;
@@ -995,7 +995,7 @@ QVariant UnitNode::data(int column) const noexcept
         {
             case 0:
             {
-                return QVariant(QObject::trUtf8("Имя")); //"Имя"
+                return QVariant(QObject::tr("Имя")); //"Имя"
             }
             default:
                 return QVariant();
@@ -1038,7 +1038,7 @@ void UnitNode::moveTreeChildUNUp(UnitNode * childUN)
         return;
     auto index = getListTreeChilde().indexOf(childUN);
     if(0 < index) {
-        this->listTreeChilde.swap(index - 1, index);
+        this->listTreeChilde.swapItemsAt(index - 1, index);
     }
 }
 
@@ -1048,7 +1048,7 @@ void UnitNode::moveTreeChildUNDown(UnitNode *childUN)
         return;
     auto index = getListTreeChilde().indexOf(childUN);
     if(getListTreeChilde().count() > (index + 1)) {
-        this->listTreeChilde.swap(index, index + 1);
+        this->listTreeChilde.swapItemsAt(index, index + 1);
     }
 }
 
@@ -1108,7 +1108,7 @@ int UnitNode_BL_IP::isExistDK()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & 0x80)
+    if(static_cast<quint8>(getStateWord().at(1)) & 0x80)
         return 1; // Status::Exists);
     else
         return 0; // Status::Not);
@@ -1118,7 +1118,7 @@ int UnitNode_BL_IP::isWasAlarm()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & 0x40)
+    if(static_cast<quint8>(getStateWord().at(1)) & 0x40)
         return 1; //Status::Was);
     else
         return 0; //Status::Not);
@@ -1133,7 +1133,7 @@ int UnitNode_RLM_C::isInAlarm()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & (quint8)0x02)
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -1143,7 +1143,7 @@ int UnitNode_RLM_C::isOutAlarm()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & (quint8)0x04)
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -1159,7 +1159,7 @@ int UnitNode_RLM_C::isWasDK()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & (quint8)0x20)
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x20))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -1169,7 +1169,7 @@ int UnitNode_RLM_C::isExistDK()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & (quint8)0x10)
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x10))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -1179,7 +1179,7 @@ int UnitNode_RLM_C::isWasAlarm()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & (quint8)0x08)
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -1189,7 +1189,7 @@ int UnitNode_RLM_C::isOn()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & (quint8)0x01)
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
         return 1; //Status::On);
     else
         return 0; //Status::Off;
@@ -1212,7 +1212,7 @@ int UnitNode_RLM_C::isExternalSynchronization()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & (quint8)0x40)
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x40))
         return 1; //External);
     else
         return 0; //Internal;
@@ -1228,23 +1228,23 @@ float UnitNode_RLM_C::threshold()
 {
     if(getStateWord().isEmpty())
         return -1.0;
-    switch ((quint8)getStateWord().at(2) & (quint8)0x0F) {
-    case (quint8)0:  return 10.0;
-    case (quint8)1:  return 09.0;
-    case (quint8)2:  return 08.0;
-    case (quint8)3:  return 07.0;
-    case (quint8)4:  return 06.0;
-    case (quint8)5:  return 05.0;
-    case (quint8)6:  return 04.0;
-    case (quint8)7:  return 03.0;
-    case (quint8)8:  return 02.0;
-    case (quint8)9:  return 01.0;
-    case (quint8)10: return 00.6;
-    case (quint8)11: return 00.5;
-    case (quint8)12: return 00.4;
-    case (quint8)13: return 00.3;
-    case (quint8)14: return 00.2;
-    case (quint8)15: return 00.1;
+    switch (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x0F)) {
+    case static_cast<quint8>(0):  return 10.0;
+    case static_cast<quint8>(1):  return 09.0;
+    case static_cast<quint8>(2):  return 08.0;
+    case static_cast<quint8>(3):  return 07.0;
+    case static_cast<quint8>(4):  return 06.0;
+    case static_cast<quint8>(5):  return 05.0;
+    case static_cast<quint8>(6):  return 04.0;
+    case static_cast<quint8>(7):  return 03.0;
+    case static_cast<quint8>(8):  return 02.0;
+    case static_cast<quint8>(9):  return 01.0;
+    case static_cast<quint8>(10): return 00.6;
+    case static_cast<quint8>(11): return 00.5;
+    case static_cast<quint8>(12): return 00.4;
+    case static_cast<quint8>(13): return 00.3;
+    case static_cast<quint8>(14): return 00.2;
+    case static_cast<quint8>(15): return 00.1;
     default: return -1.0;
     }
 }
@@ -1253,21 +1253,21 @@ int UnitNode_RLM_C::clockPeriod()
 {
     if(getStateWord().isEmpty())
         return -1;
-    return ((quint8)getStateWord().at(2) & (quint8)0x70) / (quint8)0x0F;
+    return (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x70)) / static_cast<quint8>(0x0F);
 }
 
 int UnitNode_RLM_C::modeProcessing()
 {
     if(getStateWord().isEmpty())
         return -1;
-    return (quint8)getStateWord().at(3) & (quint8)0x03;
+    return static_cast<quint8>(getStateWord().at(3)) & static_cast<quint8>(0x03);
 }
 
 int UnitNode_RLM_C::lowLevl()
 {
     if(getStateWord().isEmpty())
         return -1;
-    if((quint8)getStateWord().at(1) & (quint8)0x80)
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x80))
         return 1; //Status::Error);
     else
         return 0; //Status::Not;
