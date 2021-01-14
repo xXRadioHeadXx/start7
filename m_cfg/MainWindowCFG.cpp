@@ -15,6 +15,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowCFG)
 {
+
     ui->setupUi(this);
 
     for (auto volume : QStorageInfo::mountedVolumes()) {
@@ -196,7 +197,7 @@ AnsiString str;
 
 
 
-  this->ui->RifPort_comboBox->addItem("ВЫКЛ","ВЫКЛ");
+  this->ui->RifPort_comboBox->addItem(" ВЫКЛ"," ВЫКЛ");
    for(int i(1), n(100); i < n; i++)
    {
        qDebug()<<"i= "<<i;
@@ -2965,7 +2966,7 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
 
     if(unit->getUdpUse()==0)
     {
-   string1.append(QString::number(unit->getNum3()));
+  // string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
        string1.append(" ");
@@ -3012,7 +3013,7 @@ void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
 
     if(unit->getUdpUse()==0)
     {
-   string1.append(QString::number(unit->getNum3()));
+ //  string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
        string1.append(" ");
@@ -4054,12 +4055,12 @@ void MainWindowCFG::get_OPERATORS(QString filename)
     settings.beginGroup("OPERATORS");
 
     if(0==settings.value("Use",-1).toInt()){
-        this->ui->operators_use_combobox->setCurrentText("Без операторов");
+        this->ui->operators_use_combobox->setCurrentText(" Без операторов");
          qDebug()<<"OPERATORS Use = 0";
     }
     else
     {
-        this->ui->operators_use_combobox->setCurrentText("С операторами");
+        this->ui->operators_use_combobox->setCurrentText(" С операторами");
 
     }
 
@@ -4145,7 +4146,7 @@ void MainWindowCFG::default_OPERATORS()
 {
     this->operators.clear();
     this->update_operators_table();
-    this->ui->operators_use_combobox->setCurrentText("Без операторов");
+    this->ui->operators_use_combobox->setCurrentText(" Без операторов");
     this->ui->tableWidget->setEnabled(false);
     this->ui->add_operator_button->setEnabled(false);
     this->ui->change_operator_button->setEnabled(false);
@@ -4435,6 +4436,13 @@ void MainWindowCFG::save_ini(QString filename)
 
     QSettings settings(filename,QSettings::IniFormat);
     settings.setIniCodec( QTextCodec::codecForLocale() );
+    /*
+#if (defined (_WIN32) || defined (_WIN64))
+    settings.setIniCodec( "Windows-1251" );
+#else
+    settings.setIniCodec( "UTF-8" );
+#endif
+    */
 //   foreach(UnitNode* unit,this->modelTreeUN->listItemUN)
     QList<UnitNode *> List;
     this->modelTreeUN->getListFromModel(List);
@@ -5038,7 +5046,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 
 void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &arg1)
 {
-    if(arg1=="Без операторов")
+    if(arg1==" Без операторов")
     {
 
       qDebug()<<"[без операторов]";
@@ -5048,7 +5056,7 @@ void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &
       this->ui->delete_operator_button->setEnabled(false);
       operators_use=0;
     }
-    if(arg1=="С операторами")
+    if(arg1==" С операторами")
     {
       qDebug()<<"[с операторами]";
             this->ui->tableWidget->setEnabled(true);
@@ -5389,7 +5397,7 @@ void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
     */
 }
 
-
+/*
 QList<udev_device*> listDevices()
 {
     struct udev_enumerate *enu = ::udev_enumerate_new(m_udev);
@@ -5410,3 +5418,4 @@ QList<udev_device*> listDevices()
     ::udev_enumerate_unref(enu);
     return list;
 }
+*/
