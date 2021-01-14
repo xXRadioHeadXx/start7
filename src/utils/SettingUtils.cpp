@@ -151,7 +151,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                 }
 
                 if(!tmpUN->getDoubles().isEmpty()) {
-                    tmpUN->setParentUN(tmpUN->getDoubles().toList().first()->getParentUN());
+                    tmpUN->setParentUN(tmpUN->getDoubles().values().first()->getParentUN());
                 } else if(tmpUN->getDoubles().isEmpty() &&
                         (TypeUnitNode::SD_BL_IP == tmpUN->getType() ||
                         TypeUnitNode::IU_BL_IP == tmpUN->getType() ||
@@ -262,4 +262,5 @@ QVariant SettingUtils::getValueSettings(const QString key, const QString group, 
 bool SettingUtils::loadTreeUnitNodes(UnitNode */*root*/, UnitNode */*unit*/)
 {
 //    qDebug()<<"SettingUtils::loadTreeUnitNodes";
+    return true;
 }

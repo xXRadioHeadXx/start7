@@ -269,7 +269,7 @@ Map::~Map()
 {
     delete ui;}
 
-void Map::select(int ID)
+void Map::select(int /*ID*/)
 {
     qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!";
 }

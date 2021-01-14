@@ -6,7 +6,7 @@
 #include <QFlags>
 #include <QPixmap>
 
-myScene::myScene(QObject *parent)
+myScene::myScene(QObject */*parent*/)
 {
 
 
@@ -64,14 +64,14 @@ void myScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
   QList<QGraphicsItem *> items=this->items(event->scenePos());
  // qDebug()<<items.count();
-  int res=0;
+//  int res=0;
   foreach (QGraphicsItem *item,items)
   {
       MyDrawObject *obj=dynamic_cast< MyDrawObject *>(item);
   if(obj)
   {
        qDebug()<<"[1]";
-      res=1;
+//      res=1;
      //  Foo *foo = dynamic_cast<Foo *>(base);
       MyDrawObject *obj=dynamic_cast< MyDrawObject *>(item);
              qDebug()<<"[2]";

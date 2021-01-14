@@ -3,7 +3,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
-#include <global.hpp>>
+#include <global.hpp>
 
 LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

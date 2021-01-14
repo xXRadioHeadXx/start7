@@ -342,7 +342,7 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
     }
 }
 
-void Utils::fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode *selUN)
+void Utils::fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode */*selUN*/)
 {
     table->setRowCount(7);
     table->setColumnCount(4);
@@ -865,7 +865,7 @@ QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
     }
     unSetTmp.insert(un);
     unSetTmp = unSetTmp + un->getDoubles();
-    for(const auto& unDouble : as_const(unSetTmp.toList())) {
+    for(const auto& unDouble : as_const(unSetTmp.values())) {
 //        qDebug() << "itr :" << unSetTmp;
 //        qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
         if(nullptr != unDouble->getTreeParentUN()) {

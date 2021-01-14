@@ -149,8 +149,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>616</width>
-          <height>1413</height>
+          <width>638</width>
+          <height>1425</height>
          </rect>
         </property>
         <property name="minimumSize">
@@ -1525,7 +1525,7 @@
             <zorder>groupBox_4</zorder>
             <zorder>UDP_RS485_Widget</zorder>
            </widget>
-           <widget class="QWidget" name="widget" native="true">
+           <widget class="QWidget" name="widget1" native="true">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -2172,7 +2172,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="widget" native="true">
+              <widget class="QWidget" name="widget2" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -2235,7 +2235,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="widget" native="true">
+              <widget class="QWidget" name="widget3" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -2958,7 +2958,7 @@
      <x>0</x>
      <y>0</y>
      <width>1049</width>
-     <height>30</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

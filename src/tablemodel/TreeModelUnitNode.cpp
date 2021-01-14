@@ -99,7 +99,7 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
  Qt::ItemFlags TreeModelUnitNode::flags(const QModelIndex &index) const
  {
      if (!index.isValid())
-         return 0;
+         return Qt::NoItemFlags;
 
      if (typeApp==SubTypeApp::configurator) //если конфигуратор
      {
@@ -188,7 +188,7 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      return;
  }
 
-  void TreeModelUnitNode::appendNewUNInStructure(UnitNode* un)
+  void TreeModelUnitNode::appendNewUNInStructure(UnitNode* /*un*/)
   {
       this->beginResetModel();
       this->createProxySortTree();//
