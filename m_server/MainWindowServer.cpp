@@ -724,7 +724,7 @@ void MainWindowServer::on_actionNewScheme_triggered()
             }
         }
 
-        forcedNewDuty(false);
+        forcedNewDuty(true);
     }
 }
 
