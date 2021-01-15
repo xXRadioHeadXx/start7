@@ -201,6 +201,9 @@ AnsiString str;
 
 
   this->ui->RifPort_comboBox->addItem(" ВЫКЛ"," ВЫКЛ");
+
+   ComPort* port = new ComPort();
+   comports.append(port);
    for(int i(1), n(100); i < n; i++)
    {
        qDebug()<<"i= "<<i;
@@ -386,7 +389,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->tableWidget->setColumnWidth(6,70);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
-
+    this->ui->tableWidget_2->setColumnWidth(0,100);
+    this->ui->tableWidget_2->setColumnWidth(1,100);
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
 
@@ -941,7 +945,7 @@ void MainWindowCFG::update_rif_comport_table()
 
 
 
-for(int i=0;i<comports.count();i++)
+for(int i=1;i<comports.count();i++)
 {
         ComPort* port=comports.at(i);
        qDebug()<<" "<<i <<" "<<port->get_RifPortSpeed()<<" "<<port->get_RifPortInterval();
@@ -949,9 +953,9 @@ for(int i=0;i<comports.count();i++)
       cnt=this->ui->tableWidget_2->rowCount();
       qDebug()<<"/"<<cnt;
       this->ui->tableWidget_2->insertRow(cnt);
-      this->ui->tableWidget_2->setItem(cnt,0, new QTableWidgetItem(QString::number(i)));
-      this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortSpeed())));
-      this->ui->tableWidget_2->setItem(cnt,2, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
+
+      this->ui->tableWidget_2->setItem(cnt,0, new QTableWidgetItem(QString::number(port->get_RifPortSpeed())));
+      this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
 
   }
 }
