@@ -2311,11 +2311,6 @@
               </property>
               <column>
                <property name="text">
-                <string>COM</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
                 <string>Скорость опроса</string>
                </property>
               </column>
@@ -2326,7 +2321,7 @@
               </column>
              </widget>
             </widget>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>450</x>

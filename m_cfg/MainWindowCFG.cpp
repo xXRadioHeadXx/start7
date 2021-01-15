@@ -389,8 +389,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->tableWidget->setColumnWidth(6,70);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
-    this->ui->tableWidget_2->setColumnWidth(0,100);
-    this->ui->tableWidget_2->setColumnWidth(1,100);
+    this->ui->tableWidget_2->setColumnWidth(0,130);
+    this->ui->tableWidget_2->setColumnWidth(1,130);
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
 
