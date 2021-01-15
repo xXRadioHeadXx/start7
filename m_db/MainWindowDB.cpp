@@ -542,7 +542,7 @@ GraphTerminal * MainWindowDB::loadPortsTcpGraphTerminal(QString fileName) {
     return nullptr;
 }
 
-void MainWindowDB::on_comboBox_4_editTextChanged(const QString &arg1)
+void MainWindowDB::on_comboBox_4_editTextChanged(const QString &/*arg1*/)
 {
 
 }

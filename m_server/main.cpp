@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
     AuthenticationDialog ad;
     if(0 != ad.getInitialResult()) {
         if(QDialog::Accepted != ad.exec()) {
-            QMessageBox::warning(nullptr, QObject::trUtf8("Ошибка"),
-                                 QObject::trUtf8("Ошибка выбора оператора комплекса!"));
+            QMessageBox::warning(nullptr, QObject::tr("Ошибка"),
+                                 QObject::tr("Ошибка выбора оператора комплекса!"));
             return 0;
         }
     }
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
     splashScreen.show();
     splashScreen.showMessage(
-        /*const QString &message*/ QObject::trUtf8("Загрузка данных ..."),
+        /*const QString &message*/ QObject::tr("Загрузка данных ..."),
         /*int alignment = Qt::AlignLeft*/ Qt::AlignHCenter | Qt::AlignBottom,
         /*const QColor &color = Qt::black*/ Qt::black);
 

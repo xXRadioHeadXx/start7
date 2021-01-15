@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QPair<QString, QString> argPair;
     for (int count=0; count < argc; ++count) {
         std::string str = argv[count];
-        std::cout << count << " " << str << &endl;
+        std::cout << count << " " << str << std::endl;
         if(count % 2)
             argPair.first = QString::fromLocal8Bit(str.c_str()).toLower();
         else {

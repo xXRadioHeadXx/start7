@@ -1531,7 +1531,7 @@
             <zorder>groupBox_4</zorder>
             <zorder>UDP_RS485_Widget</zorder>
            </widget>
-           <widget class="QWidget" name="widget" native="true">
+           <widget class="QWidget" name="widget1" native="true">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -2178,7 +2178,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="widget" native="true">
+              <widget class="QWidget" name="widget2" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -2241,7 +2241,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QWidget" name="widget" native="true">
+              <widget class="QWidget" name="widget3" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>

@@ -20,7 +20,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     ui->setupUi(this);
 
     QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
-    this->setWindowTitle(trUtf8("Сервер") + " - " + date.toString("dd.MM.yyyy"));
+    this->setWindowTitle(tr("Сервер") + " - " + date.toString("dd.MM.yyyy"));
 
 //    this->ruTranslator = new QTranslator(this);
 //    this->ruTranslator->load("app_ru");
@@ -49,9 +49,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     DataBaseManager::setIdStartLastDuty();
 
     JourEntity msg;
-    msg.setObject(trUtf8("Оператор"));
+    msg.setObject(tr("Оператор"));
     msg.setType(900);
-    msg.setComment(trUtf8("Программа запущена"));
+    msg.setComment(tr("Программа запущена"));
     DataBaseManager::insertJourMsg(msg);
 
     modelMSG->updateAllRecords();
@@ -141,9 +141,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 MainWindowServer::~MainWindowServer()
 {
     JourEntity msg;
-    msg.setObject(trUtf8("Оператор"));
+    msg.setObject(tr("Оператор"));
     msg.setType(901);
-    msg.setComment(trUtf8("Программа остановлена"));
+    msg.setComment(tr("Программа остановлена"));
     DataBaseManager::insertJourMsg(msg);
     GraphTerminal::sendAbonentEventsAndStates(msg);
 
@@ -161,11 +161,11 @@ void MainWindowServer::write()
     return;
 
     QByteArray Data;
-    Data.append((quint8)0xB5);
-    Data.append((quint8)0xFF);
-    Data.append((char)0x00);
-    Data.append((quint8)0x22);
-    Data.append((quint8)0x21);
+    Data.append(static_cast<quint8>(0xB5));
+    Data.append(static_cast<quint8>(0xFF));
+    Data.append(static_cast<quint8>(0x00));
+    Data.append(static_cast<quint8>(0x22));
+    Data.append(static_cast<quint8>(0x21));
 
     DataQueueItem itm(Data, QHostAddress("192.168.0.254"), 4001, 0);
 
@@ -323,19 +323,19 @@ void MainWindowServer::createDiagnosticTable()
     ui->tableWidget->horizontalHeader()->hide();
 
     if(TypeUnitNode::RLM_KRL == selUN->getType())
-        ui->groupBox_4->setTitle(trUtf8("Диагностика: РИФ-РЛМ(КРП),Трасса"));
+        ui->groupBox_4->setTitle(tr("Диагностика: РИФ-РЛМ(КРП),Трасса"));
     else if(TypeUnitNode::RLM_C == selUN->getType())
-        ui->groupBox_4->setTitle(trUtf8("Диагностика: РИФ-РЛМ-С"));
+        ui->groupBox_4->setTitle(tr("Диагностика: РИФ-РЛМ-С"));
     else if(TypeUnitNode::TG == selUN->getType())
-        ui->groupBox_4->setTitle(trUtf8("Диагностика: Точка/Гарда"));
+        ui->groupBox_4->setTitle(tr("Диагностика: Точка/Гарда"));
     else if(TypeUnitNode::DD_SOTA == selUN->getType() || TypeUnitNode::DD_T4K_M == selUN->getType())
-        ui->groupBox_4->setTitle(trUtf8("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
+        ui->groupBox_4->setTitle(tr("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
     else if(TypeUnitNode::Y4_SOTA == selUN->getType() || TypeUnitNode::BOD_SOTA == selUN->getType())
-        ui->groupBox_4->setTitle(trUtf8("Диагностика: Сота/Сота-М"));
+        ui->groupBox_4->setTitle(tr("Диагностика: Сота/Сота-М"));
     else if(TypeUnitNode::BOD_T4K_M == selUN->getType() || TypeUnitNode::Y4_T4K_M == selUN->getType())
-        ui->groupBox_4->setTitle(trUtf8("Диагностика: Точка-М/Гарда-М"));
+        ui->groupBox_4->setTitle(tr("Диагностика: Точка-М/Гарда-М"));
     else if(TypeUnitNode::SD_BL_IP == selUN->getType() || TypeUnitNode::IU_BL_IP == selUN->getType())
-        ui->groupBox_4->setTitle(trUtf8("Диагностика: БЛ-IP"));
+        ui->groupBox_4->setTitle(tr("Диагностика: БЛ-IP"));
 
     Utils::fillDiagnosticTable(ui->tableWidget, this->selUN);
 }
@@ -345,9 +345,9 @@ void MainWindowServer::on_pushButtonAlarmReset_clicked()
     this->m_portManager->requestAlarmReset();
     {
         JourEntity msgOn;
-        msgOn.setObject(trUtf8("Оператор"));
+        msgOn.setObject(tr("Оператор"));
         msgOn.setType(135);
-        msgOn.setComment(trUtf8("Послана ком. Сброс тревог"));
+        msgOn.setComment(tr("Послана ком. Сброс тревог"));
         DataBaseManager::insertJourMsg_wS(msgOn);
         GraphTerminal::sendAbonentEventsAndStates(msgOn);
     }
@@ -356,9 +356,9 @@ void MainWindowServer::on_pushButtonAlarmReset_clicked()
 
     {
         JourEntity msgOn;
-        msgOn.setObject(trUtf8("Оператор"));
+        msgOn.setObject(tr("Оператор"));
         msgOn.setType(903);
-        msgOn.setComment(trUtf8("Выполнен сброс тревог"));
+        msgOn.setComment(tr("Выполнен сброс тревог"));
         DataBaseManager::insertJourMsg_wS(msgOn);
         GraphTerminal::sendAbonentEventsAndStates(msgOn);
     }
@@ -387,7 +387,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
                 menu->addAction(ui->actionCollapseUNTree);
         }
-        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType())
+        if((0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType()) || TypeUnitNode::RLM_C == selUN->getType())
             menu->addAction(ui->actionControl);
         menu->addSeparator();
         if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && (1 == sel->isOff())) {
@@ -422,7 +422,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 //        menu->addAction(ui->actionGuardStamp);
 //        menu->addAction(ui->actionConnectBlock_pdi);
 //        menu->addAction(ui->actionOnOff);
-//        QMenu * submenu = new QMenu(trUtf8("Изменить состояние"), menu);
+//        QMenu * submenu = new QMenu(tr("Изменить состояние"), menu);
 //        submenu->addAction(ui->actionNormUN);
 //        submenu->addAction(ui->actionAlarmUN);
 //        submenu->addAction(ui->actionNoConnectUN);
@@ -526,6 +526,16 @@ void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
+    if(TypeUnitNode::RLM_C == selUN->getType()) {
+        int ret = QMessageBox::question(this, tr("Предупреждение"),
+                                       tr("Вы действительно хотите отключить устройство?"),
+                                       QMessageBox::Ok | QMessageBox::Cancel,
+                                       QMessageBox::Ok);
+
+        if(QMessageBox::Ok != ret) {
+            return;
+        }
+    }
     this->m_portManager->requestOnOffCommand(false, selUN, false);
 }
 
@@ -540,11 +550,11 @@ void MainWindowServer::on_actionControl_triggered()
 
     QString strQuestion;
     if(selUN->getControl())
-        strQuestion = trUtf8("Убрать контроль?");
+        strQuestion = tr("Убрать контроль?");
     else
-        strQuestion = trUtf8("Восстановить контроль?");
+        strQuestion = tr("Восстановить контроль?");
 
-    int ret = QMessageBox::question(this, trUtf8("Предупреждение"),
+    int ret = QMessageBox::question(this, tr("Предупреждение"),
                                    strQuestion,
                                    QMessageBox::Ok | QMessageBox::Cancel,
                                    QMessageBox::Ok);
@@ -560,7 +570,7 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setD3(selUN->getNum3());
         msgOn.setDirection(selUN->getUdpAdress());
         msgOn.setType((selUN->getControl() ? 137 : 136));
-        msgOn.setComment(trUtf8("Контроль ") + (selUN->getControl() ? trUtf8("Вкл") : trUtf8("Выкл")));
+        msgOn.setComment(tr("Контроль ") + (selUN->getControl() ? tr("Вкл") : tr("Выкл")));
         DataBaseManager::insertJourMsg_wS(msgOn);
         GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
 
@@ -575,8 +585,8 @@ void MainWindowServer::on_actionControl_triggered()
 
 void MainWindowServer::closeEvent(QCloseEvent * event)
 {
-    int ret = QMessageBox::warning(this, trUtf8("Предупреждение"),
-                                   trUtf8("Завершить работу и выйти из программы?"),
+    int ret = QMessageBox::warning(this, tr("Предупреждение"),
+                                   tr("Завершить работу и выйти из программы?"),
                                    QMessageBox::Ok | QMessageBox::Cancel,
                                    QMessageBox::Ok);
 
@@ -606,7 +616,7 @@ void MainWindowServer::initLabelOperator()
     } else {
         ui->labelOperator->clear();
         ui->labelOperator->setVisible(true);
-        ui->labelOperator->setText(trUtf8("Оператор") + ": " + Operator::getApprovedOperator().getOperatorLable());
+        ui->labelOperator->setText(tr("Оператор") + ": " + Operator::getApprovedOperator().getOperatorLable());
     }
 }
 
@@ -686,8 +696,8 @@ void MainWindowServer::on_actionReduce_triggered()
 
 void MainWindowServer::on_actionNewScheme_triggered()
 {
-    int ret = QMessageBox::question(this, trUtf8("Предупреждение"),
-                                   trUtf8("Начать новую смену?"),
+    int ret = QMessageBox::question(this, tr("Предупреждение"),
+                                   tr("Начать новую смену?"),
                                    QMessageBox::Ok | QMessageBox::Cancel,
                                    QMessageBox::Ok);
 
@@ -698,8 +708,8 @@ void MainWindowServer::on_actionNewScheme_triggered()
             QList<JourEntity *> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
 
             if(tmpLs.size()) {
-                QMessageBox::warning(this, trUtf8("Ошибка"),
-                                     trUtf8("Не заполнены все обязательные поля в базе данных!"));
+                QMessageBox::warning(this, tr("Ошибка"),
+                                     tr("Не заполнены все обязательные поля в базе данных!"));
                 return;
             }
 
@@ -708,26 +718,26 @@ void MainWindowServer::on_actionNewScheme_triggered()
         AuthenticationDialog ad;
         if(0 != ad.getInitialResult()) {
             if(QDialog::Accepted != ad.exec()) {
-                QMessageBox::warning(this, QObject::trUtf8("Ошибка"),
-                                     QObject::trUtf8("Ошибка выбора оператора комплекса!"));
+                QMessageBox::warning(this, QObject::tr("Ошибка"),
+                                     QObject::tr("Ошибка выбора оператора комплекса!"));
                 return;
             }
         }
 
-        forcedNewDuty(false);
+        forcedNewDuty(true);
     }
 }
 
 void MainWindowServer::forcedNewDuty(bool out)
 {
     JourEntity msg;
-    msg.setObject(trUtf8("Оператор"));
+    msg.setObject(tr("Оператор"));
     msg.setType(902);
     if(out) {
-        msg.setComment(trUtf8("Начата новая смена"));
+        msg.setComment(tr("Начата новая смена"));
         msg.setType(902);
     } else {
-        msg.setComment(trUtf8("Удал. ком. Начата новая смена"));
+        msg.setComment(tr("Удал. ком. Начата новая смена"));
         msg.setType(1902);
     }
     msg.setFlag(0);
@@ -793,7 +803,7 @@ void MainWindowServer::changeSelectUN(UnitNode *un)
     ui->treeView->setCurrentIndex(index);
 }
 
-void MainWindowServer::preparePageCustomization(int typeUN)
+void MainWindowServer::preparePageCustomization(int /*typeUN*/)
 {
     ui->groupBox_Customization->setVisible(false);
 
@@ -834,9 +844,9 @@ void MainWindowServer::preparePageRLM(int typeUN)
     ui->comboBox_RLMTactPeriod->clear();
     ui->comboBox_RLMTactPeriod->setEnabled(false);
     ui->comboBox_RLMTactPeriod->setEditable(false);
-    ui->comboBox_RLMTactPeriod->addItem(trUtf8("Неопределено"), -1);
+    ui->comboBox_RLMTactPeriod->addItem(tr("Неопределено"), -1);
     for(int i = 0, n = ((TypeUnitNode::RLM_KRL == typeUN) ? 4 : ((TypeUnitNode::RLM_C == typeUN) ? 5 : 0)); i < n; i++) {
-        ui->comboBox_RLMTactPeriod->addItem(QString(trUtf8("Такт") + " %1").arg(i + 1), i);
+        ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
     }
     ui->comboBox_RLMTactPeriod->setEnabled(true);
 
@@ -844,31 +854,31 @@ void MainWindowServer::preparePageRLM(int typeUN)
     ui->comboBox_RLMCondition->clear();
     ui->comboBox_RLMCondition->setEnabled(false);
     ui->comboBox_RLMCondition->setEditable(false);
-    ui->comboBox_RLMCondition->addItem(trUtf8("Неопределено"), -1);
-    ui->comboBox_RLMCondition->addItem(trUtf8("Основной"), 0);
-    ui->comboBox_RLMCondition->addItem(trUtf8("Дополнительный"), 1);
+    ui->comboBox_RLMCondition->addItem(tr("Неопределено"), -1);
+    ui->comboBox_RLMCondition->addItem(tr("Основной"), 0);
+    ui->comboBox_RLMCondition->addItem(tr("Дополнительный"), 1);
     if(TypeUnitNode::RLM_C == typeUN) {
-        ui->comboBox_RLMCondition->addItem(trUtf8("Ползущий (Плз)"), 2);
-        ui->comboBox_RLMCondition->addItem(trUtf8("2-й ярус (2Яр)"), 3);
+        ui->comboBox_RLMCondition->addItem(tr("Ползущий (Плз)"), 2);
+        ui->comboBox_RLMCondition->addItem(tr("2-й ярус (2Яр)"), 3);
     }
     ui->comboBox_RLMCondition->setEnabled(true);
 
     ui->comboBox_RLMEdge->clear();
     ui->comboBox_RLMEdge->setEnabled(false);
     ui->comboBox_RLMEdge->setEditable(false);
-    ui->comboBox_RLMEdge->addItem(trUtf8("Неопределено"));
+    ui->comboBox_RLMEdge->addItem(tr("Неопределено"));
     for(int i = 0, n = 6; i < n; i++) {
         if(0 == i) {
-            ui->comboBox_RLMEdge->addItem(QString(".%1 (" + trUtf8("самый груб.") + ")").arg(i + 1), (float)(((float)i + 1.0)/10.0));
+            ui->comboBox_RLMEdge->addItem(QString(".%1 (" + tr("самый груб.") + ")").arg(i + 1), (float)(((float)i + 1.0)/10.0));
         } else {
             ui->comboBox_RLMEdge->addItem(QString(".%1").arg(i + 1), (float)(((float)i + 1.0)/10.0));
         }
     }
     for(int i = 0, n = 10; i < n; i++) {
         if(0 == i) {
-            ui->comboBox_RLMEdge->addItem(QString("%1 (" + trUtf8("грубый") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("грубый") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
         } else if(9 <= i) {
-            ui->comboBox_RLMEdge->addItem(QString("%1 (" + trUtf8("чувств") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("чувств") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
         } else {
             ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
         }
@@ -878,7 +888,7 @@ void MainWindowServer::preparePageRLM(int typeUN)
     fillPageRLM();
 }
 
-void MainWindowServer::preparePagePoint(int typeUN)
+void MainWindowServer::preparePagePoint(int /*typeUN*/)
 {
     ui->comboBox_PointInput->clear();
     ui->comboBox_PointInput->setEnabled(false);
@@ -922,13 +932,13 @@ void MainWindowServer::preparePageSota1(int typeUN)
     ui->comboBox_Sota1F1->clear();
     ui->comboBox_Sota1F1->setEnabled(false);
     ui->comboBox_Sota1F1->setEditable(false);
-    ui->comboBox_Sota1F1->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota1F1->addItems({tr("Выкл"), tr("Вкл")});
     ui->comboBox_Sota1F1->setEnabled(true);
 
     ui->comboBox_Sota1F2->clear();
     ui->comboBox_Sota1F2->setEnabled(false);
     ui->comboBox_Sota1F2->setEditable(false);
-    ui->comboBox_Sota1F2->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota1F2->addItems({tr("Выкл"), tr("Вкл")});
     ui->comboBox_Sota1F2->setEnabled(true);
 
     ui->spinBox_Sota1EdgeF1->clear();
@@ -962,7 +972,6 @@ void MainWindowServer::preparePageSota1(int typeUN)
     ui->comboBox_Sota1TimeAffectF2->setEnabled(true);
 
 
-    ui->comboBox_Sota1CountAffectF1;
     ui->comboBox_Sota1CountAffectF1->clear();
     ui->comboBox_Sota1CountAffectF1->setEnabled(false);
     ui->comboBox_Sota1CountAffectF1->setEditable(false);
@@ -971,7 +980,6 @@ void MainWindowServer::preparePageSota1(int typeUN)
     }
     ui->comboBox_Sota1CountAffectF1->setEnabled(true);
 
-    ui->comboBox_Sota1CountAffectF2;
     ui->comboBox_Sota1CountAffectF2->clear();
     ui->comboBox_Sota1CountAffectF2->setEnabled(false);
     ui->comboBox_Sota1CountAffectF2->setEditable(false);
@@ -1004,13 +1012,13 @@ void MainWindowServer::preparePageSota2(int typeUN)
     ui->comboBox_Sota2C1F1->clear();
     ui->comboBox_Sota2C1F1->setEnabled(false);
     ui->comboBox_Sota2C1F1->setEditable(false);
-    ui->comboBox_Sota2C1F1->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota2C1F1->addItems({tr("Выкл"), tr("Вкл")});
     ui->comboBox_Sota2C1F1->setEnabled(true);
 
     ui->comboBox_Sota2C1F2->clear();
     ui->comboBox_Sota2C1F2->setEnabled(false);
     ui->comboBox_Sota2C1F2->setEditable(false);
-    ui->comboBox_Sota2C1F2->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota2C1F2->addItems({tr("Выкл"), tr("Вкл")});
     ui->comboBox_Sota2C1F2->setEnabled(true);
 
     ui->spinBox_Sota2EdgeC1F1->clear();
@@ -1074,7 +1082,6 @@ void MainWindowServer::preparePageSota2(int typeUN)
     ui->spinBox_Sota2DurationC1F2->setMinimum(0);
     ui->spinBox_Sota2DurationC1F2->setEnabled(true);
 
-    ui->comboBox_Sota2WeakeningC1;
     ui->comboBox_Sota2WeakeningC1->clear();
     ui->comboBox_Sota2WeakeningC1->setEnabled(false);
     ui->comboBox_Sota2WeakeningC1->setEditable(false);
@@ -1087,13 +1094,13 @@ void MainWindowServer::preparePageSota2(int typeUN)
     ui->comboBox_Sota2C2F1->clear();
     ui->comboBox_Sota2C2F1->setEnabled(false);
     ui->comboBox_Sota2C2F1->setEditable(false);
-    ui->comboBox_Sota2C2F1->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota2C2F1->addItems({tr("Выкл"), tr("Вкл")});
     ui->comboBox_Sota2C2F1->setEnabled(true);
 
     ui->comboBox_Sota2C2F2->clear();
     ui->comboBox_Sota2C2F2->setEnabled(false);
     ui->comboBox_Sota2C2F2->setEditable(false);
-    ui->comboBox_Sota2C2F2->addItems({trUtf8("Выкл"), trUtf8("Вкл")});
+    ui->comboBox_Sota2C2F2->addItems({tr("Выкл"), tr("Вкл")});
     ui->comboBox_Sota2C2F2->setEnabled(true);
 
     ui->spinBox_Sota2EdgeC2F1->clear();
@@ -1157,7 +1164,6 @@ void MainWindowServer::preparePageSota2(int typeUN)
     ui->spinBox_Sota2DurationC2F2->setMinimum(0);
     ui->spinBox_Sota2DurationC2F2->setEnabled(true);
 
-    ui->comboBox_Sota2WeakeningC2;
     ui->comboBox_Sota2WeakeningC2->clear();
     ui->comboBox_Sota2WeakeningC2->setEnabled(false);
     ui->comboBox_Sota2WeakeningC2->setEditable(false);
@@ -1192,17 +1198,17 @@ void MainWindowServer::fillPageRLM()
 
 }
 
-void MainWindowServer::fillPagePoint(int typeUN)
+void MainWindowServer::fillPagePoint(int /*typeUN*/)
 {
 
 }
 
-void MainWindowServer::fillPageSota1(int typeUN)
+void MainWindowServer::fillPageSota1(int /*typeUN*/)
 {
 
 }
 
-void MainWindowServer::fillPageSota2(int typeUN)
+void MainWindowServer::fillPageSota2(int /*typeUN*/)
 {
 
 }
@@ -1264,46 +1270,46 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         if(-1 == clockPeriod || -1 == modeProcessing || -1 == threshold)
             return;
 
-        newStateWord[2] = (quint8)newStateWord[2] & (quint8)0x80;
-        newStateWord[3] = (quint8)newStateWord[3] & (quint8)0xFC;
+        newStateWord[2] = static_cast<quint8>(newStateWord[2]) & static_cast<quint8>(0x80);
+        newStateWord[3] = static_cast<quint8>(newStateWord[3]) & static_cast<quint8>(0xFC);
 
-        newStateWord[2] = (quint8)newStateWord[2] | ((quint8)clockPeriod * (quint8)0x0F);
+        newStateWord[2] = static_cast<quint8>(newStateWord[2]) | (static_cast<quint8>(clockPeriod) * static_cast<quint8>(0x0F));
 
         if(10.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)0;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(0);
         } else if(09.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)1;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(1);
         } else if(08.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)2;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(2);
         } else if(07.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)3;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(3);
         } else if(06.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)4;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(4);
         } else if(05.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)5;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(5);
         } else if(04.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)6;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(6);
         } else if(03.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)7;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(7);
         } else if(02.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)8;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(8);
         } else if(01.0 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)9;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(9);
         } else if(00.6 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)10;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(10);
         } else if(00.5 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)11;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(11);
         } else if(00.4 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)12;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(12);
         } else if(00.3 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)13;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(13);
         } else if(00.2 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)14;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(14);
         } else if(00.1 == threshold) {
-            newStateWord[2] = (quint8)newStateWord[2] | (quint8)15;
+            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(15);
         }
 
-        newStateWord[3] = (quint8)newStateWord[3] | (quint8)modeProcessing;
+        newStateWord[3] = static_cast<quint8>(newStateWord[3]) | static_cast<quint8>(modeProcessing);
 
         m_portManager->requestModeSensor(selUN, newStateWord);
 

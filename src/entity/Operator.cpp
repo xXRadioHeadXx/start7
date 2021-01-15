@@ -80,7 +80,7 @@ QByteArray Operator::XOR_Crypt(const QByteArray in, const QByteArray key)
 {
    QByteArray out;
    for (int x = 0; x < in.size(); x++) {
-      out.append(((quint8)in.at(x) ^ (quint8)key.at((x + 1) % key.size()) * 2));
+      out.append((static_cast<quint8>(in.at(x)) ^ static_cast<quint8>(key.at((x + 1) % key.size())) * static_cast<quint8>(2)));
    }
    return out;
 }

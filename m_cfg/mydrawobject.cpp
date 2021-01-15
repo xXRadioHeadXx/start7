@@ -23,7 +23,7 @@ QRectF MyDrawObject::boundingRect() const
 return QRectF(0,0,42,42);
 }
 
-void MyDrawObject::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void MyDrawObject::paint(QPainter *painter, const QStyleOptionGraphicsItem */*option*/, QWidget */*widget*/)
 {
 
     if(this->supreme)
@@ -39,7 +39,7 @@ painter->setBrush(Qt::yellow);
    // painter->drawEllipse(QRectF(0, 0, 10, 10));
 }
 
-void MyDrawObject::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void MyDrawObject::mousePressEvent(QGraphicsSceneMouseEvent */*event*/)
 {
 //QGraphicsItem::mousePressEvent(event);
 //qDebug()<<" Press";
@@ -54,7 +54,7 @@ this->setPos(mapToScene(event->pos()));
 
 }
 
-void MyDrawObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void MyDrawObject::mouseReleaseEvent(QGraphicsSceneMouseEvent */*event*/)
 {
 //qDebug()<<" Release";
 }

@@ -54,8 +54,10 @@ FORMS += \
     AuthenticationDialog.ui \
     MainWindowServer.ui
 
-#TRANSLATIONS += app_ru.ts \
-#                app_ru.qm
+CODECFORSRC     = UTF-8
+
+TRANSLATIONS += app_ru.ts \
+                app_ru.qm
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

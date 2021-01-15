@@ -211,17 +211,17 @@ QVariant TableModelMSG::headerData(int section, Qt::Orientation orientation, int
             case 0:
                 return "№/#";
             case 1:
-                return trUtf8("Дата"); //"Дата";
+                return tr("Дата"); //"Дата";
             case 2:
-                return trUtf8("Сообщение"); //"Сообщение";
+                return tr("Сообщение"); //"Сообщение";
             case 3:
-                return trUtf8("Объект"); //"Объект";
+                return tr("Объект"); //"Объект";
             case 4:
-                return trUtf8("Причина"); //"Причина";
+                return tr("Причина"); //"Причина";
             case 5:
-                return trUtf8("Принятые меры"); //"Принятые меры"
+                return tr("Принятые меры"); //"Принятые меры"
             case 6:
-                return trUtf8("Оператор"); //"Оператор"
+                return tr("Оператор"); //"Оператор"
             default:
                 return QVariant();
         }

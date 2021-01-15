@@ -17,7 +17,8 @@ enum BeatStatus {
     RequestStep1 = 4,
     RequestStep2 = 5,
     WaiteEnd = 6,
-    End = 7
+    End = 7,
+    Successful = 8
 };
 
 enum RequesterType {
@@ -152,6 +153,7 @@ public slots:
         if(getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
+            emit importantBeatStatus();
             emit unsuccessful();
 //            qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <-- Unsuccessful";
             return;
@@ -162,6 +164,7 @@ public slots:
         if(!getFirstMsg().isValid()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
+            emit importantBeatStatus();
             emit unsuccessful();
 //            qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <-- Unsuccessful";
             return;
@@ -182,8 +185,9 @@ public slots:
 
         if(0 == getTimeIntervalWaiteFirst()) {
             timerTripleStop();
-            setBeatStatus(BeatStatus::Unsuccessful);
-            emit unsuccessful();
+            setBeatStatus(BeatStatus::Successful);
+            emit importantBeatStatus();
+            emit successful();
 //            qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") <-- Unsuccessful";
             return;
         }
@@ -247,6 +251,7 @@ public slots:
         if(getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
+            emit importantBeatStatus();
             emit unsuccessful();
 //            qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
             return;
@@ -257,6 +262,7 @@ public slots:
         if(!getSecondMsg().isValid()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
+            emit importantBeatStatus();
             emit unsuccessful();
 //            qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
             return;
@@ -277,8 +283,9 @@ public slots:
 
         if(0 == getTimeIntervalWaiteSecond()) {
             timerTripleStop();
-            setBeatStatus(BeatStatus::Unsuccessful);
-            emit unsuccessful();
+            setBeatStatus(BeatStatus::Successful);
+            emit importantBeatStatus();
+            emit successful();
 //            qDebug() << "AbstractRequester::startWaiteEndSecondWaite(" << this << ") <-- Unsuccessful";
             return;
         }
@@ -342,6 +349,7 @@ public slots:
         if(getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
+            emit importantBeatStatus();
             emit unsuccessful();
 //            qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <-- Unsuccessful";
             return;
@@ -352,6 +360,7 @@ public slots:
         if(!getEndMsg().isValid()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
+            emit importantBeatStatus();
             emit unsuccessful();
 //            qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <-- Unsuccessful";
             return;
@@ -414,7 +423,10 @@ public:
 
 
 signals:
+    void importantBeatStatus();
+    void successful();
     void unsuccessful();
+
 
 private slots:
     virtual void specialReserveSlot() const {return;};

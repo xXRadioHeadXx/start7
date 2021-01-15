@@ -6,7 +6,7 @@
 #include <QErrorMessage>
 #include <QStorageInfo>
 
-#ifdef _WIN32 || _WIN_64
+#if (defined (_WIN32) || defined (_WIN64))
 #include <Windows.h>
 #endif
 
@@ -31,11 +31,11 @@ this->ui->groupBox_4->setVisible(false);
            qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
            qDebug() << "Bytes available:" << volume.bytesAvailable();
            qDebug() << "Bytes free:" << volume.bytesFree();
-           qDebug() << "Bytes total:" << volume.bytesTotal() << endl;
+           qDebug() << "Bytes total:" << volume.bytesTotal() << Qt::endl;
        }
 
 
-#ifdef _WIN32 || _WIN_64
+#if (defined (_WIN32) || defined (_WIN64))
 
 qDebug()<<"[0]";
     LPWSTR lpbuffer;
@@ -389,24 +389,24 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 //    dialog.exec();
 
 
-    action_setDK = new QAction(trUtf8("Выполнять команду ДК"), this);
-    action_YZ_MONOLIT = new QAction(trUtf8("УЗ Монолит"), this);
-    action_setAlarmMsgOn  =new QAction(trUtf8("Выдавать сообщение при тревогах"), this);
+    action_setDK = new QAction(tr("Выполнять команду ДК"), this);
+    action_YZ_MONOLIT = new QAction(tr("УЗ Монолит"), this);
+    action_setAlarmMsgOn  =new QAction(tr("Выдавать сообщение при тревогах"), this);
 
     action_setDK->setCheckable(true);
     action_YZ_MONOLIT->setCheckable(true);
     action_setAlarmMsgOn->setCheckable(true);
 
-    action_setAdamOff_off = new QAction(trUtf8("выкл"), this);
-    action_setAdamOff_5_sec = new QAction(trUtf8("5 сек"), this);
-    action_setAdamOff_10_sec= new QAction(trUtf8("10 сек"), this);
-    action_setAdamOff_30_sec= new QAction(trUtf8("30 сек"), this);
-    action_setAdamOff_1_min= new QAction(trUtf8("1 мин"), this);
-    action_setAdamOff_5_min= new QAction(trUtf8("5 мин"), this);
-    action_setAdamOff_10_min= new QAction(trUtf8("10 мин"), this);
-    action_setAdamOff_20_min= new QAction(trUtf8("20 мин"), this);
-    action_setAdamOff_30_min= new QAction(trUtf8("30 мин"), this);
-    action_setAdamOff_1_hour= new QAction(trUtf8("1 час"), this);
+    action_setAdamOff_off = new QAction(tr("выкл"), this);
+    action_setAdamOff_5_sec = new QAction(tr("5 сек"), this);
+    action_setAdamOff_10_sec= new QAction(tr("10 сек"), this);
+    action_setAdamOff_30_sec= new QAction(tr("30 сек"), this);
+    action_setAdamOff_1_min= new QAction(tr("1 мин"), this);
+    action_setAdamOff_5_min= new QAction(tr("5 мин"), this);
+    action_setAdamOff_10_min= new QAction(tr("10 мин"), this);
+    action_setAdamOff_20_min= new QAction(tr("20 мин"), this);
+    action_setAdamOff_30_min= new QAction(tr("30 мин"), this);
+    action_setAdamOff_1_hour= new QAction(tr("1 час"), this);
 
     action_setAdamOff_off->setCheckable(true);
     action_setAdamOff_5_sec->setCheckable(true);
@@ -470,7 +470,7 @@ MainWindowCFG::~MainWindowCFG()
     delete ui;
 }
 
-bool MainWindowCFG::load(QString patch)
+bool MainWindowCFG::load(QString /*patch*/)
 {
     bool res=true;
 
@@ -482,7 +482,7 @@ bool MainWindowCFG::load(QString patch)
     return res;
 }
 
-void MainWindowCFG::unitNameChanged(QStandardItem *item)
+void MainWindowCFG::unitNameChanged(QStandardItem */*item*/)
 {
     qDebug()<<"[unitNameChanged]";
 }
@@ -759,12 +759,15 @@ QString MainWindowCFG::Type_from_int_to_string(int int_Type)
 
     case TypeUnitNode::KL:
     Type.append(str_KL);
+    break;
 
     case TypeUnitNode::NET_DEV:
     Type.append(str_NET_DEV);
+    break;
 
     case TypeUnitNode::STRAZH_IP:
     Type.append(str_STRAZH_IP);
+    break;
 
     case TypeUnitNode::ONVIF:
     Type.append(str_ONVIF);
@@ -885,6 +888,8 @@ break;
     Type.append("Участок Точка-М/Гарда");
     break;
     */
+    return TypeUnitNode::SYSTEM;
+
 }
 
 bool MainWindowCFG::this_name_is_free(QString Name)
@@ -1194,7 +1199,7 @@ return true;
 
 }
 
-void MainWindowCFG::set_option_GROUP(UnitNode *unit)
+void MainWindowCFG::set_option_GROUP(UnitNode */*unit*/)
 {
 
 }
@@ -1259,7 +1264,7 @@ void MainWindowCFG::on_actionSave_triggered()
     this->save_ini(path);
 }
 
-void MainWindowCFG::on_treeView_activated(const QModelIndex &index)
+void MainWindowCFG::on_treeView_activated(const QModelIndex &/*index*/)
 {
     qDebug()<<"activated";
 }
@@ -1317,9 +1322,9 @@ void MainWindowCFG::update_operators_table()
     }
 }
 
-QString MainWindowCFG::get_unit_name(int type)
+QString MainWindowCFG::get_unit_name(int /*type*/)
 {
-
+    return QString();
 }
 
 void MainWindowCFG::setDK()
@@ -1466,7 +1471,7 @@ void MainWindowCFG::setAdamOff_1_hour()
     un->setAdamOff(9);
 }
 
-bool MainWindowCFG::can_i_add_or_not(int type_parrent, int type_child)
+bool MainWindowCFG::can_i_add_or_not(int /*type_parrent*/, int /*type_child*/)
 {
     return true;
 }
@@ -1847,7 +1852,7 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
 
     QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
     QModelIndex BOD_ind = this->modelTreeUN->parent(ind);
-    UnitNode* BOD=static_cast<UnitNode*>(BOD_ind.internalPointer());
+//    UnitNode* BOD=static_cast<UnitNode*>(BOD_ind.internalPointer());
 
 
 
@@ -2073,7 +2078,7 @@ bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)//н�
 
     QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
     QModelIndex BOD_ind = this->modelTreeUN->parent(ind);
-    UnitNode* BOD=static_cast<UnitNode*>(BOD_ind.internalPointer());
+//    UnitNode* BOD=static_cast<UnitNode*>(BOD_ind.internalPointer());
 
 
 
@@ -2538,7 +2543,7 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
         return true;
 }
 
-bool  MainWindowCFG::pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent)
+bool  MainWindowCFG::pass_to_add_NET_DEV(UnitNode */*unit*/, UnitNode *parrent)
 {
     if(parrent->getType()!=TypeUnitNode::GROUP)
     if(parrent->getType()!=TypeUnitNode::SYSTEM)
@@ -2669,10 +2674,10 @@ bool MainWindowCFG::add_unit()
 set_option(unit,parrent);
     //Проверить можно ли добавлять юнит к этому родителю
     //Определить тип родителя
-    int parrent_type;
+//    int parrent_type;
 
     //Определить тип чайлда
-    int child_type;
+//    int child_type;
 
 
 
@@ -2711,26 +2716,27 @@ bool MainWindowCFG::change_unit()
     QString origin_name=unit->getName();
     QString new_name=    this->ui->uName_lineedit->text();
 
-    bool res=true;
+//    bool res=true;
 
     if(origin_name!=new_name)
     {
         if(this->this_name_is_free(new_name)==false)
         {
-            res=false;
+//            res=false;
         }
 
     }
 
  //   if(res==true)
  //   set_option(unit);
+    return true;
 }
 
 bool MainWindowCFG::delete_unit()
 {
     QModelIndex index=this->ui->treeView->currentIndex();
 
-    UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
+//    UnitNode *unit = static_cast<UnitNode*>(current_index.internalPointer());
 
     if (index.isValid())
     {
@@ -2767,19 +2773,19 @@ void MainWindowCFG::show_the_tree()
 void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 {
 
-    int Num2=unit->getNum2();
+//    int Num2=unit->getNum2();
 
-    bool DK=false;
-    if(unit->getDK())
-       DK=true;
-    int Bazalt=unit->getBazalt();
-    int connectblock=unit->getConnectBlock();
+//    bool DK=false;
+//    if(unit->getDK())
+//       DK=true;
+//    int Bazalt=unit->getBazalt();
+//    int connectblock=unit->getConnectBlock();
 
-    int UdpUse=unit->getUdpUse();
+//    int UdpUse=unit->getUdpUse();
 
     QString UdpAdress=unit->getUdpAdress();
 
-    int UdpPort=unit->getUdpPort();
+//    int UdpPort=unit->getUdpPort();
 
     qDebug()<<"Name: "<<unit->getName()
             <<" Type:"<<this->Type_from_int_to_string(unit->getType())
@@ -3300,7 +3306,7 @@ void MainWindowCFG::get_option_DD_SOTA(UnitNode *unit)
    this->ui->textEdit->append(string1);
 }
 
-void MainWindowCFG::get_option_BL_IP(UnitNode *unit)
+void MainWindowCFG::get_option_BL_IP(UnitNode */*unit*/)
 {
 
 }
@@ -3657,12 +3663,12 @@ qDebug()<<"---"<<i;
     this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->setValue(20);
 }
 
-void MainWindowCFG::get_SSOI(QString filename)
+void MainWindowCFG::get_SSOI(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_SSOI(QString filename)
+void MainWindowCFG::set_SSOI(QString /*filename*/)
 {
 
 }
@@ -3672,12 +3678,12 @@ void MainWindowCFG::default_SSOI()
 
 }
 
-void MainWindowCFG::get_RASTRMTV(QString filename)
+void MainWindowCFG::get_RASTRMTV(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_RASTRMTV(QString filename)
+void MainWindowCFG::set_RASTRMTV(QString /*filename*/)
 {
 
 }
@@ -3919,12 +3925,12 @@ this->ui->SQL_type_comboBox->setCurrentText("Выкл");
     this->ui->SQL_AutoDbStartMinute_doubleSpinBox->setValue(0);
 }
 
-void MainWindowCFG::get_RASTR(QString filename)
+void MainWindowCFG::get_RASTR(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_RASTR(QString filename)
+void MainWindowCFG::set_RASTR(QString /*filename*/)
 {
 
 }
@@ -3934,12 +3940,12 @@ void MainWindowCFG::default_RASTR()
 
 }
 
-void MainWindowCFG::get_SOLID(QString filename)
+void MainWindowCFG::get_SOLID(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_SOLID(QString filename)
+void MainWindowCFG::set_SOLID(QString /*filename*/)
 {
 
 }
@@ -3949,12 +3955,12 @@ void MainWindowCFG::default_SOLID()
 
 }
 
-void MainWindowCFG::get_ADAM4068(QString filename)
+void MainWindowCFG::get_ADAM4068(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_ADAM4068(QString filename)
+void MainWindowCFG::set_ADAM4068(QString /*filename*/)
 {
 
 }
@@ -3964,12 +3970,12 @@ void MainWindowCFG::default_ADAM4068()
 
 }
 
-void MainWindowCFG::get_TABLO(QString filename)
+void MainWindowCFG::get_TABLO(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_TABLO(QString filename)
+void MainWindowCFG::set_TABLO(QString /*filename*/)
 {
 
 }
@@ -3979,12 +3985,12 @@ void MainWindowCFG::default_TABLO()
 
 }
 
-void MainWindowCFG::get_RASTRMSSOI(QString filename)
+void MainWindowCFG::get_RASTRMSSOI(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_RASTRMSSOI(QString filename)
+void MainWindowCFG::set_RASTRMSSOI(QString /*filename*/)
 {
 
 }
@@ -4003,7 +4009,7 @@ void MainWindowCFG::get_BACKUP(QString filename)
   #else
       settings.setIniCodec( "UTF-8" );
   #endif
-int res=0;
+//int res=0;
 
     settings.beginGroup("BACKUP");
     QString BackupPath=settings.value("BackupPath",-1).toString();
@@ -4024,7 +4030,7 @@ void MainWindowCFG::set_BACKUP(QString filename)
   #else
       settings.setIniCodec( "UTF-8" );
   #endif
-int res=0;
+//int res=0;
 
     settings.beginGroup("BACKUP");
 
@@ -4041,12 +4047,12 @@ void MainWindowCFG::default_BACKUP()
     this->ui->BACKUP_MaxBdStringCnt_comboBox->setCurrentText(map_BACKUP_MaxBdStringCnt.value(10));
 }
 
-void MainWindowCFG::get_PORT(QString filename)
+void MainWindowCFG::get_PORT(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_PORT(QString filename)
+void MainWindowCFG::set_PORT(QString /*filename*/)
 {
 
 }
@@ -4168,12 +4174,12 @@ void MainWindowCFG::default_OPERATORS()
     operators_use=0;
 }
 
-void MainWindowCFG::get_ASOOSD(QString filename)
+void MainWindowCFG::get_ASOOSD(QString /*filename*/)
 {
 
 }
 
-void MainWindowCFG::set_ASOOSD(QString filename)
+void MainWindowCFG::set_ASOOSD(QString /*filename*/)
 {
 
 }
@@ -4402,7 +4408,7 @@ void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit,UnitNode *parent)
 
 }
 
-void MainWindowCFG::set_option_BL_IP(UnitNode *unit)
+void MainWindowCFG::set_option_BL_IP(UnitNode */*unit*/)
 {
 
 }
@@ -4423,7 +4429,7 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }
 
-void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
+void MainWindowCFG::set_option_ONVIF(UnitNode */*unit*/)
 {
 //    unit->setIcon1Path(this->ui->ONVIF_lineEdit__IPaddr->text());
 //    unit->setIcon2Path(this->ui->ONVIF_lineEdit__login->text());
@@ -4431,7 +4437,7 @@ void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
 
 }
 
-void MainWindowCFG::set_option_STRAZH_IP(UnitNode *unit)
+void MainWindowCFG::set_option_STRAZH_IP(UnitNode */*unit*/)
 {
 //    unit->setIcon1Path(this->ui->STRAZH_IP_lineEdit__IPaddr->text());
 //    unit->setIcon2Path(this->ui->STRAZH_IP_lineEdit__login->text());
@@ -4439,7 +4445,7 @@ void MainWindowCFG::set_option_STRAZH_IP(UnitNode *unit)
 //    unit->setIcon4Path(this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->text());
 }
 
-void MainWindowCFG::set_option_NET_DEV(UnitNode *unit)
+void MainWindowCFG::set_option_NET_DEV(UnitNode */*unit*/)
 {
 //    unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
 }
@@ -4836,7 +4842,7 @@ void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)
           */
 }
 
-void MainWindowCFG::save_option_BOD_SOTA(QSettings *settings, UnitNode *unit)
+void MainWindowCFG::save_option_BOD_SOTA(QSettings */*settings*/, UnitNode */*unit*/)
 {
     /*
     Type=29
@@ -5087,7 +5093,7 @@ void MainWindowCFG::on_operators_use_combobox_currentTextChanged(const QString &
 
 void MainWindowCFG::on_add_operator_button_clicked()
 {
-  Operator* op = new Operator();
+//  Operator* op = new Operator();
    opt_tbl_request=1;
     op_f.clear_operator_data_on_form();
    op_f.show();
@@ -5099,7 +5105,7 @@ void MainWindowCFG::on_add_operator_button_clicked()
  //   update_operators_table();
 }
 
-void MainWindowCFG::on_tableWidget_cellClicked(int row, int column)
+void MainWindowCFG::on_tableWidget_cellClicked(int /*row*/, int /*column*/)
 {
 
 }
@@ -5156,7 +5162,7 @@ void MainWindowCFG::on_change_operator_button_clicked()
 
 
 
-void MainWindowCFG::on_RifPort_comboBox_currentIndexChanged(int index)
+void MainWindowCFG::on_RifPort_comboBox_currentIndexChanged(int /*index*/)
 {
 
 
@@ -5189,7 +5195,7 @@ void MainWindowCFG::on_RifPortSpeed_comboBox_currentTextChanged(const QString &a
     }
 }
 
-void MainWindowCFG::on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1)
+void MainWindowCFG::on_RifPortInterval_doubleSpinBox_valueChanged(const QString &/*arg1*/)
 {
       int ind = this->ui->RifPort_comboBox->currentIndex();
     if(ind<comports.count())

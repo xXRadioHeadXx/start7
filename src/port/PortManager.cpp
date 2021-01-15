@@ -12,6 +12,7 @@
 #include <StatusConnectRequester.h>
 #include <LockWaiter.h>
 #include <global.hpp>
+#include <QMessageBox>
 
 PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {
@@ -361,12 +362,12 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
 
     if(nullptr == selUN) {
         JourEntity msg;
-        msg.setObject(trUtf8("РИФ Общий"));
+        msg.setObject(tr("РИФ Общий"));
         if(out) {
-            msg.setComment(trUtf8("Удал. ком. ДК Послана ком. ДК"));
+            msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
             msg.setType(1133);
         } else {
-            msg.setComment(trUtf8("Послана ком. ДК"));
+            msg.setComment(tr("Послана ком. ДК"));
             msg.setType(133);
         }
         DataBaseManager::insertJourMsg_wS(msg);
@@ -388,10 +389,10 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
         if(nullptr == selUN && !un->getName().isEmpty() && un->getControl()) {
             JourEntity msg;
             if(out) {
-                msg.setComment(trUtf8("Удал. ком. ДК Послана ком. ДК"));
+                msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
                 msg.setType(1133);
             } else {
-                msg.setComment(trUtf8("Послана ком. ДК"));
+                msg.setComment(tr("Послана ком. ДК"));
                 msg.setType(133);
             }
             msg.setObject(un->getName());
@@ -413,10 +414,10 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
         msg.setDirection(selUN->getUdpAdress());
 
         if(out) {
-            msg.setComment(trUtf8("Удал. ком. ДК Послана ком. ДК"));
+            msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
             msg.setType(1133);
         } else {
-            msg.setComment(trUtf8("Послана ком. ДК"));
+            msg.setComment(tr("Послана ком. ДК"));
             msg.setType(133);
         }
         msg.setObject(selUN->getName());
@@ -462,9 +463,9 @@ void PortManager::requestAutoOnOffIUCommand(bool out, UnitNode *selUN) {
                     msg.setDirection(selUN->getUdpAdress());
 
                     if(out)
-                        msg.setComment(trUtf8("Удал. ком. Вкл"));
+                        msg.setComment(tr("Удал. ком. Вкл"));
                     else
-                        msg.setComment(trUtf8("Послана ком. Вкл"));
+                        msg.setComment(tr("Послана ком. Вкл"));
                     DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
                 }
@@ -498,9 +499,27 @@ void PortManager::requestModeSensor(UnitNode *selUN, QByteArray stateWord)
         data[5] = stateWord.at(3);
         data.chop(1);
         data.append(Utils::getByteSumm(data)); //<CHKS>
+
+        data.prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF));
+
         itm.setData(data);
 
         tmpCAW->setFirstMsg(itm);
+
+        connect(tmpCAW, &AbstractRequester::successful, [](){
+            QMessageBox::information(nullptr,
+                                 tr("Инфо"),
+                                 tr("Параметры датчика записаны успешно!"),
+                                 QMessageBox::Ok);
+        });
+
+        connect(tmpCAW, &AbstractRequester::unsuccessful, [](){
+            QMessageBox::warning(nullptr,
+                                 tr("Ошибка"),
+                                 tr("Ошибка записи параметров датчика!"),
+                                 QMessageBox::Ok);
+        });
+
         appLsWaiter(tmpCAW);
     }
 }
@@ -522,11 +541,11 @@ void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)
     msg.setDirection(selUN->getUdpAdress());
 
     if(out) {
-        msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
+        msg.setComment(tr("Удал. ком. ") + (value ? tr("Открыть") : tr("Закрыть")));
         msg.setType((value ? 1004 : 1003));
     } else {
         msg.setType((value ? 150 : 151));
-        msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Открыть") : trUtf8("Закрыть")));
+        msg.setComment(tr("Послана ком. ") + (value ? tr("Открыть") : tr("Закрыть")));
     }
     DataBaseManager::insertJourMsg_wS(msg);
     GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
@@ -649,10 +668,10 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             msg.setDirection(target->getUdpAdress());
 
             if(out) {
-                msg.setComment(trUtf8("Удал. ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
+                msg.setComment(tr("Удал. ком. ") + (value ? tr("Вкл") : tr("Выкл")));
                 msg.setType((value ? 1000 : 1001));
             } else {
-                msg.setComment(trUtf8("Послана ком. ") + (value ? trUtf8("Вкл") : trUtf8("Выкл")));
+                msg.setComment(tr("Послана ком. ") + (value ? tr("Вкл") : tr("Выкл")));
                 msg.setType((value ? 130 : 131));
             }
             DataBaseManager::insertJourMsg_wS(msg);
@@ -743,7 +762,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
     QSet<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes();
     for(UnitNode * un : tmpSet) {
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || (quint8)item.data().at(2) != (quint8)un->getNum1())
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
         QPointer<UnitNode> previousCopyUNLockSdBlIp = nullptr, previousCopyUNLockIuBlIp = nullptr;
         UnitNode * unLockSdBlIp = nullptr, * unLockIuBlIp = nullptr;
@@ -868,7 +887,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msgOn.setD3(un->getNum3());
                     msgOn.setType(101);
                     msgOn.setDirection(un->getUdpAdress());
-                    msgOn.setComment(QObject::trUtf8("Вкл"));
+                    msgOn.setComment(QObject::tr("Вкл"));
                     DataBaseManager::insertJourMsg_wS(msgOn);
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
@@ -930,22 +949,22 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     if(1 == unLockSdBlIp->isAlarm() &&
                        1 == unLockIuBlIp->isOff()) {
                         //Открыто
-                        msg.setComment(QObject::trUtf8("Открыто"));
+                        msg.setComment(QObject::tr("Открыто"));
                         msg.setType(111);
                     } else if(1 == unLockSdBlIp->isNorm() &&
                               1 == unLockIuBlIp->isOn()) {
                         //Закрыто
-                        msg.setComment(QObject::trUtf8("Закрыто"));
+                        msg.setComment(QObject::tr("Закрыто"));
                         msg.setType(110);
                     } else if(1 == unLockSdBlIp->isAlarm() &&
                               1 == unLockIuBlIp->isOn()) {
                         //Открыто ключом
-                        msg.setComment(QObject::trUtf8("Открыто ключом"));
+                        msg.setComment(QObject::tr("Открыто ключом"));
                         msg.setType(113);
                     } else if(1 == unLockSdBlIp->isNorm() &&
                               1 == unLockIuBlIp->isOff()) {
                         //Закрыто ключом
-                        msg.setComment(QObject::trUtf8("Закрыто ключом"));
+                        msg.setComment(QObject::tr("Закрыто ключом"));
                         msg.setType(112);
                     }
 
@@ -999,34 +1018,34 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
                     //сохранение Тревога или Норма
-                    msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
+                    msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     //нужен сброс
                     resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
-                    msg.setComment(QObject::trUtf8("Норма"));
+                    msg.setComment(QObject::tr("Норма"));
                     msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
-                    msg.setComment(QObject::trUtf8("Выкл"));
+                    msg.setComment(QObject::tr("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 } if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
-                    msg.setComment(QObject::trUtf8("Вкл"));
+                    msg.setComment(QObject::tr("Вкл"));
                     msg.setType(101);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
-                    msg.setComment(QObject::trUtf8("Выкл"));
+                    msg.setComment(QObject::tr("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
-                    msg.setComment(QObject::trUtf8("Вкл"));
+                    msg.setComment(QObject::tr("Вкл"));
                     msg.setType(101);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
@@ -1063,7 +1082,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
     QSet<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes();
     for(UnitNode * un : tmpSet) {
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || (quint8)item.data().at(2) != (quint8)un->getNum1())
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
 
         QPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
@@ -1098,31 +1117,33 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     msgOn.setD3(un->getNum3());
                     msgOn.setType(101);
                     msgOn.setDirection(un->getUdpAdress());
-                    msgOn.setComment(QObject::trUtf8("Вкл"));
+                    msgOn.setComment(QObject::tr("Вкл"));
                     DataBaseManager::insertJourMsg_wS(msgOn);
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
                 if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
                     //сохранение Тревога или Норма
-                    msg.setComment(QObject::trUtf8("Тревога-СРАБОТКА"));
-                    msg.setType(20);
-                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    //нужен сброс
-                    resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                    if(1 == un->isOn()) {
+                        msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
+                        msg.setType(20);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                        //нужен сброс
+                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                    }
                 } else if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
-                    msg.setComment(QObject::trUtf8("Норма"));
+                    msg.setComment(QObject::tr("Норма"));
                     msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 } else if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
-                    msg.setComment(QObject::trUtf8("Выкл"));
+                    msg.setComment(QObject::tr("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 } else if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
-                    msg.setComment(QObject::trUtf8("Вкл"));
+                    msg.setComment(QObject::tr("Вкл"));
                     msg.setType(101);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
@@ -1198,9 +1219,9 @@ void PortManager::manageOverallReadQueue()
         if(DataQueueItem::isValideDirectionI(itm)) {
             quint8 CMD = itm.data().at(4);
             switch (CMD) {
-            case (quint8)0x41: {
+            case static_cast<quint8>(0x41): {
                 for(AbstractRequester * scr : as_const(this->lsSCR)) {
-                    if(scr->getIpPort() == tmpPair && TypeUnitNode::BL_IP == (quint8)scr->getUnReciver()->getType()) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::BL_IP == static_cast<quint8>(scr->getUnReciver()->getType())) {
                         scr->resetBeatCount();
                         break;
                     }
@@ -1238,9 +1259,9 @@ void PortManager::manageOverallReadQueue()
                 }
                 break;
             }
-            case (quint8)0x31: {
+            case static_cast<quint8>(0x31): {
                 for(AbstractRequester * scr : as_const(this->lsSCR)) {
-                    if(scr->getIpPort() == tmpPair && TypeUnitNode::RLM_C == (quint8)scr->getUnReciver()->getType() && (quint8)scr->getUnReciver()->getNum1() == (quint8)itm.data().at(2)) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::RLM_C == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
                     }
@@ -1298,14 +1319,14 @@ void PortManager::manageOverallReadQueue()
                 }
                 break;
             }
-            case (quint8)0x30: {
+            case static_cast<quint8>(0x30): {
 
                 for(AbstractRequester * ar : as_const(getLsWaiter())) {
                     if(ar->getIpPort() == tmpPair ) {
 
                         if(BeatStatus::RequestStep1 == ar->getBeatStatus()) { // переводим в первое ожидание
 
-                            if(RequesterType::DKWaiter == ar->getRequesterType() && (quint8)ar->getUnReciver()->getNum1() == (quint8)itm.data().at(2)) {
+                            if(RequesterType::DKWaiter == ar->getRequesterType() && static_cast<quint8>(ar->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                                 for(UnitNode * un : as_const(((ProcessDKWaiter *)ar)->getLsTrackedUN())) {
                                     un->setDkInvolved(true);
                                     un->setDkStatus(DKCiclStatus::DKReady);
@@ -1334,10 +1355,10 @@ void PortManager::manageOverallReadQueue()
                                     msg.setDirection(un->getUdpAdress());
 
                                     if(DKCiclStatus::DKDone == un->getDkStatus()) {
-                                        msg.setComment(trUtf8("Ком. ДК выполнена"));
+                                        msg.setComment(tr("Ком. ДК выполнена"));
                                         msg.setType(3);
                                     } else {
-                                        msg.setComment(trUtf8("Ком. ДК не выполнена"));
+                                        msg.setComment(tr("Ком. ДК не выполнена"));
                                         msg.setType(11);
                                     }
                                     un->setDkInvolved(false);
@@ -1372,7 +1393,7 @@ void PortManager::manageOverallReadQueue()
 
                             removeLsWaiter(ar);
 
-                        } else if(BeatStatus::Unsuccessful == ar->getBeatStatus()) { // точно пора удалять
+                        } else if(BeatStatus::Unsuccessful == ar->getBeatStatus() || BeatStatus::Successful == ar->getBeatStatus()) { // точно пора удалять
                             removeLsWaiter(ar);
                         }
                     }
@@ -1385,8 +1406,8 @@ void PortManager::manageOverallReadQueue()
 
             bool keypass = true;
             for(AbstractRequester * ar : as_const(getLsWaiter())) {
-                if(BeatStatus::Unsuccessful == ar->getBeatStatus()) {
-                    removeLsWaiter(ar);
+                if(BeatStatus::Unsuccessful == ar->getBeatStatus() || BeatStatus::Successful == ar->getBeatStatus()) {
+                    removeLsWaiter(ar); //
                 } else if(true == keypass && BeatStatus::Start == ar->getBeatStatus()) {
                     keypass = false;
                     ar->startFirstRequest();
@@ -1411,7 +1432,7 @@ void PortManager::unLostedConnect(UnitNode *un) const
             msg.setD2(un->getNum2());
             msg.setD3(un->getNum3());
             msg.setDirection(un->getUdpAdress());
-            msg.setComment(trUtf8("Нет связи"));
+            msg.setComment(tr("Нет связи"));
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
         }

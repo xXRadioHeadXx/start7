@@ -26,7 +26,7 @@ bool TablePrint::prepareTmpFileHtmlTableFromModel(const QTableView *tableView) {
     out <<  "<html>\n"
         "<head>\n"
         "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-        <<  QString("<title>%1</title>\n").arg(trUtf8("Отчёт"))
+        <<  QString("<title>%1</title>\n").arg(tr("Отчёт"))
         <<  "</head>\n"
         "<body bgcolor=#ffffff link=#5000A0>\n"
         "<table border=1 cellspacing=0 cellpadding=2>\n";
@@ -63,8 +63,8 @@ bool TablePrint::prepareTmpFileHtmlTableFromModel(const QTableView *tableView) {
            "        <td width=\"50%\"><hr></td>"
            "    </tr>"
            "    <tr>"
-           "        <td align=\"center\">" << trUtf8("подпись") << "</td>"
-           "        <td align=\"center\">" << trUtf8("ФИО") << "</td>"
+           "        <td align=\"center\">" << tr("подпись") << "</td>"
+           "        <td align=\"center\">" << tr("ФИО") << "</td>"
            "    </tr>"
            "        <tr>"
            "        <td width=\"50%\">" << QDateTime::currentDateTime().toString("dd.MM.yyyy \t hh:mm:ss") << "&nbsp;</td>"
@@ -75,7 +75,7 @@ bool TablePrint::prepareTmpFileHtmlTableFromModel(const QTableView *tableView) {
            "        <td></td>"
            "    </tr>"
            "    <tr>"
-           "        <td align=\"center\">" << trUtf8("дата, время создания") << "</td>"
+           "        <td align=\"center\">" << tr("дата, время создания") << "</td>"
            "        <td></td>"
            "    </tr>"
            "</table>";
@@ -160,6 +160,7 @@ bool TablePrint::printPdf()
     printer.setPageMargins(QMarginsF(15, 15, 15, 15));
 
     loc_document.print(&printer);
+    return true;
 }
 
 bool TablePrint::printPreview()
