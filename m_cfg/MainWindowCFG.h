@@ -83,6 +83,7 @@ private:
 
     bool can_i_add_or_not(int type_parrent, int type_child);
     bool pass_to_add(UnitNode *unit, UnitNode* parrent);
+    bool pass_to_add_GROUP(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
@@ -306,7 +307,7 @@ private slots:
     void set_x_y(QString Name,int x,int y);
 
     void on_treeView_clicked(const QModelIndex &index);
-    void on_uType_combobox_currentTextChanged(const QString &arg1);
+
 
     void on_pushButton_4_clicked();
     void on_actionCreate_triggered();
@@ -354,5 +355,6 @@ private slots:
 
    void coordinate_menu(bool visible,bool active, int x, int y, QString text);
    void on_pushButton_5_clicked();
+   void on_uType_combobox_activated(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
