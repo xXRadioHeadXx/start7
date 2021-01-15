@@ -351,5 +351,8 @@ private slots:
    void on_INTEGRATION_pushButton_clicked();
    void on_BACKUP_pushButton_clicked();
    void on_AdmAud_Create_pushButton_clicked();
+
+   void coordinate_menu(bool visible,bool active, int x, int y, QString text);
+   void on_pushButton_5_clicked();
 };
 #endif // MAINWINDOWCFG_H

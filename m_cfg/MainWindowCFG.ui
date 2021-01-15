@@ -149,8 +149,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>616</width>
-          <height>1413</height>
+          <width>638</width>
+          <height>1425</height>
          </rect>
         </property>
         <property name="minimumSize">
@@ -1215,6 +1215,9 @@
                 <height>22</height>
                </rect>
               </property>
+              <property name="maximum">
+               <double>9999.989999999999782</double>
+              </property>
              </widget>
              <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
               <property name="geometry">
@@ -1224,6 +1227,9 @@
                 <width>101</width>
                 <height>22</height>
                </rect>
+              </property>
+              <property name="maximum">
+               <double>9999.989999999999782</double>
               </property>
              </widget>
              <widget class="QLabel" name="label_14">
@@ -2958,7 +2964,7 @@
      <x>0</x>
      <y>0</y>
      <width>1049</width>
-     <height>30</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

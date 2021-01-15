@@ -17,6 +17,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
 
     ui->setupUi(this);
+this->ui->groupBox_4->setVisible(false);
 
     for (auto volume : QStorageInfo::mountedVolumes()) {
            qDebug() << "Name:" << volume.name();
@@ -52,7 +53,7 @@ qDebug()<<"[3]";
 
     for( int i = 0; i < 255; i++ )
     {
-        qDebug()<<"[4]";
+     //   qDebug()<<"[4]";
        if( lpbuffer[i] == ':' )
        {
        dr[0] = lpbuffer[i-1];
@@ -611,6 +612,7 @@ qDebug()
         this->ui->uType_combobox->setCurrentText(Type);
 
 */
+       this->ui->groupBox_4->setVisible(false);
     switch(selected_type)
     {
     case TypeUnitNode::GROUP:
@@ -619,6 +621,7 @@ qDebug()
 
     case TypeUnitNode::SD_BL_IP:
     this->get_option_SD_BL_IP(unit);
+    coordinate_menu(true,true,unit->getLan(),unit->getLon(),unit->getDescription());
     break;
 
     case TypeUnitNode::IU_BL_IP:
@@ -936,9 +939,11 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 {
     this->ui->UDP_RS485_Widget->setVisible(false);
     this->ui->type_pxm_label->clear();
+    this->ui->groupBox_4->setVisible(false);
     if(arg1==str_GROUP){
     this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
     }
+
     else
     if(arg1==str_SD_BL_IP){
     qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
@@ -948,6 +953,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
     this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     this->ui->timeout_doubleSpinBox->setValue(50);
+        coordinate_menu(true,false,0,0,"");
 
     }
     else
@@ -2414,7 +2420,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                       }
                      if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
                       {
-                           qDebug()<<"[4]";
+                    //       qDebug()<<"[4]";
                          if(un->getNum2()==unit->getNum2())
                          {
                                qDebug()<<"[5]";
@@ -2651,6 +2657,14 @@ bool MainWindowCFG::add_unit()
 
 
     unit->setLevel(parrent->getLevel()+1);
+
+    if(this->ui->groupBox_4->isVisible())
+    {
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+    }
 
 set_option(unit,parrent);
     //Проверить можно ли добавлять юнит к этому родителю
@@ -5397,6 +5411,19 @@ void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
     */
 }
 
+void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y,QString text)
+{
+    this->ui->groupBox_4->setVisible(visible);
+    if(visible)
+    {
+        this->ui->coordinate_X_doubleSpinBox->setValue(x);
+        this->ui->coordinate_Y_doubleSpinBox->setValue(y);
+        this->ui->Dop_info_description_lineedit->setText(text);
+
+        this->ui->pushButton_5->setEnabled(active);
+    }
+}
+
 /*
 QList<udev_device*> listDevices()
 {
@@ -5419,3 +5446,16 @@ QList<udev_device*> listDevices()
     return list;
 }
 */
+
+void MainWindowCFG::on_pushButton_5_clicked()
+{
+    QModelIndex ind = this->ui->treeView->currentIndex();
+
+    if(ind.isValid())
+    {
+    UnitNode *unit = static_cast<UnitNode*>(ind.internalPointer());
+    unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+    unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+    unit->setDescription(ui->Dop_info_description_lineedit->text());
+    }
+}

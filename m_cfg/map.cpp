@@ -137,7 +137,7 @@ void Map::change_name(int id,QString name)
             }
     }
     }
-        qDebug()<<"[4]";
+    //    qDebug()<<"[4]";
 }
 
 void Map::change_x_y(int id, int x, int y)
