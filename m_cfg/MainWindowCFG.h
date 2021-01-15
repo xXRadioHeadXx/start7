@@ -239,6 +239,8 @@ private:
 
     void update_map();
 
+    void update_rif_comport_table();
+
     int selected_type;
 
     QModelIndex current_index;

@@ -932,6 +932,30 @@ void MainWindowCFG::update_map()
     }
 }
 
+void MainWindowCFG::update_rif_comport_table()
+{
+
+    ui->tableWidget_2->setRowCount(0);
+  qDebug()<<"количество операторов "<<comports.count();
+  int cnt;
+
+
+
+for(int i=0;i<comports.count();i++)
+{
+        ComPort* port=comports.at(i);
+       qDebug()<<" "<<i <<" "<<port->get_RifPortSpeed()<<" "<<port->get_RifPortInterval();
+
+      cnt=this->ui->tableWidget_2->rowCount();
+      qDebug()<<"/"<<cnt;
+      this->ui->tableWidget_2->insertRow(cnt);
+      this->ui->tableWidget_2->setItem(cnt,0, new QTableWidgetItem(QString::number(i)));
+      this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortSpeed())));
+      this->ui->tableWidget_2->setItem(cnt,2, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
+
+  }
+}
+
 
 
 
@@ -3524,6 +3548,7 @@ qDebug()<<"---"<<i;
         comports.at(i)->set_RifPortInterval(50);
         }
     }
+    update_rif_comport_table();
     this->ui->RifPort_comboBox->setCurrentIndex(0);
 
     this->ui->RifPortSpeed_comboBox->setCurrentText(QString::number(comports.at(0)->get_RifPortSpeed()));
@@ -5047,6 +5072,7 @@ if(ind<comports.count())
         qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
 
     }
+update_rif_comport_table();
 
 }
 
@@ -5064,6 +5090,7 @@ void MainWindowCFG::on_RifPortSpeed_comboBox_currentTextChanged(const QString &a
     qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
 
     }
+    update_rif_comport_table();
 }
 
 void MainWindowCFG::on_RifPortInterval_doubleSpinBox_valueChanged(const QString &/*arg1*/)
@@ -5079,6 +5106,7 @@ qDebug()<<QString::number(port->get_RifPortInterval());
 
             qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
           }
+    update_rif_comport_table();
 }
 
 
