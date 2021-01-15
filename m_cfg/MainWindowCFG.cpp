@@ -19,6 +19,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     ui->setupUi(this);
 this->ui->groupBox_4->setVisible(false);
 
+    this->ui->SQL_server_lineEdit->setText("localhost");
+
     for (auto volume : QStorageInfo::mountedVolumes()) {
            qDebug() << "Name:" << volume.name();
            qDebug() << "Display name:" << volume.displayName();
@@ -3775,9 +3777,9 @@ int res=0;
 void MainWindowCFG::default_SQL()
 {
 this->ui->SQL_type_comboBox->setCurrentText("Выкл");
-    this->ui->SQL_server_lineEdit->setText("");
+    this->ui->SQL_server_lineEdit->setText("localhost");
     this->ui->SQL_port_doubleSpinBox->setValue(0);
-    this->ui->SQL_login_lineEdit->setText("");
+    this->ui->SQL_login_lineEdit->setText("root");
     this->ui->SQL_password_lineEdit->setText("");
     this->ui->SQL_database_lineEdit->setText("");
 

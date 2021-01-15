@@ -2362,6 +2362,9 @@
                <height>20</height>
               </rect>
              </property>
+             <property name="text">
+              <string>localhost</string>
+             </property>
             </widget>
             <widget class="QDoubleSpinBox" name="INTEGRATION_Port_doubleSpinBox">
              <property name="geometry">
@@ -2531,6 +2534,9 @@
                <height>20</height>
               </rect>
              </property>
+             <property name="text">
+              <string>localhost</string>
+             </property>
             </widget>
             <widget class="QLabel" name="label_27">
              <property name="geometry">
@@ -2585,6 +2591,9 @@
                <width>71</width>
                <height>20</height>
               </rect>
+             </property>
+             <property name="text">
+              <string>root</string>
              </property>
             </widget>
             <widget class="QLabel" name="label_29">
@@ -2649,7 +2658,7 @@
             <widget class="QPushButton" name="SQL_find_server_pushButton">
              <property name="geometry">
               <rect>
-               <x>90</x>
+               <x>109</x>
                <y>74</y>
                <width>91</width>
                <height>23</height>
