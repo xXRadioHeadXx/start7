@@ -163,7 +163,7 @@ void MainWindowServer::write()
     QByteArray Data;
     Data.append(static_cast<quint8>(0xB5));
     Data.append(static_cast<quint8>(0xFF));
-    Data.append(static_cast<quint8>(0x00));
+    Data.append(static_cast<char>(0x00));
     Data.append(static_cast<quint8>(0x22));
     Data.append(static_cast<quint8>(0x21));
 

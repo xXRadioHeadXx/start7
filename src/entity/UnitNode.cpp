@@ -1038,7 +1038,7 @@ void UnitNode::moveTreeChildUNUp(UnitNode * childUN)
         return;
     auto index = getListTreeChilde().indexOf(childUN);
     if(0 < index) {
-        this->listTreeChilde.swapItemsAt(index - 1, index);
+        this->listTreeChilde.swap(index - 1, index);
     }
 }
 
@@ -1048,7 +1048,7 @@ void UnitNode::moveTreeChildUNDown(UnitNode *childUN)
         return;
     auto index = getListTreeChilde().indexOf(childUN);
     if(getListTreeChilde().count() > (index + 1)) {
-        this->listTreeChilde.swapItemsAt(index, index + 1);
+        this->listTreeChilde.swap(index, index + 1);
     }
 }
 

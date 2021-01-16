@@ -105,7 +105,7 @@ QByteArray DataQueueItem::makeDK0x21(const UnitNode * un)
     if(DataQueueItem::data0x21.isEmpty()) {
         DataQueueItem::data0x21.append(static_cast<quint8>(0xB5));      //<SB>
         DataQueueItem::data0x21.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x21.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x21.append(static_cast<char>(0x00));        //<NBB> 0x00
         DataQueueItem::data0x21.append(static_cast<quint8>(0x21));      //<CMD> 0x21
 //        DataQueueItem::data0x21.append(Utils::getByteSumm(DataQueueItem::data0x21)); //<CHKS>
     }
@@ -139,7 +139,7 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
     if(DataQueueItem::data0x22.isEmpty()) {
         DataQueueItem::data0x22.append(static_cast<quint8>(0xB5));      //<SB>
         DataQueueItem::data0x22.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x22.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x22.append(static_cast<char>(0x00));        //<NBB> 0x00
         DataQueueItem::data0x22.append(static_cast<quint8>(0x22));      //<CMD> 0x22
 //        DataQueueItem::data0x22.append(Utils::getByteSumm(DataQueueItem::data0x22)); //<CHKS>
     }
@@ -253,7 +253,7 @@ QByteArray DataQueueItem::makeAlarmReset0x24(const UnitNode * un)
     if(DataQueueItem::data0x24.isEmpty()) {
         DataQueueItem::data0x24.append(static_cast<quint8>(0xB5));      //<SB>
         DataQueueItem::data0x24.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x24.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x24.append(static_cast<char>(0x00));        //<NBB> 0x00
         DataQueueItem::data0x24.append(static_cast<quint8>(0x24));      //<CMD> 0x24
 //        DataQueueItem::data0x24.append(Utils::getByteSumm(DataQueueItem::data0x24)); //<CHKS>
     }
@@ -287,7 +287,7 @@ QByteArray DataQueueItem::makeOff0x25(const UnitNode * un)
     if(DataQueueItem::data0x25.isEmpty()) {
         DataQueueItem::data0x25.append(static_cast<quint8>(0xB5));      //<SB>
         DataQueueItem::data0x25.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x25.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x25.append(static_cast<char>(0x00));        //<NBB> 0x00
         DataQueueItem::data0x25.append(static_cast<quint8>(0x25));      //<CMD> 0x25
 //        DataQueueItem::data0x25.append(Utils::getByteSumm(DataQueueItem::data0x25)); //<CHKS>
     }
@@ -321,7 +321,7 @@ QByteArray DataQueueItem::makeOn0x26(const UnitNode * un)
     if(DataQueueItem::data0x26.isEmpty()) {
         DataQueueItem::data0x26.append(static_cast<quint8>(0xB5));      //<SB>
         DataQueueItem::data0x26.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x26.append(static_cast<quint8>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x26.append(static_cast<char>(0x00));        //<NBB> 0x00
         DataQueueItem::data0x26.append(static_cast<quint8>(0x26));      //<CMD> 0x26
 //        DataQueueItem::data0x26.append(Utils::getByteSumm(DataQueueItem::data0x26)); //<CHKS>
     }
