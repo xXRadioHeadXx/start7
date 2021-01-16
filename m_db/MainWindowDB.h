@@ -62,7 +62,7 @@ private:
     DataBaseManager *m_dbManager = nullptr;
     TableModelMSG *modelMSG = nullptr;
     QTimer timerUpd;
-    JourEntity * selMsg = nullptr;
+    JourEntity selMsg;
     QString currentSqlQueryStr;
     static GraphTerminal * graphTerminal;
 
