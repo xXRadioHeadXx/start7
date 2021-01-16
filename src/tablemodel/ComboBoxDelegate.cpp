@@ -13,7 +13,6 @@ QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 
     QComboBox *comboBox = new QComboBox(parent);
     auto jour = TableModelMSG::getListMSG().value(index.row(), JourEntity());
-//    JourEntity * jour = static_cast<JourEntity *>(index.internalPointer());
     QList<QString> items;
 
     if("reason" == field)

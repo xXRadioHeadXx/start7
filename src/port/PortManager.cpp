@@ -1067,7 +1067,18 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             }
         }
 
-
+        if(!previousCopyUNLockSdBlIp.isNull()) {
+            delete previousCopyUNLockSdBlIp.data();
+            previousCopyUNLockSdBlIp = nullptr;
+        }
+        if(!previousCopyUNLockIuBlIp.isNull()) {
+            delete previousCopyUNLockIuBlIp.data();
+            previousCopyUNLockIuBlIp = nullptr;
+        }
+        if(!previousCopyUN.isNull()) {
+            delete previousCopyUN.data();
+            previousCopyUN = nullptr;
+        }
     }
 //    qDebug() << "Utils::parcingStatusWord0x41 <--";
     return resultRequest;
