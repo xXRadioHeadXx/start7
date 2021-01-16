@@ -10,7 +10,6 @@ VERSION_MAJOR = 1
 VERSION_MINOR = 0
 VERSION_BUILD = 0
 
-DEFINES +=
 
 
 OBJECTS_DIR = obj
@@ -22,8 +21,7 @@ MOC_DIR = moc
 # deprecated API in order to know how to port your code away from it.
 DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
             "VERSION_MINOR=$$VERSION_MINOR"\
-            "VERSION_BUILD=$$VERSION_BUILD"\
-            QT_DEPRECATED_WARNINGS
+            "VERSION_BUILD=$$VERSION_BUILD"
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

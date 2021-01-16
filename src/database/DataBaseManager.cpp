@@ -24,12 +24,12 @@ void DataBaseManager::setIdStartLastDuty(qint64 value)
 
 void DataBaseManager::setIdStartLastDuty()
 {
-    QList<JourEntity *> newRecords(DataBaseManager::getQueryMSGRecord("SELECT j1.* FROM jour j1 WHERE j1.id in (SELECT max(j2.id) FROM jour j2 WHERE j2.type = 902)"));
+    QList<JourEntity> newRecords(DataBaseManager::getQueryMSGRecord("SELECT j1.* FROM jour j1 WHERE j1.id in (SELECT max(j2.id) FROM jour j2 WHERE j2.type = 902)"));
 
     if(newRecords.isEmpty())
         setIdStartLastDuty(-1);
     else
-        setIdStartLastDuty(newRecords.first()->getId());
+        setIdStartLastDuty(newRecords.first().getId());
 }
 
 QString DataBaseManager::getHostName()
@@ -158,59 +158,59 @@ DataBaseManager::~DataBaseManager() noexcept
         m_db().close();
 }
 
-int DataBaseManager::insertCommandMsg_wS(const MessageEntity &msg) {
-    int lastInsertId = insertCommandMsg(msg);
-    if(0 != lastInsertId)
-        SignalSlotCommutator::getInstance()->emitInsNewCommandMSG(/*lastInsertId*/);
-//        emit this->insertNewMSG();
-    return lastInsertId;
-}
+//int DataBaseManager::insertCommandMsg_wS(const MessageEntity &msg) {
+//    int lastInsertId = insertCommandMsg(msg);
+//    if(0 != lastInsertId)
+//        SignalSlotCommutator::getInstance()->emitInsNewCommandMSG(/*lastInsertId*/);
+////        emit this->insertNewMSG();
+//    return lastInsertId;
+//}
 
 
-int DataBaseManager::insertCommandMsg(const MessageEntity &msg)
-{
+//int DataBaseManager::insertCommandMsg(const MessageEntity &msg)
+//{
 
-    QString sql;
-    sql = " INSERT INTO public.message ( ";
-    if(msg.getCdate().isValid())
-        sql += "cdate, ";
-    if(msg.getMdate().isValid())
-        sql += "mdate, ";
-    sql += " object, operatorid, direction, bytearraydata) VALUES ( ";
-    if(msg.getCdate().isValid())
-        sql += "to_timestamp(:vCdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
-    if(msg.getMdate().isValid())
-        sql += "to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
-    sql += " :vObject, :vOperatorid, :vDirection, :vBytearraydata); ";
+//    QString sql;
+//    sql = " INSERT INTO public.message ( ";
+//    if(msg.getCdate().isValid())
+//        sql += "cdate, ";
+//    if(msg.getMdate().isValid())
+//        sql += "mdate, ";
+//    sql += " object, operatorid, direction, bytearraydata) VALUES ( ";
+//    if(msg.getCdate().isValid())
+//        sql += "to_timestamp(:vCdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
+//    if(msg.getMdate().isValid())
+//        sql += "to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
+//    sql += " :vObject, :vOperatorid, :vDirection, :vBytearraydata); ";
 
-    QSqlQuery query(m_db());
-    query.prepare(sql);
+//    QSqlQuery query(m_db());
+//    query.prepare(sql);
 
-    if(msg.getCdate().isValid())
-        query.bindValue(":vCdate", msg.getCdate().toString("yyyy-MM-dd hh:mm:ss.z"));
-    if(msg.getMdate().isValid())
-        query.bindValue(":vMdate", msg.getMdate().toString("yyyy-MM-dd hh:mm:ss.z"));
-    query.bindValue(":vObject", msg.getObject());
-//    query.bindValue(":vOperatorid", msg.getOperatorid());
-    query.bindValue(":vOperatorid", Operator::getApprovedOperator().getOperatorLable());
-    query.bindValue(":vDirection", msg.getDirection());
-    query.bindValue(":vBytearraydata", msg.getBytearraydata());
+//    if(msg.getCdate().isValid())
+//        query.bindValue(":vCdate", msg.getCdate().toString("yyyy-MM-dd hh:mm:ss.z"));
+//    if(msg.getMdate().isValid())
+//        query.bindValue(":vMdate", msg.getMdate().toString("yyyy-MM-dd hh:mm:ss.z"));
+//    query.bindValue(":vObject", msg.getObject());
+////    query.bindValue(":vOperatorid", msg.getOperatorid());
+//    query.bindValue(":vOperatorid", Operator::getApprovedOperator().getOperatorLable());
+//    query.bindValue(":vDirection", msg.getDirection());
+//    query.bindValue(":vBytearraydata", msg.getBytearraydata());
 
-    if(query.exec())
-    {
-//        qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
-        return query.lastInsertId().toUInt();
-    }
-    else
-    {
-        qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
-        qDebug() << query.lastQuery();
-        qDebug() << query.boundValues();
-        return 0;
-    }
+//    if(query.exec())
+//    {
+////        qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
+//        return query.lastInsertId().toUInt();
+//    }
+//    else
+//    {
+//        qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
+//        qDebug() << query.lastQuery();
+//        qDebug() << query.boundValues();
+//        return 0;
+//    }
 
-    return 0;
-}
+//    return 0;
+//}
 
 int DataBaseManager::insertJourMsg_wS(const JourEntity &msg) {
     int lastInsertId = insertJourMsg(msg);
@@ -376,45 +376,45 @@ void DataBaseManager::resetAllFlags()
     }
 }
 
-QList<JourEntity *> DataBaseManager::getQueryMSGRecord(QString sql) {
-    QList<JourEntity *> result;
+QList<JourEntity> DataBaseManager::getQueryMSGRecord(QString sql) {
+    QList<JourEntity> result;
     QSqlQuery query(m_db());
     query.prepare(sql);
     result = DataBaseManager::getQueryMSGRecord(query);
     return result;
 }
 
-QList<JourEntity *> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
-    QList<JourEntity *> result;
+QList<JourEntity> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
+    QList<JourEntity> result;
 
     if(query.exec())
     {
         while(query.next())
         {
             QSqlRecord rec = query.record();
-            JourEntity * me = new JourEntity;
-            me->setId(rec.value("id").toInt());
-            me->setCdate(rec.value("cdate").toDateTime());
+            JourEntity me;
+            me.setId(rec.value("id").toInt());
+            me.setCdate(rec.value("cdate").toDateTime());
 
-            me->setComment(rec.value("comment").toString());
-            me->setObject(rec.value("object").toString());
-            me->setReason(rec.value("reason").toString());
-            me->setMeasures(rec.value("measures").toString());
-            me->setOperatorid(rec.value("operatorid").toString());
-            me->setStatus(rec.value("status").toString());
-            me->setDirection(rec.value("direction").toString());
+            me.setComment(rec.value("comment").toString());
+            me.setObject(rec.value("object").toString());
+            me.setReason(rec.value("reason").toString());
+            me.setMeasures(rec.value("measures").toString());
+            me.setOperatorid(rec.value("operatorid").toString());
+            me.setStatus(rec.value("status").toString());
+            me.setDirection(rec.value("direction").toString());
 
-            me->setMdate(rec.value("mdate").toDateTime());
+            me.setMdate(rec.value("mdate").toDateTime());
 
-            me->setObjectid(rec.value("objectid").toInt());
+            me.setObjectid(rec.value("objectid").toInt());
 
-            me->setD1(rec.value("d1").toInt());
-            me->setD2(rec.value("d2").toInt());
-            me->setD3(rec.value("d3").toInt());
-            me->setD4(rec.value("d4").toInt());
-            me->setType(rec.value("type").toInt());
-            me->setObjecttype(rec.value("objecttype").toInt());
-            me->setFlag(rec.value("flag").toInt());
+            me.setD1(rec.value("d1").toInt());
+            me.setD2(rec.value("d2").toInt());
+            me.setD3(rec.value("d3").toInt());
+            me.setD4(rec.value("d4").toInt());
+            me.setType(rec.value("type").toInt());
+            me.setObjecttype(rec.value("objecttype").toInt());
+            me.setFlag(rec.value("flag").toInt());
 
             result.append(me);
         }
@@ -445,17 +445,17 @@ int DataBaseManager::executeQuery(QSqlQuery query)
     return -1;
 }
 
-QList<JourEntity *> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ {
+QList<JourEntity> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ {
     return getFltMSGRecordAfter("", id);
 }
 
-QList<JourEntity *> DataBaseManager::getOneMSGRecord(const int &id) //const
+QList<JourEntity> DataBaseManager::getOneMSGRecord(const int &id) //const
 {
     return getFltOneMSGRecord("", id);
 }
 
-QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
-    QList<JourEntity *> result;
+QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
+    QList<JourEntity> result;
     QString sql;
     sql = "SELECT * FROM jour ";
     if(id > 0 || !flt.isEmpty()) {
@@ -491,8 +491,8 @@ QList<JourEntity *> DataBaseManager::getFltMSGRecordAfter(const QString flt, con
 
 
 
-QList<JourEntity *> DataBaseManager::getFltOneMSGRecord(const QString flt, const int &id) {
-    QList<JourEntity *> result;
+QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const int &id) {
+    QList<JourEntity> result;
     QString sql;
     sql = "SELECT * FROM jour ";
     if(id > 0 || !flt.isEmpty() || -1 != DataBaseManager::getIdStartLastDuty()) {

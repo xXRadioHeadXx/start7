@@ -1,4 +1,5 @@
 #include <SignalSlotCommutator.h>
+#include <QDebug>
 
 SignalSlotCommutator * SignalSlotCommutator::instance = nullptr;
 
@@ -14,7 +15,7 @@ SignalSlotCommutator * SignalSlotCommutator::getInstance()
 
 SignalSlotCommutator::SignalSlotCommutator(QObject *parent) : QObject(parent)
 {
-
+    qDebug() << "SignalSlotCommutator::SignalSlotCommutator(" << parent << ") -- first call";
 }
 
 void SignalSlotCommutator::emitInsNewCommandMSG(const quint32 id) const {

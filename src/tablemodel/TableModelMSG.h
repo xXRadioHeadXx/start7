@@ -9,7 +9,7 @@ class TableModelMSG : public QAbstractTableModel
 {
     Q_OBJECT
 
-    QList<JourEntity *> m_listMSG;
+    static QList<JourEntity> m_listMSG;
     quint32 newRecordMSG;
     quint32 updRecordMSG;
     bool needScroll;
@@ -42,7 +42,7 @@ public:
     QFont getFont() const;
     void setFont(const QFont &value);
 
-    QList<JourEntity *> getListMSG() const;
+    static QList<JourEntity> getListMSG();
 
     bool getForegroundRoleFlag() const;
     void setForegroundRoleFlag(bool value);
@@ -52,7 +52,7 @@ public:
 
     inline QModelIndex index(int row, int column, const QModelIndex &parent) const {
         if(hasIndex(row, column, parent))
-            return createIndex(row, column, m_listMSG[row]);
+            return createIndex(row, column);
         else
             return QModelIndex();
     }
@@ -60,8 +60,8 @@ public:
 
 signals:
     void needScrollToBottom();
-    void selectedMsg(QList<JourEntity *> listUN);
-    void selectedMsg(JourEntity* msg);
+    void selectedMsg(QList<JourEntity> listUN);
+    void selectedMsg(JourEntity msg);
 
 public slots:
     //обновление выборки
@@ -73,7 +73,7 @@ public slots:
     void setNeedScroll(bool value);
     void emitNeedScrollToBottom();
     void needResetModel();
-    JourEntity *clickedMsg(const QModelIndex &index);
+    JourEntity clickedMsg(const QModelIndex &index);
 
 };
 

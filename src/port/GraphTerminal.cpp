@@ -702,7 +702,7 @@ void GraphTerminal::procAlarmsReset(QDomElement /*root*/) {
 }
 
 void GraphTerminal::procDbStart(DataQueueItem /*itm*/) {
-    SignalSlotCommutator::getInstance()->emitForcedNewDuty(true);
+    SignalSlotCommutator::getInstance()->emitForcedNewDuty(false);
 }
 
 QDomDocument GraphTerminal::makeInitialStatus(QString /*docType*/)
