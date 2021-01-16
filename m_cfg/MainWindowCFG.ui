@@ -1215,6 +1215,9 @@
                 <height>22</height>
                </rect>
               </property>
+              <property name="maximum">
+               <double>9999.989999999999782</double>
+              </property>
              </widget>
              <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
               <property name="geometry">
@@ -1224,6 +1227,9 @@
                 <width>101</width>
                 <height>22</height>
                </rect>
+              </property>
+              <property name="maximum">
+               <double>9999.989999999999782</double>
               </property>
              </widget>
              <widget class="QLabel" name="label_14">
@@ -1721,6 +1727,125 @@
            </widget>
           </widget>
          </item>
+         <item row="0" column="0">
+          <widget class="QGroupBox" name="groupBox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>640</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>План и звук</string>
+           </property>
+           <widget class="QLabel" name="label">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>31</y>
+              <width>141</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Режим отображения</string>
+            </property>
+           </widget>
+           <widget class="QComboBox" name="PlanType_comboBox">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>50</y>
+              <width>130</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>130</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>117</width>
+              <height>22</height>
+             </size>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_2">
+            <property name="geometry">
+             <rect>
+              <x>168</x>
+              <y>31</y>
+              <width>191</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Источник звук. сигнализации</string>
+            </property>
+           </widget>
+           <widget class="QComboBox" name="SoundType_comboBox">
+            <property name="geometry">
+             <rect>
+              <x>168</x>
+              <y>50</y>
+              <width>186</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>151</horstretch>
+              <verstretch>22</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>186</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>164</width>
+              <height>22</height>
+             </size>
+            </property>
+           </widget>
+          </widget>
+         </item>
          <item row="2" column="0">
           <widget class="QGroupBox" name="groupBox_5">
            <property name="sizePolicy">
@@ -2036,7 +2161,7 @@
              <rect>
               <x>8</x>
               <y>327</y>
-              <width>405</width>
+              <width>561</width>
               <height>222</height>
              </rect>
             </property>
@@ -2049,242 +2174,283 @@
             <property name="title">
              <string>Подсистема РИФ</string>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QGroupBox" name="groupBox_17">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+            <widget class="QGroupBox" name="groupBox_17">
+             <property name="geometry">
+              <rect>
+               <x>3</x>
+               <y>16</y>
+               <width>441</width>
+               <height>191</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>172</width>
+               <height>180</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>Настройка COM-порта</string>
+             </property>
+             <widget class="QComboBox" name="RifPort_comboBox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>70</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>69</width>
+                <height>22</height>
+               </size>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_54">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>47</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Порт</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_55">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>70</y>
+                <width>111</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Скорость опроса</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="RifPortSpeed_comboBox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>90</y>
+                <width>70</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>69</width>
+                <height>22</height>
+               </size>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_56">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>120</y>
+                <width>151</width>
+                <height>16</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Интервал опроса, мсек</string>
+              </property>
+             </widget>
+             <widget class="QDoubleSpinBox" name="RifPortInterval_doubleSpinBox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>150</y>
+                <width>70</width>
+                <height>22</height>
+               </rect>
+              </property>
+              <property name="minimum">
+               <double>50.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>5000.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>5.000000000000000</double>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="tableWidget_2">
+              <property name="geometry">
+               <rect>
+                <x>130</x>
+                <y>20</y>
+                <width>301</width>
+                <height>171</height>
+               </rect>
+              </property>
+              <column>
+               <property name="text">
+                <string>COM</string>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>172</width>
-                 <height>180</height>
-                </size>
+              </column>
+              <column>
+               <property name="text">
+                <string>Скорость опроса</string>
                </property>
-               <property name="title">
-                <string>Настройка COM-порта</string>
+              </column>
+              <column>
+               <property name="text">
+                <string>Интервал опроса</string>
                </property>
-               <widget class="QComboBox" name="RifPort_comboBox">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>40</y>
-                  <width>70</width>
-                  <height>22</height>
-                 </rect>
-                </property>
+              </column>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="">
+             <property name="geometry">
+              <rect>
+               <x>450</x>
+               <y>20</y>
+               <width>100</width>
+               <height>198</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QWidget" name="widget2" native="true">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>69</width>
-                  <height>22</height>
-                 </size>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
                 </property>
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <item>
+                  <widget class="QLabel" name="label_57">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Период автоДК</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="RIF_AutoDK_comboBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>ВЫКЛ</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1 час</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>2 часа</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>3 часа</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>4 часа</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
-               <widget class="QLabel" name="label_54">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>20</y>
-                  <width>47</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Порт</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_55">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>70</y>
-                  <width>111</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Скорость опроса</string>
-                </property>
-               </widget>
-               <widget class="QComboBox" name="RifPortSpeed_comboBox">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>90</y>
-                  <width>70</width>
-                  <height>22</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>69</width>
-                  <height>22</height>
-                 </size>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_56">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>120</y>
-                  <width>151</width>
-                  <height>16</height>
-                 </rect>
-                </property>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget3" native="true">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="text">
-                 <string>Интервал опроса, мсек</string>
-                </property>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <item>
+                  <widget class="QLabel" name="label_58">
+                   <property name="text">
+                    <string>Таймаут для</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_59">
+                   <property name="text">
+                    <string>определения</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_60">
+                   <property name="text">
+                    <string>направления</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_61">
+                   <property name="text">
+                    <string>(только для</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_62">
+                   <property name="text">
+                    <string>Точки-Т(С), c</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox"/>
+                 </item>
+                </layout>
                </widget>
-               <widget class="QDoubleSpinBox" name="RifPortInterval_doubleSpinBox">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>150</y>
-                  <width>70</width>
-                  <height>22</height>
-                 </rect>
-                </property>
-                <property name="minimum">
-                 <double>50.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>5000.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>5.000000000000000</double>
-                </property>
-               </widget>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget2" native="true">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4">
-                <item>
-                 <widget class="QLabel" name="label_57">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Период автоДК</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="RIF_AutoDK_comboBox">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <item>
-                   <property name="text">
-                    <string>ВЫКЛ</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>1 час</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>2 часа</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>3 часа</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>4 часа</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="widget3" native="true">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout">
-                <item>
-                 <widget class="QLabel" name="label_58">
-                  <property name="text">
-                   <string>Таймаут для</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_59">
-                  <property name="text">
-                   <string>определения</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_60">
-                  <property name="text">
-                   <string>направления</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_61">
-                  <property name="text">
-                   <string>(только для</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_62">
-                  <property name="text">
-                   <string>Точки-Т(С), c</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox"/>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
+              </item>
+             </layout>
+            </widget>
            </widget>
            <widget class="QGroupBox" name="groupBox_10">
             <property name="geometry">
@@ -2355,6 +2521,9 @@
                <width>91</width>
                <height>20</height>
               </rect>
+             </property>
+             <property name="text">
+              <string>localhost</string>
              </property>
             </widget>
             <widget class="QDoubleSpinBox" name="INTEGRATION_Port_doubleSpinBox">
@@ -2525,6 +2694,9 @@
                <height>20</height>
               </rect>
              </property>
+             <property name="text">
+              <string>localhost</string>
+             </property>
             </widget>
             <widget class="QLabel" name="label_27">
              <property name="geometry">
@@ -2579,6 +2751,9 @@
                <width>71</width>
                <height>20</height>
               </rect>
+             </property>
+             <property name="text">
+              <string>root</string>
              </property>
             </widget>
             <widget class="QLabel" name="label_29">
@@ -2643,7 +2818,7 @@
             <widget class="QPushButton" name="SQL_find_server_pushButton">
              <property name="geometry">
               <rect>
-               <x>90</x>
+               <x>109</x>
                <y>74</y>
                <width>91</width>
                <height>23</height>
@@ -2823,125 +2998,6 @@
               <string>Макс. кол-во записей</string>
              </property>
             </widget>
-           </widget>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QGroupBox" name="groupBox">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>80</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>640</width>
-             <height>80</height>
-            </size>
-           </property>
-           <property name="title">
-            <string>План и звук</string>
-           </property>
-           <widget class="QLabel" name="label">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>31</y>
-              <width>141</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Режим отображения</string>
-            </property>
-           </widget>
-           <widget class="QComboBox" name="PlanType_comboBox">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>50</y>
-              <width>130</width>
-              <height>22</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>117</width>
-              <height>22</height>
-             </size>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_2">
-            <property name="geometry">
-             <rect>
-              <x>168</x>
-              <y>31</y>
-              <width>191</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Источник звук. сигнализации</string>
-            </property>
-           </widget>
-           <widget class="QComboBox" name="SoundType_comboBox">
-            <property name="geometry">
-             <rect>
-              <x>168</x>
-              <y>50</y>
-              <width>186</width>
-              <height>22</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>151</horstretch>
-              <verstretch>22</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>186</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>164</width>
-              <height>22</height>
-             </size>
-            </property>
            </widget>
           </widget>
          </item>

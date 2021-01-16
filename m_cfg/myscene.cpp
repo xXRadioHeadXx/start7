@@ -82,7 +82,7 @@ void myScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
       item->setSelected(true);
   //     qDebug()<<"item->isSelected   "<<item->isSelected();
       QList<QGraphicsItem *> selecteditems=this->selectedItems();
-                 qDebug()<<"[4]";
+          //       qDebug()<<"[4]";
   //    qDebug()<<"selectedItems   "<<selecteditems.count();
 this->update();
   }

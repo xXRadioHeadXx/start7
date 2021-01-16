@@ -17,6 +17,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
 
     ui->setupUi(this);
+this->ui->groupBox_4->setVisible(false);
+
+    this->ui->SQL_server_lineEdit->setText("localhost");
 
     for (auto volume : QStorageInfo::mountedVolumes()) {
            qDebug() << "Name:" << volume.name();
@@ -52,7 +55,7 @@ qDebug()<<"[3]";
 
     for( int i = 0; i < 255; i++ )
     {
-        qDebug()<<"[4]";
+     //   qDebug()<<"[4]";
        if( lpbuffer[i] == ':' )
        {
        dr[0] = lpbuffer[i-1];
@@ -198,6 +201,9 @@ AnsiString str;
 
 
   this->ui->RifPort_comboBox->addItem(" ВЫКЛ"," ВЫКЛ");
+
+   ComPort* port = new ComPort();
+   comports.append(port);
    for(int i(1), n(100); i < n; i++)
    {
        qDebug()<<"i= "<<i;
@@ -383,7 +389,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->tableWidget->setColumnWidth(6,70);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
-
+    this->ui->tableWidget_2->setColumnWidth(0,100);
+    this->ui->tableWidget_2->setColumnWidth(1,100);
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
 
@@ -522,6 +529,7 @@ void MainWindowCFG::set_x_y(QString Name, int x, int y)
 
 void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
+
     current_index=index;
     if(index.isValid())
     {
@@ -611,6 +619,7 @@ qDebug()
         this->ui->uType_combobox->setCurrentText(Type);
 
 */
+       this->ui->groupBox_4->setVisible(false);
     switch(selected_type)
     {
     case TypeUnitNode::GROUP:
@@ -619,6 +628,7 @@ qDebug()
 
     case TypeUnitNode::SD_BL_IP:
     this->get_option_SD_BL_IP(unit);
+    coordinate_menu(true,true,unit->getLan(),unit->getLon(),unit->getDescription());
     break;
 
     case TypeUnitNode::IU_BL_IP:
@@ -926,163 +936,41 @@ void MainWindowCFG::update_map()
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
+void MainWindowCFG::update_rif_comport_table()
 {
-    this->ui->UDP_RS485_Widget->setVisible(false);
-    this->ui->type_pxm_label->clear();
-    if(arg1==str_GROUP){
-    this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
-    }
-    else
-    if(arg1==str_SD_BL_IP){
-    qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
-    this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
-    this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(50);
 
-    }
-    else
-    if(arg1==str_IU_BL_IP)
-    {
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(50);
-        this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
-    }
-    else
-    if(arg1==str_TG)
-    {
-
-        this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(75);
-    }
-    else
-    if(arg1==str_RLM_KRL)
-    {
-
-        this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(50);
-    }
-    else
-    if(arg1==str_RLM_C)
-    {
-
-    this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-                this->ui->timeout_doubleSpinBox->setValue(50);
-    }
-    else
-    if(arg1==str_BOD_T4K_M)
-    {
-
-    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-                this->ui->timeout_doubleSpinBox->setValue(200);
-    }
-    else
-    if(arg1==str_Y4_T4K_M)
-    {
-
-    this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
-    }
-    else
-    if(arg1==str_DD_T4K_M)
-    {
-
-    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_T4K_M_groupbox);
-
-    }
-    else
-    if(arg1==str_BOD_SOTA)
-    {
-        this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
-     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(300);
-    }
-    else
-    if(arg1==str_Y4_SOTA)
-    {
-        this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
-        this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
-    }
-    else
-    if(arg1==str_DD_SOTA)
-    {
-        this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
-    }
-    else
-    if(arg1==str_KL)
-    {
-        this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(50);
-    }
-    else
-    if(arg1==str_ONVIF)
-    {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->ONVIF_groupbox);
-
-    }
-    else
-    if(arg1==str_STRAZH_IP)
-    {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->STRAZH_IP_groupbox);
-
-    }
-    else
-    if(arg1==str_NET_DEV)
-    {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
-
-    }
-
-
-    else
-    {
-        qDebug()<<"EMPTY";
-    this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
-    }
+    ui->tableWidget_2->setRowCount(0);
+  qDebug()<<"количество операторов "<<comports.count();
+  int cnt;
 
 
 
-//Участок Точка-М/Гряда
-//   БОД Точка-М/Гряда
+for(int i=1;i<comports.count();i++)
+{
+        ComPort* port=comports.at(i);
+       qDebug()<<" "<<i <<" "<<port->get_RifPortSpeed()<<" "<<port->get_RifPortInterval();
 
-    //РИФ-РЛМ-С
+      cnt=this->ui->tableWidget_2->rowCount();
+      qDebug()<<"/"<<cnt;
+      this->ui->tableWidget_2->insertRow(cnt);
 
-  //  РИФ-РЛМ/КРЛ/Трасса
+      this->ui->tableWidget_2->setItem(cnt,0, new QTableWidgetItem(QString::number(port->get_RifPortSpeed())));
+      this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
 
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1577,8 +1465,25 @@ if(unit->getType()==TypeUnitNode::STRAZH_IP)
 if(false==pass_to_add_STRAZH_IP(unit,parrent))
     return false;
 }
+if(unit->getType()==TypeUnitNode::GROUP)
+{
+if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+        return true;
+}
 
-return true;
+        bool MainWindowCFG::pass_to_add_GROUP(UnitNode *unit, UnitNode *parrent)
+{
+        //группа может быть добавлена только к системе
+            if((parrent->getType()!=TypeUnitNode::SYSTEM))
+            {
+        //        dialog.showMessage("Груп к системе");
+        //        dialog.exec();
+                return false;
+
+            }
+        return true;
 }
 
 bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
@@ -2419,7 +2324,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                       }
                      if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
                       {
-                           qDebug()<<"[4]";
+                    //       qDebug()<<"[4]";
                          if(un->getNum2()==unit->getNum2())
                          {
                                qDebug()<<"[5]";
@@ -2656,6 +2561,14 @@ bool MainWindowCFG::add_unit()
 
 
     unit->setLevel(parrent->getLevel()+1);
+
+    if(this->ui->groupBox_4->isVisible())
+    {
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+    }
 
 set_option(unit,parrent);
     //Проверить можно ли добавлять юнит к этому родителю
@@ -3639,6 +3552,7 @@ qDebug()<<"---"<<i;
         comports.at(i)->set_RifPortInterval(50);
         }
     }
+    update_rif_comport_table();
     this->ui->RifPort_comboBox->setCurrentIndex(0);
 
     this->ui->RifPortSpeed_comboBox->setCurrentText(QString::number(comports.at(0)->get_RifPortSpeed()));
@@ -3892,9 +3806,9 @@ int res=0;
 void MainWindowCFG::default_SQL()
 {
 this->ui->SQL_type_comboBox->setCurrentText("Выкл");
-    this->ui->SQL_server_lineEdit->setText("");
+    this->ui->SQL_server_lineEdit->setText("localhost");
     this->ui->SQL_port_doubleSpinBox->setValue(0);
-    this->ui->SQL_login_lineEdit->setText("");
+    this->ui->SQL_login_lineEdit->setText("root");
     this->ui->SQL_password_lineEdit->setText("");
     this->ui->SQL_database_lineEdit->setText("");
 
@@ -5162,6 +5076,7 @@ if(ind<comports.count())
         qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
 
     }
+update_rif_comport_table();
 
 }
 
@@ -5179,6 +5094,7 @@ void MainWindowCFG::on_RifPortSpeed_comboBox_currentTextChanged(const QString &a
     qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
 
     }
+    update_rif_comport_table();
 }
 
 void MainWindowCFG::on_RifPortInterval_doubleSpinBox_valueChanged(const QString &/*arg1*/)
@@ -5194,6 +5110,7 @@ qDebug()<<QString::number(port->get_RifPortInterval());
 
             qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
           }
+    update_rif_comport_table();
 }
 
 
@@ -5403,6 +5320,19 @@ void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
     */
 }
 
+void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y,QString text)
+{
+    this->ui->groupBox_4->setVisible(visible);
+    if(visible)
+    {
+        this->ui->coordinate_X_doubleSpinBox->setValue(x);
+        this->ui->coordinate_Y_doubleSpinBox->setValue(y);
+        this->ui->Dop_info_description_lineedit->setText(text);
+
+        this->ui->pushButton_5->setEnabled(active);
+    }
+}
+
 /*
 QList<udev_device*> listDevices()
 {
@@ -5425,3 +5355,165 @@ QList<udev_device*> listDevices()
     return list;
 }
 */
+
+void MainWindowCFG::on_pushButton_5_clicked()
+{
+    QModelIndex ind = this->ui->treeView->currentIndex();
+
+    if(ind.isValid())
+    {
+    UnitNode *unit = static_cast<UnitNode*>(ind.internalPointer());
+    unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+    unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+    unit->setDescription(ui->Dop_info_description_lineedit->text());
+    }
+}
+
+void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
+{
+    this->ui->UDP_RS485_Widget->setVisible(false);
+    this->ui->type_pxm_label->clear();
+    this->ui->groupBox_4->setVisible(false);
+    if(arg1==str_GROUP){
+    this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
+    }
+
+    else
+    if(arg1==str_SD_BL_IP){
+    qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(50);
+        coordinate_menu(true,false,0,0,"");
+
+    }
+    else
+    if(arg1==str_IU_BL_IP)
+    {
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(50);
+        this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
+    }
+    else
+    if(arg1==str_TG)
+    {
+
+        this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(75);
+    }
+    else
+    if(arg1==str_RLM_KRL)
+    {
+
+        this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(50);
+    }
+    else
+    if(arg1==str_RLM_C)
+    {
+
+    this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+                this->ui->timeout_doubleSpinBox->setValue(50);
+    }
+    else
+    if(arg1==str_BOD_T4K_M)
+    {
+
+    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+                this->ui->timeout_doubleSpinBox->setValue(200);
+    }
+    else
+    if(arg1==str_Y4_T4K_M)
+    {
+
+    this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
+    }
+    else
+    if(arg1==str_DD_T4K_M)
+    {
+
+    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_T4K_M_groupbox);
+
+    }
+    else
+    if(arg1==str_BOD_SOTA)
+    {
+        this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
+     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(300);
+    }
+    else
+    if(arg1==str_Y4_SOTA)
+    {
+        this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
+        this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+    }
+    else
+    if(arg1==str_DD_SOTA)
+    {
+        this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
+    }
+    else
+    if(arg1==str_KL)
+    {
+        this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
+        this->ui->UDP_RS485_Widget->setVisible(true);
+        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+        this->ui->timeout_doubleSpinBox->setValue(50);
+    }
+    else
+    if(arg1==str_ONVIF)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->ONVIF_groupbox);
+
+    }
+    else
+    if(arg1==str_STRAZH_IP)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->STRAZH_IP_groupbox);
+
+    }
+    else
+    if(arg1==str_NET_DEV)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
+
+    }
+
+
+    else
+    {
+        qDebug()<<"EMPTY";
+    this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
+    }
+
+
+
+//Участок Точка-М/Гряда
+//   БОД Точка-М/Гряда
+
+    //РИФ-РЛМ-С
+
+  //  РИФ-РЛМ/КРЛ/Трасса
+}
