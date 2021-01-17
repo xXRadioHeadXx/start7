@@ -287,6 +287,10 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
 
     QList<UnitNode *> tmpLs = parent->getListChilde();
     for(UnitNode * un : tmpLs) {
+        if(TypeUnitNode::SD_BL_IP != un->getType() && TypeUnitNode::IU_BL_IP != un->getType()) {
+            continue;
+        }
+
         int row = -1;
 
         if(un->getStateWord().isEmpty()) {
