@@ -5,6 +5,7 @@
 #include "QFileDialog"
 #include <QErrorMessage>
 #include <QStorageInfo>
+#include <QBrush>
 
 #if (defined (_WIN32) || defined (_WIN64))
 #include <Windows.h>
@@ -955,8 +956,12 @@ for(int i=1;i<comports.count();i++)
       this->ui->tableWidget_2->insertRow(cnt);
 
       this->ui->tableWidget_2->setItem(cnt,0, new QTableWidgetItem(QString::number(port->get_RifPortSpeed())));
-      this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
+      if(port->get_RifPortSpeed()!=4800)
+      this->ui->tableWidget_2->item(cnt,0)->setBackground(Qt::green);
 
+      this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
+      if(port->get_RifPortInterval()!=50)
+      this->ui->tableWidget_2->item(cnt,1)->setBackground(Qt::green);
   }
 }
 
@@ -5408,6 +5413,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
         this->ui->timeout_doubleSpinBox->setValue(75);
+        coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_RLM_KRL)
@@ -5418,6 +5424,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
         this->ui->timeout_doubleSpinBox->setValue(50);
+        coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_RLM_C)
@@ -5428,6 +5435,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
                 this->ui->timeout_doubleSpinBox->setValue(50);
+         coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_BOD_T4K_M)
@@ -5438,6 +5446,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
                 this->ui->timeout_doubleSpinBox->setValue(200);
+         coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_Y4_T4K_M)
@@ -5461,6 +5470,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
         this->ui->timeout_doubleSpinBox->setValue(300);
+        coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_Y4_SOTA)
@@ -5481,6 +5491,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
         this->ui->timeout_doubleSpinBox->setValue(50);
+         coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_ONVIF)
