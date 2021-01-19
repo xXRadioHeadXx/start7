@@ -304,25 +304,25 @@ public:
 
     //
     virtual quint8 mask() {return 0;};
-    virtual int isAlarm() {return -1;};
-    virtual int isInAlarm() {return -1;};
-    virtual int isOutAlarm() {return -1;};
-    virtual int isNorm() {return -1;};
-    virtual int isWasDK() {return -1;};
-    virtual int isExistDK() {return -1;};
-    virtual int isWasAlarm() {return -1;};
-    virtual int isOn() {return -1;}
-    virtual int isOff() {return -1;}
-    virtual int isConnected();
-    virtual int calcDKStatus() {return DKCiclStatus::DKIgnore;}
+    virtual int isAlarm() const {return -1;};
+    virtual int isInAlarm() const {return -1;};
+    virtual int isOutAlarm() const {return -1;};
+    virtual int isNorm() const {return -1;};
+    virtual int isWasDK() const {return -1;};
+    virtual int isExistDK() const {return -1;};
+    virtual int isWasAlarm() const {return -1;};
+    virtual int isOn() const {return -1;}
+    virtual int isOff() const {return -1;}
+    virtual int isConnected() const;
+    virtual int calcDKStatus() const {return DKCiclStatus::DKIgnore;}
     //
-    virtual float voltage(){return -1.0;};
-    virtual int isExternalSynchronization(){return -1;};
-    virtual int isInternalSynchronization(){return -1;};
-    virtual float threshold(){return -1.0;};
-    virtual int clockPeriod(){return -1;};
-    virtual int modeProcessing(){return -1;};
-    virtual int lowLevl(){return -1;};
+    virtual float voltage() const {return -1.0;};
+    virtual int isExternalSynchronization() const {return -1;};
+    virtual int isInternalSynchronization() const {return -1;};
+    virtual float threshold() const {return -1.0;};
+    virtual int clockPeriod() const {return -1;};
+    virtual int modeProcessing() const {return -1;};
+    virtual int lowLevl() const {return -1;};
 
     //
 
@@ -366,14 +366,14 @@ class UnitNode_SD_BL_IP : public UnitNode {
 public:
     explicit UnitNode_SD_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_SD_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    virtual quint8 mask() final;
-    virtual int isAlarm() final;
-    virtual int isInAlarm() final;
-    virtual int isNorm() final;
-    virtual int isWasAlarm() final;
-    virtual int isOn() final;
-    virtual int isOff() final;
-    virtual int calcDKStatus() final {
+    virtual quint8 mask() const final;
+    virtual int isAlarm() const final;
+    virtual int isInAlarm() const final;
+    virtual int isNorm() const final;
+    virtual int isWasAlarm() const final;
+    virtual int isOn() const final;
+    virtual int isOff() const final;
+    virtual int calcDKStatus() const final {
         if(1 == isWasAlarm() && 1 == isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(1 == isNorm() && 1 == isWasAlarm()) {
@@ -394,10 +394,10 @@ class UnitNode_IU_BL_IP : public UnitNode {
 public:
     explicit UnitNode_IU_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_IU_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    virtual quint8 mask() final;
-    virtual int isOutAlarm() final;
-    virtual int isOn() final;
-    virtual int isOff() final;
+    virtual quint8 mask() const final;
+    virtual int isOutAlarm() const final;
+    virtual int isOn() const final;
+    virtual int isOff() const final;
 };
 class UnitNode_TG : public UnitNode {
 public:
@@ -413,23 +413,23 @@ class UnitNode_RLM_C : public UnitNode {
 public:
     explicit UnitNode_RLM_C(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_C(const UnitNode & parent) : UnitNode(parent) {}
-    virtual int isAlarm() final;
-    virtual int isInAlarm() final;
-    virtual int isOutAlarm() final;
-    virtual int isNorm() final;
-    virtual int isWasDK() final;
-    virtual int isExistDK() final;
-    virtual int isWasAlarm() final;
-    virtual int isOn() final;
-    virtual int isOff() final;
-    virtual float voltage() final;
-    virtual int isExternalSynchronization() final;
-    virtual int isInternalSynchronization() final;
-    virtual float threshold() final;
-    virtual int clockPeriod() final;
-    virtual int modeProcessing() final;
-    virtual int lowLevl() final;
-    virtual int calcDKStatus() final {
+    virtual int isAlarm() const final;
+    virtual int isInAlarm() const final;
+    virtual int isOutAlarm() const final;
+    virtual int isNorm() const final;
+    virtual int isWasDK() const final;
+    virtual int isExistDK() const final;
+    virtual int isWasAlarm() const final;
+    virtual int isOn() const final;
+    virtual int isOff() const final;
+    virtual float voltage() const final;
+    virtual int isExternalSynchronization() const final;
+    virtual int isInternalSynchronization() const final;
+    virtual float threshold() const final;
+    virtual int clockPeriod() const final;
+    virtual int modeProcessing() const final;
+    virtual int lowLevl() const final;
+    virtual int calcDKStatus() const final {
         if(1 == isWasAlarm() && 1 == isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(1 == isNorm() && 1 == isWasAlarm()) {
@@ -481,8 +481,8 @@ class UnitNode_BL_IP : public UnitNode {
 public:
     explicit UnitNode_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    virtual int isExistDK() final;
-    virtual int isWasAlarm() final;
+    virtual int isExistDK() const final;
+    virtual int isWasAlarm() const final;
 };
 
 #endif // UNITNODE_H

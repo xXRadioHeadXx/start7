@@ -143,7 +143,7 @@ bool Utils::isSavedMsg(const QByteArray ba) {
     return true;
 }
 
-void Utils::setCellText(QTableWidget *table, int row, int column, QString text)
+void Utils::setCellText(QTableWidget * const table, const int row, const int column, const QString text)
 {
     if(row >= table->rowCount() || column >= table->colorCount())
         return;
@@ -155,7 +155,7 @@ void Utils::setCellText(QTableWidget *table, int row, int column, QString text)
     item->setText(text);
 }
 
-void Utils::setCellColor(QTableWidget *table, int row, int column, QColor color)
+void Utils::setCellColor(QTableWidget * const table, const int row, const int column, const QColor color)
 {
     if(row >= table->rowCount() || column >= table->colorCount())
         return;
@@ -164,7 +164,7 @@ void Utils::setCellColor(QTableWidget *table, int row, int column, QColor color)
         item = new QTableWidgetItem();
         table->setItem(row, column, item);
     }
-    item->setBackgroundColor(color);
+    item->setBackground(QBrush(color));
 
 }
 
@@ -182,7 +182,7 @@ QColor Utils::cellGray = QColor(0xCF, 0xCF, 0xCF);
 QColor Utils::cellYellow = QColor(0xFF, 0xDD, 0x0E);
 
 
-void Utils::fillDiagnosticTable(QTableWidget *table, UnitNode * selUN)
+void Utils::fillDiagnosticTable(QTableWidget * const table, const UnitNode * selUN)
 {
     try {
         if(nullptr == selUN || nullptr == table)
@@ -213,7 +213,7 @@ void Utils::fillDiagnosticTable(QTableWidget *table, UnitNode * selUN)
     }
 }
 
-void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
+void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode *selUN) {
     UnitNode * parent = selUN->getParentUN();
     if((TypeUnitNode::SD_BL_IP == selUN->getType() ||
             TypeUnitNode::IU_BL_IP == selUN->getType()) &&
@@ -234,79 +234,79 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
     table->setColumnWidth(1, 150);
     table->setColumnWidth(3, 150);
 
-    table->setItem(0,0, new QTableWidgetItem(QObject::tr("Параметр"))); // ("Параметр"));
-    table->setItem(0,1, new QTableWidgetItem(QObject::tr("Вход"))); // ("Вход"));
-    table->setItem(0,2, new QTableWidgetItem(QObject::tr("Статус"))); // ("Статус"));
+    setCellText( table, 0,0, (QObject::tr("Параметр"))); // ("Параметр"));
+    setCellText( table, 0,1, (QObject::tr("Вход"))); // ("Вход"));
+    setCellText( table, 0,2, (QObject::tr("Статус"))); // ("Статус"));
 
-    table->setItem(1,0, new QTableWidgetItem(QObject::tr("СД1"))); // ("СД1"));
-    table->setItem(2,0, new QTableWidgetItem(QObject::tr("СД2"))); // ("СД2"));
-    table->setItem(3,0, new QTableWidgetItem(QObject::tr("СД3"))); // ("СД3"));
-    table->setItem(4,0, new QTableWidgetItem(QObject::tr("СД4"))); // ("СД4"));
-    table->setItem(5,0, new QTableWidgetItem(QObject::tr("СД5"))); // ("СД5"));
-    table->setItem(6,0, new QTableWidgetItem(QObject::tr("СД6"))); // ("СД6"));
-    table->setItem(7,0, new QTableWidgetItem(QObject::tr("СД7"))); // ("СД7"));
-    table->setItem(8,0, new QTableWidgetItem(QObject::tr("СД8"))); // ("СД8"));
+    setCellText( table, 1,0, (QObject::tr("СД1"))); // ("СД1"));
+    setCellText( table, 2,0, (QObject::tr("СД2"))); // ("СД2"));
+    setCellText( table, 3,0, (QObject::tr("СД3"))); // ("СД3"));
+    setCellText( table, 4,0, (QObject::tr("СД4"))); // ("СД4"));
+    setCellText( table, 5,0, (QObject::tr("СД5"))); // ("СД5"));
+    setCellText( table, 6,0, (QObject::tr("СД6"))); // ("СД6"));
+    setCellText( table, 7,0, (QObject::tr("СД7"))); // ("СД7"));
+    setCellText( table, 8,0, (QObject::tr("СД8"))); // ("СД8"));
 
-    table->setItem(9,0, new QTableWidgetItem(""));
-    table->setItem(9,1, new QTableWidgetItem(QObject::tr("Выход"))); // ("Выход"));
-    table->setItem(9,2, new QTableWidgetItem(QObject::tr("Статус"))); // ("Статус"));
+    setCellText( table, 9,0, (""));
+    setCellText( table, 9,1, (QObject::tr("Выход"))); // ("Выход"));
+    setCellText( table, 9,2, (QObject::tr("Статус"))); // ("Статус"));
 
-    table->setItem(10,0, new QTableWidgetItem(QObject::tr("ДК"))); // ("ДК"));
-    table->setItem(11,0, new QTableWidgetItem(QObject::tr("ИУ1"))); // ("ИУ1"));
-    table->setItem(12,0, new QTableWidgetItem(QObject::tr("ИУ2"))); // ("ИУ2"));
-    table->setItem(13,0, new QTableWidgetItem(QObject::tr("ИУ3"))); // ("ИУ3"));
-    table->setItem(14,0, new QTableWidgetItem(QObject::tr("ИУ4"))); // ("ИУ4"));
+    setCellText( table, 10,0, (QObject::tr("ДК"))); // ("ДК"));
+    setCellText( table, 11,0, (QObject::tr("ИУ1"))); // ("ИУ1"));
+    setCellText( table, 12,0, (QObject::tr("ИУ2"))); // ("ИУ2"));
+    setCellText( table, 13,0, (QObject::tr("ИУ3"))); // ("ИУ3"));
+    setCellText( table, 14,0, (QObject::tr("ИУ4"))); // ("ИУ4"));
 
-    table->setItem(1,1, new QTableWidgetItem("?"));
-    table->setItem(1,2, new QTableWidgetItem("?"));
-    table->setItem(2,1, new QTableWidgetItem("?"));
-    table->setItem(2,2, new QTableWidgetItem("?"));
-    table->setItem(3,1, new QTableWidgetItem("?"));
-    table->setItem(3,2, new QTableWidgetItem("?"));
-    table->setItem(4,1, new QTableWidgetItem("?"));
-    table->setItem(4,2, new QTableWidgetItem("?"));
-    table->setItem(5,1, new QTableWidgetItem("?"));
-    table->setItem(5,2, new QTableWidgetItem("?"));
-    table->setItem(6,1, new QTableWidgetItem("?"));
-    table->setItem(6,2, new QTableWidgetItem("?"));
-    table->setItem(7,1, new QTableWidgetItem("?"));
-    table->setItem(7,2, new QTableWidgetItem("?"));
-    table->setItem(8,1, new QTableWidgetItem("?"));
-    table->setItem(8,2, new QTableWidgetItem("?"));
+    setCellText( table, 1,1, ("?"));
+    setCellText( table, 1,2, ("?"));
+    setCellText( table, 2,1, ("?"));
+    setCellText( table, 2,2, ("?"));
+    setCellText( table, 3,1, ("?"));
+    setCellText( table, 3,2, ("?"));
+    setCellText( table, 4,1, ("?"));
+    setCellText( table, 4,2, ("?"));
+    setCellText( table, 5,1, ("?"));
+    setCellText( table, 5,2, ("?"));
+    setCellText( table, 6,1, ("?"));
+    setCellText( table, 6,2, ("?"));
+    setCellText( table, 7,1, ("?"));
+    setCellText( table, 7,2, ("?"));
+    setCellText( table, 8,1, ("?"));
+    setCellText( table, 8,2, ("?"));
 
-    table->setItem(10,1, new QTableWidgetItem("?"));
-    table->setItem(10,2, new QTableWidgetItem("?"));
+    setCellText( table, 10,1, ("?"));
+    setCellText( table, 10,2, ("?"));
 
-    table->setItem(11,1, new QTableWidgetItem("?"));
-    table->setItem(11,2, new QTableWidgetItem(""));
-    table->setItem(12,1, new QTableWidgetItem("?"));
-    table->setItem(12,2, new QTableWidgetItem(""));
-    table->setItem(13,1, new QTableWidgetItem("?"));
-    table->setItem(13,2, new QTableWidgetItem(""));
-    table->setItem(14,1, new QTableWidgetItem("?"));
-    table->setItem(14,2, new QTableWidgetItem(""));
+    setCellText( table, 11,1, ("?"));
+    setCellText( table, 11,2, (""));
+    setCellText( table, 12,1, ("?"));
+    setCellText( table, 12,2, (""));
+    setCellText( table, 13,1, ("?"));
+    setCellText( table, 13,2, (""));
+    setCellText( table, 14,1, ("?"));
+    setCellText( table, 14,2, (""));
 
     for(int i = 0, n = 3; i < n; i++)
         for(int j = 0, m = 15; j < m; j++)
-            table->item(j, i)->setBackground(cellGray);
+            setCellColor( table, j, i, cellGray);
 
     if(TypeUnitNode::BL_IP == parent->getType()) {
         int row = 10;
 
         if(1 == parent->isWasDK()) {
-            table->setItem(row, 2, new QTableWidgetItem(QObject::tr("Было"))); // "Тревога"
-            table->item(row, 2)->setBackground(cellRed);
+            setCellText( table, row, 2, (QObject::tr("Было"))); // "Тревога"
+            setCellColor( table, row, 2, cellRed);
         } else {//if(status2 & Status::Not) {
-            table->setItem(row, 2, new QTableWidgetItem(QObject::tr("Нет"))); // "Норма"
-            table->item(row, 2)->setBackground(cellGreen);
+            setCellText( table, row, 2, (QObject::tr("Нет"))); // "Норма"
+            setCellColor( table, row, 2, cellGreen);
         }
 
         if(1 == parent->isExistDK()) {
-            table->setItem(row, 1, new QTableWidgetItem(QObject::tr("Есть"))); // "Было"
-            table->item(row, 1)->setBackground(cellRed);
+            setCellText( table, row, 1, (QObject::tr("Есть"))); // "Было"
+            setCellColor( table, row, 1, cellRed);
         } else if(0 == parent->isExistDK()) {
-            table->setItem(row, 1, new QTableWidgetItem(QObject::tr("Нет"))); // "Нет"
-            table->item(row, 1)->setBackground(cellGreen);
+            setCellText( table, row, 1, (QObject::tr("Нет"))); // "Нет"
+            setCellColor( table, row, 1, cellGreen);
         }
     }
 
@@ -324,54 +324,54 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN) {
             } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
                 row = 10 + un->getNum2();
             }
-            table->setItem(row, 1, new QTableWidgetItem(QObject::tr("Нет связи"))); // "Норма"
-            table->item(row, 1)->setBackground(cellYellow);
+            setCellText( table, row, 1, (QObject::tr("Нет связи"))); // "Норма"
+            setCellColor( table, row, 1, cellYellow);
         } else if(TypeUnitNode::SD_BL_IP == un->getType()) {
             row = un->getNum2();
             if(1 == un->isAlarm()) {
-                table->setItem(row, 1, new QTableWidgetItem(QObject::tr("Тревога"))); // "Тревога"
-                table->item(row, 1)->setBackground(cellRed);
+                setCellText( table, row, 1, (QObject::tr("Тревога"))); // "Тревога"
+                setCellColor( table, row, 1, cellRed);
             }
             else if(1 == un->isNorm()) {
-                table->setItem(row, 1, new QTableWidgetItem(QObject::tr("Норма"))); // "Норма"
-                table->item(row, 1)->setBackground(cellGreen);
+                setCellText( table, row, 1, (QObject::tr("Норма"))); // "Норма"
+                setCellColor( table, row, 1, cellGreen);
             }
 
             if(1 == un->isWasAlarm()) {
-                table->setItem(row, 2, new QTableWidgetItem(QObject::tr("Было"))); // "Было"
-                table->item(row, 2)->setBackground(cellRed);
+                setCellText( table, row, 2, (QObject::tr("Было"))); // "Было"
+                setCellColor( table, row, 2, cellRed);
             } else if(0 == un->isWasAlarm()) {
-                table->setItem(row, 2, new QTableWidgetItem(QObject::tr("Нет"))); // "Нет"
-                table->item(row, 2)->setBackground(cellGreen);
+                setCellText( table, row, 2, (QObject::tr("Нет"))); // "Нет"
+                setCellColor( table, row, 2, cellGreen);
             }
 
             if(1 == un->isOff())
             {
-                 table->setItem(row, 1, new QTableWidgetItem("-"));
-                 table->item(row, 1)->setBackground(cellGray);
-                 table->setItem(row, 2, new QTableWidgetItem(QObject::tr("Выкл"))); // "Выкл"
-                 table->item(row, 2)->setBackground(cellGray);
+                 setCellText( table, row, 1, ("-"));
+                 setCellColor( table, row, 1, cellGray);
+                 setCellText( table, row, 2, (QObject::tr("Выкл"))); // "Выкл"
+                 setCellColor( table, row, 2, cellGray);
             }
 
         } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
             row = 10 + un->getNum2();
             if(1 == un->isOn()) {
-                table->setItem(row, 1, new QTableWidgetItem(QObject::tr("Вкл"))); // "Вкл"
-                table->item(row, 1)->setBackground(cellRed);
-                table->setItem(row, 2, new QTableWidgetItem(""));
-                table->item(row, 2)->setBackground(cellGray);
+                setCellText( table, row, 1, (QObject::tr("Вкл"))); // "Вкл"
+                setCellColor( table, row, 1, cellRed);
+                setCellText( table, row, 2, (""));
+                setCellColor( table, row, 2, cellGray);
             } else if(1 == un->isOff()) {
-                table->setItem(row, 1, new QTableWidgetItem(QObject::tr("Выкл"))); // "Выкл"
-                table->item(row, 1)->setBackground(cellGreen);
-                table->setItem(row, 2, new QTableWidgetItem(""));
-                table->item(row, 2)->setBackground(cellGray);
+                setCellText( table, row, 1, (QObject::tr("Выкл"))); // "Выкл"
+                setCellColor( table, row, 1, cellGreen);
+                setCellText( table, row, 2, (""));
+                setCellColor( table, row, 2, cellGray);
             }
 
         }
     }
 }
 
-void Utils::fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode */*selUN*/)
 {
     table->setRowCount(7);
     table->setColumnCount(4);
@@ -381,56 +381,44 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode */*selUN*/)
     table->setColumnWidth(2, 150);
     table->setColumnWidth(3, 150);
 
-    table->setItem(0,0, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,1, new QTableWidgetItem(QObject::tr("Значение")));
-    table->setItem(0,2, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,3, new QTableWidgetItem(QObject::tr("Значение")));
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 0,1, (QObject::tr("Значение")));
+    setCellText( table, 0,2, (QObject::tr("Параметр")));
+    setCellText( table, 0,3, (QObject::tr("Значение")));
 
-    table->setItem(1,0, new QTableWidgetItem(QObject::tr("Состояние")));
-    table->setItem(2,0, new QTableWidgetItem(QObject::tr("Тревога")));
-    table->setItem(3,0, new QTableWidgetItem(QObject::tr("Сработка")));
-    auto itm = new QTableWidgetItem(QObject::tr("Вскрытие"));
-    itm->setBackground(cellGray);
-    table->setItem(4,0, itm);
-//    table->setItem(4,0, new QTableWidgetItem(QObject::tr("Вскрытие")));
-    itm = new QTableWidgetItem(QObject::tr("ДК"));
-    itm->setBackground(cellGray);
-    table->setItem(5,0, itm);
-//    table->setItem(5,0, new QTableWidgetItem(QObject::tr("ДК")));
-    itm = new QTableWidgetItem(QObject::tr("Уровень"));
-    itm->setBackground(cellGray);
-    table->setItem(6,0, itm);
-//    table->setItem(6,0, new QTableWidgetItem(QObject::tr("Уровень")));
+    setCellText( table, 1,0, (QObject::tr("Состояние")));
+    setCellText( table, 2,0, (QObject::tr("Тревога")));
+    setCellText( table, 3,0, (QObject::tr("Сработка")));
+
+    setCellText( table, 4,0, QObject::tr("Вскрытие"));
+    setCellColor( table, 4,0, cellGray);
+
+    setCellText( table, 5,0, QObject::tr("ДК"));
+    setCellColor( table, 5,0, cellGray);
+
+    setCellText( table, 6,0, QObject::tr("Уровень"));
+    setCellColor( table, 6,0, cellGray);
 
     for(int i = 0, n = 7; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
-            QTableWidgetItem * item = nullptr;
             if(2 == i && 2 == j)
-                item = new QTableWidgetItem(QObject::tr("Вход \"Тревога\""));
+                setCellText( table, i, j, QObject::tr("Вход \"Тревога\""));
             else if(4 == i && 2 == j)
-                item = new QTableWidgetItem(QObject::tr("Вход \"Вскрытие\""));
+                setCellText( table, i, j, QObject::tr("Вход \"Вскрытие\""));
             else if(5 == i && 2 == j)
-                item = new QTableWidgetItem(QObject::tr("Вход \"ДК\""));
+                setCellText( table, i, j, QObject::tr("Вход \"ДК\""));
             else if(0 != i && 2 == j)
-                item = new QTableWidgetItem("");
+                setCellText( table, i, j, "");
             else if(0 != i && 0 != j)
-                item = new QTableWidgetItem("?");
-//            else
-//                item = table->item(i, j);
+                setCellText( table, i, j, "?");
 
-            if(nullptr != item) {
-                table->setItem(i, j, item);
-            } else {
-                item = table->item(i, j);
-            }
-            if(nullptr != item)
-                item->setBackground(cellGray);
+            setCellColor( table, i, j, cellGray);
         }
     }
 
 }
 
-void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *un)
+void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
 {
     table->setRowCount(11);
     table->setColumnCount(4);
@@ -440,123 +428,114 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *un)
     table->setColumnWidth(2, 150);
     table->setColumnWidth(3, 150);
 
-    table->setItem(0,0, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,1, new QTableWidgetItem(QObject::tr("Значение")));
-    table->setItem(0,2, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,3, new QTableWidgetItem(QObject::tr("Значение")));
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 0,1, (QObject::tr("Значение")));
+    setCellText( table, 0,2, (QObject::tr("Параметр")));
+    setCellText( table, 0,3, (QObject::tr("Значение")));
 
-    table->setItem(1,0, new QTableWidgetItem(QObject::tr("Состояние")));
-    table->setItem(2,0, new QTableWidgetItem(QObject::tr("Тревога")));
-    table->setItem(3,0, new QTableWidgetItem(QObject::tr("Сработка")));
-    table->setItem(4,0, new QTableWidgetItem(QObject::tr("ДК")));
-    table->setItem(5,0, new QTableWidgetItem(QObject::tr("Синхронизация")));
-    table->setItem(6,0, new QTableWidgetItem(QObject::tr("Низкий ровень")));
-    table->setItem(7,0, new QTableWidgetItem(QObject::tr("Уровень")));
-    table->setItem(8,0, new QTableWidgetItem(QObject::tr("Пороги")));
-    table->setItem(9,0, new QTableWidgetItem(QObject::tr("Период тактирования")));
-    table->setItem(10,0, new QTableWidgetItem(QObject::tr("Режим обработки")));
+    setCellText( table, 1,0, (QObject::tr("Состояние")));
+    setCellText( table, 2,0, (QObject::tr("Тревога")));
+    setCellText( table, 3,0, (QObject::tr("Сработка")));
+    setCellText( table, 4,0, (QObject::tr("ДК")));
+    setCellText( table, 5,0, (QObject::tr("Синхронизация")));
+    setCellText( table, 6,0, (QObject::tr("Низкий ровень")));
+    setCellText( table, 7,0, (QObject::tr("Уровень")));
+    setCellText( table, 8,0, (QObject::tr("Пороги")));
+    setCellText( table, 9,0, (QObject::tr("Период тактирования")));
+    setCellText( table, 10,0, (QObject::tr("Режим обработки")));
 
     for(int i = 0, n = 11; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
-            QTableWidgetItem * item = nullptr;
             if(2 == i && 2 == j)
-                item = new QTableWidgetItem(QObject::tr("Вход \"Тревога\""));
+                setCellText(table, i, j, QObject::tr("Вход \"Тревога\""));
             else if(4 == i && 2 == j)
-                item = new QTableWidgetItem(QObject::tr("Вход \"ДК\""));
+                setCellText(table, i, j, QObject::tr("Вход \"ДК\""));
             else if(0 != i && 2 == j)
-                item = new QTableWidgetItem("");
+                setCellText(table, i, j, "");
             else if(0 != i && 0 != j)
-                item = new QTableWidgetItem("?");
-//            else
-//                item = table->item(i, j);
+                setCellText(table, i, j, ""); // or "?"
 
-            if(nullptr != item) {
-                table->setItem(i, j, item);
-            } else {
-                item = table->item(i, j);
-            }
-            if(nullptr != item)
-                item->setBackground(cellGray);
+            setCellColor(table, i, j, cellGray);
         }
     }
 
     if(1 == un->isOn()) {
-        table->setItem(1,1, new QTableWidgetItem(QObject::tr("Вкл[1]")));
-        table->item(1,1)->setBackground(cellGray);
+        setCellText( table, 1,1, (QObject::tr("Вкл[1]")));
+        setCellColor( table, 1,1, cellGray);
     } else if(1 == un->isOff()) {
-        table->setItem(1,1, new QTableWidgetItem(QObject::tr("Выкл[0]")));
-        table->item(1,1)->setBackground(cellGray);
+        setCellText( table, 1,1, (QObject::tr("Выкл[0]")));
+        setCellColor( table, 1,1, cellGray);
     }
 
     if(1 == un->isInAlarm()) {
-        table->setItem(2,1, new QTableWidgetItem(QObject::tr("Да[1]")));
-        table->item(2,1)->setBackground(cellRed);
+        setCellText( table, 2,1, (QObject::tr("Да[1]")));
+        setCellColor( table, 2,1, cellRed);
     } else if(0 == un->isInAlarm()) {
-        table->setItem(2,1, new QTableWidgetItem(QObject::tr("Нет[0]")));
-        table->item(2,1)->setBackground(cellGreen);
+        setCellText( table, 2,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 2,1, cellGreen);
     }
 
     if(1 == un->isOutAlarm()) {
-        table->setItem(2,3, new QTableWidgetItem(QObject::tr("Да[1]")));
-        table->item(2,3)->setBackground(cellRed);
+        setCellText( table, 2,3, (QObject::tr("Да[1]")));
+        setCellColor( table, 2,3, cellRed);
     } else if(0 == un->isOutAlarm()) {
-        table->setItem(2,3, new QTableWidgetItem(QObject::tr("Нет[0]")));
-        table->item(2,3)->setBackground(cellGreen);
+        setCellText( table, 2,3, (QObject::tr("Нет[0]")));
+        setCellColor( table, 2,3, cellGreen);
     }
 
     if(1 == un->isWasAlarm()) {
-        table->setItem(3,1, new QTableWidgetItem(QObject::tr("Да[1]")));
-        table->item(3,1)->setBackground(cellRed);
+        setCellText( table, 3,1, (QObject::tr("Да[1]")));
+        setCellColor( table, 3,1, cellRed);
     } else if(0 == un->isWasAlarm()) {
-        table->setItem(3,1, new QTableWidgetItem(QObject::tr("Нет[0]")));
-        table->item(3,1)->setBackground(cellGreen);
+        setCellText( table, 3,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 3,1, cellGreen);
     }
 
     if(1 == un->isExistDK()) {
-        table->setItem(4,1, new QTableWidgetItem(QObject::tr("Есть[1]")));
-        table->item(4,1)->setBackground(cellYellow);
+        setCellText( table, 4,1, (QObject::tr("Есть[1]")));
+        setCellColor( table, 4,1, cellYellow);
     } else if(0 == un->isExistDK()) {
-        table->setItem(4,1, new QTableWidgetItem(QObject::tr("Нет[0]")));
-        table->item(4,1)->setBackground(cellGreen);
+        setCellText( table, 4,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 4,1, cellGreen);
     }
 
     if(1 == un->isWasDK()) {
-        table->setItem(4,3, new QTableWidgetItem(QObject::tr("Есть[1]")));
-        table->item(4,3)->setBackground(cellYellow);
+        setCellText( table, 4,3, (QObject::tr("Есть[1]")));
+        setCellColor( table, 4,3, cellYellow);
     } else if(0 == un->isWasDK()) {
-        table->setItem(4,3, new QTableWidgetItem(QObject::tr("Нет[0]")));
-        table->item(4,3)->setBackground(cellGreen);
+        setCellText( table, 4,3, (QObject::tr("Нет[0]")));
+        setCellColor( table, 4,3, cellGreen);
     }
 
     if(1 == un->isExternalSynchronization()) {
-        table->setItem(5,1, new QTableWidgetItem(QObject::tr("Внешняя")));
-        table->item(5,1)->setBackground(cellGray);
+        setCellText( table, 5,1, (QObject::tr("Внешняя")));
+        setCellColor( table, 5,1, cellGray);
     } else if(0 == un->isExternalSynchronization()) {
-        table->setItem(5,1, new QTableWidgetItem(QObject::tr("Внутренняя")));
-        table->item(5,1)->setBackground(cellGray);
+        setCellText( table, 5,1, (QObject::tr("Внутренняя")));
+        setCellColor( table, 5,1, cellGray);
     }
 
     if(1 == un->lowLevl()) {
-        table->setItem(6,1, new QTableWidgetItem(QObject::tr("Да<1>")));
-        table->item(6,1)->setBackground(cellRed);
+        setCellText( table, 6,1, (QObject::tr("Да<1>")));
+        setCellColor( table, 6,1, cellRed);
     } else if(0 == un->lowLevl()) {
-        table->setItem(6,1, new QTableWidgetItem(QObject::tr("Нет[0]")));
-        table->item(6,1)->setBackground(cellGreen);
+        setCellText( table, 6,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 6,1, cellGreen);
     }
 
     if(-1.0 != un->voltage()) {
-        table->setItem(7,1, new QTableWidgetItem(QString::number(un->voltage(), 'f', 2)));
-        table->item(7,1)->setBackground(cellGray);
+        setCellText( table, 7,1, (QString::number(un->voltage(), 'f', 2)));
+        setCellColor( table, 7,1, cellGray);
     }
 
     if(-1.0 != un->threshold()) {
-        table->setItem(8,1, new QTableWidgetItem(QString::number(un->threshold(), 'f', 2)));
-        table->item(8,1)->setBackground(cellGray);
+        setCellText( table, 8,1, (QString::number(un->threshold(), 'f', 2)));
+        setCellColor( table, 8,1, cellGray);
     }
 
     if(-1 != un->clockPeriod()) {
-        table->setItem(9,1, new QTableWidgetItem(QObject::tr("Такт ") + QString::number(un->clockPeriod() + 1)));
-        table->item(9,1)->setBackground(cellGray);
+        setCellText( table, 9,1, (QObject::tr("Такт ") + QString::number(un->clockPeriod() + 1)));
+        setCellColor( table, 9,1, cellGray);
     }
 
     if(-1 != un->modeProcessing()) {
@@ -567,13 +546,13 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *un)
         case 2: str = QObject::tr("Ползущий (Плз)"); break;
         case 3: str = QObject::tr("2-й ярус (2Яр)"); break;
         }
-        table->setItem(10,1, new QTableWidgetItem(str));
-        table->item(10,1)->setBackground(cellGray);
+        setCellText( table, 10,1, (str));
+        setCellColor( table, 10,1, cellGray);
     }
 
 }
 
-void Utils::fillDiagnosticTableTG(QTableWidget *table, UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableTG(QTableWidget * const table, const UnitNode */*selUN*/)
 {
     table->setRowCount(15);
     table->setColumnCount(6);
@@ -585,68 +564,59 @@ void Utils::fillDiagnosticTableTG(QTableWidget *table, UnitNode */*selUN*/)
     table->setColumnWidth(4, 150);
     table->setColumnWidth(5, 150);
 
-    table->setItem(0,0, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,1, new QTableWidgetItem(QObject::tr("Значение")));
-    table->setItem(0,2, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,3, new QTableWidgetItem(QObject::tr("Значение")));
-    table->setItem(0,4, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,5, new QTableWidgetItem(QObject::tr("Значение")));
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 0,1, (QObject::tr("Значение")));
+    setCellText( table, 0,2, (QObject::tr("Параметр")));
+    setCellText( table, 0,3, (QObject::tr("Значение")));
+    setCellText( table, 0,4, (QObject::tr("Параметр")));
+    setCellText( table, 0,5, (QObject::tr("Значение")));
 
     for(int i = 1, n = 5; i < n; i++) {
-        table->setItem(i,0, new QTableWidgetItem(QObject::tr("Сработка ЧЭ%1").arg(i)));
-        table->setItem(i,2, new QTableWidgetItem(QObject::tr("Выход \"Тревога ЧЭ%1\"").arg(i)));
-        table->setItem(i,4, new QTableWidgetItem(QObject::tr("Сработка со стороны ЧЭ%1").arg(i)));
+        setCellText( table, i,0, (QObject::tr("Сработка ЧЭ%1").arg(i)));
+        setCellText( table, i,2, (QObject::tr("Выход \"Тревога ЧЭ%1\"").arg(i)));
+        setCellText( table, i,4, (QObject::tr("Сработка со стороны ЧЭ%1").arg(i)));
     }
 
-    table->setItem(5,0, new QTableWidgetItem(QObject::tr("ДК")));
-    table->setItem(5,2, new QTableWidgetItem(QObject::tr("Выход \"ДК\"")));
-    table->setItem(6,0, new QTableWidgetItem(QObject::tr("Вскрытие")));
-    table->setItem(6,2, new QTableWidgetItem(QObject::tr("Выход \"Вскрытие\"")));
+    setCellText( table, 5,0, (QObject::tr("ДК")));
+    setCellText( table, 5,2, (QObject::tr("Выход \"ДК\"")));
+    setCellText( table, 6,0, (QObject::tr("Вскрытие")));
+    setCellText( table, 6,2, (QObject::tr("Выход \"Вскрытие\"")));
 
-    table->setItem(7,0, new QTableWidgetItem(QObject::tr("ЧЭ1")));
+    setCellText( table, 7,0, (QObject::tr("ЧЭ1")));
 
     for(int i = 0, n = 3; i < n; i++) {
-        table->setItem(i + 8,0, new QTableWidgetItem(QObject::tr("Фильтр%1: Сработка").arg(1 + i)));
-        table->setItem(i + 8,2, new QTableWidgetItem(QObject::tr("Уровень")));
-        table->setItem(i + 8,4, new QTableWidgetItem(QObject::tr("Порог")));
+        setCellText( table, i + 8,0, (QObject::tr("Фильтр%1: Сработка").arg(1 + i)));
+        setCellText( table, i + 8,2, (QObject::tr("Уровень")));
+        setCellText( table, i + 8,4, (QObject::tr("Порог")));
     }
 
-    table->setItem(11,0, new QTableWidgetItem(QObject::tr("ЧЭ2")));
+    setCellText( table, 11,0, (QObject::tr("ЧЭ2")));
 
     for(int i = 0, n = 3; i < n; i++) {
-        table->setItem(i + 12,0, new QTableWidgetItem(QObject::tr("Фильтр%1: Сработка").arg(1 + i)));
-        table->setItem(i + 12,2, new QTableWidgetItem(QObject::tr("Уровень")));
-        table->setItem(i + 12,4, new QTableWidgetItem(QObject::tr("Порог")));
+        setCellText( table, i + 12,0, (QObject::tr("Фильтр%1: Сработка").arg(1 + i)));
+        setCellText( table, i + 12,2, (QObject::tr("Уровень")));
+        setCellText( table, i + 12,4, (QObject::tr("Порог")));
     }
 
-    table->setItem(7,2, new QTableWidgetItem(""));
-    table->setItem(11,2, new QTableWidgetItem(""));
-    table->setItem(5,4, new QTableWidgetItem(""));
-    table->setItem(6,4, new QTableWidgetItem(""));
-    table->setItem(7,4, new QTableWidgetItem(""));
-    table->setItem(11,4, new QTableWidgetItem(""));
+    setCellText( table, 7,2, (""));
+    setCellText( table, 11,2, (""));
+    setCellText( table, 5,4, (""));
+    setCellText( table, 6,4, (""));
+    setCellText( table, 7,4, (""));
+    setCellText( table, 11,4, (""));
 
 
     for(int i = 0, n = 15; i < n; i++) {
         for(int j = 0, m = 6; j < m; j++) {
-            QTableWidgetItem * item = nullptr;
-            if(0 != i && 0 != j && 2 != j && 4 != j)
-                item = new QTableWidgetItem("?");
-//            else
-//                item = table->item(i, j);
-
-            if(nullptr != item) {
-                table->setItem(i, j, item);
-            } else {
-                item = table->item(i, j);
+            if(0 != i && 0 != j && 2 != j && 4 != j) {
+                setCellText( table, i,j, "?");
             }
-            if(nullptr != item)
-                item->setBackground(cellGray);
+            setCellColor( table, i,j, cellGray);
         }
     }
 }
 
-void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget *table, UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const UnitNode */*selUN*/)
 {
     table->setRowCount(14);
     table->setColumnCount(4);
@@ -656,58 +626,49 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget *table, UnitNode */*selUN*/
     table->setColumnWidth(2, 150);
     table->setColumnWidth(3, 150);
 
-    table->setItem(0,0, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,1, new QTableWidgetItem(QObject::tr("Значение")));
-    table->setItem(0,2, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,3, new QTableWidgetItem(QObject::tr("Значение")));
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 0,1, (QObject::tr("Значение")));
+    setCellText( table, 0,2, (QObject::tr("Параметр")));
+    setCellText( table, 0,3, (QObject::tr("Значение")));
 
-    table->setItem(1,0, new QTableWidgetItem(QObject::tr("Готовность БОД")));
+    setCellText( table, 1,0, (QObject::tr("Готовность БОД")));
 
 
     for(int i = 0, n = 5; i < n; i++) {
-        table->setItem(2 + i,0, new QTableWidgetItem(QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)));
-        table->setItem(6 + i,0, new QTableWidgetItem(QObject::tr("Тревога Уч.%1 было").arg(1 + i)));
+        setCellText( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)));
+        setCellText( table, 6 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)));
     }
 
-    table->setItem(10,0, new QTableWidgetItem(QObject::tr("Выход \"ДК\"")));
-    table->setItem(11,0, new QTableWidgetItem(QObject::tr("Состояние \"ДК\" было")));
-    table->setItem(12,0, new QTableWidgetItem(QObject::tr("Выход \"Вскрытие БО\"")));
-    table->setItem(13,0, new QTableWidgetItem(QObject::tr("Вскрытие БО было")));
+    setCellText( table, 10,0, (QObject::tr("Выход \"ДК\"")));
+    setCellText( table, 11,0, (QObject::tr("Состояние \"ДК\" было")));
+    setCellText( table, 12,0, (QObject::tr("Выход \"Вскрытие БО\"")));
+    setCellText( table, 13,0, (QObject::tr("Вскрытие БО было")));
 
-    table->setItem(1,2, new QTableWidgetItem(QObject::tr("Сработка по ЧЭ1 было")));
-    table->setItem(2,2, new QTableWidgetItem(QObject::tr("Сработка по ЧЭ2 было")));
-    table->setItem(3,2, new QTableWidgetItem(QObject::tr("Обрыв по ЧЭ1 есть")));
-    table->setItem(4,2, new QTableWidgetItem(QObject::tr("Замыкание по ЧЭ1 есть")));
-    table->setItem(5,2, new QTableWidgetItem(QObject::tr("Обрыв по ЧЭ2 есть")));
-    table->setItem(6,2, new QTableWidgetItem(QObject::tr("Замыкание по ЧЭ2 есть")));
-    table->setItem(7,2, new QTableWidgetItem(QObject::tr("Неисправность ДД")));
-    table->setItem(8,2, new QTableWidgetItem(QObject::tr("Обрыв связи с ДД есть")));
-    table->setItem(9,2, new QTableWidgetItem(QObject::tr("Обрыв связи с ДД был")));
-    table->setItem(10,2, new QTableWidgetItem(QObject::tr("Вскрытие ДД есть")));
-    table->setItem(11,2, new QTableWidgetItem(QObject::tr("Вскрытие ДД был")));
-    table->setItem(12,2, new QTableWidgetItem(QObject::tr("Уровень Сигнала ЧЭ1")));
-    table->setItem(13,2, new QTableWidgetItem(QObject::tr("Уровень Сигнала ЧЭ2")));
+    setCellText( table, 1,2, (QObject::tr("Сработка по ЧЭ1 было")));
+    setCellText( table, 2,2, (QObject::tr("Сработка по ЧЭ2 было")));
+    setCellText( table, 3,2, (QObject::tr("Обрыв по ЧЭ1 есть")));
+    setCellText( table, 4,2, (QObject::tr("Замыкание по ЧЭ1 есть")));
+    setCellText( table, 5,2, (QObject::tr("Обрыв по ЧЭ2 есть")));
+    setCellText( table, 6,2, (QObject::tr("Замыкание по ЧЭ2 есть")));
+    setCellText( table, 7,2, (QObject::tr("Неисправность ДД")));
+    setCellText( table, 8,2, (QObject::tr("Обрыв связи с ДД есть")));
+    setCellText( table, 9,2, (QObject::tr("Обрыв связи с ДД был")));
+    setCellText( table, 10,2, (QObject::tr("Вскрытие ДД есть")));
+    setCellText( table, 11,2, (QObject::tr("Вскрытие ДД был")));
+    setCellText( table, 12,2, (QObject::tr("Уровень Сигнала ЧЭ1")));
+    setCellText( table, 13,2, (QObject::tr("Уровень Сигнала ЧЭ2")));
 
     for(int i = 0, n = 14; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
-            QTableWidgetItem * item = nullptr;
             if(0 != i && 0 != j && 2 != j)
-                item = new QTableWidgetItem("?");
-//            else
-//                item = table->item(i, j);
+                setCellText( table, i, j, "?");
 
-            if(nullptr != item) {
-                table->setItem(i, j, item);
-            } else {
-                item = table->item(i, j);
-            }
-            if(nullptr != item)
-                item->setBackground(cellGray);
+            setCellColor( table, i, j, cellGray);
         }
     }
 }
 
-void Utils::fillDiagnosticTableDD_SOTA(QTableWidget *table, UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const UnitNode */*selUN*/)
 {
     table->setRowCount(14);
     table->setColumnCount(4);
@@ -717,57 +678,47 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget *table, UnitNode */*selUN*/)
     table->setColumnWidth(2, 150);
     table->setColumnWidth(3, 150);
 
-    table->setItem(0,0, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,1, new QTableWidgetItem(QObject::tr("Значение")));
-    table->setItem(0,2, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,3, new QTableWidgetItem(QObject::tr("Значение")));
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 0,1, (QObject::tr("Значение")));
+    setCellText( table, 0,2, (QObject::tr("Параметр")));
+    setCellText( table, 0,3, (QObject::tr("Значение")));
 
-    table->setItem(1,0, new QTableWidgetItem(QObject::tr("Готовность БОД")));
+    setCellText( table, 1,0, (QObject::tr("Готовность БОД")));
 
 
     for(int i = 0, n = 5; i < n; i++) {
-        table->setItem(2 + i,0, new QTableWidgetItem(QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)));
-        table->setItem(6 + i,0, new QTableWidgetItem(QObject::tr("Тревога Уч.%1 было").arg(1 + i)));
+        setCellText( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)));
+        setCellText( table, 6 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)));
     }
 
-    table->setItem(10,0, new QTableWidgetItem(QObject::tr("Выход \"ДК\"")));
-    table->setItem(11,0, new QTableWidgetItem(QObject::tr("Состояние \"ДК\" было")));
-    table->setItem(12,0, new QTableWidgetItem(QObject::tr("Выход \"Вскрытие БО\"")));
-    table->setItem(13,0, new QTableWidgetItem(QObject::tr("Вскрытие БО было")));
+    setCellText( table, 10,0, (QObject::tr("Выход \"ДК\"")));
+    setCellText( table, 11,0, (QObject::tr("Состояние \"ДК\" было")));
+    setCellText( table, 12,0, (QObject::tr("Выход \"Вскрытие БО\"")));
+    setCellText( table, 13,0, (QObject::tr("Вскрытие БО было")));
 
-    table->setItem(1,2, new QTableWidgetItem(QObject::tr("Сработка было")));
-    table->setItem(2,2, new QTableWidgetItem(QObject::tr("Обрыв связи с ДД есть")));
-    table->setItem(3,2, new QTableWidgetItem(QObject::tr("Обрыв связи с ДД был")));
-    table->setItem(4,2, new QTableWidgetItem(QObject::tr("Вскрытие ДД есть")));
-    table->setItem(5,2, new QTableWidgetItem(QObject::tr("Неисправность ДД есть")));
-    table->setItem(6,2, new QTableWidgetItem(QObject::tr("Тревога по Ф1 есть")));
-    table->setItem(7,2, new QTableWidgetItem(QObject::tr("Тревога поФ2 есть")));
-    table->setItem(8,2, new QTableWidgetItem(QObject::tr("Опрос ДД")));
-    table->setItem(9,2, new QTableWidgetItem(QObject::tr("Уровень Сигнала")));
+    setCellText( table, 1,2, (QObject::tr("Сработка было")));
+    setCellText( table, 2,2, (QObject::tr("Обрыв связи с ДД есть")));
+    setCellText( table, 3,2, (QObject::tr("Обрыв связи с ДД был")));
+    setCellText( table, 4,2, (QObject::tr("Вскрытие ДД есть")));
+    setCellText( table, 5,2, (QObject::tr("Неисправность ДД есть")));
+    setCellText( table, 6,2, (QObject::tr("Тревога по Ф1 есть")));
+    setCellText( table, 7,2, (QObject::tr("Тревога поФ2 есть")));
+    setCellText( table, 8,2, (QObject::tr("Опрос ДД")));
+    setCellText( table, 9,2, (QObject::tr("Уровень Сигнала")));
     for(int i = 0, n = 5; i < n; i++) {
-        table->setItem(10 + i,2, new QTableWidgetItem(QObject::tr("")));
+        setCellText( table, 10 + i,2, (QObject::tr("")));
     }
 
     for(int i = 0, n = 14; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
-            QTableWidgetItem * item = nullptr;
             if(0 != i && 0 != j && 2 != j)
-                item = new QTableWidgetItem("?");
-//            else
-//                item = table->item(i, j);
-
-            if(nullptr != item) {
-                table->setItem(i, j, item);
-            } else {
-                item = table->item(i, j);
-            }
-            if(nullptr != item)
-                item->setBackground(cellGray);
+                setCellText( table, i, j, "?");
+            setCellColor( table, i, j, cellGray);
         }
     }
 }
 
-void Utils::fillDiagnosticTableY4_SOTA(QTableWidget *table, UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const UnitNode */*selUN*/)
 {
     table->setRowCount(20);
     table->setColumnCount(53);
@@ -777,55 +728,53 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget *table, UnitNode */*selUN*/)
     table->setColumnWidth(2, 150);
     table->setColumnWidth(3, 150);
 
-    table->setItem(0,0, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,1, new QTableWidgetItem(QObject::tr("Значение")));
-    table->setItem(0,2, new QTableWidgetItem(QObject::tr("Параметр")));
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 0,1, (QObject::tr("Значение")));
+    setCellText( table, 0,2, (QObject::tr("Параметр")));
 
-    table->setItem(1,0, new QTableWidgetItem(QObject::tr("Готовность БОД")));
+    setCellText( table, 1,0, (QObject::tr("Готовность БОД")));
 
 
     for(int i = 0, n = 4; i < n; i++) {
-        table->setItem(2 + i,0, new QTableWidgetItem(QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)));
-        table->setItem(6 + i,0, new QTableWidgetItem(QObject::tr("Тревога Уч.%1 было").arg(1 + i)));
+        setCellText( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)));
+        setCellText( table, 6 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)));
     }
 
-    table->setItem(10,0, new QTableWidgetItem(QObject::tr("Выход \"ДК\"")));
-    table->setItem(11,0, new QTableWidgetItem(QObject::tr("Состояние \"ДК\" было")));
-    table->setItem(12,0, new QTableWidgetItem(QObject::tr("Выход \"Вскрытие БО\"")));
-    table->setItem(13,0, new QTableWidgetItem(QObject::tr("Вскрытие БО было")));
+    setCellText( table, 10,0, (QObject::tr("Выход \"ДК\"")));
+    setCellText( table, 11,0, (QObject::tr("Состояние \"ДК\" было")));
+    setCellText( table, 12,0, (QObject::tr("Выход \"Вскрытие БО\"")));
+    setCellText( table, 13,0, (QObject::tr("Вскрытие БО было")));
 
-    table->setItem(1,2, new QTableWidgetItem(QObject::tr("Участки 1-2")));
-    table->setItem(11,2, new QTableWidgetItem(QObject::tr("Участки 3-4")));
+    setCellText( table, 1,2, (QObject::tr("Участки 1-2")));
+    setCellText( table, 11,2, (QObject::tr("Участки 3-4")));
 
     int dec[] = {2,6,12,16};
     for(int i = 0, n = 4; i < n; i++) {
-        table->setItem(dec[i] + 0,2, new QTableWidgetItem(QObject::tr("ДД")));
-        table->setItem(dec[i] + 1,2, new QTableWidgetItem(QObject::tr("Сработка ДД было")));
-        table->setItem(dec[i] + 2,2, new QTableWidgetItem(QObject::tr("Обрыв связи с ДД есть")));
-        table->setItem(dec[i] + 3,2, new QTableWidgetItem(QObject::tr("Обрыв связи с ДД был")));
+        setCellText( table, dec[i] + 0,2, (QObject::tr("ДД")));
+        setCellText( table, dec[i] + 1,2, (QObject::tr("Сработка ДД было")));
+        setCellText( table, dec[i] + 2,2, (QObject::tr("Обрыв связи с ДД есть")));
+        setCellText( table, dec[i] + 3,2, (QObject::tr("Обрыв связи с ДД был")));
     }
 
     for(int i = 0, n = 50; i < n; i++) {
-        table->setItem(dec[0],3 + i, new QTableWidgetItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
-        table->setItem(dec[1],3 + i, new QTableWidgetItem(QString("%1").arg(i + 1 + 50, 2, 10, QLatin1Char('0'))));
-        table->setItem(dec[2],3 + i, new QTableWidgetItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
-        table->setItem(dec[3],3 + i, new QTableWidgetItem(QString("%1").arg(i + 1 + 50, 2, 10, QLatin1Char('0'))));
+        setCellText( table, dec[0],3 + i, (QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
+        setCellText( table, dec[1],3 + i, (QString("%1").arg(i + 1 + 50, 2, 10, QLatin1Char('0'))));
+        setCellText( table, dec[2],3 + i, (QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
+        setCellText( table, dec[3],3 + i, (QString("%1").arg(i + 1 + 50, 2, 10, QLatin1Char('0'))));
     }
 
     for(int i = 0, n = 20; i < n; i++) {
         for(int j = 0, m = 53; j < m; j++) {
-            QTableWidgetItem * item = table->item(i, j);
-            if(nullptr == item) {
-                item = new QTableWidgetItem("");
-                table->setItem(i, j, item);
+            if(nullptr == table->item(i, j)) {
+                setCellText( table, i, j, "");
             }
-            if(nullptr != item)
-                item->setBackground(cellGray);
+
+            setCellColor( table, i, j, cellGray);
         }
     }
 }
 
-void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget *table, UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const UnitNode */*selUN*/)
 {
     table->setRowCount(22);
     table->setColumnCount(29);
@@ -835,53 +784,52 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget *table, UnitNode */*selUN*/
     table->setColumnWidth(2, 150);
     table->setColumnWidth(3, 150);
 
-    table->setItem(0,0, new QTableWidgetItem(QObject::tr("Параметр")));
-    table->setItem(0,1, new QTableWidgetItem(QObject::tr("Значение")));
-    table->setItem(0,2, new QTableWidgetItem(QObject::tr("Параметр")));
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 0,1, (QObject::tr("Значение")));
+    setCellText( table, 0,2, (QObject::tr("Параметр")));
 
-    table->setItem(1,0, new QTableWidgetItem(QObject::tr("Готовность БОД")));
+    setCellText( table, 1,0, (QObject::tr("Готовность БОД")));
 
 
     for(int i = 0, n = 4; i < n; i++) {
-        table->setItem(2 + i,0, new QTableWidgetItem(QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)));
-        table->setItem(6 + i,0, new QTableWidgetItem(QObject::tr("Тревога Уч.%1 было").arg(1 + i)));
+        setCellText( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)));
+        setCellText( table, 6 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)));
     }
 
-    table->setItem(10,0, new QTableWidgetItem(QObject::tr("Выход \"ДК\"")));
-    table->setItem(11,0, new QTableWidgetItem(QObject::tr("Состояние \"ДК\" было")));
-    table->setItem(12,0, new QTableWidgetItem(QObject::tr("Выход \"Вскрытие БО\"")));
-    table->setItem(13,0, new QTableWidgetItem(QObject::tr("Вскрытие БО было")));
+    setCellText( table, 10,0, (QObject::tr("Выход \"ДК\"")));
+    setCellText( table, 11,0, (QObject::tr("Состояние \"ДК\" было")));
+    setCellText( table, 12,0, (QObject::tr("Выход \"Вскрытие БО\"")));
+    setCellText( table, 13,0, (QObject::tr("Вскрытие БО было")));
 
-    table->setItem(1,2, new QTableWidgetItem(QObject::tr("Участки 1-2")));
-    table->setItem(12,2, new QTableWidgetItem(QObject::tr("Участки 3-4")));
+    setCellText( table, 1,2, (QObject::tr("Участки 1-2")));
+    setCellText( table, 12,2, (QObject::tr("Участки 3-4")));
 
     int dec[] = {2,13};
     for(int i = 0, n = 2; i < n; i++) {
-        table->setItem(dec[i] + 0,2, new QTableWidgetItem(QObject::tr("ДДискретный")));
-        table->setItem(dec[i] + 1,2, new QTableWidgetItem(QObject::tr("Сработка по ЧЭ1 было")));
-        table->setItem(dec[i] + 2,2, new QTableWidgetItem(QObject::tr("Сработка по ЧЭ2 было")));
-        table->setItem(dec[i] + 3,2, new QTableWidgetItem(QObject::tr("Неисправность по ЧЭ1 есть")));
-        table->setItem(dec[i] + 4,2, new QTableWidgetItem(QObject::tr("Неисправность по ЧЭ2 есть")));
-        table->setItem(dec[i] + 5,2, new QTableWidgetItem(QObject::tr("Обрыв связи с ДД есть")));
-        table->setItem(dec[i] + 6,2, new QTableWidgetItem(QObject::tr("Обрыв связи с ДД был")));
-        table->setItem(dec[i] + 7,2, new QTableWidgetItem(QObject::tr("Вскрытие ДД есть")));
-        table->setItem(dec[i] + 8,2, new QTableWidgetItem(QObject::tr("Вскрытие ДД было")));
+        setCellText( table, dec[i] + 0,2, (QObject::tr("ДДискретный")));
+        setCellText( table, dec[i] + 1,2, (QObject::tr("Сработка по ЧЭ1 было")));
+        setCellText( table, dec[i] + 2,2, (QObject::tr("Сработка по ЧЭ2 было")));
+        setCellText( table, dec[i] + 3,2, (QObject::tr("Неисправность по ЧЭ1 есть")));
+        setCellText( table, dec[i] + 4,2, (QObject::tr("Неисправность по ЧЭ2 есть")));
+        setCellText( table, dec[i] + 5,2, (QObject::tr("Обрыв связи с ДД есть")));
+        setCellText( table, dec[i] + 6,2, (QObject::tr("Обрыв связи с ДД был")));
+        setCellText( table, dec[i] + 7,2, (QObject::tr("Вскрытие ДД есть")));
+        setCellText( table, dec[i] + 8,2, (QObject::tr("Вскрытие ДД было")));
     }
 
     for(int i = 0, n = 26; i < n; i++) {
-        table->setItem(dec[0],3 + i, new QTableWidgetItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
-        table->setItem(dec[1],3 + i, new QTableWidgetItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
+        setCellText( table, dec[0],3 + i, (QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
+        setCellText( table, dec[1],3 + i, (QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
     }
 
     for(int i = 0, n = 22; i < n; i++) {
         for(int j = 0, m = 29; j < m; j++) {
             QTableWidgetItem * item = table->item(i, j);
             if(nullptr == item) {
-                item = new QTableWidgetItem("");
-                table->setItem(i, j, item);
+                setCellText( table, i, j, "");
             }
-            if(nullptr != item)
-                item->setBackground(cellGray);
+
+            setCellColor(table, i, j, cellGray);
         }
     }
 }
@@ -894,7 +842,7 @@ QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
     }
     unSetTmp.insert(un);
     unSetTmp = unSetTmp + un->getDoubles();
-    for(const auto& unDouble : as_const(unSetTmp.values())) {
+    for(const auto& unDouble : unSetTmp.values()) {
 //        qDebug() << "itr :" << unSetTmp;
 //        qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
         if(nullptr != unDouble->getTreeParentUN()) {

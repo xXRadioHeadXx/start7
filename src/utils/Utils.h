@@ -26,17 +26,17 @@ public:
     static bool isSavedMsg(const QByteArray ba);
     template <typename T>
     static QList<T> reversed( const QList<T> & in );
-    static void setCellText(QTableWidget * table, int row, int column, QString text);
-    static void setCellColor(QTableWidget * table, int row, int column, QColor color);
-    static void fillDiagnosticTable(QTableWidget * table, UnitNode *selUN);
-    static void fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN);
-    static void fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode * selUN);
-    static void fillDiagnosticTableRLM_C(QTableWidget *table, UnitNode *selUN);
-    static void fillDiagnosticTableTG(QTableWidget *table, UnitNode *selUN);
-    static void fillDiagnosticTableDD_T4K_M(QTableWidget *table, UnitNode *selUN);
-    static void fillDiagnosticTableDD_SOTA(QTableWidget *table, UnitNode *selUN);
-    static void fillDiagnosticTableY4_SOTA(QTableWidget *table, UnitNode *selUN);
-    static void fillDiagnosticTableY4_T4K_M(QTableWidget *table, UnitNode *selUN);
+    static void setCellText(QTableWidget * const table, const int row, const int column, const QString text);
+    static void setCellColor(QTableWidget * const table, const int row, const int column, const QColor color);
+    static void fillDiagnosticTable(QTableWidget * const table, const UnitNode *selUN);
+    static void fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode * selUN);
+    static void fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode * selUN);
+    static void fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *selUN);
+    static void fillDiagnosticTableTG(QTableWidget *const table, const UnitNode *selUN);
+    static void fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const UnitNode *selUN);
+    static void fillDiagnosticTableDD_SOTA(QTableWidget * const table, const UnitNode *selUN);
+    static void fillDiagnosticTableY4_SOTA(QTableWidget * const table, const UnitNode *selUN);
+    static void fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const UnitNode *selUN);
     static QSet<UnitNode *> findeSetAutoOnOffUN(UnitNode *un);
 };
 

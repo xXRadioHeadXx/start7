@@ -744,7 +744,7 @@ void UnitNode::setStateWord(const QByteArray &value)
     stateWord = value;
 }
 
-int UnitNode::isConnected()
+int UnitNode::isConnected() const
 {
     if(getStateWord().isEmpty())
         return 0;
@@ -752,7 +752,7 @@ int UnitNode::isConnected()
         return 1;
 }
 
-quint8 UnitNode_SD_BL_IP::mask()
+quint8 UnitNode_SD_BL_IP::mask() const
 {
     quint8 mask = 0;
     switch (this->getNum2()) {
@@ -787,12 +787,12 @@ quint8 UnitNode_SD_BL_IP::mask()
     return mask;
 }
 
-int UnitNode_SD_BL_IP::isAlarm()
+int UnitNode_SD_BL_IP::isAlarm() const
 {
     return isInAlarm();
 }
 
-int UnitNode_SD_BL_IP::isInAlarm()
+int UnitNode_SD_BL_IP::isInAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -803,13 +803,13 @@ int UnitNode_SD_BL_IP::isInAlarm()
 }
 
 
-int UnitNode_SD_BL_IP::isNorm()
+int UnitNode_SD_BL_IP::isNorm() const
 {
     int isalarm = isAlarm();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int UnitNode_SD_BL_IP::isWasAlarm()
+int UnitNode_SD_BL_IP::isWasAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -819,7 +819,7 @@ int UnitNode_SD_BL_IP::isWasAlarm()
         return 0; //Status::Not);
 }
 
-int UnitNode_SD_BL_IP::isOn()
+int UnitNode_SD_BL_IP::isOn() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -829,14 +829,14 @@ int UnitNode_SD_BL_IP::isOn()
         return 1; //
 }
 
-int UnitNode_SD_BL_IP::isOff()
+int UnitNode_SD_BL_IP::isOff() const
 {
     int ison = isOn();
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
 
-quint8 UnitNode_IU_BL_IP::mask()
+quint8 UnitNode_IU_BL_IP::mask() const
 {
     quint8 mask = 0;
     switch (this->getNum2()) {
@@ -871,7 +871,7 @@ quint8 UnitNode_IU_BL_IP::mask()
     return mask;
 }
 
-int UnitNode_IU_BL_IP::isOutAlarm()
+int UnitNode_IU_BL_IP::isOutAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -881,12 +881,12 @@ int UnitNode_IU_BL_IP::isOutAlarm()
         return 0; //Status::Off;
 }
 
-int UnitNode_IU_BL_IP::isOn()
+int UnitNode_IU_BL_IP::isOn() const
 {
     return isOutAlarm();
 }
 
-int UnitNode_IU_BL_IP::isOff()
+int UnitNode_IU_BL_IP::isOff() const
 {
     int ison = isOn();
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
@@ -1104,7 +1104,7 @@ int UnitNode::columnCount() const noexcept
 
 
 
-int UnitNode_BL_IP::isExistDK()
+int UnitNode_BL_IP::isExistDK() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1114,7 +1114,7 @@ int UnitNode_BL_IP::isExistDK()
         return 0; // Status::Not);
 }
 
-int UnitNode_BL_IP::isWasAlarm()
+int UnitNode_BL_IP::isWasAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1124,12 +1124,12 @@ int UnitNode_BL_IP::isWasAlarm()
         return 0; //Status::Not);
 }
 
-int UnitNode_RLM_C::isAlarm()
+int UnitNode_RLM_C::isAlarm() const
 {
     return isInAlarm();
 }
 
-int UnitNode_RLM_C::isInAlarm()
+int UnitNode_RLM_C::isInAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1139,7 +1139,7 @@ int UnitNode_RLM_C::isInAlarm()
         return 0; //Status::Not;
 }
 
-int UnitNode_RLM_C::isOutAlarm()
+int UnitNode_RLM_C::isOutAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1149,13 +1149,13 @@ int UnitNode_RLM_C::isOutAlarm()
         return 0; //Status::Not;
 }
 
-int UnitNode_RLM_C::isNorm()
+int UnitNode_RLM_C::isNorm() const
 {
     int isalarm = isAlarm();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int UnitNode_RLM_C::isWasDK()
+int UnitNode_RLM_C::isWasDK() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1165,7 +1165,7 @@ int UnitNode_RLM_C::isWasDK()
         return 0; //Status::Not;
 }
 
-int UnitNode_RLM_C::isExistDK()
+int UnitNode_RLM_C::isExistDK() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1175,7 +1175,7 @@ int UnitNode_RLM_C::isExistDK()
         return 0; //Status::Not;
 }
 
-int UnitNode_RLM_C::isWasAlarm()
+int UnitNode_RLM_C::isWasAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1185,7 +1185,7 @@ int UnitNode_RLM_C::isWasAlarm()
         return 0; //Status::Not;
 }
 
-int UnitNode_RLM_C::isOn()
+int UnitNode_RLM_C::isOn() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1195,20 +1195,20 @@ int UnitNode_RLM_C::isOn()
         return 0; //Status::Off;
 }
 //b5fe6304312c011600d9
-int UnitNode_RLM_C::isOff()
+int UnitNode_RLM_C::isOff() const
 {
     int ison = isOn();
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
-float UnitNode_RLM_C::voltage()
+float UnitNode_RLM_C::voltage() const
 {
     if(getStateWord().isEmpty())
         return -1.0;
     return static_cast<float>(5.0 - (5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0)));
 }
 
-int UnitNode_RLM_C::isExternalSynchronization()
+int UnitNode_RLM_C::isExternalSynchronization() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -1218,13 +1218,13 @@ int UnitNode_RLM_C::isExternalSynchronization()
         return 0; //Internal;
 }
 
-int UnitNode_RLM_C::isInternalSynchronization()
+int UnitNode_RLM_C::isInternalSynchronization() const
 {
     int ises = isExternalSynchronization();
     return ((0 == ises) ? 1 : ((1 == ises) ? 0 : ises));
 }
 
-float UnitNode_RLM_C::threshold()
+float UnitNode_RLM_C::threshold() const
 {
     if(getStateWord().isEmpty())
         return -1.0;
@@ -1249,21 +1249,21 @@ float UnitNode_RLM_C::threshold()
     }
 }
 
-int UnitNode_RLM_C::clockPeriod()
+int UnitNode_RLM_C::clockPeriod() const
 {
     if(getStateWord().isEmpty())
         return -1;
     return (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x70)) / static_cast<quint8>(0x0F);
 }
 
-int UnitNode_RLM_C::modeProcessing()
+int UnitNode_RLM_C::modeProcessing() const
 {
     if(getStateWord().isEmpty())
         return -1;
     return static_cast<quint8>(getStateWord().at(3)) & static_cast<quint8>(0x03);
 }
 
-int UnitNode_RLM_C::lowLevl()
+int UnitNode_RLM_C::lowLevl() const
 {
     if(getStateWord().isEmpty())
         return -1;
