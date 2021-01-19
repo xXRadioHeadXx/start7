@@ -7,3 +7,8 @@
 
 1) Скопировать файлы откуда и куда
 2) Прописать патчи из папки установленного MySQL
+
+ cd C:\Qt\5.15.2\Src\qtbase\src\plugins\sqldrivers
+ qmake -- MYSQL_INCDIR="C:\Program Files (x86)\MySQL\MySQL Server 5.5\include" MYSQL_LIBDIR="C:\Program Files (x86)\MySQL\MySQL Server 5.5\lib"
+ mingw32-make sub-mysql
+ mingw32-make install
