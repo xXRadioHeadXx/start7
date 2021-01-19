@@ -143,6 +143,31 @@ bool Utils::isSavedMsg(const QByteArray ba) {
     return true;
 }
 
+void Utils::setCellText(QTableWidget *table, int row, int column, QString text)
+{
+    if(row >= table->rowCount() || column >= table->colorCount())
+        return;
+    QTableWidgetItem * item = table->item(row, column);
+    if(nullptr == item) {
+        item = new QTableWidgetItem();
+        table->setItem(row, column, item);
+    }
+    item->setText(text);
+}
+
+void Utils::setCellColor(QTableWidget *table, int row, int column, QColor color)
+{
+    if(row >= table->rowCount() || column >= table->colorCount())
+        return;
+    QTableWidgetItem * item = table->item(row, column);
+    if(nullptr == item) {
+        item = new QTableWidgetItem();
+        table->setItem(row, column, item);
+    }
+    item->setBackgroundColor(color);
+
+}
+
 template <typename T>
 QList<T> Utils::reversed( const QList<T> & in ) {
     QList<T> result;

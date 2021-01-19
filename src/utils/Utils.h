@@ -26,6 +26,8 @@ public:
     static bool isSavedMsg(const QByteArray ba);
     template <typename T>
     static QList<T> reversed( const QList<T> & in );
+    static void setCellText(QTableWidget * table, int row, int column, QString text);
+    static void setCellColor(QTableWidget * table, int row, int column, QColor color);
     static void fillDiagnosticTable(QTableWidget * table, UnitNode *selUN);
     static void fillDiagnosticTableBLIP(QTableWidget *table, UnitNode * selUN);
     static void fillDiagnosticTableRLMKRL(QTableWidget *table, UnitNode * selUN);
