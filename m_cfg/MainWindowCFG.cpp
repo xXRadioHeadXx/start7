@@ -34,7 +34,7 @@ this->ui->groupBox_4->setVisible(false);
            qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
            qDebug() << "Bytes available:" << volume.bytesAvailable();
            qDebug() << "Bytes free:" << volume.bytesFree();
-           qDebug() << "Bytes total:" << volume.bytesTotal() << Qt::endl;
+           qDebug() << "Bytes total:" << volume.bytesTotal();
        }
 
 

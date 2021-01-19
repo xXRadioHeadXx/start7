@@ -381,31 +381,31 @@ void MainWindowDB::updComboBox(QList<QString> lst, QComboBox * cmb) {
 
 void MainWindowDB::on_toolButtonAddReason_clicked()
 {
-    if(nullptr == selMsg) {
+    if(0 == selMsg.getId()) {
         return;
     }
 
-    selMsg->setReason(ui->comboBoxReason->currentText());
-    DataBaseManager::updateJourMsg_wS(*selMsg);
+    selMsg.setReason(ui->comboBoxReason->currentText());
+    DataBaseManager::updateJourMsg_wS(selMsg);
     updComboBoxReason();
 }
 
 void MainWindowDB::on_toolButtonAddTakenMeasures_clicked()
 {
-    if(nullptr == selMsg) {
+    if(0 == selMsg.getId()) {
         return;
     }
 
-    selMsg->setMeasures(ui->comboBoxTakenMeasures->currentText());
-    DataBaseManager::updateJourMsg_wS(*selMsg);
+    selMsg.setMeasures(ui->comboBoxTakenMeasures->currentText());
+    DataBaseManager::updateJourMsg_wS(selMsg);
     updComboBoxTakenMeasures();
 }
 
 void MainWindowDB::on_tableView_clicked(const QModelIndex &index)
 {
-    JourEntity * sel = this->modelMSG->clickedMsg(index);
+    JourEntity sel = this->modelMSG->clickedMsg(index);
 
-    if(nullptr == sel) {
+    if(0 == sel.getId()) {
         ui->comboBoxReason->setCurrentIndex(-1);
         ui->comboBoxTakenMeasures->setCurrentIndex(-1);
         return;
@@ -413,16 +413,16 @@ void MainWindowDB::on_tableView_clicked(const QModelIndex &index)
 
     selMsg = sel;
 
-    if(sel->getReason().isEmpty() ) {
+    if(sel.getReason().isEmpty() ) {
         ui->comboBoxReason->setCurrentIndex(-1);
     } else {
-        ui->comboBoxReason->setEditText(sel->getReason());
+        ui->comboBoxReason->setEditText(sel.getReason());
     }
 
-    if(sel->getMeasures().isEmpty()) {
+    if(sel.getMeasures().isEmpty()) {
         ui->comboBoxTakenMeasures->setCurrentIndex(-1);
     } else {
-        ui->comboBoxTakenMeasures->setEditText(sel->getMeasures());
+        ui->comboBoxTakenMeasures->setEditText(sel.getMeasures());
     }
 
      GraphTerminal::sendAbonentEventBook(selMsg);
@@ -430,23 +430,23 @@ void MainWindowDB::on_tableView_clicked(const QModelIndex &index)
 
 void MainWindowDB::on_toolButtonRemoveReason_clicked()
 {
-    if(nullptr == selMsg) {
+    if(0 == selMsg.getId()) {
         return;
     }
 
-    selMsg->setReason("");
-    DataBaseManager::updateJourMsg_wS(*selMsg);
+    selMsg.setReason("");
+    DataBaseManager::updateJourMsg_wS(selMsg);
     updComboBoxReason();
 }
 
 void MainWindowDB::on_toolButtonRemoveTakenMeasures_clicked()
 {
-    if(nullptr == selMsg) {
+    if(0 == selMsg.getId()) {
         return;
     }
 
-    selMsg->setMeasures("");
-    DataBaseManager::updateJourMsg_wS(*selMsg);
+    selMsg.setMeasures("");
+    DataBaseManager::updateJourMsg_wS(selMsg);
     updComboBoxTakenMeasures();
 }
 
@@ -463,30 +463,38 @@ void MainWindowDB::on_pushButton_4_clicked()
 
 void MainWindowDB::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    JourEntity * sel = this->modelMSG->clickedMsg(index);
+    JourEntity sel = this->modelMSG->clickedMsg(index);
 
-    if(nullptr == sel) {
+    if(0 == sel.getId()) {
         return;
     }
 
     selMsg = sel;
 
-    if(0 != ui->comboBox->currentIndex() || 902 != selMsg->getType())
+    if(0 != ui->comboBox->currentIndex() || 902 != selMsg.getType())
         return;
 
     setBlockSignal(true);
 
     QString sqlFlt = "SELECT * FROM jour WHERE id >= %1";
 
-    sqlFlt = sqlFlt.arg(selMsg->getId());
+    sqlFlt = sqlFlt.arg(selMsg.getId());
 
-    QList<JourEntity *> tmpLs = this->modelMSG->getListMSG();
-    if(selMsg != tmpLs.last()) {
-        int indexCurrentMsg = tmpLs.indexOf(selMsg);
-        JourEntity * nextMsg = tmpLs.at(indexCurrentMsg + 1);
-        if(nullptr != nextMsg && 902 == nextMsg->getType()) {
+    QList<JourEntity> tmpLs = this->modelMSG->getListMSG();
+    if(selMsg.getId() != tmpLs.last().getId()) {
+        int indexCurrentMsg = -1;
+        for(int i = 0, n = tmpLs.size(); i < n; i++) {
+            if(selMsg.getId() == tmpLs.at(i).getId()) {
+                indexCurrentMsg = i;
+                break;
+            }
+        }
+        if(-1 == indexCurrentMsg)
+            return;
+        JourEntity nextMsg = tmpLs.at(indexCurrentMsg + 1);
+        if(0 != nextMsg.getId() && 902 == nextMsg.getType()) {
             sqlFlt += " AND id < %1 ";
-            sqlFlt = sqlFlt.arg(nextMsg->getId());
+            sqlFlt = sqlFlt.arg(nextMsg.getId());
         } else {
             ui->comboBox->setCurrentIndex(0);
             sqlFlt = " SELECT * FROM jour WHERE type = 902 ";

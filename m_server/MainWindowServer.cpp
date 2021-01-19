@@ -163,7 +163,7 @@ void MainWindowServer::write()
     QByteArray Data;
     Data.append(static_cast<quint8>(0xB5));
     Data.append(static_cast<quint8>(0xFF));
-    Data.append(static_cast<quint8>(0x00));
+    Data.append(static_cast<char>(0x00));
     Data.append(static_cast<quint8>(0x22));
     Data.append(static_cast<quint8>(0x21));
 
@@ -222,9 +222,9 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
 void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
 {
-    JourEntity * sel = this->modelMSG->clickedMsg(index);
+    JourEntity sel = this->modelMSG->clickedMsg(index);
 
-    if(nullptr == sel) {
+    if(0 == sel.getId()) {
         ui->comboBoxReason->setCurrentIndex(-1);
         ui->comboBoxTakenMeasures->setCurrentIndex(-1);
         return;
@@ -232,16 +232,16 @@ void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
 
     selMsg = sel;
 
-    if(sel->getReason().isEmpty() ) {
+    if(sel.getReason().isEmpty() ) {
         ui->comboBoxReason->setCurrentIndex(-1);
     } else {
-        ui->comboBoxReason->setEditText(sel->getReason());
+        ui->comboBoxReason->setEditText(sel.getReason());
     }
 
-    if(sel->getMeasures().isEmpty()) {
+    if(sel.getMeasures().isEmpty()) {
         ui->comboBoxTakenMeasures->setCurrentIndex(-1);
     } else {
-        ui->comboBoxTakenMeasures->setEditText(sel->getMeasures());
+        ui->comboBoxTakenMeasures->setEditText(sel.getMeasures());
     }
 
     GraphTerminal::sendAbonentEventBook(sel);
@@ -249,23 +249,23 @@ void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
 
 void MainWindowServer::on_toolButtonReason_clicked()
 {
-    if(nullptr == selMsg) {
+    if(0 == selMsg.getId()) {
         return;
     }
 
-    selMsg->setReason(ui->comboBoxReason->currentText());
-    DataBaseManager::updateJourMsg_wS(*selMsg);
+    selMsg.setReason(ui->comboBoxReason->currentText());
+    DataBaseManager::updateJourMsg_wS(selMsg);
     updComboBoxReason();
 }
 
 void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 {
-    if(nullptr == selMsg) {
+    if(0 == selMsg.getId()) {
         return;
     }
 
-    selMsg->setMeasures(ui->comboBoxTakenMeasures->currentText());
-    DataBaseManager::updateJourMsg_wS(*selMsg);
+    selMsg.setMeasures(ui->comboBoxTakenMeasures->currentText());
+    DataBaseManager::updateJourMsg_wS(selMsg);
     updComboBoxTakenMeasures();
 }
 
@@ -705,7 +705,7 @@ void MainWindowServer::on_actionNewScheme_triggered()
 
         if(0 != SettingUtils::getValueSettings("P1", "MYSQL").toInt() || 0 != SettingUtils::getValueSettings("P2", "MYSQL").toInt()) {
             QString sql = " select * from jour where flag != 0 ";
-            QList<JourEntity *> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
+            QList<JourEntity> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
 
             if(tmpLs.size()) {
                 QMessageBox::warning(this, tr("Ошибка"),
@@ -780,7 +780,7 @@ void MainWindowServer::on_actionDataBase_triggered()
     // windows code
     file.append(".exe");
 #endif
-    process->start(file);
+    process->start(file, QStringList());
 }
 
 void MainWindowServer::on_actionUNSqlSelect_triggered()
@@ -793,12 +793,14 @@ void MainWindowServer::on_actionUNSqlSelect_triggered()
     file.append(".exe");
 #endif
 
-    file.append(" -sql \"" + getUnSqlSelect() + "\"");
-    process->start(file);
+//    file.append(" -sql \"" + getUnSqlSelect() + "\"");
+    process->start(file, QStringList() << "-sql" << "\"" + getUnSqlSelect() + "\"");
 }
 
 void MainWindowServer::changeSelectUN(UnitNode *un)
 {
+    if(nullptr == un)
+        return;
     QModelIndex index = this->modelTreeUN->findeIndexUN(un);
     ui->treeView->setCurrentIndex(index);
 }

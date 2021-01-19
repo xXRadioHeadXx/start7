@@ -125,7 +125,7 @@ private:
 
     UnitNode * selUN = nullptr;
     QModelIndex selIndex;
-    JourEntity * selMsg = nullptr;
+    JourEntity selMsg = nullptr;
 //    QTranslator *ruTranslator;
 
     QTimer quasiProgressBeat;

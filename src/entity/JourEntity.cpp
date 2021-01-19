@@ -298,26 +298,28 @@ JourEntity::JourEntity(const JourEntity & parent) :
 }
 
 JourEntity::JourEntity(JourEntity * parent) :
-    QObject(parent),
-    id(parent->getId()),
-    cdate(parent->getCdate()),
-    mdate(parent->getMdate()),
-    comment(parent->getComment()),
-    object(parent->getObject()),
-    objectid(parent->getObjectid()),
-    reason(parent->getReason()),
-    measures(parent->getMeasures()),
-    operatorid(parent->getOperatorid()),
-    status(parent->getStatus()),
-    direction(parent->getDirection()),
-    d1(parent->getD1()),
-    d2(parent->getD2()),
-    d3(parent->getD3()),
-    d4(parent->getD4()),
-    type(parent->getType()),
-    objecttype(parent->getObjecttype()),
-    flag(parent->getFlag())
+    QObject(parent)//,
+//    id(parent->getId()),
+//    cdate(parent->getCdate()),
+//    mdate(parent->getMdate()),
+//    comment(parent->getComment()),
+//    object(parent->getObject()),
+//    objectid(parent->getObjectid()),
+//    reason(parent->getReason()),
+//    measures(parent->getMeasures()),
+//    operatorid(parent->getOperatorid()),
+//    status(parent->getStatus()),
+//    direction(parent->getDirection()),
+//    d1(parent->getD1()),
+//    d2(parent->getD2()),
+//    d3(parent->getD3()),
+//    d4(parent->getD4()),
+//    type(parent->getType()),
+//    objecttype(parent->getObjecttype()),
+//    flag(parent->getFlag())
 {
+    if(nullptr != parent)
+        *this = *parent;
 }
 
 QVariant JourEntity::data(int column) const noexcept

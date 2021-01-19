@@ -5,7 +5,7 @@
 #include <QtSql>
 
 #include <JourEntity.h>
-#include <MessageEntity.h>
+//#include <MessageEntity.h>
 #include <Operator.h>
 
 class DataBaseManager : public QObject
@@ -20,22 +20,22 @@ public:
 
     static QSqlDatabase& m_db();
 
-    static int insertCommandMsg_wS(const MessageEntity &msg);
-    static int insertCommandMsg(const MessageEntity &msg);
+//    static int insertCommandMsg_wS(const MessageEntity &msg);
+//    static int insertCommandMsg(const MessageEntity &msg);
     static int insertJourMsg_wS(const JourEntity &msg);
     static int insertJourMsg(const JourEntity &msg);
     static int updateJourMsg_wS(const JourEntity &msg);
     static int updateJourMsg(const JourEntity &msg);
     static void resetAllFlags_wS();
     static void resetAllFlags();
-    static QList<JourEntity *> getMSGRecordAfter(const int &id = 0);
-    static QList<JourEntity *> getOneMSGRecord(const int &id = -1);
-//    static QList<JourEntity *> getMSGRecords();
-    static QList<JourEntity *> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);
-    static QList<JourEntity *> getFltOneMSGRecord(const QString flt = "", const int &id = -1);
-//    static QList<JourEntity *> getFltMSGRecords(const QString flt = "");
-    static QList<JourEntity *> getQueryMSGRecord(QString sql);
-    static QList<JourEntity *> getQueryMSGRecord(QSqlQuery query);
+    static QList<JourEntity> getMSGRecordAfter(const int &id = 0);
+    static QList<JourEntity> getOneMSGRecord(const int &id = -1);
+//    static QList<JourEntity> getMSGRecords();
+    static QList<JourEntity> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);
+    static QList<JourEntity> getFltOneMSGRecord(const QString flt = "", const int &id = -1);
+//    static QList<JourEntity> getFltMSGRecords(const QString flt = "");
+    static QList<JourEntity> getQueryMSGRecord(QString sql);
+    static QList<JourEntity> getQueryMSGRecord(QSqlQuery query);
 
     static int executeQuery(QString sql);
     static int executeQuery(QSqlQuery query);

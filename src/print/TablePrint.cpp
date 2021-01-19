@@ -155,7 +155,7 @@ bool TablePrint::printPdf()
 
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPaperSize(QPrinter::A4);
+    printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setOutputFileName(filename);
     printer.setPageMargins(QMarginsF(15, 15, 15, 15));
 
@@ -177,7 +177,7 @@ bool TablePrint::printPreview()
     }
 
     QPrinter printer(QPrinter::ScreenResolution);
-    printer.setPaperSize(QPrinter::A4);
+    printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName( "tmpprint_out" );
     // printer.setPageMargins(0.925, 0.8, 0.5, 0.8, QPrinter::Inch);

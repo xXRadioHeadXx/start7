@@ -162,17 +162,19 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                     tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
                     tmpParentUN->setUdpPort(tmpUN->getUdpPort());
 
-                    for (auto rit = listMetaRealUnitNodes.rbegin(); rit != listMetaRealUnitNodes.rend(); ++rit) {
-                        if((*rit)->getUdpAdress() == tmpParentUN->getUdpAdress() &&
-                                (*rit)->getUdpPort() == tmpParentUN->getUdpPort())
+                    auto li = listMetaRealUnitNodes.values();
+                    for (auto rit = li.rbegin(); rit != li.rend(); ++rit) {
+                        auto it = static_cast<UnitNode *>(*rit);
+                        if(it->getUdpAdress() == tmpParentUN->getUdpAdress() &&
+                                it->getUdpPort() == tmpParentUN->getUdpPort())
                         {
-                            if(TypeUnitNode::BL_IP == (*rit)->getType()) {
-                                (*rit)->addChild(tmpUN);
+                            if(TypeUnitNode::BL_IP == it->getType()) {
+                                it->addChild(tmpUN);
                                 key = false;
                                 break;
-                            } else if(nullptr != (*rit)->getParentUN()) {
-                                if(TypeUnitNode::BL_IP == (*rit)->getParentUN()->getType()) {
-                                    (*rit)->getParentUN()->addChild(tmpUN);
+                            } else if(nullptr != it->getParentUN()) {
+                                if(TypeUnitNode::BL_IP == it->getParentUN()->getType()) {
+                                    it->getParentUN()->addChild(tmpUN);
                                     key = false;
                                     break;
                                 }

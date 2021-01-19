@@ -3,6 +3,7 @@
 #include <DataBaseManager.h>
 #include <JourEntity.h>
 #include <QComboBox>
+#include<TableModelMSG.h>
 
 ComboBoxDelegate::ComboBoxDelegate(QString field, QObject *parent) : QItemDelegate(parent), field(field) { }
 
@@ -11,7 +12,7 @@ QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
     Q_UNUSED(option);
 
     QComboBox *comboBox = new QComboBox(parent);
-    JourEntity *n = static_cast<JourEntity*>(index.internalPointer());
+    auto jour = TableModelMSG::getListMSG().value(index.row(), JourEntity());
     QList<QString> items;
 
     if("reason" == field)
@@ -21,10 +22,10 @@ QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 
     int currentIndex = 0;
 
-    if("reason" == field && !n->getReason().isEmpty())
-        currentIndex = items.indexOf(n->getReason());
-    else if("measures" == field && !n->getMeasures().isEmpty())
-        currentIndex = items.indexOf(n->getMeasures());
+    if("reason" == field && !jour.getReason().isEmpty())
+        currentIndex = items.indexOf(jour.getReason());
+    else if("measures" == field && !jour.getMeasures().isEmpty())
+        currentIndex = items.indexOf(jour.getMeasures());
 
     comboBox->addItems(items);
     comboBox->setCurrentIndex(currentIndex);
