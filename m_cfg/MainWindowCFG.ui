@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>923</width>
+    <width>932</width>
     <height>526</height>
    </rect>
   </property>
@@ -142,24 +142,27 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
          <string>Параметры</string>
         </attribute>
-        <widget class="QWidget" name="layoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>9</x>
-           <y>9</y>
-           <width>164</width>
-           <height>158</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <widget class="QGroupBox" name="groupBox_12">
+           <property name="title">
+            <string>Параметры</string>
+           </property>
            <widget class="QGroupBox" name="groupBox">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>26</y>
+              <width>556</width>
+              <height>80</height>
+             </rect>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -276,38 +279,15 @@
              </property>
             </widget>
            </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_21">
-            <property name="minimumSize">
-             <size>
-              <width>153</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Режим запуска сервера</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="PARAMS_AutoStart_comboBox">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>146</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>146</width>
-              <height>22</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QGroupBox" name="groupBox_8">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>255</y>
+              <width>556</width>
+              <height>109</height>
+             </rect>
+            </property>
             <property name="title">
              <string>Резервное копирование</string>
             </property>
@@ -371,9 +351,50 @@
              </property>
             </widget>
            </widget>
-          </item>
-         </layout>
-        </widget>
+           <widget class="QLabel" name="label_21">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>112</y>
+              <width>153</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>153</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Режим запуска сервера</string>
+            </property>
+           </widget>
+           <widget class="QComboBox" name="PARAMS_AutoStart_comboBox">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>227</y>
+              <width>146</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>146</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>146</width>
+              <height>22</height>
+             </size>
+            </property>
+           </widget>
+          </widget>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="Operators">
         <attribute name="title">
@@ -3081,7 +3102,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>923</width>
+     <width>932</width>
      <height>21</height>
     </rect>
    </property>
