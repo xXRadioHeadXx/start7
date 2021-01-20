@@ -5164,7 +5164,21 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     db_mysql.setUserName(this->ui->SQL_login_lineEdit->text());
     db_mysql.setPassword(this->ui->SQL_password_lineEdit->text());
     if (!db_mysql.open()){
-        qDebug()<<db_mysql.lastError().text();
+        QString err =db_mysql.lastError().text();
+        QString drv;
+        drv.append(err);
+        drv.append("; ");
+        qDebug()<<err;
+
+  QStringListIterator it(db_mysql.drivers());
+       while(it.hasNext()) {
+               drv.append(it.next());
+               drv.append(";");
+           }
+        dialog.showMessage(drv);
+        dialog.exec();
+     //   return false;
+
     }
     else{
         qDebug()<<"PROFIT";
