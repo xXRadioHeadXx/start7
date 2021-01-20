@@ -18,6 +18,10 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
 
     ui->setupUi(this);
+
+   ui->tableWidget->verticalHeader()->setVisible(false);
+//   ui->tableWidget_2->verticalHeader()->setVisible(false);
+
 this->ui->groupBox_4->setVisible(false);
 
     this->ui->SQL_server_lineEdit->setText("localhost");
@@ -1202,6 +1206,7 @@ void MainWindowCFG::update_operators_table()
 
         cnt=this->ui->tableWidget->rowCount();
         this->ui->tableWidget->insertRow(cnt);
+        this->ui->tableWidget->setItem(cnt,0, new QTableWidgetItem(QString::number(cnt+1)));
         this->ui->tableWidget->setItem(cnt,1, new QTableWidgetItem(op->getFN()));
         this->ui->tableWidget->setItem(cnt,2, new QTableWidgetItem(op->getN1()));
         this->ui->tableWidget->setItem(cnt,3, new QTableWidgetItem(op->getN2()));
