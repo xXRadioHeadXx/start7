@@ -3727,7 +3727,7 @@ void MainWindowCFG::get_SQL(QString filename)
               settings.endGroup();
           }
           else
-                 this->ui->SQL_type_comboBox->setCurrentText("Выкл");
+                          this->ui->SQL_type_comboBox->setCurrentText("Выкл");
 
 }
 
@@ -3816,9 +3816,9 @@ int res=0;
 void MainWindowCFG::default_SQL()
 {
 this->ui->SQL_type_comboBox->setCurrentText("Выкл");
-    this->ui->SQL_server_lineEdit->setText("localhost");
+    this->ui->SQL_server_lineEdit->setText("");
     this->ui->SQL_port_doubleSpinBox->setValue(0);
-    this->ui->SQL_login_lineEdit->setText("root");
+    this->ui->SQL_login_lineEdit->setText("");
     this->ui->SQL_password_lineEdit->setText("");
     this->ui->SQL_database_lineEdit->setText("");
 
@@ -5546,4 +5546,48 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     //РИФ-РЛМ-С
 
   //  РИФ-РЛМ/КРЛ/Трасса
+}
+
+void MainWindowCFG::on_SQL_type_comboBox_currentTextChanged(const QString &arg1)
+{
+    qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!";
+
+
+        if(arg1=="MySQL")
+        {
+
+            this->ui->SQL_server_lineEdit->setText("localhost");
+
+
+            this->ui->SQL_port_doubleSpinBox->setValue(3306);
+
+            this->ui->SQL_login_lineEdit->setText("root");
+
+            this->ui->SQL_password_lineEdit->setText("");
+
+
+        }
+        if(arg1=="PostgresSQL")
+        {
+            this->ui->SQL_server_lineEdit->setText("localhost");
+
+
+            this->ui->SQL_port_doubleSpinBox->setValue(5432);
+
+            this->ui->SQL_login_lineEdit->setText("postgres");
+
+            this->ui->SQL_password_lineEdit->setText("");
+        }
+        if(arg1=="Выкл")
+        {
+            this->ui->SQL_server_lineEdit->setText("");
+
+
+            this->ui->SQL_port_doubleSpinBox->setValue(0);
+
+            this->ui->SQL_login_lineEdit->setText("");
+
+            this->ui->SQL_password_lineEdit->setText("");
+        }
+
 }

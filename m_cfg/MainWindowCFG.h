@@ -30,6 +30,8 @@ class MainWindowCFG : public QMainWindow
 {
     Q_OBJECT
 private:
+
+
     Ui::MainWindowCFG *ui;
 
     QSqlDatabase db_mysql;
@@ -358,5 +360,6 @@ private slots:
    void coordinate_menu(bool visible,bool active, int x, int y, QString text);
    void on_pushButton_5_clicked();
    void on_uType_combobox_activated(const QString &arg1);
+   void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
