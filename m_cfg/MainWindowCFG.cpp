@@ -5589,7 +5589,27 @@ void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
     filePath += "auidit.adm";
     qDebug()<<filePath;
 
-     AdmAud->Load(filePath);
+    QFile file(filePath);
+
+
+    if(file.open(QIODevice::WriteOnly))
+    {
+        qDebug()<<"[PROFIT]";
+        QDataStream stream(&file);
+        stream << AdmAud;
+        file.close();
+
+
+
+    }
+
+    else
+    {
+        qDebug()<<"[FALSE]";
+
+    }
+
+ //    AdmAud->Load(filePath);
 
   //  AdmAud->setCRC(AdmAud->getVersion()+AdmAud->getCreateDt());
 

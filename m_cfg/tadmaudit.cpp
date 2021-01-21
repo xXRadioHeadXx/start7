@@ -47,7 +47,7 @@ bool TAdmAudit::Load(QString filePath)
     if(file.open(QIODevice::WriteOnly))
     {
         qDebug()<<"PROFIT";
-        QDataStream stream;
+        QDataStream stream(&file);
         stream << this;
         file.close();
 
