@@ -5206,6 +5206,7 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 //    db.setDatabaseName("QWERTY");
     db_psql.setUserName(this->ui->SQL_login_lineEdit->text());
     db_psql.setPassword(this->ui->SQL_password_lineEdit->text());
+    db_psql.setDatabaseName("postgres");
     if (!db_psql.open()){
         qDebug()<<db_psql.lastError().text();
     }
