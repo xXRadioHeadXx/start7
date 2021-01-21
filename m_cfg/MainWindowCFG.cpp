@@ -7,9 +7,11 @@
 #include <QStorageInfo>
 #include <QBrush>
 
+#include <QDateTime>
 
 
-#include <libusb-1.0/libusb.h>
+
+//#include <libusb-1.0/libusb.h>
 
 #if (defined (_WIN32) || defined (_WIN64))
 #include <Windows.h>
@@ -5323,36 +5325,7 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
      this->ui->BACKUP_BackupPath_lineedit->setText(patch);
 }
 
-void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
-{
-    /*
-    Edit4->Text = "";
-    Edit5->Text = "";
 
-    TAdmAudit *AdmAud;
-    AdmAud = new TAdmAudit;
-    AdmAud->Version = 2.00;
-    AdmAud->CreateDt = Now();
-    AdmAud->Crc = AdmAud->Version + AdmAud->CreateDt;
-
-    AnsiString str = ComboBox9->Text;
-
-    unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
-
-    if( DirectoryExists(str) )
-    {
-       str = str + "auidit.adm";
-
-       if( AdmAud->Save(str) )MessageBox (NULL,"Файл аудита создан","Информация",MB_OK|MB_ICONINFORMATION);
-       else MessageBox (NULL,"Ошибка создания файла аудита!","Ошибка",MB_OK|MB_ICONERROR);
-    }
-    else MessageBox (NULL,"Диск не найден!","Ошибка",MB_OK|MB_ICONERROR);
-
-    SetErrorMode ( errmode );
-
-    delete AdmAud;
-    */
-}
 
 void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y,QString text)
 {
@@ -5600,4 +5573,174 @@ void MainWindowCFG::on_SQL_type_comboBox_currentTextChanged(const QString &arg1)
             this->ui->SQL_password_lineEdit->setText("");
         }
 
+}
+void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
+{
+    TAdmAudit *AdmAud;
+    AdmAud = new TAdmAudit();
+
+    AdmAud->setVersion(2.00);
+   QDateTime current = QDateTime::currentDateTime();
+   qDebug()<<current.toString();
+    AdmAud->setCreateDt(current);
+
+
+    QString filePath = this->ui->AdmAud_comboBox->currentText();
+    filePath += "auidit.adm";
+    qDebug()<<filePath;
+
+     AdmAud->Load(filePath);
+
+  //  AdmAud->setCRC(AdmAud->getVersion()+AdmAud->getCreateDt());
+
+    /*
+    Edit4->Text = "";
+    Edit5->Text = "";
+
+    TAdmAudit *AdmAud;
+    AdmAud = new TAdmAudit;
+    AdmAud->Version = 2.00;
+    AdmAud->CreateDt = Now();
+    AdmAud->Crc = AdmAud->Version + AdmAud->CreateDt;
+
+    AnsiString str = ComboBox9->Text;
+
+    unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
+
+    if( DirectoryExists(str) )
+    {
+       str = str + "auidit.adm";
+
+       if( AdmAud->Save(str) )MessageBox (NULL,"Файл аудита создан","Информация",MB_OK|MB_ICONINFORMATION);
+       else MessageBox (NULL,"Ошибка создания файла аудита!","Ошибка",MB_OK|MB_ICONERROR);
+    }
+    else MessageBox (NULL,"Диск не найден!","Ошибка",MB_OK|MB_ICONERROR);
+
+    SetErrorMode ( errmode );
+
+    delete AdmAud;
+    */
+
+    /*
+
+bool TAdmAudit::Save( AnsiString fn )
+{
+   int flag = 0;
+
+   int iFileHandle;
+
+   if( FileExists(fn) ) DeleteFile(fn);
+
+   try
+   {
+      iFileHandle = FileCreate(fn);
+
+      FileSeek(iFileHandle, 0, 2);
+      FileWrite(iFileHandle, this, sizeof(TAdmAudit) );
+
+      FileClose( iFileHandle );
+
+      if( FileExists(fn) ) flag = 1;
+      else flag = -5;
+   }
+   catch(...)
+   {
+      return(-5);
+   }
+
+   return flag;
+}
+
+     */
+
+//    extern PACKAGE int __fastcall FileWrite(int Handle, const void *Buffer, unsigned Count);
+
+
+}
+void MainWindowCFG::on_AdmAud_ChekIn_pushButton_clicked()
+{
+    TAdmAudit *AdmAud;
+    AdmAud = new TAdmAudit();
+    QString filePath = this->ui->AdmAud_comboBox->currentText();
+    filePath += "auidit.adm";
+    qDebug()<<filePath;
+
+  //   AdmAud->Load(filePath);
+
+
+
+
+    /*
+    void __fastcall TMainForm::BitBtn9Click(TObject *Sender)
+    {
+       Edit4->Text = "";
+       Edit5->Text = "";
+
+       TAdmAudit *AdmAud;
+       AdmAud = new TAdmAudit;
+
+       AnsiString str = ComboBox9->Text;
+
+       unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
+
+       if( DirectoryExists(str) )
+       {
+          str = str + "auidit.adm";
+
+          if( AdmAud->Load(str) )
+          {
+             double crc = AdmAud->Version + AdmAud->CreateDt;
+             if( crc == AdmAud->Crc )
+             {
+                AnsiString str1;
+                str1.sprintf("%4.2f", AdmAud->Version);
+                Edit4->Text = str1;
+                str1 = DateTimeToStr( AdmAud->CreateDt );
+                Edit5->Text = str1;
+             }
+             else MessageBox (NULL,"Îøèáêà êîíòðîëüíîé ñóììû!","Îøèáêà",MB_OK|MB_ICONERROR);
+          }
+          else MessageBox (NULL,"Îøèáêà ÷òåíèÿ ôàéëà àóäèòà!","Îøèáêà",MB_OK|MB_ICONERROR);
+       }
+       else MessageBox (NULL,"Äèñê íå íàéäåí!","Îøèáêà",MB_OK|MB_ICONERROR);
+
+       SetErrorMode ( errmode );
+
+       delete AdmAud;
+    }
+    */
+
+    /*
+    bool TAdmAudit::Load( AnsiString fn )
+    {
+       int iFileHandle;
+       int iFileLength;
+
+       if( !FileExists(fn) ) return (-1);
+
+       try
+       {
+          iFileHandle = FileOpen(fn, fmOpenRead);
+          if( iFileHandle < 0 ) return (-2);
+
+          int DataSize = sizeof(TAdmAudit);
+          iFileLength = FileSeek(iFileHandle, 0, 2);
+          if( iFileLength != DataSize )
+          {
+             FileClose( iFileHandle );
+             return (-3);
+          }
+
+          FileSeek(iFileHandle, 0, 0);
+          FileRead(iFileHandle, this, sizeof(TAdmAudit));
+          FileClose( iFileHandle );
+       }
+       catch(...)
+       {
+          return(-5);
+       }
+
+       return 1;
+    }
+    */
 }

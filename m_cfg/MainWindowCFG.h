@@ -13,6 +13,7 @@
 #include <QStandardItem>
 //#include <libudev.h>
 //#include <mntent.h>
+#include <tadmaudit.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -361,5 +362,6 @@ private slots:
    void on_pushButton_5_clicked();
    void on_uType_combobox_activated(const QString &arg1);
    void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);
+   void on_AdmAud_ChekIn_pushButton_clicked();
 };
 #endif // MAINWINDOWCFG_H
