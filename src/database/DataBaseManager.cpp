@@ -118,6 +118,14 @@ QSqlDatabase& DataBaseManager::m_db()
             port = settings.value( "Port", -1 ).toString();//(5432);
             settings.endGroup();
 
+            qDebug()<<"==SQL===";
+            qDebug()<<hostName;
+            qDebug()<<databaseName;
+            qDebug()<<userName;
+            qDebug()<<password;
+            qDebug()<<port;
+            qDebug()<<"========";
+
             setHostName(hostName);
             setDatabaseName(databaseName);
             setUserName(userName);
