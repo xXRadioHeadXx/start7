@@ -82,8 +82,8 @@ private:
     int asoosd_kk;//=0
     int asoosd_nn;//=0
     QString Description;//=
-    int lan;//=0
-    int lon;//=0
+    int lan = 0;//=0
+    int lon = 0;//=0
     int UdpUse;//=0
     QString UdpAdress;//=
     int UdpPort;//=0

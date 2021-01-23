@@ -760,7 +760,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    QSet<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes();
+    const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
     for(UnitNode * un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
@@ -1107,7 +1107,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    QSet<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes();
+    const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
     for(UnitNode * un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
@@ -1362,7 +1362,7 @@ void PortManager::manageOverallReadQueue()
 
                         if(BeatStatus::RequestStep1 == ar->getBeatStatus()) { // переводим в первое ожидание
 
-                            if(RequesterType::DKWaiter == ar->getRequesterType() && static_cast<quint8>(ar->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                            if(nullptr != ar->getUnReciver() && RequesterType::DKWaiter == ar->getRequesterType() && static_cast<quint8>(ar->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                                 for(UnitNode * un : as_const(((ProcessDKWaiter *)ar)->getLsTrackedUN())) {
                                     un->setDkInvolved(true);
                                     un->setDkStatus(DKCiclStatus::DKReady);
