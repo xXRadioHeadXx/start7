@@ -34,7 +34,8 @@ SOURCES += \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
-    sqlunit.cpp
+    sqlunit.cpp \
+    tadmaudit.cpp
 
 
 
@@ -48,7 +49,8 @@ HEADERS += \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
-    sqlunit.h
+    sqlunit.h \
+    tadmaudit.h
 
 
 
@@ -66,3 +68,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     my_cfg_resources.qrc
+
+#LIBS += -lusb-1.0

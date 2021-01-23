@@ -5,6 +5,13 @@
 #include "QFileDialog"
 #include <QErrorMessage>
 #include <QStorageInfo>
+#include <QBrush>
+
+#include <QDateTime>
+
+
+
+//#include <libusb-1.0/libusb.h>
 
 #if (defined (_WIN32) || defined (_WIN64))
 #include <Windows.h>
@@ -17,24 +24,15 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
 
     ui->setupUi(this);
+
+   ui->tableWidget->verticalHeader()->setVisible(false);
+//   ui->tableWidget_2->verticalHeader()->setVisible(false);
+
 this->ui->groupBox_4->setVisible(false);
 
     this->ui->SQL_server_lineEdit->setText("localhost");
 
-    for (auto volume : QStorageInfo::mountedVolumes()) {
-           qDebug() << "Name:" << volume.name();
-           qDebug() << "Display name:" << volume.displayName();
-           qDebug() << "Device:" << volume.device();
-           qDebug() << "Root path:" << volume.rootPath();
-           qDebug() << "File system type:" << volume.fileSystemType();
-           qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
-           qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
-           qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
-           qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
-           qDebug() << "Bytes available:" << volume.bytesAvailable();
-           qDebug() << "Bytes free:" << volume.bytesFree();
-           qDebug() << "Bytes total:" << volume.bytesTotal();
-       }
+
 
 
 #if (defined (_WIN32) || defined (_WIN64))
@@ -91,7 +89,25 @@ qDebug()<<"[3]";
     qDebug() << "fileSystemType:" << storage.fileSystemType();
     qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
     qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+    this->ui->AdmAud_comboBox->addItem(storage.rootPath());
     }
+
+  /*  for (auto volume : QStorageInfo::mountedVolumes()) {
+           qDebug() << "Name:" << volume.name();
+           qDebug() << "Display name:" << volume.displayName();
+           qDebug() << "Device:" << volume.device();
+           qDebug() << "Root path:" << volume.rootPath();
+           qDebug() << "File system type:" << volume.fileSystemType();
+           qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
+           qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
+           qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
+           qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
+           qDebug() << "Bytes available:" << volume.bytesAvailable();
+           qDebug() << "Bytes free:" << volume.bytesFree();
+           qDebug() << "Bytes total:" << volume.bytesTotal();
+
+       }*/
+
 #endif
  /*   */
 
@@ -206,7 +222,7 @@ AnsiString str;
    comports.append(port);
    for(int i(1), n(100); i < n; i++)
    {
-       qDebug()<<"i= "<<i;
+    //   qDebug()<<"i= "<<i;
        QString str(" COM%1");
        str = str.arg(i);
        this->ui->RifPort_comboBox->addItem(str,str);
@@ -389,8 +405,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->tableWidget->setColumnWidth(6,70);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
-    this->ui->tableWidget_2->setColumnWidth(0,100);
-    this->ui->tableWidget_2->setColumnWidth(1,100);
+    this->ui->tableWidget_2->setColumnWidth(0,130);
+    this->ui->tableWidget_2->setColumnWidth(1,130);
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
 
@@ -948,15 +964,19 @@ void MainWindowCFG::update_rif_comport_table()
 for(int i=1;i<comports.count();i++)
 {
         ComPort* port=comports.at(i);
-       qDebug()<<" "<<i <<" "<<port->get_RifPortSpeed()<<" "<<port->get_RifPortInterval();
+   //    qDebug()<<" "<<i <<" "<<port->get_RifPortSpeed()<<" "<<port->get_RifPortInterval();
 
       cnt=this->ui->tableWidget_2->rowCount();
-      qDebug()<<"/"<<cnt;
+   //   qDebug()<<"/"<<cnt;
       this->ui->tableWidget_2->insertRow(cnt);
 
       this->ui->tableWidget_2->setItem(cnt,0, new QTableWidgetItem(QString::number(port->get_RifPortSpeed())));
-      this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
+      if(port->get_RifPortSpeed()!=4800)
+      this->ui->tableWidget_2->item(cnt,0)->setBackground(Qt::green);
 
+      this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
+      if(port->get_RifPortInterval()!=50)
+      this->ui->tableWidget_2->item(cnt,1)->setBackground(Qt::green);
   }
 }
 
@@ -1188,15 +1208,16 @@ void MainWindowCFG::operator_delete()
 void MainWindowCFG::update_operators_table()
 {
       ui->tableWidget->setRowCount(0);
-    qDebug()<<"количество операторов "<<operators.count();
+ //   qDebug()<<"количество операторов "<<operators.count();
     int cnt;
     foreach(Operator* op, operators)
     {
 
-        qDebug()<<op->getN1()<<" "<<op->getN2()<<" "<<op->getFN();
+   //     qDebug()<<op->getN1()<<" "<<op->getN2()<<" "<<op->getFN();
 
         cnt=this->ui->tableWidget->rowCount();
         this->ui->tableWidget->insertRow(cnt);
+        this->ui->tableWidget->setItem(cnt,0, new QTableWidgetItem(QString::number(cnt+1)));
         this->ui->tableWidget->setItem(cnt,1, new QTableWidgetItem(op->getFN()));
         this->ui->tableWidget->setItem(cnt,2, new QTableWidgetItem(op->getN1()));
         this->ui->tableWidget->setItem(cnt,3, new QTableWidgetItem(op->getN2()));
@@ -3545,7 +3566,7 @@ void MainWindowCFG::default_RIF()
     qDebug()<<"comports.count "<<comports.count();
     for(int i(0), n(100); i < n; i++)
     {
-qDebug()<<"---"<<i;
+//qDebug()<<"---"<<i;
         if(i<comports.count())
         {
         comports.at(i)->set_RifPortSpeed(4800);
@@ -3717,7 +3738,7 @@ void MainWindowCFG::get_SQL(QString filename)
               settings.endGroup();
           }
           else
-                 this->ui->SQL_type_comboBox->setCurrentText("Выкл");
+                          this->ui->SQL_type_comboBox->setCurrentText("Выкл");
 
 }
 
@@ -3806,9 +3827,9 @@ int res=0;
 void MainWindowCFG::default_SQL()
 {
 this->ui->SQL_type_comboBox->setCurrentText("Выкл");
-    this->ui->SQL_server_lineEdit->setText("localhost");
+    this->ui->SQL_server_lineEdit->setText("");
     this->ui->SQL_port_doubleSpinBox->setValue(0);
-    this->ui->SQL_login_lineEdit->setText("root");
+    this->ui->SQL_login_lineEdit->setText("");
     this->ui->SQL_password_lineEdit->setText("");
     this->ui->SQL_database_lineEdit->setText("");
 
@@ -5159,7 +5180,21 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     db_mysql.setUserName(this->ui->SQL_login_lineEdit->text());
     db_mysql.setPassword(this->ui->SQL_password_lineEdit->text());
     if (!db_mysql.open()){
-        qDebug()<<db_mysql.lastError().text();
+        QString err =db_mysql.lastError().text();
+        QString drv;
+        drv.append(err);
+        drv.append("; ");
+        qDebug()<<err;
+
+  QStringListIterator it(db_mysql.drivers());
+       while(it.hasNext()) {
+               drv.append(it.next());
+               drv.append(";");
+           }
+        dialog.showMessage(drv);
+        dialog.exec();
+     //   return false;
+
     }
     else{
         qDebug()<<"PROFIT";
@@ -5182,6 +5217,7 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 //    db.setDatabaseName("QWERTY");
     db_psql.setUserName(this->ui->SQL_login_lineEdit->text());
     db_psql.setPassword(this->ui->SQL_password_lineEdit->text());
+    db_psql.setDatabaseName("postgres");
     if (!db_psql.open()){
         qDebug()<<db_psql.lastError().text();
     }
@@ -5289,36 +5325,7 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
      this->ui->BACKUP_BackupPath_lineedit->setText(patch);
 }
 
-void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
-{
-    /*
-    Edit4->Text = "";
-    Edit5->Text = "";
 
-    TAdmAudit *AdmAud;
-    AdmAud = new TAdmAudit;
-    AdmAud->Version = 2.00;
-    AdmAud->CreateDt = Now();
-    AdmAud->Crc = AdmAud->Version + AdmAud->CreateDt;
-
-    AnsiString str = ComboBox9->Text;
-
-    unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
-
-    if( DirectoryExists(str) )
-    {
-       str = str + "auidit.adm";
-
-       if( AdmAud->Save(str) )MessageBox (NULL,"Файл аудита создан","Информация",MB_OK|MB_ICONINFORMATION);
-       else MessageBox (NULL,"Ошибка создания файла аудита!","Ошибка",MB_OK|MB_ICONERROR);
-    }
-    else MessageBox (NULL,"Диск не найден!","Ошибка",MB_OK|MB_ICONERROR);
-
-    SetErrorMode ( errmode );
-
-    delete AdmAud;
-    */
-}
 
 void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y,QString text)
 {
@@ -5408,6 +5415,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
         this->ui->timeout_doubleSpinBox->setValue(75);
+        coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_RLM_KRL)
@@ -5418,6 +5426,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
         this->ui->timeout_doubleSpinBox->setValue(50);
+        coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_RLM_C)
@@ -5428,6 +5437,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
                 this->ui->timeout_doubleSpinBox->setValue(50);
+         coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_BOD_T4K_M)
@@ -5438,6 +5448,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
                 this->ui->timeout_doubleSpinBox->setValue(200);
+         coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_Y4_T4K_M)
@@ -5461,6 +5472,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
         this->ui->timeout_doubleSpinBox->setValue(300);
+        coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_Y4_SOTA)
@@ -5481,6 +5493,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
         this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
         this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
         this->ui->timeout_doubleSpinBox->setValue(50);
+         coordinate_menu(true,false,0,0,"");
     }
     else
     if(arg1==str_ONVIF)
@@ -5516,4 +5529,238 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     //РИФ-РЛМ-С
 
   //  РИФ-РЛМ/КРЛ/Трасса
+}
+
+void MainWindowCFG::on_SQL_type_comboBox_currentTextChanged(const QString &arg1)
+{
+    qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!";
+
+
+        if(arg1=="MySQL")
+        {
+
+            this->ui->SQL_server_lineEdit->setText("localhost");
+
+
+            this->ui->SQL_port_doubleSpinBox->setValue(3306);
+
+            this->ui->SQL_login_lineEdit->setText("root");
+
+            this->ui->SQL_password_lineEdit->setText("");
+
+
+        }
+        if(arg1=="PostgresSQL")
+        {
+            this->ui->SQL_server_lineEdit->setText("localhost");
+
+
+            this->ui->SQL_port_doubleSpinBox->setValue(5432);
+
+            this->ui->SQL_login_lineEdit->setText("postgres");
+
+            this->ui->SQL_password_lineEdit->setText("");
+        }
+        if(arg1=="Выкл")
+        {
+            this->ui->SQL_server_lineEdit->setText("");
+
+
+            this->ui->SQL_port_doubleSpinBox->setValue(0);
+
+            this->ui->SQL_login_lineEdit->setText("");
+
+            this->ui->SQL_password_lineEdit->setText("");
+        }
+
+}
+void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
+{
+    TAdmAudit *AdmAud;
+    AdmAud = new TAdmAudit();
+
+    AdmAud->setVersion(2.00);
+   QDateTime current = QDateTime::currentDateTime();
+   qDebug()<<current.toString();
+    AdmAud->setCreateDt(current);
+
+
+    QString filePath = this->ui->AdmAud_comboBox->currentText();
+    filePath += "auidit.adm";
+    qDebug()<<filePath;
+
+    QFile file(filePath);
+
+
+    if(file.open(QIODevice::WriteOnly))
+    {
+        qDebug()<<"[PROFIT]";
+        QDataStream stream(&file);
+        stream << AdmAud;
+        file.close();
+
+
+
+    }
+
+    else
+    {
+        qDebug()<<"[FALSE]";
+
+    }
+
+ //    AdmAud->Load(filePath);
+
+  //  AdmAud->setCRC(AdmAud->getVersion()+AdmAud->getCreateDt());
+
+    /*
+    Edit4->Text = "";
+    Edit5->Text = "";
+
+    TAdmAudit *AdmAud;
+    AdmAud = new TAdmAudit;
+    AdmAud->Version = 2.00;
+    AdmAud->CreateDt = Now();
+    AdmAud->Crc = AdmAud->Version + AdmAud->CreateDt;
+
+    AnsiString str = ComboBox9->Text;
+
+    unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
+
+    if( DirectoryExists(str) )
+    {
+       str = str + "auidit.adm";
+
+       if( AdmAud->Save(str) )MessageBox (NULL,"Файл аудита создан","Информация",MB_OK|MB_ICONINFORMATION);
+       else MessageBox (NULL,"Ошибка создания файла аудита!","Ошибка",MB_OK|MB_ICONERROR);
+    }
+    else MessageBox (NULL,"Диск не найден!","Ошибка",MB_OK|MB_ICONERROR);
+
+    SetErrorMode ( errmode );
+
+    delete AdmAud;
+    */
+
+    /*
+
+bool TAdmAudit::Save( AnsiString fn )
+{
+   int flag = 0;
+
+   int iFileHandle;
+
+   if( FileExists(fn) ) DeleteFile(fn);
+
+   try
+   {
+      iFileHandle = FileCreate(fn);
+
+      FileSeek(iFileHandle, 0, 2);
+      FileWrite(iFileHandle, this, sizeof(TAdmAudit) );
+
+      FileClose( iFileHandle );
+
+      if( FileExists(fn) ) flag = 1;
+      else flag = -5;
+   }
+   catch(...)
+   {
+      return(-5);
+   }
+
+   return flag;
+}
+
+     */
+
+//    extern PACKAGE int __fastcall FileWrite(int Handle, const void *Buffer, unsigned Count);
+
+
+}
+void MainWindowCFG::on_AdmAud_ChekIn_pushButton_clicked()
+{
+    TAdmAudit *AdmAud;
+    AdmAud = new TAdmAudit();
+    QString filePath = this->ui->AdmAud_comboBox->currentText();
+    filePath += "auidit.adm";
+    qDebug()<<filePath;
+
+  //   AdmAud->Load(filePath);
+
+
+
+
+    /*
+    void __fastcall TMainForm::BitBtn9Click(TObject *Sender)
+    {
+       Edit4->Text = "";
+       Edit5->Text = "";
+
+       TAdmAudit *AdmAud;
+       AdmAud = new TAdmAudit;
+
+       AnsiString str = ComboBox9->Text;
+
+       unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
+
+       if( DirectoryExists(str) )
+       {
+          str = str + "auidit.adm";
+
+          if( AdmAud->Load(str) )
+          {
+             double crc = AdmAud->Version + AdmAud->CreateDt;
+             if( crc == AdmAud->Crc )
+             {
+                AnsiString str1;
+                str1.sprintf("%4.2f", AdmAud->Version);
+                Edit4->Text = str1;
+                str1 = DateTimeToStr( AdmAud->CreateDt );
+                Edit5->Text = str1;
+             }
+             else MessageBox (NULL,"Îøèáêà êîíòðîëüíîé ñóììû!","Îøèáêà",MB_OK|MB_ICONERROR);
+          }
+          else MessageBox (NULL,"Îøèáêà ÷òåíèÿ ôàéëà àóäèòà!","Îøèáêà",MB_OK|MB_ICONERROR);
+       }
+       else MessageBox (NULL,"Äèñê íå íàéäåí!","Îøèáêà",MB_OK|MB_ICONERROR);
+
+       SetErrorMode ( errmode );
+
+       delete AdmAud;
+    }
+    */
+
+    /*
+    bool TAdmAudit::Load( AnsiString fn )
+    {
+       int iFileHandle;
+       int iFileLength;
+
+       if( !FileExists(fn) ) return (-1);
+
+       try
+       {
+          iFileHandle = FileOpen(fn, fmOpenRead);
+          if( iFileHandle < 0 ) return (-2);
+
+          int DataSize = sizeof(TAdmAudit);
+          iFileLength = FileSeek(iFileHandle, 0, 2);
+          if( iFileLength != DataSize )
+          {
+             FileClose( iFileHandle );
+             return (-3);
+          }
+
+          FileSeek(iFileHandle, 0, 0);
+          FileRead(iFileHandle, this, sizeof(TAdmAudit));
+          FileClose( iFileHandle );
+       }
+       catch(...)
+       {
+          return(-5);
+       }
+
+       return 1;
+    }
+    */
 }
