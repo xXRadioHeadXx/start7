@@ -4,6 +4,8 @@
 #include <ComboBoxDelegate.h>
 #include <TablePrint.h>
 #include <global.hpp>
+#include <UnitNodeFactory.h>
+#include <SettingUtils.h>
 
 GraphTerminal * MainWindowDB::graphTerminal = nullptr;
 
@@ -56,6 +58,8 @@ MainWindowDB::MainWindowDB(QWidget *parent)
     ui->comboBox_8->setVisible(false);
     ui->comboBox_9->setVisible(false);
     ui->comboBox_4->setVisible(false);
+
+    SettingUtils::loadTreeUnitNodes(UnitNodeFactory::make(TypeUnitNode::SYSTEM));
 
     m_dbManager = new DataBaseManager(this);
 

@@ -367,57 +367,61 @@ void MainWindowServer::on_pushButtonAlarmReset_clicked()
 void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 {
     QModelIndex index = ui->treeView->indexAt(pos);
-    if (index.isValid()) {
-        UnitNode * sel = this->modelTreeUN->clickedUN(index);
-        this->selUN = sel;
-        selIndex = index;
+    if (!index.isValid()) {
+        this->selUN = nullptr;
+        selIndex = QModelIndex();
+        return;
+    }
+    UnitNode * sel = this->modelTreeUN->clickedUN(index);
+    if(nullptr == sel)
+        return;
 
-        if(nullptr == selUN)
-            return;
+    this->selUN = sel;
+    selIndex = index;
 
-        /* Create an object context menu */
-        QMenu * menu = new QMenu(ui->treeView);
-        /* Set the actions to the menu */
+    /* Create an object context menu */
+    QMenu * menu = new QMenu(ui->treeView);
+    /* Set the actions to the menu */
 
 //        menu->addAction(ui->actionTest);
 
-        if(sel->treeChildCount()) {
-            if(!ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
-                menu->addAction(ui->actionExpandUNTree);
-            if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
-                menu->addAction(ui->actionCollapseUNTree);
-        }
-        if((0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType()) || TypeUnitNode::RLM_C == selUN->getType())
-            menu->addAction(ui->actionControl);
-        menu->addSeparator();
-        if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && (1 == sel->isOff())) {
-            menu->addAction(ui->actionUNOn);
-        } else if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && !(1 == sel->isOff())) {
-            menu->addAction(ui->actionUNOff);
-        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOn())) {
-            menu->addAction(ui->actionUNOff);
-        } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOff())) {
-            menu->addAction(ui->actionUNOn);
-        } else if(TypeUnitNode::RLM_C == sel->getType() && (1 == sel->isOn())) {
-            menu->addAction(ui->actionUNOff);
-        } else if(TypeUnitNode::RLM_C == sel->getType() && (1 == sel->isOff())) {
-            menu->addAction(ui->actionUNOn);
-        }
+    if(sel->treeChildCount()) {
+        if(!ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
+            menu->addAction(ui->actionExpandUNTree);
+        if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
+            menu->addAction(ui->actionCollapseUNTree);
+    }
+    if((0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == selUN->getType()) || TypeUnitNode::RLM_C == selUN->getType())
+        menu->addAction(ui->actionControl);
+    menu->addSeparator();
+    if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && (1 == sel->isOff())) {
+        menu->addAction(ui->actionUNOn);
+    } else if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && !(1 == sel->isOff())) {
+        menu->addAction(ui->actionUNOff);
+    } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOn())) {
+        menu->addAction(ui->actionUNOff);
+    } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOff())) {
+        menu->addAction(ui->actionUNOn);
+    } else if(TypeUnitNode::RLM_C == sel->getType() && (1 == sel->isOn())) {
+        menu->addAction(ui->actionUNOff);
+    } else if(TypeUnitNode::RLM_C == sel->getType() && (1 == sel->isOff())) {
+        menu->addAction(ui->actionUNOn);
+    }
 //        menu->addAction(ui->actionOnOff);
-        if(0 != sel->getBazalt() && (1 == sel->isAlarm())) {
-            menu->addAction(ui->actionClose);
-        } else if(0 != sel->getBazalt() && (1 == sel->isNorm())) {
-            menu->addAction(ui->actionOpen);
-        }
-        menu->addSeparator();
-        if(0 == sel->getBazalt() && 0 != sel->getDK() && (TypeUnitNode::SD_BL_IP == sel->getType() || TypeUnitNode::IU_BL_IP == sel->getType() || TypeUnitNode::RLM_C == sel->getType()))
-            menu->addAction(ui->actionDK);
-        menu->addSeparator();
+    if(0 != sel->getBazalt() && (1 == sel->isAlarm())) {
+        menu->addAction(ui->actionClose);
+    } else if(0 != sel->getBazalt() && (1 == sel->isNorm())) {
+        menu->addAction(ui->actionOpen);
+    }
+    menu->addSeparator();
+    if(0 == sel->getBazalt() && 0 != sel->getDK() && (TypeUnitNode::SD_BL_IP == sel->getType() || TypeUnitNode::IU_BL_IP == sel->getType() || TypeUnitNode::RLM_C == sel->getType()))
+        menu->addAction(ui->actionDK);
+    menu->addSeparator();
 //        menu->addAction(ui->actionRemoteControlOn);
-        menu->addSeparator();
+    menu->addSeparator();
 //        if(TypeUnitNode::IU_BL_IP == sel->getType())
 //            menu->addAction(ui->actionAllOff);
-        menu->addSeparator();
+    menu->addSeparator();
 //        menu->addAction(ui->actionRemoteControlOff);
 //        menu->addAction(ui->actionGuardStamp);
 //        menu->addAction(ui->actionConnectBlock_pdi);
@@ -427,20 +431,16 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 //        submenu->addAction(ui->actionAlarmUN);
 //        submenu->addAction(ui->actionNoConnectUN);
 //        menu->addMenu(submenu);
-        if(!sel->getName().isEmpty() && !(TypeUnitNode::SYSTEM == sel->getType() || TypeUnitNode::GROUP == sel->getType())) {
-            menu->addAction(ui->actionUNSqlSelect);
-            setUnSqlSelect(QString("SELECT id, cdate, mdate, objectid, object, comment, reason, measures, operator, operatorid, status, direction, type, flag, d1, d2, d3, d4, objecttype FROM public.jour where object = '%1' ORDER BY id;").arg(sel->getName()));
-        }
+    if(!sel->getName().isEmpty() && !(TypeUnitNode::SYSTEM == sel->getType() || TypeUnitNode::GROUP == sel->getType())) {
+        menu->addAction(ui->actionUNSqlSelect);
+        setUnSqlSelect(QString("SELECT id, cdate, mdate, objectid, object, comment, reason, measures, operator, operatorid, status, direction, type, flag, d1, d2, d3, d4, objecttype FROM public.jour where object = '%1' ORDER BY id;").arg(sel->getName()));
+    }
 
-        /* Call the context menu */
+    /* Call the context menu */
 //        menu->popup(ui->treeView->viewport()->mapToGlobal(pos));
 
 
-        menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
-    } else {
-        this->selUN = nullptr;
-        selIndex = QModelIndex();
-    }
+    menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 }
 
 void MainWindowServer::on_actionDK_triggered()

@@ -17,6 +17,30 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
     connect(m_tcpServer, SIGNAL(dataReceived(DataQueueItem)), this, SLOT(pushOverallReadQueue(DataQueueItem)));
     connect(m_tcpServer, SIGNAL(dataReceived(DataQueueItem)), this, SLOT(manageOverallReadQueue()));
 
+    try {
+        QSettings settings("rifx.ini", QSettings::IniFormat);
+    #if (defined (_WIN32) || defined (_WIN64))
+        settings.setIniCodec( "Windows-1251" );
+    #else
+        settings.setIniCodec( "UTF-8" );
+    #endif
+
+        settings.beginGroup("INTEGRATION");
+        QString nHost = settings.value( "Host", "127.0.0.1" ).toString();
+        settings.endGroup();
+
+        m_tcpServer->writeData(nHost, "Hello!");
+
+        QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
+        for(QTcpSocket * socket : as_const(buffers.keys())) {
+            abonents.insert(socket, buffers.value(socket));
+            connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
+        }
+
+    }  catch (...) {
+      qDebug() << "GraphTerminal::GraphTerminal -- some exception";
+    }
+
 }
 
 QList<DataQueueItem> GraphTerminal::getOverallReadQueue() const
@@ -986,24 +1010,19 @@ void GraphTerminal::sendAbonentEventsAndStates(UnitNode *un, JourEntity jour){
 
 void GraphTerminal::sendAbonent(QByteArray ba) {
 //    qDebug() << "GraphTerminal::sendAbonent()" << ba;
-    if(ba.isEmpty())
+    if(ba.isEmpty() || abonents.keys().isEmpty())
         return;
-    {
-//        DataQueueItem itm;
-//        itm.setData(ba);
 
-        for(const auto& socket : as_const(abonents.keys())) {
-//            itm.setAddress(socket->peerAddress());
-            QByteArray buf;
-            QTextStream ts(&buf);
-            auto cw51 = QTextCodec::codecForName("windows-1251");
+    for(const auto& socket : as_const(abonents.keys())) {
+        QByteArray buf;
+        QTextStream ts(&buf);
+        auto cw51 = QTextCodec::codecForName("windows-1251");
 
-            ts.setCodec(cw51);
-            ts << ba;
-            ts.flush();
+        ts.setCodec(cw51);
+        ts << ba;
+        ts.flush();
 
-            m_tcpServer->writeData(socket, buf);
-        }
+        m_tcpServer->writeData(socket, buf);
     }
 }
 
