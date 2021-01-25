@@ -2476,7 +2476,7 @@
         <attribute name="title">
          <string>ССОИ</string>
         </attribute>
-        <widget class="SSOIwidget" name="widget_2" native="true">
+        <widget class="SSOIwidget" name="SSOIwgt" native="true">
          <property name="geometry">
           <rect>
            <x>10</x>

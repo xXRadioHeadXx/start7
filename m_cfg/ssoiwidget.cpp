@@ -1,5 +1,6 @@
 #include "ssoiwidget.h"
 #include "ui_ssoiwidget.h"
+#include <qDebug>;
 
 SSOIwidget::SSOIwidget(QWidget *parent) :
     QWidget(parent),
@@ -42,6 +43,159 @@ SSOIwidget::~SSOIwidget()
 }
 
 void SSOIwidget::default_options()
+{
+
+}
+
+void SSOIwidget::set_Version(int val)
+{
+    qDebug()<<"Version "<<val;
+    QString str=l_Version.value(val);
+    qDebug()<<str;
+this->ui->Version->setCurrentText(l_Version.value(val));
+}
+
+int SSOIwidget::get_Version()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_PortNum1(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_PortNum1()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_Interval1(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_Interval1()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_Interval_1(int val)
+{
+
+}
+
+void SSOIwidget::set_SsoiM_MaxErrCnt1(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_MaxErrCnt1()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_PortNum2(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_PortNum2()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_Interval2(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_Interval2()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_Interval_2(int val)
+{
+
+}
+
+void SSOIwidget::set_SsoiM_MaxErrCnt2(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_MaxErrCnt2()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_PortNum3(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_PortNum3()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_Interval3(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_Interval3()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_Interval_3(int val)
+{
+
+}
+
+void SSOIwidget::set_SsoiM_MaxErrCnt3(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_MaxErrCnt3()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_PortNum4(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_PortNum4()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_Interval4(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_Interval4()
+{
+
+}
+
+void SSOIwidget::set_SsoiM_Interval_4(int val)
+{
+
+}
+
+void SSOIwidget::set_SsoiM_MaxErrCnt4(int val)
+{
+
+}
+
+int SSOIwidget::get_SsoiM_MaxErrCnt4()
 {
 
 }

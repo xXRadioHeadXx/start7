@@ -33,8 +33,6 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:
 
-    SSOIwidget SSOIwgt;
-
     Ui::MainWindowCFG *ui;
 
     QSqlDatabase db_mysql;

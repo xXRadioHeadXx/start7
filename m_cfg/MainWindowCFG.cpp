@@ -3536,6 +3536,31 @@ void MainWindowCFG::get_SSOI(QString filename)
 
     settings.beginGroup("SSOI");
 
+    this->ui->SSOIwgt->set_Version(settings.value("Version",-1).toInt());
+
+    /*
+    Version=2
+    SsoiM_PortNum1=1
+    SsoiM_Interval1=1500
+    SsoiM_Interval_1=100
+    SsoiM_MaxErrCnt1=2
+    SsoiM_PortNum2=2
+    SsoiM_Interval2=1500
+    SsoiM_Interval_2=100
+    SsoiM_MaxErrCnt2=2
+    SsoiM_PortNum3=3
+    SsoiM_Interval3=1500
+    SsoiM_Interval_3=100
+    SsoiM_MaxErrCnt3=2
+    SsoiM_PortNum4=4
+    SsoiM_Interval4=1500
+    SsoiM_Interval_4=100
+    SsoiM_MaxErrCnt4=2
+    SsoiAutoDkUse=0
+    SsoiMOprosVariant=0
+    SsoiFixNewWarning=0
+    SsoiM_PortSpeed=4800*/
+
   //  int RifPortInterval = settings.value(str_RifPortInterval,-1).toInt();
 
 
