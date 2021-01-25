@@ -14,7 +14,7 @@
 //#include <libudev.h>
 //#include <mntent.h>
 #include "admkeygenerator.h"
-#include "ssoi_manager.h"
+#include "ssoiwidget.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -33,6 +33,7 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:
 
+    SSOIwidget SSOIwgt;
 
     Ui::MainWindowCFG *ui;
 
@@ -46,7 +47,7 @@ private:
     QList<ComPort*> comports;
 
     AdmKeyGenerator AdmKey;
-    SSOI_manager SSOI_mng;
+
 
     QList<Operator*> operators;
     int opt_tbl_request;

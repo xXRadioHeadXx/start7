@@ -36,7 +36,9 @@ SOURCES += \
     myscene.cpp \
     operator_form.cpp \
     sqlunit.cpp \
-    ssoi_manager.cpp
+    ssoi_manager.cpp \
+    ssoiportwidget.cpp \
+    ssoiwidget.cpp
 
 
 
@@ -52,7 +54,9 @@ HEADERS += \
     myscene.h \
     operator_form.h \
     sqlunit.h \
-    ssoi_manager.h
+    ssoi_manager.h \
+    ssoiportwidget.h \
+    ssoiwidget.h
 
 
 
@@ -61,7 +65,9 @@ FORMS += \
     add_sql_user_form.ui \
     dbform.ui \
     map.ui \
-    operator_form.ui
+    operator_form.ui \
+    ssoiportwidget.ui \
+    ssoiwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

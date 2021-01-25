@@ -25,7 +25,11 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
 
+
+
     ui->setupUi(this);
+
+
 //default_options();
    ui->tableWidget->verticalHeader()->setVisible(false);
 //   ui->tableWidget_2->verticalHeader()->setVisible(false);
@@ -3530,34 +3534,11 @@ void MainWindowCFG::get_SSOI(QString filename)
       settings.setIniCodec( "UTF-8" );
   #endif
 
-    settings.beginGroup("RIF");
+    settings.beginGroup("SSOI");
 
-    for(int i=0; i<comports.count();i++)
-    {
-        ComPort *port = comports.at(i);
-        int speed = port->get_RifPortSpeed();
-        int interval = port->get_RifPortInterval();
-
-        if(speed!=4800)
-        {
-            QString str="RifPortSpeed%1";
-            str=str.arg(i);
-        settings.setValue(str,speed);
-        }
-
-        if(interval!=50)
-        {
-            QString str="RifPortInterval%1";
-            str=str.arg(i);
-        settings.setValue(str,interval);
-        }
+  //  int RifPortInterval = settings.value(str_RifPortInterval,-1).toInt();
 
 
-
-    }
-
-    settings.setValue("AutoDK", this->ui->RIF_AutoDK_comboBox->currentIndex());
-    settings.setValue("TochkaDirectionInterval", this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->value());
 
     settings.endGroup();
 }

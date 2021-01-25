@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>8</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -1717,7 +1717,7 @@
                </rect>
               </property>
               <property name="currentIndex">
-               <number>0</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="UDP">
                <widget class="QLabel" name="label_80">
@@ -2476,6 +2476,16 @@
         <attribute name="title">
          <string>ССОИ</string>
         </attribute>
+        <widget class="SSOIwidget" name="widget_2" native="true">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>571</width>
+           <height>461</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="Subsystem_TV_RASTR_M">
         <attribute name="title">
@@ -3218,6 +3228,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SSOIwidget</class>
+   <extends>QWidget</extends>
+   <header location="global">ssoiwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="my_cfg_resources.qrc"/>
  </resources>
