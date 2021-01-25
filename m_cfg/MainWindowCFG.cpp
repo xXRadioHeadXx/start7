@@ -24,7 +24,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
 
     ui->setupUi(this);
-
+//default_options();
    ui->tableWidget->verticalHeader()->setVisible(false);
 //   ui->tableWidget_2->verticalHeader()->setVisible(false);
 
@@ -35,80 +35,7 @@ this->ui->groupBox_4->setVisible(false);
 
 
 
-#if (defined (_WIN32) || defined (_WIN64))
 
-qDebug()<<"[0]";
-    LPWSTR lpbuffer;
-
-    lpbuffer = new TCHAR[255];
-
-qDebug()<<"[1]";
-    for( int i = 0; i < 255; i++ ) lpbuffer[i] = 0;
-    char dr[10];
-   for( int i = 0; i < 10; i++ ) dr[i] = 0;
-qDebug()<<"[2]";
-    GetLogicalDriveStringsW(255,lpbuffer);
-
-qDebug()<<"[3]";
-
-    for( int i = 0; i < 255; i++ )
-    {
-     //   qDebug()<<"[4]";
-       if( lpbuffer[i] == ':' )
-       {
-       dr[0] = lpbuffer[i-1];
-       dr[1] = lpbuffer[i];
-       dr[2] = lpbuffer[i+1];
-  //     dr[3] = lpbuffer[i+2];
-
-
-       QString str = dr;
-       LPCWSTR path = (const wchar_t*) str.utf16();
-
-       qDebug()<<"str: "<<str;
-
-//GetDriveTypeW()
-    if( GetDriveTypeW(path) == DRIVE_REMOVABLE )
-    {
-       qDebug()<<"[PROFIT] str: "<<str;
-    this->ui->AdmAud_comboBox->addItem(str);
-    }
-       }
-    }
-
-
-#else
-    qDebug()<<"[LINUX]";
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-
-    qDebug() << storage.rootPath();
-    if (storage.isReadOnly())
-    qDebug() << "isReadOnly:" << storage.isReadOnly();
-
-    qDebug() << "name:" << storage.name();
-    qDebug() << "fileSystemType:" << storage.fileSystemType();
-    qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-    qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-    this->ui->AdmAud_comboBox->addItem(storage.rootPath());
-    }
-
-  /*  for (auto volume : QStorageInfo::mountedVolumes()) {
-           qDebug() << "Name:" << volume.name();
-           qDebug() << "Display name:" << volume.displayName();
-           qDebug() << "Device:" << volume.device();
-           qDebug() << "Root path:" << volume.rootPath();
-           qDebug() << "File system type:" << volume.fileSystemType();
-           qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
-           qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
-           qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
-           qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
-           qDebug() << "Bytes available:" << volume.bytesAvailable();
-           qDebug() << "Bytes free:" << volume.bytesFree();
-           qDebug() << "Bytes total:" << volume.bytesTotal();
-
-       }*/
-
-#endif
  /*   */
 
  /*
@@ -1113,15 +1040,9 @@ void MainWindowCFG::set_option_GROUP(UnitNode */*unit*/)
 
 void MainWindowCFG::on_actionCreate_triggered()
 {
-    qDebug()<<"[Create]";
-    this->modelTreeUN->makeEmptyTree();
+    default_options();
 
-    default_PARAMS();
-    default_OPERATORS();
-    default_RIF();
-    default_INTEGRATION();
-    default_SQL();
-    default_BACKUP();
+
 }
 
 void MainWindowCFG::on_actionOpen_triggered()
@@ -3466,6 +3387,20 @@ void MainWindowCFG::default_PARAMS()
     this->ui->PARAMS_AutoStart_comboBox->setCurrentText(map_PARAMS_AutoStart.value(0));
 }
 
+void MainWindowCFG::default_options()
+{
+    qDebug()<<"[Create]";
+    this->modelTreeUN->makeEmptyTree();
+
+    default_PARAMS();
+    default_OPERATORS();
+    default_RIF();
+    default_INTEGRATION();
+    default_SQL();
+    default_BACKUP();
+    default_AdmAud();
+}
+
 void MainWindowCFG::get_RIF(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
@@ -4108,6 +4043,89 @@ void MainWindowCFG::set_ASOOSD(QString /*filename*/)
 void MainWindowCFG::default_ASOOSD()
 {
 
+}
+
+void MainWindowCFG::default_AdmAud()
+{
+
+    this->ui->AdmAud_comboBox->clear();
+    this->ui->AdmAud_version_lineEdit->setText("");
+    this->ui->AdmAud_DateTime_lineEdit->setText("");
+
+#if (defined (_WIN32) || defined (_WIN64))
+
+qDebug()<<"[0]";
+    LPWSTR lpbuffer;
+
+    lpbuffer = new TCHAR[255];
+
+qDebug()<<"[1]";
+    for( int i = 0; i < 255; i++ ) lpbuffer[i] = 0;
+    char dr[10];
+   for( int i = 0; i < 10; i++ ) dr[i] = 0;
+qDebug()<<"[2]";
+    GetLogicalDriveStringsW(255,lpbuffer);
+
+qDebug()<<"[3]";
+
+    for( int i = 0; i < 255; i++ )
+    {
+     //   qDebug()<<"[4]";
+       if( lpbuffer[i] == ':' )
+       {
+       dr[0] = lpbuffer[i-1];
+       dr[1] = lpbuffer[i];
+       dr[2] = lpbuffer[i+1];
+  //     dr[3] = lpbuffer[i+2];
+
+
+       QString str = dr;
+       LPCWSTR path = (const wchar_t*) str.utf16();
+
+       qDebug()<<"str: "<<str;
+
+//GetDriveTypeW()
+    if( GetDriveTypeW(path) == DRIVE_REMOVABLE )
+    {
+       qDebug()<<"[PROFIT] str: "<<str;
+    this->ui->AdmAud_comboBox->addItem(str);
+    }
+       }
+    }
+
+
+#else
+    qDebug()<<"[LINUX]";
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+
+    qDebug() << storage.rootPath();
+    if (storage.isReadOnly())
+    qDebug() << "isReadOnly:" << storage.isReadOnly();
+
+    qDebug() << "name:" << storage.name();
+    qDebug() << "fileSystemType:" << storage.fileSystemType();
+    qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+    qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+    this->ui->AdmAud_comboBox->addItem(storage.rootPath());
+    }
+
+  /*  for (auto volume : QStorageInfo::mountedVolumes()) {
+           qDebug() << "Name:" << volume.name();
+           qDebug() << "Display name:" << volume.displayName();
+           qDebug() << "Device:" << volume.device();
+           qDebug() << "Root path:" << volume.rootPath();
+           qDebug() << "File system type:" << volume.fileSystemType();
+           qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
+           qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
+           qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
+           qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
+           qDebug() << "Bytes available:" << volume.bytesAvailable();
+           qDebug() << "Bytes free:" << volume.bytesFree();
+           qDebug() << "Bytes total:" << volume.bytesTotal();
+
+       }*/
+
+#endif
 }
 
 
@@ -5576,191 +5594,39 @@ void MainWindowCFG::on_SQL_type_comboBox_currentTextChanged(const QString &arg1)
 }
 void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
 {
-    TAdmAudit *AdmAud;
-    AdmAud = new TAdmAudit();
+    this->ui->AdmAud_version_lineEdit->setText("");
+    this->ui->AdmAud_DateTime_lineEdit->setText("");
 
-    AdmAud->setVersion(2.00);
-   QDateTime current = QDateTime::currentDateTime();
-   qDebug()<<current.toString();
-    AdmAud->setCreateDt(current);
+    QString filepath=this->ui->AdmAud_comboBox->currentText();
 
-
-    QString filePath = this->ui->AdmAud_comboBox->currentText();
-    filePath += "auidit.adm";
-    qDebug()<<filePath;
-
-    QFile file(filePath);
-
-
-    if(file.open(QIODevice::WriteOnly))
-    {
-        qDebug()<<"[PROFIT]";
-        QDataStream stream(&file);
-        stream << AdmAud;
-        file.close();
-
-
-
-    }
-
-    else
-    {
-        qDebug()<<"[FALSE]";
-
-    }
-
- //    AdmAud->Load(filePath);
-
-  //  AdmAud->setCRC(AdmAud->getVersion()+AdmAud->getCreateDt());
-
-    /*
-    Edit4->Text = "";
-    Edit5->Text = "";
-
-    TAdmAudit *AdmAud;
-    AdmAud = new TAdmAudit;
-    AdmAud->Version = 2.00;
-    AdmAud->CreateDt = Now();
-    AdmAud->Crc = AdmAud->Version + AdmAud->CreateDt;
-
-    AnsiString str = ComboBox9->Text;
-
-    unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
-
-    if( DirectoryExists(str) )
-    {
-       str = str + "auidit.adm";
-
-       if( AdmAud->Save(str) )MessageBox (NULL,"Файл аудита создан","Информация",MB_OK|MB_ICONINFORMATION);
-       else MessageBox (NULL,"Ошибка создания файла аудита!","Ошибка",MB_OK|MB_ICONERROR);
-    }
-    else MessageBox (NULL,"Диск не найден!","Ошибка",MB_OK|MB_ICONERROR);
-
-    SetErrorMode ( errmode );
-
-    delete AdmAud;
-    */
-
-    /*
-
-bool TAdmAudit::Save( AnsiString fn )
-{
-   int flag = 0;
-
-   int iFileHandle;
-
-   if( FileExists(fn) ) DeleteFile(fn);
-
-   try
-   {
-      iFileHandle = FileCreate(fn);
-
-      FileSeek(iFileHandle, 0, 2);
-      FileWrite(iFileHandle, this, sizeof(TAdmAudit) );
-
-      FileClose( iFileHandle );
-
-      if( FileExists(fn) ) flag = 1;
-      else flag = -5;
-   }
-   catch(...)
-   {
-      return(-5);
-   }
-
-   return flag;
-}
-
-     */
-
-//    extern PACKAGE int __fastcall FileWrite(int Handle, const void *Buffer, unsigned Count);
+     filepath.append("auidit.adm");
+qDebug()<<filepath;
+    AdmKey.create_key(filepath);
 
 
 }
 void MainWindowCFG::on_AdmAud_ChekIn_pushButton_clicked()
 {
-    TAdmAudit *AdmAud;
-    AdmAud = new TAdmAudit();
-    QString filePath = this->ui->AdmAud_comboBox->currentText();
-    filePath += "auidit.adm";
-    qDebug()<<filePath;
+    QString filepath=this->ui->AdmAud_comboBox->currentText();
 
-  //   AdmAud->Load(filePath);
+     filepath.append("auidit.adm");
+qDebug()<<filepath;
+ AdmKey.check_key(filepath);
 
-
+this->ui->AdmAud_version_lineEdit->setText(QString::number(AdmKey.getVersion()));
 
 
-    /*
-    void __fastcall TMainForm::BitBtn9Click(TObject *Sender)
-    {
-       Edit4->Text = "";
-       Edit5->Text = "";
 
-       TAdmAudit *AdmAud;
-       AdmAud = new TAdmAudit;
 
-       AnsiString str = ComboBox9->Text;
 
-       unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
 
-       if( DirectoryExists(str) )
-       {
-          str = str + "auidit.adm";
 
-          if( AdmAud->Load(str) )
-          {
-             double crc = AdmAud->Version + AdmAud->CreateDt;
-             if( crc == AdmAud->Crc )
-             {
-                AnsiString str1;
-                str1.sprintf("%4.2f", AdmAud->Version);
-                Edit4->Text = str1;
-                str1 = DateTimeToStr( AdmAud->CreateDt );
-                Edit5->Text = str1;
-             }
-             else MessageBox (NULL,"Îøèáêà êîíòðîëüíîé ñóììû!","Îøèáêà",MB_OK|MB_ICONERROR);
-          }
-          else MessageBox (NULL,"Îøèáêà ÷òåíèÿ ôàéëà àóäèòà!","Îøèáêà",MB_OK|MB_ICONERROR);
-       }
-       else MessageBox (NULL,"Äèñê íå íàéäåí!","Îøèáêà",MB_OK|MB_ICONERROR);
 
-       SetErrorMode ( errmode );
 
-       delete AdmAud;
-    }
-    */
 
-    /*
-    bool TAdmAudit::Load( AnsiString fn )
-    {
-       int iFileHandle;
-       int iFileLength;
+// ui->DateTime->setText(QDateTime::toString(string, format).toString());
 
-       if( !FileExists(fn) ) return (-1);
 
-       try
-       {
-          iFileHandle = FileOpen(fn, fmOpenRead);
-          if( iFileHandle < 0 ) return (-2);
-
-          int DataSize = sizeof(TAdmAudit);
-          iFileLength = FileSeek(iFileHandle, 0, 2);
-          if( iFileLength != DataSize )
-          {
-             FileClose( iFileHandle );
-             return (-3);
-          }
-
-          FileSeek(iFileHandle, 0, 0);
-          FileRead(iFileHandle, this, sizeof(TAdmAudit));
-          FileClose( iFileHandle );
-       }
-       catch(...)
-       {
-          return(-5);
-       }
-
-       return 1;
-    }
-    */
+//this->ui->AdmAud_DateTime_lineEdit->setText(AdmKey.getDatetime().toString());
+this->ui->AdmAud_DateTime_lineEdit->setText(AdmKey.getDatetime().toString("dd.MM.yyyy hh:mm:ss"));
 }

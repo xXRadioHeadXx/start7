@@ -26,6 +26,7 @@ include(../src/global.pri)
 SOURCES += \
     MainWindowCFG.cpp \
     add_sql_user_form.cpp \
+    admkeygenerator.cpp \
     backgroundimage.cpp \
     comport.cpp \
     dbform.cpp \
@@ -34,14 +35,14 @@ SOURCES += \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
-    sqlunit.cpp \
-    tadmaudit.cpp
+    sqlunit.cpp
 
 
 
 HEADERS += \
     MainWindowCFG.h \
     add_sql_user_form.h \
+    admkeygenerator.h \
     backgroundimage.h \
     comport.h \
     dbform.h \
@@ -49,8 +50,7 @@ HEADERS += \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
-    sqlunit.h \
-    tadmaudit.h
+    sqlunit.h
 
 
 

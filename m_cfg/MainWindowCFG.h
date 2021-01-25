@@ -13,7 +13,7 @@
 #include <QStandardItem>
 //#include <libudev.h>
 //#include <mntent.h>
-#include <tadmaudit.h>
+#include "admkeygenerator.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -43,7 +43,7 @@ private:
     QErrorMessage dialog;
 
     QList<ComPort*> comports;
-
+    AdmKeyGenerator AdmKey;
 
     QList<Operator*> operators;
     int opt_tbl_request;
@@ -139,6 +139,8 @@ private:
     QMap <int,QString> map_PARAMS_SoundType;
     QMap <int,QString> map_PARAMS_AutoStart;
 
+    void default_options();
+
     void get_RIF(QString filename);
     void set_RIF(QString filename);
     void default_RIF();
@@ -198,7 +200,7 @@ private:
     void set_ASOOSD(QString filename);
     void default_ASOOSD();
 
-
+    void default_AdmAud();
 
 
 
