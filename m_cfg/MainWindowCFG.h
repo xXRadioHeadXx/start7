@@ -365,5 +365,6 @@ private slots:
    void on_uType_combobox_activated(const QString &arg1);
    void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);
    void on_AdmAud_ChekIn_pushButton_clicked();
+   void on_INTEGRATION_DevLine_pushButton_clicked();
 };
 #endif // MAINWINDOWCFG_H

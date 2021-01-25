@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>9</number>
+        <number>8</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -296,7 +296,7 @@
               <rect>
                <x>10</x>
                <y>50</y>
-               <width>561</width>
+               <width>531</width>
                <height>20</height>
               </rect>
              </property>
@@ -2959,6 +2959,55 @@
           </property>
           <property name="decimals">
            <number>0</number>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_13">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>140</y>
+           <width>561</width>
+           <height>71</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Интеграция с DevLine</string>
+         </property>
+         <widget class="QLineEdit" name="INTEGRATION_DevLine_filepath_lineEdit">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>41</y>
+            <width>461</width>
+            <height>23</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="INTEGRATION_DevLine_pushButton">
+          <property name="geometry">
+           <rect>
+            <x>480</x>
+            <y>40</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Изменить</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_59">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>231</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Путь к исполняемому файлу Observer.exe</string>
           </property>
          </widget>
         </widget>

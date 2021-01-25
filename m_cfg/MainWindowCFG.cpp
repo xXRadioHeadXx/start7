@@ -3565,6 +3565,9 @@ void MainWindowCFG::get_INTEGRATION(QString filename)
       this->ui->INTEGRATION_Port_doubleSpinBox->setValue(settings.value("Port",-1).toInt());
       this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(settings.value("Port2",-1).toInt());
       this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(settings.value("KeepAliveInterval",-1).toInt());
+      this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText(settings.value("DevLine",-1).toString());
+
+
 
       settings.endGroup();
 
@@ -3586,6 +3589,10 @@ void MainWindowCFG::set_INTEGRATION(QString filename)
       settings.setValue("Port",this->ui->INTEGRATION_Port_doubleSpinBox->value());
       settings.setValue("Port2",this->ui->INTEGRATION_Port2_doubleSpinBox->value());
       settings.setValue("KeepAliveInterval",this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->value());
+      settings.setValue("DevLine",this->ui->INTEGRATION_DevLine_filepath_lineEdit->text());
+
+
+  //          this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText(settings.value("DevLine",-1).toString());
 
       settings.endGroup();
 }
@@ -3597,6 +3604,7 @@ void MainWindowCFG::default_INTEGRATION()
     this->ui->INTEGRATION_Port_doubleSpinBox->setValue(0);
     this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(0);
     this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(0);
+    this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText("");
 }
 
 void MainWindowCFG::get_SQL(QString filename)
@@ -4462,6 +4470,7 @@ settings.setValue("Host",this->ui->INTEGRATION_Host_lineEdit->text());
 settings.setValue("Port",this->ui->INTEGRATION_Port_doubleSpinBox->value());
 settings.setValue("Port2",this->ui->INTEGRATION_Port2_doubleSpinBox->value());
 settings.setValue("KeepAliveInterval",this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->value());
+settings.setValue("DevLine",this->ui->INTEGRATION_DevLine_filepath_lineEdit->text());
 settings.endGroup();
 
 int res=0;
@@ -5629,4 +5638,17 @@ this->ui->AdmAud_version_lineEdit->setText(QString::number(AdmKey.getVersion()))
 
 //this->ui->AdmAud_DateTime_lineEdit->setText(AdmKey.getDatetime().toString());
 this->ui->AdmAud_DateTime_lineEdit->setText(AdmKey.getDatetime().toString("dd.MM.yyyy hh:mm:ss"));
+}
+
+void MainWindowCFG::on_INTEGRATION_DevLine_pushButton_clicked()
+{
+    QString patch=QFileDialog::getOpenFileName(this, "open file","","*observer.exe");
+     qDebug()<<"patch = "<<patch;
+     if(patch!="")
+     {
+         qDebug()<<"[PROFIT]";
+         this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText(patch);
+
+     }
+
 }
