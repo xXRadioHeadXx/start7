@@ -15,6 +15,8 @@ public:
     explicit SSOIPortWidget(QWidget *parent = nullptr);
     ~SSOIPortWidget();
 
+    void set_SsoiMOprosVariant_interface(int i);
+
 private:
     Ui::SSOIPortWidget *ui;
 };

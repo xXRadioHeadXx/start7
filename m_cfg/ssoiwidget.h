@@ -21,6 +21,8 @@ public:
 private slots:
     void on_Version_currentIndexChanged(const QString &arg1);
 
+    void on_SsoiMOprosVariant_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::SSOIwidget *ui;
 

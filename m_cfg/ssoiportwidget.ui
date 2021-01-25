@@ -58,9 +58,9 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
-   <widget class="QWidget" name="page">
+   <widget class="QWidget" name="OprosVariant_1">
     <widget class="QLabel" name="label_84">
      <property name="geometry">
       <rect>
@@ -78,7 +78,7 @@
      <property name="geometry">
       <rect>
        <x>120</x>
-       <y>25</y>
+       <y>24</y>
        <width>131</width>
        <height>20</height>
       </rect>
@@ -100,7 +100,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>25</y>
+       <y>24</y>
        <width>111</width>
        <height>20</height>
       </rect>
@@ -124,7 +124,7 @@
        <x>0</x>
        <y>5</y>
        <width>141</width>
-       <height>16</height>
+       <height>18</height>
       </rect>
      </property>
      <property name="text">
@@ -132,12 +132,12 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page_2">
+   <widget class="QWidget" name="OprosVariant_3">
     <widget class="QComboBox" name="SsoiM_Interval_">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>30</y>
+       <x>0</x>
+       <y>24</y>
        <width>111</width>
        <height>20</height>
       </rect>
@@ -158,10 +158,10 @@
     <widget class="QLabel" name="label_85">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
+       <x>0</x>
+       <y>5</y>
        <width>141</width>
-       <height>16</height>
+       <height>18</height>
       </rect>
      </property>
      <property name="text">
@@ -169,7 +169,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page_3"/>
+   <widget class="QWidget" name="OprosVariant_2"/>
   </widget>
  </widget>
  <resources/>

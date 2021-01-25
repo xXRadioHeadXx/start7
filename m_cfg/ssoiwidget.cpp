@@ -65,3 +65,14 @@ void SSOIwidget::on_Version_currentIndexChanged(const QString &arg1)
     }
 
 }
+
+
+
+void SSOIwidget::on_SsoiMOprosVariant_currentIndexChanged(const QString &arg1)
+{
+    int val = l_SsoiMOprosVariant.key(arg1);
+    this->ui->SSOI_M_Port_widget_1->set_SsoiMOprosVariant_interface(val);
+    this->ui->SSOI_M_Port_widget_2->set_SsoiMOprosVariant_interface(val);
+    this->ui->SSOI_M_Port_widget_3->set_SsoiMOprosVariant_interface(val);
+    this->ui->SSOI_M_Port_widget_4->set_SsoiMOprosVariant_interface(val);
+}
