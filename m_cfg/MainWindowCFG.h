@@ -14,6 +14,7 @@
 //#include <libudev.h>
 //#include <mntent.h>
 #include "admkeygenerator.h"
+#include "ssoi_manager.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -43,7 +44,9 @@ private:
     QErrorMessage dialog;
 
     QList<ComPort*> comports;
+
     AdmKeyGenerator AdmKey;
+    SSOI_manager SSOI_mng;
 
     QList<Operator*> operators;
     int opt_tbl_request;

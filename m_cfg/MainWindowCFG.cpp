@@ -11,6 +11,8 @@
 
 
 
+
+
 //#include <libusb-1.0/libusb.h>
 
 #if (defined (_WIN32) || defined (_WIN64))
@@ -3519,9 +3521,45 @@ void MainWindowCFG::default_RIF()
     this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->setValue(20);
 }
 
-void MainWindowCFG::get_SSOI(QString /*filename*/)
+void MainWindowCFG::get_SSOI(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
 
+    settings.beginGroup("RIF");
+
+    for(int i=0; i<comports.count();i++)
+    {
+        ComPort *port = comports.at(i);
+        int speed = port->get_RifPortSpeed();
+        int interval = port->get_RifPortInterval();
+
+        if(speed!=4800)
+        {
+            QString str="RifPortSpeed%1";
+            str=str.arg(i);
+        settings.setValue(str,speed);
+        }
+
+        if(interval!=50)
+        {
+            QString str="RifPortInterval%1";
+            str=str.arg(i);
+        settings.setValue(str,interval);
+        }
+
+
+
+    }
+
+    settings.setValue("AutoDK", this->ui->RIF_AutoDK_comboBox->currentIndex());
+    settings.setValue("TochkaDirectionInterval", this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->value());
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::set_SSOI(QString /*filename*/)
