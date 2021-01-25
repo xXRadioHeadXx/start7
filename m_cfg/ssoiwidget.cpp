@@ -57,12 +57,12 @@ this->ui->Version->setCurrentText(l_Version.value(val));
 
 int SSOIwidget::get_Version()
 {
-
+return l_Version.key(this->ui->Version->currentText());
 }
 
 void SSOIwidget::set_SsoiM_PortNum1(int val)
 {
-
+this->ui->SSOI_M_Port_widget_1->set_SsoiM_PortNum(val);
 }
 
 int SSOIwidget::get_SsoiM_PortNum1()

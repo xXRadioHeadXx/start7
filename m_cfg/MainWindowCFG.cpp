@@ -3537,6 +3537,20 @@ void MainWindowCFG::get_SSOI(QString filename)
     settings.beginGroup("SSOI");
 
     this->ui->SSOIwgt->set_Version(settings.value("Version",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_PortNum1(settings.value("SsoiM_PortNum1",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval1(settings.value("SsoiM_Interval1",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval_1(settings.value("SsoiM_Interval_1",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_MaxErrCnt1(settings.value("SsoiM_MaxErrCnt1",-1).toInt());
+
+    this->ui->SSOIwgt->set_SsoiM_PortNum2(settings.value("SsoiM_PortNum2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval2(settings.value("SsoiM_Interval2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval_2(settings.value("SsoiM_Interval_2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_MaxErrCnt2(settings.value("SsoiM_MaxErrCnt2",-1).toInt());
+
+    this->ui->SSOIwgt->set_SsoiM_PortNum2(settings.value("SsoiM_PortNum2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval2(settings.value("SsoiM_Interval2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval_2(settings.value("SsoiM_Interval_2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_MaxErrCnt2(settings.value("SsoiM_MaxErrCnt2",-1).toInt());
 
     /*
     Version=2

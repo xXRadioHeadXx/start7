@@ -58,13 +58,13 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="OprosVariant_1">
     <widget class="QLabel" name="label_84">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>136</x>
        <y>5</y>
        <width>151</width>
        <height>16</height>
@@ -77,29 +77,7 @@
     <widget class="QComboBox" name="SsoiM_MaxErrCnt_">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>24</y>
-       <width>131</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>66</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>999</width>
-       <height>20</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="SsoiM_Interval">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
+       <x>136</x>
        <y>24</y>
        <width>111</width>
        <height>20</height>
@@ -107,7 +85,7 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>1</width>
+       <width>66</width>
        <height>20</height>
       </size>
      </property>
@@ -131,30 +109,18 @@
       <string>Интервал опроса, мс</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QWidget" name="OprosVariant_3">
-    <widget class="QComboBox" name="SsoiM_Interval_">
+    <widget class="QSpinBox" name="SsoiM_Interval_2">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>24</y>
-       <width>111</width>
+       <width>131</width>
        <height>20</height>
       </rect>
      </property>
-     <property name="minimumSize">
-      <size>
-       <width>1</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>999</width>
-       <height>20</height>
-      </size>
-     </property>
     </widget>
+   </widget>
+   <widget class="QWidget" name="OprosVariant_3">
     <widget class="QLabel" name="label_85">
      <property name="geometry">
       <rect>
@@ -166,6 +132,16 @@
      </property>
      <property name="text">
       <string>Интервал опроса, мс</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="SsoiM_Interval_1">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>24</y>
+       <width>131</width>
+       <height>20</height>
+      </rect>
      </property>
     </widget>
    </widget>
