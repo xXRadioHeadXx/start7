@@ -37,7 +37,8 @@ SOURCES += \
     operator_form.cpp \
     sqlunit.cpp \
     ssoiportwidget.cpp \
-    ssoiwidget.cpp
+    ssoiwidget.cpp \
+    tablo_widget.cpp
 
 
 
@@ -54,7 +55,8 @@ HEADERS += \
     operator_form.h \
     sqlunit.h \
     ssoiportwidget.h \
-    ssoiwidget.h
+    ssoiwidget.h \
+    tablo_widget.h
 
 
 
@@ -65,7 +67,8 @@ FORMS += \
     map.ui \
     operator_form.ui \
     ssoiportwidget.ui \
-    ssoiwidget.ui
+    ssoiwidget.ui \
+    tablo_widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

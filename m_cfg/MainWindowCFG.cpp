@@ -3908,9 +3908,23 @@ void MainWindowCFG::default_ADAM4068()
 
 }
 
-void MainWindowCFG::get_TABLO(QString /*filename*/)
+void MainWindowCFG::get_TABLO(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+      int res=0;
 
+   //   Port=0
+  //    Blinking=0
+      settings.beginGroup("TABLO");
+
+     this->ui->TABLO_wgt->setPort(settings.value("Port",-1).toInt());
+     this->ui->TABLO_wgt->setBlinking(settings.value("Blinking",-1).toInt());
+      settings.endGroup();
 }
 
 void MainWindowCFG::set_TABLO(QString /*filename*/)
@@ -3920,7 +3934,7 @@ void MainWindowCFG::set_TABLO(QString /*filename*/)
 
 void MainWindowCFG::default_TABLO()
 {
-
+this->ui->TABLO_wgt->default_options();
 }
 
 void MainWindowCFG::get_RASTRMSSOI(QString /*filename*/)
@@ -4646,6 +4660,15 @@ int res=0;
         settings.setValue("Use", 0);
         settings.endGroup();
     }
+
+
+    settings.beginGroup("TABLO");
+    settings.setValue("Port",this->ui->TABLO_wgt->getPort());
+    settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
+    settings.endGroup();
+    //   Port=0
+   //    Blinking=0
+
 
 
     settings.beginGroup("BACKUP");

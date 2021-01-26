@@ -2486,6 +2486,16 @@
           </rect>
          </property>
         </widget>
+        <widget class="TABLO_Widget" name="TABLO_wgt" native="true">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>280</y>
+           <width>391</width>
+           <height>151</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="Subsystem_TV_RASTR_M">
         <attribute name="title">
@@ -3233,6 +3243,12 @@
    <class>SSOIwidget</class>
    <extends>QWidget</extends>
    <header location="global">ssoiwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TABLO_Widget</class>
+   <extends>QWidget</extends>
+   <header location="global">tablo_widget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
