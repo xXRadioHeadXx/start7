@@ -2467,11 +2467,6 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="Subsystem_ADAM">
-        <attribute name="title">
-         <string>ADAM</string>
-        </attribute>
-       </widget>
        <widget class="QWidget" name="Subsystem_SSOI">
         <attribute name="title">
          <string>ССОИ</string>
@@ -2499,8 +2494,18 @@
        </widget>
        <widget class="QWidget" name="Subsystem_TV_RASTR_M">
         <attribute name="title">
-         <string>РАСТР-М</string>
+         <string>РАСТР-М / ADAM</string>
         </attribute>
+        <widget class="RASTR_ADAM_Widget" name="widget_2" native="true">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>570</width>
+           <height>451</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="SQL">
         <attribute name="title">
@@ -3249,6 +3254,12 @@
    <class>TABLO_Widget</class>
    <extends>QWidget</extends>
    <header location="global">tablo_widget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RASTR_ADAM_Widget</class>
+   <extends>QWidget</extends>
+   <header location="global">rastr_adam_widget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

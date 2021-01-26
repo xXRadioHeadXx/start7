@@ -35,6 +35,7 @@ SOURCES += \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
+    rastr_adam_widget.cpp \
     sqlunit.cpp \
     ssoiportwidget.cpp \
     ssoiwidget.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
+    rastr_adam_widget.h \
     sqlunit.h \
     ssoiportwidget.h \
     ssoiwidget.h \
@@ -66,6 +68,7 @@ FORMS += \
     dbform.ui \
     map.ui \
     operator_form.ui \
+    rastr_adam_widget.ui \
     ssoiportwidget.ui \
     ssoiwidget.ui \
     tablo_widget.ui
