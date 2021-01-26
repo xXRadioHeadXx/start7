@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMap>
+#include <QErrorMessage>
 
 namespace Ui {
 class SSOIwidget;
@@ -15,6 +16,8 @@ class SSOIwidget : public QWidget
 public:
     explicit SSOIwidget(QWidget *parent = nullptr);
     ~SSOIwidget();
+
+
 
     void default_options();
 
@@ -91,6 +94,9 @@ private slots:
     void on_SsoiMOprosVariant_currentIndexChanged(const QString &arg1);
 
 private:
+
+    QErrorMessage dialog;
+
     Ui::SSOIwidget *ui;
 
      QMap <int,QString> l_Version;

@@ -58,7 +58,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="OprosVariant_1">
     <widget class="QLabel" name="label_84">
@@ -98,6 +98,9 @@
      </property>
      <property name="maximum">
       <number>3000</number>
+     </property>
+     <property name="singleStep">
+      <number>10</number>
      </property>
     </widget>
     <widget class="QSpinBox" name="SsoiM_MaxErrCnt">
@@ -139,6 +142,9 @@
      </property>
      <property name="maximum">
       <number>250</number>
+     </property>
+     <property name="singleStep">
+      <number>10</number>
      </property>
     </widget>
    </widget>

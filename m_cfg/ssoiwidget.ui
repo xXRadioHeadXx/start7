@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>566</width>
-    <height>451</height>
+    <width>570</width>
+    <height>357</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>0</y>
      <width>551</width>
-     <height>441</height>
+     <height>267</height>
     </rect>
    </property>
    <property name="title">
@@ -29,7 +29,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>40</y>
       <width>170</width>
       <height>20</height>
      </rect>
@@ -51,7 +51,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>20</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -64,7 +64,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
+      <y>80</y>
       <width>170</width>
       <height>20</height>
      </rect>
@@ -86,7 +86,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>60</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -99,7 +99,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>150</y>
+      <y>120</y>
       <width>170</width>
       <height>20</height>
      </rect>
@@ -121,7 +121,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>130</y>
+      <y>100</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -136,7 +136,7 @@
       <x>180</x>
       <y>10</y>
       <width>371</width>
-      <height>371</height>
+      <height>370</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -260,6 +260,45 @@
        </property>
       </widget>
      </widget>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_7">
+    <property name="geometry">
+     <rect>
+      <x>13</x>
+      <y>149</y>
+      <width>171</width>
+      <height>105</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Фиксация событий</string>
+    </property>
+    <widget class="QRadioButton" name="SsoiFixNewWarning_val_0">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>30</y>
+       <width>82</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Всегда</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="SsoiFixNewWarning_val_1">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>60</y>
+       <width>171</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>После &quot;Сброса тревог&quot;</string>
+     </property>
     </widget>
    </widget>
   </widget>

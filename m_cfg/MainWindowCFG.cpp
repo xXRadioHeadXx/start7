@@ -3405,6 +3405,7 @@ void MainWindowCFG::default_options()
     default_SQL();
     default_BACKUP();
     default_AdmAud();
+    default_SSOI();
 }
 
 void MainWindowCFG::get_RIF(QString filename)
@@ -3557,6 +3558,8 @@ void MainWindowCFG::get_SSOI(QString filename)
     this->ui->SSOIwgt->set_SsoiM_Interval_4(settings.value("SsoiM_Interval_4",-1).toInt());
     this->ui->SSOIwgt->set_SsoiM_MaxErrCnt4(settings.value("SsoiM_MaxErrCnt4",-1).toInt());
 
+    this->ui->SSOIwgt->set_SsoiFixNewWarning(settings.value("SsoiFixNewWarning",-1).toInt());
+
     /*
     Version=2
     SsoiM_PortNum1=1
@@ -3596,7 +3599,7 @@ void MainWindowCFG::set_SSOI(QString /*filename*/)
 
 void MainWindowCFG::default_SSOI()
 {
-
+this->ui->SSOIwgt->default_options();
 }
 
 void MainWindowCFG::get_RASTRMTV(QString /*filename*/)

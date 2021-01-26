@@ -35,6 +35,8 @@ SSOIwidget::SSOIwidget(QWidget *parent) :
 
     }
 
+    this->default_options();
+
 }
 
 SSOIwidget::~SSOIwidget()
@@ -44,7 +46,7 @@ SSOIwidget::~SSOIwidget()
 
 void SSOIwidget::default_options()
 {
-
+this->set_SsoiFixNewWarning(0);
 }
 
 void SSOIwidget::set_Version(int val)
@@ -222,7 +224,38 @@ this->ui->SSOI_M_Port_widget_4->set_SsoiM_MaxErrCnt(val);
 
 int SSOIwidget::get_SsoiM_MaxErrCnt4()
 {
-return this->ui->SSOI_M_Port_widget_4->get_SsoiM_MaxErrCnt();
+    return this->ui->SSOI_M_Port_widget_4->get_SsoiM_MaxErrCnt();
+}
+
+void SSOIwidget::set_SsoiFixNewWarning(int val)
+{
+    switch(val)
+    {
+    case 0:
+    this->ui->SsoiFixNewWarning_val_0->setChecked(true);
+    break;
+
+    case 1:
+    this->ui->SsoiFixNewWarning_val_1->setChecked(true);
+    break;
+
+    default:
+        dialog.showMessage("SsoiFixNewWarning неприемлемое значение либо отсутствует");
+        dialog.exec();
+    break;
+    }
+}
+
+int SSOIwidget::get_SsoiFixNewWarning()
+{
+ if(this->ui->SsoiFixNewWarning_val_0->isChecked())
+     return 0;
+ if(this->ui->SsoiFixNewWarning_val_1->isChecked())
+     return 1;
+
+ return -1;
+
+
 }
 
 void SSOIwidget::on_Version_currentIndexChanged(const QString &arg1)
