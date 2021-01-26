@@ -18,8 +18,8 @@ SSOIwidget::SSOIwidget(QWidget *parent) :
 
     }
 
-    l_SsoiAutoDkUse.insert(1,SsoiAutoDkUse_0);
-    l_SsoiAutoDkUse.insert(2,SsoiAutoDkUse_1);
+    l_SsoiAutoDkUse.insert(0,SsoiAutoDkUse_0);
+    l_SsoiAutoDkUse.insert(1,SsoiAutoDkUse_1);
     foreach (QString str, l_SsoiAutoDkUse)
     {
     this->ui->SsoiAutoDkUse->addItem(str);
@@ -43,10 +43,52 @@ SSOIwidget::~SSOIwidget()
 {
     delete ui;
 }
+/*
+Version=2
 
+SsoiM_PortNum1=0
+SsoiM_Interval1=1500
+SsoiM_Interval_1=100
+SsoiM_MaxErrCnt1=2
+
+SsoiM_PortNum2=0
+SsoiM_Interval2=1500
+SsoiM_Interval_2=100
+SsoiM_MaxErrCnt2=2
+
+SsoiM_PortNum3=0
+SsoiM_Interval3=1500
+SsoiM_Interval_3=100
+SsoiM_MaxErrCnt3=2
+
+SsoiM_PortNum4=0
+SsoiM_Interval4=1500
+SsoiM_Interval_4=100
+SsoiM_MaxErrCnt4=2
+
+SsoiAutoDkUse=0
+SsoiMOprosVariant=0
+SsoiFixNewWarning=0
+SsoiM_PortSpeed=4800
+ */
 void SSOIwidget::default_options()
 {
+
+
+this->set_Version(1);
+
+
+this->ui->SSOI_Port_widget->default_options();
+this->ui->SSOI_M_Port_widget_1->default_options();
+this->ui->SSOI_M_Port_widget_2->default_options();
+this->ui->SSOI_M_Port_widget_3->default_options();
+this->ui->SSOI_M_Port_widget_4->default_options();
+
+this->set_SsoiAutoDkUse(0);
+this->set_SsoiMOprosVariant(0);
 this->set_SsoiFixNewWarning(0);
+
+
 }
 
 void SSOIwidget::set_Version(int val)
@@ -227,6 +269,16 @@ int SSOIwidget::get_SsoiM_MaxErrCnt4()
     return this->ui->SSOI_M_Port_widget_4->get_SsoiM_MaxErrCnt();
 }
 
+void SSOIwidget::set_SsoiAutoDkUse(int val)
+{
+ this->ui->SsoiAutoDkUse->setCurrentText(l_SsoiAutoDkUse.value(val));
+}
+
+int SSOIwidget::get_SsoiAutoDkUse()
+{
+ return l_SsoiAutoDkUse.key( this->ui->SsoiAutoDkUse->currentText());
+}
+
 void SSOIwidget::set_SsoiMOprosVariant(int val)
 {
     switch(val)
@@ -313,4 +365,14 @@ void SSOIwidget::on_SsoiMOprosVariant_currentIndexChanged(const QString &arg1)
     this->ui->SSOI_M_Port_widget_2->set_SsoiMOprosVariant_interface(val);
     this->ui->SSOI_M_Port_widget_3->set_SsoiMOprosVariant_interface(val);
     this->ui->SSOI_M_Port_widget_4->set_SsoiMOprosVariant_interface(val);
+}
+
+void SSOIwidget::set_SsoiM_PortSpeed(int value)
+{
+    SsoiM_PortSpeed = value;
+}
+
+int SSOIwidget::get_SsoiM_PortSpeed() const
+{
+    return SsoiM_PortSpeed;
 }

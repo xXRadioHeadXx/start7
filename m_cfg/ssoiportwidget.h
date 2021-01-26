@@ -29,6 +29,8 @@ public:
     void set_SsoiM_MaxErrCnt(int val);
     int  get_SsoiM_MaxErrCnt();
 
+    void default_options();
+
 private:
     Ui::SSOIPortWidget *ui;
 };

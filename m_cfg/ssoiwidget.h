@@ -83,18 +83,19 @@ int get_SsoiMOprosVariant();
 void set_SsoiFixNewWarning(int val);
 int get_SsoiFixNewWarning();
 
-void set_SsoiM_PortSpeed(int val);
-int get_SsoiM_PortSpeed();
 
 
+int get_SsoiM_PortSpeed() const;
+void set_SsoiM_PortSpeed(int value);
 
 private slots:
-    void on_Version_currentIndexChanged(const QString &arg1);
+void on_Version_currentIndexChanged(const QString &arg1);
 
     void on_SsoiMOprosVariant_currentIndexChanged(const QString &arg1);
 
 private:
 
+    int SsoiM_PortSpeed=4800;
     QErrorMessage dialog;
 
     Ui::SSOIwidget *ui;
