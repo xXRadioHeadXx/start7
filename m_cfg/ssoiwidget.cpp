@@ -227,6 +227,32 @@ int SSOIwidget::get_SsoiM_MaxErrCnt4()
     return this->ui->SSOI_M_Port_widget_4->get_SsoiM_MaxErrCnt();
 }
 
+void SSOIwidget::set_SsoiMOprosVariant(int val)
+{
+    switch(val)
+    {
+        case 0:
+        case 1:
+        case 2:
+        this->ui->SsoiMOprosVariant->setCurrentText(l_SsoiMOprosVariant.value(val));
+        break;
+
+        default:
+        dialog.showMessage("SsoiMOprosVariant неприемлемое значение либо отсутствует");
+        dialog.exec();
+        break;
+
+
+
+    }
+
+}
+
+int SSOIwidget::get_SsoiMOprosVariant()
+{
+   return  l_SsoiMOprosVariant.key(this->ui->SsoiMOprosVariant->currentText());
+}
+
 void SSOIwidget::set_SsoiFixNewWarning(int val)
 {
     switch(val)
