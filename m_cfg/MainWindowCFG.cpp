@@ -3406,6 +3406,7 @@ void MainWindowCFG::default_options()
     default_BACKUP();
     default_AdmAud();
     default_SSOI();
+    default_TABLO();
 }
 
 void MainWindowCFG::get_RIF(QString filename)
