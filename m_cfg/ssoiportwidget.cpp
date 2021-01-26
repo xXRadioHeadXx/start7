@@ -18,6 +18,11 @@ SSOIPortWidget::SSOIPortWidget(QWidget *parent) :
          str = str.arg(i);
          this->ui->SsoiM_PortNum->addItem(str,str);
      }
+     this->ui->SsoiM_PortNum->setCurrentText(" ВЫКЛ");
+     this->ui->SsoiM_Interval->setValue(1500);
+     this->ui->SsoiM_Interval_->setValue(100);
+     this->ui->SsoiM_MaxErrCnt->setValue(2);
+
 
 }
 
@@ -48,42 +53,42 @@ void SSOIPortWidget::set_SsoiMOprosVariant_interface(int index)
 void SSOIPortWidget::set_SsoiM_PortNum(int val)
 {
   this->ui->SsoiM_PortNum->setCurrentIndex(val);
-    qDebug()<<"-------------------------------------------------------------------val "<<val;
+
 }
 
 int SSOIPortWidget::get_SsoiM_PortNum()
 {
-
+  return this->ui->SsoiM_PortNum->currentIndex();
 }
 
 void SSOIPortWidget::set_SsoiM_Interval(int val)
 {
-
+this->ui->SsoiM_Interval->setValue(val);
 }
 
 int SSOIPortWidget::get_SsoiM_Interval()
 {
-
+return this->ui->SsoiM_Interval->value();
 }
 
 void SSOIPortWidget::set_SsoiM_Interval_(int val)
 {
-
+this->ui->SsoiM_Interval_->setValue(val);
 }
 
-int SSOIPortWidget::get_SsoiM_Interval_()
+int SSOIPortWidget::get_SsoiM_Interval_m()
 {
-
+return this->ui->SsoiM_Interval_->value();
 }
 
 void SSOIPortWidget::set_SsoiM_MaxErrCnt(int val)
 {
-
+this->ui->SsoiM_MaxErrCnt->setValue(val);
 }
 
 int SSOIPortWidget::get_SsoiM_MaxErrCnt()
 {
-
+return this->ui->SsoiM_MaxErrCnt->value();
 }
 
 

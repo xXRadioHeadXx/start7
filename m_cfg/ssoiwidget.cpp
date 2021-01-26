@@ -67,137 +67,162 @@ this->ui->SSOI_M_Port_widget_1->set_SsoiM_PortNum(val);
 
 int SSOIwidget::get_SsoiM_PortNum1()
 {
-
+return this->ui->SSOI_M_Port_widget_1->get_SsoiM_PortNum();
 }
 
 void SSOIwidget::set_SsoiM_Interval1(int val)
 {
-
+this->ui->SSOI_M_Port_widget_1->set_SsoiM_Interval(val);
 }
 
 int SSOIwidget::get_SsoiM_Interval1()
 {
-
+return this->ui->SSOI_M_Port_widget_1->get_SsoiM_Interval();
 }
 
 void SSOIwidget::set_SsoiM_Interval_1(int val)
 {
-
+    this->ui->SSOI_M_Port_widget_1->set_SsoiM_Interval_(val);
 }
+
+int SSOIwidget::get_SsoiM_Interval_1()
+{
+return this->ui->SSOI_M_Port_widget_1->get_SsoiM_Interval_m();
+}
+
+
 
 void SSOIwidget::set_SsoiM_MaxErrCnt1(int val)
 {
-
+this->ui->SSOI_M_Port_widget_1->set_SsoiM_MaxErrCnt(val);
 }
 
 int SSOIwidget::get_SsoiM_MaxErrCnt1()
 {
-
+return this->ui->SSOI_M_Port_widget_1->get_SsoiM_MaxErrCnt();
 }
+
+
 
 void SSOIwidget::set_SsoiM_PortNum2(int val)
 {
-
+this->ui->SSOI_M_Port_widget_2->set_SsoiM_PortNum(val);
 }
 
 int SSOIwidget::get_SsoiM_PortNum2()
 {
-
+return this->ui->SSOI_M_Port_widget_2->get_SsoiM_PortNum();
 }
 
 void SSOIwidget::set_SsoiM_Interval2(int val)
 {
-
+this->ui->SSOI_M_Port_widget_2->set_SsoiM_Interval(val);
 }
 
 int SSOIwidget::get_SsoiM_Interval2()
 {
-
+return this->ui->SSOI_M_Port_widget_2->get_SsoiM_Interval();
 }
 
 void SSOIwidget::set_SsoiM_Interval_2(int val)
 {
+    this->ui->SSOI_M_Port_widget_2->set_SsoiM_Interval_(val);
+}
 
+int SSOIwidget::get_SsoiM_Interval_2()
+{
+return this->ui->SSOI_M_Port_widget_2->get_SsoiM_Interval_m();
 }
 
 void SSOIwidget::set_SsoiM_MaxErrCnt2(int val)
 {
-
+this->ui->SSOI_M_Port_widget_2->set_SsoiM_MaxErrCnt(val);
 }
 
 int SSOIwidget::get_SsoiM_MaxErrCnt2()
 {
-
+return this->ui->SSOI_M_Port_widget_2->get_SsoiM_MaxErrCnt();
 }
 
 void SSOIwidget::set_SsoiM_PortNum3(int val)
 {
-
+this->ui->SSOI_M_Port_widget_3->set_SsoiM_PortNum(val);
 }
 
 int SSOIwidget::get_SsoiM_PortNum3()
 {
-
+return this->ui->SSOI_M_Port_widget_3->get_SsoiM_PortNum();
 }
 
 void SSOIwidget::set_SsoiM_Interval3(int val)
 {
-
+this->ui->SSOI_M_Port_widget_3->set_SsoiM_Interval(val);
 }
 
 int SSOIwidget::get_SsoiM_Interval3()
 {
-
+return this->ui->SSOI_M_Port_widget_3->get_SsoiM_Interval();
 }
 
 void SSOIwidget::set_SsoiM_Interval_3(int val)
 {
+    this->ui->SSOI_M_Port_widget_3->set_SsoiM_Interval_(val);
+}
 
+int SSOIwidget::get_SsoiM_Interval_3()
+{
+return this->ui->SSOI_M_Port_widget_3->get_SsoiM_Interval_m();
 }
 
 void SSOIwidget::set_SsoiM_MaxErrCnt3(int val)
 {
-
+this->ui->SSOI_M_Port_widget_3->set_SsoiM_MaxErrCnt(val);
 }
 
 int SSOIwidget::get_SsoiM_MaxErrCnt3()
 {
-
+return this->ui->SSOI_M_Port_widget_3->get_SsoiM_MaxErrCnt();
 }
+
 
 void SSOIwidget::set_SsoiM_PortNum4(int val)
 {
-
+this->ui->SSOI_M_Port_widget_4->set_SsoiM_PortNum(val);
 }
 
 int SSOIwidget::get_SsoiM_PortNum4()
 {
-
+return this->ui->SSOI_M_Port_widget_4->get_SsoiM_PortNum();
 }
 
 void SSOIwidget::set_SsoiM_Interval4(int val)
 {
-
+this->ui->SSOI_M_Port_widget_4->set_SsoiM_Interval(val);
 }
 
 int SSOIwidget::get_SsoiM_Interval4()
 {
-
+return this->ui->SSOI_M_Port_widget_4->get_SsoiM_Interval();
 }
 
 void SSOIwidget::set_SsoiM_Interval_4(int val)
 {
+    this->ui->SSOI_M_Port_widget_4->set_SsoiM_Interval_(val);
+}
 
+int SSOIwidget::get_SsoiM_Interval_4()
+{
+return this->ui->SSOI_M_Port_widget_4->get_SsoiM_Interval_m();
 }
 
 void SSOIwidget::set_SsoiM_MaxErrCnt4(int val)
 {
-
+this->ui->SSOI_M_Port_widget_4->set_SsoiM_MaxErrCnt(val);
 }
 
 int SSOIwidget::get_SsoiM_MaxErrCnt4()
 {
-
+return this->ui->SSOI_M_Port_widget_4->get_SsoiM_MaxErrCnt();
 }
 
 void SSOIwidget::on_Version_currentIndexChanged(const QString &arg1)

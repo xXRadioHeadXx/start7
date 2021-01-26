@@ -24,7 +24,7 @@ public:
     int  get_SsoiM_Interval();
 
     void set_SsoiM_Interval_(int val);
-    int  get_SsoiM_Interval_();
+    int  get_SsoiM_Interval_m();
 
     void set_SsoiM_MaxErrCnt(int val);
     int  get_SsoiM_MaxErrCnt();

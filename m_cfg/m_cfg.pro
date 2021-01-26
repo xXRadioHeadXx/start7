@@ -36,7 +36,6 @@ SOURCES += \
     myscene.cpp \
     operator_form.cpp \
     sqlunit.cpp \
-    ssoi_manager.cpp \
     ssoiportwidget.cpp \
     ssoiwidget.cpp
 
@@ -54,7 +53,6 @@ HEADERS += \
     myscene.h \
     operator_form.h \
     sqlunit.h \
-    ssoi_manager.h \
     ssoiportwidget.h \
     ssoiwidget.h
 
