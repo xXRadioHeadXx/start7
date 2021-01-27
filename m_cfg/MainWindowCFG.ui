@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -1924,37 +1924,6 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <widget class="QPushButton" name="pushButton">
-             <property name="geometry">
-              <rect>
-               <x>9</x>
-               <y>0</y>
-               <width>100</width>
-               <height>25</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Добавить</string>
-             </property>
-            </widget>
             <widget class="QPushButton" name="pushButton_2">
              <property name="geometry">
               <rect>
@@ -2020,9 +1989,9 @@
             <widget class="QPushButton" name="pushButton_3">
              <property name="geometry">
               <rect>
-               <x>9</x>
+               <x>10</x>
                <y>22</y>
-               <width>100</width>
+               <width>108</width>
                <height>25</height>
               </rect>
              </property>
@@ -2034,7 +2003,7 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>100</width>
+               <width>108</width>
                <height>25</height>
               </size>
              </property>
@@ -2108,6 +2077,19 @@
              </property>
              <property name="text">
               <string>Вниз</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton_6">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>0</y>
+               <width>108</width>
+               <height>25</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Добавить</string>
              </property>
             </widget>
            </widget>
@@ -2502,7 +2484,7 @@
        </widget>
        <widget class="QWidget" name="Subsystem_TV_RASTR_M">
         <attribute name="title">
-         <string>РАСТР-М / ADAM</string>
+         <string>РАСТР</string>
         </attribute>
         <widget class="RASTR_ADAM_Widget" name="RASTR_ADAM_wgt" native="true">
          <property name="geometry">

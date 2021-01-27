@@ -324,7 +324,6 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_treeView_activated(const QModelIndex &index);
-    void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_7_clicked();
     void on_pushButton_8_clicked();
@@ -369,5 +368,6 @@ private slots:
    void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);
    void on_AdmAud_ChekIn_pushButton_clicked();
    void on_INTEGRATION_DevLine_pushButton_clicked();
+   void on_pushButton_6_clicked();
 };
 #endif // MAINWINDOWCFG_H

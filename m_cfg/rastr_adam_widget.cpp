@@ -13,7 +13,7 @@ RASTR_ADAM_Widget::RASTR_ADAM_Widget(QWidget *parent) :
 
 
     this->ui->ADAM__Port->addItem(" ВЫКЛ"," ВЫКЛ");
-    this->ui->RASTR__Port->addItem(" ВЫКЛ"," ВЫКЛ");
+
     this->ui->SOLID__Port->addItem(" ВЫКЛ"," ВЫКЛ");
    // this->ui->ADA
 
@@ -26,7 +26,7 @@ RASTR_ADAM_Widget::RASTR_ADAM_Widget(QWidget *parent) :
          QString str(" COM%1");
          str = str.arg(i);
          this->ui->ADAM__Port->addItem(str,str);
-         this->ui->RASTR__Port->addItem(str,str);
+
          this->ui->SOLID__Port->addItem(str,str);
      }
 /**/
@@ -77,7 +77,7 @@ void RASTR_ADAM_Widget::default_options()
     this->ui->dtInfoToJpg->setCurrentIndex(0);
 
     this->ui->ADAM__Port->setCurrentIndex(0);
-    this->ui->RASTR__Port->setCurrentIndex(0);
+
     this->ui->SOLID__Port->setCurrentIndex(0);
 
     this->ui->ADAM__Interval->setValue(100);
@@ -165,15 +165,6 @@ void RASTR_ADAM_Widget::setAutoDkPeriod(int value)
     this->ui->AutoDkPeriod->setCurrentText(l_AutoDkPeriod.value(value));
 }
 
-int RASTR_ADAM_Widget::getRASTR__Port() const
-{
-  return this->ui->RASTR__Port->currentIndex();
-}
-
-void RASTR_ADAM_Widget::setRASTR__Port(int value)
-{
-  this->ui->RASTR__Port->setCurrentIndex(value);
-}
 
 int RASTR_ADAM_Widget::getSOLID__Port() const
 {

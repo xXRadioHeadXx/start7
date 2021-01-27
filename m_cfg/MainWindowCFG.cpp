@@ -1098,10 +1098,7 @@ void MainWindowCFG::on_treeView_activated(const QModelIndex &/*index*/)
     qDebug()<<"activated";
 }
 
-void MainWindowCFG::on_pushButton_clicked()
-{
-   add_unit();
-}
+
 
 
 void MainWindowCFG::operator_add(Operator * op)
@@ -3241,7 +3238,6 @@ void MainWindowCFG::load_other_options_from_ini_file(QString filename)
     get_RASTRMTV(filename);
     get_INTEGRATION(filename);
     get_SQL(filename);
-    get_RASTR(filename);
     get_SOLID(filename);
     get_ADAM4068(filename);
     get_TABLO(filename);
@@ -3407,7 +3403,8 @@ void MainWindowCFG::default_options()
     default_AdmAud();
     default_SSOI();
     default_TABLO();
-    default_RASTR();
+    this->ui->RASTR_ADAM_wgt->default_options();
+
 }
 
 void MainWindowCFG::get_RIF(QString filename)
@@ -3891,34 +3888,10 @@ this->ui->SQL_type_comboBox->setCurrentText("Выкл");
     this->ui->SQL_AutoDbStartMinute_doubleSpinBox->setValue(0);
 }
 
-void MainWindowCFG::get_RASTR(QString filename)
-{
-    QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
 
 
-    settings.beginGroup("RASTR");
-
-    this->ui->RASTR_ADAM_wgt->setRASTR__Port((settings.value("Port",-1).toInt()));
-
-    settings.endGroup();
 
 
-}
-
-void MainWindowCFG::set_RASTR(QString /*filename*/)
-{
-
-}
-
-void MainWindowCFG::default_RASTR()
-{
-this->ui->RASTR_ADAM_wgt->default_options();
-}
 
 void MainWindowCFG::get_SOLID(QString filename)
 {
@@ -4746,9 +4719,7 @@ int res=0;
 
 
 
-    settings.beginGroup("RASTR");
-    settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getRASTR__Port());
-    settings.endGroup();
+
 
     settings.beginGroup("SOLID");
     settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getSOLID__Port());
@@ -5880,4 +5851,10 @@ void MainWindowCFG::on_INTEGRATION_DevLine_pushButton_clicked()
 
      }
 
+}
+
+void MainWindowCFG::on_pushButton_6_clicked()
+{
+    qDebug()<<"++++++++++++++++++++++++";
+   add_unit();
 }
