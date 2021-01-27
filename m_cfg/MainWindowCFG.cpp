@@ -38,7 +38,10 @@ this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
 
     this->ui->SQL_server_lineEdit->setText("localhost");
 
-
+    foreach(QString str, m_SSOI_SD_OutType)
+    {
+        this->ui->SSOI_SD_OutType->addItem(str);
+    }
 
 
 
