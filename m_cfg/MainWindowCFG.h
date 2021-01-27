@@ -430,6 +430,19 @@ private:
 {TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
 
     };
+
+    QMap <int,QString> m_SSOI_SD_OutType{
+        {0,"не указан"},
+        {1,"РИФ-РЛМ"},
+        {2,"РИФ-КРЛ"},
+        {3,"РИФ-КРЛМ"},
+        {4,"РИФ-РЛМ-С"},
+        {5,"Трасса"},
+        {6,"Точка-Гарда"},
+        {7,"Разряд"}
+    };
+
+
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
@@ -463,6 +476,9 @@ private slots:
     void setAdamOff_20_min();
     void setAdamOff_30_min();
     void setAdamOff_1_hour();
+
+
+
 
 
     void select(QString Name);

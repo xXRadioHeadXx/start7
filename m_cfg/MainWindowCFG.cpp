@@ -5484,15 +5484,19 @@ void MainWindowCFG::on_pushButton_5_clicked()
 
 void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 {
-    this->ui->UDP_RS485_Widget->setVisible(false);
     this->ui->type_pxm_label->clear();
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
-    if(arg1==str_GROUP){
-    this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
-    }
+    this->ui->UDP_RS485_Widget->setVisible(false);
 
-    else
-    if(arg1==str_SD_BL_IP){
+    int type=m_TypeUnitNode.key(arg1);
+
+    switch(type)
+    {
+    case TypeUnitNode::GROUP:
+    this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
+    break;
+
+    case TypeUnitNode::SD_BL_IP:
     qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
     this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
@@ -5500,183 +5504,137 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
     this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     this->ui->timeout_doubleSpinBox->setValue(50);
-        coordinate_menu(true,false,0,0,"");
+    coordinate_menu(true,false,0,0,"");
+    break;
 
-    }
-    else
-    if(arg1==str_IU_BL_IP)
-    {
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(50);
-        this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
-    }
-    else
-    if(arg1==str_TG)
-    {
+    case TypeUnitNode::IU_BL_IP:
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(50);
+    this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
+    break;
 
-        this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(75);
-        coordinate_menu(true,false,0,0,"");
-    }
-    else
-    if(arg1==str_RLM_KRL)
-    {
+    case TypeUnitNode::TG:
+    this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(75);
+    coordinate_menu(true,false,0,0,"");
+    break;
 
-        this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(50);
-        coordinate_menu(true,false,0,0,"");
-    }
-    else
-    if(arg1==str_RLM_C)
-    {
+    case TypeUnitNode::RLM_KRL:
+    this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(50);
+    coordinate_menu(true,false,0,0,"");
 
+    break;
+
+    case TypeUnitNode::RLM_C:
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-                this->ui->timeout_doubleSpinBox->setValue(50);
-         coordinate_menu(true,false,0,0,"");
-    }
-    else
-    if(arg1==str_BOD_T4K_M)
-    {
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(50);
+    coordinate_menu(true,false,0,0,"");
+    break;
 
+    case TypeUnitNode::BOD_T4K_M:
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-                this->ui->timeout_doubleSpinBox->setValue(200);
-         coordinate_menu(true,false,0,0,"");
-    }
-    else
-    if(arg1==str_Y4_T4K_M)
-    {
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(200);
+    coordinate_menu(true,false,0,0,"");
+    break;
 
+    case TypeUnitNode::Y4_T4K_M:
     this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
-    }
-    else
-    if(arg1==str_DD_T4K_M)
-    {
+    break;
 
+    case TypeUnitNode::DD_T4K_M:
     this->ui->stackedWidget->setCurrentWidget(this->ui->DD_T4K_M_groupbox);
+    break;
 
-    }
-    else
-    if(arg1==str_BOD_SOTA)
-    {
-        this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
-     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(300);
-        coordinate_menu(true,false,0,0,"");
-    }
-    else
-    if(arg1==str_Y4_SOTA)
-    {
-        this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
-        this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
-    }
-    else
-    if(arg1==str_DD_SOTA)
-    {
-        this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
-    }
-    else
-    if(arg1==str_KL)
-    {
-        this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
-        this->ui->UDP_RS485_Widget->setVisible(true);
-        this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-        this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-        this->ui->timeout_doubleSpinBox->setValue(50);
-         coordinate_menu(true,false,0,0,"");
-    }
-    else
-    if(arg1==str_ONVIF)
-    {
+    case TypeUnitNode::BOD_SOTA:
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
+    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(300);
+    coordinate_menu(true,false,0,0,"");
+    break;
+
+    case TypeUnitNode::Y4_SOTA:
+    this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
+    this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+    break;
+
+    case TypeUnitNode::DD_SOTA:
+    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
+    break;
+
+    case TypeUnitNode::KL:
+    this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(50);
+    coordinate_menu(true,false,0,0,"");
+    break;
+
+    case TypeUnitNode::ONVIF:
     this->ui->stackedWidget->setCurrentWidget(this->ui->ONVIF_groupbox);
+    break;
 
-    }
-    else
-    if(arg1==str_STRAZH_IP)
-    {
+    case TypeUnitNode::STRAZH_IP:
     this->ui->stackedWidget->setCurrentWidget(this->ui->STRAZH_IP_groupbox);
+    break;
 
-    }
-    else
-    if(arg1==str_NET_DEV)
-    {
+    case TypeUnitNode::NET_DEV:
     this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
+    break;
 
-    }
+    case TypeUnitNode::SSOI_SD:
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_SD_groupbox);
+    break;
 
+    case TypeUnitNode::SSOI_IU:
+   this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
+    break;
 
-    else
-    if(arg1==str_SSOI_SD)
-    {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
-
-    }
-    else
-    if(arg1==str_SSOI_IU)
-    {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
-
-    }
-    else
-    if(arg1==str_ADAM)
-    {
+    case TypeUnitNode::ADAM:
     this->ui->stackedWidget->setCurrentWidget(this->ui->ADAM_groupbox);
+    break;
 
-    }
-    if(arg1==str_TOROS)
-    {
+    case TypeUnitNode::TOROS:
     this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
+    break;
 
-    }
-    else
-    if(arg1==str_DEVLINE)
-    {
+    case TypeUnitNode::DEVLINE:
     this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
-    coordinate_devline(false,0,0,0,0);
-    }
-    else
-    if(arg1==str_RASTRMTV)
-    {
+    break;
+
+    case TypeUnitNode::RASTRMTV:
     this->ui->stackedWidget->setCurrentWidget(this->ui->RASTRMTV_groupbox);
+    break;
 
-    }
-    else
-    if(arg1==str_INFO_TABLO)
-    {
+    case TypeUnitNode::INFO_TABLO:
     this->ui->stackedWidget->setCurrentWidget(this->ui->INFO_TABLO_groupbox);
+    break;
 
-    }
-
-    else
-    {
+    default:
         qDebug()<<"EMPTY";
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
+    break;
     }
 
 
-
-//Участок Точка-М/Гряда
-//   БОД Точка-М/Гряда
-
-    //РИФ-РЛМ-С
-
-  //  РИФ-РЛМ/КРЛ/Трасса
 }
 
 void MainWindowCFG::on_SQL_type_comboBox_currentTextChanged(const QString &arg1)
