@@ -91,7 +91,7 @@ private:
 
     QMap <int,QString> l_AutoDkPeriod;
     QString AutoDkPeriod_0="Постоянно";
-    QString AutoDkPeriod_1="10 мин.";
+    QString AutoDkPeriod_10="10 мин.";
     
 //    [RASTR]
     int RASTR__Port=0;

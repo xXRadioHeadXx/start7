@@ -3610,9 +3610,35 @@ void MainWindowCFG::default_SSOI()
 this->ui->SSOIwgt->default_options();
 }
 
-void MainWindowCFG::get_RASTRMTV(QString /*filename*/)
+void MainWindowCFG::get_RASTRMTV(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+      /*
+      Use=0
+      Name=localhost
+      Port=1972
+      Port2=1974
+      KeepAliveInterval=20
+      ThermostatUse=0
+      dtInfoToJpg=0
+      AutoDkPeriod=10*/
+    settings.beginGroup("RASTRMTV");
 
+    this->ui->RASTR_ADAM_wgt->setUse((settings.value("Use",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setName((settings.value("Name",-1).toString()));
+    this->ui->RASTR_ADAM_wgt->setPort((settings.value("Port",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setPort2((settings.value("Port2",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setKeepAliveInterval((settings.value("KeepAliveInterval",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setThermostatUse((settings.value("ThermostatUse",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setDtInfoToJpg((settings.value("dtInfoToJpg",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setAutoDkPeriod((settings.value("AutoDkPeriod",-1).toInt()));
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::set_RASTRMTV(QString /*filename*/)
@@ -3865,8 +3891,22 @@ this->ui->SQL_type_comboBox->setCurrentText("Выкл");
     this->ui->SQL_AutoDbStartMinute_doubleSpinBox->setValue(0);
 }
 
-void MainWindowCFG::get_RASTR(QString /*filename*/)
+void MainWindowCFG::get_RASTR(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+
+
+    settings.beginGroup("RASTR");
+
+    this->ui->RASTR_ADAM_wgt->setRASTR__Port((settings.value("Port",-1).toInt()));
+
+    settings.endGroup();
+
 
 }
 
@@ -3880,8 +3920,21 @@ void MainWindowCFG::default_RASTR()
 this->ui->RASTR_ADAM_wgt->default_options();
 }
 
-void MainWindowCFG::get_SOLID(QString /*filename*/)
+void MainWindowCFG::get_SOLID(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+
+
+    settings.beginGroup("SOLID");
+
+    this->ui->RASTR_ADAM_wgt->setSOLID__Port((settings.value("Port",-1).toInt()));
+
+    settings.endGroup();
 
 }
 
@@ -3895,9 +3948,23 @@ void MainWindowCFG::default_SOLID()
 
 }
 
-void MainWindowCFG::get_ADAM4068(QString /*filename*/)
+void MainWindowCFG::get_ADAM4068(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+    //  Port=0
+    //  Interval=100
 
+    settings.beginGroup("ADAM4068");
+
+    this->ui->RASTR_ADAM_wgt->setADAM__Port((settings.value("Port",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setADAM__Interval((settings.value("Interval",-1).toInt()));
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::set_ADAM4068(QString /*filename*/)
@@ -4588,6 +4655,19 @@ settings.setValue("SsoiM_PortSpeed",this->ui->SSOIwgt->get_SsoiM_PortSpeed());
 
 settings.endGroup();
 
+settings.beginGroup("RASTRMTV");
+settings.setValue("Use",this->ui->RASTR_ADAM_wgt->getUse());
+settings.setValue("Name",this->ui->RASTR_ADAM_wgt->getName());
+settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getPort());
+settings.setValue("Port2",this->ui->RASTR_ADAM_wgt->getPort2());
+settings.setValue("KeepAliveInterval",this->ui->RASTR_ADAM_wgt->getKeepAliveInterval());
+settings.setValue("ThermostatUse",this->ui->RASTR_ADAM_wgt->getThermostatUse());
+settings.setValue("dtInfoToJpg",this->ui->RASTR_ADAM_wgt->getDtInfoToJpg());
+settings.setValue("AutoDkPeriod",this->ui->RASTR_ADAM_wgt->getAutoDkPeriod());
+
+
+settings.endGroup();
+
 settings.beginGroup("INTEGRATION");
 settings.setValue("Use",map_INTEGRATION_Use.key(this->ui->INTEGRATION_Use_comboBox->currentText()));
 settings.setValue("Host",this->ui->INTEGRATION_Host_lineEdit->text());
@@ -4664,19 +4744,35 @@ int res=0;
     }
 
 
+
+
+    settings.beginGroup("RASTR");
+    settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getRASTR__Port());
+    settings.endGroup();
+
+    settings.beginGroup("SOLID");
+    settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getSOLID__Port());
+    settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
+    settings.endGroup();
+
+    settings.beginGroup("ADAM4068");
+    settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getADAM__Port());
+    settings.setValue("Interval",this->ui->RASTR_ADAM_wgt->getADAM__Interval());
+    settings.endGroup();
+
+
     settings.beginGroup("TABLO");
     settings.setValue("Port",this->ui->TABLO_wgt->getPort());
     settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
     settings.endGroup();
-    //   Port=0
-   //    Blinking=0
-
 
 
     settings.beginGroup("BACKUP");
     settings.setValue("BackupPath",this->ui->BACKUP_BackupPath_lineedit->text());
     settings.setValue("MaxBdStringCnt",map_BACKUP_MaxBdStringCnt.key(this->ui->BACKUP_MaxBdStringCnt_comboBox->currentText()));
     settings.endGroup();
+
+
 
     settings.beginGroup("OPERATORS");
     settings.setValue("Use",operators_use);
