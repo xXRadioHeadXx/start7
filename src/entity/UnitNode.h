@@ -28,7 +28,7 @@ enum TypeUnitNode {
     SYSTEM = -1, //Система
     GROUP = 0, //Группа
     KL = 2, //Концентратор КЛ1
-    SD_BL_IP = 11,//СД БЛ-IP 
+    SD_BL_IP = 11,//СД БЛ-IP
     IU_BL_IP = 12,//ИУ БЛ-IP 
     TG = 10,      //Точка/Гарда 
     RLM_KRL = 1, //РИФ-РЛМ/КРЛ/Трасса
@@ -42,7 +42,15 @@ enum TypeUnitNode {
     Y4_SOTA = 30,//Участок Сота
     DD_SOTA = 31,//ДД Сота
     NET_DEV = 200,//Сетевое устройство
-    BL_IP = 0xFF //БЛ IP
+    BL_IP = 0xFF, //БЛ IP
+
+    SSOI_SD = 3, //ССОИ СД
+    SSOI_IU = 4, //ССОИ ИУ
+    ADAM = 7, //Адам
+    TOROS = 8, //Торос
+    DEVLINE = 32, //камера DevLine
+    RASTRMTV =42, //камера РАСТР-М-ТВ
+    INFO_TABLO = 71 //информационное табло
 };
 
 enum DKCiclStatus {

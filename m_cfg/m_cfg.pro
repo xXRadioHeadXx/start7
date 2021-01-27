@@ -26,6 +26,7 @@ include(../src/global.pri)
 SOURCES += \
     MainWindowCFG.cpp \
     add_sql_user_form.cpp \
+    admkeygenerator.cpp \
     backgroundimage.cpp \
     comport.cpp \
     dbform.cpp \
@@ -34,14 +35,18 @@ SOURCES += \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
+    rastr_adam_widget.cpp \
     sqlunit.cpp \
-    tadmaudit.cpp
+    ssoiportwidget.cpp \
+    ssoiwidget.cpp \
+    tablo_widget.cpp
 
 
 
 HEADERS += \
     MainWindowCFG.h \
     add_sql_user_form.h \
+    admkeygenerator.h \
     backgroundimage.h \
     comport.h \
     dbform.h \
@@ -49,8 +54,11 @@ HEADERS += \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
+    rastr_adam_widget.h \
     sqlunit.h \
-    tadmaudit.h
+    ssoiportwidget.h \
+    ssoiwidget.h \
+    tablo_widget.h
 
 
 
@@ -59,7 +67,11 @@ FORMS += \
     add_sql_user_form.ui \
     dbform.ui \
     map.ui \
-    operator_form.ui
+    operator_form.ui \
+    rastr_adam_widget.ui \
+    ssoiportwidget.ui \
+    ssoiwidget.ui \
+    tablo_widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -13,7 +13,8 @@
 #include <QStandardItem>
 //#include <libudev.h>
 //#include <mntent.h>
-#include <tadmaudit.h>
+#include "admkeygenerator.h"
+#include "ssoiwidget.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -32,7 +33,6 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:
 
-
     Ui::MainWindowCFG *ui;
 
     QSqlDatabase db_mysql;
@@ -43,6 +43,8 @@ private:
     QErrorMessage dialog;
 
     QList<ComPort*> comports;
+
+    AdmKeyGenerator AdmKey;
 
 
     QList<Operator*> operators;
@@ -139,6 +141,8 @@ private:
     QMap <int,QString> map_PARAMS_SoundType;
     QMap <int,QString> map_PARAMS_AutoStart;
 
+    void default_options();
+
     void get_RIF(QString filename);
     void set_RIF(QString filename);
     void default_RIF();
@@ -199,6 +203,7 @@ private:
     void default_ASOOSD();
 
 
+    void default_AdmAud();
 
 
 
@@ -248,30 +253,69 @@ private:
 
     QModelIndex current_index;
 
-    QString str_GROUP;
-    QString str_KL;
-    QString str_SD_BL_IP;
-    QString str_IU_BL_IP;
-    QString str_TG;
-    QString str_RLM_KRL;
-    QString str_RLM_C;
-    QString str_BOD_T4K_M;
-    QString str_Y4_T4K_M;
-    QString str_DD_T4K_M;
-    QString str_BOD_SOTA;
-    QString str_Y4_SOTA;
-    QString str_DD_SOTA;
-    QString str_ONVIF;
-    QString str_STRAZH_IP;
-    QString str_NET_DEV;
 
-    QString str_RIF_RLM;
-    QString str_RIF_RLM_24;
-    QString str_RIF_RLM_B;
-    QString str_RIF_KRL;
-    QString str_Razriv;
-    QString str_trassa1l;
 
+
+
+    QString str_GROUP=" Группа";
+    QString str_SD_BL_IP=" БЛ-IP СД";
+    QString str_IU_BL_IP=" БЛ-IP ИУ";
+    QString str_KL = " КЛ1 (концентратор) СД";
+    QString str_TG =" Точка/Гарда";
+    QString str_RLM_KRL = " РИФ-РЛМ/КРЛ/Трасса";
+    QString str_RLM_C = " РИФ-РЛМ-С";
+    QString str_STRAZH_IP = " ТВ+тепловиз.Страж-IP";
+    QString str_NET_DEV = " Сетевое устройство";
+    QString str_ONVIF = " ТВ-камера ONVIF";
+    QString str_BOD_T4K_M = " Точка-М/Гарда БОД";
+    QString str_Y4_T4K_M = " Точка-М/Гарда Участок";
+    QString str_DD_T4K_M = " Точка-М/Гарда ДД";
+    QString str_BOD_SOTA = " Сота/Сота-М БОД";
+    QString str_Y4_SOTA = " Сота/Сота-М Участок";
+    QString str_DD_SOTA = " Сота/Сота-М ДД";
+
+    QString str_RIF_RLM=" РИФ-РЛМ";
+    QString str_RIF_RLM_24=" РИФ-РЛМ24";
+    QString str_RIF_RLM_B=" РИФ-РЛМ(Б)";
+    QString str_RIF_KRL=" РИФ-КРЛ";
+    QString str_Razriv=" Разрыв";
+    QString str_trassa1l=" Трасса-1л";
+
+    QString str_SSOI_SD = "ССОИ СД";
+    QString str_SSOI_IU = "ССОИ ИУ";
+    QString str_ADAM = "Адам";
+    QString str_TOROS = "Торос";
+    QString str_DEVLINE = "камера DevLine";
+    QString str_RASTRMTV ="камера РАСТР-М-ТВ";
+    QString str_INFO_TABLO = "информационное табло";
+
+    QList<QString> l_Unittype={
+        str_GROUP,
+        str_SD_BL_IP,
+        str_IU_BL_IP,
+        str_KL,
+        str_TG,
+        str_RLM_KRL,
+        str_RLM_C,
+        str_STRAZH_IP,
+        str_NET_DEV,
+        str_ONVIF,
+        str_BOD_T4K_M,
+        str_Y4_T4K_M,
+        str_DD_T4K_M,
+        str_BOD_SOTA,
+        str_Y4_SOTA,
+        str_DD_SOTA,
+
+
+        str_SSOI_SD,
+        str_SSOI_IU,
+        str_ADAM,
+        str_TOROS,
+        str_DEVLINE,
+        str_RASTRMTV,
+        str_INFO_TABLO
+ };
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
@@ -319,7 +363,6 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_treeView_activated(const QModelIndex &index);
-    void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_7_clicked();
     void on_pushButton_8_clicked();
@@ -363,5 +406,7 @@ private slots:
    void on_uType_combobox_activated(const QString &arg1);
    void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);
    void on_AdmAud_ChekIn_pushButton_clicked();
+   void on_INTEGRATION_DevLine_pushButton_clicked();
+   void on_pushButton_6_clicked();
 };
 #endif // MAINWINDOWCFG_H

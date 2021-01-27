@@ -11,6 +11,8 @@
 
 
 
+
+
 //#include <libusb-1.0/libusb.h>
 
 #if (defined (_WIN32) || defined (_WIN64))
@@ -23,92 +25,23 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
 
+
+
     ui->setupUi(this);
 
+
+//default_options();
    ui->tableWidget->verticalHeader()->setVisible(false);
 //   ui->tableWidget_2->verticalHeader()->setVisible(false);
 
-this->ui->groupBox_4->setVisible(false);
+this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
 
     this->ui->SQL_server_lineEdit->setText("localhost");
 
 
 
 
-#if (defined (_WIN32) || defined (_WIN64))
 
-qDebug()<<"[0]";
-    LPWSTR lpbuffer;
-
-    lpbuffer = new TCHAR[255];
-
-qDebug()<<"[1]";
-    for( int i = 0; i < 255; i++ ) lpbuffer[i] = 0;
-    char dr[10];
-   for( int i = 0; i < 10; i++ ) dr[i] = 0;
-qDebug()<<"[2]";
-    GetLogicalDriveStringsW(255,lpbuffer);
-
-qDebug()<<"[3]";
-
-    for( int i = 0; i < 255; i++ )
-    {
-     //   qDebug()<<"[4]";
-       if( lpbuffer[i] == ':' )
-       {
-       dr[0] = lpbuffer[i-1];
-       dr[1] = lpbuffer[i];
-       dr[2] = lpbuffer[i+1];
-  //     dr[3] = lpbuffer[i+2];
-
-
-       QString str = dr;
-       LPCWSTR path = (const wchar_t*) str.utf16();
-
-       qDebug()<<"str: "<<str;
-
-//GetDriveTypeW()
-    if( GetDriveTypeW(path) == DRIVE_REMOVABLE )
-    {
-       qDebug()<<"[PROFIT] str: "<<str;
-    this->ui->AdmAud_comboBox->addItem(str);
-    }
-       }
-    }
-
-
-#else
-    qDebug()<<"[LINUX]";
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-
-    qDebug() << storage.rootPath();
-    if (storage.isReadOnly())
-    qDebug() << "isReadOnly:" << storage.isReadOnly();
-
-    qDebug() << "name:" << storage.name();
-    qDebug() << "fileSystemType:" << storage.fileSystemType();
-    qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-    qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-    this->ui->AdmAud_comboBox->addItem(storage.rootPath());
-    }
-
-  /*  for (auto volume : QStorageInfo::mountedVolumes()) {
-           qDebug() << "Name:" << volume.name();
-           qDebug() << "Display name:" << volume.displayName();
-           qDebug() << "Device:" << volume.device();
-           qDebug() << "Root path:" << volume.rootPath();
-           qDebug() << "File system type:" << volume.fileSystemType();
-           qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
-           qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
-           qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
-           qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
-           qDebug() << "Bytes available:" << volume.bytesAvailable();
-           qDebug() << "Bytes free:" << volume.bytesFree();
-           qDebug() << "Bytes total:" << volume.bytesTotal();
-
-       }*/
-
-#endif
  /*   */
 
  /*
@@ -248,60 +181,13 @@ AnsiString str;
 
 default_OPERATORS();
 
-    str_GROUP=" Группа";
-    str_SD_BL_IP=" БЛ-IP СД";
-    str_IU_BL_IP=" БЛ-IP ИУ";
-    str_KL = " КЛ1 (концентратор) СД";
-    str_TG =" Точка/Гарда";
-    str_RLM_KRL = " РИФ-РЛМ/КРЛ/Трасса";
-    str_RLM_C = " РИФ-РЛМ-С";
-    str_STRAZH_IP = " ТВ+тепловиз.Страж-IP";
-    str_NET_DEV = " Сетевое устройство";
-    str_ONVIF = " ТВ-камера ONVIF";
-    str_BOD_T4K_M = " Точка-М/Гарда БОД";
-    str_Y4_T4K_M = " Точка-М/Гарда Участок";
-    str_DD_T4K_M = " Точка-М/Гарда ДД";
-    str_BOD_SOTA = " Сота/Сота-М БОД";
-    str_Y4_SOTA = " Сота/Сота-М Участок";
-    str_DD_SOTA = " Сота/Сота-М ДД";
 
 
-    this->ui->uType_combobox->addItem(str_GROUP);
-    this->ui->uType_combobox->addItem(str_IU_BL_IP);
-    this->ui->uType_combobox->addItem(str_SD_BL_IP);
-    this->ui->uType_combobox->addItem(str_KL);
-    this->ui->uType_combobox->addItem(str_RLM_KRL);
-    this->ui->uType_combobox->addItem(str_RLM_C);
-    this->ui->uType_combobox->addItem(str_NET_DEV);
-    this->ui->uType_combobox->addItem(str_BOD_SOTA);
-    this->ui->uType_combobox->addItem(str_Y4_SOTA);
-    this->ui->uType_combobox->addItem(str_DD_SOTA);
-    this->ui->uType_combobox->addItem(str_STRAZH_IP);
-    this->ui->uType_combobox->addItem(str_ONVIF);
-    this->ui->uType_combobox->addItem(str_TG);
-    this->ui->uType_combobox->addItem(str_BOD_T4K_M);
-    this->ui->uType_combobox->addItem(str_Y4_T4K_M);
-    this->ui->uType_combobox->addItem(str_DD_T4K_M);
+foreach(QString str, l_Unittype)
+{
+this->ui->uType_combobox->addItem(str);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    str_RIF_RLM=" РИФ-РЛМ";
-    str_RIF_RLM_24=" РИФ-РЛМ24";
-    str_RIF_RLM_B=" РИФ-РЛМ(Б)";
-    str_RIF_KRL=" РИФ-КРЛ";
-    str_Razriv=" Разрыв";
-    str_trassa1l=" Трасса-1л";
 
 this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM);
 this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM_24);
@@ -635,7 +521,7 @@ qDebug()
         this->ui->uType_combobox->setCurrentText(Type);
 
 */
-       this->ui->groupBox_4->setVisible(false);
+       this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     switch(selected_type)
     {
     case TypeUnitNode::GROUP:
@@ -1113,15 +999,9 @@ void MainWindowCFG::set_option_GROUP(UnitNode */*unit*/)
 
 void MainWindowCFG::on_actionCreate_triggered()
 {
-    qDebug()<<"[Create]";
-    this->modelTreeUN->makeEmptyTree();
+    default_options();
 
-    default_PARAMS();
-    default_OPERATORS();
-    default_RIF();
-    default_INTEGRATION();
-    default_SQL();
-    default_BACKUP();
+
 }
 
 void MainWindowCFG::on_actionOpen_triggered()
@@ -1171,10 +1051,7 @@ void MainWindowCFG::on_treeView_activated(const QModelIndex &/*index*/)
     qDebug()<<"activated";
 }
 
-void MainWindowCFG::on_pushButton_clicked()
-{
-   add_unit();
-}
+
 
 
 void MainWindowCFG::operator_add(Operator * op)
@@ -2583,8 +2460,9 @@ bool MainWindowCFG::add_unit()
 
     unit->setLevel(parrent->getLevel()+1);
 
-    if(this->ui->groupBox_4->isVisible())
+    if(this->ui->stackedWidget_2->currentWidget()==this->ui->coordinates_for_all)
     {
+
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -3314,7 +3192,6 @@ void MainWindowCFG::load_other_options_from_ini_file(QString filename)
     get_RASTRMTV(filename);
     get_INTEGRATION(filename);
     get_SQL(filename);
-    get_RASTR(filename);
     get_SOLID(filename);
     get_ADAM4068(filename);
     get_TABLO(filename);
@@ -3466,6 +3343,24 @@ void MainWindowCFG::default_PARAMS()
     this->ui->PARAMS_AutoStart_comboBox->setCurrentText(map_PARAMS_AutoStart.value(0));
 }
 
+void MainWindowCFG::default_options()
+{
+    qDebug()<<"[Create]";
+    this->modelTreeUN->makeEmptyTree();
+
+    default_PARAMS();
+    default_OPERATORS();
+    default_RIF();
+    default_INTEGRATION();
+    default_SQL();
+    default_BACKUP();
+    default_AdmAud();
+    default_SSOI();
+    default_TABLO();
+    this->ui->RASTR_ADAM_wgt->default_options();
+
+}
+
 void MainWindowCFG::get_RIF(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
@@ -3584,24 +3479,117 @@ void MainWindowCFG::default_RIF()
     this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->setValue(20);
 }
 
-void MainWindowCFG::get_SSOI(QString /*filename*/)
+void MainWindowCFG::get_SSOI(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
 
+    settings.beginGroup("SSOI");
+
+    this->ui->SSOIwgt->set_Version(settings.value("Version",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_PortNum1(settings.value("SsoiM_PortNum1",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval1(settings.value("SsoiM_Interval1",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval_1(settings.value("SsoiM_Interval_1",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_MaxErrCnt1(settings.value("SsoiM_MaxErrCnt1",-1).toInt());
+
+    this->ui->SSOIwgt->set_SsoiM_PortNum2(settings.value("SsoiM_PortNum2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval2(settings.value("SsoiM_Interval2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval_2(settings.value("SsoiM_Interval_2",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_MaxErrCnt2(settings.value("SsoiM_MaxErrCnt2",-1).toInt());
+
+    this->ui->SSOIwgt->set_SsoiM_PortNum3(settings.value("SsoiM_PortNum3",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval3(settings.value("SsoiM_Interval3",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval_3(settings.value("SsoiM_Interval_3",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_MaxErrCnt3(settings.value("SsoiM_MaxErrCnt3",-1).toInt());
+
+    this->ui->SSOIwgt->set_SsoiM_PortNum4(settings.value("SsoiM_PortNum4",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval4(settings.value("SsoiM_Interval4",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_Interval_4(settings.value("SsoiM_Interval_4",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiM_MaxErrCnt4(settings.value("SsoiM_MaxErrCnt4",-1).toInt());
+
+
+    this->ui->SSOIwgt->set_SsoiM_MaxErrCnt4(settings.value("SsoiM_MaxErrCnt4",-1).toInt());
+
+    this->ui->SSOIwgt->set_SsoiAutoDkUse(settings.value("SsoiAutoDkUse",-1).toInt());
+    this->ui->SSOIwgt->set_SsoiMOprosVariant(settings.value("SsoiMOprosVariant",-1).toInt());
+
+    this->ui->SSOIwgt->set_SsoiM_PortSpeed(settings.value("SsoiM_PortSpeed",-1).toInt());
+
+    /*
+    Version=2
+    SsoiM_PortNum1=1
+    SsoiM_Interval1=1500
+    SsoiM_Interval_1=100
+    SsoiM_MaxErrCnt1=2
+    SsoiM_PortNum2=2
+    SsoiM_Interval2=1500
+    SsoiM_Interval_2=100
+    SsoiM_MaxErrCnt2=2
+    SsoiM_PortNum3=3
+    SsoiM_Interval3=1500
+    SsoiM_Interval_3=100
+    SsoiM_MaxErrCnt3=2
+    SsoiM_PortNum4=4
+    SsoiM_Interval4=1500
+    SsoiM_Interval_4=100
+    SsoiM_MaxErrCnt4=2
+    SsoiAutoDkUse=0
+    SsoiMOprosVariant=0
+    SsoiFixNewWarning=0
+    SsoiM_PortSpeed=4800*/
+
+  //  int RifPortInterval = settings.value(str_RifPortInterval,-1).toInt();
+
+
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::set_SSOI(QString /*filename*/)
 {
 
+
+
 }
 
 void MainWindowCFG::default_SSOI()
 {
-
+this->ui->SSOIwgt->default_options();
 }
 
-void MainWindowCFG::get_RASTRMTV(QString /*filename*/)
+void MainWindowCFG::get_RASTRMTV(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+      /*
+      Use=0
+      Name=localhost
+      Port=1972
+      Port2=1974
+      KeepAliveInterval=20
+      ThermostatUse=0
+      dtInfoToJpg=0
+      AutoDkPeriod=10*/
+    settings.beginGroup("RASTRMTV");
 
+    this->ui->RASTR_ADAM_wgt->setUse((settings.value("Use",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setName((settings.value("Name",-1).toString()));
+    this->ui->RASTR_ADAM_wgt->setPort((settings.value("Port",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setPort2((settings.value("Port2",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setKeepAliveInterval((settings.value("KeepAliveInterval",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setThermostatUse((settings.value("ThermostatUse",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setDtInfoToJpg((settings.value("dtInfoToJpg",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setAutoDkPeriod((settings.value("AutoDkPeriod",-1).toInt()));
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::set_RASTRMTV(QString /*filename*/)
@@ -3630,6 +3618,9 @@ void MainWindowCFG::get_INTEGRATION(QString filename)
       this->ui->INTEGRATION_Port_doubleSpinBox->setValue(settings.value("Port",-1).toInt());
       this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(settings.value("Port2",-1).toInt());
       this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(settings.value("KeepAliveInterval",-1).toInt());
+      this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText(settings.value("DevLine",-1).toString());
+
+
 
       settings.endGroup();
 
@@ -3651,6 +3642,10 @@ void MainWindowCFG::set_INTEGRATION(QString filename)
       settings.setValue("Port",this->ui->INTEGRATION_Port_doubleSpinBox->value());
       settings.setValue("Port2",this->ui->INTEGRATION_Port2_doubleSpinBox->value());
       settings.setValue("KeepAliveInterval",this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->value());
+      settings.setValue("DevLine",this->ui->INTEGRATION_DevLine_filepath_lineEdit->text());
+
+
+  //          this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText(settings.value("DevLine",-1).toString());
 
       settings.endGroup();
 }
@@ -3662,6 +3657,7 @@ void MainWindowCFG::default_INTEGRATION()
     this->ui->INTEGRATION_Port_doubleSpinBox->setValue(0);
     this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(0);
     this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(0);
+    this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText("");
 }
 
 void MainWindowCFG::get_SQL(QString filename)
@@ -3846,23 +3842,26 @@ this->ui->SQL_type_comboBox->setCurrentText("Выкл");
     this->ui->SQL_AutoDbStartMinute_doubleSpinBox->setValue(0);
 }
 
-void MainWindowCFG::get_RASTR(QString /*filename*/)
+
+
+
+
+
+void MainWindowCFG::get_SOLID(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
 
-}
 
-void MainWindowCFG::set_RASTR(QString /*filename*/)
-{
+    settings.beginGroup("SOLID");
 
-}
+    this->ui->RASTR_ADAM_wgt->setSOLID__Port((settings.value("Port",-1).toInt()));
 
-void MainWindowCFG::default_RASTR()
-{
-
-}
-
-void MainWindowCFG::get_SOLID(QString /*filename*/)
-{
+    settings.endGroup();
 
 }
 
@@ -3876,9 +3875,23 @@ void MainWindowCFG::default_SOLID()
 
 }
 
-void MainWindowCFG::get_ADAM4068(QString /*filename*/)
+void MainWindowCFG::get_ADAM4068(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+    //  Port=0
+    //  Interval=100
 
+    settings.beginGroup("ADAM4068");
+
+    this->ui->RASTR_ADAM_wgt->setADAM__Port((settings.value("Port",-1).toInt()));
+    this->ui->RASTR_ADAM_wgt->setADAM__Interval((settings.value("Interval",-1).toInt()));
+
+    settings.endGroup();
 }
 
 void MainWindowCFG::set_ADAM4068(QString /*filename*/)
@@ -3891,9 +3904,23 @@ void MainWindowCFG::default_ADAM4068()
 
 }
 
-void MainWindowCFG::get_TABLO(QString /*filename*/)
+void MainWindowCFG::get_TABLO(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+      int res=0;
 
+   //   Port=0
+  //    Blinking=0
+      settings.beginGroup("TABLO");
+
+     this->ui->TABLO_wgt->setPort(settings.value("Port",-1).toInt());
+     this->ui->TABLO_wgt->setBlinking(settings.value("Blinking",-1).toInt());
+      settings.endGroup();
 }
 
 void MainWindowCFG::set_TABLO(QString /*filename*/)
@@ -3903,7 +3930,7 @@ void MainWindowCFG::set_TABLO(QString /*filename*/)
 
 void MainWindowCFG::default_TABLO()
 {
-
+this->ui->TABLO_wgt->default_options();
 }
 
 void MainWindowCFG::get_RASTRMSSOI(QString /*filename*/)
@@ -4108,6 +4135,89 @@ void MainWindowCFG::set_ASOOSD(QString /*filename*/)
 void MainWindowCFG::default_ASOOSD()
 {
 
+}
+
+void MainWindowCFG::default_AdmAud()
+{
+
+    this->ui->AdmAud_comboBox->clear();
+    this->ui->AdmAud_version_lineEdit->setText("");
+    this->ui->AdmAud_DateTime_lineEdit->setText("");
+
+#if (defined (_WIN32) || defined (_WIN64))
+
+qDebug()<<"[0]";
+    LPWSTR lpbuffer;
+
+    lpbuffer = new TCHAR[255];
+
+qDebug()<<"[1]";
+    for( int i = 0; i < 255; i++ ) lpbuffer[i] = 0;
+    char dr[10];
+   for( int i = 0; i < 10; i++ ) dr[i] = 0;
+qDebug()<<"[2]";
+    GetLogicalDriveStringsW(255,lpbuffer);
+
+qDebug()<<"[3]";
+
+    for( int i = 0; i < 255; i++ )
+    {
+     //   qDebug()<<"[4]";
+       if( lpbuffer[i] == ':' )
+       {
+       dr[0] = lpbuffer[i-1];
+       dr[1] = lpbuffer[i];
+       dr[2] = lpbuffer[i+1];
+  //     dr[3] = lpbuffer[i+2];
+
+
+       QString str = dr;
+       LPCWSTR path = (const wchar_t*) str.utf16();
+
+       qDebug()<<"str: "<<str;
+
+//GetDriveTypeW()
+    if( GetDriveTypeW(path) == DRIVE_REMOVABLE )
+    {
+       qDebug()<<"[PROFIT] str: "<<str;
+    this->ui->AdmAud_comboBox->addItem(str);
+    }
+       }
+    }
+
+
+#else
+    qDebug()<<"[LINUX]";
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+
+    qDebug() << storage.rootPath();
+    if (storage.isReadOnly())
+    qDebug() << "isReadOnly:" << storage.isReadOnly();
+
+    qDebug() << "name:" << storage.name();
+    qDebug() << "fileSystemType:" << storage.fileSystemType();
+    qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+    qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+    this->ui->AdmAud_comboBox->addItem(storage.rootPath());
+    }
+
+  /*  for (auto volume : QStorageInfo::mountedVolumes()) {
+           qDebug() << "Name:" << volume.name();
+           qDebug() << "Display name:" << volume.displayName();
+           qDebug() << "Device:" << volume.device();
+           qDebug() << "Root path:" << volume.rootPath();
+           qDebug() << "File system type:" << volume.fileSystemType();
+           qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
+           qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
+           qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
+           qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
+           qDebug() << "Bytes available:" << volume.bytesAvailable();
+           qDebug() << "Bytes free:" << volume.bytesFree();
+           qDebug() << "Bytes total:" << volume.bytesTotal();
+
+       }*/
+
+#endif
 }
 
 
@@ -4438,12 +4548,60 @@ settings.setValue("AutoDK", this->ui->RIF_AutoDK_comboBox->currentIndex());
 settings.setValue("TochkaDirectionInterval", this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->value());
 settings.endGroup();
 
+settings.beginGroup("SSOI");
+settings.setValue("Version",this->ui->SSOIwgt->get_Version());
+
+
+
+
+settings.setValue("SsoiM_PortNum1",this->ui->SSOIwgt->get_SsoiM_PortNum1());
+settings.setValue("SsoiM_Interval1",this->ui->SSOIwgt->get_SsoiM_Interval1());
+settings.setValue("SsoiM_Interval_1",this->ui->SSOIwgt->get_SsoiM_Interval_1());
+settings.setValue("SsoiM_MaxErrCnt1",this->ui->SSOIwgt->get_SsoiM_MaxErrCnt1());
+
+settings.setValue("SsoiM_PortNum2",this->ui->SSOIwgt->get_SsoiM_PortNum2());
+settings.setValue("SsoiM_Interval2",this->ui->SSOIwgt->get_SsoiM_Interval2());
+settings.setValue("SsoiM_Interval_2",this->ui->SSOIwgt->get_SsoiM_Interval_2());
+settings.setValue("SsoiM_MaxErrCnt2",this->ui->SSOIwgt->get_SsoiM_MaxErrCnt2());
+
+settings.setValue("SsoiM_PortNum3",this->ui->SSOIwgt->get_SsoiM_PortNum3());
+settings.setValue("SsoiM_Interval3",this->ui->SSOIwgt->get_SsoiM_Interval3());
+settings.setValue("SsoiM_Interval_3",this->ui->SSOIwgt->get_SsoiM_Interval_3());
+settings.setValue("SsoiM_MaxErrCnt3",this->ui->SSOIwgt->get_SsoiM_MaxErrCnt3());
+
+settings.setValue("SsoiM_PortNum4",this->ui->SSOIwgt->get_SsoiM_PortNum4());
+settings.setValue("SsoiM_Interval4",this->ui->SSOIwgt->get_SsoiM_Interval4());
+settings.setValue("SsoiM_Interval_4",this->ui->SSOIwgt->get_SsoiM_Interval_4());
+settings.setValue("SsoiM_MaxErrCnt4",this->ui->SSOIwgt->get_SsoiM_MaxErrCnt4());
+
+settings.setValue("SsoiAutoDkUse",this->ui->SSOIwgt->get_SsoiAutoDkUse());
+settings.setValue("SsoiMOprosVariant",this->ui->SSOIwgt->get_SsoiMOprosVariant());
+settings.setValue("SsoiFixNewWarning",this->ui->SSOIwgt->get_SsoiFixNewWarning());
+settings.setValue("SsoiM_PortSpeed",this->ui->SSOIwgt->get_SsoiM_PortSpeed());
+
+
+settings.endGroup();
+
+settings.beginGroup("RASTRMTV");
+settings.setValue("Use",this->ui->RASTR_ADAM_wgt->getUse());
+settings.setValue("Name",this->ui->RASTR_ADAM_wgt->getName());
+settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getPort());
+settings.setValue("Port2",this->ui->RASTR_ADAM_wgt->getPort2());
+settings.setValue("KeepAliveInterval",this->ui->RASTR_ADAM_wgt->getKeepAliveInterval());
+settings.setValue("ThermostatUse",this->ui->RASTR_ADAM_wgt->getThermostatUse());
+settings.setValue("dtInfoToJpg",this->ui->RASTR_ADAM_wgt->getDtInfoToJpg());
+settings.setValue("AutoDkPeriod",this->ui->RASTR_ADAM_wgt->getAutoDkPeriod());
+
+
+settings.endGroup();
+
 settings.beginGroup("INTEGRATION");
 settings.setValue("Use",map_INTEGRATION_Use.key(this->ui->INTEGRATION_Use_comboBox->currentText()));
 settings.setValue("Host",this->ui->INTEGRATION_Host_lineEdit->text());
 settings.setValue("Port",this->ui->INTEGRATION_Port_doubleSpinBox->value());
 settings.setValue("Port2",this->ui->INTEGRATION_Port2_doubleSpinBox->value());
 settings.setValue("KeepAliveInterval",this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->value());
+settings.setValue("DevLine",this->ui->INTEGRATION_DevLine_filepath_lineEdit->text());
 settings.endGroup();
 
 int res=0;
@@ -4513,10 +4671,33 @@ int res=0;
     }
 
 
+
+
+
+
+    settings.beginGroup("SOLID");
+    settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getSOLID__Port());
+    settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
+    settings.endGroup();
+
+    settings.beginGroup("ADAM4068");
+    settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getADAM__Port());
+    settings.setValue("Interval",this->ui->RASTR_ADAM_wgt->getADAM__Interval());
+    settings.endGroup();
+
+
+    settings.beginGroup("TABLO");
+    settings.setValue("Port",this->ui->TABLO_wgt->getPort());
+    settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
+    settings.endGroup();
+
+
     settings.beginGroup("BACKUP");
     settings.setValue("BackupPath",this->ui->BACKUP_BackupPath_lineedit->text());
     settings.setValue("MaxBdStringCnt",map_BACKUP_MaxBdStringCnt.key(this->ui->BACKUP_MaxBdStringCnt_comboBox->currentText()));
     settings.endGroup();
+
+
 
     settings.beginGroup("OPERATORS");
     settings.setValue("Use",operators_use);
@@ -5329,7 +5510,10 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
 
 void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y,QString text)
 {
-    this->ui->groupBox_4->setVisible(visible);
+    if(visible)
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->coordinates_for_all);
+    else
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     if(visible)
     {
         this->ui->coordinate_X_doubleSpinBox->setValue(x);
@@ -5380,7 +5564,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 {
     this->ui->UDP_RS485_Widget->setVisible(false);
     this->ui->type_pxm_label->clear();
-    this->ui->groupBox_4->setVisible(false);
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     if(arg1==str_GROUP){
     this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
     }
@@ -5516,6 +5700,48 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 
 
     else
+    if(arg1==str_SSOI_SD)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
+
+    }
+    else
+    if(arg1==str_SSOI_IU)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
+
+    }
+    else
+    if(arg1==str_ADAM)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->ADAM_groupbox);
+
+    }
+    if(arg1==str_TOROS)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
+
+    }
+    else
+    if(arg1==str_DEVLINE)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
+
+    }
+    else
+    if(arg1==str_RASTRMTV)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->RASTRMTV_groupbox);
+
+    }
+    else
+    if(arg1==str_INFO_TABLO)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->INFO_TABLO_groupbox);
+
+    }
+
+    else
     {
         qDebug()<<"EMPTY";
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
@@ -5576,191 +5802,58 @@ void MainWindowCFG::on_SQL_type_comboBox_currentTextChanged(const QString &arg1)
 }
 void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
 {
-    TAdmAudit *AdmAud;
-    AdmAud = new TAdmAudit();
+    this->ui->AdmAud_version_lineEdit->setText("");
+    this->ui->AdmAud_DateTime_lineEdit->setText("");
 
-    AdmAud->setVersion(2.00);
-   QDateTime current = QDateTime::currentDateTime();
-   qDebug()<<current.toString();
-    AdmAud->setCreateDt(current);
+    QString filepath=this->ui->AdmAud_comboBox->currentText();
 
-
-    QString filePath = this->ui->AdmAud_comboBox->currentText();
-    filePath += "auidit.adm";
-    qDebug()<<filePath;
-
-    QFile file(filePath);
-
-
-    if(file.open(QIODevice::WriteOnly))
-    {
-        qDebug()<<"[PROFIT]";
-        QDataStream stream(&file);
-        stream << AdmAud;
-        file.close();
-
-
-
-    }
-
-    else
-    {
-        qDebug()<<"[FALSE]";
-
-    }
-
- //    AdmAud->Load(filePath);
-
-  //  AdmAud->setCRC(AdmAud->getVersion()+AdmAud->getCreateDt());
-
-    /*
-    Edit4->Text = "";
-    Edit5->Text = "";
-
-    TAdmAudit *AdmAud;
-    AdmAud = new TAdmAudit;
-    AdmAud->Version = 2.00;
-    AdmAud->CreateDt = Now();
-    AdmAud->Crc = AdmAud->Version + AdmAud->CreateDt;
-
-    AnsiString str = ComboBox9->Text;
-
-    unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
-
-    if( DirectoryExists(str) )
-    {
-       str = str + "auidit.adm";
-
-       if( AdmAud->Save(str) )MessageBox (NULL,"Файл аудита создан","Информация",MB_OK|MB_ICONINFORMATION);
-       else MessageBox (NULL,"Ошибка создания файла аудита!","Ошибка",MB_OK|MB_ICONERROR);
-    }
-    else MessageBox (NULL,"Диск не найден!","Ошибка",MB_OK|MB_ICONERROR);
-
-    SetErrorMode ( errmode );
-
-    delete AdmAud;
-    */
-
-    /*
-
-bool TAdmAudit::Save( AnsiString fn )
-{
-   int flag = 0;
-
-   int iFileHandle;
-
-   if( FileExists(fn) ) DeleteFile(fn);
-
-   try
-   {
-      iFileHandle = FileCreate(fn);
-
-      FileSeek(iFileHandle, 0, 2);
-      FileWrite(iFileHandle, this, sizeof(TAdmAudit) );
-
-      FileClose( iFileHandle );
-
-      if( FileExists(fn) ) flag = 1;
-      else flag = -5;
-   }
-   catch(...)
-   {
-      return(-5);
-   }
-
-   return flag;
-}
-
-     */
-
-//    extern PACKAGE int __fastcall FileWrite(int Handle, const void *Buffer, unsigned Count);
+     filepath.append("auidit.adm");
+qDebug()<<filepath;
+    AdmKey.create_key(filepath);
 
 
 }
 void MainWindowCFG::on_AdmAud_ChekIn_pushButton_clicked()
 {
-    TAdmAudit *AdmAud;
-    AdmAud = new TAdmAudit();
-    QString filePath = this->ui->AdmAud_comboBox->currentText();
-    filePath += "auidit.adm";
-    qDebug()<<filePath;
+    QString filepath=this->ui->AdmAud_comboBox->currentText();
 
-  //   AdmAud->Load(filePath);
+     filepath.append("auidit.adm");
+qDebug()<<filepath;
+ AdmKey.check_key(filepath);
 
-
+this->ui->AdmAud_version_lineEdit->setText(QString::number(AdmKey.getVersion()));
 
 
-    /*
-    void __fastcall TMainForm::BitBtn9Click(TObject *Sender)
-    {
-       Edit4->Text = "";
-       Edit5->Text = "";
 
-       TAdmAudit *AdmAud;
-       AdmAud = new TAdmAudit;
 
-       AnsiString str = ComboBox9->Text;
 
-       unsigned int errmode = SetErrorMode ( SEM_FAILCRITICALERRORS );
 
-       if( DirectoryExists(str) )
-       {
-          str = str + "auidit.adm";
 
-          if( AdmAud->Load(str) )
-          {
-             double crc = AdmAud->Version + AdmAud->CreateDt;
-             if( crc == AdmAud->Crc )
-             {
-                AnsiString str1;
-                str1.sprintf("%4.2f", AdmAud->Version);
-                Edit4->Text = str1;
-                str1 = DateTimeToStr( AdmAud->CreateDt );
-                Edit5->Text = str1;
-             }
-             else MessageBox (NULL,"Îøèáêà êîíòðîëüíîé ñóììû!","Îøèáêà",MB_OK|MB_ICONERROR);
-          }
-          else MessageBox (NULL,"Îøèáêà ÷òåíèÿ ôàéëà àóäèòà!","Îøèáêà",MB_OK|MB_ICONERROR);
-       }
-       else MessageBox (NULL,"Äèñê íå íàéäåí!","Îøèáêà",MB_OK|MB_ICONERROR);
 
-       SetErrorMode ( errmode );
 
-       delete AdmAud;
-    }
-    */
 
-    /*
-    bool TAdmAudit::Load( AnsiString fn )
-    {
-       int iFileHandle;
-       int iFileLength;
+// ui->DateTime->setText(QDateTime::toString(string, format).toString());
 
-       if( !FileExists(fn) ) return (-1);
 
-       try
-       {
-          iFileHandle = FileOpen(fn, fmOpenRead);
-          if( iFileHandle < 0 ) return (-2);
+//this->ui->AdmAud_DateTime_lineEdit->setText(AdmKey.getDatetime().toString());
+this->ui->AdmAud_DateTime_lineEdit->setText(AdmKey.getDatetime().toString("dd.MM.yyyy hh:mm:ss"));
+}
 
-          int DataSize = sizeof(TAdmAudit);
-          iFileLength = FileSeek(iFileHandle, 0, 2);
-          if( iFileLength != DataSize )
-          {
-             FileClose( iFileHandle );
-             return (-3);
-          }
+void MainWindowCFG::on_INTEGRATION_DevLine_pushButton_clicked()
+{
+    QString patch=QFileDialog::getOpenFileName(this, "open file","","*observer.exe");
+     qDebug()<<"patch = "<<patch;
+     if(patch!="")
+     {
+         qDebug()<<"[PROFIT]";
+         this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText(patch);
 
-          FileSeek(iFileHandle, 0, 0);
-          FileRead(iFileHandle, this, sizeof(TAdmAudit));
-          FileClose( iFileHandle );
-       }
-       catch(...)
-       {
-          return(-5);
-       }
+     }
 
-       return 1;
-    }
-    */
+}
+
+void MainWindowCFG::on_pushButton_6_clicked()
+{
+    qDebug()<<"++++++++++++++++++++++++";
+   add_unit();
 }
