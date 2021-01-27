@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2504,7 +2504,7 @@
         <attribute name="title">
          <string>РАСТР-М / ADAM</string>
         </attribute>
-        <widget class="RASTR_ADAM_Widget" name="widget_2" native="true">
+        <widget class="RASTR_ADAM_Widget" name="RASTR_ADAM_wgt" native="true">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -3184,7 +3184,7 @@
      <x>0</x>
      <y>0</y>
      <width>1079</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

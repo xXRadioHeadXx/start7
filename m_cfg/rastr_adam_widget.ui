@@ -38,12 +38,12 @@
      <string>Режим</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="SsoiM_PortNum_4">
+   <widget class="QComboBox" name="Use">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>39</y>
-      <width>70</width>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -55,19 +55,22 @@
     </property>
     <property name="maximumSize">
      <size>
-      <width>81</width>
+      <width>999</width>
       <height>20</height>
      </size>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_2">
+   <widget class="QSpinBox" name="Port">
     <property name="geometry">
      <rect>
       <x>240</x>
       <y>39</y>
       <width>71</width>
-      <height>22</height>
+      <height>23</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>9999</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -83,13 +86,13 @@
      <string>Порт</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="Name">
     <property name="geometry">
      <rect>
-      <x>92</x>
+      <x>112</x>
       <y>39</y>
-      <width>141</width>
-      <height>22</height>
+      <width>121</width>
+      <height>23</height>
      </rect>
     </property>
    </widget>
@@ -109,9 +112,9 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>110</x>
       <y>70</y>
-      <width>141</width>
+      <width>121</width>
       <height>23</height>
      </rect>
     </property>
@@ -132,13 +135,13 @@
      <string>Интервал &quot;Я жив&quot;,  сек</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_3">
+   <widget class="QSpinBox" name="KeepAliveInterval">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>130</y>
-      <width>121</width>
-      <height>22</height>
+      <width>131</width>
+      <height>23</height>
      </rect>
     </property>
    </widget>
@@ -181,14 +184,17 @@
      <string>Наложение титров</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_4">
+   <widget class="QSpinBox" name="Port2">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>290</y>
       <width>71</width>
-      <height>22</height>
+      <height>23</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>9999</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -204,38 +210,38 @@
      <string>Порт для второго монитора, (&quot;Кедр&quot;)</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="AutoDkPeriod">
     <property name="geometry">
      <rect>
       <x>160</x>
       <y>130</y>
-      <width>101</width>
-      <height>22</height>
+      <width>151</width>
+      <height>23</height>
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QComboBox" name="dtInfoToJpg">
     <property name="geometry">
      <rect>
       <x>160</x>
       <y>190</y>
-      <width>101</width>
-      <height>22</height>
+      <width>151</width>
+      <height>23</height>
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="ThermostatUse">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>190</y>
-      <width>101</width>
-      <height>22</height>
+      <width>131</width>
+      <height>23</height>
      </rect>
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
+  <widget class="QGroupBox" name="ADAM__group">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -260,13 +266,13 @@
      <string>COM-Порт</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox">
+   <widget class="QSpinBox" name="ADAM__Interval">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>150</y>
-      <width>71</width>
-      <height>22</height>
+      <width>81</width>
+      <height>23</height>
      </rect>
     </property>
    </widget>
@@ -296,12 +302,12 @@
      <string>опроса, мсек</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="SsoiM_PortNum_2">
+   <widget class="QComboBox" name="ADAM__Port">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>40</y>
-      <width>70</width>
+      <width>81</width>
       <height>22</height>
      </rect>
     </property>
@@ -344,12 +350,12 @@
      <string>COM-Порт</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="SsoiM_PortNum">
+   <widget class="QComboBox" name="RASTR__Port">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>40</y>
-      <width>70</width>
+      <width>81</width>
       <height>22</height>
      </rect>
     </property>
@@ -392,12 +398,12 @@
      <string>COM-Порт</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="SsoiM_PortNum_3">
+   <widget class="QComboBox" name="SOLID__Port">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>40</y>
-      <width>70</width>
+      <width>81</width>
       <height>22</height>
      </rect>
     </property>

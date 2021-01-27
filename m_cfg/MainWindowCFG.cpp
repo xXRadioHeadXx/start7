@@ -3407,6 +3407,7 @@ void MainWindowCFG::default_options()
     default_AdmAud();
     default_SSOI();
     default_TABLO();
+    default_RASTR();
 }
 
 void MainWindowCFG::get_RIF(QString filename)
@@ -3876,7 +3877,7 @@ void MainWindowCFG::set_RASTR(QString /*filename*/)
 
 void MainWindowCFG::default_RASTR()
 {
-
+this->ui->RASTR_ADAM_wgt->default_options();
 }
 
 void MainWindowCFG::get_SOLID(QString /*filename*/)
