@@ -1,6 +1,6 @@
 #include "ssoiportwidget.h"
 #include "ui_ssoiportwidget.h"
-#include <qDebug>
+#include <QDebug>
 
 SSOIPortWidget::SSOIPortWidget(QWidget *parent) :
     QWidget(parent),
