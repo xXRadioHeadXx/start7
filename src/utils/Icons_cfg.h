@@ -21,6 +21,7 @@ public:
     static QPixmap KL();
     static QPixmap NET_DEV();
     static QPixmap ONVIF();
+    static QPixmap default_square_gray();
 
     //         Y4_SOTA = 30,//Участок Сота
     //         DD_SOTA = 28,//ДД Сота

@@ -487,40 +487,7 @@ qDebug()
 <<"; Icon4Path "<<unit->getIcon4Path();
 ;
     selected_type=unit->getType();
-/*QString Name=unit->getName();
 
-    this->ui->uName_lineedit->setText(Name);
-
-    selected_type=unit->getType();
-
-    QString Type=this->Type_from_int_to_string(selected_type);
-
-  //  this->ui->uType_combobox->setTe
-    this->ui->CD_comboBox_Num2->setCurrentText("");
-    this->ui->CD_DK_checkBox->setChecked(false);
-    this->ui->CD_Bazalt_checkBox->setChecked(false);
-    this->ui->CD_connectblock_checkBox->setChecked(false);
-
-    this->ui->uType_combobox->setCurrentText("");
-    this->ui->stackedWidget->setCurrentWidget(this->ui->Empty_space);
-
-
-
-
-    this->ui->IU_comboBox_Num2->setCurrentText("");
-
-
-    this->ui->TG_comboBox_Num1->setCurrentText("");
-    this->ui->TG_comboBox_Num2->setCurrentText("");
-    this->ui->TG_UdpUse_checkBox->setChecked(false);
-
-    int UdpUse=0;
-    QString UdpAdress;
-    int UdpPort;
-
-        this->ui->uType_combobox->setCurrentText(Type);
-
-*/
        this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     switch(selected_type)
     {
@@ -638,197 +605,6 @@ void MainWindowCFG::get_option_GROUP(UnitNode *unit)
 
 
 
-QString MainWindowCFG::Type_from_int_to_string(int int_Type)
-{
-    QString Type;
-    Type.clear();
-
-    switch(int_Type)
-    {
-    case TypeUnitNode::GROUP:
-    Type.append(str_GROUP);
-    break;
-
-    case TypeUnitNode::SD_BL_IP:
-    Type.append(str_SD_BL_IP);
-    break;
-
-    case TypeUnitNode::IU_BL_IP:
-    Type.append(str_IU_BL_IP);
-    break;
-
-    case TypeUnitNode::TG:
-    Type.append(str_TG);
-    break;
-
-    case TypeUnitNode::RLM_KRL:
-    Type.append(str_RLM_KRL);
-    break;
-
-    case TypeUnitNode::RLM_C:
-    Type.append(str_RLM_C);
-    break;
-
-    case TypeUnitNode::BOD_T4K_M:
-    Type.append(str_BOD_T4K_M);
-    break;
-
-    case TypeUnitNode::Y4_T4K_M:
-    Type.append("Участок Точка-М/Гарда");
-    break;
-
-    case TypeUnitNode::DD_T4K_M:
-    Type.append(str_DD_T4K_M);
-    break;
-
-    case TypeUnitNode::BOD_SOTA:
-    Type.append(str_BOD_SOTA);
-    break;
-
-    case TypeUnitNode::Y4_SOTA:
-    Type.append(str_Y4_SOTA);
-    break;
-
-    case TypeUnitNode::DD_SOTA:
-    Type.append(str_DD_SOTA);
-    break;
-
-    case TypeUnitNode::KL:
-    Type.append(str_KL);
-    break;
-
-    case TypeUnitNode::NET_DEV:
-    Type.append(str_NET_DEV);
-    break;
-
-    case TypeUnitNode::STRAZH_IP:
-    Type.append(str_STRAZH_IP);
-    break;
-
-    case TypeUnitNode::ONVIF:
-    Type.append(str_ONVIF);
-
-    break;
-
-
-
- /*
-    if(arg1==str_BOD_SOTA)
-    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-    else
-    if(arg1==str_Y4_SOTA)
-    this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
-        else
-    if(arg1==str_DD_SOTA)
-    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
-*/
-
-//Участок Точка-М/Гряда
-//БОД Точка-М/Гряда
-    /*
-    case BL_IP:
-    Type.append("BL_IP");
-    break;
-    */
-
-    }
-    return Type;
-}
-
-int MainWindowCFG::Type_from_string_to_int(QString Type)
-{
-
-    if(Type==str_GROUP)
-        return TypeUnitNode::GROUP;
-
-    if(Type==str_SD_BL_IP)
-        return TypeUnitNode::SD_BL_IP;
-
-    if(Type==str_IU_BL_IP)
-        return TypeUnitNode::IU_BL_IP;
-
-    if(Type==str_BOD_SOTA)
-        return TypeUnitNode::BOD_SOTA;
-
-    if(Type==str_Y4_SOTA)
-        return TypeUnitNode::Y4_SOTA;
-
-    if(Type==str_DD_SOTA)
-        return TypeUnitNode::DD_SOTA;
-
-    if(Type==str_BOD_T4K_M)
-        return TypeUnitNode::BOD_T4K_M;
-
-    if(Type==str_Y4_T4K_M)
-        return TypeUnitNode::Y4_T4K_M;
-
-    if(Type==str_DD_T4K_M)
-        return TypeUnitNode::DD_T4K_M;
-
-    if(Type==str_TG)
-        return TypeUnitNode::TG;
-
-
-    if(Type==str_RLM_KRL)
-        return TypeUnitNode::RLM_KRL;
-
-
-    if(Type==str_KL)
-        return TypeUnitNode::KL;
-
-    if(Type==str_NET_DEV)
-        return TypeUnitNode::NET_DEV;
-
-    if(Type==str_STRAZH_IP)
-        return TypeUnitNode::STRAZH_IP;
-
-    if(Type==str_ONVIF)
-        return TypeUnitNode::ONVIF;
-
-    if(Type==str_RLM_C)
-        return TypeUnitNode::RLM_C;
-
-
-
-    /*
-    case TypeUnitNode::GROUP:
-break;
-
-
-    Type.append(str_GROUP);
-    break;
-
-    case TypeUnitNode::SD_BL_IP:
-    Type.append(str_SD_BL_IP);
-    break;
-
-    case TypeUnitNode::IU_BL_IP:
-    Type.append(str_IU_BL_IP);
-    break;
-
-    case TypeUnitNode::TG:
-    Type.append(str_TG);
-    break;
-
-    case TypeUnitNode::RLM_KRL:
-    Type.append(str_RLM_KRL);
-    break;
-
-    case TypeUnitNode::RLM_C:
-    Type.append(str_RLM_C);
-    break;
-
-    case TypeUnitNode::BOD_T4K_M:
-    Type.append(str_BOD_T4K_M);
-    break;
-
-    case TypeUnitNode::Y4_T4K_M:
-    Type.append("Участок Точка-М/Гарда");
-    break;
-    */
-    return TypeUnitNode::SYSTEM;
-
-}
 
 bool MainWindowCFG::this_name_is_free(QString Name)
 {
@@ -941,7 +717,7 @@ if(this_name_is_free(this->ui->uName_lineedit->text())==false)
     unit->setNum2(0);
 
     qDebug()<<"[set_option]";
-int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
+int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
        switch(type)
        {
 
@@ -2460,7 +2236,7 @@ bool MainWindowCFG::add_unit()
     }
 
 
-    int type=this->Type_from_string_to_int(this->ui->uType_combobox->currentText());
+    int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 
     /*
     QString type_srtring=this->ui->uType_combobox->currentText();
@@ -2633,7 +2409,7 @@ void MainWindowCFG::show_the_tree()
     {
         qDebug()<<"---------------------------------------------------------------------------";
         qDebug()<<"Name:  "<<unit->getName()
-        <<"/Type:  "<<this->Type_from_int_to_string(unit->getType())
+        <<"/Type:  "<<this->m_TypeUnitNode.value(unit->getType())
         <<"/Level: "<<unit->getLevel();
     }
 
@@ -2657,7 +2433,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 //    int UdpPort=unit->getUdpPort();
 
     qDebug()<<"Name: "<<unit->getName()
-            <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+            <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
             <<" Num2:"<<QString::number(unit->getNum2())
             <<" DK:"<<QString::number(unit->getDK())
             <<" Bazalt:"<<QString::number(unit->getBazalt())
@@ -4320,7 +4096,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 
 
     qDebug()<<"Name: "<<unit->getName()
-            <<" Type:"<<this->Type_from_int_to_string(unit->getType())
+            <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
             <<" Num2:"<<QString::number(unit->getNum2())
             <<" DK:"<<QString::number(unit->getDK())
             <<" Bazalt:"<<QString::number(unit->getBazalt())
@@ -5073,16 +4849,7 @@ void MainWindowCFG::save_option_SD_BL_IP(QSettings* settings, UnitNode *unit)
           settings->setValue("UdpAdress", unit->getUdpAdress());
 
 
-          /*
-          qDebug()<<"Name: "<<unit->getName()
-                  <<" Type:"<<this->Type_from_int_to_string(unit->getType())
-                  <<" Num2:"<<QString::number(unit->getNum2())
-                  <<" DK:"<<QString::number(unit->getDK())
-                  <<" Bazalt:"<<QString::number(unit->getBazalt())
-                  <<" connectblock:"<<QString::number(unit->getConnectBlock())
-                  <<" UdpUse:"<<QString::number(unit->getUdpUse())
-                  <<" UdpAdress:"<<unit->getUdpAdress();
-          */
+
 }
 
 void MainWindowCFG::save_option_BOD_SOTA(QSettings */*settings*/, UnitNode */*unit*/)
