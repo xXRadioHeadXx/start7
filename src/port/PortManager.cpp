@@ -780,6 +780,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             UnitNode * reciver = un;
             while(nullptr != reciver) {
                 if(TypeUnitNode::BL_IP == reciver->getType()) {
+                    reciver->setStateWord(newStateWord);
                     break;
                 }
                 reciver = reciver->getParentUN();
