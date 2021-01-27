@@ -641,7 +641,7 @@
               </rect>
              </property>
              <property name="currentIndex">
-              <number>9</number>
+              <number>5</number>
              </property>
              <widget class="QWidget" name="U4_Sota_M_groupbox">
               <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -989,7 +989,31 @@
                </property>
               </widget>
              </widget>
-             <widget class="QWidget" name="SSOI_SD_groupbox"/>
+             <widget class="QWidget" name="SSOI_SD_groupbox">
+              <widget class="QComboBox" name="SSOI_SD_OutType">
+               <property name="geometry">
+                <rect>
+                 <x>175</x>
+                 <y>30</y>
+                 <width>81</width>
+                 <height>23</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_111">
+               <property name="geometry">
+                <rect>
+                 <x>180</x>
+                 <y>10</y>
+                 <width>181</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Тип подключаемого объекта</string>
+               </property>
+              </widget>
+             </widget>
              <widget class="QWidget" name="SSOI_IU_groupbox"/>
              <widget class="QWidget" name="ADAM_groupbox"/>
              <widget class="QWidget" name="TOROS_groupbox"/>
