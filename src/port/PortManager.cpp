@@ -608,6 +608,14 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
     if(nullptr != reciver) {
 
         if(TypeUnitNode::SD_BL_IP == reciver->getType() || TypeUnitNode::IU_BL_IP == reciver->getType() || TypeUnitNode::BL_IP == reciver->getType()) {
+
+            if(TypeUnitNode::SD_BL_IP == target->getType()) {
+                D1 = target->getStateWord().at(0);
+            } else if(TypeUnitNode::IU_BL_IP == target->getType()) {
+                D1 = target->getStateWord().at(1) & 0x0F;
+            }
+
+
             for(const auto& un : as_const(reciver->getListChilde())) {
                 if(type != un->getType())
                     continue;
@@ -634,10 +642,11 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             tmpCAW->init();
             DataQueueItem itm = tmpCAW->getFirstMsg();
             QByteArray data;
-            if(TypeUnitNode::SD_BL_IP == target->getType())
+            if(TypeUnitNode::SD_BL_IP == target->getType()) {
                 data = DataQueueItem::makeOnOff0x20(target);
-            else if(TypeUnitNode::IU_BL_IP == target->getType())
+            } else if(TypeUnitNode::IU_BL_IP == target->getType()) {
                 data = DataQueueItem::makeOnOff0x23();
+            }
             data[4] = D1;
             data.chop(1);
             data.append(Utils::getByteSumm(data)); //<CHKS>

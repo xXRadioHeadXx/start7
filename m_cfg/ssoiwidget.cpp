@@ -1,6 +1,6 @@
 #include "ssoiwidget.h"
 #include "ui_ssoiwidget.h"
-#include <qDebug>;
+#include <QDebug>;
 
 SSOIwidget::SSOIwidget(QWidget *parent) :
     QWidget(parent),
