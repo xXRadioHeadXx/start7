@@ -87,23 +87,7 @@ private:
 
 
     bool can_i_add_or_not(int type_parrent, int type_child);
-    bool pass_to_add(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_GROUP(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_RLM_C(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_KL(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent);
-    bool pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent);
-    bool pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent);
+
 
     bool add_unit();
     bool change_unit();
@@ -112,24 +96,142 @@ private:
     void show_the_tree();
 
     void get_option(UnitNode *unit);
+    bool set_option(UnitNode *unit,UnitNode *parent);
+    bool pass_to_add(UnitNode *unit, UnitNode* parrent);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     void get_option_GROUP(UnitNode *unit);
+    void set_option_GROUP(UnitNode *unit);
+    bool pass_to_add_GROUP(UnitNode *unit, UnitNode* parrent);
+
     void get_option_SD_BL_IP(UnitNode *unit);
+    void set_option_SD_BL_IP(UnitNode *unit);
+    bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
+
+
     void get_option_IU_BL_IP(UnitNode *unit);
+    void set_option_IU_BL_IP(UnitNode *unit);
+    bool pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode* parrent);
+
+
     void get_option_TG(UnitNode *unit);
+    void set_option_TG(UnitNode *unit);
+    bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
+
     void get_option_RLM_KRL(UnitNode *unit);
+    void set_option_RLM_KRL(UnitNode *unit);
+    bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
+
+
+
     void get_option_RLM_C(UnitNode *unit);
+    void set_option_RLM_C(UnitNode *unit);
+    bool pass_to_add_RLM_C(UnitNode *unit, UnitNode* parrent);
+
+
+
     void get_option_BOD_T4K_M(UnitNode *unit);
+    void set_option_BOD_T4K_M(UnitNode *unit);
+    bool pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parrent);
+
     void get_option_Y4_T4K_M(UnitNode *unit);
+    void set_option_Y4_T4K_M(UnitNode *unit);
+   bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
+
     void get_option_DD_T4K_M(UnitNode *unit);
+    void set_option_DD_T4K_M(UnitNode *unit,UnitNode *parent);
+    bool pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parrent);
+
     void get_option_BOD_SOTA(UnitNode *unit);
+    void set_option_BOD_SOTA(UnitNode *unit);
+    bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
+
     void get_option_Y4_SOTA(UnitNode *unit);
+    void set_option_Y4_SOTA(UnitNode *unit);
+    bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
+
     void get_option_DD_SOTA(UnitNode *unit);
+    void set_option_DD_SOTA(UnitNode *unit,UnitNode *parent);
+    bool pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent);
+
     void get_option_BL_IP(UnitNode *unit);
+    void set_option_BL_IP(UnitNode *unit);
+
     void get_option_KL(UnitNode *unit);
+    void set_option_KL(UnitNode *unit);
+    bool pass_to_add_KL(UnitNode *unit, UnitNode* parrent);
+
     void get_option_ONVIF(UnitNode *unit);
+    void set_option_ONVIF(UnitNode *unit);
+    bool pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent);
+
     void get_option_STRAZH_IP(UnitNode *unit);
+    void set_option_STRAZH_IP(UnitNode *unit);
+    bool pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent);
+
     void get_option_NET_DEV(UnitNode *unit);
+    void set_option_NET_DEV(UnitNode *unit);
+    bool pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent);
+
+    void get_option_SSOI_SD(UnitNode *unit);
+    void set_option_SSOI_SD(UnitNode *unit);
+    bool pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent);
+
+    void get_option_SSOI_IU(UnitNode *unit);
+    void set_option_SSOI_IU(UnitNode *unit);
+    bool pass_to_add_SSOI_IU(UnitNode *unit, UnitNode *parrent);
+
+    void get_option_ADAM(UnitNode *unit);
+    void set_option_ADAM(UnitNode *unit);
+    bool pass_to_add_ADAM(UnitNode *unit, UnitNode *parrent);
+
+    void get_option_TOROS(UnitNode *unit);
+    void set_option_TOROS(UnitNode *unit);
+    bool pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent);
+
+    void get_option_DEVLINE(UnitNode *unit);
+    void set_option_DEVLINE(UnitNode *unit);
+    bool pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parrent);
+
+    void get_option_RASTRMTV(UnitNode *unit);
+    void set_option_RASTRMTV(UnitNode *unit);
+    bool pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent);
+
+    void get_option_INFO_TABLO(UnitNode *unit);
+    void set_option_INFO_TABLO(UnitNode *unit);
+    bool pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parrent);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     void load_other_options_from_ini_file(QString patch);
 
@@ -213,25 +315,9 @@ private:
 
 
 
-    bool set_option(UnitNode *unit,UnitNode *parent);
 
-    void set_option_GROUP(UnitNode *unit);
-    void set_option_SD_BL_IP(UnitNode *unit);
-    void set_option_IU_BL_IP(UnitNode *unit);
-    void set_option_TG(UnitNode *unit);
-    void set_option_RLM_KRL(UnitNode *unit);
-    void set_option_RLM_C(UnitNode *unit);
-    void set_option_BOD_T4K_M(UnitNode *unit);
-    void set_option_Y4_T4K_M(UnitNode *unit);
-    void set_option_DD_T4K_M(UnitNode *unit,UnitNode *parent);
-    void set_option_BOD_SOTA(UnitNode *unit);
-    void set_option_Y4_SOTA(UnitNode *unit);
-    void set_option_DD_SOTA(UnitNode *unit,UnitNode *parent);
-    void set_option_BL_IP(UnitNode *unit);
-    void set_option_KL(UnitNode *unit);
-    void set_option_ONVIF(UnitNode *unit);
-    void set_option_STRAZH_IP(UnitNode *unit);
-    void set_option_NET_DEV(UnitNode *unit);
+
+
 
 
 
@@ -252,6 +338,7 @@ private:
     int selected_type;
 
     QModelIndex current_index;
+
 
 
 
@@ -316,6 +403,34 @@ private:
         str_RASTRMTV,
         str_INFO_TABLO
  };
+
+    QMap <int,QString> m_TypeUnitNode{
+{TypeUnitNode::GROUP, str_GROUP},
+{TypeUnitNode::KL ,str_KL },
+{TypeUnitNode::SD_BL_IP ,str_SD_BL_IP },
+{TypeUnitNode::IU_BL_IP ,str_IU_BL_IP },
+{TypeUnitNode::TG ,str_TG },
+{TypeUnitNode::RLM_KRL ,str_RLM_KRL },
+{TypeUnitNode::RLM_C ,str_RLM_C },
+{TypeUnitNode::STRAZH_IP ,str_STRAZH_IP },
+{TypeUnitNode::ONVIF ,str_ONVIF },
+{TypeUnitNode::BOD_T4K_M ,str_BOD_T4K_M },
+{TypeUnitNode::Y4_T4K_M ,str_Y4_T4K_M },
+{TypeUnitNode::DD_T4K_M ,str_DD_T4K_M },
+{TypeUnitNode::BOD_SOTA ,str_BOD_SOTA },
+{TypeUnitNode::Y4_SOTA ,str_Y4_SOTA },
+{TypeUnitNode::DD_SOTA ,str_DD_SOTA },
+{TypeUnitNode::NET_DEV ,str_NET_DEV },
+
+{TypeUnitNode::SSOI_SD ,str_SSOI_SD },
+{TypeUnitNode::SSOI_IU ,str_SSOI_IU },
+{TypeUnitNode::ADAM ,str_ADAM },
+{TypeUnitNode::TOROS ,str_TOROS },
+{TypeUnitNode::DEVLINE ,str_DEVLINE },
+{TypeUnitNode::RASTRMTV ,str_RASTRMTV },
+{TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
+
+    };
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
@@ -402,6 +517,7 @@ private slots:
    void on_AdmAud_Create_pushButton_clicked();
 
    void coordinate_menu(bool visible,bool active, int x, int y, QString text);
+   void coordinate_devline(bool active, int x, int y, int x1, int y1);
    void on_pushButton_5_clicked();
    void on_uType_combobox_activated(const QString &arg1);
    void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);

@@ -589,7 +589,34 @@ qDebug()
     this->get_option_BL_IP(unit);
     break;
 
+    case TypeUnitNode::SSOI_SD:
+    this->get_option_SSOI_SD(unit);
+    break;
 
+    case TypeUnitNode::SSOI_IU:
+    this->get_option_SSOI_IU(unit);
+    break;
+
+    case TypeUnitNode::ADAM:
+    this->get_option_ADAM(unit);
+    break;
+
+    case TypeUnitNode::TOROS:
+    this->get_option_TOROS(unit);
+    break;
+
+    case TypeUnitNode::DEVLINE:
+    this->get_option_DEVLINE(unit);
+    coordinate_devline(true,0,0,0,0);
+    break;
+
+    case TypeUnitNode::RASTRMTV:
+    this->get_option_RASTRMTV(unit);
+    break;
+
+    case TypeUnitNode::INFO_TABLO:
+    this->get_option_INFO_TABLO(unit);
+    break;
 
     }
 
@@ -760,6 +787,8 @@ int MainWindowCFG::Type_from_string_to_int(QString Type)
 
     if(Type==str_RLM_C)
         return TypeUnitNode::RLM_C;
+
+
 
     /*
     case TypeUnitNode::GROUP:
@@ -1363,6 +1392,48 @@ if(unit->getType()==TypeUnitNode::STRAZH_IP)
 if(false==pass_to_add_STRAZH_IP(unit,parrent))
     return false;
 }
+if(unit->getType()==TypeUnitNode::GROUP)
+{
+if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::GROUP)
+{
+if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::GROUP)
+{
+if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::GROUP)
+{
+if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::GROUP)
+{
+if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::GROUP)
+{
+if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::GROUP)
+{
+if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+
 if(unit->getType()==TypeUnitNode::GROUP)
 {
 if(false==pass_to_add_GROUP(unit,parrent))
@@ -4478,7 +4549,77 @@ void MainWindowCFG::set_option_STRAZH_IP(UnitNode */*unit*/)
 
 void MainWindowCFG::set_option_NET_DEV(UnitNode */*unit*/)
 {
-//    unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
+    //    unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
+}
+
+void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_SSOI_SD(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_SSOI_IU(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_SSOI_IU(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_ADAM(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_ADAM(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_TOROS(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_TOROS(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_DEVLINE(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_DEVLINE(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_RASTRMTV(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_RASTRMTV(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::get_option_INFO_TABLO(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::set_option_INFO_TABLO(UnitNode *unit)
+{
+
 }
 
 void MainWindowCFG::save_ini(QString filename)
@@ -5508,8 +5649,9 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
 
 
 
-void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y,QString text)
+void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y, QString text)
 {
+
     if(visible)
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->coordinates_for_all);
     else
@@ -5522,6 +5664,19 @@ void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y,QStr
 
         this->ui->pushButton_5->setEnabled(active);
     }
+}
+
+void MainWindowCFG::coordinate_devline(bool active, int x, int y, int x1, int y1)
+{
+
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->devline_coordinates);
+
+   //     this->ui->coordinate_X_doubleSpinBox->setValue(x);
+   //     this->ui->coordinate_Y_doubleSpinBox->setValue(y);
+   //     this->ui->Dop_info_description_lineedit->setText(text);
+
+    //    this->ui->pushButton_5->setEnabled(active);
+
 }
 
 /*
@@ -5726,7 +5881,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     if(arg1==str_DEVLINE)
     {
     this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
-
+    coordinate_devline(false,0,0,0,0);
     }
     else
     if(arg1==str_RASTRMTV)

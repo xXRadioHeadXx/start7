@@ -1951,7 +1951,7 @@
               </rect>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="coordinates_for_all">
               <widget class="QGroupBox" name="groupBox_4">
@@ -2087,7 +2087,7 @@
               </widget>
              </widget>
              <widget class="QWidget" name="devline_coordinates">
-              <widget class="QGroupBox" name="Devline_coordinates">
+              <widget class="QGroupBox" name="groupbox_coordiantes_devline">
                <property name="geometry">
                 <rect>
                  <x>0</x>
