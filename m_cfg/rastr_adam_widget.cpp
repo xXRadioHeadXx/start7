@@ -1,5 +1,7 @@
 #include "rastr_adam_widget.h"
 #include "ui_rastr_adam_widget.h"
+#include <QFileInfo>
+#include <QFile>
 
 RASTR_ADAM_Widget::RASTR_ADAM_Widget(QWidget *parent) :
     QWidget(parent),
@@ -231,4 +233,23 @@ int RASTR_ADAM_Widget::getRASTRMSSOI__Timeout() const
 void RASTR_ADAM_Widget::setRASTRMSSOI__Timeout(int value)
 {
 
+}
+
+void RASTR_ADAM_Widget::on_Use_activated(const QString &arg1)
+{
+    if(arg1==Use_1)
+    {
+     QString filepath="C:\Program Files\RIFx\rastrmtv_cfg.ini" ;
+     QFileInfo info(filepath);
+     if(info.exists())
+     {
+
+     }
+     else
+     {
+         dialog.showMessage("Файл rastrmtv_cfg.ini не найден");
+         dialog.exec();
+         this->ui->Use->setCurrentIndex(0);
+     }
+    }
 }

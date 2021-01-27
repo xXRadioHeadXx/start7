@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMap>
+#include <QErrorMessage>
 
 namespace Ui {
 class RASTR_ADAM_Widget;
@@ -15,6 +16,9 @@ class RASTR_ADAM_Widget : public QWidget
 public:
     explicit RASTR_ADAM_Widget(QWidget *parent = nullptr);
     ~RASTR_ADAM_Widget();
+
+
+    QErrorMessage dialog;
 
     void default_options();
 
@@ -62,6 +66,9 @@ public:
 
     int getRASTRMSSOI__Timeout() const;
     void setRASTRMSSOI__Timeout(int value);
+
+private slots:
+    void on_Use_activated(const QString &arg1);
 
 private:
     Ui::RASTR_ADAM_Widget *ui;
