@@ -34,7 +34,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
    ui->tableWidget->verticalHeader()->setVisible(false);
 //   ui->tableWidget_2->verticalHeader()->setVisible(false);
 
-this->ui->groupBox_4->setVisible(false);
+this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
 
     this->ui->SQL_server_lineEdit->setText("localhost");
 
@@ -181,60 +181,13 @@ AnsiString str;
 
 default_OPERATORS();
 
-    str_GROUP=" Группа";
-    str_SD_BL_IP=" БЛ-IP СД";
-    str_IU_BL_IP=" БЛ-IP ИУ";
-    str_KL = " КЛ1 (концентратор) СД";
-    str_TG =" Точка/Гарда";
-    str_RLM_KRL = " РИФ-РЛМ/КРЛ/Трасса";
-    str_RLM_C = " РИФ-РЛМ-С";
-    str_STRAZH_IP = " ТВ+тепловиз.Страж-IP";
-    str_NET_DEV = " Сетевое устройство";
-    str_ONVIF = " ТВ-камера ONVIF";
-    str_BOD_T4K_M = " Точка-М/Гарда БОД";
-    str_Y4_T4K_M = " Точка-М/Гарда Участок";
-    str_DD_T4K_M = " Точка-М/Гарда ДД";
-    str_BOD_SOTA = " Сота/Сота-М БОД";
-    str_Y4_SOTA = " Сота/Сота-М Участок";
-    str_DD_SOTA = " Сота/Сота-М ДД";
 
 
-    this->ui->uType_combobox->addItem(str_GROUP);
-    this->ui->uType_combobox->addItem(str_IU_BL_IP);
-    this->ui->uType_combobox->addItem(str_SD_BL_IP);
-    this->ui->uType_combobox->addItem(str_KL);
-    this->ui->uType_combobox->addItem(str_RLM_KRL);
-    this->ui->uType_combobox->addItem(str_RLM_C);
-    this->ui->uType_combobox->addItem(str_NET_DEV);
-    this->ui->uType_combobox->addItem(str_BOD_SOTA);
-    this->ui->uType_combobox->addItem(str_Y4_SOTA);
-    this->ui->uType_combobox->addItem(str_DD_SOTA);
-    this->ui->uType_combobox->addItem(str_STRAZH_IP);
-    this->ui->uType_combobox->addItem(str_ONVIF);
-    this->ui->uType_combobox->addItem(str_TG);
-    this->ui->uType_combobox->addItem(str_BOD_T4K_M);
-    this->ui->uType_combobox->addItem(str_Y4_T4K_M);
-    this->ui->uType_combobox->addItem(str_DD_T4K_M);
+foreach(QString str, l_Unittype)
+{
+this->ui->uType_combobox->addItem(str);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    str_RIF_RLM=" РИФ-РЛМ";
-    str_RIF_RLM_24=" РИФ-РЛМ24";
-    str_RIF_RLM_B=" РИФ-РЛМ(Б)";
-    str_RIF_KRL=" РИФ-КРЛ";
-    str_Razriv=" Разрыв";
-    str_trassa1l=" Трасса-1л";
 
 this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM);
 this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM_24);
@@ -568,7 +521,7 @@ qDebug()
         this->ui->uType_combobox->setCurrentText(Type);
 
 */
-       this->ui->groupBox_4->setVisible(false);
+       this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     switch(selected_type)
     {
     case TypeUnitNode::GROUP:
@@ -2507,8 +2460,9 @@ bool MainWindowCFG::add_unit()
 
     unit->setLevel(parrent->getLevel()+1);
 
-    if(this->ui->groupBox_4->isVisible())
+    if(this->ui->stackedWidget_2->currentWidget()==this->ui->coordinates_for_all)
     {
+
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -5556,7 +5510,10 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
 
 void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y,QString text)
 {
-    this->ui->groupBox_4->setVisible(visible);
+    if(visible)
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->coordinates_for_all);
+    else
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     if(visible)
     {
         this->ui->coordinate_X_doubleSpinBox->setValue(x);
@@ -5607,7 +5564,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 {
     this->ui->UDP_RS485_Widget->setVisible(false);
     this->ui->type_pxm_label->clear();
-    this->ui->groupBox_4->setVisible(false);
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     if(arg1==str_GROUP){
     this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
     }
@@ -5741,6 +5698,48 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 
     }
 
+
+    else
+    if(arg1==str_SSOI_SD)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
+
+    }
+    else
+    if(arg1==str_SSOI_IU)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
+
+    }
+    else
+    if(arg1==str_ADAM)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->ADAM_groupbox);
+
+    }
+    if(arg1==str_TOROS)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
+
+    }
+    else
+    if(arg1==str_DEVLINE)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
+
+    }
+    else
+    if(arg1==str_RASTRMTV)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->RASTRMTV_groupbox);
+
+    }
+    else
+    if(arg1==str_INFO_TABLO)
+    {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->INFO_TABLO_groupbox);
+
+    }
 
     else
     {
