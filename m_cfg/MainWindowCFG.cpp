@@ -5621,6 +5621,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 
     case TypeUnitNode::DEVLINE:
     this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->devline_coordinates);
     break;
 
     case TypeUnitNode::RASTRMTV:
