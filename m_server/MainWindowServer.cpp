@@ -545,7 +545,7 @@ void MainWindowServer::on_actionControl_triggered()
         return;
 
 
-    if(TypeUnitNode::SD_BL_IP != selUN->getType())
+    if(TypeUnitNode::SD_BL_IP != selUN->getType() && TypeUnitNode::RLM_C != selUN->getType())
         return;
 
     QString strQuestion;
