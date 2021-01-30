@@ -311,7 +311,7 @@ public:
     void setStateWord(const QByteArray &value);
 
     //
-    virtual quint8 mask() {return 0;};
+    virtual quint8 mask() const {return 0;};
     virtual int isAlarm() const {return -1;};
     virtual int isInAlarm() const {return -1;};
     virtual int isOutAlarm() const {return -1;};

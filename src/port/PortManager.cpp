@@ -603,38 +603,22 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
     } else if(TypeUnitNode::RLM_C == target->getType()) {
         reciver = target;
     }
-    int type = target->getType();
 
     if(nullptr != reciver) {
 
         if(TypeUnitNode::SD_BL_IP == reciver->getType() || TypeUnitNode::IU_BL_IP == reciver->getType() || TypeUnitNode::BL_IP == reciver->getType()) {
 
             if(TypeUnitNode::SD_BL_IP == target->getType()) {
-                D1 = target->getStateWord().at(0);
+                D1 = target->getStateWord().at(3);
             } else if(TypeUnitNode::IU_BL_IP == target->getType()) {
                 D1 = target->getStateWord().at(1) & 0x0F;
             }
 
-
-            for(const auto& un : as_const(reciver->getListChilde())) {
-                if(type != un->getType())
-                    continue;
-                quint8 mask = un->mask();
-
-                if(TypeUnitNode::SD_BL_IP == un->getType() &&
-                   1 == un->isOff())
-                    D1 = D1 & ~mask;
-                else if(TypeUnitNode::IU_BL_IP == un->getType() &&
-                        1 == un->isOff())
-                    D1 = D1 & ~mask;
-                else
-                    D1 = D1 | mask;
-
-                if(un == target && value)
-                    D1 = D1 | mask;
-                else if(un == target && !value)
-                    D1 = D1 & ~mask;
-            }
+            quint8 mask = target->mask();
+            if(value)
+                D1 = D1 | mask;
+            else if(!value)
+                D1 = D1 & ~mask;
         }
 
         if(TypeUnitNode::BL_IP == reciver->getType()) {
@@ -823,7 +807,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
         un->setStateWord(newStateWord);
         un->updDoubl();
 
-        if(isLockPair) {
+        if(isLockPair && (nullptr != unLockSdBlIp || nullptr != unLockIuBlIp)) {
             unLockSdBlIp->setStateWord(newStateWord);
             unLockIuBlIp->setStateWord(newStateWord);
         }
