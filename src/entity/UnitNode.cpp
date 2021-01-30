@@ -506,36 +506,30 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             } else
                 return Icons::sqr_ylw();
         } else if(TypeUnitNode::RLM_C == getType()) {
-            if(0 == getBazalt()) {
-                if(1 == isWasAlarm() && getControl()) {
-                    return Icons::sqr_rd();
-                } else if(1 == isWasAlarm() && !getControl()) {
-                    return Icons::sqr_blk_crs_rd();
-                } else if(1 == isAlarm() && getControl()) {
-                    return Icons::sqr_rd();
-                } else if(1 == isAlarm() && !getControl()) {
-                    return Icons::sqr_blk_crs_rd();
-                } else if(1 == isOff() && getControl()) {
-                    return Icons::sqr_gry();
-                } else if(1 == isOff() && !getControl()) {
-                    return Icons::sqr_blk_crs_gry();
-                } else if(1 == isNorm() && getControl()) {
-                    return Icons::sqr_grn();
-                } else if(1 == isNorm() && !getControl()) {
-                    return Icons::sqr_blk_crs_grn();
-                } else if(getControl()) {
-                    return Icons::sqr_ylw();
-                } else if(!getControl()) {
-                    return Icons::sqr_blk_crs_ylw();
-                }
-            } else {
-                if(1 == isAlarm()) {
-                    return Icons::sqr_rd_opn();
-                } else if(1 == isNorm()) {
-                    return Icons::sqr_grn_cls();
-                } else {
-                    return Icons::sqr_ylw();
-                }
+            if(1 == lowLevl() && getControl()) {
+                return Icons::sqr_blu();
+            } else if(1 == lowLevl() && !getControl()) {
+                return Icons::sqr_blk_crs_blu();
+            } else if(1 == isWasAlarm() && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == isWasAlarm() && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == isAlarm() && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == isAlarm() && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == isOff() && getControl()) {
+                return Icons::sqr_gry();
+            } else if(1 == isOff() && !getControl()) {
+                return Icons::sqr_blk_crs_gry();
+            } else if(1 == isNorm() && getControl()) {
+                return Icons::sqr_grn();
+            } else if(1 == isNorm() && !getControl()) {
+                return Icons::sqr_blk_crs_grn();
+            } else if(getControl()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()) {
+                return Icons::sqr_blk_crs_ylw();
             }
         }
     } else if(SubTypeApp::configurator == type) {
