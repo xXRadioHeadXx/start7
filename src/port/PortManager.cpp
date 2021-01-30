@@ -1148,6 +1148,11 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
+                if(1 == un->isOn() && 1 == un->isAlarm()) {
+                    //нужен сброс
+                    resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                }
+
                 if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
                     //сохранение Тревога или Норма
                     if(1 == un->isOn()) {
@@ -1156,7 +1161,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                         //нужен сброс
-                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+//                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
                     }
                 } else if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
                     msg.setComment(QObject::tr("Норма"));
@@ -1176,20 +1181,20 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                 }
             }
 
-            if(!un->getDkInvolved() && (TypeUnitNode::RLM_C == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
-                //сохранение Тревога или Норма
-                qDebug() << "need reset alarm " << un->toString();
-                if(0 != un->treeChildCount()) {
-                    for(const auto& iuun : as_const(un->treeChild())) {
-                        if(TypeUnitNode::SYSTEM == iuun->getType()) {
-//                            qDebug() << "Utils::parcingStatusWord0x31 emitAutoOnOffIU";
-                            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(iuun);
-                        }
-                    }
-                }
+//            if(!un->getDkInvolved() && (TypeUnitNode::RLM_C == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
+//                //сохранение Тревога или Норма
+//                qDebug() << "need reset alarm " << un->toString();
+//                if(0 != un->treeChildCount()) {
+//                    for(const auto& iuun : as_const(un->treeChild())) {
+//                        if(TypeUnitNode::SYSTEM == iuun->getType()) {
+////                            qDebug() << "Utils::parcingStatusWord0x31 emitAutoOnOffIU";
+//                            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(iuun);
+//                        }
+//                    }
+//                }
 
-                //нужен сброс
-            }
+//                //нужен сброс
+//            }
 
         }
 
