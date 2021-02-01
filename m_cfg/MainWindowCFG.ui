@@ -641,7 +641,7 @@
               </rect>
              </property>
              <property name="currentIndex">
-              <number>6</number>
+              <number>5</number>
              </property>
              <widget class="QWidget" name="U4_Sota_M_groupbox">
               <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -993,9 +993,9 @@
               <widget class="QComboBox" name="SSOI_SD_OutType">
                <property name="geometry">
                 <rect>
-                 <x>175</x>
+                 <x>305</x>
                  <y>30</y>
-                 <width>81</width>
+                 <width>151</width>
                  <height>23</height>
                 </rect>
                </property>
@@ -1003,7 +1003,7 @@
               <widget class="QLabel" name="label_111">
                <property name="geometry">
                 <rect>
-                 <x>180</x>
+                 <x>305</x>
                  <y>10</y>
                  <width>181</width>
                  <height>16</height>
@@ -1011,6 +1011,75 @@
                </property>
                <property name="text">
                 <string>Тип подключаемого объекта</string>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="SSOI_SD_Num2">
+               <property name="geometry">
+                <rect>
+                 <x>115</x>
+                 <y>30</y>
+                 <width>81</width>
+                 <height>23</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="SSOI_SD_Num3">
+               <property name="geometry">
+                <rect>
+                 <x>205</x>
+                 <y>30</y>
+                 <width>81</width>
+                 <height>23</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_98">
+               <property name="geometry">
+                <rect>
+                 <x>115</x>
+                 <y>10</y>
+                 <width>81</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>БЛ</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_99">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>10</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Канал</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_100">
+               <property name="geometry">
+                <rect>
+                 <x>205</x>
+                 <y>10</y>
+                 <width>71</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>СД</string>
+               </property>
+              </widget>
+              <widget class="QComboBox" name="SSOI_SD_Num1">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>30</y>
+                 <width>91</width>
+                 <height>23</height>
+                </rect>
                </property>
               </widget>
              </widget>

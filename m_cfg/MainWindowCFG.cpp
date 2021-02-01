@@ -37,6 +37,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 for(int i=1;i<5;i++)
 {
     this->ui->SSOI_IU_Num1->addItem(QString::number(i));
+
+    this->ui->SSOI_SD_Num1->addItem(QString::number(i));
 }
 
 for(int i=1;i<100;i++)
@@ -47,8 +49,10 @@ if(i/10<1)
     str.append("0");
 str.append(QString::number(i));
 this->ui->SSOI_IU_Num2->addItem(str);
+this->ui->SSOI_SD_Num2->addItem(str);
 
 }
+
 
 for(int i=1;i<1000;i++)
 {
@@ -76,6 +80,13 @@ for(int i=1;i<1000;i++)
 foreach(QString str, SSOI_IU_Num3)
 {
     this->ui->SSOI_IU_Num3->addItem(str);
+
+}
+
+
+foreach(QString str, SSOI_SD_Num3)
+{
+    this->ui->SSOI_SD_Num3->addItem(str);
 
 }
 
@@ -837,6 +848,10 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
        this->set_option_SSOI_IU(unit);
        break;/**/
 
+       case TypeUnitNode::SSOI_SD:
+       this->set_option_SSOI_SD(unit);
+       break;/**/
+
        case TypeUnitNode::BL_IP:
   //     this->get_option_BL_IP(unit);
        break;
@@ -1277,6 +1292,13 @@ if(unit->getType()==TypeUnitNode::SSOI_IU)
 if(false==pass_to_add_SSOI_IU(unit,parrent))
     return false;
 }
+
+if(unit->getType()==TypeUnitNode::SSOI_SD)
+{
+if(false==pass_to_add_SSOI_SD(unit,parrent))
+    return false;
+}
+//pass_to_add_SSOI_SD
 
 
 if(unit->getType()==TypeUnitNode::GROUP)
@@ -4401,11 +4423,82 @@ void MainWindowCFG::set_option_NET_DEV(UnitNode */*unit*/)
 
 void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString str;
 
+
+
+    str.append("ССОИ CД");
+
+    str.append(" Канал: ");
+    str.append(QString::number(unit->getNum1()));
+
+    str.append(" БЛ: ");
+    str.append(QString::number(unit->getNum2()));
+
+
+    if(unit->getNum3()==9)
+    {
+        str.append(" Вскрытие");
+
+    }
+    else
+    {
+        str.append(" СД ");
+        str.append(QString::number(unit->getNum3()));
+
+        str.append(" ");
+        str.append(m_SSOI_SD_OutType.value(unit->getOutType()));
+
+    }
+
+
+
+    this->ui->textEdit->append(str);
 }
 
 void MainWindowCFG::set_option_SSOI_SD(UnitNode *unit)
 {
+    unit->setNum1(this->ui->SSOI_SD_Num1->currentText().toInt());
+    unit->setNum2(this->ui->SSOI_SD_Num2->currentText().toInt());
+    unit->setNum3(SSOI_SD_Num3.key(this->ui->SSOI_SD_Num3->currentText()));
+    unit->setOutType(m_SSOI_SD_OutType.key(this->ui->SSOI_SD_OutType->currentText()));
+}
+
+bool MainWindowCFG::pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent)
+{
+    //СД может быть добавлен только к группе или к системе
+        if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
+        {
+            dialog.showMessage("СД может быть добавлен только к группе или к системе");
+            dialog.exec();
+            return false;
+
+        }
+   //Num2 от нуля до восьми
+    if(unit->getNum2()<0||unit->getNum2()>8)
+        return false;
+
+
+        qDebug()<<"[RS485]";
+        //Контролируем отсутствие юнита с таким же Num1 Num2 и Num3
+
+           QList<UnitNode *> List1;
+           this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+           foreach(UnitNode *un, List1 )
+           {
+            if(un->getType()==unit->getType())
+            if(un->getNum1()==unit->getNum1())
+            if(un->getNum2()==unit->getNum2())
+            if(un->getNum3()==unit->getNum3())
+            {
+                dialog.showMessage("Такой обьект уже существует");
+                dialog.exec();
+                return false;
+            }
+           }
+           return true;
+
 
 }
 
