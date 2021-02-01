@@ -476,7 +476,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 } else if(1 == isAlarm() && !getControl()) {
                     return Icons::sqr_blk_crs_rd();
                 } else if(1 == isOff() && getControl()) {
-                    return Icons::sqr_gry();
+                    return Icons::sqr_blk();
                 } else if(1 == isOff() && !getControl()) {
                     return Icons::sqr_blk_crs_gry();
                 } else if(1 == isNorm() && getControl()) {
@@ -519,7 +519,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             } else if(1 == isAlarm() && !getControl()) {
                 return Icons::sqr_blk_crs_rd();
             } else if(1 == isOff() && getControl()) {
-                return Icons::sqr_gry();
+                return Icons::sqr_blk();
             } else if(1 == isOff() && !getControl()) {
                 return Icons::sqr_blk_crs_gry();
             } else if(1 == isNorm() && getControl()) {
