@@ -1272,42 +1272,42 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         if(-1 == clockPeriod || -1 == modeProcessing || -1 == threshold)
             return;
 
-        newStateWord[2] = static_cast<quint8>(newStateWord[2]) & static_cast<quint8>(0x80);
-        newStateWord[3] = static_cast<quint8>(newStateWord[3]) & static_cast<quint8>(0xFC);
+        newStateWord[2] = static_cast<quint8>(0x00);
+        newStateWord[3] = static_cast<quint8>(0x00);
 
-        newStateWord[2] = static_cast<quint8>(newStateWord[2]) | (static_cast<quint8>(clockPeriod) * static_cast<quint8>(0x0F));
+        newStateWord[2] = static_cast<quint8>(newStateWord[2]) | (static_cast<quint8>(clockPeriod) << 4);
 
-        if(10.0 == threshold) {
+        if(treatAsEqual(10.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(0);
-        } else if(09.0 == threshold) {
+        } else if(treatAsEqual(09.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(1);
-        } else if(08.0 == threshold) {
+        } else if(treatAsEqual(08.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(2);
-        } else if(07.0 == threshold) {
+        } else if(treatAsEqual(07.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(3);
-        } else if(06.0 == threshold) {
+        } else if(treatAsEqual(06.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(4);
-        } else if(05.0 == threshold) {
+        } else if(treatAsEqual(05.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(5);
-        } else if(04.0 == threshold) {
+        } else if(treatAsEqual(04.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(6);
-        } else if(03.0 == threshold) {
+        } else if(treatAsEqual(03.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(7);
-        } else if(02.0 == threshold) {
+        } else if(treatAsEqual(02.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(8);
-        } else if(01.0 == threshold) {
+        } else if(treatAsEqual(01.0, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(9);
-        } else if(00.6 == threshold) {
+        } else if(treatAsEqual(00.6, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(10);
-        } else if(00.5 == threshold) {
+        } else if(treatAsEqual(00.5, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(11);
-        } else if(00.4 == threshold) {
+        } else if(treatAsEqual(00.4, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(12);
-        } else if(00.3 == threshold) {
+        } else if(treatAsEqual(00.3, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(13);
-        } else if(00.2 == threshold) {
+        } else if(treatAsEqual(00.2, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(14);
-        } else if(00.1 == threshold) {
+        } else if(treatAsEqual(00.1, threshold)) {
             newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(15);
         }
 
