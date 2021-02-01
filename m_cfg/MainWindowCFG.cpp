@@ -34,6 +34,22 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
    ui->tableWidget->verticalHeader()->setVisible(false);
 //   ui->tableWidget_2->verticalHeader()->setVisible(false);
 
+for(int i=1;i<5;i++)
+{
+    this->ui->SSOI_IU_Num1->addItem(QString::number(i));
+}
+
+for(int i=1;i<100;i++)
+{
+QString str;
+str.clear();
+if(i/10<1)
+    str.append("0");
+str.append(QString::number(i));
+this->ui->SSOI_IU_Num2->addItem(str);
+
+}
+
 for(int i=1;i<1000;i++)
 {
     QString str;
@@ -55,6 +71,12 @@ for(int i=1;i<1000;i++)
     str.append(QString::number(i));
     qDebug()<<str;
     this->ui->TABLO_Num2->addItem(str);
+}
+
+foreach(QString str, SSOI_IU_Num3)
+{
+    this->ui->SSOI_IU_Num3->addItem(str);
+
 }
 
 this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
@@ -811,6 +833,10 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
        this->set_option_INFO_TABLO(unit);
        break;/**/
 
+       case TypeUnitNode::SSOI_IU:
+       this->set_option_SSOI_IU(unit);
+       break;/**/
+
        case TypeUnitNode::BL_IP:
   //     this->get_option_BL_IP(unit);
        break;
@@ -1245,6 +1271,13 @@ if(unit->getType()==TypeUnitNode::INFO_TABLO)
 if(false==pass_to_add_INFO_TABLO(unit,parrent))
     return false;
 }
+
+if(unit->getType()==TypeUnitNode::SSOI_IU)
+{
+if(false==pass_to_add_SSOI_IU(unit,parrent))
+    return false;
+}
+
 
 if(unit->getType()==TypeUnitNode::GROUP)
 {
@@ -4378,12 +4411,52 @@ void MainWindowCFG::set_option_SSOI_SD(UnitNode *unit)
 
 void MainWindowCFG::get_option_SSOI_IU(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString str;
 
+
+
+    str.append("ССОИ ИУ");
+
+    str.append(" Канал: ");
+    str.append(QString::number(unit->getNum1()));
+
+    str.append(" БЛ: ");
+    str.append(QString::number(unit->getNum2()));
+
+    str.append(" ");
+    str.append(SSOI_IU_Num3.value(unit->getNum3()));
+
+
+    this->ui->textEdit->append(str);
 }
 
 void MainWindowCFG::set_option_SSOI_IU(UnitNode *unit)
 {
+unit->setNum1(this->ui->SSOI_IU_Num1->currentText().toInt());
+unit->setNum2(this->ui->SSOI_IU_Num2->currentText().toInt());
+unit->setNum3(SSOI_IU_Num3.key(this->ui->SSOI_IU_Num3->currentText()));
+}
 
+bool MainWindowCFG::pass_to_add_SSOI_IU(UnitNode *unit, UnitNode *parent)
+{
+    //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
+    if((parent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parent->getType()==TypeUnitNode::ONVIF)||
+       (parent->getType()==TypeUnitNode::DEVLINE)||
+       (parent->getType()==TypeUnitNode::RASTRMTV)||
+       (parent->getType()==TypeUnitNode::INFO_TABLO)||
+
+       (parent->getType()==TypeUnitNode::SSOI_IU))
+    {
+
+        return false;
+
+    }
+
+    return true;
+
+    //
 }
 
 void MainWindowCFG::get_option_ADAM(UnitNode *unit)

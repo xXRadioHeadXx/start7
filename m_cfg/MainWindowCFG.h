@@ -443,6 +443,15 @@ private:
         {7,"Разряд"}
     };
 
+    QMap <int,QString> SSOI_IU_Num3{
+{1 , "ИУ1"},
+{2 , "ИУ2" },
+{3 , "ИУ3" },
+{4 , "ВК1" },
+{5 , "ВК2" },
+{6 , "ВК3" },
+};
+
 
 public:
     MainWindowCFG(QWidget *parent = nullptr);
