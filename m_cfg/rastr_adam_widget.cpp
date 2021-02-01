@@ -230,7 +230,7 @@ void RASTR_ADAM_Widget::on_Use_activated(const QString &arg1)
 {
     if(arg1==Use_1)
     {
-     QString filepath="C:\Program Files\RIFx\rastrmtv_cfg.ini" ;
+     QString filepath="C:/Program Files/RIFx/rastrmtv_cfg.ini" ;
      QFileInfo info(filepath);
      if(info.exists())
      {

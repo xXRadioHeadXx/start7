@@ -30,6 +30,61 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     ui->setupUi(this);
 
 
+    QString filepath="C:/Program Files/RIFx/rastrmtv_cfg.ini" ;
+    QFileInfo info(filepath);
+    if(info.exists())
+    {
+        QSettings settings(filepath, QSettings::IniFormat);
+      #if (defined (_WIN32) || defined (_WIN64))
+          settings.setIniCodec( "Windows-1251" );
+      #else
+          settings.setIniCodec( "UTF-8" );
+      #endif
+
+
+          for(int index = 0; index < 4; index++)
+          {
+              QString strGroup("DEVICE_%1");
+              strGroup = strGroup.arg(index);
+              if(settings.childGroups().contains(strGroup))
+              {
+                  settings.beginGroup(strGroup);
+
+                  QString SerNum = settings.value("SerNum","").toString();
+                  QString Name = settings.value("Name","").toString();
+                  if((SerNum!="")&&(Name!=""))
+                  {
+                      QString str;
+                      str.clear();
+                      str.append(Name);
+                      str.append(" (");
+                      str.append(SerNum);
+                      str.append(")");
+                      this->ui->RASTRMTV_Name_SerNum->addItem(str);
+
+                  }
+                  settings.endGroup();
+              }
+          }
+//Смотрим четыре группы DEVICE
+//Смотрим параметр SerNum
+//Если он не равен нулю
+//Добавляем его в Combobox
+
+
+
+
+    }
+    else
+    {
+
+        dialog.showMessage("Файл rastrmtv_cfg.ini не найден");
+        dialog.exec();
+
+        this->ui->RASTRMTV_Name_SerNum->addItem("не определено");
+//        this->ui->Use->setCurrentIndex(0);
+    }
+
 //default_options();
    ui->tableWidget->verticalHeader()->setVisible(false);
 //   ui->tableWidget_2->verticalHeader()->setVisible(false);
@@ -1298,6 +1353,14 @@ if(unit->getType()==TypeUnitNode::SSOI_SD)
 if(false==pass_to_add_SSOI_SD(unit,parrent))
     return false;
 }
+
+if(unit->getType()==TypeUnitNode::SSOI_SD)
+{
+if(false==pass_to_add_RASTRMTV(unit,parrent))
+    return false;
+}
+
+
 //pass_to_add_SSOI_SD
 
 
@@ -4590,6 +4653,17 @@ void MainWindowCFG::get_option_RASTRMTV(UnitNode *unit)
 void MainWindowCFG::set_option_RASTRMTV(UnitNode *unit)
 {
 
+}
+
+bool MainWindowCFG::pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent)
+{
+    if(this->ui->RASTRMTV_Name_SerNum->currentText()=="не определено")
+    {
+        dialog.showMessage("Не определено устройство");
+        dialog.exec();
+        return false;
+
+    }
 }
 
 void MainWindowCFG::get_option_INFO_TABLO(UnitNode *unit)
