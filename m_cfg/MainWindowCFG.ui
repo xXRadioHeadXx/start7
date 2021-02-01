@@ -1264,16 +1264,6 @@
                  <height>23</height>
                 </rect>
                </property>
-               <item>
-                <property name="text">
-                 <string> RS485</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string> UDP</string>
-                </property>
-               </item>
               </widget>
               <widget class="QLabel" name="label_108">
                <property name="geometry">

@@ -28,10 +28,20 @@ enum op_tbl {
 
 };
 
+
+struct SerNum_Name{
+    QString SerNum;
+    QString Name;
+};
+
+
+
 class MainWindowCFG : public QMainWindow
 {
     Q_OBJECT
 private:
+
+    QMap <QString, SerNum_Name> mSerNum_Name;
 
     Ui::MainWindowCFG *ui;
 

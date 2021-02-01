@@ -61,6 +61,10 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
                       str.append(SerNum);
                       str.append(")");
                       this->ui->RASTRMTV_Name_SerNum->addItem(str);
+                      SerNum_Name snn;
+                      snn.SerNum=SerNum;
+                      snn.Name=Name;
+                      mSerNum_Name.insert(str,snn);
 
                   }
                   settings.endGroup();
@@ -84,6 +88,20 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
         this->ui->RASTRMTV_Name_SerNum->addItem("не определено");
 //        this->ui->Use->setCurrentIndex(0);
     }
+
+
+
+for(int i=1;i<129;i++)
+{
+    QString str;
+    str.clear();
+    if(i/10<1)
+        str.append("0");
+    str.append(QString::number(i));
+    this->ui->RASTRMTV_Num3->addItem(str);
+
+
+}
 
 //default_options();
    ui->tableWidget->verticalHeader()->setVisible(false);
@@ -906,6 +924,11 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
        case TypeUnitNode::SSOI_SD:
        this->set_option_SSOI_SD(unit);
        break;/**/
+
+       case TypeUnitNode::RASTRMTV:
+       this->set_option_RASTRMTV(unit);
+       break;/**/
+
 
        case TypeUnitNode::BL_IP:
   //     this->get_option_BL_IP(unit);
@@ -4647,12 +4670,28 @@ void MainWindowCFG::set_option_DEVLINE(UnitNode *unit)
 
 void MainWindowCFG::get_option_RASTRMTV(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString str;
+
+    str.append("камера РАСТР-М-ТВ ");
+    str.append("\n");
+    str.append(unit->getIcon2Path());
+    str.append("(");
+    str.append(unit->getIcon1Path());
+    str.append(")");
+    str.append(" - ");
+    str.append(QString::number(unit->getNum3()));
+
+
+    this->ui->textEdit->append(str);
 
 }
 
 void MainWindowCFG::set_option_RASTRMTV(UnitNode *unit)
 {
-
+unit->setIcon1Path(mSerNum_Name.value(this->ui->RASTRMTV_Name_SerNum->currentText()).SerNum);
+unit->setIcon2Path(mSerNum_Name.value(this->ui->RASTRMTV_Name_SerNum->currentText()).Name);
+unit->setNum3(this->ui->RASTRMTV_Num3->currentText().toInt());
 }
 
 bool MainWindowCFG::pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent)
