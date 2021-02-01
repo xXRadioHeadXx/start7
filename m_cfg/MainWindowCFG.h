@@ -216,7 +216,8 @@ private:
     void set_option_INFO_TABLO(UnitNode *unit);
     bool pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parrent);
 
-
+    void TABLO_Num2_set(int val);
+    int TABLO_Num2_get();
 
 
 

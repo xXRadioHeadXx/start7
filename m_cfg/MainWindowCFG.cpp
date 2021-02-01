@@ -34,6 +34,29 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
    ui->tableWidget->verticalHeader()->setVisible(false);
 //   ui->tableWidget_2->verticalHeader()->setVisible(false);
 
+for(int i=1;i<1000;i++)
+{
+    QString str;
+
+  //  qDebug()<<"i/10 "<<QString::number(i/10)<<" i/100 "<<QString::number(i/100);
+
+    if(i/10<1)
+    {
+
+            str.append("0");
+    }
+
+    if(i/100<1)
+    {
+
+        str.append("0");
+    }
+
+    str.append(QString::number(i));
+    qDebug()<<str;
+    this->ui->TABLO_Num2->addItem(str);
+}
+
 this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
 
     this->ui->SQL_server_lineEdit->setText("localhost");
@@ -784,6 +807,10 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
        this->set_option_NET_DEV(unit);
        break;/**/
 
+       case TypeUnitNode::INFO_TABLO:
+       this->set_option_INFO_TABLO(unit);
+       break;/**/
+
        case TypeUnitNode::BL_IP:
   //     this->get_option_BL_IP(unit);
        break;
@@ -1210,6 +1237,12 @@ if(false==pass_to_add_GROUP(unit,parrent))
 if(unit->getType()==TypeUnitNode::GROUP)
 {
 if(false==pass_to_add_GROUP(unit,parrent))
+    return false;
+}
+
+if(unit->getType()==TypeUnitNode::INFO_TABLO)
+{
+if(false==pass_to_add_INFO_TABLO(unit,parrent))
     return false;
 }
 
@@ -4072,6 +4105,8 @@ qDebug()<<"[3]";
 
 
 
+
+
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 {
 
@@ -4393,12 +4428,61 @@ void MainWindowCFG::set_option_RASTRMTV(UnitNode *unit)
 
 void MainWindowCFG::get_option_INFO_TABLO(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
 
+    string1.append("Инф. табло");
+
+    string1.append(" Кан:");
+
+    string1.append(QString::number(this->ui->TABLO_wgt->getPort()));
+
+    string1.append(" Участок: ");
+
+    string1.append(QString::number( unit->getNum2()));
+
+
+
+    this->ui->textEdit->append(string1);
+    qDebug()<<"[+]"<<string1;
 }
 
 void MainWindowCFG::set_option_INFO_TABLO(UnitNode *unit)
 {
+    unit->setNum2(this->ui->TABLO_Num2->currentText().toInt());
+    QString name;
+    name.clear();
+    name.append("Участок: ");
+    name.append(this->ui->TABLO_Num2->currentText());
+    unit->setName(name);
+}
 
+bool MainWindowCFG::pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parrent)
+{
+    if(parrent->getType()!=TypeUnitNode::GROUP)
+    if(parrent->getType()!=TypeUnitNode::SYSTEM)
+    {
+        dialog.showMessage(" может быть добавлен только к группе");
+        dialog.exec();
+        return false;
+
+    }
+    //проверка по участку (Num2)
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    foreach(UnitNode *un, List1 )
+    {
+
+     if((un->getNum2()==unit->getNum2()))
+     {
+
+         dialog.showMessage("Такой обьект уже существует");
+         dialog.exec();
+         return false;
+     }
+
+
+    }
 }
 
 void MainWindowCFG::save_ini(QString filename)
