@@ -529,7 +529,10 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
     }
 
     if(-1.0 != un->threshold()) {
-        setCellText( table, 8,1, (QString::number(un->threshold(), 'f', 2)));
+        if(1.0 > un->threshold())
+            setCellText( table, 8,1, (QString::number(un->threshold(), 'f', 1)));
+        else
+            setCellText( table, 8,1, (QString::number(un->threshold(), 'f', 0)));
         setCellColor( table, 8,1, cellGray);
     }
 
