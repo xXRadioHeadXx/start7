@@ -15,6 +15,7 @@
 //#include <mntent.h>
 #include "admkeygenerator.h"
 #include "ssoiwidget.h"
+#include <QTimer>
 
 
 QT_BEGIN_NAMESPACE
@@ -41,6 +42,7 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:
 
+    QTimer *timer;
     QMap <QString, SerNum_Name> mSerNum_Name;
 
     Ui::MainWindowCFG *ui;
@@ -474,6 +476,8 @@ private:
 {9 , "вскрытие" },
 };
 
+
+
 public:
     MainWindowCFG(QWidget *parent = nullptr);
     ~MainWindowCFG();
@@ -487,7 +491,10 @@ public:
 
 
 
+
 private slots:
+
+    void update();
 
     void unitNameChanged(QStandardItem*);
 

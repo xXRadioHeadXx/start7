@@ -7,7 +7,11 @@
 #include <QStorageInfo>
 #include <QBrush>
 
+#include <QCursor>
+#include <QMouseEvent>
+
 #include <QDateTime>
+#include <QTimer>
 
 
 
@@ -28,6 +32,12 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
     ui->setupUi(this);
+
+
+
+    this->setMouseTracking(true);
+    this->ui->centralwidget->setMouseTracking(true);
+//    this->ui->tabWidget->setMouseTracking(true);
 
 
     QString filepath="C:/Program Files/RIFx/rastrmtv_cfg.ini" ;
@@ -535,7 +545,10 @@ connect(&op_f, SIGNAL(res(QString,QString,QString,QString  )) , this, SLOT     (
         connect(&this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
         connect(&this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
 
-
+        timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
+            timer->setInterval(10); // Задаем интервал таймера
+            connect(timer, SIGNAL(timeout()), this, SLOT(update())); // Подключаем сигнал таймера к нашему слоту
+            timer->start(); // Запускаем таймер
 
         this->on_actionCreate_triggered();
 }
@@ -835,7 +848,17 @@ for(int i=1;i<comports.count();i++)
       this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
       if(port->get_RifPortInterval()!=50)
       this->ui->tableWidget_2->item(cnt,1)->setBackground(Qt::green);
-  }
+}
+}
+
+void MainWindowCFG::update()
+{
+    QPoint mouseLoc = QCursor::pos();
+
+    this->ui->mouse_X->setText(QString::number(mouseLoc.x()));
+    this->ui->mouse_Y->setText(QString::number(mouseLoc.y()));
+
+    timer->start(10);
 }
 
 
@@ -6237,6 +6260,8 @@ void MainWindowCFG::on_devline_xy_pushButton_clicked()
 
     }
 }
+
+
 
 
 
