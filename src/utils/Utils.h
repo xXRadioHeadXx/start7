@@ -24,7 +24,7 @@ const FloatingType _threshold0 = 0.09;
 template<typename FloatingType, typename FloatingType2 = FloatingType>
 inline bool treatAs0(FloatingType value, FloatingType2 threshold0 = _threshold0<FloatingType2>)
 {
-    return abs(value) < threshold0;
+    return qFabs(value) < threshold0;
 };
 
 ///
