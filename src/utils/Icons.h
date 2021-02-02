@@ -24,6 +24,7 @@ public:
     static QPixmap sqr_grn();
     static QPixmap sqr_rd();
     static QPixmap sqr_ylw();
+    static QPixmap sqr_blk();
 
     static QPixmap sqr_grn_crs2_rd();
     static QPixmap sqr_grn_mns_gry();

@@ -45,5 +45,6 @@
         <file>icons/database_20_20.png</file>
         <file>icons/new_duty_20_20.png</file>
         <file>icons/exit_20_20.png</file>
+        <file>icons/square_black_20_20.png</file>
     </qresource>
 </RCC>
