@@ -22,6 +22,10 @@ DataQueueItem LockWaiter::getOnMsg()
     msgOn.setPort(getUnReciver()->getUdpPort());
     msgOn.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     msgOn.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    if(nullptr != unReciverIuBlIp && TypeUnitNode::RLM_C == unReciverIuBlIp->getType())
+        msgOn.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+
     return msgOn;
 }
 
@@ -32,6 +36,10 @@ DataQueueItem LockWaiter::getOffMsg()
     msgOff.setPort(getUnReciver()->getUdpPort());
     msgOff.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     msgOff.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    if(nullptr != unReciverIuBlIp && TypeUnitNode::RLM_C == unReciverIuBlIp->getType())
+        msgOff.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+
     return msgOff;
 }
 

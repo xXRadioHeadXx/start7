@@ -100,14 +100,14 @@ void Port::write(const DataQueueItem &data, bool /*dbIns*/) {
     case AbstractPort::UDP:
         if (m_ptrSocket) {
 //            qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
-            static_cast<QUdpSocket *>(m_ptrSocket)->writeDatagram(data.data(), data.address(), data.port());
+            static_cast<QUdpSocket *>(m_ptrSocket)->writeDatagram(data.dataToWrite(), data.address(), data.port());
 
         }
         break;
     case AbstractPort::TCP:
         if (m_ptrSocket) {
 //            qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
-            static_cast<QTcpSocket *>(m_ptrSocket)->write(data.data());
+            static_cast<QTcpSocket *>(m_ptrSocket)->write(data.dataToWrite());
         }
         break;
     default:

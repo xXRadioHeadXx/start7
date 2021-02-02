@@ -36,10 +36,11 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
-    result.setData(DataQueueItem::makeDK0x21(getUnReciver()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    DataQueueItem::makeDK0x21(result, getUnReciver());
 
     if(result.isValid())
         return result;
@@ -52,10 +53,11 @@ DataQueueItem ProcessDKWaiter::makeSecondMsg() {
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
-    result.setData(DataQueueItem::makeAlarmReset0x24(getUnReciver()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    DataQueueItem::makeAlarmReset0x24(result, getUnReciver());
 
     if(result.isValid())
         return result;

@@ -302,7 +302,7 @@ void PortManager::requestAlarmReset(UnitNode * selUN) {
                         ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
                         tmpCAW->init();
                         DataQueueItem itm = tmpCAW->getFirstMsg();
-                        itm.setData(DataQueueItem::makeAlarmReset0x24(selUN));
+                        DataQueueItem::makeAlarmReset0x24(itm, selUN);
 
                         appLsWaiter(tmpCAW);
 //                        tmpCAW->startFirstRequest();
@@ -324,7 +324,7 @@ void PortManager::requestAlarmReset(UnitNode * selUN) {
             ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
             tmpCAW->init();
             DataQueueItem itm = tmpCAW->getFirstMsg();
-            itm.setData(DataQueueItem::makeAlarmReset0x24(selUN));
+            DataQueueItem::makeAlarmReset0x24(itm, selUN);
             tmpCAW->setFirstMsg(itm);
             appLsWaiter(tmpCAW);
 //            tmpCAW->startFirstRequest();
@@ -494,13 +494,12 @@ void PortManager::requestModeSensor(UnitNode *selUN, QByteArray stateWord)
         tmpCAW->init();
 
         DataQueueItem itm = tmpCAW->getFirstMsg();
-        auto data = DataQueueItem::makeOnOff0x20(selUN);
+        DataQueueItem::makeOnOff0x20(itm, selUN);
+        auto data = itm.data();
         data[4] = stateWord.at(2);
         data[5] = stateWord.at(3);
         data.chop(1);
         data.append(Utils::getByteSumm(data)); //<CHKS>
-
-        data.prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF)).prepend(static_cast<quint8>(0xFF));
 
         itm.setData(data);
 
@@ -627,9 +626,11 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             DataQueueItem itm = tmpCAW->getFirstMsg();
             QByteArray data;
             if(TypeUnitNode::SD_BL_IP == target->getType()) {
-                data = DataQueueItem::makeOnOff0x20(target);
+                DataQueueItem::makeOnOff0x20(itm, target);
+                data = itm.data();
             } else if(TypeUnitNode::IU_BL_IP == target->getType()) {
-                data = DataQueueItem::makeOnOff0x23();
+                DataQueueItem::makeOnOff0x23(itm, target);
+                data = itm.data();
             }
             data[4] = D1;
             data.chop(1);
@@ -644,9 +645,9 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             tmpCAW->init();
             DataQueueItem itm = tmpCAW->getFirstMsg();
             if(value)
-                itm.setData(DataQueueItem::makeOn0x26(reciver));
+                DataQueueItem::makeOn0x26(itm, reciver);
             else
-                itm.setData(DataQueueItem::makeOff0x25(reciver));
+                DataQueueItem::makeOff0x25(itm, reciver);
             tmpCAW->setFirstMsg(itm);
             appLsWaiter(tmpCAW);
         }
@@ -1033,7 +1034,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     //нужен сброс
-                    resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                    DataQueueItem::makeAlarmReset0x24(resultRequest, un);
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
                     msg.setComment(QObject::tr("Норма"));
                     msg.setType(1);
@@ -1150,7 +1151,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
                 if(1 == un->isOn() && 1 == un->isAlarm()) {
                     //нужен сброс
-                    resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                    DataQueueItem::makeAlarmReset0x24(resultRequest, un);
                 }
 
                 if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
@@ -1344,7 +1345,7 @@ void PortManager::manageOverallReadQueue()
                                 tmpCAW->init();
                                 tmpCAW->setUnReciver(reciver);
                                 DataQueueItem request24 = itm;
-                                request24.setData(DataQueueItem::makeAlarmReset0x24(reciver));
+                                DataQueueItem::makeAlarmReset0x24(request24, reciver);
                                 tmpCAW->setFirstMsg(request24);
                                 preppLsWaiter(tmpCAW);
                             }

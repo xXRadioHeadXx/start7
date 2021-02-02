@@ -45,15 +45,16 @@ DataQueueItem StatusConnectRequester::makeFirstMsg() {
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
+    result.setPort(getUnReciver()->getUdpPort());
+    result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
+    result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
     if(TypeUnitNode::BL_IP == getUnReciver()->getType() ||
        TypeUnitNode::SD_BL_IP == getUnReciver()->getType() ||
        TypeUnitNode::IU_BL_IP == getUnReciver()->getType() ||
        TypeUnitNode::RLM_C == getUnReciver()->getType()) {
-    result.setData(DataQueueItem::makeStatusRequest0x22(getUnReciver()));
+        DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
     }
-    result.setPort(getUnReciver()->getUdpPort());
-    result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
-    result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
     if(result.isValid())
         return result;
