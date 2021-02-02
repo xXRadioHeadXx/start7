@@ -91,6 +91,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
 
+
+
 for(int i=1;i<129;i++)
 {
     QString str;
@@ -126,7 +128,40 @@ this->ui->SSOI_SD_Num2->addItem(str);
 
 }
 
+for(int i=0;i<8;i++)
+{
 
+this->ui->ADAM_Num2->addItem(QString::number(i));
+
+}
+
+for(int i=1;i<256;i++)
+{
+QString str;
+str.clear();
+if(i/10<1)
+    str.append("0");
+if(i/100<1)
+    str.append("0");
+str.append(QString::number(i));
+this->ui->ADAM_Num1->addItem(str);
+
+
+}
+
+for(int i=1;i<100;i++)
+{
+QString str;
+str.clear();
+if(i/10<1)
+    str.append("0");
+if(i/100<1)
+    str.append("0");
+str.append(QString::number(i));
+this->ui->TOROS_Num1->addItem(str);
+
+
+}
 for(int i=1;i<1000;i++)
 {
     QString str;
@@ -706,7 +741,7 @@ qDebug()
 
     case TypeUnitNode::DEVLINE:
     this->get_option_DEVLINE(unit);
-    coordinate_devline(true,0,0,0,0);
+    coordinate_devline(true,unit->getNum2(),unit->getNum3(),unit->getX(),unit->getY());
     break;
 
     case TypeUnitNode::RASTRMTV:
@@ -929,6 +964,17 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
        this->set_option_RASTRMTV(unit);
        break;/**/
 
+       case TypeUnitNode::TOROS:
+       this->set_option_TOROS(unit);
+       break;/**/
+
+       case TypeUnitNode::ADAM:
+       this->set_option_ADAM(unit);
+       break;/**/
+
+       case TypeUnitNode::DEVLINE:
+       this->set_option_DEVLINE(unit);
+       break;/**/
 
        case TypeUnitNode::BL_IP:
   //     this->get_option_BL_IP(unit);
@@ -1383,7 +1429,11 @@ if(false==pass_to_add_RASTRMTV(unit,parrent))
     return false;
 }
 
-
+if(unit->getType()==TypeUnitNode::TOROS)
+{
+if(false==pass_to_add_TOROS(unit,parrent))
+    return false;
+}
 //pass_to_add_SSOI_SD
 
 
@@ -2768,7 +2818,7 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
     }
 
     this->ui->textEdit->append(string1);
-    qDebug()<<"[+]"<<string1;
+
 }
 
 void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
@@ -4640,22 +4690,77 @@ bool MainWindowCFG::pass_to_add_SSOI_IU(UnitNode *unit, UnitNode *parent)
 
 void MainWindowCFG::get_option_ADAM(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
 
+    string1.append("Адам-406х/4168:");
+
+    if(unit->getNum1()/10<1)
+    string1.append("0");
+    if(unit->getNum1()/100<1)
+    string1.append("0");
+    string1.append(QString::number(unit->getNum1()));
+    string1.append("-");
+    string1.append(QString::number(unit->getNum2()));
+
+
+    this->ui->textEdit->append(string1);
 }
 
 void MainWindowCFG::set_option_ADAM(UnitNode *unit)
 {
-
+unit->setNum1(this->ui->ADAM_Num1->currentText().toInt());
+unit->setNum2(this->ui->ADAM_Num2->currentText().toInt());
 }
 
 void MainWindowCFG::get_option_TOROS(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
+
+    string1.append("Торос\n");
+    string1.append("Трасса: ");
+    string1.append(QString::number(unit->getNum1()));
+    string1.append("\n");
+    string1.append("Канал: ");
+    string1.append(QString::number(unit->getUdpPort()));
+
+    this->ui->textEdit->append(string1);
 
 }
 
 void MainWindowCFG::set_option_TOROS(UnitNode *unit)
 {
+    unit->setNum1(this->ui->TOROS_Num1->currentText().toInt());
 
+
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
+    {
+            unit->setUdpUse(1);
+
+
+    }
+
+    else
+    {
+            unit->setUdpUse(0);
+    }
+
+    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
+    unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
+}
+
+bool MainWindowCFG::pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent)
+{
+    //может быть добавлен только к группе или к системе
+        if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
+        {
+//            dialog.showMessage("может быть добавлен только к группе или к системе");
+//            dialog.exec();
+            return false;
+
+        }
 }
 
 void MainWindowCFG::get_option_DEVLINE(UnitNode *unit)
@@ -4665,7 +4770,10 @@ void MainWindowCFG::get_option_DEVLINE(UnitNode *unit)
 
 void MainWindowCFG::set_option_DEVLINE(UnitNode *unit)
 {
-
+    unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
+    unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
+    unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());
+    unit->setY(this->ui->coordinate_X_doubleSpinBox_5->value());
 }
 
 void MainWindowCFG::get_option_RASTRMTV(UnitNode *unit)
@@ -5804,11 +5912,12 @@ void MainWindowCFG::coordinate_devline(bool active, int x, int y, int x1, int y1
 
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->devline_coordinates);
 
-   //     this->ui->coordinate_X_doubleSpinBox->setValue(x);
-   //     this->ui->coordinate_Y_doubleSpinBox->setValue(y);
-   //     this->ui->Dop_info_description_lineedit->setText(text);
+this->ui->coordinate_X_doubleSpinBox_2->setValue(x);
+this->ui->coordinate_X_doubleSpinBox_3->setValue(y);
+this->ui->coordinate_X_doubleSpinBox_4->setValue(x1);
+this->ui->coordinate_X_doubleSpinBox_5->setValue(y1);
 
-    //    this->ui->pushButton_5->setEnabled(active);
+        this->ui->devline_xy_pushButton->setEnabled(active);
 
 }
 
@@ -5971,7 +6080,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     break;
 
     case TypeUnitNode::SSOI_IU:
-   this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
+    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
     break;
 
     case TypeUnitNode::ADAM:
@@ -5980,11 +6089,17 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 
     case TypeUnitNode::TOROS:
     this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->timeout_doubleSpinBox->setValue(50);
+    coordinate_menu(true,false,0,0,"");
     break;
 
     case TypeUnitNode::DEVLINE:
     this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->devline_coordinates);
+    coordinate_devline(false,0,0,0,0);
     break;
 
     case TypeUnitNode::RASTRMTV:
@@ -6104,3 +6219,43 @@ void MainWindowCFG::on_pushButton_6_clicked()
     qDebug()<<"++++++++++++++++++++++++";
    add_unit();
 }
+
+void MainWindowCFG::on_devline_xy_pushButton_clicked()
+{
+    QModelIndex ind = this->ui->treeView->currentIndex();
+    if(ind.isValid())
+    {
+    UnitNode *unit = static_cast<UnitNode*>(ind.internalPointer());
+    if(unit->getType()==TypeUnitNode::DEVLINE)
+    {
+        unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
+        unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
+        unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());
+        unit->setY(this->ui->coordinate_X_doubleSpinBox_5->value());
+    }
+
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

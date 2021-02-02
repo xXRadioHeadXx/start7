@@ -570,5 +570,6 @@ private slots:
    void on_AdmAud_ChekIn_pushButton_clicked();
    void on_INTEGRATION_DevLine_pushButton_clicked();
    void on_pushButton_6_clicked();
+   void on_devline_xy_pushButton_clicked();
 };
 #endif // MAINWINDOWCFG_H
