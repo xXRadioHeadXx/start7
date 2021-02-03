@@ -50,9 +50,9 @@ void AdmKeyGenerator::create_key(QString filepath)
 
         c=b+a;
 
-        a=qFromBigEndian<quint64 >(a);
-        b=qFromBigEndian<quint64 >(b);
-        c=qFromBigEndian<quint64 >(c);
+        a=qFromBigEndian<double>(a);
+        b=qFromBigEndian<double>(b);
+        c=qFromBigEndian<double>(c);
 
 
 
@@ -101,7 +101,7 @@ bool AdmKeyGenerator::check_key(QString filepath)
 
         file.close();
 
-        b=qFromBigEndian<quint64 >(b);
+        b=qFromBigEndian<double>(b);
 
         qDebug()<<"qFromBigEndian "  <<b;
         version=b;
@@ -110,16 +110,16 @@ bool AdmKeyGenerator::check_key(QString filepath)
 
 
     qDebug()<<"a "<<a
-           <<"<qFromBigEndian<quint64 >(a) "<<qFromBigEndian<quint64 >(a)
-           <<"qFromLittleEndian<quint64 >(a) "<<qFromLittleEndian<quint64 >(a)
-           <<"qToBigEndian<quint64 >(a) "<<qToBigEndian<quint64 >(a)
-           <<"qToLittleEndian<quint64 >(a) "<<qToLittleEndian<quint64 >(a);
+           <<"<qFromBigEndian<double>(a) "<<qFromBigEndian<double>(a)
+           <<"qFromLittleEndian<double>(a) "<<qFromLittleEndian<double>(a)
+           <<"qToBigEndian<double>(a) "<<qToBigEndian<double>(a)
+           <<"qToLittleEndian<double>(a) "<<qToLittleEndian<double>(a);
 
 
 
 
 
-        a=qFromBigEndian<quint64 >(a);
+        a=qFromBigEndian<double>(a);
 
         qDebug()<<"qFromBigEndian "  <<a;
 
@@ -134,7 +134,7 @@ bool AdmKeyGenerator::check_key(QString filepath)
         datetime=dt;
     //    this->ui->lineEdit_2->setText(dt.toString());
 
-        c=qFromBigEndian<quint64 >(c);
+        c=qFromBigEndian<double>(c);
 
         qDebug()<<"a "<<a;
         qDebug()<<"b "<<b;
