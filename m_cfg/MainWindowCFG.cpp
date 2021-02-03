@@ -2,6 +2,7 @@
 #include "ui_MainWindowCFG.h"
 #include <global.hpp>
 
+
 #include "QFileDialog"
 #include <QErrorMessage>
 #include <QStorageInfo>
