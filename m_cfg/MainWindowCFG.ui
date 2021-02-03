@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -603,7 +603,7 @@
               <rect>
                <x>10</x>
                <y>30</y>
-               <width>181</width>
+               <width>376</width>
                <height>23</height>
               </rect>
              </property>
@@ -1991,7 +1991,7 @@
                </rect>
               </property>
               <property name="currentIndex">
-               <number>0</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="UDP">
                <widget class="QLabel" name="label_80">
@@ -2087,7 +2087,7 @@
                  <rect>
                   <x>3</x>
                   <y>10</y>
-                  <width>73</width>
+                  <width>131</width>
                   <height>16</height>
                  </rect>
                 </property>
@@ -2628,9 +2628,9 @@
             <widget class="QPushButton" name="pushButton_2">
              <property name="geometry">
               <rect>
-               <x>105</x>
+               <x>117</x>
                <y>0</y>
-               <width>108</width>
+               <width>120</width>
                <height>25</height>
               </rect>
              </property>
@@ -2648,7 +2648,7 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>999</width>
                <height>25</height>
               </size>
              </property>
@@ -2659,9 +2659,9 @@
             <widget class="QPushButton" name="pushButton_moveUp">
              <property name="geometry">
               <rect>
-               <x>442</x>
+               <x>430</x>
                <y>0</y>
-               <width>100</width>
+               <width>120</width>
                <height>25</height>
               </rect>
              </property>
@@ -2679,7 +2679,7 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>999</width>
                <height>25</height>
               </size>
              </property>
@@ -2692,7 +2692,7 @@
               <rect>
                <x>0</x>
                <y>22</y>
-               <width>108</width>
+               <width>120</width>
                <height>25</height>
               </rect>
              </property>
@@ -2710,7 +2710,7 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>999</width>
                <height>25</height>
               </size>
              </property>
@@ -2721,9 +2721,9 @@
             <widget class="QPushButton" name="pushButton_4">
              <property name="geometry">
               <rect>
-               <x>105</x>
+               <x>117</x>
                <y>22</y>
-               <width>108</width>
+               <width>120</width>
                <height>25</height>
               </rect>
              </property>
@@ -2741,7 +2741,7 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>999</width>
                <height>25</height>
               </size>
              </property>
@@ -2752,9 +2752,9 @@
             <widget class="QPushButton" name="pushButton_moveDown">
              <property name="geometry">
               <rect>
-               <x>442</x>
+               <x>430</x>
                <y>22</y>
-               <width>100</width>
+               <width>120</width>
                <height>25</height>
               </rect>
              </property>
@@ -2772,7 +2772,7 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>999</width>
                <height>25</height>
               </size>
              </property>
@@ -2785,7 +2785,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>108</width>
+               <width>120</width>
                <height>25</height>
               </rect>
              </property>
