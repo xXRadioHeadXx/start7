@@ -361,7 +361,11 @@ AnsiString str;
 
 default_OPERATORS();
 
-
+qSort(l_Unittype.begin(), l_Unittype.end(), [](const QVariant &v1,
+                                               const QVariant &v2)
+                                                            ->bool
+                                                 {  return v1<v2;}
+                                                                );
 
 foreach(QString str, l_Unittype)
 {
