@@ -1284,6 +1284,16 @@
                  <height>23</height>
                 </rect>
                </property>
+               <item>
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </item>
               </widget>
               <widget class="QLabel" name="label_64">
                <property name="geometry">
@@ -3857,7 +3867,7 @@
      <x>0</x>
      <y>0</y>
      <width>1082</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

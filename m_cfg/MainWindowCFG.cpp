@@ -1006,6 +1006,9 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 
 
 
+
+
+
        }
 return true;
 
@@ -4794,10 +4797,21 @@ void MainWindowCFG::get_option_DEVLINE(UnitNode *unit)
 
 void MainWindowCFG::set_option_DEVLINE(UnitNode *unit)
 {
+    QString str;
+    str.clear();
+    str.append("ТВ-Камера ");
+    str.append(QString::number(this->ui->DEVLINE_Num1->value()));
+    str.append("(Поток");
+    str.append(this->ui->DEVLINE_OutType->currentText());
+    str.append(")");
+    unit->setName(str);
     unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
     unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
     unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());
     unit->setY(this->ui->coordinate_X_doubleSpinBox_5->value());
+    unit->setNum1(this->ui->DEVLINE_Num1->value());
+    unit->setOutType(this->ui->DEVLINE_OutType->currentText().toInt());
+
 }
 
 void MainWindowCFG::get_option_RASTRMTV(UnitNode *unit)
