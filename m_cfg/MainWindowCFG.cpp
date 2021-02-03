@@ -6003,7 +6003,7 @@ void MainWindowCFG::on_pushButton_5_clicked()
 
 void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 {
-    this->ui->type_pxm_label->clear();
+
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     this->ui->UDP_RS485_Widget->setVisible(false);
 
@@ -6017,7 +6017,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 
     case TypeUnitNode::SD_BL_IP:
     qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
-    this->ui->type_pxm_label->setPixmap(QPixmap(":images/SD.png"));
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
@@ -6080,7 +6080,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     break;
 
     case TypeUnitNode::BOD_SOTA:
-    this->ui->type_pxm_label->setPixmap(QPixmap(":images/BOD_T4K_M.png"));
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
@@ -6090,7 +6090,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     break;
 
     case TypeUnitNode::Y4_SOTA:
-    this->ui->type_pxm_label->setPixmap(QPixmap(":images/Y4_SOTA.png"));
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
     break;
 

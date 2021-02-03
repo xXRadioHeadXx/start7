@@ -1941,19 +1941,6 @@
               </widget>
              </widget>
             </widget>
-            <widget class="QLabel" name="type_pxm_label">
-             <property name="geometry">
-              <rect>
-               <x>220</x>
-               <y>20</y>
-               <width>30</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
             <widget class="QWidget" name="UDP_RS485_Widget" native="true">
              <property name="geometry">
               <rect>
@@ -2605,7 +2592,6 @@
             <zorder>uType_combobox</zorder>
             <zorder>label_4</zorder>
             <zorder>uName_lineedit</zorder>
-            <zorder>type_pxm_label</zorder>
             <zorder>UDP_RS485_Widget</zorder>
             <zorder>stackedWidget</zorder>
             <zorder>stackedWidget_2</zorder>
