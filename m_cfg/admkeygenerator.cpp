@@ -54,7 +54,10 @@ void AdmKeyGenerator::create_key(QString filepath)
         b=qFromBigEndian<double>(b);
         c=qFromBigEndian<double>(c);
 
-
+        // memcpy call in qFromUnaligned is recognized by optimizer as a correct way of type prunning
+        //auto temp = qFromUnaligned<typename QIntegerForSizeof<Float>::Unsigned>(&source);
+        //temp = qbswap(temp);
+        //return qFromUnaligned<Float>(&temp);
 
         in1  << b << a << c;
 
