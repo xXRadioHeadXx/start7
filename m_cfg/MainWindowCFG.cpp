@@ -256,11 +256,13 @@ AnsiString str;
     map_BACKUP_MaxBdStringCnt.insert(8,"9 000 000");
     map_BACKUP_MaxBdStringCnt.insert(9,"10 000 000");
     map_BACKUP_MaxBdStringCnt.insert(10,"-");
+
     foreach (QString str, map_BACKUP_MaxBdStringCnt)
     {
     this->ui->BACKUP_MaxBdStringCnt_comboBox->addItem(str);
 
     }
+
 
     map_INTEGRATION_Use.insert(0,"Выкл");
     map_INTEGRATION_Use.insert(1,"Вкл");
@@ -461,12 +463,12 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
 
     this->ui->tableWidget->setColumnWidth(0,10);
-    this->ui->tableWidget->setColumnWidth(1,70);
-    this->ui->tableWidget->setColumnWidth(2,70);
-    this->ui->tableWidget->setColumnWidth(3,70);
-    this->ui->tableWidget->setColumnWidth(4,70);
-    this->ui->tableWidget->setColumnWidth(5,70);
-    this->ui->tableWidget->setColumnWidth(6,70);
+    this->ui->tableWidget->setColumnWidth(1,130);
+    this->ui->tableWidget->setColumnWidth(2,130);
+    this->ui->tableWidget->setColumnWidth(3,130);
+    this->ui->tableWidget->setColumnWidth(4,130);
+    this->ui->tableWidget->setColumnWidth(5,130);
+    this->ui->tableWidget->setColumnWidth(6,130);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
     this->ui->tableWidget_2->setColumnWidth(0,130);
@@ -4093,7 +4095,7 @@ void MainWindowCFG::set_BACKUP(QString filename)
 void MainWindowCFG::default_BACKUP()
 {
     this->ui->BACKUP_BackupPath_lineedit->setText("");
-    this->ui->BACKUP_MaxBdStringCnt_comboBox->setCurrentText(map_BACKUP_MaxBdStringCnt.value(10));
+    this->ui->BACKUP_MaxBdStringCnt_comboBox->setCurrentText(map_BACKUP_MaxBdStringCnt.value(0));
 }
 
 void MainWindowCFG::get_PORT(QString /*filename*/)

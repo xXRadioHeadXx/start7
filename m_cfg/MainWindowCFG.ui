@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -189,7 +189,7 @@
               <rect>
                <x>10</x>
                <y>31</y>
-               <width>141</width>
+               <width>181</width>
                <height>16</height>
               </rect>
              </property>
@@ -208,7 +208,7 @@
               <rect>
                <x>10</x>
                <y>50</y>
-               <width>130</width>
+               <width>181</width>
                <height>22</height>
               </rect>
              </property>
@@ -220,13 +220,13 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>130</width>
+               <width>129</width>
                <height>22</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>117</width>
+               <width>999</width>
                <height>22</height>
               </size>
              </property>
@@ -234,9 +234,9 @@
             <widget class="QLabel" name="label_2">
              <property name="geometry">
               <rect>
-               <x>168</x>
+               <x>210</x>
                <y>31</y>
-               <width>191</width>
+               <width>211</width>
                <height>16</height>
               </rect>
              </property>
@@ -253,9 +253,9 @@
             <widget class="QComboBox" name="SoundType_comboBox">
              <property name="geometry">
               <rect>
-               <x>168</x>
+               <x>210</x>
                <y>50</y>
-               <width>186</width>
+               <width>211</width>
                <height>22</height>
               </rect>
              </property>
@@ -273,7 +273,7 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>164</width>
+               <width>999</width>
                <height>22</height>
               </size>
              </property>
@@ -306,7 +306,7 @@
               <rect>
                <x>10</x>
                <y>30</y>
-               <width>161</width>
+               <width>381</width>
                <height>16</height>
               </rect>
              </property>
@@ -317,8 +317,8 @@
             <widget class="QPushButton" name="BACKUP_pushButton">
              <property name="geometry">
               <rect>
-               <x>160</x>
-               <y>26</y>
+               <x>467</x>
+               <y>20</y>
                <width>75</width>
                <height>23</height>
               </rect>
@@ -342,7 +342,7 @@
               <rect>
                <x>10</x>
                <y>80</y>
-               <width>131</width>
+               <width>261</width>
                <height>16</height>
               </rect>
              </property>
