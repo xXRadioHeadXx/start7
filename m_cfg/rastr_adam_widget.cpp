@@ -14,7 +14,7 @@ RASTR_ADAM_Widget::RASTR_ADAM_Widget(QWidget *parent) :
 
     this->ui->ADAM__Port->addItem(" ВЫКЛ"," ВЫКЛ");
 
-    this->ui->SOLID__Port->addItem(" ВЫКЛ"," ВЫКЛ");
+
    // this->ui->ADA
 
 
@@ -27,7 +27,7 @@ RASTR_ADAM_Widget::RASTR_ADAM_Widget(QWidget *parent) :
          str = str.arg(i);
          this->ui->ADAM__Port->addItem(str,str);
 
-         this->ui->SOLID__Port->addItem(str,str);
+
      }
 /**/
 
@@ -78,7 +78,7 @@ void RASTR_ADAM_Widget::default_options()
 
     this->ui->ADAM__Port->setCurrentIndex(0);
 
-    this->ui->SOLID__Port->setCurrentIndex(0);
+
 
     this->ui->ADAM__Interval->setValue(100);
 }
@@ -168,12 +168,12 @@ void RASTR_ADAM_Widget::setAutoDkPeriod(int value)
 
 int RASTR_ADAM_Widget::getSOLID__Port() const
 {
-  return this->ui->SOLID__Port->currentIndex();
+
 }
 
 void RASTR_ADAM_Widget::setSOLID__Port(int value)
 {
-  this->ui->SOLID__Port->setCurrentIndex(value);
+
 }
 
 int RASTR_ADAM_Widget::getADAM__Port() const

@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>4</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3151,9 +3151,9 @@
         <widget class="SSOIwidget" name="SSOIwgt" native="true">
          <property name="geometry">
           <rect>
-           <x>10</x>
+           <x>0</x>
            <y>10</y>
-           <width>570</width>
+           <width>590</width>
            <height>270</height>
           </rect>
          </property>
@@ -3183,6 +3183,11 @@
           </rect>
          </property>
         </widget>
+       </widget>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>АДАМ</string>
+        </attribute>
        </widget>
        <widget class="QWidget" name="SQL">
         <attribute name="title">

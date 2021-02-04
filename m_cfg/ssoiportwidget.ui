@@ -58,13 +58,13 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="OprosVariant_1">
     <widget class="QLabel" name="label_84">
      <property name="geometry">
       <rect>
-       <x>136</x>
+       <x>130</x>
        <y>5</y>
        <width>151</width>
        <height>16</height>
@@ -79,7 +79,7 @@
       <rect>
        <x>0</x>
        <y>5</y>
-       <width>141</width>
+       <width>131</width>
        <height>18</height>
       </rect>
      </property>
@@ -92,7 +92,7 @@
       <rect>
        <x>0</x>
        <y>24</y>
-       <width>131</width>
+       <width>125</width>
        <height>20</height>
       </rect>
      </property>
@@ -106,9 +106,9 @@
     <widget class="QSpinBox" name="SsoiM_MaxErrCnt">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>130</x>
        <y>24</y>
-       <width>111</width>
+       <width>130</width>
        <height>20</height>
       </rect>
      </property>

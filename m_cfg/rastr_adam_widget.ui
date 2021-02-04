@@ -328,54 +328,6 @@
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_4">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>0</y>
-     <width>101</width>
-     <height>211</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>СОЛИД</string>
-   </property>
-   <widget class="QLabel" name="label_84">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>22</y>
-      <width>73</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>COM-Порт</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="SOLID__Port">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>81</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>66</width>
-      <height>20</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>81</width>
-      <height>22</height>
-     </size>
-    </property>
-   </widget>
-  </widget>
  </widget>
  <resources/>
  <connections/>
