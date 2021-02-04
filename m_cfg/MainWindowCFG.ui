@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2821,20 +2821,7 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_6">
-                  <item row="0" column="1">
-                   <spacer name="horizontalSpacer_3">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
+                 <layout class="QGridLayout" name="gridLayout">
                   <item row="0" column="0">
                    <widget class="QWidget" name="widget" native="true">
                     <property name="sizePolicy">
@@ -2998,6 +2985,19 @@
                     </layout>
                    </widget>
                   </item>
+                  <item row="0" column="1">
+                   <spacer name="horizontalSpacer_3">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
                   <item row="0" column="2">
                    <widget class="QTableWidget" name="tableWidget_2">
                     <property name="sizePolicy">
@@ -3008,7 +3008,7 @@
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>290</width>
+                      <width>282</width>
                       <height>0</height>
                      </size>
                     </property>
@@ -3020,12 +3020,12 @@
                     </property>
                     <column>
                      <property name="text">
-                      <string>Скорость опроса</string>
+                      <string>Скорость</string>
                      </property>
                     </column>
                     <column>
                      <property name="text">
-                      <string>Интервал опроса</string>
+                      <string>Интервал</string>
                      </property>
                     </column>
                    </widget>
@@ -3126,7 +3126,7 @@
                      </sizepolicy>
                     </property>
                     <property name="text">
-                     <string>Таймаут для определения направления (только для Точки-Т(С), c</string>
+                     <string>Таймаут для определения направления (для Точки-Т(С), c</string>
                     </property>
                    </widget>
                   </item>

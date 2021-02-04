@@ -475,8 +475,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->tableWidget->setColumnWidth(6,130);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
-    this->ui->tableWidget_2->setColumnWidth(0,130);
-    this->ui->tableWidget_2->setColumnWidth(1,130);
+    this->ui->tableWidget_2->setColumnWidth(0,115);
+    this->ui->tableWidget_2->setColumnWidth(1,116);
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
 
@@ -849,10 +849,12 @@ for(int i=1;i<comports.count();i++)
       this->ui->tableWidget_2->insertRow(cnt);
 
       this->ui->tableWidget_2->setItem(cnt,0, new QTableWidgetItem(QString::number(port->get_RifPortSpeed())));
+      this->ui->tableWidget_2->item(cnt,0)->setFlags(this->ui->tableWidget_2->item(cnt,0)->flags() ^ Qt::ItemIsEditable);
       if(port->get_RifPortSpeed()!=4800)
       this->ui->tableWidget_2->item(cnt,0)->setBackground(Qt::green);
 
       this->ui->tableWidget_2->setItem(cnt,1, new QTableWidgetItem(QString::number(port->get_RifPortInterval())));
+      this->ui->tableWidget_2->item(cnt,1)->setFlags(this->ui->tableWidget_2->item(cnt,1)->flags() ^ Qt::ItemIsEditable);
       if(port->get_RifPortInterval()!=50)
       this->ui->tableWidget_2->item(cnt,1)->setBackground(Qt::green);
 }

@@ -341,6 +341,7 @@ void SSOIwidget::on_Version_currentIndexChanged(const QString &arg1)
     if(arg1==Version_1)
     {
     this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI);
+        this->ui->SSOI_Port_widget->set_SsoiMOprosVariant_interface(1);
     this->ui->SsoiMOprosVariant->setVisible(false);
     this->ui->lbl_SsoiMOprosVariant->setVisible(false);
 
