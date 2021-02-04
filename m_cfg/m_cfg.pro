@@ -36,6 +36,9 @@ SOURCES += \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
+    qdevicewatcher.cpp \
+    qdevicewatcher_linux.cpp \
+    qdevicewatcher_win32.cpp \
     rastr_widget.cpp \
     sqlunit.cpp \
     ssoiportwidget.cpp \
@@ -56,6 +59,8 @@ HEADERS += \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
+    qdevicewatcher.h \
+    qdevicewatcher_p.h \
     rastr_widget.h \
     sqlunit.h \
     ssoiportwidget.h \

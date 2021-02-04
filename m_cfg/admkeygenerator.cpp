@@ -7,9 +7,29 @@
 #include <QtCore/qfloat16.h>
 #include <QtCore/qglobal.h>
 
-AdmKeyGenerator::AdmKeyGenerator()
-{
 
+AdmKeyGenerator::AdmKeyGenerator(QObject *parent) : QObject(parent)
+{
+    watcher = new QDeviceWatcher;
+//    watcher->moveToThread(this);
+    watcher->appendEventReceiver(this);
+
+    connect(watcher,
+            SIGNAL(deviceAdded(QString)),
+            this,
+            SLOT(slotDeviceAdded(QString)),
+            Qt::DirectConnection);
+    connect(watcher,
+            SIGNAL(deviceChanged(QString)),
+            this,
+            SLOT(slotDeviceChanged(QString)),
+            Qt::DirectConnection);
+    connect(watcher,
+            SIGNAL(deviceRemoved(QString)),
+            this,
+            SLOT(slotDeviceRemoved(QString)),
+            Qt::DirectConnection);
+    watcher->start();
 }
 
 
