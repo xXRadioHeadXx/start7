@@ -1,18 +1,16 @@
-#include "rastr_adam_widget.h"
-#include "ui_rastr_adam_widget.h"
+#include "RASTR_widget.h"
+#include "ui_RASTR_widget.h"
 #include <QFileInfo>
 #include <QFile>
 
-RASTR_ADAM_Widget::RASTR_ADAM_Widget(QWidget *parent) :
+RASTR_Widget::RASTR_Widget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RASTR_ADAM_Widget)
+    ui(new Ui::RASTR_Widget)
 {
     ui->setupUi(this);
 
 
 
-
-    this->ui->ADAM__Port->addItem(" ВЫКЛ"," ВЫКЛ");
 
 
    // this->ui->ADA
@@ -20,15 +18,7 @@ RASTR_ADAM_Widget::RASTR_ADAM_Widget(QWidget *parent) :
 
 
 
-     for(int i(1), n(100); i < n; i++)
-     {
-      //   qDebug()<<"i= "<<i;
-         QString str(" COM%1");
-         str = str.arg(i);
-         this->ui->ADAM__Port->addItem(str,str);
 
-
-     }
 /**/
 
     l_Use.insert(0,Use_0);
@@ -60,12 +50,12 @@ RASTR_ADAM_Widget::RASTR_ADAM_Widget(QWidget *parent) :
 
 }
 
-RASTR_ADAM_Widget::~RASTR_ADAM_Widget()
+RASTR_Widget::~RASTR_Widget()
 {
     delete ui;
 }
 
-void RASTR_ADAM_Widget::default_options()
+void RASTR_Widget::default_options()
 {
     this->ui->Use->setCurrentIndex(0);
     this->ui->Name->setText("localhost");
@@ -76,157 +66,135 @@ void RASTR_ADAM_Widget::default_options()
     this->ui->ThermostatUse->setCurrentIndex(0);
     this->ui->dtInfoToJpg->setCurrentIndex(0);
 
-    this->ui->ADAM__Port->setCurrentIndex(0);
 
-
-
-    this->ui->ADAM__Interval->setValue(100);
 }
 
-int RASTR_ADAM_Widget::getUse() const
+int RASTR_Widget::getUse() const
 {
     return  l_Use.key(this->ui->Use->currentText());
 }
 
-void RASTR_ADAM_Widget::setUse(int value)
+void RASTR_Widget::setUse(int value)
 {
 
         this->ui->Use->setCurrentText(l_Use.value(value));
 
 }
 
-QString RASTR_ADAM_Widget::getName() const
+QString RASTR_Widget::getName() const
 {
     return this->ui->Name->text();
 }
 
-void RASTR_ADAM_Widget::setName(const QString &value)
+void RASTR_Widget::setName(const QString &value)
 {
     this->ui->Name->setText(value);
 }
 
-int RASTR_ADAM_Widget::getPort() const
+int RASTR_Widget::getPort() const
 {
     return this->ui->Port->value();
 }
 
-void RASTR_ADAM_Widget::setPort(int value)
+void RASTR_Widget::setPort(int value)
 {
     this->ui->Port->setValue(value);
 }
 
-int RASTR_ADAM_Widget::getPort2() const
+int RASTR_Widget::getPort2() const
 {
     return this->ui->Port2->value();
 }
 
-void RASTR_ADAM_Widget::setPort2(int value)
+void RASTR_Widget::setPort2(int value)
 {
     this->ui->Port2->setValue(value);
 }
 
-int RASTR_ADAM_Widget::getKeepAliveInterval() const
+int RASTR_Widget::getKeepAliveInterval() const
 {
     return  this->ui->KeepAliveInterval->value();
 }
-void RASTR_ADAM_Widget::setKeepAliveInterval(int value)
+void RASTR_Widget::setKeepAliveInterval(int value)
 {
    this->ui->KeepAliveInterval->setValue(value);
 }
 
-int RASTR_ADAM_Widget::getThermostatUse() const
+int RASTR_Widget::getThermostatUse() const
 {
 
     return l_ThermostatUse.key(this->ui->ThermostatUse->currentText());
 }
 
-void RASTR_ADAM_Widget::setThermostatUse(int value)
+void RASTR_Widget::setThermostatUse(int value)
 {
     this->ui->ThermostatUse->setCurrentText(l_ThermostatUse.value(value));
 }
 
-int RASTR_ADAM_Widget::getDtInfoToJpg() const
+int RASTR_Widget::getDtInfoToJpg() const
 {
    return l_ThermostatUse.key(this->ui->dtInfoToJpg->currentText());
 }
 
-void RASTR_ADAM_Widget::setDtInfoToJpg(int value)
+void RASTR_Widget::setDtInfoToJpg(int value)
 {
     this->ui->dtInfoToJpg->setCurrentText(l_ThermostatUse.value(value));
 }
 
-int RASTR_ADAM_Widget::getAutoDkPeriod() const
+int RASTR_Widget::getAutoDkPeriod() const
 {
     return l_AutoDkPeriod.key(this->ui->AutoDkPeriod->currentText());
 }
 
-void RASTR_ADAM_Widget::setAutoDkPeriod(int value)
+void RASTR_Widget::setAutoDkPeriod(int value)
 {
     this->ui->AutoDkPeriod->setCurrentText(l_AutoDkPeriod.value(value));
 }
 
 
-int RASTR_ADAM_Widget::getSOLID__Port() const
+int RASTR_Widget::getSOLID__Port() const
 {
 
 }
 
-void RASTR_ADAM_Widget::setSOLID__Port(int value)
+void RASTR_Widget::setSOLID__Port(int value)
 {
 
 }
 
-int RASTR_ADAM_Widget::getADAM__Port() const
-{
-  return this->ui->ADAM__Port->currentIndex();
-}
 
-void RASTR_ADAM_Widget::setADAM__Port(int value)
-{
-  this->ui->ADAM__Port->setCurrentIndex(value);
-}
 
-int RASTR_ADAM_Widget::getADAM__Interval() const
-{
-    return this->ui->ADAM__Interval->value();
-}
-
-void RASTR_ADAM_Widget::setADAM__Interval(int value)
-{
-    this->ui->ADAM__Interval->setValue(value);
-}
-
-QString RASTR_ADAM_Widget::getRASTRMSSOI__SerNum() const
+QString RASTR_Widget::getRASTRMSSOI__SerNum() const
 {
     return RASTRMSSOI__SerNum;
 }
 
-void RASTR_ADAM_Widget::setRASTRMSSOI__SerNum(const QString &value)
+void RASTR_Widget::setRASTRMSSOI__SerNum(const QString &value)
 {
     RASTRMSSOI__SerNum = value;
 }
 
-int RASTR_ADAM_Widget::getRASTRMSSOI__Speed() const
+int RASTR_Widget::getRASTRMSSOI__Speed() const
 {
     return RASTRMSSOI__Speed;
 }
 
-void RASTR_ADAM_Widget::setRASTRMSSOI__Speed(int value)
+void RASTR_Widget::setRASTRMSSOI__Speed(int value)
 {
     RASTRMSSOI__Speed = value;
 }
 
-int RASTR_ADAM_Widget::getRASTRMSSOI__Timeout() const
+int RASTR_Widget::getRASTRMSSOI__Timeout() const
 {
     return RASTRMSSOI__Timeout;
 }
 
-void RASTR_ADAM_Widget::setRASTRMSSOI__Timeout(int value)
+void RASTR_Widget::setRASTRMSSOI__Timeout(int value)
 {
 
 }
 
-void RASTR_ADAM_Widget::on_Use_activated(const QString &arg1)
+void RASTR_Widget::on_Use_activated(const QString &arg1)
 {
     if(arg1==Use_1)
     {

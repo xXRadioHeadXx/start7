@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>8</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3173,7 +3173,7 @@
         <attribute name="title">
          <string>РАСТР</string>
         </attribute>
-        <widget class="RASTR_ADAM_Widget" name="RASTR_ADAM_wgt" native="true">
+        <widget class="RASTR_Widget" name="RASTR_wgt" native="true">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -3188,6 +3188,16 @@
         <attribute name="title">
          <string>АДАМ</string>
         </attribute>
+        <widget class="ADAM_Widget" name="ADAM_wgt" native="true">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>571</width>
+           <height>381</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="SQL">
         <attribute name="title">
@@ -3709,7 +3719,7 @@
            <rect>
             <x>10</x>
             <y>20</y>
-            <width>231</width>
+            <width>531</width>
             <height>16</height>
            </rect>
           </property>
@@ -3939,9 +3949,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>RASTR_ADAM_Widget</class>
+   <class>ADAM_Widget</class>
    <extends>QWidget</extends>
-   <header location="global">rastr_adam_widget.h</header>
+   <header location="global">adam_widget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RASTR_Widget</class>
+   <extends>QWidget</extends>
+   <header location="global">rastr_widget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -3471,7 +3471,8 @@ void MainWindowCFG::default_options()
     default_AdmAud();
     default_SSOI();
     default_TABLO();
-    this->ui->RASTR_ADAM_wgt->default_options();
+    this->ui->RASTR_wgt->default_options();
+    this->ui->ADAM_wgt->default_options();
 
 }
 
@@ -3694,14 +3695,14 @@ void MainWindowCFG::get_RASTRMTV(QString filename)
       AutoDkPeriod=10*/
     settings.beginGroup("RASTRMTV");
 
-    this->ui->RASTR_ADAM_wgt->setUse((settings.value("Use",-1).toInt()));
-    this->ui->RASTR_ADAM_wgt->setName((settings.value("Name",-1).toString()));
-    this->ui->RASTR_ADAM_wgt->setPort((settings.value("Port",-1).toInt()));
-    this->ui->RASTR_ADAM_wgt->setPort2((settings.value("Port2",-1).toInt()));
-    this->ui->RASTR_ADAM_wgt->setKeepAliveInterval((settings.value("KeepAliveInterval",-1).toInt()));
-    this->ui->RASTR_ADAM_wgt->setThermostatUse((settings.value("ThermostatUse",-1).toInt()));
-    this->ui->RASTR_ADAM_wgt->setDtInfoToJpg((settings.value("dtInfoToJpg",-1).toInt()));
-    this->ui->RASTR_ADAM_wgt->setAutoDkPeriod((settings.value("AutoDkPeriod",-1).toInt()));
+    this->ui->RASTR_wgt->setUse((settings.value("Use",-1).toInt()));
+    this->ui->RASTR_wgt->setName((settings.value("Name",-1).toString()));
+    this->ui->RASTR_wgt->setPort((settings.value("Port",-1).toInt()));
+    this->ui->RASTR_wgt->setPort2((settings.value("Port2",-1).toInt()));
+    this->ui->RASTR_wgt->setKeepAliveInterval((settings.value("KeepAliveInterval",-1).toInt()));
+    this->ui->RASTR_wgt->setThermostatUse((settings.value("ThermostatUse",-1).toInt()));
+    this->ui->RASTR_wgt->setDtInfoToJpg((settings.value("dtInfoToJpg",-1).toInt()));
+    this->ui->RASTR_wgt->setAutoDkPeriod((settings.value("AutoDkPeriod",-1).toInt()));
 
     settings.endGroup();
 }
@@ -3937,8 +3938,8 @@ int res=0;
 void MainWindowCFG::default_SQL()
 {
 this->ui->SQL_type_comboBox->setCurrentText("Выкл");
-    this->ui->SQL_server_lineEdit->setText("");
-    this->ui->SQL_port_doubleSpinBox->setValue(0);
+    this->ui->SQL_server_lineEdit->setText("localhost");
+    this->ui->SQL_port_doubleSpinBox->setValue(3306);
     this->ui->SQL_login_lineEdit->setText("");
     this->ui->SQL_password_lineEdit->setText("");
     this->ui->SQL_database_lineEdit->setText("");
@@ -3973,7 +3974,7 @@ void MainWindowCFG::get_SOLID(QString filename)
 
     settings.beginGroup("SOLID");
 
-    this->ui->RASTR_ADAM_wgt->setSOLID__Port((settings.value("Port",-1).toInt()));
+    this->ui->RASTR_wgt->setSOLID__Port((settings.value("Port",-1).toInt()));
 
     settings.endGroup();
 
@@ -4002,8 +4003,8 @@ void MainWindowCFG::get_ADAM4068(QString filename)
 
     settings.beginGroup("ADAM4068");
 
-    this->ui->RASTR_ADAM_wgt->setADAM__Port((settings.value("Port",-1).toInt()));
-    this->ui->RASTR_ADAM_wgt->setADAM__Interval((settings.value("Interval",-1).toInt()));
+    this->ui->ADAM_wgt->set_Port((settings.value("Port",-1).toInt()));
+    this->ui->ADAM_wgt->set_Interval((settings.value("Interval",-1).toInt()));
 
     settings.endGroup();
 }
@@ -5025,14 +5026,14 @@ settings.setValue("SsoiM_PortSpeed",this->ui->SSOIwgt->get_SsoiM_PortSpeed());
 settings.endGroup();
 
 settings.beginGroup("RASTRMTV");
-settings.setValue("Use",this->ui->RASTR_ADAM_wgt->getUse());
-settings.setValue("Name",this->ui->RASTR_ADAM_wgt->getName());
-settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getPort());
-settings.setValue("Port2",this->ui->RASTR_ADAM_wgt->getPort2());
-settings.setValue("KeepAliveInterval",this->ui->RASTR_ADAM_wgt->getKeepAliveInterval());
-settings.setValue("ThermostatUse",this->ui->RASTR_ADAM_wgt->getThermostatUse());
-settings.setValue("dtInfoToJpg",this->ui->RASTR_ADAM_wgt->getDtInfoToJpg());
-settings.setValue("AutoDkPeriod",this->ui->RASTR_ADAM_wgt->getAutoDkPeriod());
+settings.setValue("Use",this->ui->RASTR_wgt->getUse());
+settings.setValue("Name",this->ui->RASTR_wgt->getName());
+settings.setValue("Port",this->ui->RASTR_wgt->getPort());
+settings.setValue("Port2",this->ui->RASTR_wgt->getPort2());
+settings.setValue("KeepAliveInterval",this->ui->RASTR_wgt->getKeepAliveInterval());
+settings.setValue("ThermostatUse",this->ui->RASTR_wgt->getThermostatUse());
+settings.setValue("dtInfoToJpg",this->ui->RASTR_wgt->getDtInfoToJpg());
+settings.setValue("AutoDkPeriod",this->ui->RASTR_wgt->getAutoDkPeriod());
 
 
 settings.endGroup();
@@ -5118,13 +5119,13 @@ int res=0;
 
 
     settings.beginGroup("SOLID");
-    settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getSOLID__Port());
+    settings.setValue("Port",this->ui->RASTR_wgt->getSOLID__Port());
     settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
     settings.endGroup();
 
     settings.beginGroup("ADAM4068");
-    settings.setValue("Port",this->ui->RASTR_ADAM_wgt->getADAM__Port());
-    settings.setValue("Interval",this->ui->RASTR_ADAM_wgt->getADAM__Interval());
+    settings.setValue("Port",this->ui->ADAM_wgt->get_Port());
+    settings.setValue("Interval",this->ui->ADAM_wgt->get_Interval());
     settings.endGroup();
 
 

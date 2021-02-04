@@ -1,21 +1,21 @@
-#ifndef RASTR_ADAM_WIDGET_H
-#define RASTR_ADAM_WIDGET_H
+#ifndef RASTR_WIDGET_H
+#define RASTR_WIDGET_H
 
 #include <QWidget>
 #include <QMap>
 #include <QErrorMessage>
 
 namespace Ui {
-class RASTR_ADAM_Widget;
+class RASTR_Widget;
 }
 
-class RASTR_ADAM_Widget : public QWidget
+class RASTR_Widget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit RASTR_ADAM_Widget(QWidget *parent = nullptr);
-    ~RASTR_ADAM_Widget();
+    explicit RASTR_Widget(QWidget *parent = nullptr);
+    ~RASTR_Widget();
 
 
     QErrorMessage dialog;
@@ -52,11 +52,7 @@ public:
     int getSOLID__Port() const;
     void setSOLID__Port(int value);
 
-    int getADAM__Port() const;
-    void setADAM__Port(int value);
 
-    int getADAM__Interval() const;
-    void setADAM__Interval(int value);
 
     QString getRASTRMSSOI__SerNum() const;
     void setRASTRMSSOI__SerNum(const QString &value);
@@ -71,7 +67,7 @@ private slots:
     void on_Use_activated(const QString &arg1);
 
 private:
-    Ui::RASTR_ADAM_Widget *ui;
+    Ui::RASTR_Widget *ui;
     
     //    [RASTRMTV]
     int Use=0;
@@ -116,4 +112,4 @@ private:
     int RASTRMSSOI__Timeout=50 ;           
 };
 
-#endif // RASTR_ADAM_WIDGET_H
+#endif // RASTR_WIDGET_H

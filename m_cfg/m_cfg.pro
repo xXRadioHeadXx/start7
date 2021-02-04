@@ -25,6 +25,7 @@ include(../src/global.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
+    adam_widget.cpp \
     add_sql_user_form.cpp \
     admkeygenerator.cpp \
     backgroundimage.cpp \
@@ -35,7 +36,7 @@ SOURCES += \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
-    rastr_adam_widget.cpp \
+    rastr_widget.cpp \
     sqlunit.cpp \
     ssoiportwidget.cpp \
     ssoiwidget.cpp \
@@ -45,6 +46,7 @@ SOURCES += \
 
 HEADERS += \
     MainWindowCFG.h \
+    adam_widget.h \
     add_sql_user_form.h \
     admkeygenerator.h \
     backgroundimage.h \
@@ -54,7 +56,7 @@ HEADERS += \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
-    rastr_adam_widget.h \
+    rastr_widget.h \
     sqlunit.h \
     ssoiportwidget.h \
     ssoiwidget.h \
@@ -64,11 +66,12 @@ HEADERS += \
 
 FORMS += \
     MainWindowCFG.ui \
+    adam_widget.ui \
     add_sql_user_form.ui \
     dbform.ui \
     map.ui \
     operator_form.ui \
-    rastr_adam_widget.ui \
+    rastr_widget.ui \
     ssoiportwidget.ui \
     ssoiwidget.ui \
     tablo_widget.ui
