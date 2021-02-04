@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SSOIwidget</class>
- <widget class="QWidget" name="SSOIwidget">
+ <class>ssoi_widget</class>
+ <widget class="QWidget" name="ssoi_widget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -155,7 +155,7 @@
       <property name="title">
        <string>Канал</string>
       </property>
-      <widget class="SSOIPortWidget" name="SSOI_Port_widget" native="true">
+      <widget class="ssoi_port_widget" name="SSOI_Port_widget" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -180,7 +180,7 @@
       <property name="title">
        <string>Канал 1</string>
       </property>
-      <widget class="SSOIPortWidget" name="SSOI_M_Port_widget_1" native="true">
+      <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_1" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -203,7 +203,7 @@
       <property name="title">
        <string>Канал 2</string>
       </property>
-      <widget class="SSOIPortWidget" name="SSOI_M_Port_widget_2" native="true">
+      <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_2" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -226,7 +226,7 @@
       <property name="title">
        <string>Канал 1</string>
       </property>
-      <widget class="SSOIPortWidget" name="SSOI_M_Port_widget_3" native="true">
+      <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_3" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -249,7 +249,7 @@
       <property name="title">
        <string>Канал 1</string>
       </property>
-      <widget class="SSOIPortWidget" name="SSOI_M_Port_widget_4" native="true">
+      <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_4" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -305,9 +305,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SSOIPortWidget</class>
+   <class>ssoi_port_widget</class>
    <extends>QWidget</extends>
-   <header location="global">ssoiportwidget.h</header>
+   <header location="global">ssoi_port_widget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

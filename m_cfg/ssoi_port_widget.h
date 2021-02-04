@@ -1,19 +1,19 @@
-#ifndef SSOIPORTWIDGET_H
-#define SSOIPORTWIDGET_H
+#ifndef ssoi_port_widget_H
+#define ssoi_port_widget_H
 
 #include <QWidget>
 
 namespace Ui {
-class SSOIPortWidget;
+class ssoi_port_widget;
 }
 
-class SSOIPortWidget : public QWidget
+class ssoi_port_widget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SSOIPortWidget(QWidget *parent = nullptr);
-    ~SSOIPortWidget();
+    explicit ssoi_port_widget(QWidget *parent = nullptr);
+    ~ssoi_port_widget();
 
     void set_SsoiMOprosVariant_interface(int i);
 
@@ -32,7 +32,7 @@ public:
     void default_options();
 
 private:
-    Ui::SSOIPortWidget *ui;
+    Ui::ssoi_port_widget *ui;
 };
 
-#endif // SSOIPORTWIDGET_H
+#endif // ssoi_port_widget_H

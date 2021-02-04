@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SSOIPortWidget</class>
- <widget class="QWidget" name="SSOIPortWidget">
+ <class>ssoi_port_widget</class>
+ <widget class="QWidget" name="ssoi_port_widget">
   <property name="geometry">
    <rect>
     <x>0</x>

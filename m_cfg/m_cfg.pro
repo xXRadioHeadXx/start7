@@ -41,8 +41,8 @@ SOURCES += \
     qdevicewatcher_win32.cpp \
     rastr_widget.cpp \
     sqlunit.cpp \
-    ssoiportwidget.cpp \
-    ssoiwidget.cpp \
+    ssoi_port_widget.cpp \
+    ssoi_widget.cpp \
     tablo_widget.cpp
 
 
@@ -63,8 +63,8 @@ HEADERS += \
     qdevicewatcher_p.h \
     rastr_widget.h \
     sqlunit.h \
-    ssoiportwidget.h \
-    ssoiwidget.h \
+    ssoi_port_widget.h \
+    ssoi_widget.h \
     tablo_widget.h
 
 
@@ -77,8 +77,8 @@ FORMS += \
     map.ui \
     operator_form.ui \
     rastr_widget.ui \
-    ssoiportwidget.ui \
-    ssoiwidget.ui \
+    ssoi_port_widget.ui \
+    ssoi_widget.ui \
     tablo_widget.ui
 
 # Default rules for deployment.

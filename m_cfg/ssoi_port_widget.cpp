@@ -1,10 +1,10 @@
-#include "ssoiportwidget.h"
-#include "ui_ssoiportwidget.h"
+#include "ssoi_port_widget.h"
+#include "ui_ssoi_port_widget.h"
 #include <QDebug>
 
-SSOIPortWidget::SSOIPortWidget(QWidget *parent) :
+ssoi_port_widget::ssoi_port_widget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::SSOIPortWidget)
+    ui(new Ui::ssoi_port_widget)
 {
     ui->setupUi(this);
 
@@ -25,12 +25,12 @@ SSOIPortWidget::SSOIPortWidget(QWidget *parent) :
 
 }
 
-SSOIPortWidget::~SSOIPortWidget()
+ssoi_port_widget::~ssoi_port_widget()
 {
     delete ui;
 }
 
-void SSOIPortWidget::set_SsoiMOprosVariant_interface(int index)
+void ssoi_port_widget::set_SsoiMOprosVariant_interface(int index)
 {
     switch(index)
     {
@@ -49,48 +49,48 @@ void SSOIPortWidget::set_SsoiMOprosVariant_interface(int index)
     }
 }
 
-void SSOIPortWidget::set_SsoiM_PortNum(int val)
+void ssoi_port_widget::set_SsoiM_PortNum(int val)
 {
   this->ui->SsoiM_PortNum->setCurrentIndex(val);
 
 }
 
-int SSOIPortWidget::get_SsoiM_PortNum()
+int ssoi_port_widget::get_SsoiM_PortNum()
 {
   return this->ui->SsoiM_PortNum->currentIndex();
 }
 
-void SSOIPortWidget::set_SsoiM_Interval(int val)
+void ssoi_port_widget::set_SsoiM_Interval(int val)
 {
 this->ui->SsoiM_Interval->setValue(val);
 }
 
-int SSOIPortWidget::get_SsoiM_Interval()
+int ssoi_port_widget::get_SsoiM_Interval()
 {
 return this->ui->SsoiM_Interval->value();
 }
 
-void SSOIPortWidget::set_SsoiM_Interval_(int val)
+void ssoi_port_widget::set_SsoiM_Interval_(int val)
 {
 this->ui->SsoiM_Interval_->setValue(val);
 }
 
-int SSOIPortWidget::get_SsoiM_Interval_m()
+int ssoi_port_widget::get_SsoiM_Interval_m()
 {
 return this->ui->SsoiM_Interval_->value();
 }
 
-void SSOIPortWidget::set_SsoiM_MaxErrCnt(int val)
+void ssoi_port_widget::set_SsoiM_MaxErrCnt(int val)
 {
 this->ui->SsoiM_MaxErrCnt->setValue(val);
 }
 
-int SSOIPortWidget::get_SsoiM_MaxErrCnt()
+int ssoi_port_widget::get_SsoiM_MaxErrCnt()
 {
     return this->ui->SsoiM_MaxErrCnt->value();
 }
 
-void SSOIPortWidget::default_options()
+void ssoi_port_widget::default_options()
 {
     this->ui->SsoiM_PortNum->setCurrentText(" ВЫКЛ");
     this->ui->SsoiM_Interval->setValue(1500);

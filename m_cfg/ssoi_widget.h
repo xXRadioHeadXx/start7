@@ -1,21 +1,21 @@
-#ifndef SSOIWIDGET_H
-#define SSOIWIDGET_H
+#ifndef ssoi_widget_H
+#define ssoi_widget_H
 
 #include <QWidget>
 #include <QMap>
 #include <QErrorMessage>
 
 namespace Ui {
-class SSOIwidget;
+class ssoi_widget;
 }
 
-class SSOIwidget : public QWidget
+class ssoi_widget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SSOIwidget(QWidget *parent = nullptr);
-    ~SSOIwidget();
+    explicit ssoi_widget(QWidget *parent = nullptr);
+    ~ssoi_widget();
 
 
 
@@ -98,7 +98,7 @@ private:
     int SsoiM_PortSpeed=4800;
     QErrorMessage dialog;
 
-    Ui::SSOIwidget *ui;
+    Ui::ssoi_widget *ui;
 
      QMap <int,QString> l_Version;
      QString Version_1="ССОИ";
@@ -116,4 +116,4 @@ private:
 
 };
 
-#endif // SSOIWIDGET_H
+#endif // ssoi_widget_H

@@ -3148,7 +3148,7 @@
         <attribute name="title">
          <string>ССОИ</string>
         </attribute>
-        <widget class="SSOIwidget" name="SSOIwgt" native="true">
+        <widget class="ssoi_widget" name="SSOIwgt" native="true">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -3937,9 +3937,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SSOIwidget</class>
+   <class>ssoi_widget</class>
    <extends>QWidget</extends>
-   <header location="global">ssoiwidget.h</header>
+   <header location="global">ssoi_widget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

@@ -14,7 +14,7 @@
 //#include <libudev.h>
 //#include <mntent.h>
 #include "admkeygenerator.h"
-#include "ssoiwidget.h"
+#include "ssoi_widget.h"
 #include <QTimer>
 
 
