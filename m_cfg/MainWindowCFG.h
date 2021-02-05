@@ -13,7 +13,6 @@
 #include <QStandardItem>
 //#include <libudev.h>
 //#include <mntent.h>
-#include "admkeygenerator.h"
 #include "ssoi_widget.h"
 #include <QTimer>
 
@@ -56,7 +55,7 @@ private:
 
     QList<ComPort*> comports;
 
-    AdmKeyGenerator AdmKey;
+
 
 
     QList<Operator*> operators;
@@ -318,7 +317,7 @@ private:
     void default_ASOOSD();
 
 
-    void default_AdmAud();
+
 
 
 
@@ -567,14 +566,14 @@ private slots:
    void use_db(QString db_name);
    void on_INTEGRATION_pushButton_clicked();
    void on_BACKUP_pushButton_clicked();
-   void on_AdmAud_Create_pushButton_clicked();
+
 
    void coordinate_menu(bool visible,bool active, int x, int y, QString text);
    void coordinate_devline(bool active, int x, int y, int x1, int y1);
    void on_pushButton_5_clicked();
    void on_uType_combobox_activated(const QString &arg1);
    void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);
-   void on_AdmAud_ChekIn_pushButton_clicked();
+
    void on_INTEGRATION_DevLine_pushButton_clicked();
    void on_pushButton_6_clicked();
    void on_devline_xy_pushButton_clicked();

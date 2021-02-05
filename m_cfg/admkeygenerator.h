@@ -29,15 +29,21 @@ public slots:
     void slotDeviceAdded(const QString &dev)
     {
         qDebug()<<"Added";
+        emit  usb_update();
     }
     void slotDeviceRemoved(const QString &dev)
     {
         qDebug()<<"Removed";
+         usb_update();
     }
     void slotDeviceChanged(const QString &dev)
     {
         qDebug()<<"Changed";
     }
+signals :
+    void usb_update();
+
+
 };
 
 #endif // ADMKEYGENERATOR_H

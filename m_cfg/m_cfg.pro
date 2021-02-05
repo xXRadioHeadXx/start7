@@ -27,6 +27,7 @@ SOURCES += \
     MainWindowCFG.cpp \
     adam_widget.cpp \
     add_sql_user_form.cpp \
+    admaud_widget.cpp \
     admkeygenerator.cpp \
     backgroundimage.cpp \
     comport.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     MainWindowCFG.h \
     adam_widget.h \
     add_sql_user_form.h \
+    admaud_widget.h \
     admkeygenerator.h \
     backgroundimage.h \
     comport.h \
@@ -73,6 +75,7 @@ FORMS += \
     MainWindowCFG.ui \
     adam_widget.ui \
     add_sql_user_form.ui \
+    admaud_widget.ui \
     dbform.ui \
     map.ui \
     operator_form.ui \
