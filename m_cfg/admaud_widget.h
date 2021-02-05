@@ -26,6 +26,10 @@ private slots:
 
     void on_ChekIn_clicked();
 
+    void on_comboBox_highlighted(int index);
+
+    void on_pushButton_clicked();
+
 private:
     Ui::AdmAud_widget *ui;
 

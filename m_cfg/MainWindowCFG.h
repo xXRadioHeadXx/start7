@@ -355,14 +355,14 @@ private:
 
 
 
-    QString str_GROUP=          " Группа";
+    QString str_GROUP=          " ГРУППА";
     QString str_SD_BL_IP=       " БЛ-IP СД";
     QString str_IU_BL_IP=       " БЛ-IP ИУ";
     QString str_KL =            " КЛ1 (концентратор) СД";
     QString str_TG =            " Точка/Гарда";
     QString str_RLM_KRL =       " РИФ-РЛМ/КРЛ/Трасса";
     QString str_RLM_C =         " РИФ-РЛМ-С";
-    QString str_STRAZH_IP =     " ТВ+тепловиз.Страж-IP";
+    QString str_STRAZH_IP =     " ТВ-камера+тепловиз.Страж";
     QString str_NET_DEV =       " Сетевое устройство";
     QString str_ONVIF =         " ТВ-камера ONVIF";
     QString str_BOD_T4K_M =     " Точка-М/Гарда БОД";
@@ -381,10 +381,10 @@ private:
 
     QString str_SSOI_SD =       " ССОИ СД";
     QString str_SSOI_IU =       " ССОИ ИУ";
-    QString str_ADAM =          " Адам";
+    QString str_ADAM =          " ADAM";
     QString str_TOROS =         " Торос";
-    QString str_DEVLINE =       " камера DevLine";
-    QString str_RASTRMTV =      " камера РАСТР-М-ТВ";
+    QString str_DEVLINE =       " ТВ-камера DevLine";
+    QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
     QString str_INFO_TABLO =    " информационное табло";
 
     QList<QString> l_Unittype={

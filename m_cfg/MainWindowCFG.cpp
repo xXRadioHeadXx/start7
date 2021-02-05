@@ -367,6 +367,11 @@ qSort(l_Unittype.begin(), l_Unittype.end(), [](const QVariant &v1,
                                                  {  return v1<v2;}
                                                                 );
 
+
+qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype.indexOf(str_GROUP);
+qDebug()<<"l_Unittype.count(ГРУППА);"<<l_Unittype.count(str_GROUP);
+l_Unittype.move(l_Unittype.indexOf(str_GROUP),0);
+
 foreach(QString str, l_Unittype)
 {
 this->ui->uType_combobox->addItem(str);
