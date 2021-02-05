@@ -1,7 +1,8 @@
-#include "RASTR_widget.h"
-#include "ui_RASTR_widget.h"
+#include "rastr_widget.h"
+#include "ui_rastr_widget.h"
 #include <QFileInfo>
 #include <QFile>
+#include <QHostInfo>
 
 RASTR_Widget::RASTR_Widget(QWidget *parent) :
     QWidget(parent),
@@ -211,4 +212,9 @@ void RASTR_Widget::on_Use_activated(const QString &arg1)
          this->ui->Use->setCurrentIndex(0);
      }
     }
+}
+
+void RASTR_Widget::on_pushButton_clicked()
+{
+        this->ui->Name->setText(QHostInfo::localHostName());
 }

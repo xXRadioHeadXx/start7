@@ -66,6 +66,8 @@ public:
 private slots:
     void on_Use_activated(const QString &arg1);
 
+    void on_pushButton_clicked();
+
 private:
     Ui::RASTR_Widget *ui;
     

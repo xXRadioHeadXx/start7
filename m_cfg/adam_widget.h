@@ -23,6 +23,9 @@ public:
     int get_Interval() const;
     void set_Interval(int value);
 
+private slots:
+    void on_Interval_textChanged(const QString &arg1);
+
 private:
     Ui::ADAM_Widget *ui;
 };

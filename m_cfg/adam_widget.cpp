@@ -57,3 +57,8 @@ void ADAM_Widget::set_Interval(int value)
 {
     this->ui->Interval->setValue(value);
 }
+
+void ADAM_Widget::on_Interval_textChanged(const QString &arg1)
+{
+
+}
