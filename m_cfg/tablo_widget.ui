@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>218</width>
+    <width>264</width>
     <height>92</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>0</y>
-     <width>191</width>
+     <width>241</width>
      <height>81</height>
     </rect>
    </property>
@@ -29,9 +29,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>22</y>
-      <width>73</width>
-      <height>16</height>
+      <y>13</y>
+      <width>151</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="text">
@@ -43,30 +43,30 @@
      <rect>
       <x>10</x>
       <y>40</y>
-      <width>70</width>
-      <height>20</height>
+      <width>101</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>66</width>
-      <height>20</height>
+      <height>25</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>81</width>
-      <height>20</height>
+      <width>999</width>
+      <height>25</height>
      </size>
     </property>
    </widget>
    <widget class="QCheckBox" name="Blinking">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>140</x>
       <y>40</y>
       <width>91</width>
-      <height>17</height>
+      <height>25</height>
      </rect>
     </property>
     <property name="text">
