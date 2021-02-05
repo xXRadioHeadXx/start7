@@ -58,7 +58,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="OprosVariant_1">
     <widget class="QLabel" name="label_84">
@@ -123,7 +123,7 @@
       <rect>
        <x>0</x>
        <y>5</y>
-       <width>141</width>
+       <width>191</width>
        <height>18</height>
       </rect>
      </property>

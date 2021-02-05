@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2900,8 +2900,8 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_2">
-                  <item>
+                 <layout class="QGridLayout" name="gridLayout_5">
+                  <item row="0" column="0">
                    <widget class="QWidget" name="widget" native="true">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -2911,7 +2911,7 @@
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>190</width>
+                      <width>210</width>
                       <height>0</height>
                      </size>
                     </property>
@@ -3070,7 +3070,7 @@
                     </layout>
                    </widget>
                   </item>
-                  <item>
+                  <item row="0" column="1">
                    <spacer name="horizontalSpacer_3">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
@@ -3083,7 +3083,7 @@
                     </property>
                    </spacer>
                   </item>
-                  <item>
+                  <item row="0" column="2">
                    <widget class="QTableWidget" name="tableWidget_2">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -3201,7 +3201,7 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>49</y>
+              <y>55</y>
               <width>93</width>
               <height>25</height>
              </rect>
@@ -3239,7 +3239,7 @@
             <property name="geometry">
              <rect>
               <x>109</x>
-              <y>49</y>
+              <y>55</y>
               <width>181</width>
               <height>25</height>
              </rect>
@@ -3254,7 +3254,7 @@
               <x>109</x>
               <y>31</y>
               <width>181</width>
-              <height>16</height>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3265,7 +3265,7 @@
             <property name="geometry">
              <rect>
               <x>300</x>
-              <y>49</y>
+              <y>55</y>
               <width>121</width>
               <height>25</height>
              </rect>
@@ -3286,7 +3286,7 @@
               <x>300</x>
               <y>31</y>
               <width>121</width>
-              <height>16</height>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3297,7 +3297,7 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>108</y>
+              <y>114</y>
               <width>131</width>
               <height>25</height>
              </rect>
@@ -3312,7 +3312,7 @@
               <x>10</x>
               <y>90</y>
               <width>131</width>
-              <height>16</height>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3323,7 +3323,7 @@
             <property name="geometry">
              <rect>
               <x>160</x>
-              <y>108</y>
+              <y>114</y>
               <width>261</width>
               <height>25</height>
              </rect>
@@ -3335,7 +3335,7 @@
               <x>160</x>
               <y>90</y>
               <width>261</width>
-              <height>16</height>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3346,7 +3346,7 @@
             <property name="geometry">
              <rect>
               <x>9</x>
-              <y>158</y>
+              <y>164</y>
               <width>131</width>
               <height>25</height>
              </rect>
@@ -3358,7 +3358,7 @@
               <x>10</x>
               <y>140</y>
               <width>131</width>
-              <height>16</height>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3370,7 +3370,7 @@
              <rect>
               <x>110</x>
               <y>200</y>
-              <width>91</width>
+              <width>121</width>
               <height>25</height>
              </rect>
             </property>
@@ -3396,8 +3396,8 @@
              <rect>
               <x>10</x>
               <y>250</y>
-              <width>261</width>
-              <height>17</height>
+              <width>491</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3409,8 +3409,8 @@
              <rect>
               <x>10</x>
               <y>280</y>
-              <width>241</width>
-              <height>17</height>
+              <width>501</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3422,19 +3422,19 @@
              <rect>
               <x>10</x>
               <y>317</y>
-              <width>241</width>
+              <width>471</width>
               <height>25</height>
              </rect>
             </property>
             <property name="text">
-             <string>Автоматическое начало смены в</string>
+             <string>Автоматическое начало смены в:</string>
             </property>
            </widget>
            <widget class="QDoubleSpinBox" name="SQL_AutoDbStartHour_doubleSpinBox">
             <property name="geometry">
              <rect>
-              <x>251</x>
-              <y>317</y>
+              <x>10</x>
+              <y>350</y>
               <width>62</width>
               <height>25</height>
              </rect>
@@ -3443,8 +3443,8 @@
            <widget class="QDoubleSpinBox" name="SQL_AutoDbStartMinute_doubleSpinBox">
             <property name="geometry">
              <rect>
-              <x>361</x>
-              <y>317</y>
+              <x>10</x>
+              <y>380</y>
               <width>62</width>
               <height>25</height>
              </rect>
@@ -3453,9 +3453,9 @@
            <widget class="QLabel" name="label_32">
             <property name="geometry">
              <rect>
-              <x>321</x>
-              <y>317</y>
-              <width>41</width>
+              <x>80</x>
+              <y>350</y>
+              <width>201</width>
               <height>25</height>
              </rect>
             </property>
@@ -3466,9 +3466,9 @@
            <widget class="QLabel" name="label_33">
             <property name="geometry">
              <rect>
-              <x>431</x>
-              <y>317</y>
-              <width>41</width>
+              <x>80</x>
+              <y>380</y>
+              <width>181</width>
               <height>25</height>
              </rect>
             </property>
@@ -3502,7 +3502,7 @@
             <x>140</x>
             <y>30</y>
             <width>131</width>
-            <height>16</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
@@ -3515,7 +3515,7 @@
             <x>296</x>
             <y>32</y>
             <width>131</width>
-            <height>16</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
@@ -3526,7 +3526,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>48</y>
+            <y>58</y>
             <width>101</width>
             <height>25</height>
            </rect>
@@ -3538,7 +3538,7 @@
             <x>13</x>
             <y>28</y>
             <width>101</width>
-            <height>16</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
@@ -3549,7 +3549,7 @@
           <property name="geometry">
            <rect>
             <x>136</x>
-            <y>50</y>
+            <y>58</y>
             <width>141</width>
             <height>25</height>
            </rect>
@@ -3562,7 +3562,7 @@
           <property name="geometry">
            <rect>
             <x>295</x>
-            <y>52</y>
+            <y>58</y>
             <width>131</width>
             <height>25</height>
            </rect>
@@ -3591,7 +3591,7 @@
           <property name="geometry">
            <rect>
             <x>17</x>
-            <y>160</y>
+            <y>166</y>
             <width>101</width>
             <height>25</height>
            </rect>
@@ -3640,7 +3640,7 @@
             <x>130</x>
             <y>140</y>
             <width>251</width>
-            <height>16</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
@@ -3651,7 +3651,7 @@
           <property name="geometry">
            <rect>
             <x>130</x>
-            <y>160</y>
+            <y>166</y>
             <width>231</width>
             <height>25</height>
            </rect>
@@ -3677,7 +3677,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>41</y>
+            <y>46</y>
             <width>461</width>
             <height>25</height>
            </rect>
@@ -3687,7 +3687,7 @@
           <property name="geometry">
            <rect>
             <x>480</x>
-            <y>40</y>
+            <y>46</y>
             <width>75</width>
             <height>25</height>
            </rect>
@@ -3702,7 +3702,7 @@
             <x>10</x>
             <y>20</y>
             <width>531</width>
-            <height>16</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
