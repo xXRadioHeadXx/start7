@@ -35,9 +35,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>60</y>
-        <width>73</width>
-        <height>22</height>
+        <y>50</y>
+        <width>171</width>
+        <height>25</height>
        </rect>
       </property>
      </widget>
@@ -57,20 +57,20 @@
      <widget class="QLineEdit" name="version">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>60</y>
-        <width>137</width>
-        <height>22</height>
+        <x>190</x>
+        <y>50</y>
+        <width>141</width>
+        <height>25</height>
        </rect>
       </property>
      </widget>
      <widget class="QLineEdit" name="DateTime">
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>340</x>
         <y>50</y>
         <width>137</width>
-        <height>22</height>
+        <height>25</height>
        </rect>
       </property>
       <property name="text">
@@ -80,8 +80,8 @@
      <widget class="QLabel" name="label_17">
       <property name="geometry">
        <rect>
-        <x>112</x>
-        <y>28</y>
+        <x>190</x>
+        <y>30</y>
         <width>41</width>
         <height>16</height>
        </rect>
@@ -93,7 +93,7 @@
      <widget class="QLabel" name="label_20">
       <property name="geometry">
        <rect>
-        <x>333</x>
+        <x>340</x>
         <y>28</y>
         <width>87</width>
         <height>16</height>
@@ -108,7 +108,7 @@
        <rect>
         <x>10</x>
         <y>90</y>
-        <width>93</width>
+        <width>81</width>
         <height>28</height>
        </rect>
       </property>
@@ -119,9 +119,9 @@
      <widget class="QPushButton" name="ChekIn">
       <property name="geometry">
        <rect>
-        <x>110</x>
+        <x>100</x>
         <y>90</y>
-        <width>93</width>
+        <width>81</width>
         <height>28</height>
        </rect>
       </property>

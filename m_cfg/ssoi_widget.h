@@ -110,8 +110,8 @@ private:
 
      QMap <int,QString> l_SsoiMOprosVariant;
      QString SsoiMOprosVariant_0="ССОИ-М";
-     QString SsoiMOprosVariant_1="Адаптивный опрос - БЛ";
-     QString SsoiMOprosVariant_2="Адаптивный опрос - БЛ2020";
+     QString SsoiMOprosVariant_1="Адаптивный - БЛ";
+     QString SsoiMOprosVariant_2="Адаптивный - БЛ2020";
 
 
 };

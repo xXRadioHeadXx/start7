@@ -52,7 +52,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>81</width>
+      <width>191</width>
       <height>16</height>
      </rect>
     </property>
@@ -87,7 +87,7 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>81</width>
+      <width>181</width>
       <height>16</height>
      </rect>
     </property>
@@ -122,7 +122,7 @@
      <rect>
       <x>10</x>
       <y>100</y>
-      <width>81</width>
+      <width>181</width>
       <height>16</height>
      </rect>
     </property>
@@ -262,44 +262,44 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_7">
+   <widget class="QRadioButton" name="SsoiFixNewWarning_val_0">
     <property name="geometry">
      <rect>
-      <x>13</x>
-      <y>149</y>
-      <width>187</width>
-      <height>105</height>
+      <x>10</x>
+      <y>175</y>
+      <width>82</width>
+      <height>17</height>
      </rect>
     </property>
-    <property name="title">
+    <property name="text">
+     <string>Всегда</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="SsoiFixNewWarning_val_1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>205</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>После &quot;Сброса тревог&quot;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_85">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
      <string>Фиксация событий</string>
     </property>
-    <widget class="QRadioButton" name="SsoiFixNewWarning_val_0">
-     <property name="geometry">
-      <rect>
-       <x>5</x>
-       <y>30</y>
-       <width>82</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Всегда</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="SsoiFixNewWarning_val_1">
-     <property name="geometry">
-      <rect>
-       <x>5</x>
-       <y>60</y>
-       <width>171</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>После &quot;Сброса тревог&quot;</string>
-     </property>
-    </widget>
    </widget>
   </widget>
  </widget>
