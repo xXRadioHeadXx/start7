@@ -506,7 +506,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_grn_mns_gry();
             } else
                 return Icons::sqr_ylw();
-        } else if(TypeUnitNode::RLM_C == getType()) {
+        } else if(TypeUnitNode::RLM_C == getType() || TypeUnitNode::RLM_KRL == getType()) {
             if(1 == lowLevl() && getControl()) {
                 return Icons::sqr_blu();
             } else if(1 == lowLevl() && !getControl()) {
