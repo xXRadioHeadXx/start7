@@ -128,6 +128,11 @@ private:
     bool visible = false;
     bool control = true;
 
+private:
+    bool editableControl = false;
+
+    void matchEditableControl();
+
 public:
 
     explicit UnitNode(UnitNode *parent = nullptr);
@@ -353,6 +358,8 @@ public:
 
     virtual QString toString();
 
+
+    bool isEditableControl() const;    
 
 public slots:
 

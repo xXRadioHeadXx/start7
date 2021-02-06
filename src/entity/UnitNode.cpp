@@ -38,6 +38,7 @@ int UnitNode::getType() const
 void UnitNode::setType(int value)
 {
     Type = value;
+    matchEditableControl();
 }
 
 int UnitNode::getNum1() const
@@ -140,6 +141,7 @@ int UnitNode::getBazalt() const
 void UnitNode::setBazalt(int value)
 {
     Bazalt = value;
+    matchEditableControl();
 }
 
 int UnitNode::getMetka() const
@@ -897,6 +899,19 @@ int UnitNode_IU_BL_IP::isOff() const
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
+bool UnitNode::isEditableControl() const
+{
+    return editableControl;
+}
+
+void UnitNode::matchEditableControl()
+{
+    if((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
+        TypeUnitNode::RLM_C == getType() ||
+        TypeUnitNode::RLM_KRL == getType())
+        editableControl = true;
+}
+
 UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 {
     this->parentUN = parent;
@@ -944,50 +959,92 @@ UnitNode::UnitNode(const UnitNode & parent) :
     dkStatus(parent.dkStatus),
     dkInvolved(parent.dkInvolved)
 {
+    setStateWord(parent.getStateWord());
+    setMetaNames(parent.getMetaNames());
+    setType(parent.getType());
+    setNum1(parent.getNum1());
+    setNum2(parent.getNum2());
+    setNum3(parent.getNum3());
+    setLevel(parent.getLevel());
+    setName(parent.getName());
+    setIconVisible(parent.getIconVisible());
+    setX(parent.getX());
+    setY(parent.getY());
+    setDK(parent.getDK());
+    setBazalt(parent.getBazalt());
+    setMetka(parent.getMetka());
+    setRazriv(parent.getRazriv());
+    setAdamOff(parent.getAdamOff());
+    setAlarmMsgOn(parent.getAlarmMsgOn());
+    setConnectBlock(parent.getConnectBlock());
+    setOutType(parent.getOutType());
+    setAsoosd_kk(parent.getAsoosd_kk());
+    setAsoosd_nn(parent.getAsoosd_nn());
+    setDescription(parent.getDescription());
+    setLan(parent.getLan());
+    setLon(parent.getLon());
+    setUdpUse(parent.getUdpUse());
+    setUdpAdress(parent.getUdpAdress());
+    setUdpPort(parent.getUdpPort());
+    setMetka1Time_0(parent.getMetka1Time_0());
+    setMetka1Time_1(parent.getMetka1Time_1());
+    setMetka2Time_0(parent.getMetka2Time_0());
+    setMetka2Time_1(parent.getMetka2Time_1());
+    setMetka3Time_0(parent.getMetka3Time_0());
+    setMetka3Time_1(parent.getMetka3Time_1());
+    setMetka4Time_0(parent.getMetka4Time_0());
+    setMetka4Time_1(parent.getMetka4Time_1());
+    setMetkaDopuskTime_0(parent.getMetkaDopuskTime_0());
+    setMetkaDopuskTime_1(parent.getMetkaDopuskTime_1());
+    setDkStatus(parent.getDkStatus());
+    setDkInvolved(parent.getDkInvolved());
 
+    matchEditableControl();
 }
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
-    stateWord = c.stateWord;
-    metaNames = c.metaNames;
-    Type = c.Type;
-    Num1 = c.Num1;
-    Num2 = c.Num2;
-    Num3 = c.Num3;
-    Level = c.Level;
-    Name = c.Name;
-    IconVisible = c.IconVisible;
-    X = c.X;
-    Y = c.Y;
-    DK = c.DK;
-    Bazalt = c.Bazalt;
-    Metka = c.Metka;
-    Razriv = c.Razriv;
-    AdamOff = c.AdamOff;
-    AlarmMsgOn = c.AlarmMsgOn;
-    ConnectBlock = c.ConnectBlock;
-    OutType = c.OutType;
-    asoosd_kk = c.asoosd_kk;
-    asoosd_nn = c.asoosd_nn;
-    Description = c.Description;
-    lan = c.lan;
-    lon = c.lon;
-    UdpUse = c.UdpUse;
-    UdpAdress = c.UdpAdress;
-    UdpPort = c.UdpPort;
-    Metka1Time_0 = c.Metka1Time_0;
-    Metka1Time_1 = c.Metka1Time_1;
-    Metka2Time_0 = c.Metka2Time_0;
-    Metka2Time_1 = c.Metka2Time_1;
-    Metka3Time_0 = c.Metka3Time_0;
-    Metka3Time_1 = c.Metka3Time_1;
-    Metka4Time_0 = c.Metka4Time_0;
-    Metka4Time_1 = c.Metka4Time_1;
-    MetkaDopuskTime_0 = c.MetkaDopuskTime_0;
-    MetkaDopuskTime_1 = c.MetkaDopuskTime_1;
+    setStateWord(c.getStateWord());
+    setMetaNames(c.getMetaNames());
+    setType(c.getType());
+    setNum1(c.getNum1());
+    setNum2(c.getNum2());
+    setNum3(c.getNum3());
+    setLevel(c.getLevel());
+    setName(c.getName());
+    setIconVisible(c.getIconVisible());
+    setX(c.getX());
+    setY(c.getY());
+    setDK(c.getDK());
+    setBazalt(c.getBazalt());
+    setMetka(c.getMetka());
+    setRazriv(c.getRazriv());
+    setAdamOff(c.getAdamOff());
+    setAlarmMsgOn(c.getAlarmMsgOn());
+    setConnectBlock(c.getConnectBlock());
+    setOutType(c.getOutType());
+    setAsoosd_kk(c.getAsoosd_kk());
+    setAsoosd_nn(c.getAsoosd_nn());
+    setDescription(c.getDescription());
+    setLan(c.getLan());
+    setLon(c.getLon());
+    setUdpUse(c.getUdpUse());
+    setUdpAdress(c.getUdpAdress());
+    setUdpPort(c.getUdpPort());
+    setMetka1Time_0(c.getMetka1Time_0());
+    setMetka1Time_1(c.getMetka1Time_1());
+    setMetka2Time_0(c.getMetka2Time_0());
+    setMetka2Time_1(c.getMetka2Time_1());
+    setMetka3Time_0(c.getMetka3Time_0());
+    setMetka3Time_1(c.getMetka3Time_1());
+    setMetka4Time_0(c.getMetka4Time_0());
+    setMetka4Time_1(c.getMetka4Time_1());
+    setMetkaDopuskTime_0(c.getMetkaDopuskTime_0());
+    setMetkaDopuskTime_1(c.getMetkaDopuskTime_1());
+    setDkStatus(c.getDkStatus());
+    setDkInvolved(c.getDkInvolved());
 
-    dkStatus = c.dkStatus;
-    dkInvolved = c.dkInvolved;
+    matchEditableControl();
+
     return *this;
 }
 
