@@ -6,6 +6,7 @@
 #include <Icons_cfg.h>
 #include <SignalSlotCommutator.h>
 #include <global.hpp>
+#include <QtMath>
 
 QSet<QString> UnitNode::getMetaNames() const
 {
@@ -1209,7 +1210,7 @@ float UnitNode_RLM_C::voltage() const
 {
     if(getStateWord().isEmpty())
         return -1.0;
-    return static_cast<float>(5.0 - (5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0)));
+    return qFabs(static_cast<float>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0))));
 }
 
 int UnitNode_RLM_C::isExternalSynchronization() const
