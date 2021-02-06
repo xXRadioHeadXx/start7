@@ -1099,7 +1099,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueItem &resultRequest)
 {
 //    qDebug() << "Utils::parcingStatusWord0x31 -->";
-    QByteArray newStateWord = item.data().mid(5, 4);
+    QByteArray newStateWord = item.data().mid(5, item.data().at(3));
     resultRequest = item;
     resultRequest.setData();
 
@@ -1136,7 +1136,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                 msg.setD3(un->getNum3());
                 msg.setDirection(un->getUdpAdress());
 
-                if((un->getControl() && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->isOn() && 1 == un->isOn())) {
+                if((TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()) && (un->getControl() && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->isOn() && 1 == un->isOn())) {
                     JourEntity msgOn;
                     msgOn.setObject(un->getName());
                     msgOn.setObjecttype(un->getType());
@@ -1155,7 +1155,13 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     DataQueueItem::makeAlarmReset0x24(resultRequest, un);
                 }
 
-                if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
+                if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType()) {
+                    if(!previousCopyUN.isNull()) {
+                        delete previousCopyUN.data();
+                        previousCopyUN = nullptr;
+                    }
+                    continue;
+                } else if(un->getControl() && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
                     //сохранение Тревога или Норма
                     if(1 == un->isOn()) {
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
@@ -1165,17 +1171,17 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         //нужен сброс
 //                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
                     }
-                } else if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
+                } else if(un->getControl() && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
                     msg.setComment(QObject::tr("Норма"));
                     msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                } else if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
+                } else if(un->getControl() && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
                     msg.setComment(QObject::tr("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                } else if(un->getControl() && (TypeUnitNode::RLM_C == un->getType()) && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
+                } else if(un->getControl() && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
                     msg.setComment(QObject::tr("Вкл"));
                     msg.setType(101);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
@@ -1298,7 +1304,7 @@ void PortManager::manageOverallReadQueue()
             }
             case static_cast<quint8>(0x31): {
                 for(AbstractRequester * scr : as_const(this->lsSCR)) {
-                    if(scr->getIpPort() == tmpPair && TypeUnitNode::RLM_C == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                    if(scr->getIpPort() == tmpPair && (TypeUnitNode::RLM_C == static_cast<quint8>(scr->getUnReciver()->getType()) || TypeUnitNode::RLM_KRL == static_cast<quint8>(scr->getUnReciver()->getType())) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
                     }

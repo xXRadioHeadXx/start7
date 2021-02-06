@@ -398,7 +398,7 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
             return true;
         }
         case static_cast<quint8>(0x31): {
-            if(static_cast<quint8>(0x04) != NBB)
+            if(static_cast<quint8>(0x04) != NBB && static_cast<quint8>(0x03) != NBB)
                 return false;
             return true;
         }
