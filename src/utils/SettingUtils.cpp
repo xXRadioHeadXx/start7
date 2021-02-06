@@ -155,7 +155,8 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                 } else if(tmpUN->getDoubles().isEmpty() &&
                         (TypeUnitNode::SD_BL_IP == tmpUN->getType() ||
                         TypeUnitNode::IU_BL_IP == tmpUN->getType() ||
-                        TypeUnitNode::RLM_C == tmpUN->getType())) {
+                        TypeUnitNode::RLM_C == tmpUN->getType() ||
+                        TypeUnitNode::RLM_KRL == tmpUN->getType())) {
                     key = true;
                     UnitNode * tmpParentUN = UnitNodeFactory::make(TypeUnitNode::BL_IP);
                     tmpParentUN->setType(TypeUnitNode::BL_IP);
