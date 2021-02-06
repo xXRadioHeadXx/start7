@@ -52,7 +52,8 @@ DataQueueItem StatusConnectRequester::makeFirstMsg() {
     if(TypeUnitNode::BL_IP == getUnReciver()->getType() ||
        TypeUnitNode::SD_BL_IP == getUnReciver()->getType() ||
        TypeUnitNode::IU_BL_IP == getUnReciver()->getType() ||
-       TypeUnitNode::RLM_C == getUnReciver()->getType()) {
+       TypeUnitNode::RLM_C == getUnReciver()->getType() ||
+       TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
         DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
     }
 
@@ -77,7 +78,8 @@ void StatusConnectRequester::init() {
         while(nullptr != un) {
 
             if(TypeUnitNode::BL_IP == un->getType() /* или датчик */ ||
-               TypeUnitNode::RLM_C == un->getType()) {
+               TypeUnitNode::RLM_C == un->getType() ||
+               TypeUnitNode::RLM_KRL == un->getType()) {
                 setUnReciver(un);
                 break;
             }

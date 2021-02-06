@@ -268,7 +268,8 @@ void PortManager::startStatusRequest(){
 
     for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
         if(TypeUnitNode::BL_IP == un->getType() ||
-           TypeUnitNode::RLM_C == un->getType()) {
+           TypeUnitNode::RLM_C == un->getType() ||
+           TypeUnitNode::RLM_KRL == un->getType()) {
             StatusConnectRequester * tmpSCR = new StatusConnectRequester(un);
             tmpSCR->init();
             for(const auto& p : as_const(getUdpPortsVector())) {

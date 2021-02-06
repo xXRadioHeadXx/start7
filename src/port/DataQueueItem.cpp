@@ -145,7 +145,7 @@ QByteArray DataQueueItem::data0x22 = QByteArray();
 DataQueueItem DataQueueItem::makeStatusRequest0x22(DataQueueItem &item, const UnitNode * un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x22(un));
-    if(nullptr != un && TypeUnitNode::RLM_C == un->getType())
+    if(nullptr != un && (TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()))
         item.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     return item;
 }
@@ -166,7 +166,7 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
             out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType()) {
+        } else if(TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
         }
     }
