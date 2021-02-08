@@ -371,7 +371,8 @@ qSort(l_Unittype.begin(), l_Unittype.end(), [](const QVariant &v1,
 qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype.indexOf(str_GROUP);
 qDebug()<<"l_Unittype.count(ГРУППА);"<<l_Unittype.count(str_GROUP);
 l_Unittype.move(l_Unittype.indexOf(str_GROUP),0);
-
+l_Unittype.move(l_Unittype.indexOf(str_Y4_SOTA),(l_Unittype.indexOf(str_Y4_SOTA)-1));
+l_Unittype.move(l_Unittype.indexOf(str_Y4_T4K_M),(l_Unittype.indexOf(str_Y4_T4K_M)-1));
 foreach(QString str, l_Unittype)
 {
 this->ui->uType_combobox->addItem(str);
