@@ -34,6 +34,7 @@ SOURCES += \
     dbform.cpp \
     main.cpp \
     map.cpp \
+    my_combobox.cpp \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     comport.h \
     dbform.h \
     map.h \
+    my_combobox.h \
     mydrawobject.h \
     myscene.h \
     operator_form.h \

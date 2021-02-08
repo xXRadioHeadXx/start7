@@ -31,16 +31,6 @@
      <property name="title">
       <string>Ключ администратора </string>
      </property>
-     <widget class="QComboBox" name="comboBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>56</y>
-        <width>171</width>
-        <height>25</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_16">
       <property name="geometry">
        <rect>
@@ -142,10 +132,28 @@
        <string>PushButton</string>
       </property>
      </widget>
+     <widget class="My_combobox" name="comboBox" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>55</y>
+        <width>171</width>
+        <height>25</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>My_combobox</class>
+   <extends>QWidget</extends>
+   <header location="global">my_combobox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
