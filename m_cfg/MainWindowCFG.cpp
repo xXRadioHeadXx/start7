@@ -101,7 +101,11 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     }
 
 
-
+for(int i=1;i<5;i++)
+{
+    this->ui->Y4_T4K_M_combobox->addItem(QString::number(i));
+    this->ui->U4_Sota_M_combobox->addItem(QString::number(i));
+}
 
 
 for(int i=1;i<129;i++)
@@ -329,10 +333,10 @@ AnsiString str;
 
 
 
-  this->ui->RifPort_comboBox->addItem(" ВЫКЛ"," ВЫКЛ");
+//  this->ui->RifPort_comboBox->addItem(" ВЫКЛ"," ВЫКЛ");
 
-   ComPort* port = new ComPort();
-   comports.append(port);
+//   ComPort* port = new ComPort();
+//   comports.append(port);
    for(int i(1), n(100); i < n; i++)
    {
     //   qDebug()<<"i= "<<i;
@@ -371,8 +375,11 @@ qSort(l_Unittype.begin(), l_Unittype.end(), [](const QVariant &v1,
 qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype.indexOf(str_GROUP);
 qDebug()<<"l_Unittype.count(ГРУППА);"<<l_Unittype.count(str_GROUP);
 l_Unittype.move(l_Unittype.indexOf(str_GROUP),0);
-l_Unittype.move(l_Unittype.indexOf(str_Y4_SOTA),(l_Unittype.indexOf(str_Y4_SOTA)-1));
+l_Unittype.move(l_Unittype.indexOf(str_Y4_SOTA),(l_Unittype.indexOf(str_BOD_SOTA)+1));
+l_Unittype.move(l_Unittype.indexOf(str_DD_SOTA),(l_Unittype.indexOf(str_BOD_SOTA)+2));
 l_Unittype.move(l_Unittype.indexOf(str_Y4_T4K_M),(l_Unittype.indexOf(str_Y4_T4K_M)-1));
+l_Unittype.move(l_Unittype.indexOf(str_Y4_T4K_M),(l_Unittype.indexOf(str_BOD_T4K_M)+1));
+l_Unittype.move(l_Unittype.indexOf(str_DD_T4K_M),(l_Unittype.indexOf(str_BOD_T4K_M)+2));
 foreach(QString str, l_Unittype)
 {
 this->ui->uType_combobox->addItem(str);
@@ -845,7 +852,7 @@ void MainWindowCFG::update_rif_comport_table()
 
 
 
-for(int i=1;i<comports.count();i++)
+for(int i=0;i<comports.count();i++)
 {
         ComPort* port=comports.at(i);
    //    qDebug()<<" "<<i <<" "<<port->get_RifPortSpeed()<<" "<<port->get_RifPortInterval();
@@ -1641,7 +1648,9 @@ bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
 bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
 {
     //БОД может быть добавлен только к группе
-        if(parrent->getType()!=TypeUnitNode::GROUP)
+        if((parrent->getType()!=TypeUnitNode::GROUP)&&
+           (parrent->getType()!=TypeUnitNode::SYSTEM)
+                )
         {
             dialog.showMessage("БОД может быть добавлен только к группе");
             dialog.exec();
@@ -1863,7 +1872,9 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
 bool MainWindowCFG::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode *parrent)
 {
     //БОД может быть добавлен только к группе
-        if(parrent->getType()!=TypeUnitNode::GROUP)
+    if((parrent->getType()!=TypeUnitNode::GROUP)&&
+       (parrent->getType()!=TypeUnitNode::SYSTEM)
+            )
         {
             dialog.showMessage("БОД может быть добавлен только к группе");
             dialog.exec();
@@ -3459,7 +3470,7 @@ void MainWindowCFG::default_PARAMS()
 
 
     this->ui->PlanType_comboBox->setCurrentText(map_PARAMS_PlanType.value(2));
-    this->ui->SoundType_comboBox->setCurrentText(map_PARAMS_SoundType.value(2));
+    this->ui->SoundType_comboBox->setCurrentText(map_PARAMS_SoundType.value(0));
     this->ui->PARAMS_AutoStart_comboBox->setCurrentText(map_PARAMS_AutoStart.value(0));
 }
 
@@ -3501,7 +3512,7 @@ void MainWindowCFG::get_RIF(QString filename)
 
 
       QString str_RifPortSpeed("RifPortSpeed%1");
-      str_RifPortSpeed = str_RifPortSpeed.arg(i);
+      str_RifPortSpeed = str_RifPortSpeed.arg(i+1);
 
       int RifPortSpeed = settings.value(str_RifPortSpeed,-1).toInt();
 
@@ -3513,7 +3524,7 @@ void MainWindowCFG::get_RIF(QString filename)
       }
 
       QString str_RifPortInterval("RifPortInterval%1");
-      str_RifPortInterval = str_RifPortInterval.arg(i);
+      str_RifPortInterval = str_RifPortInterval.arg(i+1);
 
       int RifPortInterval = settings.value(str_RifPortInterval,-1).toInt();
 
@@ -3533,49 +3544,13 @@ void MainWindowCFG::get_RIF(QString filename)
 
 //    settings.setValue("AutoDK", autoDK);
 //    settings.setValue("TochkaDirectionInterval", TochkaDirectionInterval);
-
+ this->update_rif_comport_table();
     settings.endGroup();
 }
 
 void MainWindowCFG::set_RIF(QString filename)
 {
-    QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
 
-    settings.beginGroup("RIF");
-
-    for(int i=0; i<comports.count();i++)
-    {
-        ComPort *port = comports.at(i);
-        int speed = port->get_RifPortSpeed();
-        int interval = port->get_RifPortInterval();
-
-        if(speed!=4800)
-        {
-            QString str="RifPortSpeed%1";
-            str=str.arg(i);
-        settings.setValue(str,speed);
-        }
-
-        if(interval!=50)
-        {
-            QString str="RifPortInterval%1";
-            str=str.arg(i);
-        settings.setValue(str,interval);
-        }
-
-
-
-    }
-
-    settings.setValue("AutoDK", this->ui->RIF_AutoDK_comboBox->currentIndex());
-    settings.setValue("TochkaDirectionInterval", this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->value());
-
-    settings.endGroup();
 }
 
 void MainWindowCFG::default_RIF()
@@ -3779,7 +3754,7 @@ void MainWindowCFG::default_INTEGRATION()
     this->ui->INTEGRATION_Port_doubleSpinBox->setValue(0);
     this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(0);
     this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(0);
-    this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText("");
+    this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText("C:/Program Files/DevLine/Line/observer.exe");
 }
 
 void MainWindowCFG::get_SQL(QString filename)
@@ -4113,7 +4088,7 @@ void MainWindowCFG::set_BACKUP(QString filename)
 
 void MainWindowCFG::default_BACKUP()
 {
-    this->ui->BACKUP_BackupPath_lineedit->setText("");
+    this->ui->BACKUP_BackupPath_lineedit->setText("C:/RIFx/Backup");
     this->ui->BACKUP_MaxBdStringCnt_comboBox->setCurrentText(map_BACKUP_MaxBdStringCnt.value(0));
 }
 
@@ -4904,12 +4879,12 @@ for(int i=0; i<comports.count();i++){
     int interval = port->get_RifPortInterval();
     if(speed!=4800){
         QString str="RifPortSpeed%1";
-        str=str.arg(i);
+        str=str.arg(i+1);
     settings.setValue(str,speed);
     }
     if(interval!=50){
         QString str="RifPortInterval%1";
-        str=str.arg(i);
+        str=str.arg(i+1);
     settings.setValue(str,interval);
     }
 }
