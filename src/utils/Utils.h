@@ -64,7 +64,7 @@ public:
     static void setCellColor(QTableWidget * const table, const int row, const int column, const QColor color);
     static void fillDiagnosticTable(QTableWidget * const table, const UnitNode *selUN);
     static void fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode * selUN);
-    static void fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode * selUN);
+    static void fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode *un);
     static void fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *selUN);
     static void fillDiagnosticTableTG(QTableWidget *const table, const UnitNode *selUN);
     static void fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const UnitNode *selUN);

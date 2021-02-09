@@ -371,8 +371,9 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode *
     }
 }
 
-void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode *un)
 {
+    // prepare -->
     table->setRowCount(7);
     table->setColumnCount(4);
 
@@ -410,12 +411,84 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode
             else if(0 != i && 2 == j)
                 setCellText( table, i, j, "");
             else if(0 != i && 0 != j)
-                setCellText( table, i, j, "?");
+                setCellText( table, i, j, "");
 
             setCellColor( table, i, j, cellGray);
         }
     }
+    // prepare <--
 
+    // fill -->
+    //"Состояние"
+    if(1 == un->isOn()) {
+        setCellText( table, 1,1, (QObject::tr("Вкл[1]")));
+        setCellColor( table, 1,1, cellGray);
+    } else if(1 == un->isOff()) {
+        setCellText( table, 1,1, (QObject::tr("Выкл[0]")));
+        setCellColor( table, 1,1, cellGray);
+    }
+    //"Тревога"
+    if(1 == un->isInAlarm()) {
+        setCellText( table, 2,1, (QObject::tr("Да[1]")));
+        setCellColor( table, 2,1, cellRed);
+    } else if(0 == un->isInAlarm()) {
+        setCellText( table, 2,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 2,1, cellGreen);
+    }
+    //"Вход \"Тревога\""
+    if(1 == un->isOutAlarm()) {
+        setCellText( table, 2,3, (QObject::tr("Да[1]")));
+        setCellColor( table, 2,3, cellRed);
+    } else if(0 == un->isOutAlarm()) {
+        setCellText( table, 2,3, (QObject::tr("Нет[0]")));
+        setCellColor( table, 2,3, cellGreen);
+    }
+    //"Сработка"
+    if(1 == un->isWasAlarm()) {
+        setCellText( table, 3,1, (QObject::tr("Да[1]")));
+        setCellColor( table, 3,1, cellRed);
+    } else if(0 == un->isWasAlarm()) {
+        setCellText( table, 3,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 3,1, cellGreen);
+    }
+    //"Вскрытие"
+    if(1 == un->isOpened()) {
+        setCellText( table, 4,1, (QObject::tr("Да[1]")));
+        setCellColor( table, 4,1, cellRed);
+    } else if(0 == un->isOpened()) {
+        setCellText( table, 4,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 4,1, cellGreen);
+    }
+    //"Вход \"Вскрытие\""
+    if(1 == un->isInOpened()) {
+        setCellText( table, 4,3, (QObject::tr("Да[1]")));
+        setCellColor( table, 4,3, cellRed);
+    } else if(0 == un->isInOpened()) {
+        setCellText( table, 4,3, (QObject::tr("Нет[0]")));
+        setCellColor( table, 4,3, cellGreen);
+    }
+    //"ДК"
+    if(1 == un->isExistDK()) {
+        setCellText( table, 5,1, (QObject::tr("Есть[1]")));
+        setCellColor( table, 5,1, cellYellow);
+    } else if(0 == un->isExistDK()) {
+        setCellText( table, 5,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 5,1, cellGreen);
+    }
+    //"Вход \"ДК\""
+    if(1 == un->isWasDK()) {
+        setCellText( table, 5,3, (QObject::tr("Есть[1]")));
+        setCellColor( table, 5,3, cellYellow);
+    } else if(0 == un->isWasDK()) {
+        setCellText( table, 5,3, (QObject::tr("Нет[0]")));
+        setCellColor( table, 5,3, cellGreen);
+    }
+    //"Уровень"
+    if(-1.0 != un->voltage()) {
+        setCellText( table, 6,1, (QString::number(un->voltage(), 'f', 2)));
+        setCellColor( table, 6,1, cellGray);
+    }
+    // fill <--
 }
 
 void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
