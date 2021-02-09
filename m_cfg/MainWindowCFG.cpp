@@ -1147,6 +1147,9 @@ void MainWindowCFG::update_operators_table()
         this->ui->tableWidget->setItem(cnt,2, new QTableWidgetItem(op->getN1()));
         this->ui->tableWidget->setItem(cnt,3, new QTableWidgetItem(op->getN2()));
 
+        if(op->getPW()!="")
+        this->ui->tableWidget->setItem(cnt,4, new QTableWidgetItem("+"));
+
         this->ui->tableWidget->item(cnt,0)->setFlags(this->ui->tableWidget->item(cnt,0)->flags() ^ Qt::ItemIsEditable);
         this->ui->tableWidget->item(cnt,1)->setFlags(this->ui->tableWidget->item(cnt,1)->flags() ^ Qt::ItemIsEditable);
         this->ui->tableWidget->item(cnt,2)->setFlags(this->ui->tableWidget->item(cnt,2)->flags() ^ Qt::ItemIsEditable);
