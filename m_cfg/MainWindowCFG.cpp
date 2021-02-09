@@ -3752,10 +3752,10 @@ void MainWindowCFG::set_INTEGRATION(QString filename)
 void MainWindowCFG::default_INTEGRATION()
 {
     this->ui->INTEGRATION_Use_comboBox->setCurrentText(map_INTEGRATION_Use.value(0));
-    this->ui->INTEGRATION_Host_lineEdit->setText("");
-    this->ui->INTEGRATION_Port_doubleSpinBox->setValue(0);
-    this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(0);
-    this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(0);
+    this->ui->INTEGRATION_Host_lineEdit->setText("localhost");
+    this->ui->INTEGRATION_Port_doubleSpinBox->setValue(1973);
+    this->ui->INTEGRATION_Port2_doubleSpinBox->setValue(1976);
+    this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->setValue(10);
     this->ui->INTEGRATION_DevLine_filepath_lineEdit->setText("C:/Program Files/DevLine/Line/observer.exe");
 }
 
