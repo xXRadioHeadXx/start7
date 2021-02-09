@@ -480,7 +480,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
 
     this->ui->tableWidget->setColumnWidth(0,10);
-    this->ui->tableWidget->setColumnWidth(1,130);
+    this->ui->tableWidget->setColumnWidth(1,140);
     this->ui->tableWidget->setColumnWidth(2,130);
     this->ui->tableWidget->setColumnWidth(3,130);
     this->ui->tableWidget->setColumnWidth(4,130);

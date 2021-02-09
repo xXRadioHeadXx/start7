@@ -6,83 +6,87 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
+    <width>591</width>
     <height>358</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="ADAM__group">
-     <property name="title">
-      <string>Устройства релейных выходов</string>
-     </property>
-     <widget class="QLabel" name="label_83">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>251</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>COM-Порт</string>
-      </property>
-     </widget>
-     <widget class="QSpinBox" name="Interval">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>120</y>
-        <width>81</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="maximum">
-       <number>1000</number>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>80</y>
-        <width>261</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Интервал опроса, мсек</string>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="Port">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>46</y>
-        <width>81</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>66</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>81</width>
-        <height>22</height>
-       </size>
-      </property>
-     </widget>
-    </widget>
-   </item>
-  </layout>
+  <widget class="QGroupBox" name="ADAM__group">
+   <property name="geometry">
+    <rect>
+     <x>11</x>
+     <y>11</y>
+     <width>572</width>
+     <height>336</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Подсистема релейных выходов</string>
+   </property>
+   <widget class="QLabel" name="label_83">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>251</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>COM-Порт</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="Interval">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>81</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>261</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Интервал опроса, мсек</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Port">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>46</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>66</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>81</width>
+      <height>22</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>

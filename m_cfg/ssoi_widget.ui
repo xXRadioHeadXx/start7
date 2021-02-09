@@ -16,14 +16,14 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>571</width>
+     <x>11</x>
+     <y>11</y>
+     <width>572</width>
      <height>341</height>
     </rect>
    </property>
    <property name="title">
-    <string>SSOI</string>
+    <string>Подсистема ССОИ</string>
    </property>
    <widget class="QComboBox" name="Version">
     <property name="geometry">
