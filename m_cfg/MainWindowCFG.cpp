@@ -5564,14 +5564,21 @@ void MainWindowCFG::on_change_operator_button_clicked()
 {
     opt_tbl_request=2;
 
+
     int index = this->ui->tableWidget->currentRow();
+    qDebug()<<index;
+    if(0<=index<operators.size())
+    {
+        op_f.set_operator_data_on_form(operators.at(index)->getFN(),
+                                       operators.at(index)->getN1(),
+                                       operators.at(index)->getN2(),
+                                       operators.at(index)->getPW());
+        op_f.show();
+
+    }
 
 
-    op_f.set_operator_data_on_form(operators.at(index)->getFN(),
-                                   operators.at(index)->getN1(),
-                                   operators.at(index)->getN2(),
-                                   operators.at(index)->getPW());
-    op_f.show();
+
 }
 
 
