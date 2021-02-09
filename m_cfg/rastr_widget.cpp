@@ -63,7 +63,7 @@ void RASTR_Widget::default_options()
     this->ui->KeepAliveInterval->setValue(20);
     this->ui->Port->setValue(1972);
     this->ui->Port2->setValue(1974);
-    this->ui->AutoDkPeriod->setCurrentIndex(0);
+    this->ui->AutoDkPeriod->setCurrentText(AutoDkPeriod_10);
     this->ui->ThermostatUse->setCurrentIndex(0);
     this->ui->dtInfoToJpg->setCurrentIndex(0);
 
@@ -155,7 +155,7 @@ void RASTR_Widget::setAutoDkPeriod(int value)
 
 int RASTR_Widget::getSOLID__Port() const
 {
-
+return 0;
 }
 
 void RASTR_Widget::setSOLID__Port(int value)

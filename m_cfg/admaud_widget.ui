@@ -119,19 +119,6 @@
        <string>Проверить</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>100</y>
-        <width>88</width>
-        <height>34</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
      <widget class="My_combobox" name="comboBox" native="true">
       <property name="geometry">
        <rect>

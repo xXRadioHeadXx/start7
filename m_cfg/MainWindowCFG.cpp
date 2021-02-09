@@ -3323,7 +3323,6 @@ void MainWindowCFG::load_other_options_from_ini_file(QString filename)
     get_RASTRMTV(filename);
     get_INTEGRATION(filename);
     get_SQL(filename);
-    get_SOLID(filename);
     get_ADAM4068(filename);
     get_TABLO(filename);
     get_RASTRMSSOI(filename);
@@ -3944,33 +3943,7 @@ this->ui->SQL_type_comboBox->setCurrentText("Выкл");
 
 
 
-void MainWindowCFG::get_SOLID(QString filename)
-{
-    QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
 
-
-    settings.beginGroup("SOLID");
-
-    this->ui->RASTR_wgt->setSOLID__Port((settings.value("Port",-1).toInt()));
-
-    settings.endGroup();
-
-}
-
-void MainWindowCFG::set_SOLID(QString /*filename*/)
-{
-
-}
-
-void MainWindowCFG::default_SOLID()
-{
-
-}
 
 void MainWindowCFG::get_ADAM4068(QString filename)
 {
@@ -4855,7 +4828,6 @@ void MainWindowCFG::save_ini(QString filename)
         set_INTEGRATION(filename);
         set_SQL(filename);
         set_RASTR(filename);
-        set_SOLID(filename);
         set_ADAM4068(filename);
         set_TABLO(filename);
         set_RASTRMSSOI(filename);
@@ -4871,6 +4843,8 @@ settings.setValue("PlanType",map_PARAMS_PlanType.key(this->ui->PlanType_comboBox
 settings.setValue("SoundType",map_PARAMS_SoundType.key(this->ui->SoundType_comboBox->currentText()));
 settings.setValue("AutoStart",map_PARAMS_AutoStart.key(this->ui->PARAMS_AutoStart_comboBox->currentText()));
 settings.endGroup();
+
+    qDebug()<<"PARAMS";
 
 settings.beginGroup("RIF");
 for(int i=0; i<comports.count();i++){
@@ -4891,6 +4865,8 @@ for(int i=0; i<comports.count();i++){
 settings.setValue("AutoDK", this->ui->RIF_AutoDK_comboBox->currentIndex());
 settings.setValue("TochkaDirectionInterval", this->ui->RIF_TochkaDirectionInterval_doubleSpinBox->value());
 settings.endGroup();
+
+    qDebug()<<"RIF";
 
 settings.beginGroup("SSOI");
 settings.setValue("Version",this->ui->SSOIwgt->get_Version());
@@ -4925,6 +4901,7 @@ settings.setValue("SsoiM_PortSpeed",this->ui->SSOIwgt->get_SsoiM_PortSpeed());
 
 
 settings.endGroup();
+    qDebug()<<"SSOI";
 
 settings.beginGroup("RASTRMTV");
 settings.setValue("Use",this->ui->RASTR_wgt->getUse());
@@ -4938,6 +4915,7 @@ settings.setValue("AutoDkPeriod",this->ui->RASTR_wgt->getAutoDkPeriod());
 
 
 settings.endGroup();
+    qDebug()<<"RASTRMTV";
 
 settings.beginGroup("INTEGRATION");
 settings.setValue("Use",map_INTEGRATION_Use.key(this->ui->INTEGRATION_Use_comboBox->currentText()));
@@ -4947,6 +4925,7 @@ settings.setValue("Port2",this->ui->INTEGRATION_Port2_doubleSpinBox->value());
 settings.setValue("KeepAliveInterval",this->ui->INTEGRATION_KeepAliveInterval_doubleSpinBox->value());
 settings.setValue("DevLine",this->ui->INTEGRATION_DevLine_filepath_lineEdit->text());
 settings.endGroup();
+   qDebug()<<"INTEGRATION";
 
 int res=0;
     if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
@@ -5014,33 +4993,30 @@ int res=0;
         settings.endGroup();
     }
 
+   qDebug()<<"SQL";
 
 
 
 
 
-    settings.beginGroup("SOLID");
-    settings.setValue("Port",this->ui->RASTR_wgt->getSOLID__Port());
-    settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
-    settings.endGroup();
 
     settings.beginGroup("ADAM4068");
     settings.setValue("Port",this->ui->ADAM_wgt->get_Port());
     settings.setValue("Interval",this->ui->ADAM_wgt->get_Interval());
     settings.endGroup();
-
+       qDebug()<<"ADAM4068";
 
     settings.beginGroup("TABLO");
     settings.setValue("Port",this->ui->TABLO_wgt->getPort());
     settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
     settings.endGroup();
-
+       qDebug()<<"TABLO";
 
     settings.beginGroup("BACKUP");
     settings.setValue("BackupPath",this->ui->BACKUP_BackupPath_lineedit->text());
     settings.setValue("MaxBdStringCnt",map_BACKUP_MaxBdStringCnt.key(this->ui->BACKUP_MaxBdStringCnt_comboBox->currentText()));
     settings.endGroup();
-
+       qDebug()<<"BACKUP";
 
 
     settings.beginGroup("OPERATORS");
@@ -5048,6 +5024,7 @@ int res=0;
     settings.setValue("Count",operators.count());
 
         settings.endGroup();
+
 
     for(int i=0;i<operators.count();i++)
         {
@@ -5061,7 +5038,7 @@ int res=0;
         settings.setValue("PW",op->getPW());
         settings.endGroup();
         }
-
+       qDebug()<<"OPERATORS";
 
     settings.beginGroup("TREE");
     settings.setValue("Count",List.count()-1);

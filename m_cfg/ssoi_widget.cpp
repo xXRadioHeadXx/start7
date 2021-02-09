@@ -75,7 +75,7 @@ void ssoi_widget::default_options()
 {
 
 
-this->set_Version(1);
+this->set_Version(2);
 
 
 this->ui->SSOI_Port_widget->default_options();

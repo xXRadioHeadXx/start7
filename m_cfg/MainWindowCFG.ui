@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3048,7 +3048,7 @@
        </widget>
        <widget class="QWidget" name="tab">
         <attribute name="title">
-         <string>АДАМ</string>
+         <string>ADAM</string>
         </attribute>
         <widget class="ADAM_Widget" name="ADAM_wgt" native="true">
          <property name="geometry">

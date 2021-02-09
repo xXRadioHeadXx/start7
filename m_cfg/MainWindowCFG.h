@@ -282,9 +282,6 @@ private:
     void set_RASTR(QString filename);
     void default_RASTR();
 
-    void get_SOLID(QString filename);
-    void set_SOLID(QString filename);
-    void default_SOLID();
 
     void get_ADAM4068(QString filename);
     void set_ADAM4068(QString filename);
