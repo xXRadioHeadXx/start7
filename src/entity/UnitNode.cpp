@@ -39,6 +39,8 @@ void UnitNode::setType(int value)
 {
     Type = value;
     matchEditableControl();
+    matchEditableOnOff();
+    matchNeedsPreamble();
 }
 
 int UnitNode::getNum1() const
@@ -142,6 +144,7 @@ void UnitNode::setBazalt(int value)
 {
     Bazalt = value;
     matchEditableControl();
+    matchEditableOnOff();
 }
 
 int UnitNode::getMetka() const
@@ -906,10 +909,39 @@ bool UnitNode::isEditableControl() const
 
 void UnitNode::matchEditableControl()
 {
-    if((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
+    if(!editableControl &&
+       ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
         TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType())
+        TypeUnitNode::RLM_KRL == getType()))
         editableControl = true;
+}
+
+void UnitNode::matchEditableOnOff()
+{
+    if(!editableOnOff &&
+       ((0 == getBazalt() && TypeUnitNode::SD_BL_IP == getType()) ||
+        TypeUnitNode::IU_BL_IP == getType() ||
+        TypeUnitNode::RLM_C == getType() ||
+        TypeUnitNode::RLM_KRL == getType()))
+        editableOnOff = true;
+}
+
+bool UnitNode::isNeedsPreamble() const
+{
+    return needsPreamble;
+}
+
+void UnitNode::matchNeedsPreamble()
+{
+    if(!needsPreamble &&
+            (TypeUnitNode::RLM_C == getType() ||
+        TypeUnitNode::RLM_KRL == getType()))
+        needsPreamble = true;
+}
+
+bool UnitNode::isEditableOnOff() const
+{
+    return editableOnOff;
 }
 
 UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
@@ -1000,6 +1032,8 @@ UnitNode::UnitNode(const UnitNode & parent) :
     setDkInvolved(parent.getDkInvolved());
 
     matchEditableControl();
+    matchEditableOnOff();
+    matchNeedsPreamble();
 }
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
@@ -1044,6 +1078,8 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     setDkInvolved(c.getDkInvolved());
 
     matchEditableControl();
+    matchEditableOnOff();
+    matchNeedsPreamble();
 
     return *this;
 }

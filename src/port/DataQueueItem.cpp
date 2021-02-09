@@ -1,14 +1,14 @@
 #include <DataQueueItem.h>
 #include <global.hpp>
 
-QByteArray DataQueueItem::preambula() const
+QByteArray DataQueueItem::preamble() const
 {
-    return m_preambula;
+    return m_preamble;
 }
 
-void DataQueueItem::setPreambula(const QByteArray &preambula)
+void DataQueueItem::setPreamble(const QByteArray &preamble)
 {
-    m_preambula = preambula;
+    m_preamble = preamble;
 }
 
 DataQueueItem::DataQueueItem() noexcept : m_port(0), m_data(QByteArray()), m_portIndex(0) {}
@@ -20,7 +20,7 @@ DataQueueItem::~DataQueueItem() {}
 
 QByteArray DataQueueItem::data() const {return m_data;}
 
-QByteArray DataQueueItem::dataToWrite() const { return preambula() + data(); }
+QByteArray DataQueueItem::dataToWrite() const { return preamble() + data(); }
 
 void DataQueueItem::setData(const QByteArray &data) {m_data = data;}
 
@@ -70,8 +70,8 @@ QByteArray DataQueueItem::data0x20 = QByteArray();
 DataQueueItem DataQueueItem::makeOnOff0x20(DataQueueItem &item, const UnitNode * un)
 {
     item.setData(DataQueueItem::makeOnOff0x20(un));
-    if(nullptr != un && TypeUnitNode::RLM_C == un->getType())
-        item.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     return item;
 }
 
@@ -110,8 +110,8 @@ QByteArray DataQueueItem::data0x21 = QByteArray();
 DataQueueItem DataQueueItem::makeDK0x21(DataQueueItem &item, const UnitNode * un)
 {
     item.setData(DataQueueItem::makeDK0x21(un));
-    if(nullptr != un && TypeUnitNode::RLM_C == un->getType())
-        item.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     return item;
 }
 
@@ -145,8 +145,8 @@ QByteArray DataQueueItem::data0x22 = QByteArray();
 DataQueueItem DataQueueItem::makeStatusRequest0x22(DataQueueItem &item, const UnitNode * un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x22(un));
-    if(nullptr != un && (TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()))
-        item.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     return item;
 }
 
@@ -180,8 +180,8 @@ QByteArray DataQueueItem::data0x23 = QByteArray();
 DataQueueItem DataQueueItem::makeOnOff0x23(DataQueueItem &item, UnitNode *un)
 {
     item.setData(DataQueueItem::makeOnOff0x23(un, true));
-    if(nullptr != un && TypeUnitNode::RLM_C == un->getType())
-        item.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     return item;
 }
 
@@ -262,8 +262,8 @@ QByteArray DataQueueItem::data0x24 = QByteArray();
 DataQueueItem DataQueueItem::makeAlarmReset0x24(DataQueueItem &item, const UnitNode * un)
 {
     item.setData(DataQueueItem::makeAlarmReset0x24(un));
-    if(nullptr != un && TypeUnitNode::RLM_C == un->getType())
-        item.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     return item;
 }
 
@@ -297,8 +297,8 @@ QByteArray DataQueueItem::data0x25 = QByteArray();
 DataQueueItem DataQueueItem::makeOff0x25(DataQueueItem &item, const UnitNode * un)
 {
     item.setData(DataQueueItem::makeOff0x25(un));
-    if(nullptr != un && TypeUnitNode::RLM_C == un->getType())
-        item.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     return item;
 }
 
@@ -332,8 +332,8 @@ QByteArray DataQueueItem::data0x26 = QByteArray();
 DataQueueItem DataQueueItem::makeOn0x26(DataQueueItem &item, const UnitNode * un)
 {
     item.setData(DataQueueItem::makeOn0x26(un));
-    if(nullptr != un && TypeUnitNode::RLM_C == un->getType())
-        item.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     return item;
 }
 

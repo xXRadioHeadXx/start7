@@ -130,8 +130,14 @@ private:
 
 private:
     bool editableControl = false;
-
     void matchEditableControl();
+
+    bool editableOnOff = false;
+    void matchEditableOnOff();
+
+    bool needsPreamble = false;
+    void matchNeedsPreamble();
+
 
 public:
 
@@ -360,6 +366,10 @@ public:
 
 
     bool isEditableControl() const;    
+
+    bool isEditableOnOff() const;
+
+    bool isNeedsPreamble() const;
 
 public slots:
 

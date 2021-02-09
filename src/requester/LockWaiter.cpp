@@ -24,7 +24,7 @@ DataQueueItem LockWaiter::getOnMsg()
     msgOn.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
     if(nullptr != unReciverIuBlIp && TypeUnitNode::RLM_C == unReciverIuBlIp->getType())
-        msgOn.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        msgOn.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
 
     return msgOn;
 }
@@ -38,7 +38,7 @@ DataQueueItem LockWaiter::getOffMsg()
     msgOff.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
     if(nullptr != unReciverIuBlIp && TypeUnitNode::RLM_C == unReciverIuBlIp->getType())
-        msgOff.setPreambula(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        msgOff.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
 
     return msgOff;
 }

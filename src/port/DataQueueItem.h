@@ -12,7 +12,7 @@ private:
     int m_port;
     QHostAddress m_address;
     QByteArray m_data;
-    QByteArray m_preambula;
+    QByteArray m_preamble;
     int m_portIndex;
 
     static QByteArray data0x20;
@@ -66,8 +66,8 @@ public:
     static QByteArray makeOn0x26(const UnitNode * un);
 
     static bool isValideDirectionI(DataQueueItem &item);
-    QByteArray preambula() const;
-    void setPreambula(const QByteArray &preambula = QByteArray().fill(static_cast<quint8>(0xFF),3));
+    QByteArray preamble() const;
+    void setPreamble(const QByteArray &preamble = QByteArray().fill(static_cast<quint8>(0xFF),3));
 };
 
 #endif // DATAQUEUEITEM_H

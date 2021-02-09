@@ -394,19 +394,13 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
     if(sel->isEditableControl())
         menu->addAction(ui->actionControl);
     menu->addSeparator();
-    if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && (1 == sel->isOff())) {
-        menu->addAction(ui->actionUNOn);
-    } else if(0 == sel->getBazalt() && TypeUnitNode::SD_BL_IP == sel->getType() && !(1 == sel->isOff())) {
+    if(sel->isEditableOnOff() && (1 == sel->isOn())) {
         menu->addAction(ui->actionUNOff);
-    } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOn())) {
-        menu->addAction(ui->actionUNOff);
-    } else if(TypeUnitNode::IU_BL_IP == sel->getType() && (1 == sel->isOff())) {
+    } else if(sel->isEditableOnOff() && (1 == sel->isOff())) {
         menu->addAction(ui->actionUNOn);
-    } else if(TypeUnitNode::RLM_C == sel->getType() && (1 == sel->isOn())) {
-        menu->addAction(ui->actionUNOff);
-    } else if(TypeUnitNode::RLM_C == sel->getType() && (1 == sel->isOff())) {
+    }/* else if(sel->isEditableOnOff()) {
         menu->addAction(ui->actionUNOn);
-    }
+    }*/
 //        menu->addAction(ui->actionOnOff);
     if(0 != sel->getBazalt() && (1 == sel->isAlarm())) {
         menu->addAction(ui->actionClose);
@@ -526,7 +520,7 @@ void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
-    if(TypeUnitNode::RLM_C == selUN->getType()) {
+    if(TypeUnitNode::RLM_C == selUN->getType() || TypeUnitNode::RLM_KRL == selUN->getType()) {
         int ret = QMessageBox::question(this, tr("Предупреждение"),
                                        tr("Вы действительно хотите отключить устройство?"),
                                        QMessageBox::Ok | QMessageBox::Cancel,

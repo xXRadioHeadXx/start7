@@ -580,7 +580,8 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
 
     if(TypeUnitNode::SD_BL_IP != target->getType() &&
        TypeUnitNode::IU_BL_IP != target->getType() &&
-       TypeUnitNode::RLM_C != target->getType())
+       TypeUnitNode::RLM_C != target->getType() &&
+       TypeUnitNode::RLM_KRL != target->getType())
         return;
 
     if(!SettingUtils::getSetMetaRealUnitNodes().contains(reciver)) {
@@ -600,7 +601,7 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             }
             reciver = reciver->getParentUN();
         }
-    } else if(TypeUnitNode::RLM_C == target->getType()) {
+    } else if(TypeUnitNode::RLM_C == target->getType() || TypeUnitNode::RLM_KRL == target->getType()) {
         reciver = target;
     }
 
@@ -641,7 +642,8 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
             appLsWaiter(tmpCAW);
     //        tmpCAW->startFirstRequest();
 
-        } else if(TypeUnitNode::RLM_C == reciver->getType()) {
+        } else if(TypeUnitNode::RLM_C == reciver->getType() ||
+                  TypeUnitNode::RLM_KRL == reciver->getType()) {
             ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
             tmpCAW->init();
             DataQueueItem itm = tmpCAW->getFirstMsg();
