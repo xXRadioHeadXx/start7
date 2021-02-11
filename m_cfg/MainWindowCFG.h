@@ -16,7 +16,8 @@
 #include "ssoi_widget.h"
 #include <QTimer>
 #include <delegate.h>
-
+#include <rif_widget_model.h>
+#include <rif_widget_delegate.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -54,10 +55,10 @@ private:
 
     QErrorMessage dialog;
 
-    QList<ComPort*> comports;
 
 
-
+    rif_widget_model* rif_model ;
+    rif_widget_delegate* rif_dlgt;
 
     QList<Operator*> operators;
     int opt_tbl_request;
@@ -550,9 +551,6 @@ private slots:
 
     void get_from_op_f(QString FN, QString N1, QString N2, QString ps);
     void on_change_operator_button_clicked();
-    void on_RifPort_comboBox_currentIndexChanged(int index);
-    void on_RifPortSpeed_comboBox_currentTextChanged(const QString &arg1);
-    void on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1);
 
 
    void on_UDP_RS485_combobox_currentTextChanged(const QString &arg1);

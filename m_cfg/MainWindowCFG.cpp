@@ -18,6 +18,8 @@
 
 
 
+
+
 //#include <libusb-1.0/libusb.h>
 
 #if (defined (_WIN32) || defined (_WIN64))
@@ -33,6 +35,13 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
     ui->setupUi(this);
+
+    rif_model = new rif_widget_model();
+    this->ui->tableView->setModel(rif_model);
+    rif_dlgt = new rif_widget_delegate();
+    this->ui->tableView->setItemDelegate(rif_dlgt);
+
+
 
 
 
@@ -337,29 +346,12 @@ AnsiString str;
 
 //   ComPort* port = new ComPort();
 //   comports.append(port);
-   for(int i(1), n(100); i < n; i++)
-   {
-    //   qDebug()<<"i= "<<i;
-       QString str(" COM%1");
-       str = str.arg(i);
-       this->ui->RifPort_comboBox->addItem(str,str);
 
-       ComPort* port = new ComPort();
-       comports.append(port);
-   }
 
 
     default_RIF();
 
 
-
-    this->ui->RifPortSpeed_comboBox->addItem("4800");
-    this->ui->RifPortSpeed_comboBox->addItem("9600");
-    this->ui->RifPortSpeed_comboBox->addItem("19200");
-    this->ui->RifPortSpeed_comboBox->addItem("38400");
-    this->ui->RifPortSpeed_comboBox->addItem("57600");
-    this->ui->RifPortSpeed_comboBox->addItem("115200");
-    this->ui->RifPortSpeed_comboBox->addItem("250000");
 
 
 
@@ -491,8 +483,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->tableWidget->setColumnWidth(6,130);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
-    this->ui->tableWidget_2->setColumnWidth(0,115);
-    this->ui->tableWidget_2->setColumnWidth(1,116);
+//    this->ui->tableWidget_2->setColumnWidth(0,115);
+//    this->ui->tableWidget_2->setColumnWidth(1,116);
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
 
@@ -848,6 +840,7 @@ void MainWindowCFG::update_map()
 
 void MainWindowCFG::update_rif_comport_table()
 {
+/*
 
     ui->tableWidget_2->setRowCount(0);
   qDebug()<<"количество операторов "<<comports.count();
@@ -874,6 +867,7 @@ for(int i=0;i<comports.count();i++)
       if(port->get_RifPortInterval()!=50)
       this->ui->tableWidget_2->item(cnt,1)->setBackground(Qt::green);
 }
+*/
 }
 
 void MainWindowCFG::update()
@@ -3513,7 +3507,7 @@ void MainWindowCFG::get_RIF(QString filename)
 
     for(int i=0;i<99;i++)
     {
-        ComPort* port=comports.at(i);
+
 
 
       QString str_RifPortSpeed("RifPortSpeed%1");
@@ -3523,8 +3517,16 @@ void MainWindowCFG::get_RIF(QString filename)
 
       if(RifPortSpeed!=-1)
       {
-          qDebug()<<str_RifPortSpeed<<" "<<QString::number(RifPortSpeed);
-                  port->set_RifPortSpeed(RifPortSpeed);
+
+
+
+
+
+          QModelIndex index = this->rif_model->index(i,1,QModelIndex());
+
+         qDebug()<<index.row()<<" "<<index.column()<<" "<<this->rif_model->data(index,Qt::DisplayRole);
+
+         this->rif_model->setData(index, RifPortSpeed, Qt::EditRole);
 
       }
 
@@ -3535,9 +3537,13 @@ void MainWindowCFG::get_RIF(QString filename)
 
       if(RifPortInterval!=-1)
       {
-          qDebug()<<str_RifPortInterval<<" "<<QString::number(RifPortInterval);
-          port->set_RifPortInterval(RifPortInterval);
 
+
+          QModelIndex index = this->rif_model->index(i,2,QModelIndex());
+
+            qDebug()<<index.row()<<" "<<index.column()<<" "<<this->rif_model->data(index,Qt::DisplayRole);
+
+         this->rif_model->setData(index, RifPortInterval, Qt::EditRole);
       }
 
 
@@ -3560,21 +3566,36 @@ void MainWindowCFG::set_RIF(QString filename)
 
 void MainWindowCFG::default_RIF()
 {
-    qDebug()<<"comports.count "<<comports.count();
+
     for(int i(0), n(100); i < n; i++)
     {
+
+
+
+     //  QModelIndex index = this->ui->tableView->indexAt(QPoint(i,1));
+        QModelIndex index = this->rif_model->index(i,1,QModelIndex());
+
+       qDebug()<<index.row()<<" "<<index.column()<<" "<<this->rif_model->data(index,Qt::DisplayRole);
+
+       this->rif_model->setData(index, 4800, Qt::EditRole);
+
+        index = this->rif_model->index(i,2,QModelIndex());
+
+          qDebug()<<index.row()<<" "<<index.column()<<" "<<this->rif_model->data(index,Qt::DisplayRole);
+
+       this->rif_model->setData(index, 50, Qt::EditRole);
+
+
+    /*      port->set_RifPortSpeed(50);
+
 //qDebug()<<"---"<<i;
         if(i<comports.count())
         {
         comports.at(i)->set_RifPortSpeed(4800);
         comports.at(i)->set_RifPortInterval(50);
-        }
+        }*/
     }
     update_rif_comport_table();
-    this->ui->RifPort_comboBox->setCurrentIndex(0);
-
-    this->ui->RifPortSpeed_comboBox->setCurrentText(QString::number(comports.at(0)->get_RifPortSpeed()));
-    this->ui->RifPortInterval_doubleSpinBox->setValue(comports.at(0)->get_RifPortInterval());
 
 
     this->ui->RIF_AutoDK_comboBox->setCurrentIndex(0);
@@ -4853,10 +4874,13 @@ settings.endGroup();
     qDebug()<<"PARAMS";
 
 settings.beginGroup("RIF");
-for(int i=0; i<comports.count();i++){
-    ComPort *port = comports.at(i);
-    int speed = port->get_RifPortSpeed();
-    int interval = port->get_RifPortInterval();
+for(int i=0; i<this->rif_model->rowCount();i++){
+
+ //   ComPort* port= static_cast< ComPort*>(index.internalPointer());
+    QModelIndex index = this->rif_model->index(i,1,QModelIndex());
+    int speed = this->rif_model->data(index,Qt::DisplayRole).toInt();
+    index = this->rif_model->index(i,2,QModelIndex());
+    int interval = this->rif_model->data(index,Qt::DisplayRole).toInt();
     if(speed!=4800){
         QString str="RifPortSpeed%1";
         str=str.arg(i+1);
@@ -5589,56 +5613,12 @@ void MainWindowCFG::on_change_operator_button_clicked()
 
 
 
-void MainWindowCFG::on_RifPort_comboBox_currentIndexChanged(int /*index*/)
-{
-
-
-int ind = this->ui->RifPort_comboBox->currentIndex();
-if(ind<comports.count())
-    {
-
-        ComPort* port = comports.at(ind);
-        this->ui->RifPortSpeed_comboBox->setCurrentText(QString::number(port->get_RifPortSpeed()));
-        this->ui->RifPortInterval_doubleSpinBox->setValue(static_cast<double>(port->get_RifPortInterval()));
-        qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
-
-    }
-update_rif_comport_table();
-
-}
 
 
 
 
-void MainWindowCFG::on_RifPortSpeed_comboBox_currentTextChanged(const QString &arg1)
-{
-    int ind = this->ui->RifPort_comboBox->currentIndex();
-    if(ind<comports.count())
-        {
-
-    ComPort* port = comports.at(ind);
-    port->set_RifPortSpeed(arg1.toInt());
-    qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
-
-    }
-    update_rif_comport_table();
-}
-
-void MainWindowCFG::on_RifPortInterval_doubleSpinBox_valueChanged(const QString &/*arg1*/)
-{
-      int ind = this->ui->RifPort_comboBox->currentIndex();
-    if(ind<comports.count())
-        {
 
 
-    ComPort* port = comports.at(ind);
-    port->set_RifPortInterval(this->ui->RifPortInterval_doubleSpinBox->value());
-qDebug()<<QString::number(port->get_RifPortInterval());
-
-            qDebug()<<"["<<ind<<"]"<<QString::number(port->get_RifPortSpeed())<<" "<<QString::number(port->get_RifPortInterval());
-          }
-    update_rif_comport_table();
-}
 
 
 /*

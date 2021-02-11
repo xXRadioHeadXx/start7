@@ -43,6 +43,8 @@ SOURCES += \
     qdevicewatcher_linux.cpp \
     qdevicewatcher_win32.cpp \
     rastr_widget.cpp \
+    rif_widget_delegate.cpp \
+    rif_widget_model.cpp \
     sqlunit.cpp \
     ssoi_port_widget.cpp \
     ssoi_widget.cpp \
@@ -68,6 +70,8 @@ HEADERS += \
     qdevicewatcher.h \
     qdevicewatcher_p.h \
     rastr_widget.h \
+    rif_widget_delegate.h \
+    rif_widget_model.h \
     sqlunit.h \
     ssoi_port_widget.h \
     ssoi_widget.h \
