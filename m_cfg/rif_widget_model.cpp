@@ -181,6 +181,32 @@ bool rif_widget_model::setData(const QModelIndex &index, const QVariant &value, 
     return false;
 }
 
+QVariant rif_widget_model::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    // Для любой роли, кроме запроса на отображение, прекращаем обработку
+    if (role != Qt::DisplayRole)
+        return QVariant();
+    if (orientation == Qt::Horizontal)
+    {
+    switch(section)
+    {
+
+        case 0:
+            return tr("Порт"); //"Дата";
+        case 1:
+            return tr("Скорость"); //"Сообщение";
+        case 2:
+            return tr("Интервал"); //"Объект";
+
+        default:
+            return QVariant();
+    }
+
+    }
+return QVariant();
+
+}
+
 
 
 Qt::ItemFlags rif_widget_model::flags(const QModelIndex &index) const

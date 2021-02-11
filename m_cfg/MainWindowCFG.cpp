@@ -36,6 +36,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->setupUi(this);
 
+    ui->tableView->verticalHeader()->setVisible(false);
     rif_model = new rif_widget_model();
     this->ui->tableView->setModel(rif_model);
     rif_dlgt = new rif_widget_delegate();
@@ -483,8 +484,10 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->tableWidget->setColumnWidth(6,130);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
-//    this->ui->tableWidget_2->setColumnWidth(0,115);
-//    this->ui->tableWidget_2->setColumnWidth(1,116);
+    this->ui->tableView->setColumnWidth(0,140);
+    this->ui->tableView->setColumnWidth(1,160);
+    this->ui->tableView->setColumnWidth(2,160);
+
 //    dialog.showMessage("this it the test message");
 //    dialog.exec();
 

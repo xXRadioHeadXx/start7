@@ -71,7 +71,7 @@ public:
 
     virtual  bool  setData(const QModelIndex &index, const QVariant &value, int role);
     // РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ   РЅР°Р·РІР°РЅРёР№   СЃС‚РѕР»Р±С†РѕРІ
-//    virtual QVariant headerData( int section, Qt::Orientation orientation, int role) const;
+    virtual QVariant headerData( int section, Qt::Orientation orientation, int role) const;
     // РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЌР»РµРјРµРЅС‚Р°
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
