@@ -407,6 +407,9 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 
     ui->treeView->setModel(this->modelTreeUN);
 
+    Delegate* dlgt = new Delegate(this);
+    this->ui->treeView->setItemDelegate(dlgt);
+
     ui->treeView->setColumnWidth(0,1000);
     ui->treeView->setColumnWidth(1,1000);
     ui->treeView->setColumnWidth(2,1000);

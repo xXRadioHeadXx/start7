@@ -15,6 +15,7 @@
 //#include <mntent.h>
 #include "ssoi_widget.h"
 #include <QTimer>
+#include <delegate.h>
 
 
 QT_BEGIN_NAMESPACE

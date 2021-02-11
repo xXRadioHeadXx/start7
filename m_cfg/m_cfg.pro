@@ -32,6 +32,7 @@ SOURCES += \
     backgroundimage.cpp \
     comport.cpp \
     dbform.cpp \
+    delegate.cpp \
     main.cpp \
     map.cpp \
     my_combobox.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     backgroundimage.h \
     comport.h \
     dbform.h \
+    delegate.h \
     map.h \
     my_combobox.h \
     mydrawobject.h \
