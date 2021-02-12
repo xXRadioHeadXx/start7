@@ -43,7 +43,7 @@ void Delegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem 
 
 void Delegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    qDebug()<<"[paint]";
+ //   qDebug()<<"[paint]";
 
     QStyledItemDelegate::paint(painter,option,index);
 }

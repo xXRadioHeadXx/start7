@@ -36,6 +36,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->setupUi(this);
 
+
+    this->ui->SQL_password_lineEdit->setEchoMode(QLineEdit::Password);
+
     ui->tableView->verticalHeader()->setVisible(false);
     rif_model = new rif_widget_model();
     this->ui->tableView->setModel(rif_model);
@@ -1312,7 +1315,7 @@ bool MainWindowCFG::can_i_add_or_not(int /*type_parrent*/, int /*type_child*/)
     return true;
 }
 
-bool MainWindowCFG::pass_to_add(UnitNode *unit, UnitNode *parrent)
+bool MainWindowCFG::  pass_to_add(UnitNode *unit, UnitNode *parrent)
 {
 
 
@@ -1455,9 +1458,9 @@ if(false==pass_to_add_GROUP(unit,parrent))
     return false;
 }
 
-if(unit->getType()==TypeUnitNode::GROUP)
+if(unit->getType()==TypeUnitNode::DEVLINE)
 {
-if(false==pass_to_add_GROUP(unit,parrent))
+if(false==pass_to_add_DEVLINE(unit,parrent))
     return false;
 }
 
@@ -1479,7 +1482,7 @@ if(false==pass_to_add_SSOI_SD(unit,parrent))
     return false;
 }
 
-if(unit->getType()==TypeUnitNode::SSOI_SD)
+if(unit->getType()==TypeUnitNode::RASTRMTV)
 {
 if(false==pass_to_add_RASTRMTV(unit,parrent))
     return false;
@@ -1584,14 +1587,51 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
 
 bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
 {
+  /*
     //ИУ может быть добавлен только к группе или к системе
-        if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
-        {
-            dialog.showMessage("ИУ может быть добавлен только к группе или к системе");
-            dialog.exec();
-            return false;
+if(
+    (parrent->getType()!=TypeUnitNode::SYSTEM)&&
+    (parrent->getType()!=TypeUnitNode::GROUP)&&
+    (parrent->getType()!=TypeUnitNode::KL)&&
+    (parrent->getType()!=TypeUnitNode::SD_BL_IP)&&
+//    (parrent->getType()!=TypeUnitNode::IU_BL_IP)&&
+    (parrent->getType()!=TypeUnitNode::TG)&&
+    (parrent->getType()!=TypeUnitNode::RLM_KRL)&&
+    (parrent->getType()!=TypeUnitNode::RLM_C)&&
+//    (parrent->getType()!=TypeUnitNode::STRAZH_IP)&&
+//    (parrent->getType()!=TypeUnitNode::ONVIF)&&
+//    (parrent->getType()!=TypeUnitNode::BOD_T4K_M)&&
+//    (parrent->getType()!=TypeUnitNode::Y4_T4K_M)&&
+    (parrent->getType()!=TypeUnitNode::DD_T4K_M)&&
+//    (parrent->getType()!=TypeUnitNode::BOD_SOTA)&&
+//    (parrent->getType()!=TypeUnitNode::Y4_SOTA)&&
+    (parrent->getType()!=TypeUnitNode::DD_SOTA)&&
+//    (parrent->getType()!=TypeUnitNode::NET_DEV)&&
+//    (parrent->getType()!=TypeUnitNode::BL_IP)&&
+    (parrent->getType()!=TypeUnitNode::SSOI_SD)&&
+//    (parrent->getType()!=TypeUnitNode::SSOI_IU)&&
+    (parrent->getType()!=TypeUnitNode::ADAM)&&
+    (parrent->getType()!=TypeUnitNode::TOROS)
+//    (parrent->getType()!=TypeUnitNode::DEVLINE)&&
+//    (parrent->getType()!=TypeUnitNode::RASTRMTV)&&
+//    (parrent->getType()!=TypeUnitNode::INFO_TABLO)
 
-        }
+)*/
+    //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
+    if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parrent->getType()==TypeUnitNode::ONVIF)||
+       (parrent->getType()==TypeUnitNode::DEVLINE)||
+       (parrent->getType()==TypeUnitNode::RASTRMTV)||
+       (parrent->getType()==TypeUnitNode::INFO_TABLO)||
+
+       (parrent->getType()==TypeUnitNode::SSOI_IU))
+    {
+
+        return false;
+
+    }
+
+
 
         //Num2 от нуля до четырех
          if(unit->getNum2()<0||unit->getNum2()>4)
@@ -2416,19 +2456,53 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
 
 bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
 {
-    if(parrent->getType()!=TypeUnitNode::GROUP)
-    if(parrent->getType()!=TypeUnitNode::SYSTEM)
+    qDebug()<<"onvif";
+    if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parrent->getType()==TypeUnitNode::ONVIF)||
+       (parrent->getType()==TypeUnitNode::DEVLINE)||
+       (parrent->getType()==TypeUnitNode::RASTRMTV)||
+       (parrent->getType()==TypeUnitNode::INFO_TABLO)||
+
+       (parrent->getType()==TypeUnitNode::SSOI_IU))
     {
-        dialog.showMessage("БОД может быть добавлен только к группе");
-        dialog.exec();
+
         return false;
 
     }
 
-    QList<UnitNode *> List1;
-    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-    foreach(UnitNode *un, List1 )
-    {
+
+
+
+        //Если общий родитель
+        QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
+
+
+        QList<UnitNode *> List1;
+        this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+
+        foreach(UnitNode *un, List1 )
+        {
+
+           qDebug()<<".";
+    //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+           QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+           QModelIndex un_parent_index= this->modelTreeUN->parent(index);
+
+         if(ind==un_parent_index)
+          {
+             qDebug()<<"[+]";
+             if(un->getType()==unit->getType())
+             if(un->getIcon1Path()==unit->getIcon1Path())
+             {
+                 dialog.showMessage("Такой обьект уже существует");
+                 dialog.exec();
+                 return false;
+
+             }
+          }
+        }
+/*
+     if(un->getParentUN()==unit->getParentUN())
      if(un->getType()==unit->getType())
      if(un->getIcon1Path()==unit->getIcon1Path())
      {
@@ -2437,24 +2511,59 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
          return false;
 
      }
+*/
 
-    }
         return true;
 }
 
 bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
 {
-    if(parrent->getType()!=TypeUnitNode::GROUP)
-    if(parrent->getType()!=TypeUnitNode::SYSTEM)
+    //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
+    if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parrent->getType()==TypeUnitNode::ONVIF)||
+       (parrent->getType()==TypeUnitNode::DEVLINE)||
+       (parrent->getType()==TypeUnitNode::RASTRMTV)||
+       (parrent->getType()==TypeUnitNode::INFO_TABLO)||
+
+       (parrent->getType()==TypeUnitNode::SSOI_IU))
     {
-        dialog.showMessage("БОД может быть добавлен только к группе");
-        dialog.exec();
+
         return false;
 
     }
 
+
+
+    QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
+
+
     QList<UnitNode *> List1;
     this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+
+    foreach(UnitNode *un, List1 )
+    {
+
+       qDebug()<<".";
+//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+       QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+       QModelIndex un_parent_index= this->modelTreeUN->parent(index);
+
+     if(ind==un_parent_index)
+      {
+         qDebug()<<"[+]";
+         if(un->getType()==unit->getType())
+             if((un->getIcon1Path()==unit->getIcon1Path())||
+                (un->getIcon4Path()==unit->getIcon4Path()))
+         {
+             dialog.showMessage("Такой обьект уже существует");
+             dialog.exec();
+             return false;
+
+         }
+      }
+    }
+
+ /*
     foreach(UnitNode *un, List1 )
     {
 
@@ -2470,7 +2579,7 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
      }
 
     }
-
+*/
         return true;
 }
 
@@ -4732,6 +4841,23 @@ void MainWindowCFG::set_option_DEVLINE(UnitNode *unit)
 
 }
 
+bool MainWindowCFG::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parrent)
+{
+    if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parrent->getType()==TypeUnitNode::ONVIF)||
+       (parrent->getType()==TypeUnitNode::DEVLINE)||
+       (parrent->getType()==TypeUnitNode::RASTRMTV)||
+       (parrent->getType()==TypeUnitNode::INFO_TABLO)||
+
+       (parrent->getType()==TypeUnitNode::SSOI_IU))
+    {
+
+        return false;
+
+    }
+    return true;
+}
+
 void MainWindowCFG::get_option_RASTRMTV(UnitNode *unit)
 {
     this->ui->textEdit->clear();
@@ -4760,13 +4886,20 @@ unit->setNum3(this->ui->RASTRMTV_Num3->currentText().toInt());
 
 bool MainWindowCFG::pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent)
 {
-    if(this->ui->RASTRMTV_Name_SerNum->currentText()=="не определено")
+    qDebug()<<"RASTRMTV";
+    if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parrent->getType()==TypeUnitNode::ONVIF)||
+       (parrent->getType()==TypeUnitNode::DEVLINE)||
+       (parrent->getType()==TypeUnitNode::RASTRMTV)||
+       (parrent->getType()==TypeUnitNode::INFO_TABLO)||
+
+       (parrent->getType()==TypeUnitNode::SSOI_IU))
     {
-        dialog.showMessage("Не определено устройство");
-        dialog.exec();
+
         return false;
 
     }
+    return true;
 }
 
 void MainWindowCFG::get_option_INFO_TABLO(UnitNode *unit)
