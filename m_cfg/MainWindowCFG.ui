@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>7</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">

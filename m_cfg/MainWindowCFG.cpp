@@ -36,6 +36,28 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->setupUi(this);
 
+    /* Создаем строку для регулярного выражения */
+    QString ipRange = "(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
+
+
+    QString str1="([0-1][0-9][0-9])";
+    /* Создаем регулярное выражение с применением строки, как
+     * повторяющегося элемента
+     */
+    QRegExp ipRegex ("^" + ipRange
+                     + "\\." + ipRange
+                     + "\\." + ipRange
+                     + "\\." + ipRange + "$");
+    /* Создаем Валидатор регулярного выражения с применением
+     * созданного регулярного выражения
+     */
+    ipValidator = new QRegExpValidator(ipRegex, this);
+    /* Устанавливаем Валидатор на QLineEdit */
+
+    this->ui->ipadress_lineedit->setValidator(ipValidator);
+//    this->ui->ipadress_lineedit->setValidator( new QRegExpValidator( QRegExp( "[0-1][0-9][0-9]\\.[0-1][0-9][0-9]" ) ) );
+
+//ui->ipadress_lineedit->setInputMask( "000.000.000.000" );
 
     this->ui->SQL_password_lineEdit->setEchoMode(QLineEdit::Password);
 
@@ -4855,6 +4877,40 @@ bool MainWindowCFG::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parrent)
         return false;
 
     }
+
+    //Если общий родитель
+    QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
+
+
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+
+    foreach(UnitNode *un, List1 )
+    {
+
+       qDebug()<<".";
+//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+       QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+       QModelIndex un_parent_index= this->modelTreeUN->parent(index);
+
+     if(ind==un_parent_index)
+      {
+         qDebug()<<"[+]";
+
+    //     unit->setNum1(this->ui->DEVLINE_Num1->value());
+    //     unit->setOutType(this->ui->DEVLINE_OutType->currentText().toInt());
+         if(un->getType()==unit->getType())
+         if(un->getNum1()==unit->getNum1())
+         if(un->getOutType()==unit->getOutType())
+         {
+             dialog.showMessage("Такой обьект уже существует");
+             dialog.exec();
+             return false;
+
+         }
+      }
+    }
+
     return true;
 }
 
@@ -4899,6 +4955,10 @@ bool MainWindowCFG::pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent)
         return false;
 
     }
+
+
+
+
     return true;
 }
 

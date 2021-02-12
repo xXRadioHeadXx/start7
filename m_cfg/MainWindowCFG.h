@@ -55,7 +55,7 @@ private:
 
     QErrorMessage dialog;
 
-
+    QRegExpValidator *ipValidator;
 
     rif_widget_model* rif_model ;
     rif_widget_delegate* rif_dlgt;
