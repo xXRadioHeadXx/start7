@@ -521,6 +521,9 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     action_YZ_MONOLIT = new QAction(tr("УЗ Монолит"), this);
     action_setAlarmMsgOn  =new QAction(tr("Выдавать сообщение при тревогах"), this);
 
+    action_open_device_tree = new QAction(tr("Развернуть дерево объектов"), this);
+    action_close_device_tree = new QAction(tr("Свернуть дерево объектов"), this);
+
     action_setDK->setCheckable(true);
     action_YZ_MONOLIT->setCheckable(true);
     action_setAlarmMsgOn->setCheckable(true);
@@ -583,6 +586,9 @@ connect(&op_f, SIGNAL(res(QString,QString,QString,QString  )) , this, SLOT     (
         connect (action_setAdamOff_20_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_20_min())  );
         connect (action_setAdamOff_30_min, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_30_min())  );
         connect (action_setAdamOff_1_hour, SIGNAL(triggered()  ) , this,SLOT     (setAdamOff_1_hour())  );
+
+        connect (action_open_device_tree, SIGNAL(triggered()) , this, SLOT(open_device_tree()));
+        connect (action_close_device_tree, SIGNAL(triggered()) , this, SLOT(close_device_tree()));
 
         connect(&this->db_f, SIGNAL(create_db(QString)  ) , this,SLOT     (create_db(QString)));
         connect(&this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
@@ -1333,6 +1339,21 @@ void MainWindowCFG::setAdamOff_1_hour()
     un->setAdamOff(9);
 }
 
+void MainWindowCFG::open_device_tree()
+{
+  qDebug()<<"open";
+
+  expandChildren(this->modelTreeUN->index(0,0,QModelIndex()));
+
+
+}
+
+void MainWindowCFG::close_device_tree()
+{
+  qDebug()<<"close";
+   this->ui->treeView->collapse(this->modelTreeUN->index(0,0,QModelIndex()));
+}
+
 bool MainWindowCFG::can_i_add_or_not(int /*type_parrent*/, int /*type_child*/)
 {
     return true;
@@ -1539,6 +1560,40 @@ if(false==pass_to_add_GROUP(unit,parrent))
             }
         return true;
 }
+
+void MainWindowCFG::expandChildren(const QModelIndex &index)
+        {
+            if (!index.isValid()) {
+                return;
+            }
+
+            int childCount = index.model()->rowCount(index);
+            for (int i = 0; i < childCount; i++) {
+                const QModelIndex &child = index.child(i, 0);
+                // Recursively call the function for each child node.
+                expandChildren(child);
+            }
+
+            this->ui->treeView->expand(index);
+
+        }
+
+void MainWindowCFG::collapseChildren(const QModelIndex &index)
+        {
+            if (!index.isValid()) {
+                return;
+            }
+
+            int childCount = index.model()->rowCount(index);
+            for (int i = 0; i < childCount; i++) {
+                const QModelIndex &child = index.child(i, 0);
+                // Recursively call the function for each child node.
+                expandChildren(child);
+            }
+
+            this->ui->treeView->collapse(index);
+
+        }
 
 bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
 {
@@ -5622,6 +5677,18 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
     QModelIndex index = ui->treeView->indexAt(pos);
         if (index.isValid()) {
             UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+            if(un->getType()==TypeUnitNode::SYSTEM)
+            {
+               menu->addAction(action_open_device_tree);
+               menu->addAction(action_close_device_tree);
+            // menu->addAction(action_setDK);
+
+
+
+
+
+            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+            }
             if(un->getType()==TypeUnitNode::SD_BL_IP)
             {
              menu->addAction(action_setDK);
@@ -5665,6 +5732,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                {
                    qDebug()<<"[1]";
                 }
+            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
             }
             if(un->getType()==TypeUnitNode::IU_BL_IP)
             {
@@ -5725,9 +5793,9 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
              action_setAdamOff_1_hour->setChecked(true);
              break;
              }
-
-            }
             menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+            }
+       //
 
         }
 }

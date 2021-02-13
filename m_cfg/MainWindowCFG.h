@@ -71,6 +71,9 @@ private:
     QString get_unit_name(int type);
 
 
+    void expandChildren(const QModelIndex &index);
+    void collapseChildren(const QModelIndex &index);
+
 //    QList<udev_device*> listDevices();
 
     SQLunit MySQL_unit;
@@ -93,6 +96,9 @@ private:
     QAction* action_setAdamOff_20_min;
     QAction* action_setAdamOff_30_min;
     QAction* action_setAdamOff_1_hour;
+
+    QAction* action_open_device_tree;
+    QAction *action_close_device_tree;
 
     int val_for_setAdamoff;
 
@@ -514,7 +520,8 @@ private slots:
     void setAdamOff_1_hour();
 
 
-
+    void open_device_tree();
+    void close_device_tree();
 
 
     void select(QString Name);
