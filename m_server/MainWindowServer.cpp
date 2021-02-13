@@ -1273,7 +1273,7 @@ void MainWindowServer::fillPageRLM()
 {
     if(nullptr == selUN)
         return;
-    if(TypeUnitNode::RLM_C != selUN->getType() || TypeUnitNode::RLM_KRL != selUN->getType())
+    if(TypeUnitNode::RLM_C != selUN->getType() && TypeUnitNode::RLM_KRL != selUN->getType())
         return;
     qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
     qDebug() << "StateWord " << selUN->getStateWord().toHex();
