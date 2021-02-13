@@ -490,38 +490,41 @@ void PortManager::requestModeSensor(UnitNode *selUN, QByteArray stateWord)
         return;
     }
 
-    if(TypeUnitNode::RLM_C == selUN->getType()){
-        ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
-        tmpCAW->init();
+    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
+    tmpCAW->init();
 
-        DataQueueItem itm = tmpCAW->getFirstMsg();
-        DataQueueItem::makeOnOff0x20(itm, selUN);
-        auto data = itm.data();
+    DataQueueItem itm = tmpCAW->getFirstMsg();
+    DataQueueItem::makeOnOff0x20(itm, selUN);
+    auto data = itm.data();
+
+    if(TypeUnitNode::RLM_C == selUN->getType()){
         data[4] = stateWord.at(2);
         data[5] = stateWord.at(3);
-        data.chop(1);
-        data.append(Utils::getByteSumm(data)); //<CHKS>
+    } else if(TypeUnitNode::RLM_KRL == selUN->getType()){
+        data[4] = stateWord.at(0);
+    }
 
-        itm.setData(data);
+    data.chop(1);
+    data.append(Utils::getByteSumm(data)); //<CHKS>
+    itm.setData(data);
 
-        tmpCAW->setFirstMsg(itm);
+    tmpCAW->setFirstMsg(itm);
 
-        connect(tmpCAW, &AbstractRequester::successful, [](){
-            QMessageBox::information(nullptr,
+    connect(tmpCAW, &AbstractRequester::successful, [](){
+        QMessageBox::information(nullptr,
                                  tr("Инфо"),
                                  tr("Параметры датчика записаны успешно!"),
                                  QMessageBox::Ok);
-        });
+    });
 
-        connect(tmpCAW, &AbstractRequester::unsuccessful, [](){
-            QMessageBox::warning(nullptr,
-                                 tr("Ошибка"),
-                                 tr("Ошибка записи параметров датчика!"),
-                                 QMessageBox::Ok);
-        });
+    connect(tmpCAW, &AbstractRequester::unsuccessful, [](){
+        QMessageBox::warning(nullptr,
+                             tr("Ошибка"),
+                             tr("Ошибка записи параметров датчика!"),
+                             QMessageBox::Ok);
+    });
 
-        appLsWaiter(tmpCAW);
-    }
+    appLsWaiter(tmpCAW);
 }
 
 void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)

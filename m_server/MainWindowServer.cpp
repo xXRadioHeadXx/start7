@@ -812,7 +812,7 @@ void MainWindowServer::preparePageCustomization(int /*typeUN*/)
     switch (selUN->getType()) {
     case TypeUnitNode::RLM_KRL:
     case TypeUnitNode::RLM_C:
-        preparePageRLM(selUN->getType());
+        preparePageRLM(selUN);
         ui->stackedWidget->setCurrentIndex(0);
         break;
     case TypeUnitNode::TG:
@@ -835,25 +835,70 @@ void MainWindowServer::preparePageCustomization(int /*typeUN*/)
     ui->groupBox_Customization->setVisible(true);
 }
 
-void MainWindowServer::preparePageRLM(int typeUN)
+void MainWindowServer::preparePageRLM(const UnitNode * un)
 {
     ui->comboBox_RLMTactPeriod->clear();
     ui->comboBox_RLMTactPeriod->setEnabled(false);
     ui->comboBox_RLMTactPeriod->setEditable(false);
     ui->comboBox_RLMTactPeriod->addItem(tr("Неопределено"), -1);
-    for(int i = 0, n = ((TypeUnitNode::RLM_KRL == typeUN) ? 4 : ((TypeUnitNode::RLM_C == typeUN) ? 5 : 0)); i < n; i++) {
-        ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
+
+    if(TypeUnitNode::RLM_C == un->getType()) {
+        for(int i = 0, n = 5; i < n; i++) {
+            ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
+        }
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+              (0 == un->getAdamOff() ||
+               1 == un->getAdamOff() ||
+               2 == un->getAdamOff())) {
+        for(int i = 0, n = 4; i < n; i++) {
+            ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
+        }
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+              3 == un->getAdamOff()) {
+        for(int i = 0, n = 2; i < n; i++) {
+            ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
+        }
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+              4 == un->getAdamOff()) {
+        for(int i = 0, n = 4; i < n; i++) {
+            ui->comboBox_RLMTactPeriod->addItem(QString(tr("УШ") + " %1").arg(i + 1), i);
+        }
     }
-    ui->comboBox_RLMTactPeriod->setEnabled(true);
+
+    if(TypeUnitNode::RLM_KRL == un->getType() &&
+       5 == un->getAdamOff()) {
+        ui->comboBox_RLMTactPeriod->setEnabled(false);
+        ui->comboBox_RLMTactPeriod->setItemData(1, 0);
+    } else {
+        ui->comboBox_RLMTactPeriod->setEnabled(true);
+    }
 
 
     ui->comboBox_RLMCondition->clear();
     ui->comboBox_RLMCondition->setEnabled(false);
     ui->comboBox_RLMCondition->setEditable(false);
     ui->comboBox_RLMCondition->addItem(tr("Неопределено"), -1);
-    ui->comboBox_RLMCondition->addItem(tr("Основной"), 0);
-    ui->comboBox_RLMCondition->addItem(tr("Дополнительный"), 1);
-    if(TypeUnitNode::RLM_C == typeUN) {
+    if(TypeUnitNode::RLM_C == un->getType() ||
+       (TypeUnitNode::RLM_KRL == un->getType() &&
+        (0 == un->getAdamOff() ||
+         1 == un->getAdamOff() ||
+         2 == un->getAdamOff()))) {
+        ui->comboBox_RLMCondition->addItem(tr("Основной"), 0);
+        ui->comboBox_RLMCondition->addItem(tr("Дополнительный"), 1);
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+               3 == un->getAdamOff()) {
+        ui->comboBox_RLMCondition->addItem(tr("Нормальный"), 0);
+        ui->comboBox_RLMCondition->addItem(tr("Помехозащищенный"), 1);
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+               4 == un->getAdamOff()) {
+        ui->comboBox_RLMCondition->addItem(tr("Настройка"), 0);
+        ui->comboBox_RLMCondition->addItem(tr("Работа"), 1);
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+              5 == un->getAdamOff()) {
+        ui->comboBox_RLMCondition->addItem(tr("Медленный"), 0);
+        ui->comboBox_RLMCondition->addItem(tr("Быстрый"), 1);
+    }
+    if(TypeUnitNode::RLM_C == un->getType()) {
         ui->comboBox_RLMCondition->addItem(tr("Ползущий (Плз)"), 2);
         ui->comboBox_RLMCondition->addItem(tr("2-й ярус (2Яр)"), 3);
     }
@@ -863,20 +908,75 @@ void MainWindowServer::preparePageRLM(int typeUN)
     ui->comboBox_RLMEdge->setEnabled(false);
     ui->comboBox_RLMEdge->setEditable(false);
     ui->comboBox_RLMEdge->addItem(tr("Неопределено"));
-    for(int i = 0, n = 6; i < n; i++) {
-        if(0 == i) {
-            ui->comboBox_RLMEdge->addItem(QString(".%1 (" + tr("самый груб.") + ")").arg(i + 1), (float)(((float)i + 1.0)/10.0));
-        } else {
-            ui->comboBox_RLMEdge->addItem(QString(".%1").arg(i + 1), (float)(((float)i + 1.0)/10.0));
+    if(TypeUnitNode::RLM_C == un->getType()) {
+        for(int i = 0, n = 6; i < n; i++) {
+            if(0 == i) {
+                ui->comboBox_RLMEdge->addItem(QString(".%1 (" + tr("самый груб.") + ")").arg(i + 1), (float)(((float)i + 1.0)/10.0));
+            } else {
+                ui->comboBox_RLMEdge->addItem(QString(".%1").arg(i + 1), (float)(((float)i + 1.0)/10.0));
+            }
         }
-    }
-    for(int i = 0, n = 10; i < n; i++) {
-        if(0 == i) {
-            ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("грубый") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
-        } else if(9 <= i) {
-            ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("чувств") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
-        } else {
-            ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+        for(int i = 0, n = 10; i < n; i++) {
+            if(0 == i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("грубый") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else if(9 <= i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("чувств") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else {
+                ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            }
+        }
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+              1 == un->getAdamOff()) {
+        for(int i = 0, n = 6; i < n; i++) {
+            if(0 == i) {
+                ui->comboBox_RLMEdge->addItem(QString(".%1 (" + tr("самый груб.") + ")").arg(i + 1), (float)(((float)i + 1.0)/10.0));
+            } else {
+                ui->comboBox_RLMEdge->addItem(QString(".%1").arg(i + 1), (float)(((float)i + 1.0)/10.0));
+            }
+        }
+        for(int i = 0, n = 10; i < n; i++) {
+            if(0 == i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("груб.") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else if(9 <= i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("чувств.") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else {
+                ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            }
+        }
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+              (0 == un->getAdamOff() ||
+               2 == un->getAdamOff() ||
+               4 == un->getAdamOff() ||
+               5 == un->getAdamOff())) {
+        for(int i = 0, n = 6; i < n; i++) {
+            ui->comboBox_RLMEdge->addItem(tr("01 (груб.)"), (float)(((float)i + 1.0)/10.0));
+        }
+        for(int i = 0, n = 10; i < n; i++) {
+            if(0 == i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("грубый") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else if(9 <= i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("чувств") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else {
+                ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            }
+        }
+    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+              3 == un->getAdamOff()) {
+        for(int i = 0, n = 6; i < n; i++) {
+            ui->comboBox_RLMEdge->addItem(tr("01 (груб.) (Режим Линейный)"), (float)(((float)i + 1.0)/10.0));
+        }
+        for(int i = 0, n = 10; i < n; i++) {
+            if(0 == i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("груб.") +") (" + tr("Режим Линейный") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else if(0 < i && 5 > i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("Режим Линейный)")).arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else if(5 <= i && 9 > i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("Режим Объёмный)")).arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else if(9 == i) {
+                ui->comboBox_RLMEdge->addItem(QString("%1 (" + tr("чув.") +") (" + tr("Режим Объёмный") + ")").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            } else {
+                ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
+            }
         }
     }
     ui->comboBox_RLMEdge->setEnabled(true);
@@ -1173,7 +1273,7 @@ void MainWindowServer::fillPageRLM()
 {
     if(nullptr == selUN)
         return;
-    if(TypeUnitNode::RLM_C != selUN->getType())
+    if(TypeUnitNode::RLM_C != selUN->getType() || TypeUnitNode::RLM_KRL != selUN->getType())
         return;
     qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
     qDebug() << "StateWord " << selUN->getStateWord().toHex();
@@ -1253,7 +1353,62 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         return;
 
     switch (selUN->getType()) {
-    case TypeUnitNode::RLM_KRL:
+    case TypeUnitNode::RLM_KRL: {
+        auto newStateWord = selUN->getStateWord();
+        if(newStateWord.isEmpty())
+            return;
+
+        auto clockPeriod = ui->comboBox_RLMTactPeriod->currentData().toInt();
+        auto modeProcessing = ui->comboBox_RLMCondition->currentData().toInt();
+        auto threshold = ui->comboBox_RLMEdge->currentData().toDouble();
+
+        if(-1 == clockPeriod || -1 == modeProcessing || -1 == threshold)
+            return;
+
+        newStateWord[0] = static_cast<quint8>(0x00);
+
+        newStateWord[0] = static_cast<quint8>(newStateWord[0]) | (static_cast<quint8>(clockPeriod) << 5);
+
+        if(treatAsEqual(10.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(0);
+        } else if(treatAsEqual(09.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(1);
+        } else if(treatAsEqual(08.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(2);
+        } else if(treatAsEqual(07.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(3);
+        } else if(treatAsEqual(06.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(4);
+        } else if(treatAsEqual(05.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(5);
+        } else if(treatAsEqual(04.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(6);
+        } else if(treatAsEqual(03.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(7);
+        } else if(treatAsEqual(02.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(8);
+        } else if(treatAsEqual(01.0, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(9);
+        } else if(treatAsEqual(00.6, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(10);
+        } else if(treatAsEqual(00.5, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(11);
+        } else if(treatAsEqual(00.4, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(12);
+        } else if(treatAsEqual(00.3, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(13);
+        } else if(treatAsEqual(00.2, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(14);
+        } else if(treatAsEqual(00.1, threshold)) {
+            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(15);
+        }
+
+        newStateWord[0] = static_cast<quint8>(newStateWord[0]) | (static_cast<quint8>(modeProcessing) << 4);
+
+        m_portManager->requestModeSensor(selUN, newStateWord);
+
+        break;
+    }
     case TypeUnitNode::RLM_C: {
         auto newStateWord = selUN->getStateWord();
         if(newStateWord.isEmpty())
