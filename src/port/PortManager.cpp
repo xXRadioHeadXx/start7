@@ -482,25 +482,25 @@ void PortManager::lockOpenCloseCommand(UnitNode *selUN, bool value)
     lockOpenCloseCommand(false, selUN, value);
 }
 
-void PortManager::requestModeSensor(UnitNode *selUN, QByteArray stateWord)
+void PortManager::requestModeSensor(UnitNode *un, QByteArray stateWord)
 {
-    if(nullptr == selUN || stateWord.isEmpty()) {
+    if(nullptr == un || stateWord.isEmpty()) {
         return;
-    } else if(selUN->getStateWord().size() > stateWord.size()) {
+    } else if(un->getStateWord().size() > stateWord.size()) {
         return;
     }
 
-    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
+    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(un);
     tmpCAW->init();
 
     DataQueueItem itm = tmpCAW->getFirstMsg();
-    DataQueueItem::makeOnOff0x20(itm, selUN);
+    DataQueueItem::makeOnOff0x20(itm, un);
     auto data = itm.data();
 
-    if(TypeUnitNode::RLM_C == selUN->getType()){
+    if(TypeUnitNode::RLM_C == un->getType()){
         data[4] = stateWord.at(2);
         data[5] = stateWord.at(3);
-    } else if(TypeUnitNode::RLM_KRL == selUN->getType()){
+    } else if(TypeUnitNode::RLM_KRL == un->getType()){
         data[4] = stateWord.at(0);
     }
 
@@ -525,6 +525,18 @@ void PortManager::requestModeSensor(UnitNode *selUN, QByteArray stateWord)
     });
 
     appLsWaiter(tmpCAW);
+
+    JourEntity msg;
+    msg.setObject(un->getName());
+    msg.setObjecttype(un->getType());
+    msg.setD1(un->getNum1());
+    msg.setD2(un->getNum2());
+    msg.setD3(un->getNum3());
+    msg.setDirection(un->getUdpAdress());
+    msg.setComment(QObject::tr("Запись настройки"));
+    msg.setType(134);
+    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+    GraphTerminal::sendAbonentEventsAndStates(un, msg);
 }
 
 void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)

@@ -868,7 +868,7 @@ void MainWindowServer::preparePageRLM(const UnitNode * un)
     if(TypeUnitNode::RLM_KRL == un->getType() &&
        5 == un->getAdamOff()) {
         ui->comboBox_RLMTactPeriod->setEnabled(false);
-        ui->comboBox_RLMTactPeriod->setItemData(1, 0);
+        ui->comboBox_RLMTactPeriod->setItemData(0, 0);
     } else {
         ui->comboBox_RLMTactPeriod->setEnabled(true);
     }
