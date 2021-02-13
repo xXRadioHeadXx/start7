@@ -455,6 +455,22 @@ public:
     virtual int isOpened() const final;
     virtual int isInOpened() const final;
     virtual int isWasOpened() const final;
+    virtual int calcDKStatus() const final {
+        if(1 == isWasAlarm() && 1 == isAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+            return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+        } else if(1 == isAlarm()) {
+            return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == isOff()) {
+            return DKCiclStatus::DKWrong;
+        } else if(1 == isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
+        return DKCiclStatus::DKWrong;
+    }
 
 
 };

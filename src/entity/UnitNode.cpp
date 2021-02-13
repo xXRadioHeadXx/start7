@@ -1136,7 +1136,8 @@ void UnitNode::moveTreeChildUNUp(UnitNode * childUN)
         return;
     auto index = getListTreeChilde().indexOf(childUN);
     if(0 < index) {
-        this->listTreeChilde.swap(index - 1, index);
+//        this->listTreeChilde.swap(index - 1, index);
+        qSwap(listTreeChilde[index - 1], listTreeChilde[index]);
     }
 }
 
@@ -1146,7 +1147,8 @@ void UnitNode::moveTreeChildUNDown(UnitNode *childUN)
         return;
     auto index = getListTreeChilde().indexOf(childUN);
     if(getListTreeChilde().count() > (index + 1)) {
-        this->listTreeChilde.swap(index, index + 1);
+//        this->listTreeChilde.swap(index, index + 1);
+        qSwap(listTreeChilde[index], listTreeChilde[index + 1]);
     }
 }
 

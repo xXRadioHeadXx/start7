@@ -345,12 +345,12 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
     if(nullptr == selUN) {
         QSet<UnitNode *> lsTmp = SettingUtils::getSetMetaRealUnitNodes();
         for(UnitNode * un : lsTmp)
-            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType()/* или датчик */)
+            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()/* или датчик */)
                 lsTrgtUN.append(un);
     } else if(nullptr != selUN) {
         UnitNode * un = selUN;
         while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType()/* или датчик */) {
+            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()/* или датчик */) {
                 lsTrgtUN.append(un);
                 break;
             }
@@ -1331,7 +1331,7 @@ void PortManager::manageOverallReadQueue()
                     UnitNode * reciver = nullptr;
                     for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
-                        if(TypeUnitNode::RLM_C == reciver->getType() &&
+                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
                                 reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
                                 reciver->getUdpPort() == request.port())
                             break;
@@ -1348,7 +1348,7 @@ void PortManager::manageOverallReadQueue()
                     UnitNode * reciver = nullptr;
                     for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
-                        if(TypeUnitNode::RLM_C == reciver->getType() &&
+                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
                                 reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
                                 reciver->getUdpPort() == request.port()) {
 

@@ -287,7 +287,7 @@ QByteArray DataQueueItem::makeAlarmReset0x24(const UnitNode * un)
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
             out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType()) {
+        } else if(TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
         }
     }

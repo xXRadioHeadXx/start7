@@ -74,7 +74,7 @@ void ProcessDKWaiter::init() {
     if(nullptr != getUnTarget()) {
         UnitNode * un = getUnTarget();
         while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType()/* или датчик */) {
+            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()/* или датчик */) {
                 setUnReciver(un);
                 break;
             }
@@ -104,7 +104,7 @@ void ProcessDKWaiter::init() {
                 this->lsTrackedUN.append(uncld);
             }
         }
-    } else if(TypeUnitNode::RLM_C == getUnReciver()->getType()) {
+    } else if(TypeUnitNode::RLM_C == getUnReciver()->getType() || TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
         getUnReciver()->setDkInvolved(true);
         getUnReciver()->setDkStatus(DKCiclStatus::DKReady);
         getUnReciver()->updDoubl();
