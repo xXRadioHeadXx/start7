@@ -36,6 +36,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->setupUi(this);
 
+
+    this->ui->tabWidget->setCurrentIndex(0);
     /* Создаем строку для регулярного выражения */
     QString ipRange = "(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
 
@@ -660,6 +662,7 @@ void MainWindowCFG::set_x_y(QString Name, int x, int y)
 
 void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
+    this->ui->tabWidget->setCurrentIndex(2);
 
     current_index=index;
     if(index.isValid())
