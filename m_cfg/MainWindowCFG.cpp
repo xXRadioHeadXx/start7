@@ -1198,6 +1198,28 @@ QString MainWindowCFG::get_unit_name(int /*type*/)
     return QString();
 }
 
+bool MainWindowCFG::find_equal_unit(UnitNode *unit, bool (*is_equal)(UnitNode *unit, UnitNode *un))
+{
+    QList<UnitNode *> List1;
+    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    foreach(UnitNode *un, List1 )
+    {
+
+        if(is_equal(unit,un))
+        {
+            this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+            dialog.showMessage("Такой обьект уже существует");
+            dialog.exec();
+
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+
 void MainWindowCFG::setDK()
 {
 //    qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!]";
@@ -1798,49 +1820,34 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
     //    Если связь по UDP - контроль по IP адресу
 
      //     qDebug()<<"[BOD_SOTA]";
+
+
+
+
             if(unit->getUdpUse()==0)
-            {
-          //            qDebug()<<"[getUdpUse()==0]";
-                QList<UnitNode *> List1;
-                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-                foreach(UnitNode *un, List1 )
-                {
+                return find_equal_unit(unit,[](UnitNode *unit, UnitNode *un)
+                                              ->bool
+                                   {
 
-            qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-                 if((un->getNum3()==unit->getNum3()))
-                 if((un->getNum1()==unit->getNum1()))
-                 {
-
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
-
-                     return false;
-                 }
+                                    return ((un->getNum3()==unit->getNum3())&&
+                                            (un->getNum1()==unit->getNum1()));
+                                    }
+                                                  );
 
 
-                }
-             //проконтроилровать отсутствие в дереве такого же порта
 
-            }
+
             if(unit->getUdpUse()==1)
-            {
-              //проконтроилровать отсутствие в дереве такого же IP адреса
-                QList<UnitNode *> List1;
-                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-                foreach(UnitNode *un, List1 )
-                {
-       //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-                 if((un->getUdpAdress()==unit->getUdpAdress()))
-                 if((un->getNum1()==unit->getNum1()))
-                  {
 
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
-                     return false;
-                  }
-                }
-            }
+                return find_equal_unit(unit,[](UnitNode *unit, UnitNode *un)->bool
+                                   {
+                                    return ((un->getUdpAdress()==unit->getUdpAdress())&&
+                                            (un->getNum1()==unit->getNum1()));
+                                   }
+                                );
+
+
+
             return true;
 }
 

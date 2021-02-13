@@ -70,6 +70,7 @@ private:
 
     QString get_unit_name(int type);
 
+    bool find_equal_unit(UnitNode *unit,bool (*is_equal)(UnitNode* unit,UnitNode* un));
 
     void expandChildren(const QModelIndex &index);
     void collapseChildren(const QModelIndex &index);
