@@ -1080,11 +1080,12 @@ void MainWindowCFG::on_actionCreate_triggered()
 void MainWindowCFG::on_actionOpen_triggered()
 {
      qDebug()<<"[Open]";
-     this->modelTreeUN->rootItemUN->deleteAll();
+
      QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
       qDebug()<<"patch = "<<patch;
       if(patch!="")
       {
+          this->modelTreeUN->rootItemUN->deleteAll();
           this->modelTreeUN->loadSettings(patch);
 
           if(modelTreeUN->rowCount()==0)
@@ -1660,16 +1661,22 @@ if(
 
              return false;
 
+         QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
+
          //Если выбран RS-485
          if(unit->getUdpUse()==0)
          {
              qDebug()<<"[RS485]";
-             //Контролируем отсутствие юнита с таким же Num2 и Num3
+             //Контролируем отсутствие юнита с таким же Num2 и Num3 у одного и того же родителя
 
                 QList<UnitNode *> List1;
                 this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
                 foreach(UnitNode *un, List1 )
                 {
+                QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+                QModelIndex un_parent_index= this->modelTreeUN->parent(index);
+
+                 if(ind==un_parent_index)
                  if(un->getType()==unit->getType())
                  if(un->getUdpUse()==unit->getUdpUse())
                  if(un->getNum3()==unit->getNum3())
@@ -1693,6 +1700,10 @@ if(
                     this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
                     foreach(UnitNode *un, List1 )
                  {
+                        QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+                        QModelIndex un_parent_index= this->modelTreeUN->parent(index);
+
+                        if(ind==un_parent_index)
                         if(un->getType()==unit->getType())
                         if(un->getUdpUse()==unit->getUdpUse())
                         if(un->getUdpAdress()==unit->getUdpAdress())
@@ -2478,6 +2489,9 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
 
 bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
 {
+//добавляется в системе группе и любому датчику - у одной точке
+//не более одной камеры с одним айпишником
+
     qDebug()<<"onvif";
     if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
        (parrent->getType()==TypeUnitNode::ONVIF)||
@@ -2575,7 +2589,7 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
          qDebug()<<"[+]";
          if(un->getType()==unit->getType())
              if((un->getIcon1Path()==unit->getIcon1Path())||
-                (un->getIcon4Path()==unit->getIcon4Path()))
+             (un->getIcon4Path()==unit->getIcon4Path()))
          {
              dialog.showMessage("Такой обьект уже существует");
              dialog.exec();
@@ -4612,20 +4626,20 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }
 
-void MainWindowCFG::set_option_ONVIF(UnitNode */*unit*/)
+void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
 {
-//    unit->setIcon1Path(this->ui->ONVIF_lineEdit__IPaddr->text());
-//    unit->setIcon2Path(this->ui->ONVIF_lineEdit__login->text());
-//    unit->setIcon3Path(this->ui->ONVIF_lineEdit__password->text());
+    unit->setIcon1Path(this->ui->ONVIF_lineEdit__IPaddr->text());
+    unit->setIcon2Path(this->ui->ONVIF_lineEdit__login->text());
+    unit->setIcon3Path(this->ui->ONVIF_lineEdit__password->text());
 
 }
 
-void MainWindowCFG::set_option_STRAZH_IP(UnitNode */*unit*/)
+void MainWindowCFG::set_option_STRAZH_IP(UnitNode *unit)
 {
-//    unit->setIcon1Path(this->ui->STRAZH_IP_lineEdit__IPaddr->text());
-//    unit->setIcon2Path(this->ui->STRAZH_IP_lineEdit__login->text());
-//    unit->setIcon3Path(this->ui->STRAZH_IP_lineEdit__password->text());
-//    unit->setIcon4Path(this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->text());
+    unit->setIcon1Path(this->ui->STRAZH_IP_lineEdit__IPaddr->text());
+    unit->setIcon2Path(this->ui->STRAZH_IP_lineEdit__login->text());
+    unit->setIcon3Path(this->ui->STRAZH_IP_lineEdit__password->text());
+    unit->setIcon4Path(this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->text());
 }
 
 void MainWindowCFG::set_option_NET_DEV(UnitNode */*unit*/)
@@ -4841,6 +4855,16 @@ bool MainWindowCFG::pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent)
 
 void MainWindowCFG::get_option_DEVLINE(UnitNode *unit)
 {
+    this->ui->textEdit->clear();
+    QString string1;
+
+    string1.append("ТВ-камера DevLine: ");
+    string1.append(QString::number(unit->getNum1()));
+    string1.append(" ");
+    string1.append("Поток: ");
+    string1.append(QString::number(unit->getOutType()));
+
+    this->ui->textEdit->append(string1);
 
 }
 
@@ -4952,6 +4976,14 @@ bool MainWindowCFG::pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent)
        (parrent->getType()==TypeUnitNode::SSOI_IU))
     {
 
+        return false;
+
+    }
+
+    if(this->ui->RASTRMTV_Name_SerNum->currentText()=="не определено")
+    {
+        dialog.showMessage("Устройство не определено");
+        dialog.exec();
         return false;
 
     }

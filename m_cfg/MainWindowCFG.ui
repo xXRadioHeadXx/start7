@@ -651,7 +651,7 @@
             </rect>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>10</number>
            </property>
            <widget class="QWidget" name="U4_Sota_M_groupbox">
             <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1842,7 +1842,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="UDP">
              <widget class="QLabel" name="label_80">
