@@ -58,6 +58,9 @@ DataQueueItem OnOffIUWaiter::makeFirstMsg()
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
+    if(nullptr != getUnTarget() && TypeUnitNode::RLM_C == getUnTarget()->getType())
+        result.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+
     if(result.isValid())
         return result;
 
@@ -73,6 +76,9 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    if(nullptr != getUnTarget() && TypeUnitNode::RLM_C == getUnTarget()->getType())
+        result.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
 
     if(result.isValid())
         return result;

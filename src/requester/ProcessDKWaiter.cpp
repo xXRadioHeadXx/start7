@@ -36,10 +36,11 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
-    result.setData(DataQueueItem::makeDK0x21(getUnReciver()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    DataQueueItem::makeDK0x21(result, getUnReciver());
 
     if(result.isValid())
         return result;
@@ -52,10 +53,11 @@ DataQueueItem ProcessDKWaiter::makeSecondMsg() {
     if(nullptr == getPtrPort() || nullptr == getUnReciver())
         return result;
 
-    result.setData(DataQueueItem::makeAlarmReset0x24(getUnReciver()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
+
+    DataQueueItem::makeAlarmReset0x24(result, getUnReciver());
 
     if(result.isValid())
         return result;
@@ -72,7 +74,7 @@ void ProcessDKWaiter::init() {
     if(nullptr != getUnTarget()) {
         UnitNode * un = getUnTarget();
         while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType()/* или датчик */) {
+            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()/* или датчик */) {
                 setUnReciver(un);
                 break;
             }
@@ -102,7 +104,7 @@ void ProcessDKWaiter::init() {
                 this->lsTrackedUN.append(uncld);
             }
         }
-    } else if(TypeUnitNode::RLM_C == getUnReciver()->getType()) {
+    } else if(TypeUnitNode::RLM_C == getUnReciver()->getType() || TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
         getUnReciver()->setDkInvolved(true);
         getUnReciver()->setDkStatus(DKCiclStatus::DKReady);
         getUnReciver()->updDoubl();

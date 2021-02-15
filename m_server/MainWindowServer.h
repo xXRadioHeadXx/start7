@@ -94,7 +94,7 @@ private slots:
     void changeSelectUN(UnitNode * un);
 
     void preparePageCustomization(int typeUN);
-    void preparePageRLM(int typeUN);
+    void preparePageRLM(const UnitNode *un);
     void preparePagePoint(int typeUN);
     void preparePageSota1(int typeUN);
     void preparePageSota2(int typeUN);

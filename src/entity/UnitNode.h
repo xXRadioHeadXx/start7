@@ -128,6 +128,17 @@ private:
     bool visible = false;
     bool control = true;
 
+private:
+    bool editableControl = false;
+    void matchEditableControl();
+
+    bool editableOnOff = false;
+    void matchEditableOnOff();
+
+    bool needsPreamble = false;
+    void matchNeedsPreamble();
+
+
 public:
 
     explicit UnitNode(UnitNode *parent = nullptr);
@@ -311,7 +322,7 @@ public:
     void setStateWord(const QByteArray &value);
 
     //
-    virtual quint8 mask() {return 0;};
+    virtual quint8 mask() const {return 0;};
     virtual int isAlarm() const {return -1;};
     virtual int isInAlarm() const {return -1;};
     virtual int isOutAlarm() const {return -1;};
@@ -325,12 +336,17 @@ public:
     virtual int calcDKStatus() const {return DKCiclStatus::DKIgnore;}
     //
     virtual float voltage() const {return -1.0;};
+    virtual int synchronization() const {return -1;};
     virtual int isExternalSynchronization() const {return -1;};
     virtual int isInternalSynchronization() const {return -1;};
     virtual float threshold() const {return -1.0;};
     virtual int clockPeriod() const {return -1;};
     virtual int modeProcessing() const {return -1;};
     virtual int lowLevl() const {return -1;};
+    virtual int isOpened() const {return -1;};
+    virtual int isInOpened() const {return -1;};
+    virtual int isOutOpened() const {return -1;};
+    virtual int isWasOpened() const {return -1;};
 
     //
 
@@ -348,6 +364,12 @@ public:
 
     virtual QString toString();
 
+
+    bool isEditableControl() const;    
+
+    bool isEditableOnOff() const;
+
+    bool isNeedsPreamble() const;
 
 public slots:
 
@@ -416,6 +438,41 @@ class UnitNode_RLM_KRL : public UnitNode {
 public:
     explicit UnitNode_RLM_KRL(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_KRL(const UnitNode & parent) : UnitNode(parent) {}
+    virtual float threshold() const final;
+    virtual int modeProcessing() const final;
+    virtual int clockPeriod() const final;
+    virtual float voltage() const final;
+    virtual int isOn() const final;
+    virtual int isOff() const final;
+    virtual int isAlarm() const final;
+    virtual int isInAlarm() const final;
+    virtual int isOutAlarm() const final;
+    virtual int isNorm() const final;
+    virtual int isWasAlarm() const final;
+    virtual int isExistDK() const final;
+    virtual int synchronization() const final;
+    virtual int isWasDK() const final;
+    virtual int isOpened() const final;
+    virtual int isInOpened() const final;
+    virtual int isWasOpened() const final;
+    virtual int calcDKStatus() const final {
+        if(1 == isWasAlarm() && 1 == isAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+            return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+        } else if(1 == isAlarm()) {
+            return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == isOff()) {
+            return DKCiclStatus::DKWrong;
+        } else if(1 == isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
+        return DKCiclStatus::DKWrong;
+    }
+
+
 };
 class UnitNode_RLM_C : public UnitNode {
 public:
@@ -431,6 +488,7 @@ public:
     virtual int isOn() const final;
     virtual int isOff() const final;
     virtual float voltage() const final;
+    virtual int synchronization() const final;
     virtual int isExternalSynchronization() const final;
     virtual int isInternalSynchronization() const final;
     virtual float threshold() const final;
