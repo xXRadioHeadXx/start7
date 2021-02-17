@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>8</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2011,12 +2011,12 @@
              <rect>
               <x>100</x>
               <y>10</y>
-              <width>51</width>
+              <width>91</width>
               <height>16</height>
              </rect>
             </property>
             <property name="text">
-             <string>Адрес</string>
+             <string>IP-Адрес</string>
             </property>
            </widget>
            <zorder>UDP_RS485_combobox</zorder>
