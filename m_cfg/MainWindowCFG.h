@@ -76,6 +76,7 @@ private:
     void expandChildren(const QModelIndex &index);
     void collapseChildren(const QModelIndex &index);
 
+    void change_object_menu(int type);
 //    QList<udev_device*> listDevices();
 
     SQLunit MySQL_unit;
