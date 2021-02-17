@@ -18,6 +18,7 @@
 #include <delegate.h>
 #include <rif_widget_model.h>
 #include <rif_widget_delegate.h>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -53,7 +54,7 @@ private:
 
     TreeModelUnitNode *modelTreeUN = nullptr;
 
-    QErrorMessage dialog;
+    QMessageBox dialog;
 
     QRegExpValidator *ipValidator;
 

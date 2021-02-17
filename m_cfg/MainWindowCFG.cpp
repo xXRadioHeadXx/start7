@@ -130,8 +130,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     else
     {
 
-        dialog.showMessage("Файл rastrmtv_cfg.ini не найден");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
+
 
         this->ui->RASTRMTV_Name_SerNum->addItem("не определено");
 //        this->ui->Use->setCurrentIndex(0);
@@ -515,8 +515,12 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     this->ui->tableView->setColumnWidth(1,160);
     this->ui->tableView->setColumnWidth(2,160);
 
-//    dialog.showMessage("this it the test message");
-//    dialog.exec();
+    QMessageBox::critical(0,"Ошибка",
+                                             "Тестовый вывод сообщения"
+
+
+                                            );
+
 
 
     action_setDK = new QAction(tr("Выполнять команду ДК"), this);
@@ -1208,8 +1212,8 @@ bool MainWindowCFG::find_equal_unit(UnitNode *unit, bool (*is_equal)(UnitNode *u
         if(is_equal(unit,un))
         {
             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-            dialog.showMessage("Такой обьект уже существует");
-            dialog.exec();
+            QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
 
             return false;
         }
@@ -1392,8 +1396,8 @@ qDebug()<<"[can_i_add_or_not?]";
 
 if(unit->getName()=="")
 {
-    dialog.showMessage("Введите имя устройства");
-    dialog.exec();
+    QMessageBox::critical(0,"Ошибка","Введите имя устройства");
+
     return false;
 
 }
@@ -1578,7 +1582,7 @@ if(false==pass_to_add_GROUP(unit,parrent))
         //группа может быть добавлена только к системе
             if((parrent->getType()!=TypeUnitNode::SYSTEM))
             {
-        //        dialog.showMessage("Груп к системе");
+        //        QMessageBox::critical(0,"Ошибка",("Груп к системе");
         //        dialog.exec();
                 return false;
 
@@ -1626,8 +1630,8 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
 
-            dialog.showMessage("СД может быть добавлен только к группе или к системе");
-            dialog.exec();
+            QMessageBox::critical(0,"Ошибка","СД может быть добавлен только к группе или к системе");
+
             return false;
 
         }
@@ -1651,8 +1655,9 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
             if(un->getNum2()==unit->getNum2())
             {
        //         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                dialog.exec();
+                this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
                 return false;
             }
            }
@@ -1675,8 +1680,9 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
                    if(un->getNum2()==unit->getNum2())
              {
                //  this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                 dialog.exec();
+                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                       QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
                  return false;
              }
             }
@@ -1728,8 +1734,8 @@ if(
        (parrent->getType()==TypeUnitNode::DEVLINE)||
        (parrent->getType()==TypeUnitNode::RASTRMTV)||
        (parrent->getType()==TypeUnitNode::INFO_TABLO)||
-
-       (parrent->getType()==TypeUnitNode::SSOI_IU))
+       (parrent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parrent->getType()==TypeUnitNode::IU_BL_IP))
     {
 
         return false;
@@ -1764,8 +1770,9 @@ if(
                  if(un->getNum3()==unit->getNum3())
                  if(un->getNum2()==unit->getNum2())
                  {
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
+                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
                      return false;
                  }
                 }
@@ -1792,8 +1799,9 @@ if(
                         if(un->getNum2()==unit->getNum2())
                   {
 
-                      this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                      dialog.exec();
+                      this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                            QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
                       return false;
                   }
                  }
@@ -1810,8 +1818,8 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
            (parrent->getType()!=TypeUnitNode::SYSTEM)
                 )
         {
-            dialog.showMessage("БОД может быть добавлен только к группе");
-            dialog.exec();
+            QMessageBox::critical(0,"Ошибка","БОД может быть добавлен только к группе");
+
             return false;
 
         }
@@ -1857,8 +1865,8 @@ bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
     //Участок может быть добавлен только к БОД Сота/Сота-М
     if(parrent->getType()!=TypeUnitNode::BOD_SOTA)
     {
-        dialog.showMessage("Участок может быть добавлен только к БОД Сота/Сота-М!");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка","Участок может быть добавлен только к БОД Сота/Сота-М!");
+
         return false;
 
     }
@@ -1890,8 +1898,8 @@ bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
      qDebug()<<"Name: "<<un->getName();
      if(un->getNum2()==unit->getNum2())
      {
-         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-         dialog.exec();
+         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+         QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
          return false;
      }
     }
@@ -1905,8 +1913,7 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
     //добавлять только к участку Сота
     if(parrent->getType()!=TypeUnitNode::Y4_SOTA)
     {
-        dialog.showMessage("ДД может быть добавлен только к участку !");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка","ДД может быть добавлен только к участку !");
         return false;
 
     }
@@ -1984,8 +1991,9 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
                 {
 
 
-                    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                    dialog.exec();
+                    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                    QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
                     return false;
                 }
             }
@@ -2000,8 +2008,8 @@ bool MainWindowCFG::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode *parrent) //н�
                 {
 
 
-                    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                    dialog.exec();
+                    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                    QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                     return false;
                 }
             }
@@ -2021,8 +2029,7 @@ bool MainWindowCFG::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode *parrent)
        (parrent->getType()!=TypeUnitNode::SYSTEM)
             )
         {
-            dialog.showMessage("БОД может быть добавлен только к группе");
-            dialog.exec();
+            QMessageBox::critical(0,"Ошибка","БОД может быть добавлен только к группе");
             return false;
 
         }
@@ -2044,8 +2051,8 @@ bool MainWindowCFG::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                  {
 
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
+                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                      return false;
                  }
 
@@ -2067,8 +2074,7 @@ bool MainWindowCFG::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                   {
 
-                     dialog.showMessage("этот IP адрес уже  занят");
-                     dialog.exec();
+                     QMessageBox::critical(0,"Ошибка","этот IP адрес уже  занят");
                      return false;
                   }
                 }
@@ -2084,8 +2090,7 @@ bool MainWindowCFG::pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode *parrent)
     //Участок может быть добавлен только к БОД
     if(parrent->getType()!=TypeUnitNode::BOD_T4K_M)
     {
-        dialog.showMessage("Участок может быть добавлен только к БОД Точка-М/Гарда-М !");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка","Участок может быть добавлен только к БОД Точка-М/Гарда-М !");
         return false;
 
     }
@@ -2117,8 +2122,9 @@ bool MainWindowCFG::pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode *parrent)
      qDebug()<<"Name: "<<un->getName();
      if(un->getNum2()==unit->getNum2())
      {
-         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-         dialog.exec();
+         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+         QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
          return false;
      }
     }
@@ -2133,8 +2139,7 @@ bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)//н�
     //добавлять только к участку Сота
     if(parrent->getType()!=TypeUnitNode::Y4_T4K_M)
     {
-        dialog.showMessage("ДД может быть добавлен только к участку !");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка","ДД может быть добавлен только к участку !");
         return false;
 
     }
@@ -2207,8 +2212,8 @@ bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)//н�
                 {
 
 
-                    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                    dialog.exec();
+                    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                    QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                     return false;
                 }
             }
@@ -2223,8 +2228,8 @@ bool MainWindowCFG::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode *parrent)//н�
                 {
 
 
-                    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                    dialog.exec();
+                    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                    QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                     return false;
                 }
             }
@@ -2240,16 +2245,14 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
    //ЧЭ от одного до четырех
      if(unit->getNum2()<0||unit->getNum2()>4)
      {
-         dialog.showMessage("ЧЭ от одного до четырех !");
-         dialog.exec();
+         QMessageBox::critical(0,"Ошибка","ЧЭ от одного до четырех !");
          return false;
 
      }
    //только к группе
     if(parrent->getType()!=TypeUnitNode::GROUP)
     {
-        dialog.showMessage("устройство Точка/Гарда может быть добавлено только к группе !");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка","устройство Точка/Гарда может быть добавлено только к группе !");
         return false;
 
     }
@@ -2270,16 +2273,16 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
                  if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
                   {
 
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
+                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                      return false;
                   }
                  if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
                   {
                      if(un->getNum2()==unit->getNum2())
                      {
-                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                         dialog.exec();
+                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                         QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                          return false;
 
                      }
@@ -2308,16 +2311,17 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
              if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
               {
 
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                 dialog.exec();
+                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                  return false;
               }
              if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
               {
                  if(un->getNum2()==unit->getNum2())
                  {
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
+                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
                      return false;
 
                  }
@@ -2338,8 +2342,7 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
         if(parrent->getType()!=TypeUnitNode::GROUP)
         if(parrent->getType()!=TypeUnitNode::SYSTEM)
         {
-            dialog.showMessage(" может быть добавлен только к группе");
-            dialog.exec();
+            QMessageBox::critical(0,"Ошибка"," может быть добавлен только к группе");
             return false;
 
         }
@@ -2361,8 +2364,8 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                  {
 
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
+                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                      return false;
                  }
 
@@ -2384,8 +2387,8 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
                  if((un->getNum1()==unit->getNum1()))
                   {
 
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
+                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                      return false;
                   }
                 }
@@ -2398,8 +2401,7 @@ bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
     if(parrent->getType()!=TypeUnitNode::GROUP)
     if(parrent->getType()!=TypeUnitNode::SYSTEM)
     {
-        dialog.showMessage(" может быть добавлен только к группе");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка"," может быть добавлен только к группе");
         return false;
 
     }
@@ -2421,8 +2423,8 @@ bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
              if((un->getNum1()==unit->getNum1()))
              {
 
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                 dialog.exec();
+                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                  return false;
              }
 
@@ -2444,8 +2446,8 @@ bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
              if((un->getNum1()==unit->getNum1()))
               {
 
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                 dialog.exec();
+                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                  return false;
               }
             }
@@ -2459,8 +2461,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
     //СД от одного до четырех
       if(unit->getNum2()<0||unit->getNum2()>4)
       {
-          dialog.showMessage("СД от одного до четырех !");
-          dialog.exec();
+          QMessageBox::critical(0,"Ошибка","СД от одного до четырех !");
           return false;
 
       }
@@ -2469,8 +2470,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
     // может быть добавлен только к группе
         if(parrent->getType()!=TypeUnitNode::GROUP)
         {
-            dialog.showMessage(" может быть добавлен только к группе");
-            dialog.exec();
+            QMessageBox::critical(0,"Ошибка"," может быть добавлен только к группе");
             return false;
         }
 
@@ -2492,8 +2492,8 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                       {
                            qDebug()<<"[3]";
 
-                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                         dialog.exec();
+                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                           QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                          return false;
                       }
                      if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
@@ -2502,8 +2502,8 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                          if(un->getNum2()==unit->getNum2())
                          {
                                qDebug()<<"[5]";
-                             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                             dialog.exec();
+                             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                               QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                              return false;
 
                          }
@@ -2532,16 +2532,16 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                  if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
                   {
 
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                     dialog.exec();
+                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                      return false;
                   }
                  if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
                   {
                      if(un->getNum2()==unit->getNum2())
                      {
-                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                         dialog.exec();
+                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                         QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                          return false;
 
                      }
@@ -2567,8 +2567,8 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
        (parrent->getType()==TypeUnitNode::DEVLINE)||
        (parrent->getType()==TypeUnitNode::RASTRMTV)||
        (parrent->getType()==TypeUnitNode::INFO_TABLO)||
-
-       (parrent->getType()==TypeUnitNode::SSOI_IU))
+       (parrent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parrent->getType()==TypeUnitNode::IU_BL_IP))
     {
 
         return false;
@@ -2599,8 +2599,8 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
              if(un->getType()==unit->getType())
              if(un->getIcon1Path()==unit->getIcon1Path())
              {
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                 dialog.exec();
+                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                  return false;
 
              }
@@ -2611,7 +2611,7 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
      if(un->getType()==unit->getType())
      if(un->getIcon1Path()==unit->getIcon1Path())
      {
-         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
+         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));QMessageBox::critical(0,"Ошибка",("Такой обьект уже существует");
          dialog.exec();
          return false;
 
@@ -2629,8 +2629,8 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
        (parrent->getType()==TypeUnitNode::DEVLINE)||
        (parrent->getType()==TypeUnitNode::RASTRMTV)||
        (parrent->getType()==TypeUnitNode::INFO_TABLO)||
-
-       (parrent->getType()==TypeUnitNode::SSOI_IU))
+       (parrent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parrent->getType()==TypeUnitNode::IU_BL_IP))
     {
 
         return false;
@@ -2660,8 +2660,9 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
              if((un->getIcon1Path()==unit->getIcon1Path())||
              (un->getIcon4Path()==unit->getIcon4Path()))
          {
-             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-             dialog.exec();
+             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
              return false;
 
          }
@@ -2677,7 +2678,7 @@ bool MainWindowCFG::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent)
      if((un->getIcon1Path()==unit->getIcon1Path())||
         (un->getIcon4Path()==unit->getIcon4Path()))
      {
-         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
+         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));QMessageBox::critical(0,"Ошибка",("Такой обьект уже существует");
          dialog.exec();
          return false;
 
@@ -2693,8 +2694,7 @@ bool  MainWindowCFG::pass_to_add_NET_DEV(UnitNode */*unit*/, UnitNode *parrent)
     if(parrent->getType()!=TypeUnitNode::GROUP)
     if(parrent->getType()!=TypeUnitNode::SYSTEM)
     {
-        dialog.showMessage("БОД может быть добавлен только к группе");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка","БОД может быть добавлен только к группе");
         return false;
 
     }
@@ -2706,7 +2706,7 @@ bool  MainWindowCFG::pass_to_add_NET_DEV(UnitNode */*unit*/, UnitNode *parrent)
      if(un->getType()==unit->getType())
      if(un->getIcon1Path()==unit->getIcon1Path())
      {
-         dialog.showMessage("Такой обьект уже есть");
+         QMessageBox::critical(0,"Ошибка",("Такой обьект уже есть");
          dialog.exec();
          return false;
 
@@ -3598,8 +3598,8 @@ void MainWindowCFG::get_PARAMS(QString filename)
         }
 
 
-        dialog.showMessage(msg);
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка",(msg));
+
 
     }
 
@@ -3623,8 +3623,8 @@ void MainWindowCFG::get_PARAMS(QString filename)
         }
 
 
-        dialog.showMessage(msg);
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка",(msg));
+
 
     }
 
@@ -4765,8 +4765,7 @@ bool MainWindowCFG::pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent)
     //СД может быть добавлен только к группе или к системе
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
-            dialog.showMessage("СД может быть добавлен только к группе или к системе");
-            dialog.exec();
+            QMessageBox::critical(0,"Ошибка","СД может быть добавлен только к группе или к системе");
             return false;
 
         }
@@ -4787,8 +4786,8 @@ bool MainWindowCFG::pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent)
             if(un->getNum2()==unit->getNum2())
             if(un->getNum3()==unit->getNum3())
             {
-                this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-                dialog.exec();
+                this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                 return false;
             }
            }
@@ -4834,8 +4833,9 @@ bool MainWindowCFG::pass_to_add_SSOI_IU(UnitNode *unit, UnitNode *parent)
        (parent->getType()==TypeUnitNode::DEVLINE)||
        (parent->getType()==TypeUnitNode::RASTRMTV)||
        (parent->getType()==TypeUnitNode::INFO_TABLO)||
+       (parent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parent->getType()==TypeUnitNode::IU_BL_IP))
 
-       (parent->getType()==TypeUnitNode::SSOI_IU))
     {
 
         return false;
@@ -4915,7 +4915,7 @@ bool MainWindowCFG::pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent)
     //может быть добавлен только к группе или к системе
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
-//            dialog.showMessage("может быть добавлен только к группе или к системе");
+//            QMessageBox::critical(0,"Ошибка",("может быть добавлен только к группе или к системе");
 //            dialog.exec();
             return false;
 
@@ -4963,8 +4963,8 @@ bool MainWindowCFG::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parrent)
        (parrent->getType()==TypeUnitNode::DEVLINE)||
        (parrent->getType()==TypeUnitNode::RASTRMTV)||
        (parrent->getType()==TypeUnitNode::INFO_TABLO)||
-
-       (parrent->getType()==TypeUnitNode::SSOI_IU))
+       (parrent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parrent->getType()==TypeUnitNode::IU_BL_IP))
     {
 
         return false;
@@ -4996,8 +4996,8 @@ bool MainWindowCFG::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parrent)
          if(un->getNum1()==unit->getNum1())
          if(un->getOutType()==unit->getOutType())
          {
-             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-             dialog.exec();
+             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
              return false;
 
          }
@@ -5041,8 +5041,8 @@ bool MainWindowCFG::pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent)
        (parrent->getType()==TypeUnitNode::DEVLINE)||
        (parrent->getType()==TypeUnitNode::RASTRMTV)||
        (parrent->getType()==TypeUnitNode::INFO_TABLO)||
-
-       (parrent->getType()==TypeUnitNode::SSOI_IU))
+       (parrent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parrent->getType()==TypeUnitNode::IU_BL_IP))
     {
 
         return false;
@@ -5051,8 +5051,7 @@ bool MainWindowCFG::pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent)
 
     if(this->ui->RASTRMTV_Name_SerNum->currentText()=="не определено")
     {
-        dialog.showMessage("Устройство не определено");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка","Устройство не определено");
         return false;
 
     }
@@ -5099,8 +5098,7 @@ bool MainWindowCFG::pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parrent)
     if(parrent->getType()!=TypeUnitNode::GROUP)
     if(parrent->getType()!=TypeUnitNode::SYSTEM)
     {
-        dialog.showMessage(" может быть добавлен только к группе");
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка"," может быть добавлен только к группе");
         return false;
 
     }
@@ -5113,8 +5111,8 @@ bool MainWindowCFG::pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parrent)
      if((un->getNum2()==unit->getNum2()))
      {
 
-         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));dialog.showMessage("Такой обьект уже существует");
-         dialog.exec();
+         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+         QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
          return false;
      }
 
@@ -5987,8 +5985,8 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
                drv.append(it.next());
                drv.append(";");
            }
-        dialog.showMessage(drv);
-        dialog.exec();
+        QMessageBox::critical(0,"Ошибка",(drv));
+
      //   return false;
 
     }
