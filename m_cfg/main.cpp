@@ -48,5 +48,7 @@ int main(int argc, char *argv[])
     w.setWindowIcon(QIcon::fromTheme(":icons/exec.ico"));
     w.show();
 
+
+
     return a.exec();
 }

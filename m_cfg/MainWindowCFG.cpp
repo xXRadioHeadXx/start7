@@ -512,8 +512,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
   //  this->ui->textEdit->setText("1111111\n 22222");
 
     this->ui->tableView->setColumnWidth(0,140);
-    this->ui->tableView->setColumnWidth(1,160);
-    this->ui->tableView->setColumnWidth(2,160);
+    this->ui->tableView->setColumnWidth(1,190);
+    this->ui->tableView->setColumnWidth(2,170);
 
  //   QMessageBox::critical(0,"Ошибка","Тестовый вывод сообщения");
 

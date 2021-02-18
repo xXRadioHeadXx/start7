@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1072</width>
+    <width>886</width>
     <height>570</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>600</width>
+    <width>655</width>
     <height>570</height>
    </size>
   </property>
@@ -255,7 +255,7 @@
               <rect>
                <x>210</x>
                <y>50</y>
-               <width>221</width>
+               <width>331</width>
                <height>25</height>
               </rect>
              </property>
@@ -296,7 +296,7 @@
               <rect>
                <x>10</x>
                <y>50</y>
-               <width>531</width>
+               <width>411</width>
                <height>25</height>
               </rect>
              </property>
@@ -317,8 +317,8 @@
             <widget class="QPushButton" name="BACKUP_pushButton">
              <property name="geometry">
               <rect>
-               <x>431</x>
-               <y>20</y>
+               <x>430</x>
+               <y>50</y>
                <width>111</width>
                <height>25</height>
               </rect>
@@ -332,7 +332,7 @@
               <rect>
                <x>10</x>
                <y>100</y>
-               <width>221</width>
+               <width>531</width>
                <height>25</height>
               </rect>
              </property>
@@ -375,7 +375,7 @@
              <rect>
               <x>20</x>
               <y>140</y>
-              <width>191</width>
+              <width>531</width>
               <height>25</height>
              </rect>
             </property>
@@ -412,50 +412,108 @@
            <property name="title">
             <string>Список операторов</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_5">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_22">
-              <property name="text">
-               <string>Режим</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="operators_use_combobox">
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
-               <property name="text">
-                <string> Без операторов</string>
-               </property>
+               <widget class="QLabel" name="label_22">
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Режим</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <property name="text">
-                <string> С операторами</string>
-               </property>
+               <widget class="QComboBox" name="operators_use_combobox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>999</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <item>
+                 <property name="text">
+                  <string> Без операторов</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string> С операторами</string>
+                 </property>
+                </item>
+               </widget>
               </item>
-             </widget>
+              <item>
+               <widget class="QPushButton" name="add_operator_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Добавить</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="change_operator_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Изменить</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="delete_operator_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Удалить</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="add_operator_button">
-              <property name="text">
-               <string>Добавить</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QPushButton" name="change_operator_button">
-              <property name="text">
-               <string>Изменить</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="4">
-             <widget class="QPushButton" name="delete_operator_button">
-              <property name="text">
-               <string>Удалить</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" colspan="5">
+            <item>
              <widget class="QTableWidget" name="tableWidget">
               <property name="maximumSize">
                <size>
@@ -521,7 +579,7 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>27</y>
+              <y>20</y>
               <width>47</width>
               <height>13</height>
              </rect>
@@ -534,8 +592,8 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>46</y>
-              <width>376</width>
+              <y>39</y>
+              <width>261</width>
               <height>25</height>
              </rect>
             </property>
@@ -543,8 +601,8 @@
            <widget class="QLabel" name="label_4">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>77</y>
+              <x>280</x>
+              <y>20</y>
               <width>47</width>
               <height>13</height>
              </rect>
@@ -556,9 +614,9 @@
            <widget class="QLineEdit" name="uName_lineedit">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>95</y>
-              <width>181</width>
+              <x>280</x>
+              <y>39</y>
+              <width>281</width>
               <height>25</height>
              </rect>
             </property>
@@ -568,12 +626,12 @@
              <rect>
               <x>0</x>
               <y>120</y>
-              <width>541</width>
+              <width>561</width>
               <height>101</height>
              </rect>
             </property>
             <property name="currentIndex">
-             <number>4</number>
+             <number>22</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -581,7 +639,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -619,7 +677,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -644,7 +702,7 @@
                <rect>
                 <x>100</x>
                 <y>26</y>
-                <width>91</width>
+                <width>171</width>
                 <height>25</height>
                </rect>
               </property>
@@ -710,10 +768,10 @@
              <widget class="QLabel" name="label_90">
               <property name="geometry">
                <rect>
-                <x>360</x>
-                <y>0</y>
+                <x>10</x>
+                <y>50</y>
                 <width>131</width>
-                <height>16</height>
+                <height>24</height>
                </rect>
               </property>
               <property name="text">
@@ -723,7 +781,7 @@
              <widget class="QLabel" name="label_91">
               <property name="geometry">
                <rect>
-                <x>200</x>
+                <x>280</x>
                 <y>0</y>
                 <width>141</width>
                 <height>25</height>
@@ -736,9 +794,9 @@
              <widget class="QLineEdit" name="ONVIF_lineEdit__password">
               <property name="geometry">
                <rect>
-                <x>360</x>
-                <y>26</y>
-                <width>181</width>
+                <x>10</x>
+                <y>76</y>
+                <width>551</width>
                 <height>25</height>
                </rect>
               </property>
@@ -746,9 +804,9 @@
              <widget class="QLineEdit" name="ONVIF_lineEdit__login">
               <property name="geometry">
                <rect>
-                <x>200</x>
+                <x>280</x>
                 <y>26</y>
-                <width>151</width>
+                <width>281</width>
                 <height>25</height>
                </rect>
               </property>
@@ -758,7 +816,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -773,7 +831,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>230</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -794,7 +852,7 @@
              <widget class="QLabel" name="label_86">
               <property name="geometry">
                <rect>
-                <x>250</x>
+                <x>280</x>
                 <y>0</y>
                 <width>47</width>
                 <height>25</height>
@@ -807,7 +865,7 @@
              <widget class="QLineEdit" name="STRAZH_IP_lineEdit__login">
               <property name="geometry">
                <rect>
-                <x>250</x>
+                <x>280</x>
                 <y>26</y>
                 <width>281</width>
                 <height>25</height>
@@ -817,7 +875,7 @@
              <widget class="QLabel" name="label_87">
               <property name="geometry">
                <rect>
-                <x>250</x>
+                <x>280</x>
                 <y>50</y>
                 <width>50</width>
                 <height>25</height>
@@ -830,7 +888,7 @@
              <widget class="QLineEdit" name="STRAZH_IP_lineEdit__password">
               <property name="geometry">
                <rect>
-                <x>250</x>
+                <x>280</x>
                 <y>76</y>
                 <width>281</width>
                 <height>25</height>
@@ -855,7 +913,7 @@
                <rect>
                 <x>10</x>
                 <y>76</y>
-                <width>230</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -867,7 +925,7 @@
                <rect>
                 <x>290</x>
                 <y>26</y>
-                <width>251</width>
+                <width>271</width>
                 <height>25</height>
                </rect>
               </property>
@@ -984,7 +1042,7 @@
                <rect>
                 <x>110</x>
                 <y>26</y>
-                <width>81</width>
+                <width>161</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1007,7 +1065,7 @@
                <rect>
                 <x>10</x>
                 <y>76</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1056,9 +1114,9 @@
              <widget class="QComboBox" name="ADAM_Num2">
               <property name="geometry">
                <rect>
-                <x>110</x>
+                <x>100</x>
                 <y>26</y>
-                <width>81</width>
+                <width>171</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1069,7 +1127,7 @@
              <widget class="QLabel" name="label_103">
               <property name="geometry">
                <rect>
-                <x>110</x>
+                <x>100</x>
                 <y>0</y>
                 <width>71</width>
                 <height>25</height>
@@ -1086,7 +1144,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1152,7 +1210,7 @@
                <rect>
                 <x>100</x>
                 <y>26</y>
-                <width>91</width>
+                <width>171</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1199,7 +1257,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>270</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1220,9 +1278,9 @@
              <widget class="QComboBox" name="RASTRMTV_Num3">
               <property name="geometry">
                <rect>
-                <x>285</x>
+                <x>281</x>
                 <y>26</y>
-                <width>101</width>
+                <width>141</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1230,7 +1288,7 @@
              <widget class="QLabel" name="label_108">
               <property name="geometry">
                <rect>
-                <x>290</x>
+                <x>281</x>
                 <y>0</y>
                 <width>81</width>
                 <height>25</height>
@@ -1247,7 +1305,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1272,7 +1330,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1381,7 +1439,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1446,7 +1504,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1514,7 +1572,7 @@
                <rect>
                 <x>80</x>
                 <y>26</y>
-                <width>111</width>
+                <width>191</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1582,7 +1640,7 @@
                <rect>
                 <x>80</x>
                 <y>26</y>
-                <width>206</width>
+                <width>191</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1607,7 +1665,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1645,7 +1703,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1670,7 +1728,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1682,7 +1740,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1707,7 +1765,7 @@
                <rect>
                 <x>10</x>
                 <y>26</y>
-                <width>181</width>
+                <width>261</width>
                 <height>25</height>
                </rect>
               </property>
@@ -1730,9 +1788,9 @@
            <widget class="QWidget" name="UDP_RS485_Widget" native="true">
             <property name="geometry">
              <rect>
-              <x>200</x>
+              <x>10</x>
               <y>65</y>
-              <width>341</width>
+              <width>551</width>
               <height>60</height>
              </rect>
             </property>
@@ -1750,28 +1808,28 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>500</width>
+              <width>999</width>
               <height>71</height>
              </size>
             </property>
             <widget class="QStackedWidget" name="UDP_RS485_stacked">
              <property name="geometry">
               <rect>
-               <x>200</x>
-               <y>0</y>
-               <width>141</width>
+               <x>270</x>
+               <y>6</y>
+               <width>281</width>
                <height>61</height>
               </rect>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="UDP">
               <widget class="QLabel" name="label_80">
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>10</y>
+                 <y>5</y>
                  <width>47</width>
                  <height>16</height>
                 </rect>
@@ -1783,9 +1841,9 @@
               <widget class="QLabel" name="label_81">
                <property name="geometry">
                 <rect>
-                 <x>59</x>
-                 <y>10</y>
-                 <width>91</width>
+                 <x>150</x>
+                 <y>5</y>
+                 <width>81</width>
                  <height>16</height>
                 </rect>
                </property>
@@ -1797,8 +1855,8 @@
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>30</y>
-                 <width>60</width>
+                 <y>24</y>
+                 <width>111</width>
                  <height>25</height>
                 </rect>
                </property>
@@ -1815,9 +1873,9 @@
               <widget class="QDoubleSpinBox" name="timeout_doubleSpinBox">
                <property name="geometry">
                 <rect>
-                 <x>59</x>
-                 <y>30</y>
-                 <width>81</width>
+                 <x>120</x>
+                 <y>24</y>
+                 <width>161</width>
                  <height>25</height>
                 </rect>
                </property>
@@ -1837,8 +1895,8 @@
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>30</y>
-                 <width>137</width>
+                 <y>24</y>
+                 <width>281</width>
                  <height>25</height>
                 </rect>
                </property>
@@ -1859,7 +1917,7 @@
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>10</y>
+                 <y>4</y>
                  <width>131</width>
                  <height>16</height>
                 </rect>
@@ -1875,7 +1933,7 @@
               <rect>
                <x>0</x>
                <y>30</y>
-               <width>86</width>
+               <width>80</width>
                <height>25</height>
               </rect>
              </property>
@@ -1895,7 +1953,7 @@
               <rect>
                <x>90</x>
                <y>30</y>
-               <width>107</width>
+               <width>171</width>
                <height>25</height>
               </rect>
              </property>
@@ -1912,7 +1970,7 @@
               </size>
              </property>
              <property name="text">
-              <string/>
+              <string>192.168.000.000</string>
              </property>
             </widget>
             <widget class="QLabel" name="label_92">
@@ -1952,7 +2010,7 @@
              <rect>
               <x>10</x>
               <y>230</y>
-              <width>531</width>
+              <width>561</width>
               <height>81</height>
              </rect>
             </property>
@@ -1965,7 +2023,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>531</width>
+                <width>551</width>
                 <height>81</height>
                </rect>
               </property>
@@ -1977,7 +2035,7 @@
                 <rect>
                  <x>10</x>
                  <y>43</y>
-                 <width>141</width>
+                 <width>140</width>
                  <height>25</height>
                 </rect>
                </property>
@@ -1998,9 +2056,9 @@
               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox">
                <property name="geometry">
                 <rect>
-                 <x>170</x>
+                 <x>160</x>
                  <y>43</y>
-                 <width>121</width>
+                 <width>120</width>
                  <height>25</height>
                 </rect>
                </property>
@@ -2011,9 +2069,9 @@
               <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
                <property name="geometry">
                 <rect>
-                 <x>300</x>
+                 <x>290</x>
                  <y>43</y>
-                 <width>121</width>
+                 <width>123</width>
                  <height>25</height>
                 </rect>
                </property>
@@ -2024,7 +2082,7 @@
               <widget class="QLabel" name="label_14">
                <property name="geometry">
                 <rect>
-                 <x>170</x>
+                 <x>160</x>
                  <y>16</y>
                  <width>121</width>
                  <height>25</height>
@@ -2049,7 +2107,7 @@
               <widget class="QLabel" name="label_15">
                <property name="geometry">
                 <rect>
-                 <x>300</x>
+                 <x>290</x>
                  <y>16</y>
                  <width>171</width>
                  <height>25</height>
@@ -2068,9 +2126,9 @@
               <widget class="QPushButton" name="pushButton_5">
                <property name="geometry">
                 <rect>
-                 <x>422</x>
+                 <x>423</x>
                  <y>42</y>
-                 <width>101</width>
+                 <width>117</width>
                  <height>27</height>
                 </rect>
                </property>
@@ -2082,7 +2140,7 @@
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>101</width>
+                 <width>999</width>
                  <height>25</height>
                 </size>
                </property>
@@ -2098,7 +2156,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>536</width>
+                <width>551</width>
                 <height>81</height>
                </rect>
               </property>
@@ -2108,7 +2166,7 @@
               <widget class="QLabel" name="label_62">
                <property name="geometry">
                 <rect>
-                 <x>480</x>
+                 <x>495</x>
                  <y>17</y>
                  <width>16</width>
                  <height>25</height>
@@ -2133,7 +2191,7 @@
               <widget class="QLabel" name="label_40">
                <property name="geometry">
                 <rect>
-                 <x>425</x>
+                 <x>440</x>
                  <y>17</y>
                  <width>16</width>
                  <height>25</height>
@@ -2158,7 +2216,7 @@
               <widget class="QLabel" name="label_38">
                <property name="geometry">
                 <rect>
-                 <x>170</x>
+                 <x>175</x>
                  <y>17</y>
                  <width>91</width>
                  <height>25</height>
@@ -2183,9 +2241,9 @@
               <widget class="QPushButton" name="devline_xy_pushButton">
                <property name="geometry">
                 <rect>
-                 <x>340</x>
+                 <x>344</x>
                  <y>45</y>
-                 <width>80</width>
+                 <width>91</width>
                  <height>25</height>
                 </rect>
                </property>
@@ -2196,7 +2254,7 @@
               <widget class="QLabel" name="label_36">
                <property name="geometry">
                 <rect>
-                 <x>0</x>
+                 <x>5</x>
                  <y>17</y>
                  <width>91</width>
                  <height>25</height>
@@ -2221,7 +2279,7 @@
               <widget class="QLabel" name="label_39">
                <property name="geometry">
                 <rect>
-                 <x>255</x>
+                 <x>260</x>
                  <y>17</y>
                  <width>91</width>
                  <height>25</height>
@@ -2246,7 +2304,7 @@
               <widget class="QLineEdit" name="mouse_Y">
                <property name="geometry">
                 <rect>
-                 <x>480</x>
+                 <x>495</x>
                  <y>45</y>
                  <width>50</width>
                  <height>25</height>
@@ -2271,7 +2329,7 @@
               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_2">
                <property name="geometry">
                 <rect>
-                 <x>0</x>
+                 <x>5</x>
                  <y>45</y>
                  <width>80</width>
                  <height>25</height>
@@ -2284,7 +2342,7 @@
               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_3">
                <property name="geometry">
                 <rect>
-                 <x>85</x>
+                 <x>90</x>
                  <y>45</y>
                  <width>80</width>
                  <height>25</height>
@@ -2297,7 +2355,7 @@
               <widget class="QLabel" name="label_37">
                <property name="geometry">
                 <rect>
-                 <x>85</x>
+                 <x>90</x>
                  <y>17</y>
                  <width>91</width>
                  <height>25</height>
@@ -2322,9 +2380,9 @@
               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_5">
                <property name="geometry">
                 <rect>
-                 <x>255</x>
+                 <x>260</x>
                  <y>45</y>
-                 <width>79</width>
+                 <width>80</width>
                  <height>25</height>
                 </rect>
                </property>
@@ -2335,7 +2393,7 @@
               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_4">
                <property name="geometry">
                 <rect>
-                 <x>170</x>
+                 <x>175</x>
                  <y>45</y>
                  <width>80</width>
                  <height>25</height>
@@ -2348,7 +2406,7 @@
               <widget class="QLineEdit" name="mouse_X">
                <property name="geometry">
                 <rect>
-                 <x>425</x>
+                 <x>440</x>
                  <y>45</y>
                  <width>50</width>
                  <height>25</height>
@@ -2379,7 +2437,7 @@
              <rect>
               <x>0</x>
               <y>310</y>
-              <width>551</width>
+              <width>571</width>
               <height>71</height>
              </rect>
             </property>
@@ -2392,9 +2450,9 @@
             <widget class="QPushButton" name="pushButton_2">
              <property name="geometry">
               <rect>
-               <x>124</x>
+               <x>139</x>
                <y>0</y>
-               <width>111</width>
+               <width>130</width>
                <height>30</height>
               </rect>
              </property>
@@ -2423,9 +2481,9 @@
             <widget class="QPushButton" name="pushButton_moveUp">
              <property name="geometry">
               <rect>
-               <x>430</x>
+               <x>432</x>
                <y>0</y>
-               <width>111</width>
+               <width>130</width>
                <height>30</height>
               </rect>
              </property>
@@ -2456,7 +2514,7 @@
               <rect>
                <x>9</x>
                <y>31</y>
-               <width>111</width>
+               <width>130</width>
                <height>30</height>
               </rect>
              </property>
@@ -2485,9 +2543,9 @@
             <widget class="QPushButton" name="pushButton_4">
              <property name="geometry">
               <rect>
-               <x>124</x>
+               <x>139</x>
                <y>31</y>
-               <width>111</width>
+               <width>130</width>
                <height>30</height>
               </rect>
              </property>
@@ -2516,9 +2574,9 @@
             <widget class="QPushButton" name="pushButton_moveDown">
              <property name="geometry">
               <rect>
-               <x>430</x>
+               <x>432</x>
                <y>31</y>
-               <width>111</width>
+               <width>130</width>
                <height>30</height>
               </rect>
              </property>
@@ -2549,7 +2607,7 @@
               <rect>
                <x>9</x>
                <y>0</y>
-               <width>111</width>
+               <width>130</width>
                <height>30</height>
               </rect>
              </property>
@@ -2592,124 +2650,147 @@
            <property name="title">
             <string>Подсистема РИФ</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_3">
-            <item row="0" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
              <widget class="QGroupBox" name="groupBox_5">
               <property name="title">
                <string>Настройка порта</string>
               </property>
               <layout class="QGridLayout" name="gridLayout">
                <item row="0" column="0">
-                <widget class="QTableView" name="tableView"/>
+                <widget class="QTableView" name="tableView">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>360</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>525</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QWidget" name="" native="true">
+            <item>
+             <widget class="QWidget" name="widget" native="true">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout">
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout">
+              <layout class="QGridLayout" name="gridLayout_3">
+               <item row="1" column="1">
+                <widget class="QComboBox" name="RIF_AutoDK_comboBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>121</width>
+                   <height>25</height>
+                  </size>
+                 </property>
                  <item>
-                  <widget class="QLabel" name="label_57">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>121</width>
-                     <height>25</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Период автоДК</string>
-                   </property>
-                  </widget>
+                  <property name="text">
+                   <string>ВЫКЛ</string>
+                  </property>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="RIF_AutoDK_comboBox">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>121</width>
-                     <height>25</height>
-                    </size>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>ВЫКЛ</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>1 час</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>2 часа</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>3 часа</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>4 часа</string>
-                    </property>
-                   </item>
-                  </widget>
+                  <property name="text">
+                   <string>1 час</string>
+                  </property>
                  </item>
-                </layout>
+                 <item>
+                  <property name="text">
+                   <string>2 часа</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>3 часа</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>4 часа</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <item>
-                  <widget class="QLabel" name="label_58">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>401</width>
-                     <height>25</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Таймаут для определения направления (Точка-Т(С), c</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox">
-                   <property name="minimumSize">
-                    <size>
-                     <width>401</width>
-                     <height>25</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_57">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>121</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Период автоДК</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="label_58">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>401</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Таймаут для определения направления (Точка-Т(С),c</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2" colspan="3">
+                <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>400</width>
+                   <height>388</height>
+                  </size>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -2804,7 +2885,7 @@
              <rect>
               <x>10</x>
               <y>55</y>
-              <width>93</width>
+              <width>95</width>
               <height>25</height>
              </rect>
             </property>
@@ -2830,7 +2911,7 @@
               <x>10</x>
               <y>31</y>
               <width>91</width>
-              <height>16</height>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -2840,9 +2921,9 @@
            <widget class="QLineEdit" name="SQL_server_lineEdit">
             <property name="geometry">
              <rect>
-              <x>109</x>
+              <x>115</x>
               <y>55</y>
-              <width>181</width>
+              <width>175</width>
               <height>25</height>
              </rect>
             </property>
@@ -2853,7 +2934,7 @@
            <widget class="QLabel" name="label_27">
             <property name="geometry">
              <rect>
-              <x>109</x>
+              <x>115</x>
               <y>31</y>
               <width>181</width>
               <height>25</height>
@@ -2868,7 +2949,7 @@
              <rect>
               <x>300</x>
               <y>55</y>
-              <width>101</width>
+              <width>100</width>
               <height>25</height>
              </rect>
             </property>
@@ -2900,7 +2981,7 @@
              <rect>
               <x>10</x>
               <y>115</y>
-              <width>131</width>
+              <width>140</width>
               <height>25</height>
              </rect>
             </property>
@@ -2949,7 +3030,7 @@
              <rect>
               <x>9</x>
               <y>164</y>
-              <width>371</width>
+              <width>551</width>
               <height>25</height>
              </rect>
             </property>
@@ -3101,35 +3182,35 @@
          <widget class="QLabel" name="label_49">
           <property name="geometry">
            <rect>
-            <x>122</x>
+            <x>115</x>
             <y>30</y>
             <width>131</width>
             <height>25</height>
            </rect>
           </property>
           <property name="text">
-           <string>Сервер и БД</string>
+           <string>Сервер</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_50">
           <property name="geometry">
            <rect>
-            <x>271</x>
+            <x>300</x>
             <y>32</y>
             <width>131</width>
             <height>25</height>
            </rect>
           </property>
           <property name="text">
-           <string>Порт сервера</string>
+           <string>Порт</string>
           </property>
          </widget>
          <widget class="QComboBox" name="INTEGRATION_Use_comboBox">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>58</y>
-            <width>101</width>
+            <y>55</y>
+            <width>95</width>
             <height>25</height>
            </rect>
           </property>
@@ -3137,8 +3218,8 @@
          <widget class="QLabel" name="label_51">
           <property name="geometry">
            <rect>
-            <x>13</x>
-            <y>28</y>
+            <x>10</x>
+            <y>31</y>
             <width>101</width>
             <height>25</height>
            </rect>
@@ -3150,9 +3231,9 @@
          <widget class="QLineEdit" name="INTEGRATION_Host_lineEdit">
           <property name="geometry">
            <rect>
-            <x>122</x>
-            <y>58</y>
-            <width>141</width>
+            <x>115</x>
+            <y>55</y>
+            <width>175</width>
             <height>25</height>
            </rect>
           </property>
@@ -3163,9 +3244,9 @@
          <widget class="QDoubleSpinBox" name="INTEGRATION_Port_doubleSpinBox">
           <property name="geometry">
            <rect>
-            <x>271</x>
-            <y>58</y>
-            <width>131</width>
+            <x>300</x>
+            <y>55</y>
+            <width>100</width>
             <height>25</height>
            </rect>
           </property>
@@ -3342,7 +3423,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1072</width>
+     <width>886</width>
      <height>26</height>
     </rect>
    </property>

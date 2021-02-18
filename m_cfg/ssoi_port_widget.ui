@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
+    <width>335</width>
     <height>56</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>27</y>
-     <width>111</width>
+     <width>106</width>
      <height>25</height>
     </rect>
    </property>
@@ -51,9 +51,9 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>125</x>
      <y>1</y>
-     <width>221</width>
+     <width>201</width>
      <height>51</height>
     </rect>
    </property>
@@ -122,9 +122,9 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>5</y>
+       <y>0</y>
        <width>191</width>
-       <height>18</height>
+       <height>25</height>
       </rect>
      </property>
      <property name="text">
@@ -135,9 +135,9 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>24</y>
-       <width>131</width>
-       <height>20</height>
+       <y>26</y>
+       <width>201</width>
+       <height>25</height>
       </rect>
      </property>
      <property name="maximum">

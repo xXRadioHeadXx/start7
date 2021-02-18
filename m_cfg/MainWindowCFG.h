@@ -44,6 +44,8 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:
 
+
+
     QTimer *timer;
     QMap <QString, SerNum_Name> mSerNum_Name;
 
