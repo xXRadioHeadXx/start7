@@ -4387,9 +4387,11 @@ void MainWindowCFG::get_TABLO(QString filename)
   //    Blinking=0
       settings.beginGroup("TABLO");
 
-     this->ui->TABLO_wgt->setPort(settings.value("Port",-1).toInt());
-     this->ui->TABLO_wgt->setBlinking(settings.value("Blinking",-1).toInt());
+     this->ui->SSOIwgt->setPort(settings.value("Port",-1).toInt());
+     this->ui->SSOIwgt->setBlinking(settings.value("Blinking",-1).toInt());
       settings.endGroup();
+
+
 }
 
 void MainWindowCFG::set_TABLO(QString /*filename*/)
@@ -4399,7 +4401,7 @@ void MainWindowCFG::set_TABLO(QString /*filename*/)
 
 void MainWindowCFG::default_TABLO()
 {
-this->ui->TABLO_wgt->default_options();
+this->ui->SSOIwgt->default_options();
 }
 
 void MainWindowCFG::get_RASTRMSSOI(QString /*filename*/)
@@ -5226,7 +5228,7 @@ void MainWindowCFG::get_option_INFO_TABLO(UnitNode *unit)
 
     string1.append(" Кан:");
 
-    string1.append(QString::number(this->ui->TABLO_wgt->getPort()));
+    string1.append(QString::number(this->ui->SSOIwgt->getPort()));
 
     string1.append(" Участок: ");
 
@@ -5487,8 +5489,8 @@ int res=0;
        qDebug()<<"ADAM4068";
 
     settings.beginGroup("TABLO");
-    settings.setValue("Port",this->ui->TABLO_wgt->getPort());
-    settings.setValue("Blinking",this->ui->TABLO_wgt->getBlinking());
+    settings.setValue("Port",this->ui->SSOIwgt->getPort());
+    settings.setValue("Blinking",this->ui->SSOIwgt->getBlinking());
     settings.endGroup();
        qDebug()<<"TABLO";
 

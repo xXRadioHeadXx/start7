@@ -6,304 +6,307 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
-    <height>357</height>
+    <width>571</width>
+    <height>371</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>11</x>
-     <y>11</y>
-     <width>572</width>
-     <height>341</height>
+     <x>199</x>
+     <y>5</y>
+     <width>361</width>
+     <height>331</height>
     </rect>
    </property>
-   <property name="title">
-    <string>Подсистема ССОИ</string>
+   <property name="currentIndex">
+    <number>1</number>
    </property>
-   <widget class="QComboBox" name="Version">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>191</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>1</width>
-      <height>25</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>999</width>
-      <height>25</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_83">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>191</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Тип</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="SsoiAutoDkUse">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>191</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>1</width>
-      <height>20</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>999</width>
-      <height>25</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_84">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>80</y>
-      <width>181</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>АвтоДК</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="SsoiMOprosVariant">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>191</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>1</width>
-      <height>20</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>999</width>
-      <height>25</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lbl_SsoiMOprosVariant">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>140</y>
-      <width>181</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Тип опроса - БП</string>
-    </property>
-   </widget>
-   <widget class="QStackedWidget" name="stackedWidget">
-    <property name="geometry">
-     <rect>
-      <x>209</x>
-      <y>10</y>
-      <width>361</width>
-      <height>370</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <widget class="QWidget" name="SSOI">
-     <widget class="QGroupBox" name="groupBox_6">
+   <widget class="QWidget" name="SSOI">
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>355</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Канал</string>
+     </property>
+     <widget class="ssoi_port_widget" name="SSOI_Port_widget" native="true">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>10</y>
-        <width>355</width>
-        <height>81</height>
+        <y>15</y>
+        <width>351</width>
+        <height>56</height>
        </rect>
       </property>
-      <property name="title">
-       <string>Канал</string>
-      </property>
-      <widget class="ssoi_port_widget" name="SSOI_Port_widget" native="true">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>15</y>
-         <width>351</width>
-         <height>56</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="SSOI_M">
-     <widget class="QGroupBox" name="groupBox_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>10</y>
-        <width>355</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Канал 1</string>
-      </property>
-      <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_1" native="true">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>15</y>
-         <width>350</width>
-         <height>56</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_3">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>90</y>
-        <width>355</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Канал 2</string>
-      </property>
-      <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_2" native="true">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>15</y>
-         <width>350</width>
-         <height>56</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>170</y>
-        <width>355</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Канал 3</string>
-      </property>
-      <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_3" native="true">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>15</y>
-         <width>350</width>
-         <height>56</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_5">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>250</y>
-        <width>355</width>
-        <height>81</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Канал 4</string>
-      </property>
-      <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_4" native="true">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>15</y>
-         <width>350</width>
-         <height>56</height>
-        </rect>
-       </property>
-      </widget>
      </widget>
     </widget>
    </widget>
-   <widget class="QRadioButton" name="SsoiFixNewWarning_val_0">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>280</y>
-      <width>82</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Всегда</string>
-    </property>
+   <widget class="QWidget" name="SSOI_M">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>355</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Канал 1</string>
+     </property>
+     <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_1" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>15</y>
+        <width>350</width>
+        <height>56</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>90</y>
+       <width>355</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Канал 2</string>
+     </property>
+     <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>15</y>
+        <width>350</width>
+        <height>56</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>170</y>
+       <width>355</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Канал 3</string>
+     </property>
+     <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_3" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>15</y>
+        <width>350</width>
+        <height>56</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>250</y>
+       <width>355</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Канал 4</string>
+     </property>
+     <widget class="ssoi_port_widget" name="SSOI_M_Port_widget_4" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>15</y>
+        <width>350</width>
+        <height>56</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
    </widget>
-   <widget class="QRadioButton" name="SsoiFixNewWarning_val_1">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>310</y>
-      <width>481</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>После &quot;Сброса тревог&quot;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_85">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>255</y>
-      <width>201</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Фиксация событий</string>
-    </property>
-   </widget>
+  </widget>
+  <widget class="TABLO_Widget" name="TABLO_wgt" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>150</y>
+     <width>181</width>
+     <height>131</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="Version">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>191</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1</width>
+     <height>25</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>999</width>
+     <height>25</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_SsoiMOprosVariant">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>105</y>
+     <width>181</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Тип опроса - БП</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_83">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>5</y>
+     <width>191</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Тип</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="SsoiAutoDkUse">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>80</y>
+     <width>191</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>999</width>
+     <height>25</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_84">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>55</y>
+     <width>181</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>АвтоДК</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="SsoiMOprosVariant">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>130</y>
+     <width>191</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>999</width>
+     <height>25</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_85">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>280</y>
+     <width>201</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Фиксация событий</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="SsoiFixNewWarning_val_1">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>340</y>
+     <width>381</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>После &quot;Сброса тревог&quot;</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="SsoiFixNewWarning_val_0">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>310</y>
+     <width>82</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Всегда</string>
+   </property>
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>TABLO_Widget</class>
+   <extends>QWidget</extends>
+   <header location="global">tablo_widget.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>ssoi_port_widget</class>
    <extends>QWidget</extends>

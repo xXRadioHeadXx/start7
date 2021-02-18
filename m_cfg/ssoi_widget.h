@@ -17,9 +17,14 @@ public:
     explicit ssoi_widget(QWidget *parent = nullptr);
     ~ssoi_widget();
 
+    int  getPort() const;
+    void setPort(int value);
+
+    int  getBlinking() const;
+    void setBlinking(int value);
 
 
-    void default_options();
+void default_options();
 
 
 void set_Version(int val);
@@ -95,10 +100,11 @@ void on_Version_currentIndexChanged(const QString &arg1);
 
 private:
 
+    Ui::ssoi_widget *ui;
     int SsoiM_PortSpeed=4800;
     QErrorMessage dialog;
 
-    Ui::ssoi_widget *ui;
+
 
      QMap <int,QString> l_Version;
      QString Version_1="ССОИ";

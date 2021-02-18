@@ -43,6 +43,26 @@ ssoi_widget::~ssoi_widget()
 {
     delete ui;
 }
+
+int ssoi_widget::getPort() const
+{
+return this->ui->TABLO_wgt->getPort();
+}
+
+void ssoi_widget::setPort(int value)
+{
+return this->ui->TABLO_wgt->setPort(value);
+}
+
+int ssoi_widget::getBlinking() const
+{
+return this->ui->TABLO_wgt->getBlinking();
+}
+
+void ssoi_widget::setBlinking(int value)
+{
+return this->ui->TABLO_wgt->setBlinking(value);
+}
 /*
 Version=2
 
