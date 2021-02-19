@@ -69,6 +69,8 @@ private:
     void operator_edit(Operator*);
     void operator_delete();
 
+    QString XOR_Crypt(QString in);
+
     void update_operators_table();
 
     QString get_unit_name(int type);
@@ -174,7 +176,7 @@ private:
     bool pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parrent);
 
     void get_option_Y4_T4K_M(UnitNode *unit);
-    void set_option_Y4_T4K_M(UnitNode *unit);
+    void set_option_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
    bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
 
     void get_option_DD_T4K_M(UnitNode *unit);
@@ -186,7 +188,7 @@ private:
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
 
     void get_option_Y4_SOTA(UnitNode *unit);
-    void set_option_Y4_SOTA(UnitNode *unit);
+    void set_option_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
 
     void get_option_DD_SOTA(UnitNode *unit);
@@ -585,5 +587,6 @@ private slots:
    void on_INTEGRATION_DevLine_pushButton_clicked();
    void on_pushButton_6_clicked();
    void on_devline_xy_pushButton_clicked();
+   void on_uType_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

@@ -36,6 +36,15 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->setupUi(this);
 
+    QString str="QWERTY12345";
+    QString crypts;
+    QString res;
+    crypts.append(XOR_Crypt(str));
+    res.append(XOR_Crypt(crypts));
+    qDebug()<<"crypts"<<crypts;
+    qDebug()<<"res"<<res;
+
+
 
     this->ui->tabWidget->setCurrentIndex(0);
     /* Создаем строку для регулярного выражения */
@@ -672,7 +681,7 @@ void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
    //     this->ui->stackedWidget->setCurrentWidget()
         qDebug()<<"[+]";
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
-    this->change_object_menu(unit->getType());
+  //  this->change_object_menu(unit->getType());
 
 this->get_option(unit);
     }
@@ -995,7 +1004,7 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::Y4_T4K_M:
-       this->set_option_Y4_T4K_M(unit);
+       this->set_option_Y4_T4K_M(unit,parent);
        break;
 
        case TypeUnitNode::DD_T4K_M:
@@ -1007,7 +1016,7 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
        break;
 
        case TypeUnitNode::Y4_SOTA:
-       this->set_option_Y4_SOTA(unit);
+       this->set_option_Y4_SOTA(unit,parent);
        break;
 
        case TypeUnitNode::DD_SOTA:
@@ -1165,6 +1174,43 @@ void MainWindowCFG::operator_edit(Operator *op)
 void MainWindowCFG::operator_delete()
 {
    qDebug()<<"operator_delete";
+
+}
+
+QString MainWindowCFG::XOR_Crypt(QString src)
+{
+        qDebug()<<"[XOR_Crypt]";
+    QByteArray ar=src.toLocal8Bit();
+qDebug()<<"src "<<src;
+QString key="start7";
+
+    QByteArray pw=key.toLocal8Bit();
+
+    qDebug()<<pw.size();
+    QByteArray res;
+    res.clear();
+    for (int x=1;x<ar.size()+1;x++)
+    {
+    qDebug()<<"---"<<x<<"-------------";
+
+           int val1=  pw[(x)%pw.size()] * 2;
+
+         int inx=ar[x-1];
+        qDebug()<<" val1 "<<val1<<"inx "<<inx;
+
+         int val2= inx ^ val1;
+         char chr = (char)val2;
+         qDebug()<<chr;
+ //         OutputDebugString(&in[x]);
+ //         OutputDebugString(&pass[x%pass.Length()+1]);
+ //         OutputDebugString(&chr);
+ //          OutputDebugString("----------------");
+ //      out +=  chr; /// ??????? * 2 ? ????? ?????????? ?????????
+         res.append(chr);
+    }
+    QString str_res = QString::fromLocal8Bit(res);
+    qDebug()<<"res "<<str_res;
+return str_res;
 
 }
 
@@ -4202,8 +4248,16 @@ void MainWindowCFG::get_SQL(QString filename)
               this->ui->SQL_server_lineEdit->setText(settings.value("Host",-1).toString());
               this->ui->SQL_port_doubleSpinBox->setValue(settings.value("Port",-1).toDouble());
               this->ui->SQL_login_lineEdit->setText(settings.value("Login",-1).toString());
-              this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
+
+
+
+           //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString(),"start7"));
+              this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
+
+          //    this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
               this->ui->SQL_database_lineEdit->setText(settings.value("DbName",-1).toString());
+
+
 
                 if(settings.value("P1",-1).toInt()==1)
                  this->ui->SQL_P1_checkBox->setChecked(true);
@@ -4777,9 +4831,14 @@ void MainWindowCFG::set_option_BOD_T4K_M(UnitNode *unit)
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }
 
-void MainWindowCFG::set_option_Y4_T4K_M(UnitNode *unit)
+void MainWindowCFG::set_option_Y4_T4K_M(UnitNode *unit, UnitNode* parent)
 {
 unit->setNum2(this->ui->Y4_T4K_M_combobox->currentText().toInt()*100);
+
+
+unit->setNum1(parent->getNum1());
+unit->setNum3(parent->getNum3());
+
 }
 
 void MainWindowCFG::set_option_DD_T4K_M(UnitNode *unit,UnitNode *parent)
@@ -4788,6 +4847,12 @@ void MainWindowCFG::set_option_DD_T4K_M(UnitNode *unit,UnitNode *parent)
 
 
     unit->setNum2(this->ui->DD_T4K_M_combobox->currentText().toInt()+val-1);
+
+
+
+    unit->setNum1(parent->getNum1());
+    unit->setNum3(parent->getNum3());
+
 }
 
 void MainWindowCFG::set_option_BOD_SOTA(UnitNode *unit)
@@ -4806,9 +4871,15 @@ unit->setUdpAdress(this->ui->ipadress_lineedit->text());
 unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }
 
-void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit)
+void MainWindowCFG::set_option_Y4_SOTA(UnitNode *unit, UnitNode* parent)
 {
 unit->setNum2(this->ui->U4_Sota_M_combobox->currentText().toInt()*100);
+
+
+
+unit->setNum1(parent->getNum1());
+unit->setNum3(parent->getNum3());
+
 }
 
 void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit,UnitNode *parent)
@@ -4817,6 +4888,10 @@ void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit,UnitNode *parent)
 
 
    unit->setNum2(this->ui->DD_Sota_M_combobox->currentText().toInt()+val-1);
+
+
+   unit->setNum1(parent->getNum1());
+   unit->setNum3(parent->getNum3());
 //при добавлении ДД к участку к опции ДД добавляется
 // 0 для участка 1
 // 100 для участка 2
@@ -5282,7 +5357,14 @@ void MainWindowCFG::save_ini(QString filename)
     qDebug()<<"save ini";
 
     QSettings settings(filename,QSettings::IniFormat);
+
+#if (defined (_WIN32) || defined (_WIN64))
+    settings.setIniCodec( "Windows-1251" );
+#else
+  //  settings.setIniCodec( "UTF-8" );
     settings.setIniCodec( QTextCodec::codecForLocale() );
+#endif
+ //   settings.setIniCodec( QTextCodec::codecForLocale() );
     /*
 #if (defined (_WIN32) || defined (_WIN64))
     settings.setIniCodec( "Windows-1251" );
@@ -5440,7 +5522,7 @@ int res=0;
       settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
       settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
       settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
-      settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
+      settings.setValue("Password", this->XOR_Crypt(this->ui->SQL_password_lineEdit->text()));
       settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
 
       if(this->ui->SQL_P1_checkBox->isChecked())
@@ -6130,6 +6212,7 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 //    db.setDatabaseName("QWERTY");
     db_mysql.setUserName(this->ui->SQL_login_lineEdit->text());
     db_mysql.setPassword(this->ui->SQL_password_lineEdit->text());
+    qDebug()<<"password "<<this->ui->SQL_password_lineEdit->text();
     if (!db_mysql.open()){
         QString err =db_mysql.lastError().text();
         QString drv;
@@ -6462,3 +6545,12 @@ void MainWindowCFG::on_devline_xy_pushButton_clicked()
 
 
 
+
+void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
+{
+    this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
+    this->ui->UDP_RS485_Widget->setVisible(false);
+
+    int type=m_TypeUnitNode.key(arg1);
+    this->change_object_menu(type);
+}

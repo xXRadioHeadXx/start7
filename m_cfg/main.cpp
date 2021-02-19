@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
 //First change
 
-
+/*
     HANDLE hMutex_Mcfg =  CreateMutexA(NULL, false, "RIFx_Mcfg_by_Start7");
      if (GetLastError() == ERROR_ALREADY_EXISTS)
         {
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
            return FALSE;
         }
     CloseHandle(hMutex_Mclient);
-
+*/
 
     MainWindowCFG w;
     w.setWindowIcon(QIcon::fromTheme(":icons/exec.ico"));
