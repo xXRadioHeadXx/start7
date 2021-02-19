@@ -631,7 +631,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>18</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1822,7 +1822,7 @@
               </rect>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="UDP">
               <widget class="QLabel" name="label_80">
@@ -1970,7 +1970,7 @@
               </size>
              </property>
              <property name="text">
-              <string>192.168.000.000</string>
+              <string/>
              </property>
             </widget>
             <widget class="QLabel" name="label_92">
@@ -2568,7 +2568,7 @@
               </size>
              </property>
              <property name="text">
-              <string>Переименовать</string>
+              <string>Изменить</string>
              </property>
             </widget>
             <widget class="QPushButton" name="pushButton_moveDown">
@@ -3465,7 +3465,7 @@
   </widget>
   <action name="actionCreate">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/create-file-icon.png</normaloff>:/images/create-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -3474,7 +3474,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/open-file-icon.png</normaloff>:/images/open-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -3483,7 +3483,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
@@ -3517,6 +3517,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="my_cfg_resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

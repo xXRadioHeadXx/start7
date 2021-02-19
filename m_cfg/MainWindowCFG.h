@@ -6,6 +6,7 @@
 #include "map.h"
 #include <QErrorMessage>
 #include "operator_form.h"
+#include "edit_unit_widget.h"
 #include <dbform.h>
 #include "comport.h"
 #include "sqlunit.h"
@@ -88,6 +89,7 @@ private:
 
     QMenu* menu;
 
+    QAction* action_open_edit_menu;
     QAction* action_setDK;
     QAction* action_YZ_MONOLIT;
     QAction* action_setAlarmMsgOn;
@@ -500,6 +502,7 @@ public:
     operator_form op_f;
     DBform db_f;
 
+    edit_unit_widget unit_wgt;
 
 
 
@@ -526,6 +529,8 @@ private slots:
     void setAdamOff_30_min();
     void setAdamOff_1_hour();
 
+
+    void open_edit_menu();
 
     void open_device_tree();
     void close_device_tree();

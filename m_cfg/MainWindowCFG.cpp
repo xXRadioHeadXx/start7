@@ -534,6 +534,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 
     action_open_device_tree = new QAction(tr("Развернуть дерево объектов"), this);
     action_close_device_tree = new QAction(tr("Свернуть дерево объектов"), this);
+    action_open_edit_menu =  new QAction(tr("Редактировать"), this);
 
     action_setDK->setCheckable(true);
     action_YZ_MONOLIT->setCheckable(true);
@@ -583,6 +584,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 
 
 connect(&op_f, SIGNAL(res(QString,QString,QString,QString  )) , this, SLOT     (get_from_op_f(QString,QString,QString,QString))  );
+
+connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit_menu())  );
 
     connect (action_setDK, SIGNAL(triggered()  ) , this,SLOT     (setDK())  );
     connect (action_YZ_MONOLIT, SIGNAL(triggered()  ) , this,SLOT     (YZ_MONOLIT())  );
@@ -672,7 +675,7 @@ void MainWindowCFG::set_x_y(QString Name, int x, int y)
 void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
 
-
+this->ui->pushButton_4->setDisabled(true);
     current_index=index;
     if(index.isValid())
     {
@@ -950,12 +953,25 @@ void MainWindowCFG::on_pushButton_4_clicked()
     if(index.isValid())
     {
         UnitNode* un = static_cast<UnitNode*>(index.internalPointer());
-        un->setName(this->ui->uName_lineedit->text());
+
+
+    if(m_TypeUnitNode.key(this->ui->uType_combobox->currentText())==un->getType())
+    {
+    qDebug()<<"[PRODIT]";
+    un->setName(this->ui->uName_lineedit->text());
+    }
+
+    else
+    {
+    qDebug()<<"[FALSE]";
 
     }
+
+    }
+
 //   change_unit();
 
-
+    this->ui->pushButton_4->setDisabled(true);
 
 }
 
@@ -1411,6 +1427,23 @@ void MainWindowCFG::setAdamOff_1_hour()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(9);
+}
+
+void MainWindowCFG::open_edit_menu()
+{
+    this->ui->pushButton_4->setEnabled(true);
+    qDebug()<<"edit menu";
+
+    QModelIndex index =this->ui->treeView->currentIndex();
+    UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
+
+    this->ui->uType_combobox->setCurrentText(this->m_TypeUnitNode.value(unit->getType()));
+
+   // unit_wgt.show();
+    //имя
+    //описание
+    //айпи адрес. только если режим - 485.
+    //координаты
 }
 
 void MainWindowCFG::open_device_tree()
@@ -3909,6 +3942,8 @@ void MainWindowCFG::default_options()
     this->ui->ADAM_wgt->default_options();
     this->ui->AdmAud_wgt->default_options();
 
+    this->ui->uType_combobox->setCurrentText(m_TypeUnitNode.value(TypeUnitNode::GROUP));
+
 }
 
 void MainWindowCFG::get_RIF(QString filename)
@@ -5928,6 +5963,13 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
     QModelIndex index = ui->treeView->indexAt(pos);
         if (index.isValid()) {
             UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+
+            if(un->getType()!=TypeUnitNode::SYSTEM)
+            if(un->getType()!=TypeUnitNode::GROUP)
+            menu->addAction(action_open_edit_menu);
+
+
+
             if(un->getType()==TypeUnitNode::SYSTEM)
             {
                menu->addAction(action_open_device_tree);
@@ -6046,7 +6088,10 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
              }
             menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
             }
-       //
+
+            if(un->getType()!=TypeUnitNode::SYSTEM)
+            if(un->getType()!=TypeUnitNode::GROUP)
+            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 
         }
 }
@@ -6548,6 +6593,7 @@ void MainWindowCFG::on_devline_xy_pushButton_clicked()
 
 void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 {
+    this->ui->pushButton_4->setDisabled(true);
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     this->ui->UDP_RS485_Widget->setVisible(false);
 

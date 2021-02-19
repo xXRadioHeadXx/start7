@@ -33,6 +33,7 @@ SOURCES += \
     comport.cpp \
     dbform.cpp \
     delegate.cpp \
+    edit_unit_widget.cpp \
     main.cpp \
     map.cpp \
     my_combobox.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     comport.h \
     dbform.h \
     delegate.h \
+    edit_unit_widget.h \
     map.h \
     my_combobox.h \
     mydrawobject.h \
@@ -85,6 +87,7 @@ FORMS += \
     add_sql_user_form.ui \
     admaud_widget.ui \
     dbform.ui \
+    edit_unit_widget.ui \
     map.ui \
     operator_form.ui \
     rastr_widget.ui \
