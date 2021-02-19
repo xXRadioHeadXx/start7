@@ -631,7 +631,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>22</number>
+             <number>18</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">

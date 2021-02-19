@@ -3,6 +3,7 @@
 #include <QFileInfo>
 #include <QFile>
 #include <QHostInfo>
+#include <QDir>
 
 RASTR_Widget::RASTR_Widget(QWidget *parent) :
     QWidget(parent),
@@ -199,8 +200,8 @@ void RASTR_Widget::on_Use_activated(const QString &arg1)
 {
     if(arg1==Use_1)
     {
-     QString filepath="C:/Program Files/RIFx/rastrmtv_cfg.ini" ;
-     QFileInfo info(filepath);
+
+     QFileInfo info(rastrmtv_cfg__path());
      if(info.exists())
      {
 
@@ -217,4 +218,11 @@ void RASTR_Widget::on_Use_activated(const QString &arg1)
 void RASTR_Widget::on_pushButton_clicked()
 {
         this->ui->Name->setText(QHostInfo::localHostName());
+}
+
+QString RASTR_Widget::rastrmtv_cfg__path() const
+{
+    QString path=QDir::currentPath();
+    path.append("/rastrmtv_cfg.ini");
+    return path;
 }

@@ -63,12 +63,15 @@ public:
     int getRASTRMSSOI__Timeout() const;
     void setRASTRMSSOI__Timeout(int value);
 
+    QString rastrmtv_cfg__path() const;
+
 private slots:
     void on_Use_activated(const QString &arg1);
 
     void on_pushButton_clicked();
 
 private:
+
     Ui::RASTR_Widget *ui;
     
     //    [RASTRMTV]

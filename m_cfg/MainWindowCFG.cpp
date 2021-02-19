@@ -79,7 +79,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
     QString filepath="C:/Program Files/RIFx/rastrmtv_cfg.ini" ;
-    QFileInfo info(filepath);
+    QFileInfo info(this->ui->RASTR_wgt->rastrmtv_cfg__path());
     if(info.exists())
     {
         QSettings settings(filepath, QSettings::IniFormat);
