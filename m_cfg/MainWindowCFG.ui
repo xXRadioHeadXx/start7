@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>9</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -631,7 +631,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -820,8 +820,14 @@
                 <height>25</height>
                </rect>
               </property>
+              <property name="inputMask">
+               <string>000.000.000.000</string>
+              </property>
               <property name="text">
-               <string/>
+               <string>...</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
               </property>
              </widget>
             </widget>
@@ -834,6 +840,12 @@
                 <width>261</width>
                 <height>25</height>
                </rect>
+              </property>
+              <property name="inputMask">
+               <string>000.000.000.000</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
               </property>
              </widget>
              <widget class="QLabel" name="label_85">
@@ -916,6 +928,12 @@
                 <width>261</width>
                 <height>25</height>
                </rect>
+              </property>
+              <property name="inputMask">
+               <string>000.000.000.000</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
               </property>
              </widget>
             </widget>
@@ -1969,8 +1987,14 @@
                <height>20</height>
               </size>
              </property>
+             <property name="inputMask">
+              <string>000.000.000.000</string>
+             </property>
              <property name="text">
-              <string/>
+              <string>...</string>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
              </property>
             </widget>
             <widget class="QLabel" name="label_92">
@@ -3440,7 +3464,7 @@
   </widget>
   <action name="actionCreate">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/create-file-icon.png</normaloff>:/images/create-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -3449,7 +3473,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/open-file-icon.png</normaloff>:/images/open-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -3458,7 +3482,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
@@ -3492,6 +3516,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="my_cfg_resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

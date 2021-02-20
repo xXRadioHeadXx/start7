@@ -47,25 +47,29 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
     this->ui->tabWidget->setCurrentIndex(0);
-    /* Создаем строку для регулярного выражения */
+ /*
+
+    // Создаем строку для регулярного выражения
     QString ipRange = "(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
 
 
     QString str1="([0-1][0-9][0-9])";
-    /* Создаем регулярное выражение с применением строки, как
-     * повторяющегося элемента
-     */
+    //* Создаем регулярное выражение с применением строки, как
+    // повторяющегося элемента
+    //
     QRegExp ipRegex ("^" + ipRange
                      + "\\." + ipRange
                      + "\\." + ipRange
                      + "\\." + ipRange + "$");
-    /* Создаем Валидатор регулярного выражения с применением
-     * созданного регулярного выражения
-     */
+    // Создаем Валидатор регулярного выражения с применением
+     // созданного регулярного выражения
+     //
     ipValidator = new QRegExpValidator(ipRegex, this);
-    /* Устанавливаем Валидатор на QLineEdit */
+  //   Устанавливаем Валидатор на QLineEdit
 
     this->ui->ipadress_lineedit->setValidator(ipValidator);
+   */
+
 //    this->ui->ipadress_lineedit->setValidator( new QRegExpValidator( QRegExp( "[0-1][0-9][0-9]\\.[0-1][0-9][0-9]" ) ) );
 
 //ui->ipadress_lineedit->setInputMask( "000.000.000.000" );
