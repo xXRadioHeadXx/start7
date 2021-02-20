@@ -82,6 +82,14 @@ private:
     void collapseChildren(const QModelIndex &index);
 
     void change_object_menu(int type);
+    void object_menu_set_settings_default();
+    void object_menu_set_settings_from(UnitNode *unit);
+    void object_menu_set_enabled_for_edit(bool enabled);
+
+    void RS485_UDP_set_default_with_timeout(int timeout);
+    void RS485_UDP_set_from_unit(int timeout);
+    void RS485_UDP_set_enabled_for_edit(bool enable);
+
 //    QList<udev_device*> listDevices();
 
     SQLunit MySQL_unit;

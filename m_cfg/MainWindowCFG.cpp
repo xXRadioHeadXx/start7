@@ -685,7 +685,7 @@ this->ui->pushButton_4->setDisabled(true);
         qDebug()<<"[+]";
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
   //  this->change_object_menu(unit->getType());
-
+    this->object_menu_set_enabled_for_edit(false);
 this->get_option(unit);
     }
     else
@@ -1439,6 +1439,8 @@ void MainWindowCFG::open_edit_menu()
 
     this->ui->uType_combobox->setCurrentText(this->m_TypeUnitNode.value(unit->getType()));
 
+    this->object_menu_set_settings_from(unit);
+    this->object_menu_set_enabled_for_edit(true);
    // unit_wgt.show();
     //имя
     //описание
@@ -1856,6 +1858,36 @@ void MainWindowCFG::change_object_menu(int type)
     break;
     }
 
+}
+
+void MainWindowCFG::object_menu_set_settings_default()
+{
+qDebug()<<"[object_menu_set_settings_default]";
+}
+
+void MainWindowCFG::object_menu_set_settings_from(UnitNode *unit)
+{
+qDebug()<<"[object_menu_set_settings_from(UnitNode *unit)]";
+}
+
+void MainWindowCFG::object_menu_set_enabled_for_edit(bool enable)
+{
+qDebug()<<"[object_menu_set_enabled_for_edit:"<<enable<<"]";
+}
+
+void MainWindowCFG::RS485_UDP_set_default_with_timeout(int timeout)
+{
+qDebug()<<"[RS485_UDP_set_default_with_timeout(int timeout)]";
+}
+
+void MainWindowCFG::RS485_UDP_set_from_unit(int timeout)
+{
+qDebug()<<"[RS485_UDP_set_from_unit(int timeout)]";
+}
+
+void MainWindowCFG::RS485_UDP_set_enabled_for_edit(bool enable)
+{
+qDebug()<<"[RS485_UDP_set_enabled_for_edit:"<<enable<<"]";
 }
 
 bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
@@ -6475,13 +6507,15 @@ void MainWindowCFG::on_pushButton_5_clicked()
 
 void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 {
+    qDebug()<<"[activated]";
 
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     this->ui->UDP_RS485_Widget->setVisible(false);
 
     int type=m_TypeUnitNode.key(arg1);
     this->change_object_menu(type);
-
+    this->object_menu_set_settings_default();
+    this->object_menu_set_enabled_for_edit(false);
 
 }
 
@@ -6593,10 +6627,13 @@ void MainWindowCFG::on_devline_xy_pushButton_clicked()
 
 void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 {
+        qDebug()<<"[currentTextChanged]";
     this->ui->pushButton_4->setDisabled(true);
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     this->ui->UDP_RS485_Widget->setVisible(false);
 
     int type=m_TypeUnitNode.key(arg1);
     this->change_object_menu(type);
+
+
 }
