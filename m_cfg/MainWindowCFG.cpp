@@ -744,7 +744,7 @@ qDebug()
 
     case TypeUnitNode::SD_BL_IP:
     this->get_option_SD_BL_IP(unit);
-    coordinate_menu(true,true,unit->getLan(),unit->getLon(),unit->getDescription());
+//   coordinate_menu(true,true,unit->getLan(),unit->getLon(),unit->getDescription());
     break;
 
     case TypeUnitNode::IU_BL_IP:
@@ -821,7 +821,7 @@ qDebug()
 
     case TypeUnitNode::DEVLINE:
     this->get_option_DEVLINE(unit);
-    coordinate_devline(true,unit->getNum2(),unit->getNum3(),unit->getX(),unit->getY());
+//    coordinate_devline(true,unit->getNum2(),unit->getNum3(),unit->getX(),unit->getY());
     break;
 
     case TypeUnitNode::RASTRMTV:
@@ -952,13 +952,33 @@ void MainWindowCFG::on_pushButton_4_clicked()
     QModelIndex index=this->ui->treeView->currentIndex();
     if(index.isValid())
     {
-        UnitNode* un = static_cast<UnitNode*>(index.internalPointer());
+        UnitNode* unit = static_cast<UnitNode*>(index.internalPointer());
 
 
-    if(m_TypeUnitNode.key(this->ui->uType_combobox->currentText())==un->getType())
+    if(m_TypeUnitNode.key(this->ui->uType_combobox->currentText())==unit->getType())
     {
     qDebug()<<"[PRODIT]";
-    un->setName(this->ui->uName_lineedit->text());
+    unit->setName(this->ui->uName_lineedit->text());
+
+    switch(unit->getType())
+        {
+        case TypeUnitNode::GROUP:
+
+        break;
+
+        case TypeUnitNode::SD_BL_IP:
+
+        unit->setNum2(this->ui->SD_BL_IP_num_combobox->currentText().toInt());
+        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+        break;
+        }
+    this->get_option(unit);
+
     }
 
     else
@@ -1431,6 +1451,7 @@ void MainWindowCFG::setAdamOff_1_hour()
 
 void MainWindowCFG::open_edit_menu()
 {
+    this->ui->tabWidget->setCurrentIndex(2);
     this->ui->pushButton_4->setEnabled(true);
     qDebug()<<"edit menu";
 
@@ -1446,6 +1467,7 @@ void MainWindowCFG::open_edit_menu()
     //описание
     //айпи адрес. только если режим - 485.
     //координаты
+
 }
 
 void MainWindowCFG::open_device_tree()
@@ -1860,34 +1882,510 @@ void MainWindowCFG::change_object_menu(int type)
 
 }
 
-void MainWindowCFG::object_menu_set_settings_default()
+void MainWindowCFG::object_menu_set_settings_default(int type)
 {
+        this->ui->uName_lineedit->setText("");
 qDebug()<<"[object_menu_set_settings_default]";
+
+switch(type)
+{
+case TypeUnitNode::GROUP:
+
+break;
+
+case TypeUnitNode::SD_BL_IP:
+
+
+this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+this->RS485_UDP_set_default_with_timeout(50);
+this->ui->SD_BL_IP_num_combobox->setCurrentIndex(0);
+
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::IU_BL_IP:
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
+break;
+
+case TypeUnitNode::TG:
+this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(75);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::RLM_KRL:
+this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+coordinate_menu(true,false,0,0,"");
+
+break;
+
+case TypeUnitNode::RLM_C:
+this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::BOD_T4K_M:
+this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(200);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::Y4_T4K_M:
+this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
+break;
+
+case TypeUnitNode::DD_T4K_M:
+this->ui->stackedWidget->setCurrentWidget(this->ui->DD_T4K_M_groupbox);
+break;
+
+case TypeUnitNode::BOD_SOTA:
+
+this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(300);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::Y4_SOTA:
+
+this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+break;
+
+case TypeUnitNode::DD_SOTA:
+this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
+break;
+
+case TypeUnitNode::KL:
+this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::ONVIF:
+this->ui->stackedWidget->setCurrentWidget(this->ui->ONVIF_groupbox);
+break;
+
+case TypeUnitNode::STRAZH_IP:
+this->ui->stackedWidget->setCurrentWidget(this->ui->STRAZH_IP_groupbox);
+break;
+
+case TypeUnitNode::NET_DEV:
+this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
+break;
+
+case TypeUnitNode::SSOI_SD:
+this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_SD_groupbox);
+break;
+
+case TypeUnitNode::SSOI_IU:
+this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
+break;
+
+case TypeUnitNode::ADAM:
+this->ui->stackedWidget->setCurrentWidget(this->ui->ADAM_groupbox);
+break;
+
+case TypeUnitNode::TOROS:
+this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::DEVLINE:
+this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
+this->ui->stackedWidget_2->setCurrentWidget(this->ui->devline_coordinates);
+coordinate_devline(false,0,0,0,0);
+break;
+
+case TypeUnitNode::RASTRMTV:
+this->ui->stackedWidget->setCurrentWidget(this->ui->RASTRMTV_groupbox);
+break;
+
+case TypeUnitNode::INFO_TABLO:
+this->ui->stackedWidget->setCurrentWidget(this->ui->INFO_TABLO_groupbox);
+break;
+
+default:
+    qDebug()<<"EMPTY";
+this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
+break;
+}
 }
 
 void MainWindowCFG::object_menu_set_settings_from(UnitNode *unit)
 {
+
 qDebug()<<"[object_menu_set_settings_from(UnitNode *unit)]";
+
+qDebug()<<"[object_menu_set_settings_default]";
+this->ui->uName_lineedit->setText(unit->getName());
+switch(unit->getType())
+{
+case TypeUnitNode::GROUP:
+
+break;
+
+case TypeUnitNode::SD_BL_IP:
+
+this->RS485_UDP_set_from_unit(unit);
+
+this->ui->SD_BL_IP_num_combobox->setCurrentText(QString::number(unit->getNum2()));
+this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+
+coordinate_menu(true,true,unit->getLan(),unit->getLon(),unit->getDescription());
+
+break;
+
+case TypeUnitNode::IU_BL_IP:
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
+break;
+
+case TypeUnitNode::TG:
+this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(75);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::RLM_KRL:
+this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+coordinate_menu(true,false,0,0,"");
+
+break;
+
+case TypeUnitNode::RLM_C:
+this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::BOD_T4K_M:
+this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(200);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::Y4_T4K_M:
+this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
+break;
+
+case TypeUnitNode::DD_T4K_M:
+this->ui->stackedWidget->setCurrentWidget(this->ui->DD_T4K_M_groupbox);
+break;
+
+case TypeUnitNode::BOD_SOTA:
+
+this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(300);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::Y4_SOTA:
+
+this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
+break;
+
+case TypeUnitNode::DD_SOTA:
+this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
+break;
+
+case TypeUnitNode::KL:
+this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::ONVIF:
+this->ui->stackedWidget->setCurrentWidget(this->ui->ONVIF_groupbox);
+break;
+
+case TypeUnitNode::STRAZH_IP:
+this->ui->stackedWidget->setCurrentWidget(this->ui->STRAZH_IP_groupbox);
+break;
+
+case TypeUnitNode::NET_DEV:
+this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
+break;
+
+case TypeUnitNode::SSOI_SD:
+this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_SD_groupbox);
+break;
+
+case TypeUnitNode::SSOI_IU:
+this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
+break;
+
+case TypeUnitNode::ADAM:
+this->ui->stackedWidget->setCurrentWidget(this->ui->ADAM_groupbox);
+break;
+
+case TypeUnitNode::TOROS:
+this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->timeout_doubleSpinBox->setValue(50);
+coordinate_menu(true,false,0,0,"");
+break;
+
+case TypeUnitNode::DEVLINE:
+this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
+this->ui->stackedWidget_2->setCurrentWidget(this->ui->devline_coordinates);
+coordinate_devline(false,0,0,0,0);
+break;
+
+case TypeUnitNode::RASTRMTV:
+this->ui->stackedWidget->setCurrentWidget(this->ui->RASTRMTV_groupbox);
+break;
+
+case TypeUnitNode::INFO_TABLO:
+this->ui->stackedWidget->setCurrentWidget(this->ui->INFO_TABLO_groupbox);
+break;
+
+default:
+    qDebug()<<"EMPTY";
+this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
+break;
+}
 }
 
 void MainWindowCFG::object_menu_set_enabled_for_edit(bool enable)
 {
 qDebug()<<"[object_menu_set_enabled_for_edit:"<<enable<<"]";
-}
 
+if(enable==true)
+{
+    this->ui->pushButton_4->setEnabled(true);
+
+//    case TypeUnitNode::GROUP:
+    this->ui->SD_BL_IP_num_combobox->setDisabled(true);
+    RS485_UDP_set_enabled_for_edit(true);
+//    break;
+/*
+    case TypeUnitNode::SD_BL_IP:
+
+
+    break;
+
+    case TypeUnitNode::IU_BL_IP:
+
+    break;
+
+    case TypeUnitNode::TG:
+
+    break;
+
+    case TypeUnitNode::RLM_KRL:
+
+    break;
+
+    case TypeUnitNode::RLM_C:
+
+    break;
+
+    case TypeUnitNode::BOD_T4K_M:
+
+    break;
+
+    case TypeUnitNode::Y4_T4K_M:
+
+    break;
+
+    case TypeUnitNode::DD_T4K_M:
+
+    break;
+
+    case TypeUnitNode::BOD_SOTA:
+
+    break;
+
+    case TypeUnitNode::Y4_SOTA:
+
+    break;
+
+    case TypeUnitNode::DD_SOTA:
+
+    break;
+
+    case TypeUnitNode::KL:
+
+    break;
+
+    case TypeUnitNode::ONVIF:
+
+    break;
+
+    case TypeUnitNode::STRAZH_IP:
+
+    break;
+
+    case TypeUnitNode::NET_DEV:
+
+    break;
+
+    case TypeUnitNode::SSOI_SD:
+
+    break;
+
+    case TypeUnitNode::SSOI_IU:
+
+    break;
+
+    case TypeUnitNode::ADAM:
+
+    break;
+
+    case TypeUnitNode::TOROS:
+
+    break;
+
+    case TypeUnitNode::DEVLINE:
+
+    break;
+
+    case TypeUnitNode::RASTRMTV:
+
+    break;
+
+    case TypeUnitNode::INFO_TABLO:
+
+    break;
+
+    default:
+
+    break;
+    */
+ }
+
+else
+{
+this->ui->pushButton_4->setDisabled(true);
+
+//    case TypeUnitNode::GROUP:
+this->ui->SD_BL_IP_num_combobox->setEnabled(true);
+RS485_UDP_set_enabled_for_edit(false);
+//    break;
+
+
+}
+}
 void MainWindowCFG::RS485_UDP_set_default_with_timeout(int timeout)
 {
 qDebug()<<"[RS485_UDP_set_default_with_timeout(int timeout)]";
+this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+this->ui->UDP_RS485_Widget->setVisible(true);
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
+this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+this->ui->ipadress_lineedit->setText("");
+this->ui->port_combobox->setCurrentIndex(0);
+this->ui->UdpPort_doubleSpinBox->setValue(4001);
+this->ui->timeout_doubleSpinBox->setValue(timeout);
 }
 
-void MainWindowCFG::RS485_UDP_set_from_unit(int timeout)
+void MainWindowCFG::RS485_UDP_set_from_unit(UnitNode *unit)
 {
+
 qDebug()<<"[RS485_UDP_set_from_unit(int timeout)]";
+
+this->ui->UDP_RS485_Widget->setVisible(true);
+if(unit->getUdpUse()==1)
+    {
+            this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    }
+
+else
+    {
+            this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    }
+
+this->ui->ipadress_lineedit->setText(unit->getUdpAdress());
+this->ui->timeout_doubleSpinBox->setValue(unit->getUdpTimeout());
+this->ui->port_combobox->setCurrentText(QString::number(unit->getNum3()));
+this->ui->UdpPort_doubleSpinBox->setValue(unit->getUdpPort());
+
 }
 
 void MainWindowCFG::RS485_UDP_set_enabled_for_edit(bool enable)
 {
 qDebug()<<"[RS485_UDP_set_enabled_for_edit:"<<enable<<"]";
+if(enable==true)
+{
+    qDebug()<<"[RS485_UDP_set_from_unit(int timeout)]";
+
+    this->ui->UDP_RS485_Widget->setVisible(true);
+    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
+        {
+          this->ui->ipadress_lineedit->setDisabled(true);
+        }
+
+    else
+        {
+          this->ui->ipadress_lineedit->setEnabled(true);
+        }
+
+
+    this->ui->timeout_doubleSpinBox->setDisabled(true);
+    this->ui->port_combobox->setDisabled(true);
+    this->ui->UdpPort_doubleSpinBox->setDisabled(true);
+    this->ui->UDP_RS485_combobox->setDisabled(true);
+}
+else
+{
+
+    this->ui->UDP_RS485_combobox->setEnabled(true);
+    this->ui->ipadress_lineedit->setEnabled(true);
+    this->ui->timeout_doubleSpinBox->setEnabled(true);
+    this->ui->port_combobox->setEnabled(true);
+    this->ui->UdpPort_doubleSpinBox->setEnabled(true);
+}
 }
 
 bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
@@ -5990,140 +6488,140 @@ void MainWindowCFG::on_pushButton_moveDown_clicked()
 
 void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 {
+
     menu->clear();
     qDebug()<<"[ContextMenuRequested]";
     QModelIndex index = ui->treeView->indexAt(pos);
         if (index.isValid()) {
             UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
-
+            this->get_option(un);
             if(un->getType()!=TypeUnitNode::SYSTEM)
             if(un->getType()!=TypeUnitNode::GROUP)
             menu->addAction(action_open_edit_menu);
 
-
-
-            if(un->getType()==TypeUnitNode::SYSTEM)
+            switch(un->getType())
             {
-               menu->addAction(action_open_device_tree);
-               menu->addAction(action_close_device_tree);
-            // menu->addAction(action_setDK);
+            case TypeUnitNode::SYSTEM:
+                menu->addAction(action_open_device_tree);
+                menu->addAction(action_close_device_tree);
 
+                menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+            break;
 
+            case TypeUnitNode::SD_BL_IP:
 
+                menu->addAction(action_setDK);
+                if(un->getDK()==0)
+                {
+                    qDebug()<<"[0]";
+                    action_setDK->setChecked(false);
+                }
+                else
+                {
+                    qDebug()<<"[1]";
+                   action_setDK->setChecked(true);
+                }
+               if(un->getNum2()==1||un->getNum2()==2||un->getNum2()==3)
+                menu->addAction(action_YZ_MONOLIT);
 
-
-            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
-            }
-            if(un->getType()==TypeUnitNode::SD_BL_IP)
-            {
-             menu->addAction(action_setDK);
-    //         connect (action_setDK, SIGNAL(triggered()) , this, SLOT(setDK()));
-
-             qDebug()<<un->getName();
-
-             if(un->getDK()==0)
-             {
-                 qDebug()<<"[0]";
-                 action_setDK->setChecked(false);
-             }
-             else
-             {
-                 qDebug()<<"[1]";
-                action_setDK->setChecked(true);
-             }
-
-            if(un->getNum2()==1||un->getNum2()==2||un->getNum2()==3)
-             menu->addAction(action_YZ_MONOLIT);
-
-            if(un->getBazalt()==0)
-            {
-                qDebug()<<"[0]";
-                action_YZ_MONOLIT->setChecked(false);
-            }
-            else
-            {
-                qDebug()<<"[1]";
-               action_YZ_MONOLIT->setChecked(true);
-            }
-
-            menu->addAction(action_setAlarmMsgOn);
-
-               if(un->getAlarmMsgOn()==0)
+               if(un->getBazalt()==0)
                {
                    qDebug()<<"[0]";
-                   action_setAlarmMsgOn->setChecked(false);
+                   action_YZ_MONOLIT->setChecked(false);
                }
                else
                {
                    qDebug()<<"[1]";
-                }
-            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
-            }
-            if(un->getType()==TypeUnitNode::IU_BL_IP)
-            {
+                  action_YZ_MONOLIT->setChecked(true);
+               }
+
+               menu->addAction(action_setAlarmMsgOn);
+
+                  if(un->getAlarmMsgOn()==0)
+                  {
+                      qDebug()<<"[0]";
+                      action_setAlarmMsgOn->setChecked(false);
+                  }
+                  else
+                  {
+                      qDebug()<<"[1]";
+                   }
+               menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+
+            break;
+
+            case TypeUnitNode::IU_BL_IP:
                 action_setAlarmMsgOn->setChecked(true);
+                action_setAdamOff_off->setChecked(false);
+                action_setAdamOff_5_sec->setChecked(false);
+                action_setAdamOff_10_sec->setChecked(false);
+                action_setAdamOff_30_sec->setChecked(false);
+                action_setAdamOff_1_min->setChecked(false);
+                action_setAdamOff_5_min->setChecked(false);
+                action_setAdamOff_10_min->setChecked(false);
+                action_setAdamOff_20_min->setChecked(false);
+                action_setAdamOff_30_min->setChecked(false);
+                action_setAdamOff_1_hour->setChecked(false);
+                menu->addMenu(menuAdamOff);
+                switch(un->getAdamOff())
+                {
+                case 0:
+                action_setAdamOff_off->setChecked(true);
+                break;
 
+                case 1:
+                action_setAdamOff_5_sec->setChecked(true);
+                break;
 
+                case 2:
+                action_setAdamOff_10_sec->setChecked(true);
+                break;
 
-             action_setAdamOff_off->setChecked(false);
-             action_setAdamOff_5_sec->setChecked(false);
-             action_setAdamOff_10_sec->setChecked(false);
-             action_setAdamOff_30_sec->setChecked(false);
-             action_setAdamOff_1_min->setChecked(false);
-             action_setAdamOff_5_min->setChecked(false);
-             action_setAdamOff_10_min->setChecked(false);
-             action_setAdamOff_20_min->setChecked(false);
-             action_setAdamOff_30_min->setChecked(false);
-             action_setAdamOff_1_hour->setChecked(false);
-             menu->addMenu(menuAdamOff);
-             switch(un->getAdamOff())
-             {
-             case 0:
-             action_setAdamOff_off->setChecked(true);
-             break;
+                case 3:
+                action_setAdamOff_30_sec->setChecked(true);
+                break;
 
-             case 1:
-             action_setAdamOff_5_sec->setChecked(true);
-             break;
+                case 4:
+                action_setAdamOff_1_min->setChecked(true);
+                break;
 
-             case 2:
-             action_setAdamOff_10_sec->setChecked(true);
-             break;
+                case 5:
+                action_setAdamOff_5_min->setChecked(true);
+                break;
 
-             case 3:
-             action_setAdamOff_30_sec->setChecked(true);
-             break;
+                case 6:
+                action_setAdamOff_10_min->setChecked(true);
+                break;
 
-             case 4:
-             action_setAdamOff_1_min->setChecked(true);
-             break;
+                case 7:
+                action_setAdamOff_20_min->setChecked(true);
+                break;
 
-             case 5:
-             action_setAdamOff_5_min->setChecked(true);
-             break;
+                case 8:
+                action_setAdamOff_30_min->setChecked(true);
+                break;
 
-             case 6:
-             action_setAdamOff_10_min->setChecked(true);
-             break;
+                case 9:
+                action_setAdamOff_1_hour->setChecked(true);
+                break;
+                }
+               menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 
-             case 7:
-             action_setAdamOff_20_min->setChecked(true);
-             break;
+            break;
 
-             case 8:
-             action_setAdamOff_30_min->setChecked(true);
-             break;
-
-             case 9:
-             action_setAdamOff_1_hour->setChecked(true);
-             break;
-             }
-            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+            default:
+                if(un->getType()!=TypeUnitNode::SYSTEM)
+                if(un->getType()!=TypeUnitNode::GROUP)
+                menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+            break;
             }
 
-            if(un->getType()!=TypeUnitNode::SYSTEM)
-            if(un->getType()!=TypeUnitNode::GROUP)
-            menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+
+
+
+
+
+
 
         }
 }
@@ -6451,7 +6949,7 @@ void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y, QSt
         this->ui->coordinate_Y_doubleSpinBox->setValue(y);
         this->ui->Dop_info_description_lineedit->setText(text);
 
-        this->ui->pushButton_5->setEnabled(active);
+
     }
 }
 
@@ -6514,7 +7012,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
 
     int type=m_TypeUnitNode.key(arg1);
     this->change_object_menu(type);
-    this->object_menu_set_settings_default();
+    this->object_menu_set_settings_default(type);
     this->object_menu_set_enabled_for_edit(false);
 
 }

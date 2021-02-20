@@ -2123,31 +2123,6 @@
                 <string>Географ.долгота</string>
                </property>
               </widget>
-              <widget class="QPushButton" name="pushButton_5">
-               <property name="geometry">
-                <rect>
-                 <x>423</x>
-                 <y>42</y>
-                 <width>117</width>
-                 <height>27</height>
-                </rect>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>80</width>
-                 <height>27</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>999</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Изменить</string>
-               </property>
-              </widget>
              </widget>
             </widget>
             <widget class="QWidget" name="devline_coordinates">
