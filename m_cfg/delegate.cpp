@@ -41,6 +41,13 @@ void Delegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem 
     editor->setGeometry(option.rect);
 }
 
+QSize Delegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QSize sz = QStyledItemDelegate::sizeHint(option, index);
+    sz.setHeight(sz.height() - 6);//накидываем 10 пикселей по 5 сверху и снизу
+    return sz;
+}
+
 void Delegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
  //   qDebug()<<"[paint]";
