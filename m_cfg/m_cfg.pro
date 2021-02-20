@@ -37,6 +37,7 @@ SOURCES += \
     main.cpp \
     map.cpp \
     my_combobox.cpp \
+    my_lineedit.cpp \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     edit_unit_widget.h \
     map.h \
     my_combobox.h \
+    my_lineedit.h \
     mydrawobject.h \
     myscene.h \
     operator_form.h \

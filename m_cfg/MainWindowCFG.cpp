@@ -447,6 +447,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 
 
      ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
      menu = new QMenu(ui->treeView);
      menu->addAction("hello");
      menu->addAction("world");

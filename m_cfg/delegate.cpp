@@ -10,7 +10,7 @@ Delegate::Delegate(QObject *parent) : QStyledItemDelegate(parent)
 QWidget *Delegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     qDebug()<<"[createEditor]";
-    QLineEdit* editor = new QLineEdit(parent);
+    My_lineEdit* editor = new My_lineEdit(parent);
     return editor;
 
 
@@ -20,7 +20,7 @@ QWidget *Delegate::createEditor(QWidget *parent, const QStyleOptionViewItem &opt
 void Delegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
         qDebug()<<"[setEditorData]";
-    QLineEdit* linedit =static_cast<QLineEdit*>(editor);
+    My_lineEdit* linedit =static_cast<My_lineEdit*>(editor);
 
     linedit->setText(index.model()->data(index,Qt::DisplayRole).toString());
 
@@ -31,7 +31,7 @@ void Delegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 void Delegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     qDebug()<<"[setModelData]";
-    QLineEdit* linedit =static_cast<QLineEdit*>(editor);
+    My_lineEdit* linedit =static_cast<My_lineEdit*>(editor);
     model->setData(index, linedit->text());
 }
 
