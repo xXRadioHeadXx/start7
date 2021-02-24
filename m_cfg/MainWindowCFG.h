@@ -81,7 +81,7 @@ private:
     void expandChildren(const QModelIndex &index);
     void collapseChildren(const QModelIndex &index);
 
-    void change_object_menu(int type);
+    void object_menu_change(int type);
     void object_menu_set_settings_default(int type);
     void object_menu_set_settings_from(UnitNode *unit);
     void object_menu_set_enabled_for_edit(bool enabled);
@@ -90,6 +90,8 @@ private:
     void RS485_UDP_set_from_unit(UnitNode *unit);
     void RS485_UDP_set_enabled_for_edit(bool enable);
 
+    QString get_dd(UnitNode* unit);
+    QString get_y4(UnitNode* unit);
 //    QList<udev_device*> listDevices();
 
     SQLunit MySQL_unit;
@@ -436,6 +438,16 @@ private:
         str_RASTRMTV,
         str_INFO_TABLO
  };
+
+
+ QMap <int,QString> m_RLM_KRL_type{
+{0,str_RIF_RLM},
+{1,str_RIF_RLM_24},
+{2,str_RIF_RLM_B},
+{3,str_RIF_KRL},
+{4,str_Razriv},
+{5,str_trassa1l},
+};
 
     QMap <int,QString> m_TypeUnitNode{
 {TypeUnitNode::GROUP, str_GROUP},
