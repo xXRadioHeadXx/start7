@@ -291,7 +291,7 @@
             <property name="title">
              <string>Резервное копирование</string>
             </property>
-            <widget class="My_lineEdit" name="BACKUP_BackupPath_lineedit">
+            <widget class="My_lineEdit" name="BACKUP_BackupPath_lineedit" native="true">
              <property name="geometry">
               <rect>
                <x>10</x>
@@ -617,7 +617,7 @@
              <string>Имя</string>
             </property>
            </widget>
-           <widget class="My_lineEdit" name="uName_lineedit">
+           <widget class="My_lineEdit" name="uName_lineedit" native="true">
             <property name="geometry">
              <rect>
               <x>280</x>
@@ -797,7 +797,7 @@
                <string>Логин</string>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="ONVIF_lineEdit__password">
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__password" native="true">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -807,7 +807,7 @@
                </rect>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="ONVIF_lineEdit__login">
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__login" native="true">
               <property name="geometry">
                <rect>
                 <x>280</x>
@@ -817,7 +817,7 @@
                </rect>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="ONVIF_lineEdit__IPaddr">
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__IPaddr" native="true">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -826,19 +826,19 @@
                 <height>25</height>
                </rect>
               </property>
-              <property name="inputMask">
+              <property name="inputMask" stdset="0">
                <string>000.000.000.000</string>
               </property>
-              <property name="text">
+              <property name="text" stdset="0">
                <string>...</string>
               </property>
-              <property name="clearButtonEnabled">
+              <property name="clearButtonEnabled" stdset="0">
                <bool>true</bool>
               </property>
              </widget>
             </widget>
             <widget class="QWidget" name="STRAZH_IP_groupbox">
-             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddr">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddr" native="true">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -847,10 +847,10 @@
                 <height>25</height>
                </rect>
               </property>
-              <property name="inputMask">
+              <property name="inputMask" stdset="0">
                <string>000.000.000.000</string>
               </property>
-              <property name="clearButtonEnabled">
+              <property name="clearButtonEnabled" stdset="0">
                <bool>true</bool>
               </property>
              </widget>
@@ -880,7 +880,7 @@
                <string>Логин</string>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__login">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__login" native="true">
               <property name="geometry">
                <rect>
                 <x>280</x>
@@ -903,7 +903,7 @@
                <string>Пароль</string>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__password">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__password" native="true">
               <property name="geometry">
                <rect>
                 <x>280</x>
@@ -926,7 +926,7 @@
                <string>IP-адрес поворотной камеры</string>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddres_rotary_device">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddres_rotary_device" native="true">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -935,10 +935,10 @@
                 <height>25</height>
                </rect>
               </property>
-              <property name="inputMask">
+              <property name="inputMask" stdset="0">
                <string>000.000.000.000</string>
               </property>
-              <property name="clearButtonEnabled">
+              <property name="clearButtonEnabled" stdset="0">
                <bool>true</bool>
               </property>
              </widget>
@@ -1349,7 +1349,7 @@
              </widget>
             </widget>
             <widget class="QWidget" name="NET_DEV_groupbox">
-             <widget class="My_lineEdit" name="NET_DEV_IP_lineEdit">
+             <widget class="My_lineEdit" name="NET_DEV_IP_lineEdit" native="true">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -1389,7 +1389,7 @@
                <string>IP-адрес </string>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="CD_UdpAdress_lineEdit">
+             <widget class="My_lineEdit" name="CD_UdpAdress_lineEdit" native="true">
               <property name="geometry">
                <rect>
                 <x>80</x>
@@ -1430,7 +1430,7 @@
                <string>Номер порта </string>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="CD_UpdPort_lineEdit">
+             <widget class="My_lineEdit" name="CD_UpdPort_lineEdit" native="true">
               <property name="geometry">
                <rect>
                 <x>150</x>
@@ -1972,7 +1972,7 @@
               </property>
              </item>
             </widget>
-            <widget class="My_lineEdit" name="ipadress_lineedit">
+            <widget class="My_lineEdit" name="ipadress_lineedit" native="true">
              <property name="geometry">
               <rect>
                <x>90</x>
@@ -1993,13 +1993,13 @@
                <height>20</height>
               </size>
              </property>
-             <property name="inputMask">
+             <property name="inputMask" stdset="0">
               <string>000.000.000.000</string>
              </property>
-             <property name="text">
+             <property name="text" stdset="0">
               <string>...</string>
              </property>
-             <property name="clearButtonEnabled">
+             <property name="clearButtonEnabled" stdset="0">
               <bool>true</bool>
              </property>
             </widget>
@@ -2045,7 +2045,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="coordinates_for_all">
              <widget class="QGroupBox" name="groupBox_4">
@@ -2060,7 +2060,7 @@
               <property name="title">
                <string>Доп.информация (только для режима интеграции с внешним ПО)</string>
               </property>
-              <widget class="My_lineEdit" name="Dop_info_description_lineedit">
+              <widget class="My_lineEdit" name="Dop_info_description_lineedit" native="true">
                <property name="geometry">
                 <rect>
                  <x>10</x>
@@ -2306,7 +2306,7 @@
                 <string>Y прав.низ</string>
                </property>
               </widget>
-              <widget class="My_lineEdit" name="mouse_Y">
+              <widget class="My_lineEdit" name="mouse_Y" native="true">
                <property name="geometry">
                 <rect>
                  <x>495</x>
@@ -2327,7 +2327,7 @@
                  <height>20</height>
                 </size>
                </property>
-               <property name="text">
+               <property name="text" stdset="0">
                 <string/>
                </property>
               </widget>
@@ -2408,7 +2408,7 @@
                 <double>9999.989999999999782</double>
                </property>
               </widget>
-              <widget class="My_lineEdit" name="mouse_X">
+              <widget class="My_lineEdit" name="mouse_X" native="true">
                <property name="geometry">
                 <rect>
                  <x>440</x>
@@ -2429,7 +2429,7 @@
                  <height>20</height>
                 </size>
                </property>
-               <property name="text">
+               <property name="text" stdset="0">
                 <string/>
                </property>
               </widget>
@@ -2923,7 +2923,7 @@
              <string>Режим</string>
             </property>
            </widget>
-           <widget class="My_lineEdit" name="SQL_server_lineEdit">
+           <widget class="My_lineEdit" name="SQL_server_lineEdit" native="true">
             <property name="geometry">
              <rect>
               <x>115</x>
@@ -2932,7 +2932,7 @@
               <height>25</height>
              </rect>
             </property>
-            <property name="text">
+            <property name="text" stdset="0">
              <string>localhost</string>
             </property>
            </widget>
@@ -2981,7 +2981,7 @@
              <string>Порт</string>
             </property>
            </widget>
-           <widget class="My_lineEdit" name="SQL_login_lineEdit">
+           <widget class="My_lineEdit" name="SQL_login_lineEdit" native="true">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -2990,7 +2990,7 @@
               <height>25</height>
              </rect>
             </property>
-            <property name="text">
+            <property name="text" stdset="0">
              <string>root</string>
             </property>
            </widget>
@@ -3007,7 +3007,7 @@
              <string>Логин</string>
             </property>
            </widget>
-           <widget class="My_lineEdit" name="SQL_password_lineEdit">
+           <widget class="My_lineEdit" name="SQL_password_lineEdit" native="true">
             <property name="geometry">
              <rect>
               <x>160</x>
@@ -3030,7 +3030,7 @@
              <string>Пароль</string>
             </property>
            </widget>
-           <widget class="My_lineEdit" name="SQL_database_lineEdit">
+           <widget class="My_lineEdit" name="SQL_database_lineEdit" native="true">
             <property name="geometry">
              <rect>
               <x>9</x>
@@ -3233,7 +3233,7 @@
            <string>Режим</string>
           </property>
          </widget>
-         <widget class="My_lineEdit" name="INTEGRATION_Host_lineEdit">
+         <widget class="My_lineEdit" name="INTEGRATION_Host_lineEdit" native="true">
           <property name="geometry">
            <rect>
             <x>115</x>
@@ -3242,7 +3242,7 @@
             <height>25</height>
            </rect>
           </property>
-          <property name="text">
+          <property name="text" stdset="0">
            <string>localhost</string>
           </property>
          </widget>
@@ -3361,7 +3361,7 @@
          <property name="title">
           <string>Интеграция с DevLine</string>
          </property>
-         <widget class="My_lineEdit" name="INTEGRATION_DevLine_filepath_lineEdit">
+         <widget class="My_lineEdit" name="INTEGRATION_DevLine_filepath_lineEdit" native="true">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -3520,6 +3520,11 @@
    <extends>QWidget</extends>
    <header location="global">admaud_widget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>
