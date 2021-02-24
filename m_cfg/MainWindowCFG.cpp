@@ -1915,47 +1915,32 @@ coordinate_menu(true,false,0,0,"");
 break;
 
 case TypeUnitNode::IU_BL_IP:
-this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->timeout_doubleSpinBox->setValue(50);
+RS485_UDP_set_default_with_timeout(50);
 this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
 break;
 
 case TypeUnitNode::TG:
 this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
-this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->timeout_doubleSpinBox->setValue(75);
+RS485_UDP_set_default_with_timeout(75);
 coordinate_menu(true,false,0,0,"");
 break;
 
 case TypeUnitNode::RLM_KRL:
 this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
-this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->timeout_doubleSpinBox->setValue(50);
+RS485_UDP_set_default_with_timeout(50);
 coordinate_menu(true,false,0,0,"");
 
 break;
 
 case TypeUnitNode::RLM_C:
 this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
-this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->timeout_doubleSpinBox->setValue(50);
+RS485_UDP_set_default_with_timeout(50);
 coordinate_menu(true,false,0,0,"");
 break;
 
 case TypeUnitNode::BOD_T4K_M:
 this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
-this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->timeout_doubleSpinBox->setValue(200);
+RS485_UDP_set_default_with_timeout(200);
 coordinate_menu(true,false,0,0,"");
 break;
 
@@ -1970,10 +1955,7 @@ break;
 case TypeUnitNode::BOD_SOTA:
 
 this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->timeout_doubleSpinBox->setValue(300);
+RS485_UDP_set_default_with_timeout(300);
 coordinate_menu(true,false,0,0,"");
 break;
 
@@ -1988,10 +1970,7 @@ break;
 
 case TypeUnitNode::KL:
 this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
-this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->timeout_doubleSpinBox->setValue(50);
+RS485_UDP_set_default_with_timeout(50);
 coordinate_menu(true,false,0,0,"");
 break;
 
@@ -2021,10 +2000,7 @@ break;
 
 case TypeUnitNode::TOROS:
 this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
-this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->timeout_doubleSpinBox->setValue(50);
+RS485_UDP_set_default_with_timeout(50);
 coordinate_menu(true,false,0,0,"");
 break;
 
@@ -5582,6 +5558,11 @@ unit->setNum2(this->ui->Y4_T4K_M_combobox->currentText().toInt()*100);
 unit->setNum1(parent->getNum1());
 unit->setNum3(parent->getNum3());
 
+unit->setUdpUse(parent->getUdpUse());
+unit->setUdpPort(parent->getUdpPort());
+unit->setUdpAdress(parent->getUdpAdress());
+unit->setUdpTimeout(parent->getUdpTimeout());
+
 }
 
 void MainWindowCFG::set_option_DD_T4K_M(UnitNode *unit,UnitNode *parent)
@@ -5595,6 +5576,11 @@ void MainWindowCFG::set_option_DD_T4K_M(UnitNode *unit,UnitNode *parent)
 
     unit->setNum1(parent->getNum1());
     unit->setNum3(parent->getNum3());
+
+    unit->setUdpUse(parent->getUdpUse());
+    unit->setUdpPort(parent->getUdpPort());
+    unit->setUdpAdress(parent->getUdpAdress());
+    unit->setUdpTimeout(parent->getUdpTimeout());
 
 }
 
@@ -5623,6 +5609,11 @@ unit->setNum2(this->ui->U4_Sota_M_combobox->currentText().toInt()*100);
 unit->setNum1(parent->getNum1());
 unit->setNum3(parent->getNum3());
 
+unit->setUdpUse(parent->getUdpUse());
+unit->setUdpPort(parent->getUdpPort());
+unit->setUdpAdress(parent->getUdpAdress());
+unit->setUdpTimeout(parent->getUdpTimeout());
+
 }
 
 void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit,UnitNode *parent)
@@ -5635,6 +5626,11 @@ void MainWindowCFG::set_option_DD_SOTA(UnitNode *unit,UnitNode *parent)
 
    unit->setNum1(parent->getNum1());
    unit->setNum3(parent->getNum3());
+
+   unit->setUdpUse(parent->getUdpUse());
+   unit->setUdpPort(parent->getUdpPort());
+   unit->setUdpAdress(parent->getUdpAdress());
+   unit->setUdpTimeout(parent->getUdpTimeout());
 //при добавлении ДД к участку к опции ДД добавляется
 // 0 для участка 1
 // 100 для участка 2
