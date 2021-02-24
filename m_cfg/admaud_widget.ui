@@ -62,7 +62,7 @@
     <string>Ключевой диск</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="version">
+  <widget class="My_lineEdit" name="version">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -85,7 +85,7 @@
     <string>Проверить</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="DateTime">
+  <widget class="My_lineEdit" name="DateTime">
    <property name="geometry">
     <rect>
      <x>330</x>

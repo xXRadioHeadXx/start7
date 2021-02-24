@@ -291,7 +291,7 @@
             <property name="title">
              <string>Резервное копирование</string>
             </property>
-            <widget class="QLineEdit" name="BACKUP_BackupPath_lineedit">
+            <widget class="My_lineEdit" name="BACKUP_BackupPath_lineedit">
              <property name="geometry">
               <rect>
                <x>10</x>
@@ -617,7 +617,7 @@
              <string>Имя</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="uName_lineedit">
+           <widget class="My_lineEdit" name="uName_lineedit">
             <property name="geometry">
              <rect>
               <x>280</x>
@@ -797,7 +797,7 @@
                <string>Логин</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="ONVIF_lineEdit__password">
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__password">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -807,7 +807,7 @@
                </rect>
               </property>
              </widget>
-             <widget class="QLineEdit" name="ONVIF_lineEdit__login">
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__login">
               <property name="geometry">
                <rect>
                 <x>280</x>
@@ -817,7 +817,7 @@
                </rect>
               </property>
              </widget>
-             <widget class="QLineEdit" name="ONVIF_lineEdit__IPaddr">
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__IPaddr">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -838,7 +838,7 @@
              </widget>
             </widget>
             <widget class="QWidget" name="STRAZH_IP_groupbox">
-             <widget class="QLineEdit" name="STRAZH_IP_lineEdit__IPaddr">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddr">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -880,7 +880,7 @@
                <string>Логин</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="STRAZH_IP_lineEdit__login">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__login">
               <property name="geometry">
                <rect>
                 <x>280</x>
@@ -903,7 +903,7 @@
                <string>Пароль</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="STRAZH_IP_lineEdit__password">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__password">
               <property name="geometry">
                <rect>
                 <x>280</x>
@@ -926,7 +926,7 @@
                <string>IP-адрес поворотной камеры</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="STRAZH_IP_lineEdit__IPaddres_rotary_device">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddres_rotary_device">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -1349,7 +1349,7 @@
              </widget>
             </widget>
             <widget class="QWidget" name="NET_DEV_groupbox">
-             <widget class="QLineEdit" name="NET_DEV_IP_lineEdit">
+             <widget class="My_lineEdit" name="NET_DEV_IP_lineEdit">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -1389,7 +1389,7 @@
                <string>IP-адрес </string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="CD_UdpAdress_lineEdit">
+             <widget class="My_lineEdit" name="CD_UdpAdress_lineEdit">
               <property name="geometry">
                <rect>
                 <x>80</x>
@@ -1430,7 +1430,7 @@
                <string>Номер порта </string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="CD_UpdPort_lineEdit">
+             <widget class="My_lineEdit" name="CD_UpdPort_lineEdit">
               <property name="geometry">
                <rect>
                 <x>150</x>
@@ -1972,7 +1972,7 @@
               </property>
              </item>
             </widget>
-            <widget class="QLineEdit" name="ipadress_lineedit">
+            <widget class="My_lineEdit" name="ipadress_lineedit">
              <property name="geometry">
               <rect>
                <x>90</x>
@@ -2060,7 +2060,7 @@
               <property name="title">
                <string>Доп.информация (только для режима интеграции с внешним ПО)</string>
               </property>
-              <widget class="QLineEdit" name="Dop_info_description_lineedit">
+              <widget class="My_lineEdit" name="Dop_info_description_lineedit">
                <property name="geometry">
                 <rect>
                  <x>10</x>
@@ -2306,7 +2306,7 @@
                 <string>Y прав.низ</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="mouse_Y">
+              <widget class="My_lineEdit" name="mouse_Y">
                <property name="geometry">
                 <rect>
                  <x>495</x>
@@ -2408,7 +2408,7 @@
                 <double>9999.989999999999782</double>
                </property>
               </widget>
-              <widget class="QLineEdit" name="mouse_X">
+              <widget class="My_lineEdit" name="mouse_X">
                <property name="geometry">
                 <rect>
                  <x>440</x>
@@ -2923,7 +2923,7 @@
              <string>Режим</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="SQL_server_lineEdit">
+           <widget class="My_lineEdit" name="SQL_server_lineEdit">
             <property name="geometry">
              <rect>
               <x>115</x>
@@ -2981,7 +2981,7 @@
              <string>Порт</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="SQL_login_lineEdit">
+           <widget class="My_lineEdit" name="SQL_login_lineEdit">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -3007,7 +3007,7 @@
              <string>Логин</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="SQL_password_lineEdit">
+           <widget class="My_lineEdit" name="SQL_password_lineEdit">
             <property name="geometry">
              <rect>
               <x>160</x>
@@ -3030,7 +3030,7 @@
              <string>Пароль</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="SQL_database_lineEdit">
+           <widget class="My_lineEdit" name="SQL_database_lineEdit">
             <property name="geometry">
              <rect>
               <x>9</x>
@@ -3233,7 +3233,7 @@
            <string>Режим</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="INTEGRATION_Host_lineEdit">
+         <widget class="My_lineEdit" name="INTEGRATION_Host_lineEdit">
           <property name="geometry">
            <rect>
             <x>115</x>
@@ -3361,7 +3361,7 @@
          <property name="title">
           <string>Интеграция с DevLine</string>
          </property>
-         <widget class="QLineEdit" name="INTEGRATION_DevLine_filepath_lineEdit">
+         <widget class="My_lineEdit" name="INTEGRATION_DevLine_filepath_lineEdit">
           <property name="geometry">
            <rect>
             <x>10</x>

@@ -120,7 +120,7 @@
     <string>Порт для второго монитора, (&quot;Кедр&quot;)</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="Name">
+  <widget class="My_lineEdit" name="Name">
    <property name="geometry">
     <rect>
      <x>0</x>
