@@ -832,7 +832,6 @@ qDebug()
 
     case TypeUnitNode::DEVLINE:
     this->get_option_DEVLINE(unit);
-//    coordinate_devline(true,unit->getNum2(),unit->getNum3(),unit->getX(),unit->getY());
     break;
 
     case TypeUnitNode::RASTRMTV:
@@ -2319,6 +2318,7 @@ case TypeUnitNode::TOROS:
     this->RS485_UDP_set_from_unit(unit);
     coordinate_menu(true,true,unit->getLan(),unit->getLon(),unit->getDescription());
     this->ui->TOROS_Num1->setCurrentText(QString::number(unit->getNum1()));
+break;
 
 case TypeUnitNode::DEVLINE:
     this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
