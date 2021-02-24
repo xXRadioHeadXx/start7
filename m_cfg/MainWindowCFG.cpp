@@ -1095,7 +1095,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
         unit->setDescription(ui->Dop_info_description_lineedit->text());
 
     case TypeUnitNode::DEVLINE:
-
+    qDebug()<<"[DEVLINE]";
         unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
         unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
         unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());
@@ -2326,7 +2326,7 @@ case TypeUnitNode::DEVLINE:
     this->ui->DEVLINE_Num1->setValue(unit->getNum1());
     this->ui->DEVLINE_OutType->setCurrentText(QString::number(unit->getOutType()));
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->devline_coordinates);
-    coordinate_devline(false,0,0,0,0);
+    coordinate_devline(false,unit->getNum2(),unit->getNum3(),unit->getX(),unit->getY());
 break;
 
 case TypeUnitNode::RASTRMTV:
@@ -6042,6 +6042,8 @@ void MainWindowCFG::get_option_DEVLINE(UnitNode *unit)
     string1.append(" ");
     string1.append("Поток: ");
     string1.append(QString::number(unit->getOutType()));
+
+
 
     this->ui->textEdit->append(string1);
 
