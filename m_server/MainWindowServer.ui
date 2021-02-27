@@ -14,7 +14,7 @@
    <string>MainWindowServer</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resource.qrc">
+   <iconset resource="resource.qrc">
     <normaloff>:/icons/shield.png</normaloff>:/icons/shield.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -30,7 +30,7 @@
          <string>Сброс звука</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset resource="resource.qrc">
           <normaloff>:/icons/sound_off_20_20.png</normaloff>:/icons/sound_off_20_20.png</iconset>
         </property>
         <property name="iconSize">
@@ -50,7 +50,7 @@
          <string>Сброс тревог</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset resource="resource.qrc">
           <normaloff>:/icons/reset_alarm_20_20.png</normaloff>:/icons/reset_alarm_20_20.png</iconset>
         </property>
         <property name="iconSize">
@@ -67,7 +67,7 @@
          <string>Звук &quot;Тревога&quot;</string>
         </property>
         <property name="icon">
-         <iconset resource="Resource.qrc">
+         <iconset resource="resource.qrc">
           <normaloff>:/icons/sound_on_20_20.png</normaloff>:/icons/sound_on_20_20.png</iconset>
         </property>
         <property name="iconSize">
@@ -158,6 +158,21 @@
            <string>Настройка</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
+           <property name="leftMargin">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>1</number>
+           </property>
+           <property name="bottomMargin">
+            <number>1</number>
+           </property>
+           <property name="spacing">
+            <number>1</number>
+           </property>
            <item row="0" column="0" colspan="2">
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="minimumSize">
@@ -167,7 +182,7 @@
               </size>
              </property>
              <property name="frameShape">
-              <enum>QFrame::Box</enum>
+              <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
               <number>3</number>
@@ -187,8 +202,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>437</width>
-                    <height>202</height>
+                    <width>481</width>
+                    <height>214</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_6">
@@ -300,9 +315,9 @@
                   <property name="geometry">
                    <rect>
                     <x>0</x>
-                    <y>-41</y>
-                    <width>421</width>
-                    <height>243</height>
+                    <y>0</y>
+                    <width>467</width>
+                    <height>290</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_7">
@@ -516,8 +531,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>421</width>
-                    <height>606</height>
+                    <width>467</width>
+                    <height>630</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_10">
@@ -1044,8 +1059,26 @@
              </widget>
              <widget class="QWidget" name="page_Point">
               <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="spacing">
+                <number>1</number>
+               </property>
+               <property name="leftMargin">
+                <number>1</number>
+               </property>
+               <property name="topMargin">
+                <number>1</number>
+               </property>
+               <property name="rightMargin">
+                <number>1</number>
+               </property>
+               <property name="bottomMargin">
+                <number>1</number>
+               </property>
                <item>
                 <widget class="QScrollArea" name="scrollArea_8">
+                 <property name="frameShape">
+                  <enum>QFrame::NoFrame</enum>
+                 </property>
                  <property name="horizontalScrollBarPolicy">
                   <enum>Qt::ScrollBarAlwaysOff</enum>
                  </property>
@@ -1057,8 +1090,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>437</width>
-                    <height>202</height>
+                    <width>499</width>
+                    <height>232</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_11">
@@ -1316,7 +1349,7 @@
      <x>0</x>
      <y>0</y>
      <width>998</width>
-     <height>18</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -1403,7 +1436,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNewScheme">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="resource.qrc">
      <normaloff>:/icons/new_duty_20_20.png</normaloff>:/icons/new_duty_20_20.png</iconset>
    </property>
    <property name="text">
@@ -1412,7 +1445,7 @@
   </action>
   <action name="actionDataBase">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="resource.qrc">
      <normaloff>:/icons/database_20_20.png</normaloff>:/icons/database_20_20.png</iconset>
    </property>
    <property name="text">
@@ -1427,7 +1460,7 @@
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="resource.qrc">
      <normaloff>:/icons/exit_20_20.png</normaloff>:/icons/exit_20_20.png</iconset>
    </property>
    <property name="text">
@@ -1436,7 +1469,7 @@
   </action>
   <action name="actionSoundReset">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="resource.qrc">
      <normaloff>:/icons/sound_off_20_20.png</normaloff>:/icons/sound_off_20_20.png</iconset>
    </property>
    <property name="text">
@@ -1445,7 +1478,7 @@
   </action>
   <action name="actionAlarmReset">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="resource.qrc">
      <normaloff>:/icons/reset_alarm_20_20.png</normaloff>:/icons/reset_alarm_20_20.png</iconset>
    </property>
    <property name="text">
@@ -1454,7 +1487,7 @@
   </action>
   <action name="actionSoundAlarm">
    <property name="icon">
-    <iconset resource="Resource.qrc">
+    <iconset resource="resource.qrc">
      <normaloff>:/icons/sound_on_20_20.png</normaloff>:/icons/sound_on_20_20.png</iconset>
    </property>
    <property name="text">
@@ -1640,7 +1673,7 @@
   </action>
  </widget>
  <resources>
-  <include location="Resource.qrc"/>
+  <include location="resource.qrc"/>
  </resources>
  <connections/>
 </ui>

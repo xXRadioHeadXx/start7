@@ -814,18 +814,22 @@ void MainWindowServer::preparePageCustomization(int /*typeUN*/)
     case TypeUnitNode::RLM_C:
         preparePageRLM(selUN);
         ui->stackedWidget->setCurrentIndex(0);
+        ui->stackedWidget->setMaximumHeight(140);
         break;
     case TypeUnitNode::TG:
         preparePagePoint(selUN->getType());
         ui->stackedWidget->setCurrentIndex(3);
+        ui->stackedWidget->setMaximumHeight(185);
         break;
     case TypeUnitNode::DD_SOTA:
         preparePageSota1(selUN->getType());
         ui->stackedWidget->setCurrentIndex(1);
+        ui->stackedWidget->setMaximumHeight(200);
         break;
     case TypeUnitNode::DD_T4K_M:
         preparePageSota2(selUN->getType());
         ui->stackedWidget->setCurrentIndex(2);
+        ui->stackedWidget->setMaximumHeight(200);
         break;
     default:
         ui->groupBox_Customization->setVisible(false);
