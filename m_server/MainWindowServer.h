@@ -110,6 +110,12 @@ private slots:
 
     void on_pushButton_WriteCustomization_clicked();
 
+//    void on_comboBox_RLMEdge_currentIndexChanged(int index);
+
+//    void on_comboBox_RLMCondition_currentIndexChanged(int index);
+
+//    void on_comboBox_RLMTactPeriod_currentIndexChanged(int index);
+
 protected:
     void closeEvent(QCloseEvent * event);
 
