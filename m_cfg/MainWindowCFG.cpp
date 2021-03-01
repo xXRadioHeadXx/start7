@@ -842,6 +842,10 @@ qDebug()
     this->get_option_INFO_TABLO(unit);
     break;
 
+    case TypeUnitNode::KL:
+    this->get_option_KL(unit);
+    break;
+
     }
 
 
@@ -855,7 +859,8 @@ void MainWindowCFG::get_option_GROUP(UnitNode *unit)
 
     this->ui->textEdit->clear();
     QString string1;
-    string1.append("Группа: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Группа</b> ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
     string1.append(unit->getName());
     this->ui->textEdit->append(string1);
 }
@@ -4014,12 +4019,12 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 
     if(unit->getBazalt()==1)
     {
-        string1.append("БЛ-IP Уз");
+            string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> Уз");
         string1.append("Кан:");
     }
     if(unit->getBazalt()==0)
     {
-        string1.append("БЛ-IP ");
+            string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
         string1.append("Кан:");
     }
 
@@ -4072,7 +4077,7 @@ void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
 
 
 
-        string1.append("БЛ-IP ");
+            string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
         string1.append("Кан:");
 
 
@@ -4114,7 +4119,7 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-    string1.append("Точка/Гарда: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка/Гарда</b> ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
     string1.append("ЧЭ: ");
@@ -4154,7 +4159,7 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-
+    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");
     if(0==unit->getAdamOff())
     string1.append(str_RIF_RLM);
 
@@ -4173,7 +4178,7 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     if(5==unit->getAdamOff())
     string1.append(str_trassa1l);
 
-    string1.append(":");
+    string1.append("</b>");
 
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
@@ -4220,7 +4225,7 @@ void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
 
 
 
-    string1.append("РИФ-РЛМ-С:");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  РИФ-РЛМ-С</b>");
 
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
@@ -4263,7 +4268,7 @@ void MainWindowCFG::get_option_BOD_T4K_M(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-    string1.append("Точка-М/Гарда-М ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка-М/Гарда-М</b> ");
 
     string1.append("Кан:");
 
@@ -4322,7 +4327,7 @@ void MainWindowCFG::get_option_Y4_T4K_M(UnitNode *unit)
    this->ui->textEdit->clear();
    QString string1;
 
-   string1.append("Точка-М/Гарда-М ");
+       string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка-М/Гарда-М</b> ");
 
    string1.append("Кан:");
 
@@ -4357,7 +4362,7 @@ void MainWindowCFG::get_option_DD_T4K_M(UnitNode *unit)
    this->ui->textEdit->clear();
    QString string1;
 
-   string1.append("Точка-М/Гарда-М ");
+       string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка-М/Гарда-М</b> ");
 
    string1.append("Кан:");
 
@@ -4387,7 +4392,7 @@ void MainWindowCFG::get_option_BOD_SOTA(UnitNode *unit)
 this->ui->textEdit->clear();
 QString string1;
 
-string1.append("Сота/Сота-М ");
+    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
 
 string1.append("Кан:");
 
@@ -4448,7 +4453,7 @@ void MainWindowCFG::get_option_Y4_SOTA(UnitNode *unit)
    this->ui->textEdit->clear();
    QString string1;
 
-   string1.append("Сота/Сота-М ");
+       string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
 
    string1.append("Кан:");
 
@@ -4483,7 +4488,7 @@ void MainWindowCFG::get_option_DD_SOTA(UnitNode *unit)
    this->ui->textEdit->clear();
    QString string1;
 
-   string1.append("Сота/Сота-М ");
+       string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
 
    string1.append("Кан:");
 
@@ -4516,7 +4521,7 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-    string1.append("Концентратор: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Концентратор</b> ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
     string1.append("СД: ");
@@ -4552,7 +4557,7 @@ void MainWindowCFG::get_option_ONVIF(UnitNode *unit)
 {
     this->ui->textEdit->clear();
     QString string1;
-    string1.append("ONVIF-камера: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ONVIF-камера</b> ");
     string1.append(unit->getIcon1Path());
 
 
@@ -4564,7 +4569,7 @@ void MainWindowCFG::get_option_STRAZH_IP(UnitNode *unit)
 {
     this->ui->textEdit->clear();
     QString string1;
-    string1.append("Страж- IP: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Страж- IP</b> ");
     string1.append(unit->getIcon1Path());
     string1.append("; ");
     string1.append(unit->getIcon4Path());
@@ -4578,7 +4583,7 @@ void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
 {
     this->ui->textEdit->clear();
     QString string1;
-    string1.append("Сетевое устройство: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сетевое устройство</b> ");
     string1.append(unit->getIcon1Path());
 
 
@@ -4758,6 +4763,8 @@ void MainWindowCFG::default_options()
 
     default_SSOI();
     default_TABLO();
+
+    default_ASOOSD();
     this->ui->RASTR_wgt->default_options();
     this->ui->ADAM_wgt->default_options();
     this->ui->AdmAud_wgt->default_options();
@@ -5502,9 +5509,24 @@ void MainWindowCFG::default_OPERATORS()
     operators_use=0;
 }
 
-void MainWindowCFG::get_ASOOSD(QString /*filename*/)
+void MainWindowCFG::get_ASOOSD(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+    settings.beginGroup("ASOOSD");
 
+      this->ui->ASOOSD_Use->setCurrentText(m_ASOOSD_use.value(settings.value("Use",0).toInt()));
+      this->ui->ASOOSD_Host->setText(settings.value("Host","").toString());
+      this->ui->ASOOSD_Port->setValue(settings.value("Port",0).toInt());
+
+
+
+
+  settings.endGroup();
 }
 
 void MainWindowCFG::set_ASOOSD(QString /*filename*/)
@@ -5514,6 +5536,13 @@ void MainWindowCFG::set_ASOOSD(QString /*filename*/)
 
 void MainWindowCFG::default_ASOOSD()
 {
+    foreach(QString str,m_ASOOSD_use)
+        this->ui->ASOOSD_Use->addItem(str);
+
+
+    this->ui->ASOOSD_Use->setCurrentText(m_ASOOSD_use.value(0));
+    this->ui->ASOOSD_Host->setText("localhost");
+    this->ui->ASOOSD_Port->setValue(1975);
 
 }
 
@@ -6483,6 +6512,19 @@ int res=0;
         settings.endGroup();
         }
        qDebug()<<"OPERATORS";
+
+
+       settings.beginGroup("ASOOSD");
+//       settings.setValue("Count",List.count()-1);
+
+settings.setValue("Use",m_ASOOSD_use.key(this->ui->ASOOSD_Use->currentText()));
+settings.setValue("Host",this->ui->ASOOSD_Host->text());
+settings.setValue("Port",this->ui->ASOOSD_Port->value());
+
+       settings.endGroup();
+
+
+
 
     settings.beginGroup("TREE");
     settings.setValue("Count",List.count()-1);

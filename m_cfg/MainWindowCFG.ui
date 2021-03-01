@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>8</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -637,7 +637,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>17</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -3395,6 +3395,103 @@
           </property>
           <property name="text">
            <string>Путь к исполняемому файлу Observer.exe</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_ASOOSD">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>270</y>
+           <width>572</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Интеграция с АСООСД</string>
+         </property>
+         <widget class="QComboBox" name="ASOOSD_Use">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>40</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_54">
+          <property name="geometry">
+           <rect>
+            <x>350</x>
+            <y>17</y>
+            <width>131</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Порт сервера</string>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="ASOOSD_Port">
+          <property name="geometry">
+           <rect>
+            <x>350</x>
+            <y>40</y>
+            <width>100</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="decimals">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <double>9999.000000000000000</double>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_104">
+          <property name="geometry">
+           <rect>
+            <x>140</x>
+            <y>14</y>
+            <width>181</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Сервер/БД</string>
+          </property>
+         </widget>
+         <widget class="My_lineEdit" name="ASOOSD_Host" native="true">
+          <property name="geometry">
+           <rect>
+            <x>140</x>
+            <y>40</y>
+            <width>201</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="inputMask" stdset="0">
+           <string/>
+          </property>
+          <property name="text" stdset="0">
+           <string/>
+          </property>
+          <property name="clearButtonEnabled" stdset="0">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_105">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>14</y>
+            <width>101</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Режим</string>
           </property>
          </widget>
         </widget>
