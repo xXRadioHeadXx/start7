@@ -18,7 +18,7 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
     connect(m_tcpServer, SIGNAL(dataReceived(DataQueueItem)), this, SLOT(manageOverallReadQueue()));
 
     try {
-        QSettings settings("rifx.ini", QSettings::IniFormat);
+        QSettings settings(QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ), QSettings::IniFormat);
     #if (defined (_WIN32) || defined (_WIN64))
         settings.setIniCodec( "Windows-1251" );
     #else

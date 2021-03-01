@@ -771,7 +771,7 @@ void MainWindowServer::lockOpenClose(bool val)
 void MainWindowServer::on_actionDataBase_triggered()
 {
     QProcess *process = new QProcess(this);
-    QString file = "m_db";
+    QString file = QString( QCoreApplication::applicationDirPath() + "/m_db" );
 #if (defined (_WIN32) || defined (_WIN64))
     // windows code
     file.append(".exe");
@@ -782,7 +782,7 @@ void MainWindowServer::on_actionDataBase_triggered()
 void MainWindowServer::on_actionUNSqlSelect_triggered()
 {
     QProcess *process = new QProcess(this);
-    QString file = "m_db";
+    QString file = QString( QCoreApplication::applicationDirPath() + "/m_db" );
 
 #if (defined (_WIN32) || defined (_WIN64))
     // windows code

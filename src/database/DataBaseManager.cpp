@@ -108,7 +108,7 @@ QSqlDatabase& DataBaseManager::m_db()
             QString userName;
             QString password;
             QString port;
-            QSettings settings("rifx.ini", QSettings::IniFormat);
+            QSettings settings(QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ), QSettings::IniFormat);
             settings.beginGroup("PostgresSQL");
             hostName = settings.value( "Host", "127.0.0.1" ).toString();//("127.0.0.1");
             hostName = Utils::strHostAddress(hostName);
