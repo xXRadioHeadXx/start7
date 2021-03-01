@@ -14,6 +14,9 @@ ProcessDKWaiter::~ProcessDKWaiter()
 {
     qDebug() << "ProcessDKWaiter::~ProcessDKWaiter(" << this << ") <--";
     Port::typeDefPort(getPtrPort())->setProcDK(false);
+    if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
+        getUnReciver()->setDkInvolved(false);
+    }
 }
 
 QList<UnitNode *> ProcessDKWaiter::getLsTrackedUN() const
@@ -104,6 +107,7 @@ void ProcessDKWaiter::init() {
                 this->lsTrackedUN.append(uncld);
             }
         }
+        getUnReciver()->setDkInvolved(true);
     } else if(TypeUnitNode::RLM_C == getUnReciver()->getType() || TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
         getUnReciver()->setDkInvolved(true);
         getUnReciver()->setDkStatus(DKCiclStatus::DKReady);

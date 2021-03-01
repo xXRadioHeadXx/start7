@@ -909,7 +909,22 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
-                if(isLockPair) {
+                if(un->getParentUN()->getDkInvolved()) {
+//                    qDebug() << "DkInvolved continue " << un->toString();
+                    if(nullptr != previousCopyUNLockSdBlIp.data()) {
+                        delete previousCopyUNLockSdBlIp.data();
+                        previousCopyUNLockSdBlIp = nullptr;
+                    }
+                    if(nullptr != previousCopyUNLockIuBlIp.data()) {
+                        delete previousCopyUNLockIuBlIp.data();
+                        previousCopyUNLockIuBlIp = nullptr;
+                    }
+                    if(nullptr != previousCopyUN.data()) {
+                        delete previousCopyUN.data();
+                        previousCopyUN = nullptr;
+                    }
+                    continue;
+                } else if(isLockPair) {
                     if(
                             (1 == previousCopyUNLockSdBlIp->isAlarm() &&
                              1 == previousCopyUNLockIuBlIp->isOff() && //Открыто
@@ -937,41 +952,41 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         continue;
                     }
 
-/*                    if(1 == previousCopyUNLockSdBlIp->isAlarm() &&
+                    if(1 == previousCopyUNLockSdBlIp->isAlarm() &&
                        1 == previousCopyUNLockIuBlIp->isOff()) {
                         //Открыто
-//                        qDebug() << "isLockPair Old O " << un->toString();
+                        qDebug() << "isLockPair Old O " << un->toString();
                     } else if(1 == previousCopyUNLockSdBlIp->isNorm() &&
                               1 == previousCopyUNLockIuBlIp->isOn()) {
                         //Закрыто
-//                        qDebug() << "isLockPair Old L " << un->toString();
+                        qDebug() << "isLockPair Old L " << un->toString();
                     } else if(1 == previousCopyUNLockSdBlIp->isAlarm() &&
                               1 == previousCopyUNLockIuBlIp->isOn()) {
                         //Открыто ключом
-//                        qDebug() << "isLockPair Old OK " << un->toString();
+                        qDebug() << "isLockPair Old OK " << un->toString();
                     } else if(1 == previousCopyUNLockSdBlIp->isNorm() &&
                               1 == previousCopyUNLockIuBlIp->isOff()) {
                         //Закрыто ключом
-//                        qDebug() << "isLockPair Old LK " << un->toString();
+                        qDebug() << "isLockPair Old LK " << un->toString();
                     }
 
                     if(1 == unLockSdBlIp->isAlarm() &&
                        1 == unLockIuBlIp->isOff()) {
                         //Открыто
-//                        qDebug() << "isLockPair New O " << un->toString();
+                        qDebug() << "isLockPair New O " << un->toString();
                     } else if(1 == unLockSdBlIp->isNorm() &&
                               1 == unLockIuBlIp->isOn()) {
                         //Закрыто
-//                        qDebug() << "isLockPair New L " << un->toString();
+                        qDebug() << "isLockPair New L " << un->toString();
                     } else if(1 == unLockSdBlIp->isAlarm() &&
                               1 == unLockIuBlIp->isOn()) {
                         //Открыто ключом
-//                        qDebug() << "isLockPair New OK " << un->toString();
+                        qDebug() << "isLockPair New OK " << un->toString();
                     } else if(1 == unLockSdBlIp->isNorm() &&
                               1 == unLockIuBlIp->isOff()) {
                         //Закрыто ключом
-//                        qDebug() << "isLockPair New LK " << un->toString();
-                    }*/
+                        qDebug() << "isLockPair New LK " << un->toString();
+                    }
 
                     msg.setObject(unLockSdBlIp->getName());
 //                    qDebug() << "isLockPair " << un->getName();

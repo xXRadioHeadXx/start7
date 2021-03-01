@@ -194,6 +194,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
     if(nullptr == sel) {
         ui->labelSelectedUN->clear();
+        ui->labelSelectedUN->setVisible(false);
         return;
     }
 
@@ -217,6 +218,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
     } else
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + "\t" + sel->getName());
+    ui->labelSelectedUN->setVisible(true);
 
 }
 
