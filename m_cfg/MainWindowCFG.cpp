@@ -4183,13 +4183,16 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     string1.append(" ");
 
 
-    string1.append("Кан:");
 
-    string1.append(QString::number(unit->getNum3()));
-    string1.append(" ");
 
     if(unit->getUdpUse()==0)
     {
+
+        string1.append("Кан:");
+
+        string1.append(QString::number(unit->getNum3()));
+        string1.append(" ");
+
   // string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
@@ -4230,13 +4233,15 @@ void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
     string1.append(" ");
 
 
-    string1.append("Кан:");
 
-    string1.append(QString::number(unit->getNum3()));
-    string1.append(" ");
 
     if(unit->getUdpUse()==0)
     {
+        string1.append("Кан:");
+
+        string1.append(QString::number(unit->getNum3()));
+        string1.append(" ");
+
  //  string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
@@ -4530,6 +4535,9 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
 
     if(unit->getUdpUse()==0)
     {
+
+
+
    string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
