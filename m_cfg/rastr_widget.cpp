@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QHostInfo>
 #include <QDir>
+#include <QMessageBox>
 
 RASTR_Widget::RASTR_Widget(QWidget *parent) :
     QWidget(parent),
@@ -208,9 +209,12 @@ void RASTR_Widget::on_Use_activated(const QString &arg1)
      }
      else
      {
-         dialog.showMessage("Файл rastrmtv_cfg.ini не найден");
-         dialog.exec();
+//         dialog.showMessage("Файл rastrmtv_cfg.ini не найден");
+//         dialog.exec();
+         QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
          this->ui->Use->setCurrentIndex(0);
+
+
      }
     }
 }
