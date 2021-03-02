@@ -75,7 +75,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 //ui->ipadress_lineedit->setInputMask( "000.000.000.000" );
 
-    this->ui->SQL_password_lineEdit->setEchoMode(QLineEdit::Password);
+    this->ui->SQL_password_lineEdit->setEchoMode(QLineEdit::PasswordEchoOnEdit);
 
     ui->tableView->verticalHeader()->setVisible(false);
     rif_model = new rif_widget_model();
