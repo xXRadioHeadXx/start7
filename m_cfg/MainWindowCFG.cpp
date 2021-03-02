@@ -1316,7 +1316,6 @@ void MainWindowCFG::on_actionSave_triggered()
          file.close();
     this->save_ini(path);
 
-             //     qDebug()<<"password"<<this->XOR_Crypt(this->ui->SQL_password_lineEdit->text());
 
                   if(this->ui->SQL_type_comboBox->currentText()!="Выкл")
                   {
@@ -1325,34 +1324,18 @@ void MainWindowCFG::on_actionSave_triggered()
                       if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
                       {
                       my->beginGroup("MYSQL");
-
-
-
-
-                      QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
-
-//str_res.toLocal8Bit().toHex();
-
-
-
-                      qDebug()<<"password "<<ar<<"   "<<QString::fromUtf8(ar);
-
-
-                      QByteArray rezz=this->convert(ar);
-
-
-                      my->set_value("Password",rezz);
-                      qDebug()<<"PASSWORD "<<rezz<<" "<<rezz.toHex();
-
-                      my->save_ini(path);
-
-                      my->endGroup();
                       }
                       if(this->ui->SQL_type_comboBox->currentText()=="Postgres")
                       {
                       my->beginGroup("PostgreSQL");
-
                       }
+                      QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
+                      qDebug()<<"password "<<ar<<"   "<<QString::fromUtf8(ar);
+                      QByteArray rezz=this->convert(ar);
+                      my->set_value("Password",rezz);
+                      qDebug()<<"PASSWORD "<<rezz<<" "<<rezz.toHex();
+                      my->save_ini(path);
+                      my->endGroup();
 
                   }
 }
