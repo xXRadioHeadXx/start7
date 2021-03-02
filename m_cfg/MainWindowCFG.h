@@ -264,7 +264,7 @@ private:
 
 
 
-
+    QByteArray convert(QByteArray src);
 
 
 

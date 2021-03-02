@@ -37,13 +37,13 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->setupUi(this);
 
-    QString str="QWERTY12345";
-    QString crypts;
-    QString res;
-    crypts.append(XOR_Crypt(str));
-    res.append(XOR_Crypt(crypts));
-    qDebug()<<"crypts"<<crypts;
-    qDebug()<<"res"<<res;
+//    QString str="QWERTY12345";
+//    QString crypts;
+//    QString res;
+//    crypts.append(XOR_Crypt(str));
+//    res.append(XOR_Crypt(crypts));
+//    qDebug()<<"crypts"<<crypts;
+//    qDebug()<<"res"<<res;
 
 
 
@@ -247,7 +247,7 @@ for(int i=1;i<1000;i++)
     }
 
     str.append(QString::number(i));
-    qDebug()<<str;
+//    qDebug()<<str;
     this->ui->TABLO_Num2->addItem(str);
 }
 
@@ -406,8 +406,8 @@ qSort(l_Unittype.begin(), l_Unittype.end(), [](const QVariant &v1,
                                                                 );
 
 
-qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype.indexOf(str_GROUP);
-qDebug()<<"l_Unittype.count(ГРУППА);"<<l_Unittype.count(str_GROUP);
+//qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype.indexOf(str_GROUP);
+//qDebug()<<"l_Unittype.count(ГРУППА);"<<l_Unittype.count(str_GROUP);
 l_Unittype.move(l_Unittype.indexOf(str_GROUP),0);
 l_Unittype.move(l_Unittype.indexOf(str_Y4_SOTA),(l_Unittype.indexOf(str_BOD_SOTA)+1));
 l_Unittype.move(l_Unittype.indexOf(str_DD_SOTA),(l_Unittype.indexOf(str_BOD_SOTA)+2));
@@ -694,7 +694,7 @@ this->ui->pushButton_4->setDisabled(true);
      this->ui->tabWidget->setCurrentIndex(2);
 
    //     this->ui->stackedWidget->setCurrentWidget()
-        qDebug()<<"[+]";
+   //     qDebug()<<"[+]";
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
   //  this->object_menu_change(unit->getType());
     this->object_menu_set_enabled_for_edit(false);
@@ -1316,7 +1316,7 @@ void MainWindowCFG::on_actionSave_triggered()
          file.close();
     this->save_ini(path);
 
-                  qDebug()<<"password"<<this->XOR_Crypt(this->ui->SQL_password_lineEdit->text());
+             //     qDebug()<<"password"<<this->XOR_Crypt(this->ui->SQL_password_lineEdit->text());
 
                   if(this->ui->SQL_type_comboBox->currentText()!="Выкл")
                   {
@@ -1326,28 +1326,27 @@ void MainWindowCFG::on_actionSave_triggered()
                       {
                       my->beginGroup("MYSQL");
 
-                      QByteArray ar=this->XOR_Crypt(this->ui->SQL_password_lineEdit->text()).toUtf8();
 
-                     QByteArray res;
-                     QByteArray xx;
-                     res.clear();
 
-                     QString sstr=ar;
-                      for(int i=0;i<sstr.size();i++)
-                      {
-                      QString str;
-                      str.append(sstr[i]);
 
-                      qDebug()<<str.toInt();
+                      QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
 
-                      }
+//str_res.toLocal8Bit().toHex();
 
-                      qDebug()<<"password "<<ar.toHex()<<"   "<<QString::fromUtf8(ar);
-                       qDebug()<<res.toHex();
 
-                      my->set_value("Password",ar);
+
+                      qDebug()<<"password "<<ar<<"   "<<QString::fromUtf8(ar);
+
+
+                      QByteArray rezz=this->convert(ar);
+
+
+                      my->set_value("Password",rezz);
+                      qDebug()<<"PASSWORD "<<rezz<<" "<<rezz.toHex();
 
                       my->save_ini(path);
+
+                      my->endGroup();
                       }
                       if(this->ui->SQL_type_comboBox->currentText()=="Postgres")
                       {
@@ -1398,6 +1397,7 @@ QString MainWindowCFG::XOR_Crypt(QString src)
 {
         qDebug()<<"[XOR_Crypt]";
     QByteArray ar=src.toLocal8Bit();
+    qDebug()<<src<<" "<<ar.toHex();
 qDebug()<<"src "<<src;
 QString key="start7";
 
@@ -1426,7 +1426,8 @@ QString key="start7";
          res.append(chr);
     }
     QString str_res = QString::fromLocal8Bit(res);
-    qDebug()<<"res "<<str_res;
+    qDebug()<<"res "<<str_res<<" "<<str_res.toLocal8Bit().toHex();
+            qDebug()<<"[end XOR_Crypt]";
 return str_res;
 
 }
@@ -7540,4 +7541,40 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->object_menu_change(type);
 
 
+}
+
+QByteArray MainWindowCFG::convert(QByteArray src)
+{
+  //  QByteArray src=srcc.toHex();
+    qDebug()<<"[convert]";
+    qDebug()<<QString::fromLocal8Bit(src);
+    QByteArray res;
+    res.clear();
+    for(int i=0;i<src.size();i++)
+    {
+        QByteArray one;
+
+        one.append(src[i]);
+
+      //  qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt();
+        int v1=QString::fromUtf8(one).toInt(nullptr,16);
+
+        QByteArray two;
+
+        two.append(src[i+1]);
+
+         qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt(nullptr,16)<<QString::fromUtf8(two)<<" "<<QString::fromUtf8(one).toInt(nullptr,16);
+        int v2=QString::fromUtf8(two).toInt(nullptr,16);
+
+        quint64 val=v1*0x10+v2;
+        qDebug()<<(v1*0x10)<<" "<<v2;
+        i++;
+
+        res.append(val);
+
+
+    }
+    qDebug()<<res<<" "<<res.toHex();
+    qDebug()<<"[end convert]";
+    return res;
 }
