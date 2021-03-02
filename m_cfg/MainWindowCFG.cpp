@@ -2591,7 +2591,6 @@ this->ui->IU_BL_IP_num_combobox->setEnabled(true);
 void MainWindowCFG::RS485_UDP_set_default_with_timeout(int timeout)
 {
 qDebug()<<"[RS485_UDP_set_default_with_timeout(int timeout)]";
-this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
 this->ui->UDP_RS485_Widget->setVisible(true);
 this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
 this->ui->UDP_RS485_combobox->setCurrentText(" RS485");

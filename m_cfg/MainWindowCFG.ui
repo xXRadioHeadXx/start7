@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>8</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -637,7 +637,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>15</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1888,7 +1888,7 @@
                 <number>0</number>
                </property>
                <property name="maximum">
-                <double>4001.000000000000000</double>
+                <double>9999999999999999635896294965248.000000000000000</double>
                </property>
                <property name="value">
                 <double>4000.000000000000000</double>
