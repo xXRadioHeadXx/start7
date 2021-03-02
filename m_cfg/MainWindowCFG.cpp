@@ -20,6 +20,7 @@
 
 
 
+
 //#include <libusb-1.0/libusb.h>
 
 #if (defined (_WIN32) || defined (_WIN64))
@@ -1314,6 +1315,47 @@ void MainWindowCFG::on_actionSave_triggered()
          // optional, as QFile destructor will already do it:
          file.close();
     this->save_ini(path);
+
+                  qDebug()<<"password"<<this->XOR_Crypt(this->ui->SQL_password_lineEdit->text());
+
+                  if(this->ui->SQL_type_comboBox->currentText()!="Выкл")
+                  {
+                  my=new My_settings(path);
+
+                      if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
+                      {
+                      my->beginGroup("MYSQL");
+
+                      QByteArray ar=this->XOR_Crypt(this->ui->SQL_password_lineEdit->text()).toUtf8();
+
+                     QByteArray res;
+                     QByteArray xx;
+                     res.clear();
+
+                     QString sstr=ar;
+                      for(int i=0;i<sstr.size();i++)
+                      {
+                      QString str;
+                      str.append(sstr[i]);
+
+                      qDebug()<<str.toInt();
+
+                      }
+
+                      qDebug()<<"password "<<ar.toHex()<<"   "<<QString::fromUtf8(ar);
+                       qDebug()<<res.toHex();
+
+                      my->set_value("Password",ar);
+
+                      my->save_ini(path);
+                      }
+                      if(this->ui->SQL_type_comboBox->currentText()=="Postgres")
+                      {
+                      my->beginGroup("PostgreSQL");
+
+                      }
+
+                  }
 }
 
 void MainWindowCFG::on_treeView_activated(const QModelIndex &/*index*/)

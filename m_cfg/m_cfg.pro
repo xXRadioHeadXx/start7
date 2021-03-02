@@ -34,10 +34,12 @@ SOURCES += \
     dbform.cpp \
     delegate.cpp \
     edit_unit_widget.cpp \
+    group.cpp \
     main.cpp \
     map.cpp \
     my_combobox.cpp \
     my_lineedit.cpp \
+    my_settings.cpp \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
@@ -65,9 +67,11 @@ HEADERS += \
     dbform.h \
     delegate.h \
     edit_unit_widget.h \
+    group.h \
     map.h \
     my_combobox.h \
     my_lineedit.h \
+    my_settings.h \
     mydrawobject.h \
     myscene.h \
     operator_form.h \

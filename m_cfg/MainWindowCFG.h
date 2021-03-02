@@ -20,6 +20,7 @@
 #include <rif_widget_model.h>
 #include <rif_widget_delegate.h>
 #include <QMessageBox>
+#include <my_settings.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -46,6 +47,7 @@ class MainWindowCFG : public QMainWindow
 private:
 
 
+    My_settings* my;
 
     QTimer *timer;
     QMap <QString, SerNum_Name> mSerNum_Name;
