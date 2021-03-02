@@ -140,7 +140,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
     }
-    else
+/*    else
     {
 
         QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
@@ -148,7 +148,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
         this->ui->RASTRMTV_Name_SerNum->addItem("не определено");
 //        this->ui->Use->setCurrentIndex(0);
-    }
+    }*/
 
 
 for(int i=1;i<5;i++)
