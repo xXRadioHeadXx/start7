@@ -986,7 +986,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
 
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -995,7 +995,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::IU_BL_IP:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
 
 
 
@@ -1004,20 +1004,25 @@ void MainWindowCFG::on_pushButton_4_clicked()
     case TypeUnitNode::TG:
 
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
     break;
 
     case TypeUnitNode::RLM_KRL:
-
-
+        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
 
 
     break;
 
     case TypeUnitNode::RLM_C:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1028,6 +1033,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::BOD_T4K_M:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1046,6 +1052,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::BOD_SOTA:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1062,6 +1069,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::KL:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1081,6 +1089,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::SSOI_SD:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1096,6 +1105,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::TOROS:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -2740,7 +2750,7 @@ if(enable==true)
         }
 
 
-    this->ui->timeout_doubleSpinBox->setDisabled(true);
+   // this->ui->timeout_doubleSpinBox->setDisabled(true);
     this->ui->port_combobox->setDisabled(true);
     this->ui->UdpPort_doubleSpinBox->setDisabled(true);
     this->ui->UDP_RS485_combobox->setDisabled(true);

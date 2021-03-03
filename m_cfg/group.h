@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include<QMap>
-#include<qDebug>
+#include <QDebug>
 
 class MY_GROUP : public QObject
 {

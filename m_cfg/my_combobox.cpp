@@ -1,5 +1,5 @@
 #include "my_combobox.h"
-#include <qDebug>
+#include <QDebug>
 //#include <global.hpp>
 #include <QStorageInfo>
 
@@ -73,7 +73,8 @@ void My_combobox::showPopup()
         qDebug() << "fileSystemType:" << storage.fileSystemType();
         qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
         qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-        this->ui->comboBox->addItem(storage.rootPath());
+        this->addItem(storage.rootPath());
+        //this->ui->comboBox->addItem(storage.rootPath());
         }
 
       /*  for (auto volume : QStorageInfo::mountedVolumes()) {
