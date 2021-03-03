@@ -2795,54 +2795,10 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
     if(unit->getNum2()<0||unit->getNum2()>8)
         return false;
 
-    //Если выбран RS-485
-    if(unit->getUdpUse()==0)
-    {
-        qDebug()<<"[RS485]";
-        //Контролируем отсутствие юнита с таким же Num2 и Num3
 
-           QList<UnitNode *> List1;
-           this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-           foreach(UnitNode *un, List1 )
-           {
-            if(un->getType()==unit->getType())
-            if(un->getUdpUse()==unit->getUdpUse())
-            if(un->getNum3()==unit->getNum3())
-            if(un->getNum2()==unit->getNum2())
-            {
-       //         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+    return no_equal_unit(this,unit,this->modelTreeUN->rootItemUN,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                         {return ((un->getNum2()==unit->getNum2()));});
 
-                return false;
-            }
-           }
-
-    }
-
-    //Если выбран UDP
-        if(unit->getUdpUse()==1)
-        {
-                    qDebug()<<"[UDP]";
-         //Контролируем отсутствие юнита с таким же Num2 и Num3
-
-               QList<UnitNode *> List1;
-               this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-               foreach(UnitNode *un, List1 )
-            {
-                   if(un->getType()==unit->getType())
-                   if(un->getUdpUse()==unit->getUdpUse())
-                   if(un->getUdpAdress()==unit->getUdpAdress())
-                   if(un->getNum2()==unit->getNum2())
-             {
-               //  this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                       QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-
-                 return false;
-             }
-            }
-         }
 
 
 
@@ -4629,13 +4585,13 @@ void MainWindowCFG::default_RIF()
      //  QModelIndex index = this->ui->tableView->indexAt(QPoint(i,1));
         QModelIndex index = this->rif_model->index(i,1,QModelIndex());
 
-       qDebug()<<index.row()<<" "<<index.column()<<" "<<this->rif_model->data(index,Qt::DisplayRole);
+
 
        this->rif_model->setData(index, 4800, Qt::EditRole);
 
         index = this->rif_model->index(i,2,QModelIndex());
 
-          qDebug()<<index.row()<<" "<<index.column()<<" "<<this->rif_model->data(index,Qt::DisplayRole);
+
 
        this->rif_model->setData(index, 50, Qt::EditRole);
 
