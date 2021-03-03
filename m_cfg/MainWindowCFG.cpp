@@ -1277,8 +1277,14 @@ void MainWindowCFG::on_actionCreate_triggered()
 void MainWindowCFG::on_actionOpen_triggered()
 {
      qDebug()<<"[Open]";
+     QString dir="";
+     #if (defined (_WIN32) || defined (_WIN64))
+         dir= "C:/Program Files/RIF/rifx.ini";
+     #else
+         dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
+     #endif
 
-     QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
+     QString patch=QFileDialog::getOpenFileName(this, "open file",dir,"*.ini");
       qDebug()<<"patch = "<<patch;
       if(patch!="")
       {
@@ -1305,7 +1311,13 @@ void MainWindowCFG::on_actionOpen_triggered()
 
 void MainWindowCFG::on_actionSave_triggered()
 {
-   QString path=QFileDialog::getSaveFileName(this, "save file","","*.ini");
+    QString dir="";
+    #if (defined (_WIN32) || defined (_WIN64))
+        dir= "C:/Program Files/RIFx/rifx.ini";
+    #else
+        dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
+    #endif
+   QString path=QFileDialog::getSaveFileName(this, "save file",dir,"*.ini");
 
        QFile file(path);
        file.open(QIODevice::WriteOnly | QIODevice::Text);
