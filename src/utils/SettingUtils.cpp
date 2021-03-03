@@ -5,6 +5,7 @@
 
 #include <Utils.h>
 #include <global.hpp>
+#include<QTextCodec>
 
 SettingUtils::SettingUtils()
 {
@@ -32,7 +33,11 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
 
 #if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+
+ settings.setIniCodec(codec);
+//    settings.setIniCodec( "Windows-1251" );
 #else
     settings.setIniCodec( "UTF-8" );
 #endif
