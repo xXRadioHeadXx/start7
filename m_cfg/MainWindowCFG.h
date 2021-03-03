@@ -78,7 +78,9 @@ private:
 
     QString get_unit_name(int type);
 
-    bool find_equal_unit(UnitNode *unit,bool (*is_equal)(UnitNode* unit,UnitNode* un));
+    bool no_equal_unit(MainWindowCFG* cfg,UnitNode *unit,UnitNode *supreme,bool (*is_equal)(MainWindowCFG* cfg,UnitNode* unit,UnitNode* un));
+    bool no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *unit, UnitNode *parent, bool (*is_equal)(MainWindowCFG *, UnitNode *, UnitNode *));
+
 
     void expandChildren(const QModelIndex &index);
     void collapseChildren(const QModelIndex &index);
