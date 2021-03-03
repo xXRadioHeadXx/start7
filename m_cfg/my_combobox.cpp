@@ -1,5 +1,5 @@
 #include "my_combobox.h"
-#include <qDebug>
+#include <QDebug>
 //#include <global.hpp>
 #include <QStorageInfo>
 

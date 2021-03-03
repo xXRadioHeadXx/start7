@@ -95,7 +95,7 @@ private:
     int UdpUse;//=0
     QString UdpAdress;//=
     int UdpPort;//=0
-    int UdpTimeout;
+    int UdpTimeout = 0;
     int Metka1Time_0;//=0
     int Metka1Time_1;//=0
     int Metka2Time_0;//=0
