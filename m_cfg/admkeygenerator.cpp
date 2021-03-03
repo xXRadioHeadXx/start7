@@ -4,11 +4,32 @@
 #include <QDebug>
 #include <QtCore/QtEndian>
 #include <QDateTime>
+#include <QtCore/qfloat16.h>
+#include <QtCore/qglobal.h>
 
 
-AdmKeyGenerator::AdmKeyGenerator()
+AdmKeyGenerator::AdmKeyGenerator(QObject *parent) : QObject(parent)
 {
+    watcher = new QDeviceWatcher;
+//    watcher->moveToThread(this);
+    watcher->appendEventReceiver(this);
 
+    connect(watcher,
+            SIGNAL(deviceAdded(QString)),
+            this,
+            SLOT(slotDeviceAdded(QString)),
+            Qt::DirectConnection);
+    connect(watcher,
+            SIGNAL(deviceChanged(QString)),
+            this,
+            SLOT(slotDeviceChanged(QString)),
+            Qt::DirectConnection);
+    connect(watcher,
+            SIGNAL(deviceRemoved(QString)),
+            this,
+            SLOT(slotDeviceRemoved(QString)),
+            Qt::DirectConnection);
+    watcher->start();
 }
 
 
@@ -29,7 +50,7 @@ void AdmKeyGenerator::create_key(QString filepath)
     if(file.open(QIODevice::WriteOnly))
     {
         QDataStream in1(&file);    // read the data serialized from the file
-
+        in1.setByteOrder(QDataStream::LittleEndian);
         double a;
         double b;
         double c;
@@ -50,9 +71,23 @@ void AdmKeyGenerator::create_key(QString filepath)
 
         c=b+a;
 
-        a=qFromBigEndian<double>(a);
-        b=qFromBigEndian<double>(b);
-        c=qFromBigEndian<double>(c);
+
+    //    auto a_temp = qFromUnaligned<typename QIntegerForSizeof<Float>::Unsigned>(&a);
+    //            a_temp = qbswap(a_temp);
+
+
+
+//     a=qFromBigEndian<double>(a);
+//        b=qFromBigEndian<double>(b);
+//        c=qFromBigEndian<double>(c);
+
+   //     qDebug()<<"a "<<a<<" "<<a_temp;
+
+        // memcpy call in qFromUnaligned is recognized by optimizer as a correct way of type prunning
+        //auto temp = qFromUnaligned<typename QIntegerForSizeof<Float>::Unsigned>(&source);
+        //temp = qbswap(temp);
+        //return qFromUnaligned<Float>(&temp);
+
 
 
 
@@ -86,6 +121,7 @@ bool AdmKeyGenerator::check_key(QString filepath)
     if(file.open(QIODevice::ReadOnly))
     {
         QDataStream in1(&file);    // read the data serialized from the file
+                in1.setByteOrder(QDataStream::LittleEndian);
         double a;
         double b;
         double c;
@@ -101,7 +137,7 @@ bool AdmKeyGenerator::check_key(QString filepath)
 
         file.close();
 
-        b=qFromBigEndian<double>(b);
+//        b=qFromBigEndian<double>(b);
 
         qDebug()<<"qFromBigEndian "  <<b;
         version=b;
@@ -109,17 +145,13 @@ bool AdmKeyGenerator::check_key(QString filepath)
 
 
 
-    qDebug()<<"a "<<a
-           <<"<qFromBigEndian<double>(a) "<<qFromBigEndian<double>(a)
-           <<"qFromLittleEndian<double>(a) "<<qFromLittleEndian<double>(a)
-           <<"qToBigEndian<double>(a) "<<qToBigEndian<double>(a)
-           <<"qToLittleEndian<double>(a) "<<qToLittleEndian<double>(a);
 
 
 
 
 
-        a=qFromBigEndian<double>(a);
+
+//        a=qFromBigEndian<double>(a);
 
         qDebug()<<"qFromBigEndian "  <<a;
 
@@ -134,7 +166,7 @@ bool AdmKeyGenerator::check_key(QString filepath)
         datetime=dt;
     //    this->ui->lineEdit_2->setText(dt.toString());
 
-        c=qFromBigEndian<double>(c);
+//        c=qFromBigEndian<double>(c);
 
         qDebug()<<"a "<<a;
         qDebug()<<"b "<<b;

@@ -237,7 +237,7 @@ Qt::ItemFlags TableModelMSG::flags(const QModelIndex &index) const
     // разрешаем редактирование
     if(4 == index.column() || 5 == index.column())
         result |= Qt::ItemIsEditable;
-    return result;
+
 }
 
 //добавление строки

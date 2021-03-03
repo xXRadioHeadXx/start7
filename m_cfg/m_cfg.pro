@@ -25,52 +25,76 @@ include(../src/global.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
+    adam_widget.cpp \
     add_sql_user_form.cpp \
+    admaud_widget.cpp \
     admkeygenerator.cpp \
     backgroundimage.cpp \
     comport.cpp \
     dbform.cpp \
+    delegate.cpp \
+    edit_unit_widget.cpp \
     main.cpp \
     map.cpp \
+    my_combobox.cpp \
+    my_lineedit.cpp \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
-    rastr_adam_widget.cpp \
+    qdevicewatcher.cpp \
+    qdevicewatcher_linux.cpp \
+    qdevicewatcher_win32.cpp \
+    rastr_widget.cpp \
+    rif_widget_delegate.cpp \
+    rif_widget_model.cpp \
     sqlunit.cpp \
-    ssoiportwidget.cpp \
-    ssoiwidget.cpp \
+    ssoi_port_widget.cpp \
+    ssoi_widget.cpp \
     tablo_widget.cpp
 
 
 
 HEADERS += \
     MainWindowCFG.h \
+    adam_widget.h \
     add_sql_user_form.h \
+    admaud_widget.h \
     admkeygenerator.h \
     backgroundimage.h \
     comport.h \
     dbform.h \
+    delegate.h \
+    edit_unit_widget.h \
     map.h \
+    my_combobox.h \
+    my_lineedit.h \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
-    rastr_adam_widget.h \
+    qdevicewatcher.h \
+    qdevicewatcher_p.h \
+    rastr_widget.h \
+    rif_widget_delegate.h \
+    rif_widget_model.h \
     sqlunit.h \
-    ssoiportwidget.h \
-    ssoiwidget.h \
+    ssoi_port_widget.h \
+    ssoi_widget.h \
     tablo_widget.h
 
 
 
 FORMS += \
     MainWindowCFG.ui \
+    adam_widget.ui \
     add_sql_user_form.ui \
+    admaud_widget.ui \
     dbform.ui \
+    edit_unit_widget.ui \
     map.ui \
     operator_form.ui \
-    rastr_adam_widget.ui \
-    ssoiportwidget.ui \
-    ssoiwidget.ui \
+    rastr_widget.ui \
+    ssoi_port_widget.ui \
+    ssoi_widget.ui \
     tablo_widget.ui
 
 # Default rules for deployment.

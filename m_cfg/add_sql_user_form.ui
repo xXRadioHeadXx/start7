@@ -41,7 +41,7 @@
    <property name="title">
     <string/>
    </property>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="My_lineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -77,7 +77,7 @@
      <string>Тип</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="My_lineEdit" name="lineEdit_2">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -100,7 +100,7 @@
      <string>Тип (повторный ввод)</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="My_lineEdit" name="lineEdit_3">
     <property name="geometry">
      <rect>
       <x>150</x>

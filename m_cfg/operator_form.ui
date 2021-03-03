@@ -34,15 +34,15 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>47</width>
-     <height>13</height>
+     <width>291</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string>Фамилия</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="FN_lineedit">
+  <widget class="My_lineEdit" name="FN_lineedit">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -65,7 +65,7 @@
     <string>Имя</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="N1_lineedit">
+  <widget class="My_lineEdit" name="N1_lineedit">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -80,7 +80,7 @@
     <rect>
      <x>160</x>
      <y>70</y>
-     <width>111</width>
+     <width>151</width>
      <height>16</height>
     </rect>
    </property>
@@ -88,7 +88,7 @@
     <string>Отчество</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="N2_lineedit">
+  <widget class="My_lineEdit" name="N2_lineedit">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -103,15 +103,15 @@
     <rect>
      <x>10</x>
      <y>150</y>
-     <width>47</width>
-     <height>13</height>
+     <width>301</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string>Пароль</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="PW_lineedit">
+  <widget class="My_lineEdit" name="PW_lineedit">
    <property name="geometry">
     <rect>
      <x>10</x>

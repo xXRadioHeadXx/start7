@@ -7,6 +7,9 @@ operator_form::operator_form(QWidget *parent) :
     ui(new Ui::operator_form)
 {
     ui->setupUi(this);
+
+    this->ui->PW_lineedit->setEchoMode(QLineEdit::Password);
+
 }
 
 operator_form::~operator_form()

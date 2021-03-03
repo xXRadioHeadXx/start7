@@ -1,25 +1,30 @@
-#ifndef SSOIWIDGET_H
-#define SSOIWIDGET_H
+#ifndef ssoi_widget_H
+#define ssoi_widget_H
 
 #include <QWidget>
 #include <QMap>
 #include <QErrorMessage>
 
 namespace Ui {
-class SSOIwidget;
+class ssoi_widget;
 }
 
-class SSOIwidget : public QWidget
+class ssoi_widget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SSOIwidget(QWidget *parent = nullptr);
-    ~SSOIwidget();
+    explicit ssoi_widget(QWidget *parent = nullptr);
+    ~ssoi_widget();
+
+    int  getPort() const;
+    void setPort(int value);
+
+    int  getBlinking() const;
+    void setBlinking(int value);
 
 
-
-    void default_options();
+void default_options();
 
 
 void set_Version(int val);
@@ -95,10 +100,11 @@ void on_Version_currentIndexChanged(const QString &arg1);
 
 private:
 
+    Ui::ssoi_widget *ui;
     int SsoiM_PortSpeed=4800;
     QErrorMessage dialog;
 
-    Ui::SSOIwidget *ui;
+
 
      QMap <int,QString> l_Version;
      QString Version_1="ССОИ";
@@ -110,10 +116,10 @@ private:
 
      QMap <int,QString> l_SsoiMOprosVariant;
      QString SsoiMOprosVariant_0="ССОИ-М";
-     QString SsoiMOprosVariant_1="Адаптивный опрос - БЛ";
-     QString SsoiMOprosVariant_2="Адаптивный опрос - БЛ2020";
+     QString SsoiMOprosVariant_1="Адаптивный - БЛ";
+     QString SsoiMOprosVariant_2="Адаптивный - БЛ2020";
 
 
 };
 
-#endif // SSOIWIDGET_H
+#endif // ssoi_widget_H

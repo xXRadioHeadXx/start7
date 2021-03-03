@@ -6,6 +6,7 @@
 #include "map.h"
 #include <QErrorMessage>
 #include "operator_form.h"
+#include "edit_unit_widget.h"
 #include <dbform.h>
 #include "comport.h"
 #include "sqlunit.h"
@@ -13,9 +14,12 @@
 #include <QStandardItem>
 //#include <libudev.h>
 //#include <mntent.h>
-#include "admkeygenerator.h"
-#include "ssoiwidget.h"
-
+#include "ssoi_widget.h"
+#include <QTimer>
+#include <delegate.h>
+#include <rif_widget_model.h>
+#include <rif_widget_delegate.h>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -28,10 +32,23 @@ enum op_tbl {
 
 };
 
+
+struct SerNum_Name{
+    QString SerNum;
+    QString Name;
+};
+
+
+
 class MainWindowCFG : public QMainWindow
 {
     Q_OBJECT
 private:
+
+
+
+    QTimer *timer;
+    QMap <QString, SerNum_Name> mSerNum_Name;
 
     Ui::MainWindowCFG *ui;
 
@@ -40,12 +57,12 @@ private:
 
     TreeModelUnitNode *modelTreeUN = nullptr;
 
-    QErrorMessage dialog;
+    QMessageBox dialog;
 
-    QList<ComPort*> comports;
+    QRegExpValidator *ipValidator;
 
-    AdmKeyGenerator AdmKey;
-
+    rif_widget_model* rif_model ;
+    rif_widget_delegate* rif_dlgt;
 
     QList<Operator*> operators;
     int opt_tbl_request;
@@ -53,11 +70,28 @@ private:
     void operator_edit(Operator*);
     void operator_delete();
 
+    QString XOR_Crypt(QString in);
+
     void update_operators_table();
 
     QString get_unit_name(int type);
 
+    bool find_equal_unit(UnitNode *unit,bool (*is_equal)(UnitNode* unit,UnitNode* un));
 
+    void expandChildren(const QModelIndex &index);
+    void collapseChildren(const QModelIndex &index);
+
+    void object_menu_change(int type);
+    void object_menu_set_settings_default(int type);
+    void object_menu_set_settings_from(UnitNode *unit);
+    void object_menu_set_enabled_for_edit(bool enabled);
+
+    void RS485_UDP_set_default_with_timeout(int timeout);
+    void RS485_UDP_set_from_unit(UnitNode *unit);
+    void RS485_UDP_set_enabled_for_edit(bool enable);
+
+    QString get_dd(UnitNode* unit);
+    QString get_y4(UnitNode* unit);
 //    QList<udev_device*> listDevices();
 
     SQLunit MySQL_unit;
@@ -65,6 +99,7 @@ private:
 
     QMenu* menu;
 
+    QAction* action_open_edit_menu;
     QAction* action_setDK;
     QAction* action_YZ_MONOLIT;
     QAction* action_setAlarmMsgOn;
@@ -80,6 +115,9 @@ private:
     QAction* action_setAdamOff_20_min;
     QAction* action_setAdamOff_30_min;
     QAction* action_setAdamOff_1_hour;
+
+    QAction* action_open_device_tree;
+    QAction *action_close_device_tree;
 
     int val_for_setAdamoff;
 
@@ -150,7 +188,7 @@ private:
     bool pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parrent);
 
     void get_option_Y4_T4K_M(UnitNode *unit);
-    void set_option_Y4_T4K_M(UnitNode *unit);
+    void set_option_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
    bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
 
     void get_option_DD_T4K_M(UnitNode *unit);
@@ -162,7 +200,7 @@ private:
     bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
 
     void get_option_Y4_SOTA(UnitNode *unit);
-    void set_option_Y4_SOTA(UnitNode *unit);
+    void set_option_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
     bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
 
     void get_option_DD_SOTA(UnitNode *unit);
@@ -216,7 +254,8 @@ private:
     void set_option_INFO_TABLO(UnitNode *unit);
     bool pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parrent);
 
-
+    void TABLO_Num2_set(int val);
+    int TABLO_Num2_get();
 
 
 
@@ -270,9 +309,6 @@ private:
     void set_RASTR(QString filename);
     void default_RASTR();
 
-    void get_SOLID(QString filename);
-    void set_SOLID(QString filename);
-    void default_SOLID();
 
     void get_ADAM4068(QString filename);
     void set_ADAM4068(QString filename);
@@ -305,7 +341,7 @@ private:
     void default_ASOOSD();
 
 
-    void default_AdmAud();
+
 
 
 
@@ -343,37 +379,37 @@ private:
 
 
 
-    QString str_GROUP=" Группа";
-    QString str_SD_BL_IP=" БЛ-IP СД";
-    QString str_IU_BL_IP=" БЛ-IP ИУ";
-    QString str_KL = " КЛ1 (концентратор) СД";
-    QString str_TG =" Точка/Гарда";
-    QString str_RLM_KRL = " РИФ-РЛМ/КРЛ/Трасса";
-    QString str_RLM_C = " РИФ-РЛМ-С";
-    QString str_STRAZH_IP = " ТВ+тепловиз.Страж-IP";
-    QString str_NET_DEV = " Сетевое устройство";
-    QString str_ONVIF = " ТВ-камера ONVIF";
-    QString str_BOD_T4K_M = " Точка-М/Гарда БОД";
-    QString str_Y4_T4K_M = " Точка-М/Гарда Участок";
-    QString str_DD_T4K_M = " Точка-М/Гарда ДД";
-    QString str_BOD_SOTA = " Сота/Сота-М БОД";
-    QString str_Y4_SOTA = " Сота/Сота-М Участок";
-    QString str_DD_SOTA = " Сота/Сота-М ДД";
+    QString str_GROUP=          " ГРУППА";
+    QString str_SD_BL_IP=       " БЛ-IP СД";
+    QString str_IU_BL_IP=       " БЛ-IP ИУ";
+    QString str_KL =            " КЛ1 (концентратор) СД";
+    QString str_TG =            " Точка/Гарда";
+    QString str_RLM_KRL =       " РИФ-РЛМ/КРЛ/Трасса";
+    QString str_RLM_C =         " РИФ-РЛМ-С";
+    QString str_STRAZH_IP =     " ТВ-камера+тепловиз.Страж";
+    QString str_NET_DEV =       " Сетевое устройство";
+    QString str_ONVIF =         " ТВ-камера ONVIF";
+    QString str_BOD_T4K_M =     " Точка-М/Гарда БОД";
+    QString str_Y4_T4K_M =      " Точка-М/Гарда Участок";
+    QString str_DD_T4K_M =      " Точка-М/Гарда ДД";
+    QString str_BOD_SOTA =      " Сота/Сота-М БОД";
+    QString str_Y4_SOTA =       " Сота/Сота-М Участок";
+    QString str_DD_SOTA =       " Сота/Сота-М ДД";
 
-    QString str_RIF_RLM=" РИФ-РЛМ";
-    QString str_RIF_RLM_24=" РИФ-РЛМ24";
-    QString str_RIF_RLM_B=" РИФ-РЛМ(Б)";
-    QString str_RIF_KRL=" РИФ-КРЛ";
-    QString str_Razriv=" Разрыв";
-    QString str_trassa1l=" Трасса-1л";
+    QString str_RIF_RLM=        " РИФ-РЛМ";
+    QString str_RIF_RLM_24=     " РИФ-РЛМ24";
+    QString str_RIF_RLM_B=      " РИФ-РЛМ(Б)";
+    QString str_RIF_KRL=        " РИФ-КРЛ";
+    QString str_Razriv=         " Разрыв";
+    QString str_trassa1l=       " Трасса-1л";
 
-    QString str_SSOI_SD = "ССОИ СД";
-    QString str_SSOI_IU = "ССОИ ИУ";
-    QString str_ADAM = "Адам";
-    QString str_TOROS = "Торос";
-    QString str_DEVLINE = "камера DevLine";
-    QString str_RASTRMTV ="камера РАСТР-М-ТВ";
-    QString str_INFO_TABLO = "информационное табло";
+    QString str_SSOI_SD =       " ССОИ СД";
+    QString str_SSOI_IU =       " ССОИ ИУ";
+    QString str_ADAM =          " ADAM";
+    QString str_TOROS =         " Торос";
+    QString str_DEVLINE =       " ТВ-камера DevLine";
+    QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
+    QString str_INFO_TABLO =    " информационное табло";
 
     QList<QString> l_Unittype={
         str_GROUP,
@@ -402,6 +438,16 @@ private:
         str_RASTRMTV,
         str_INFO_TABLO
  };
+
+
+ QMap <int,QString> m_RLM_KRL_type{
+{0,str_RIF_RLM},
+{1,str_RIF_RLM_24},
+{2,str_RIF_RLM_B},
+{3,str_RIF_KRL},
+{4,str_Razriv},
+{5,str_trassa1l},
+};
 
     QMap <int,QString> m_TypeUnitNode{
 {TypeUnitNode::GROUP, str_GROUP},
@@ -442,6 +488,28 @@ private:
         {7,"Разряд"}
     };
 
+    QMap <int,QString> SSOI_IU_Num3{
+{1 , "ИУ1"},
+{2 , "ИУ2" },
+{3 , "ИУ3" },
+{4 , "ВК1" },
+{5 , "ВК2" },
+{6 , "ВК3" },
+};
+
+    QMap <int,QString> SSOI_SD_Num3{
+{1 , "1"},
+{2 , "2" },
+{3 , "3" },
+{4 , "4" },
+{5 , "5" },
+{6 , "6" },
+{7 , "7" },
+{8 , "8" },
+{9 , "вскрытие" },
+};
+
+
 
 public:
     MainWindowCFG(QWidget *parent = nullptr);
@@ -454,9 +522,13 @@ public:
     operator_form op_f;
     DBform db_f;
 
+    edit_unit_widget unit_wgt;
+
 
 
 private slots:
+
+    void update();
 
     void unitNameChanged(QStandardItem*);
 
@@ -478,7 +550,10 @@ private slots:
     void setAdamOff_1_hour();
 
 
+    void open_edit_menu();
 
+    void open_device_tree();
+    void close_device_tree();
 
 
     void select(QString Name);
@@ -515,9 +590,6 @@ private slots:
 
     void get_from_op_f(QString FN, QString N1, QString N2, QString ps);
     void on_change_operator_button_clicked();
-    void on_RifPort_comboBox_currentIndexChanged(int index);
-    void on_RifPortSpeed_comboBox_currentTextChanged(const QString &arg1);
-    void on_RifPortInterval_doubleSpinBox_valueChanged(const QString &arg1);
 
 
    void on_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
@@ -529,15 +601,17 @@ private slots:
    void use_db(QString db_name);
    void on_INTEGRATION_pushButton_clicked();
    void on_BACKUP_pushButton_clicked();
-   void on_AdmAud_Create_pushButton_clicked();
+
 
    void coordinate_menu(bool visible,bool active, int x, int y, QString text);
    void coordinate_devline(bool active, int x, int y, int x1, int y1);
    void on_pushButton_5_clicked();
    void on_uType_combobox_activated(const QString &arg1);
    void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);
-   void on_AdmAud_ChekIn_pushButton_clicked();
+
    void on_INTEGRATION_DevLine_pushButton_clicked();
    void on_pushButton_6_clicked();
+   void on_devline_xy_pushButton_clicked();
+   void on_uType_combobox_currentTextChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

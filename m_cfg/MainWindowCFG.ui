@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1082</width>
-    <height>772</height>
+    <width>1043</width>
+    <height>570</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>610</width>
-    <height>600</height>
+    <width>655</width>
+    <height>570</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -132,7 +132,7 @@
        <property name="minimumSize">
         <size>
          <width>600</width>
-         <height>485</height>
+         <height>400</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -148,7 +148,7 @@
         <attribute name="title">
          <string>Параметры</string>
         </attribute>
-        <layout class="QGridLayout" name="gridLayout_7">
+        <layout class="QGridLayout" name="gridLayout_6">
          <item row="0" column="0">
           <widget class="QGroupBox" name="groupBox_12">
            <property name="title">
@@ -158,9 +158,9 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>26</y>
-              <width>556</width>
-              <height>80</height>
+              <y>28</y>
+              <width>551</width>
+              <height>85</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -178,7 +178,7 @@
             <property name="maximumSize">
              <size>
               <width>640</width>
-              <height>80</height>
+              <height>85</height>
              </size>
             </property>
             <property name="title">
@@ -189,7 +189,7 @@
               <rect>
                <x>10</x>
                <y>31</y>
-               <width>141</width>
+               <width>181</width>
                <height>16</height>
               </rect>
              </property>
@@ -208,8 +208,8 @@
               <rect>
                <x>10</x>
                <y>50</y>
-               <width>130</width>
-               <height>22</height>
+               <width>181</width>
+               <height>25</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -220,23 +220,23 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>130</width>
-               <height>22</height>
+               <width>129</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>117</width>
-               <height>22</height>
+               <width>999</width>
+               <height>25</height>
               </size>
              </property>
             </widget>
             <widget class="QLabel" name="label_2">
              <property name="geometry">
               <rect>
-               <x>168</x>
+               <x>210</x>
                <y>31</y>
-               <width>191</width>
+               <width>261</width>
                <height>16</height>
               </rect>
              </property>
@@ -253,10 +253,10 @@
             <widget class="QComboBox" name="SoundType_comboBox">
              <property name="geometry">
               <rect>
-               <x>168</x>
+               <x>210</x>
                <y>50</y>
-               <width>186</width>
-               <height>22</height>
+               <width>331</width>
+               <height>25</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -268,13 +268,13 @@
              <property name="minimumSize">
               <size>
                <width>186</width>
-               <height>22</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>164</width>
-               <height>22</height>
+               <width>999</width>
+               <height>30</height>
               </size>
              </property>
             </widget>
@@ -284,20 +284,20 @@
              <rect>
               <x>10</x>
               <y>170</y>
-              <width>556</width>
-              <height>131</height>
+              <width>551</width>
+              <height>141</height>
              </rect>
             </property>
             <property name="title">
              <string>Резервное копирование</string>
             </property>
-            <widget class="QLineEdit" name="BACKUP_BackupPath_lineedit">
+            <widget class="My_lineEdit" name="BACKUP_BackupPath_lineedit" native="true">
              <property name="geometry">
               <rect>
                <x>10</x>
                <y>50</y>
-               <width>531</width>
-               <height>20</height>
+               <width>411</width>
+               <height>25</height>
               </rect>
              </property>
             </widget>
@@ -306,7 +306,7 @@
               <rect>
                <x>10</x>
                <y>30</y>
-               <width>161</width>
+               <width>381</width>
                <height>16</height>
               </rect>
              </property>
@@ -317,10 +317,10 @@
             <widget class="QPushButton" name="BACKUP_pushButton">
              <property name="geometry">
               <rect>
-               <x>160</x>
-               <y>26</y>
-               <width>75</width>
-               <height>23</height>
+               <x>430</x>
+               <y>50</y>
+               <width>111</width>
+               <height>25</height>
               </rect>
              </property>
              <property name="text">
@@ -332,8 +332,8 @@
               <rect>
                <x>10</x>
                <y>100</y>
-               <width>221</width>
-               <height>22</height>
+               <width>531</width>
+               <height>25</height>
               </rect>
              </property>
             </widget>
@@ -342,7 +342,7 @@
               <rect>
                <x>10</x>
                <y>80</y>
-               <width>131</width>
+               <width>261</width>
                <height>16</height>
               </rect>
              </property>
@@ -356,7 +356,7 @@
              <rect>
               <x>20</x>
               <y>112</y>
-              <width>153</width>
+              <width>181</width>
               <height>20</height>
              </rect>
             </property>
@@ -375,8 +375,8 @@
              <rect>
               <x>20</x>
               <y>140</y>
-              <width>146</width>
-              <height>22</height>
+              <width>531</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -388,7 +388,7 @@
             <property name="minimumSize">
              <size>
               <width>146</width>
-              <height>22</height>
+              <height>25</height>
              </size>
             </property>
            </widget>
@@ -400,1654 +400,36 @@
         <attribute name="title">
          <string>Операторы</string>
         </attribute>
-        <widget class="QGroupBox" name="groupBox_7">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>591</width>
-           <height>321</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>171</height>
-          </size>
-         </property>
-         <property name="title">
-          <string>Список операторов</string>
-         </property>
-         <widget class="QTableWidget" name="tableWidget">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>50</y>
-            <width>560</width>
-            <height>271</height>
-           </rect>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>600</width>
-            <height>292</height>
-           </size>
-          </property>
-          <column>
-           <property name="text">
-            <string>№</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Фамилия</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Имя</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Отчество</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Пароль</string>
-           </property>
-          </column>
-         </widget>
-         <widget class="QComboBox" name="operators_use_combobox">
-          <property name="geometry">
-           <rect>
-            <x>61</x>
-            <y>20</y>
-            <width>151</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <item>
-           <property name="text">
-            <string> Без операторов</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string> С операторами</string>
-           </property>
-          </item>
-         </widget>
-         <widget class="QLabel" name="label_22">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>22</y>
-            <width>101</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Режим</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="add_operator_button">
-          <property name="geometry">
-           <rect>
-            <x>220</x>
-            <y>20</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Добавить</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="change_operator_button">
-          <property name="geometry">
-           <rect>
-            <x>300</x>
-            <y>20</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Изменить</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="delete_operator_button">
-          <property name="geometry">
-           <rect>
-            <x>380</x>
-            <y>20</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Удалить</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="Object">
-        <attribute name="title">
-         <string>Объект</string>
-        </attribute>
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="0">
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+          <widget class="QGroupBox" name="groupBox_7">
            <property name="minimumSize">
             <size>
-             <width>552</width>
-             <height>430</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
+             <width>0</width>
+             <height>171</height>
             </size>
            </property>
            <property name="title">
-            <string>Обьект</string>
+            <string>Список операторов</string>
            </property>
-           <widget class="QGroupBox" name="groupBox_3">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>13</y>
-              <width>551</width>
-              <height>291</height>
-             </rect>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>500</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>570</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="title">
-             <string>Параметры</string>
-            </property>
-            <widget class="QLabel" name="label_3">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>14</y>
-               <width>47</width>
-               <height>13</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>Тип</string>
-             </property>
-            </widget>
-            <widget class="QComboBox" name="uType_combobox">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>29</y>
-               <width>181</width>
-               <height>23</height>
-              </rect>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_4">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>52</y>
-               <width>47</width>
-               <height>13</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>Имя</string>
-             </property>
-            </widget>
-            <widget class="QLineEdit" name="uName_lineedit">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>68</y>
-               <width>181</width>
-               <height>23</height>
-              </rect>
-             </property>
-            </widget>
-            <widget class="QStackedWidget" name="stackedWidget">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>100</y>
-               <width>511</width>
-               <height>101</height>
-              </rect>
-             </property>
-             <property name="currentIndex">
-              <number>5</number>
-             </property>
-             <widget class="QWidget" name="U4_Sota_M_groupbox">
-              <widget class="QComboBox" name="U4_Sota_M_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>141</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_12">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>61</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Участок</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="DD_Sota_M_groupbox">
-              <widget class="QLabel" name="label_24">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>ДД</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="DD_Sota_M_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>141</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="KL_groupbox">
-              <widget class="QLabel" name="label_43">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>СД</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="KL_CD_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>20</y>
-                 <width>61</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_45">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Адрес</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="KL_adress_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>81</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="ONVIF_groupbox">
-              <widget class="QLabel" name="label_89">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>111</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>IP-адрес камеры</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_90">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>0</y>
-                 <width>50</width>
-                 <height>13</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Пароль</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_91">
-               <property name="geometry">
-                <rect>
-                 <x>126</x>
-                 <y>0</y>
-                 <width>41</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Логин</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="ONVIF_lineEdit__password">
-               <property name="geometry">
-                <rect>
-                 <x>245</x>
-                 <y>20</y>
-                 <width>151</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="ONVIF_lineEdit__login">
-               <property name="geometry">
-                <rect>
-                 <x>126</x>
-                 <y>20</y>
-                 <width>111</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="ONVIF_lineEdit__IPaddr">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>111</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="STRAZH_IP_groupbox">
-              <widget class="QLineEdit" name="STRAZH_IP_lineEdit__IPaddr">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>111</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_85">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>111</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>IP-адрес камеры</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_86">
-               <property name="geometry">
-                <rect>
-                 <x>126</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Логин</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="STRAZH_IP_lineEdit__login">
-               <property name="geometry">
-                <rect>
-                 <x>126</x>
-                 <y>20</y>
-                 <width>111</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_87">
-               <property name="geometry">
-                <rect>
-                 <x>250</x>
-                 <y>0</y>
-                 <width>50</width>
-                 <height>13</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Пароль</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="STRAZH_IP_lineEdit__password">
-               <property name="geometry">
-                <rect>
-                 <x>245</x>
-                 <y>20</y>
-                 <width>151</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_88">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>50</y>
-                 <width>191</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>IP-адрес поворотной камеры</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="STRAZH_IP_lineEdit__IPaddres_rotary_device">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>70</y>
-                 <width>191</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="SSOI_SD_groupbox">
-              <widget class="QComboBox" name="SSOI_SD_OutType">
-               <property name="geometry">
-                <rect>
-                 <x>175</x>
-                 <y>30</y>
-                 <width>81</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_111">
-               <property name="geometry">
-                <rect>
-                 <x>180</x>
-                 <y>10</y>
-                 <width>181</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Тип подключаемого объекта</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="SSOI_IU_groupbox"/>
-             <widget class="QWidget" name="ADAM_groupbox"/>
-             <widget class="QWidget" name="TOROS_groupbox"/>
-             <widget class="QWidget" name="DEVLINE_groupbox">
-              <widget class="QLabel" name="label_63">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>1</width>
-                 <height>16</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Номер</string>
-               </property>
-              </widget>
-              <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_6">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>22</y>
-                 <width>81</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <property name="maximum">
-                <double>9999.989999999999782</double>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="UDP_RS485_combobox_6">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>20</y>
-                 <width>81</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string> RS485</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string> UDP</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_64">
-               <property name="geometry">
-                <rect>
-                 <x>100</x>
-                 <y>0</y>
-                 <width>71</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>1</width>
-                 <height>16</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Поток</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="RASTRMTV_groupbox">
-              <widget class="QComboBox" name="UDP_RS485_combobox_4">
-               <property name="geometry">
-                <rect>
-                 <x>15</x>
-                 <y>30</y>
-                 <width>211</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_107">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>10</y>
-                 <width>151</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Устройство</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="UDP_RS485_combobox_5">
-               <property name="geometry">
-                <rect>
-                 <x>235</x>
-                 <y>30</y>
-                 <width>111</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string> RS485</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string> UDP</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_108">
-               <property name="geometry">
-                <rect>
-                 <x>240</x>
-                 <y>10</y>
-                 <width>81</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>ТВ-камера</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="INFO_TABLO_groupbox">
-              <widget class="QComboBox" name="UDP_RS485_combobox_2">
-               <property name="geometry">
-                <rect>
-                 <x>15</x>
-                 <y>40</y>
-                 <width>81</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_93">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>20</y>
-                 <width>231</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Номер участка</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="NET_DEV_groupbox">
-              <widget class="QLineEdit" name="NET_DEV_IP_lineEdit">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>161</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_48">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>201</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>IP-адрес или сетевое имя</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="empty_space_groupbox"/>
-             <widget class="QWidget" name="Group_groupbox"/>
-             <widget class="QWidget" name="SD_BL_IP_groupbox">
-              <widget class="QLabel" name="CD_UdpAdress_label">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>120</y>
-                 <width>63</width>
-                 <height>14</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>IP-адрес </string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="CD_UdpAdress_lineEdit">
-               <property name="geometry">
-                <rect>
-                 <x>80</x>
-                 <y>120</y>
-                 <width>153</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>153</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>153</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </widget>
-              <widget class="QLabel" name="CD_UpdPort_label">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>140</y>
-                 <width>96</width>
-                 <height>13</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Номер порта </string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="CD_UpdPort_lineEdit">
-               <property name="geometry">
-                <rect>
-                 <x>150</x>
-                 <y>140</y>
-                 <width>83</width>
-                 <height>20</height>
-                </rect>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>83</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>83</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="SD_BL_IP_num_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>91</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>5</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>6</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>7</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>8</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_65">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>СД</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="IU_BL_IP_groupbox">
-              <widget class="QComboBox" name="IU_BL_IP_num_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>91</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_71">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>ИУ</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="TG_groupbox">
-              <widget class="QCheckBox" name="TG_UdpUse_checkBox">
-               <property name="geometry">
-                <rect>
-                 <x>150</x>
-                 <y>100</y>
-                 <width>70</width>
-                 <height>17</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>UDP</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="IU_label_16">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>100</y>
-                 <width>100</width>
-                 <height>17</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Режим работы: UDP</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="TG_adress_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>61</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_73">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Адрес</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="TG_U4_4A_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>80</x>
-                 <y>20</y>
-                 <width>81</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QLabel" name="label_78">
-               <property name="geometry">
-                <rect>
-                 <x>80</x>
-                 <y>0</y>
-                 <width>81</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Участок-ЧЭ</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="RLM_KRL_groupbox">
-              <widget class="QLabel" name="label_79">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Адрес</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="RLM_KRL_adress_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>61</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-              <widget class="QComboBox" name="RLM_KRL_type_comboBox">
-               <property name="geometry">
-                <rect>
-                 <x>80</x>
-                 <y>20</y>
-                 <width>101</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_84">
-               <property name="geometry">
-                <rect>
-                 <x>80</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Тип</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="RLM_C_groupbox">
-              <widget class="QComboBox" name="RLM_C_adress_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>61</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_96">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Адрес</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="BOD_T4K_M_groupbox">
-              <widget class="QLabel" name="label_18">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Адрес</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="BOD_T4K_M_adress_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>81</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="Y4_T4K_M_groupbox">
-              <widget class="QLabel" name="label_41">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>61</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Участок</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="Y4_T4K_M_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>61</width>
-                 <height>23</height>
-                </rect>
-               </property>
-               <item>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4</string>
-                </property>
-               </item>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="DD_T4K_M_groupbox">
-              <widget class="QComboBox" name="DD_T4K_M_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>61</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_42">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>ДД</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QWidget" name="BOD_Sota_M_groupbox">
-              <widget class="QComboBox" name="BOD_SOTA_M_adress_combobox">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>81</width>
-                 <height>23</height>
-                </rect>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_6">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>0</y>
-                 <width>47</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>Адрес</string>
-               </property>
-              </widget>
-             </widget>
-            </widget>
-            <widget class="QLabel" name="type_pxm_label">
-             <property name="geometry">
-              <rect>
-               <x>220</x>
-               <y>20</y>
-               <width>30</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-            <widget class="QWidget" name="UDP_RS485_Widget" native="true">
-             <property name="geometry">
-              <rect>
-               <x>200</x>
-               <y>40</y>
-               <width>341</width>
-               <height>61</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>300</width>
-               <height>60</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>500</width>
-               <height>71</height>
-              </size>
-             </property>
-             <widget class="QStackedWidget" name="UDP_RS485_stacked">
-              <property name="geometry">
-               <rect>
-                <x>190</x>
-                <y>0</y>
-                <width>161</width>
-                <height>54</height>
-               </rect>
-              </property>
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <widget class="QWidget" name="UDP">
-               <widget class="QLabel" name="label_80">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>10</y>
-                  <width>47</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Порт</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_81">
-                <property name="geometry">
-                 <rect>
-                  <x>70</x>
-                  <y>10</y>
-                  <width>91</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Таймаут, мс</string>
-                </property>
-               </widget>
-               <widget class="QDoubleSpinBox" name="UdpPort_doubleSpinBox">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>30</y>
-                  <width>51</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="decimals">
-                 <number>0</number>
-                </property>
-                <property name="maximum">
-                 <double>4001.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>4000.000000000000000</double>
-                </property>
-               </widget>
-               <widget class="QDoubleSpinBox" name="timeout_doubleSpinBox">
-                <property name="geometry">
-                 <rect>
-                  <x>70</x>
-                  <y>30</y>
-                  <width>51</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="decimals">
-                 <number>0</number>
-                </property>
-                <property name="maximum">
-                 <double>300.000000000000000</double>
-                </property>
-                <property name="value">
-                 <double>300.000000000000000</double>
-                </property>
-               </widget>
-              </widget>
-              <widget class="QWidget" name="RS485">
-               <widget class="QComboBox" name="port_combobox">
-                <property name="geometry">
-                 <rect>
-                  <x>3</x>
-                  <y>30</y>
-                  <width>68</width>
-                  <height>20</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>66</width>
-                  <height>20</height>
-                 </size>
-                </property>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QLabel" name="label_22">
                 <property name="maximumSize">
                  <size>
-                  <width>81</width>
-                  <height>20</height>
+                  <width>80</width>
+                  <height>16777215</height>
                  </size>
                 </property>
-               </widget>
-               <widget class="QLabel" name="label_82">
-                <property name="geometry">
-                 <rect>
-                  <x>3</x>
-                  <y>10</y>
-                  <width>73</width>
-                  <height>16</height>
-                 </rect>
-                </property>
                 <property name="text">
-                 <string>COM-Порт</string>
+                 <string>Режим</string>
                 </property>
                </widget>
-              </widget>
-             </widget>
-             <widget class="QComboBox" name="UDP_RS485_combobox">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>30</y>
-                <width>81</width>
-                <height>23</height>
-               </rect>
-              </property>
-              <item>
-               <property name="text">
-                <string> RS485</string>
-               </property>
               </item>
               <item>
-               <property name="text">
-                <string> UDP</string>
-               </property>
-              </item>
-             </widget>
-             <widget class="QLineEdit" name="ipadress_lineedit">
-              <property name="geometry">
-               <rect>
-                <x>85</x>
-                <y>30</y>
-                <width>102</width>
-                <height>23</height>
-               </rect>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>102</width>
-                <height>23</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>91</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_92">
-              <property name="geometry">
-               <rect>
-                <x>5</x>
-                <y>10</y>
-                <width>31</width>
-                <height>16</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Тип</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_83">
-              <property name="geometry">
-               <rect>
-                <x>100</x>
-                <y>10</y>
-                <width>51</width>
-                <height>16</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Адрес</string>
-              </property>
-             </widget>
-             <zorder>UDP_RS485_combobox</zorder>
-             <zorder>ipadress_lineedit</zorder>
-             <zorder>label_92</zorder>
-             <zorder>label_83</zorder>
-             <zorder>UDP_RS485_stacked</zorder>
-            </widget>
-            <widget class="QStackedWidget" name="stackedWidget_2">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>200</y>
-               <width>531</width>
-               <height>80</height>
-              </rect>
-             </property>
-             <property name="currentIndex">
-              <number>1</number>
-             </property>
-             <widget class="QWidget" name="coordinates_for_all">
-              <widget class="QGroupBox" name="groupBox_4">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>531</width>
-                 <height>81</height>
-                </rect>
-               </property>
-               <property name="title">
-                <string>Доп.информация (только для режима интеграции с внешним ПО)</string>
-               </property>
-               <widget class="QLineEdit" name="Dop_info_description_lineedit">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>43</y>
-                  <width>141</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_13">
-                <property name="geometry">
-                 <rect>
-                  <x>13</x>
-                  <y>21</y>
-                  <width>71</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Описание</string>
-                </property>
-               </widget>
-               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox">
-                <property name="geometry">
-                 <rect>
-                  <x>170</x>
-                  <y>43</y>
-                  <width>101</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="maximum">
-                 <double>9999.989999999999782</double>
-                </property>
-               </widget>
-               <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
-                <property name="geometry">
-                 <rect>
-                  <x>290</x>
-                  <y>43</y>
-                  <width>101</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="maximum">
-                 <double>9999.989999999999782</double>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_14">
-                <property name="geometry">
-                 <rect>
-                  <x>170</x>
-                  <y>21</y>
-                  <width>111</width>
-                  <height>16</height>
-                 </rect>
-                </property>
+               <widget class="QComboBox" name="operators_use_combobox">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -2056,358 +438,2012 @@
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>111</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Географ.широта</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_15">
-                <property name="geometry">
-                 <rect>
-                  <x>290</x>
-                  <y>21</y>
-                  <width>121</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>121</horstretch>
-                  <verstretch>16</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Географ.долгота</string>
-                </property>
-               </widget>
-               <widget class="QPushButton" name="pushButton_5">
-                <property name="geometry">
-                 <rect>
-                  <x>400</x>
-                  <y>43</y>
-                  <width>101</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>101</width>
-                  <height>23</height>
+                  <width>0</width>
+                  <height>26</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>101</width>
-                  <height>23</height>
+                  <width>999</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <item>
+                 <property name="text">
+                  <string> Без операторов</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string> С операторами</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="add_operator_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Добавить</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="change_operator_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
                  </size>
                 </property>
                 <property name="text">
                  <string>Изменить</string>
                 </property>
                </widget>
-              </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="delete_operator_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>80</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Удалить</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="tableWidget">
+              <property name="maximumSize">
+               <size>
+                <width>600</width>
+                <height>999</height>
+               </size>
+              </property>
+              <column>
+               <property name="text">
+                <string>№</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Фамилия</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Имя</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Отчество</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Пароль</string>
+               </property>
+              </column>
              </widget>
-             <widget class="QWidget" name="devline_coordinates">
-              <widget class="QGroupBox" name="groupbox_coordiantes_devline">
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="Object">
+        <attribute name="title">
+         <string>Объект</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="minimumSize">
+            <size>
+             <width>500</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>572</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Обьект</string>
+           </property>
+           <widget class="QLabel" name="label_3">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>20</y>
+              <width>47</width>
+              <height>13</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Тип</string>
+            </property>
+           </widget>
+           <widget class="QComboBox" name="uType_combobox">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>39</y>
+              <width>261</width>
+              <height>25</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_4">
+            <property name="geometry">
+             <rect>
+              <x>280</x>
+              <y>20</y>
+              <width>47</width>
+              <height>13</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Имя</string>
+            </property>
+           </widget>
+           <widget class="My_lineEdit" name="uName_lineedit" native="true">
+            <property name="geometry">
+             <rect>
+              <x>280</x>
+              <y>39</y>
+              <width>281</width>
+              <height>25</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QStackedWidget" name="stackedWidget">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>120</y>
+              <width>561</width>
+              <height>101</height>
+             </rect>
+            </property>
+            <property name="currentIndex">
+             <number>17</number>
+            </property>
+            <widget class="QWidget" name="U4_Sota_M_groupbox">
+             <widget class="QComboBox" name="U4_Sota_M_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_12">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>61</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Участок</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="DD_Sota_M_groupbox">
+             <widget class="QLabel" name="label_24">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>ДД</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="DD_Sota_M_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="KL_groupbox">
+             <widget class="QLabel" name="label_43">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>СД</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="KL_CD_combobox">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>26</y>
+                <width>171</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <item>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </item>
+             </widget>
+             <widget class="QLabel" name="label_45">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Адрес</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="KL_adress_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>81</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="ONVIF_groupbox">
+             <widget class="QLabel" name="label_89">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>181</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>IP-адрес камеры</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_90">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>50</y>
+                <width>131</width>
+                <height>24</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Пароль</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_91">
+              <property name="geometry">
+               <rect>
+                <x>280</x>
+                <y>0</y>
+                <width>141</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Логин</string>
+              </property>
+             </widget>
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__password" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>76</y>
+                <width>551</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__login" native="true">
+              <property name="geometry">
+               <rect>
+                <x>280</x>
+                <y>26</y>
+                <width>281</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="My_lineEdit" name="ONVIF_lineEdit__IPaddr" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="inputMask" stdset="0">
+               <string>000.000.000.000</string>
+              </property>
+              <property name="text" stdset="0">
+               <string>...</string>
+              </property>
+              <property name="clearButtonEnabled" stdset="0">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="STRAZH_IP_groupbox">
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddr" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="inputMask" stdset="0">
+               <string>000.000.000.000</string>
+              </property>
+              <property name="clearButtonEnabled" stdset="0">
+               <bool>true</bool>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_85">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>111</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>IP-адрес камеры</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_86">
+              <property name="geometry">
+               <rect>
+                <x>280</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Логин</string>
+              </property>
+             </widget>
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__login" native="true">
+              <property name="geometry">
+               <rect>
+                <x>280</x>
+                <y>26</y>
+                <width>281</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_87">
+              <property name="geometry">
+               <rect>
+                <x>280</x>
+                <y>50</y>
+                <width>50</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Пароль</string>
+              </property>
+             </widget>
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__password" native="true">
+              <property name="geometry">
+               <rect>
+                <x>280</x>
+                <y>76</y>
+                <width>281</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_88">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>50</y>
+                <width>231</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>IP-адрес поворотной камеры</string>
+              </property>
+             </widget>
+             <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddres_rotary_device" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>76</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="inputMask" stdset="0">
+               <string>000.000.000.000</string>
+              </property>
+              <property name="clearButtonEnabled" stdset="0">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="SSOI_SD_groupbox">
+             <widget class="QComboBox" name="SSOI_SD_OutType">
+              <property name="geometry">
+               <rect>
+                <x>290</x>
+                <y>26</y>
+                <width>271</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_111">
+              <property name="geometry">
+               <rect>
+                <x>305</x>
+                <y>0</y>
+                <width>221</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Тип подключаемого объекта</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="SSOI_SD_Num2">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>26</y>
+                <width>81</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="SSOI_SD_Num3">
+              <property name="geometry">
+               <rect>
+                <x>200</x>
+                <y>26</y>
+                <width>81</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_98">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>0</y>
+                <width>81</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>БЛ</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_99">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Канал</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_100">
+              <property name="geometry">
+               <rect>
+                <x>200</x>
+                <y>0</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>СД</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="SSOI_SD_Num1">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>91</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="SSOI_IU_groupbox">
+             <widget class="QComboBox" name="SSOI_IU_Num1">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>91</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_94">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Канал</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="SSOI_IU_Num2">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>26</y>
+                <width>161</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_95">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>0</y>
+                <width>81</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>БЛ</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="SSOI_IU_Num3">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>76</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_97">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>50</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>ИУ</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="ADAM_groupbox">
+             <widget class="QLabel" name="label_102">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Адрес</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="ADAM_Num1">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>81</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="ADAM_Num2">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>26</y>
+                <width>171</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_103">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>0</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>ИУ</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="TOROS_groupbox">
+             <widget class="QComboBox" name="TOROS_Num1">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_101">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Адрес</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="DEVLINE_groupbox">
+             <widget class="QLabel" name="label_63">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>1</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Номер</string>
+              </property>
+             </widget>
+             <widget class="QDoubleSpinBox" name="DEVLINE_Num1">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>81</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="maximum">
+               <double>9999.989999999999782</double>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="DEVLINE_OutType">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>26</y>
+                <width>171</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <item>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </item>
+             </widget>
+             <widget class="QLabel" name="label_64">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>0</y>
+                <width>71</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>1</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Поток</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="RASTRMTV_groupbox">
+             <widget class="QComboBox" name="RASTRMTV_Name_SerNum">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_107">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>151</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Устройство</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="RASTRMTV_Num3">
+              <property name="geometry">
+               <rect>
+                <x>281</x>
+                <y>26</y>
+                <width>141</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_108">
+              <property name="geometry">
+               <rect>
+                <x>281</x>
+                <y>0</y>
+                <width>81</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>ТВ-камера</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="INFO_TABLO_groupbox">
+             <widget class="QComboBox" name="TABLO_Num2">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_93">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>231</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Номер участка</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="NET_DEV_groupbox">
+             <widget class="My_lineEdit" name="NET_DEV_IP_lineEdit" native="true">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_48">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>201</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>IP-адрес или сетевое имя</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="empty_space_groupbox"/>
+            <widget class="QWidget" name="Group_groupbox"/>
+            <widget class="QWidget" name="SD_BL_IP_groupbox">
+             <widget class="QLabel" name="CD_UdpAdress_label">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>120</y>
+                <width>63</width>
+                <height>14</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>IP-адрес </string>
+              </property>
+             </widget>
+             <widget class="My_lineEdit" name="CD_UdpAdress_lineEdit" native="true">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>120</y>
+                <width>153</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>153</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>153</width>
+                <height>20</height>
+               </size>
+              </property>
+             </widget>
+             <widget class="QLabel" name="CD_UpdPort_label">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>140</y>
+                <width>96</width>
+                <height>13</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Номер порта </string>
+              </property>
+             </widget>
+             <widget class="My_lineEdit" name="CD_UpdPort_lineEdit" native="true">
+              <property name="geometry">
+               <rect>
+                <x>150</x>
+                <y>140</y>
+                <width>83</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>83</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>83</width>
+                <height>20</height>
+               </size>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="SD_BL_IP_num_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <item>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>5</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>6</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>7</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>8</string>
+               </property>
+              </item>
+             </widget>
+             <widget class="QLabel" name="label_65">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>СД</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="IU_BL_IP_groupbox">
+             <widget class="QComboBox" name="IU_BL_IP_num_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <item>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </item>
+             </widget>
+             <widget class="QLabel" name="label_71">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>ИУ</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="TG_groupbox">
+             <widget class="QComboBox" name="TG_adress_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>61</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_73">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>61</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Адрес</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="TG_U4_4A_combobox">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>26</y>
+                <width>191</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <item>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </item>
+             </widget>
+             <widget class="QLabel" name="label_78">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>0</y>
+                <width>111</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Участок-ЧЭ</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="RLM_KRL_groupbox">
+             <widget class="QLabel" name="label_79">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Адрес</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="RLM_KRL_adress_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>61</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="RLM_KRL_type_comboBox">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>26</y>
+                <width>191</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_84">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Тип</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="RLM_C_groupbox">
+             <widget class="QComboBox" name="RLM_C_adress_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_96">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Адрес</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="BOD_T4K_M_groupbox">
+             <widget class="QLabel" name="label_18">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Адрес</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="BOD_T4K_M_adress_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="Y4_T4K_M_groupbox">
+             <widget class="QLabel" name="label_41">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>61</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Участок</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="Y4_T4K_M_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="DD_T4K_M_groupbox">
+             <widget class="QComboBox" name="DD_T4K_M_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_42">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>ДД</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="BOD_Sota_M_groupbox">
+             <widget class="QComboBox" name="BOD_SOTA_M_adress_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>26</y>
+                <width>261</width>
+                <height>25</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_6">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>0</y>
+                <width>47</width>
+                <height>25</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Адрес</string>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="UDP_RS485_Widget" native="true">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>65</y>
+              <width>551</width>
+              <height>60</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>999</width>
+              <height>71</height>
+             </size>
+            </property>
+            <widget class="QStackedWidget" name="UDP_RS485_stacked">
+             <property name="geometry">
+              <rect>
+               <x>270</x>
+               <y>6</y>
+               <width>281</width>
+               <height>61</height>
+              </rect>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="UDP">
+              <widget class="QLabel" name="label_80">
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
-                 <width>531</width>
-                 <height>81</height>
+                 <y>5</y>
+                 <width>47</width>
+                 <height>16</height>
                 </rect>
                </property>
-               <property name="title">
-                <string>Координаты окна камеры</string>
+               <property name="text">
+                <string>Порт</string>
                </property>
-               <widget class="QLabel" name="label_62">
-                <property name="geometry">
-                 <rect>
-                  <x>450</x>
-                  <y>20</y>
-                  <width>16</width>
-                  <height>20</height>
-                 </rect>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Y</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_40">
-                <property name="geometry">
-                 <rect>
-                  <x>390</x>
-                  <y>20</y>
-                  <width>16</width>
-                  <height>20</height>
-                 </rect>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>X</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_38">
-                <property name="geometry">
-                 <rect>
-                  <x>170</x>
-                  <y>20</y>
-                  <width>91</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>X лев. верх</string>
-                </property>
-               </widget>
-               <widget class="QPushButton" name="pushButton">
-                <property name="geometry">
-                 <rect>
-                  <x>330</x>
-                  <y>42</y>
-                  <width>41</width>
-                  <height>28</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>PushButton</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_36">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>22</y>
-                  <width>91</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>X лев. верх</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_39">
-                <property name="geometry">
-                 <rect>
-                  <x>250</x>
-                  <y>20</y>
-                  <width>91</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>X лев. верх</string>
-                </property>
-               </widget>
-               <widget class="QLineEdit" name="ipadress_lineedit_3">
-                <property name="geometry">
-                 <rect>
-                  <x>440</x>
-                  <y>42</y>
-                  <width>51</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>23</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>91</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_2">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>44</y>
-                  <width>71</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="maximum">
-                 <double>9999.989999999999782</double>
-                </property>
-               </widget>
-               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_3">
-                <property name="geometry">
-                 <rect>
-                  <x>90</x>
-                  <y>42</y>
-                  <width>71</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="maximum">
-                 <double>9999.989999999999782</double>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_37">
-                <property name="geometry">
-                 <rect>
-                  <x>90</x>
-                  <y>20</y>
-                  <width>91</width>
-                  <height>16</height>
-                 </rect>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>X лев. верх</string>
-                </property>
-               </widget>
-               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_5">
-                <property name="geometry">
-                 <rect>
-                  <x>250</x>
-                  <y>42</y>
-                  <width>71</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="maximum">
-                 <double>9999.989999999999782</double>
-                </property>
-               </widget>
-               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_4">
-                <property name="geometry">
-                 <rect>
-                  <x>170</x>
-                  <y>42</y>
-                  <width>71</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="maximum">
-                 <double>9999.989999999999782</double>
-                </property>
-               </widget>
-               <widget class="QLineEdit" name="ipadress_lineedit_2">
-                <property name="geometry">
-                 <rect>
-                  <x>380</x>
-                  <y>42</y>
-                  <width>51</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>23</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>91</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
+              </widget>
+              <widget class="QLabel" name="label_81">
+               <property name="geometry">
+                <rect>
+                 <x>150</x>
+                 <y>5</y>
+                 <width>81</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Таймаут,мс</string>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="UdpPort_doubleSpinBox">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>24</y>
+                 <width>111</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <double>4001.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>4000.000000000000000</double>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="timeout_doubleSpinBox">
+               <property name="geometry">
+                <rect>
+                 <x>120</x>
+                 <y>24</y>
+                 <width>161</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <double>300.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>300.000000000000000</double>
+               </property>
               </widget>
              </widget>
-             <widget class="QWidget" name="nothing"/>
+             <widget class="QWidget" name="RS485">
+              <widget class="QComboBox" name="port_combobox">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>24</y>
+                 <width>281</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>66</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>999</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_82">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>4</y>
+                 <width>131</width>
+                 <height>16</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>COM-Порт</string>
+               </property>
+              </widget>
+             </widget>
             </widget>
-            <zorder>label_3</zorder>
-            <zorder>uType_combobox</zorder>
-            <zorder>label_4</zorder>
-            <zorder>uName_lineedit</zorder>
-            <zorder>type_pxm_label</zorder>
-            <zorder>UDP_RS485_Widget</zorder>
-            <zorder>stackedWidget</zorder>
-            <zorder>stackedWidget_2</zorder>
+            <widget class="QComboBox" name="UDP_RS485_combobox">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>30</y>
+               <width>80</width>
+               <height>25</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string> RS485</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string> UDP</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="My_lineEdit" name="ipadress_lineedit" native="true">
+             <property name="geometry">
+              <rect>
+               <x>90</x>
+               <y>30</y>
+               <width>171</width>
+               <height>25</height>
+              </rect>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>101</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>999</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="inputMask" stdset="0">
+              <string>000.000.000.000</string>
+             </property>
+             <property name="text" stdset="0">
+              <string>...</string>
+             </property>
+             <property name="clearButtonEnabled" stdset="0">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_92">
+             <property name="geometry">
+              <rect>
+               <x>5</x>
+               <y>10</y>
+               <width>31</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Тип</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_83">
+             <property name="geometry">
+              <rect>
+               <x>100</x>
+               <y>10</y>
+               <width>91</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>IP-Адрес</string>
+             </property>
+            </widget>
+            <zorder>UDP_RS485_combobox</zorder>
+            <zorder>ipadress_lineedit</zorder>
+            <zorder>label_92</zorder>
+            <zorder>label_83</zorder>
+            <zorder>UDP_RS485_stacked</zorder>
+           </widget>
+           <widget class="QStackedWidget" name="stackedWidget_2">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>230</y>
+              <width>561</width>
+              <height>81</height>
+             </rect>
+            </property>
+            <property name="currentIndex">
+             <number>2</number>
+            </property>
+            <widget class="QWidget" name="coordinates_for_all">
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>551</width>
+                <height>81</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>Доп.информация (только для режима интеграции с внешним ПО)</string>
+              </property>
+              <widget class="My_lineEdit" name="Dop_info_description_lineedit" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>43</y>
+                 <width>140</width>
+                 <height>25</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_13">
+               <property name="geometry">
+                <rect>
+                 <x>13</x>
+                 <y>16</y>
+                 <width>71</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Описание</string>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>43</y>
+                 <width>120</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="maximum">
+                <double>9999.989999999999782</double>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>43</y>
+                 <width>123</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="maximum">
+                <double>9999.989999999999782</double>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_14">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>16</y>
+                 <width>121</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>111</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Географ.широта</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_15">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>16</y>
+                 <width>171</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>121</horstretch>
+                 <verstretch>16</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Географ.долгота</string>
+               </property>
+              </widget>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="devline_coordinates">
+             <widget class="QGroupBox" name="groupbox_coordiantes_devline">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>551</width>
+                <height>81</height>
+               </rect>
+              </property>
+              <property name="title">
+               <string>Координаты окна камеры</string>
+              </property>
+              <widget class="QLabel" name="label_62">
+               <property name="geometry">
+                <rect>
+                 <x>495</x>
+                 <y>17</y>
+                 <width>16</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Y</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_40">
+               <property name="geometry">
+                <rect>
+                 <x>440</x>
+                 <y>17</y>
+                 <width>16</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>X</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_38">
+               <property name="geometry">
+                <rect>
+                 <x>175</x>
+                 <y>17</y>
+                 <width>91</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>X прав.низ</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="devline_xy_pushButton">
+               <property name="geometry">
+                <rect>
+                 <x>344</x>
+                 <y>45</y>
+                 <width>91</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Изменить</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_36">
+               <property name="geometry">
+                <rect>
+                 <x>5</x>
+                 <y>17</y>
+                 <width>91</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>X лев.верх</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_39">
+               <property name="geometry">
+                <rect>
+                 <x>260</x>
+                 <y>17</y>
+                 <width>91</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Y прав.низ</string>
+               </property>
+              </widget>
+              <widget class="My_lineEdit" name="mouse_Y" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>495</x>
+                 <y>45</y>
+                 <width>50</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>91</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text" stdset="0">
+                <string/>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_2">
+               <property name="geometry">
+                <rect>
+                 <x>5</x>
+                 <y>45</y>
+                 <width>80</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="maximum">
+                <double>9999.989999999999782</double>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_3">
+               <property name="geometry">
+                <rect>
+                 <x>90</x>
+                 <y>45</y>
+                 <width>80</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="maximum">
+                <double>9999.989999999999782</double>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_37">
+               <property name="geometry">
+                <rect>
+                 <x>90</x>
+                 <y>17</y>
+                 <width>91</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Y лев.верх</string>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_5">
+               <property name="geometry">
+                <rect>
+                 <x>260</x>
+                 <y>45</y>
+                 <width>80</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="maximum">
+                <double>9999.989999999999782</double>
+               </property>
+              </widget>
+              <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_4">
+               <property name="geometry">
+                <rect>
+                 <x>175</x>
+                 <y>45</y>
+                 <width>80</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="maximum">
+                <double>9999.989999999999782</double>
+               </property>
+              </widget>
+              <widget class="My_lineEdit" name="mouse_X" native="true">
+               <property name="geometry">
+                <rect>
+                 <x>440</x>
+                 <y>45</y>
+                 <width>50</width>
+                 <height>25</height>
+                </rect>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>1</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>91</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text" stdset="0">
+                <string/>
+               </property>
+              </widget>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="nothing"/>
            </widget>
            <widget class="QWidget" name="widget1" native="true">
             <property name="geometry">
              <rect>
-              <x>10</x>
+              <x>0</x>
               <y>310</y>
-              <width>551</width>
-              <height>51</height>
+              <width>571</width>
+              <height>71</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -2419,10 +2455,10 @@
             <widget class="QPushButton" name="pushButton_2">
              <property name="geometry">
               <rect>
-               <x>115</x>
+               <x>139</x>
                <y>0</y>
-               <width>108</width>
-               <height>25</height>
+               <width>130</width>
+               <height>30</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -2439,8 +2475,8 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
-               <height>25</height>
+               <width>999</width>
+               <height>30</height>
               </size>
              </property>
              <property name="text">
@@ -2450,10 +2486,10 @@
             <widget class="QPushButton" name="pushButton_moveUp">
              <property name="geometry">
               <rect>
-               <x>442</x>
+               <x>432</x>
                <y>0</y>
-               <width>100</width>
-               <height>25</height>
+               <width>130</width>
+               <height>30</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -2470,8 +2506,8 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
-               <height>25</height>
+               <width>999</width>
+               <height>30</height>
               </size>
              </property>
              <property name="text">
@@ -2481,10 +2517,10 @@
             <widget class="QPushButton" name="pushButton_3">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>22</y>
-               <width>108</width>
-               <height>25</height>
+               <x>9</x>
+               <y>31</y>
+               <width>130</width>
+               <height>30</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -2501,8 +2537,8 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
-               <height>25</height>
+               <width>999</width>
+               <height>30</height>
               </size>
              </property>
              <property name="text">
@@ -2512,10 +2548,10 @@
             <widget class="QPushButton" name="pushButton_4">
              <property name="geometry">
               <rect>
-               <x>115</x>
-               <y>22</y>
-               <width>108</width>
-               <height>25</height>
+               <x>139</x>
+               <y>31</y>
+               <width>130</width>
+               <height>30</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -2527,26 +2563,26 @@
              <property name="minimumSize">
               <size>
                <width>108</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>999</width>
                <height>25</height>
               </size>
              </property>
              <property name="text">
-              <string>Переименовать</string>
+              <string>Изменить</string>
              </property>
             </widget>
             <widget class="QPushButton" name="pushButton_moveDown">
              <property name="geometry">
               <rect>
-               <x>442</x>
-               <y>22</y>
-               <width>100</width>
-               <height>25</height>
+               <x>432</x>
+               <y>31</y>
+               <width>130</width>
+               <height>30</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -2563,8 +2599,8 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
-               <height>25</height>
+               <width>999</width>
+               <height>30</height>
               </size>
              </property>
              <property name="text">
@@ -2574,10 +2610,10 @@
             <widget class="QPushButton" name="pushButton_6">
              <property name="geometry">
               <rect>
-               <x>10</x>
+               <x>9</x>
                <y>0</y>
-               <width>108</width>
-               <height>25</height>
+               <width>130</width>
+               <height>30</height>
               </rect>
              </property>
              <property name="text">
@@ -2585,6 +2621,14 @@
              </property>
             </widget>
            </widget>
+           <zorder>label_3</zorder>
+           <zorder>uType_combobox</zorder>
+           <zorder>label_4</zorder>
+           <zorder>uName_lineedit</zorder>
+           <zorder>UDP_RS485_Widget</zorder>
+           <zorder>stackedWidget</zorder>
+           <zorder>stackedWidget_2</zorder>
+           <zorder>widget1</zorder>
           </widget>
          </item>
         </layout>
@@ -2593,8 +2637,8 @@
         <attribute name="title">
          <string>РИФ</string>
         </attribute>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
           <widget class="QGroupBox" name="groupBox_11">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2611,334 +2655,146 @@
            <property name="title">
             <string>Подсистема РИФ</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_5">
-            <item row="0" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
              <widget class="QGroupBox" name="groupBox_5">
               <property name="title">
                <string>Настройка порта</string>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
-                <widget class="QWidget" name="widget" native="true">
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="0" column="0">
+                <widget class="QTableView" name="tableView">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_6">
-                  <item row="0" column="1">
-                   <spacer name="horizontalSpacer_3">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item row="0" column="0">
-                   <widget class="QWidget" name="widget" native="true">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_6">
-                     <item>
-                      <widget class="QLabel" name="label_54">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>31</width>
-                         <height>16</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>31</width>
-                         <height>16</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Порт</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QComboBox" name="RifPort_comboBox">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>70</width>
-                         <height>22</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>70</width>
-                         <height>22</height>
-                        </size>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="label_55">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>107</width>
-                         <height>16</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>107</width>
-                         <height>16</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Скорость опроса</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QComboBox" name="RifPortSpeed_comboBox">
-                       <property name="minimumSize">
-                        <size>
-                         <width>70</width>
-                         <height>22</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>70</width>
-                         <height>22</height>
-                        </size>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="label_56">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>130</width>
-                         <height>16</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>130</width>
-                         <height>16</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Интервал опроса, мс</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QDoubleSpinBox" name="RifPortInterval_doubleSpinBox">
-                       <property name="minimumSize">
-                        <size>
-                         <width>70</width>
-                         <height>22</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>70</width>
-                         <height>22</height>
-                        </size>
-                       </property>
-                       <property name="minimum">
-                        <double>50.000000000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>5000.000000000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>5.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="verticalSpacer">
-                       <property name="orientation">
-                        <enum>Qt::Vertical</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>20</width>
-                         <height>40</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item row="0" column="2">
-                   <widget class="QTableWidget" name="tableWidget_2">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>290</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>290</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <column>
-                     <property name="text">
-                      <string>Скорость опроса</string>
-                     </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Интервал опроса</string>
-                     </property>
-                    </column>
-                   </widget>
-                  </item>
-                 </layout>
+                 <property name="minimumSize">
+                  <size>
+                   <width>360</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>525</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                 </widget>
                </item>
               </layout>
              </widget>
             </item>
-            <item row="1" column="0">
+            <item>
              <widget class="QWidget" name="widget" native="true">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout">
-               <item>
-                <widget class="QWidget" name="widget2" native="true">
+              <layout class="QGridLayout" name="gridLayout_3">
+               <item row="1" column="1">
+                <widget class="QComboBox" name="RIF_AutoDK_comboBox">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="layoutDirection">
-                  <enum>Qt::LeftToRight</enum>
+                 <property name="minimumSize">
+                  <size>
+                   <width>121</width>
+                   <height>25</height>
+                  </size>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_4">
-                  <item>
-                   <widget class="QLabel" name="label_57">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>Период автоДК</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="RIF_AutoDK_comboBox">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>ВЫКЛ</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>1 час</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>2 часа</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>3 часа</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>4 часа</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                 </layout>
+                 <item>
+                  <property name="text">
+                   <string>ВЫКЛ</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>1 час</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>2 часа</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>3 часа</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>4 часа</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
-               <item>
-                <widget class="QWidget" name="widget3" native="true">
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_57">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <layout class="QVBoxLayout" name="verticalLayout">
-                  <item>
-                   <widget class="QLabel" name="label_58">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>Таймаут для определения направления (только для Точки-Т(С), c</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox"/>
-                  </item>
-                 </layout>
+                 <property name="minimumSize">
+                  <size>
+                   <width>121</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Период автоДК</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="label_58">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>401</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Таймаут для определения направления (Точка-Т(С),c</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2" colspan="3">
+                <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>400</width>
+                   <height>388</height>
+                  </size>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -2953,41 +2809,65 @@
         <attribute name="title">
          <string>ССОИ</string>
         </attribute>
-        <widget class="SSOIwidget" name="SSOIwgt" native="true">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>570</width>
-           <height>270</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="TABLO_Widget" name="TABLO_wgt" native="true">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>280</y>
-           <width>391</width>
-           <height>151</height>
-          </rect>
-         </property>
-        </widget>
+        <layout class="QGridLayout" name="gridLayout_15">
+         <item row="0" column="0">
+          <widget class="QGroupBox" name="groupBox_15">
+           <property name="title">
+            <string>Подсистема ССОИ</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_16">
+            <item row="0" column="0">
+             <widget class="ssoi_widget" name="SSOIwgt" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="Subsystem_TV_RASTR_M">
         <attribute name="title">
          <string>РАСТР</string>
         </attribute>
-        <widget class="RASTR_ADAM_Widget" name="RASTR_ADAM_wgt" native="true">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>570</width>
-           <height>451</height>
-          </rect>
-         </property>
-        </widget>
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="0" column="0">
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string>Подсистема РАСТР</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_10">
+            <item row="0" column="0">
+             <widget class="RASTR_Widget" name="RASTR_wgt" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>ADAM</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_11">
+         <item row="0" column="0">
+          <widget class="QGroupBox" name="groupBox_6">
+           <property name="title">
+            <string>Подсистема релейных выходов</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_12">
+            <item row="0" column="0">
+             <widget class="ADAM_Widget" name="ADAM_wgt" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="SQL">
         <attribute name="title">
@@ -3009,9 +2889,9 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>49</y>
-              <width>93</width>
-              <height>22</height>
+              <y>55</y>
+              <width>95</width>
+              <height>25</height>
              </rect>
             </property>
             <item>
@@ -3035,34 +2915,34 @@
              <rect>
               <x>10</x>
               <y>31</y>
-              <width>61</width>
-              <height>16</height>
+              <width>91</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
              <string>Режим</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="SQL_server_lineEdit">
+           <widget class="My_lineEdit" name="SQL_server_lineEdit" native="true">
             <property name="geometry">
              <rect>
-              <x>109</x>
-              <y>49</y>
-              <width>80</width>
-              <height>20</height>
+              <x>115</x>
+              <y>55</y>
+              <width>175</width>
+              <height>25</height>
              </rect>
             </property>
-            <property name="text">
+            <property name="text" stdset="0">
              <string>localhost</string>
             </property>
            </widget>
            <widget class="QLabel" name="label_27">
             <property name="geometry">
              <rect>
-              <x>109</x>
+              <x>115</x>
               <y>31</y>
-              <width>71</width>
-              <height>16</height>
+              <width>181</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3072,10 +2952,10 @@
            <widget class="QDoubleSpinBox" name="SQL_port_doubleSpinBox">
             <property name="geometry">
              <rect>
-              <x>196</x>
-              <y>49</y>
-              <width>91</width>
-              <height>22</height>
+              <x>300</x>
+              <y>55</y>
+              <width>100</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="decimals">
@@ -3091,82 +2971,82 @@
            <widget class="QLabel" name="label_28">
             <property name="geometry">
              <rect>
-              <x>196</x>
+              <x>300</x>
               <y>31</y>
-              <width>51</width>
-              <height>16</height>
+              <width>121</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
              <string>Порт</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="SQL_login_lineEdit">
+           <widget class="My_lineEdit" name="SQL_login_lineEdit" native="true">
             <property name="geometry">
              <rect>
-              <x>295</x>
-              <y>49</y>
-              <width>71</width>
-              <height>20</height>
+              <x>10</x>
+              <y>115</y>
+              <width>140</width>
+              <height>25</height>
              </rect>
             </property>
-            <property name="text">
+            <property name="text" stdset="0">
              <string>root</string>
             </property>
            </widget>
            <widget class="QLabel" name="label_29">
             <property name="geometry">
              <rect>
-              <x>295</x>
-              <y>31</y>
-              <width>51</width>
-              <height>16</height>
+              <x>10</x>
+              <y>90</y>
+              <width>131</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
              <string>Логин</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="SQL_password_lineEdit">
+           <widget class="My_lineEdit" name="SQL_password_lineEdit" native="true">
             <property name="geometry">
              <rect>
-              <x>374</x>
-              <y>49</y>
-              <width>71</width>
-              <height>20</height>
+              <x>160</x>
+              <y>115</y>
+              <width>241</width>
+              <height>25</height>
              </rect>
             </property>
            </widget>
            <widget class="QLabel" name="label_30">
             <property name="geometry">
              <rect>
-              <x>374</x>
-              <y>31</y>
-              <width>51</width>
-              <height>16</height>
+              <x>160</x>
+              <y>90</y>
+              <width>261</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
              <string>Пароль</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="SQL_database_lineEdit">
+           <widget class="My_lineEdit" name="SQL_database_lineEdit" native="true">
             <property name="geometry">
              <rect>
-              <x>452</x>
-              <y>49</y>
-              <width>101</width>
-              <height>20</height>
+              <x>9</x>
+              <y>164</y>
+              <width>551</width>
+              <height>25</height>
              </rect>
             </property>
            </widget>
            <widget class="QLabel" name="label_31">
             <property name="geometry">
              <rect>
-              <x>453</x>
-              <y>31</y>
-              <width>81</width>
-              <height>16</height>
+              <x>10</x>
+              <y>140</y>
+              <width>251</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3176,10 +3056,10 @@
            <widget class="QPushButton" name="SQL_find_server_pushButton">
             <property name="geometry">
              <rect>
-              <x>109</x>
-              <y>74</y>
-              <width>91</width>
-              <height>23</height>
+              <x>410</x>
+              <y>55</y>
+              <width>151</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3189,10 +3069,10 @@
            <widget class="QPushButton" name="SQL_connect_pushButton">
             <property name="geometry">
              <rect>
-              <x>280</x>
-              <y>74</y>
+              <x>410</x>
+              <y>115</y>
               <width>151</width>
-              <height>23</height>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3202,10 +3082,10 @@
            <widget class="QCheckBox" name="SQL_P1_checkBox">
             <property name="geometry">
              <rect>
-              <x>280</x>
-              <y>100</y>
-              <width>261</width>
-              <height>17</height>
+              <x>10</x>
+              <y>200</y>
+              <width>491</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3215,10 +3095,10 @@
            <widget class="QCheckBox" name="SQL_P2_checkBox">
             <property name="geometry">
              <rect>
-              <x>280</x>
-              <y>120</y>
-              <width>241</width>
-              <height>17</height>
+              <x>10</x>
+              <y>230</y>
+              <width>501</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3229,42 +3109,42 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>150</y>
-              <width>241</width>
-              <height>20</height>
+              <y>267</y>
+              <width>471</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
-             <string>Автоматическое начало смены в</string>
+             <string>Автоматическое начало смены в:</string>
             </property>
            </widget>
            <widget class="QDoubleSpinBox" name="SQL_AutoDbStartHour_doubleSpinBox">
             <property name="geometry">
              <rect>
-              <x>250</x>
-              <y>150</y>
+              <x>10</x>
+              <y>300</y>
               <width>62</width>
-              <height>22</height>
+              <height>25</height>
              </rect>
             </property>
            </widget>
            <widget class="QDoubleSpinBox" name="SQL_AutoDbStartMinute_doubleSpinBox">
             <property name="geometry">
              <rect>
-              <x>360</x>
-              <y>150</y>
+              <x>10</x>
+              <y>330</y>
               <width>62</width>
-              <height>22</height>
+              <height>25</height>
              </rect>
             </property>
            </widget>
            <widget class="QLabel" name="label_32">
             <property name="geometry">
              <rect>
-              <x>320</x>
-              <y>150</y>
-              <width>41</width>
-              <height>20</height>
+              <x>80</x>
+              <y>300</y>
+              <width>201</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3274,10 +3154,10 @@
            <widget class="QLabel" name="label_33">
             <property name="geometry">
              <rect>
-              <x>430</x>
-              <y>150</y>
-              <width>41</width>
-              <height>20</height>
+              <x>80</x>
+              <y>330</y>
+              <width>181</width>
+              <height>25</height>
              </rect>
             </property>
             <property name="text">
@@ -3295,10 +3175,10 @@
         <widget class="QGroupBox" name="groupBox_10">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>564</width>
-           <height>123</height>
+           <x>11</x>
+           <y>11</y>
+           <width>572</width>
+           <height>161</height>
           </rect>
          </property>
          <property name="title">
@@ -3307,72 +3187,72 @@
          <widget class="QLabel" name="label_49">
           <property name="geometry">
            <rect>
-            <x>94</x>
-            <y>28</y>
-            <width>81</width>
-            <height>16</height>
+            <x>115</x>
+            <y>30</y>
+            <width>131</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
-           <string>Сервер и БД</string>
+           <string>Сервер</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_50">
           <property name="geometry">
            <rect>
-            <x>188</x>
-            <y>28</y>
-            <width>91</width>
-            <height>16</height>
+            <x>300</x>
+            <y>32</y>
+            <width>131</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
-           <string>Порт сервера</string>
+           <string>Порт</string>
           </property>
          </widget>
          <widget class="QComboBox" name="INTEGRATION_Use_comboBox">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>48</y>
-            <width>69</width>
-            <height>20</height>
+            <y>55</y>
+            <width>95</width>
+            <height>25</height>
            </rect>
           </property>
          </widget>
          <widget class="QLabel" name="label_51">
           <property name="geometry">
            <rect>
-            <x>13</x>
-            <y>28</y>
-            <width>61</width>
-            <height>16</height>
+            <x>10</x>
+            <y>31</y>
+            <width>101</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
            <string>Режим</string>
           </property>
          </widget>
-         <widget class="QLineEdit" name="INTEGRATION_Host_lineEdit">
+         <widget class="My_lineEdit" name="INTEGRATION_Host_lineEdit" native="true">
           <property name="geometry">
            <rect>
-            <x>90</x>
-            <y>48</y>
-            <width>91</width>
-            <height>20</height>
+            <x>115</x>
+            <y>55</y>
+            <width>175</width>
+            <height>25</height>
            </rect>
           </property>
-          <property name="text">
+          <property name="text" stdset="0">
            <string>localhost</string>
           </property>
          </widget>
          <widget class="QDoubleSpinBox" name="INTEGRATION_Port_doubleSpinBox">
           <property name="geometry">
            <rect>
-            <x>187</x>
-            <y>48</y>
-            <width>91</width>
-            <height>20</height>
+            <x>300</x>
+            <y>55</y>
+            <width>100</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="decimals">
@@ -3385,10 +3265,10 @@
          <widget class="QPushButton" name="INTEGRATION_pushButton">
           <property name="geometry">
            <rect>
-            <x>90</x>
-            <y>80</y>
-            <width>91</width>
-            <height>23</height>
+            <x>410</x>
+            <y>55</y>
+            <width>151</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
@@ -3398,10 +3278,10 @@
          <widget class="QDoubleSpinBox" name="INTEGRATION_Port2_doubleSpinBox">
           <property name="geometry">
            <rect>
-            <x>290</x>
-            <y>48</y>
-            <width>61</width>
-            <height>20</height>
+            <x>10</x>
+            <y>115</y>
+            <width>101</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="decimals">
@@ -3414,10 +3294,10 @@
          <widget class="QLabel" name="label_52">
           <property name="geometry">
            <rect>
-            <x>290</x>
-            <y>28</y>
-            <width>61</width>
-            <height>16</height>
+            <x>10</x>
+            <y>90</y>
+            <width>91</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -3434,8 +3314,8 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>61</width>
-            <height>16</height>
+            <width>999</width>
+            <height>25</height>
            </size>
           </property>
           <property name="text">
@@ -3445,10 +3325,10 @@
          <widget class="QLabel" name="label_53">
           <property name="geometry">
            <rect>
-            <x>366</x>
-            <y>28</y>
-            <width>141</width>
-            <height>16</height>
+            <x>130</x>
+            <y>90</y>
+            <width>251</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
@@ -3458,10 +3338,10 @@
          <widget class="QDoubleSpinBox" name="INTEGRATION_KeepAliveInterval_doubleSpinBox">
           <property name="geometry">
            <rect>
-            <x>363</x>
-            <y>48</y>
-            <width>141</width>
-            <height>20</height>
+            <x>130</x>
+            <y>115</y>
+            <width>211</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="decimals">
@@ -3473,21 +3353,21 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>140</y>
-           <width>561</width>
-           <height>71</height>
+           <y>180</y>
+           <width>572</width>
+           <height>81</height>
           </rect>
          </property>
          <property name="title">
           <string>Интеграция с DevLine</string>
          </property>
-         <widget class="QLineEdit" name="INTEGRATION_DevLine_filepath_lineEdit">
+         <widget class="My_lineEdit" name="INTEGRATION_DevLine_filepath_lineEdit" native="true">
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>41</y>
+            <y>46</y>
             <width>461</width>
-            <height>20</height>
+            <height>25</height>
            </rect>
           </property>
          </widget>
@@ -3495,9 +3375,9 @@
           <property name="geometry">
            <rect>
             <x>480</x>
-            <y>40</y>
-            <width>75</width>
-            <height>20</height>
+            <y>46</y>
+            <width>81</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
@@ -3509,8 +3389,8 @@
            <rect>
             <x>10</x>
             <y>20</y>
-            <width>231</width>
-            <height>16</height>
+            <width>531</width>
+            <height>25</height>
            </rect>
           </property>
           <property name="text">
@@ -3523,129 +3403,20 @@
         <attribute name="title">
          <string>Ключ</string>
         </attribute>
-        <widget class="QGroupBox" name="groupBox_6">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>564</width>
-           <height>131</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>110</height>
-          </size>
-         </property>
-         <property name="title">
-          <string>Ключ администратора </string>
-         </property>
-         <widget class="QComboBox" name="AdmAud_comboBox">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>50</y>
-            <width>261</width>
-            <height>20</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_16">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>101</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Ключевой диск</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="AdmAud_version_lineEdit">
-          <property name="geometry">
-           <rect>
-            <x>280</x>
-            <y>50</y>
-            <width>71</width>
-            <height>20</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="AdmAud_DateTime_lineEdit">
-          <property name="geometry">
-           <rect>
-            <x>360</x>
-            <y>50</y>
-            <width>111</width>
-            <height>20</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_17">
-          <property name="geometry">
-           <rect>
-            <x>280</x>
-            <y>30</y>
-            <width>101</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Версия</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_20">
-          <property name="geometry">
-           <rect>
-            <x>360</x>
-            <y>30</y>
-            <width>101</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Дата создания</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="AdmAud_Create_pushButton">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>80</y>
-            <width>75</width>
-            <height>40</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Создать</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="AdmAud_ChekIn_pushButton">
-          <property name="geometry">
-           <rect>
-            <x>280</x>
-            <y>80</y>
-            <width>101</width>
-            <height>40</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Проверить</string>
-          </property>
-         </widget>
-        </widget>
+        <layout class="QGridLayout" name="gridLayout_13">
+         <item row="0" column="0">
+          <widget class="QGroupBox" name="groupBox_14">
+           <property name="title">
+            <string>Ключ администратора </string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_14">
+            <item row="0" column="0">
+             <widget class="AdmAud_widget" name="AdmAud_wgt" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
      </widget>
@@ -3657,13 +3428,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1082</width>
+     <width>1043</width>
      <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;Файл</string>
     </property>
     <addaction name="actionCreate"/>
     <addaction name="actionOpen"/>
@@ -3727,22 +3498,33 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SSOIwidget</class>
+   <class>ssoi_widget</class>
    <extends>QWidget</extends>
-   <header location="global">ssoiwidget.h</header>
+   <header location="global">ssoi_widget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>TABLO_Widget</class>
+   <class>ADAM_Widget</class>
    <extends>QWidget</extends>
-   <header location="global">tablo_widget.h</header>
+   <header location="global">adam_widget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>RASTR_ADAM_Widget</class>
+   <class>RASTR_Widget</class>
    <extends>QWidget</extends>
-   <header location="global">rastr_adam_widget.h</header>
+   <header location="global">rastr_widget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AdmAud_widget</class>
+   <extends>QWidget</extends>
+   <header location="global">admaud_widget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

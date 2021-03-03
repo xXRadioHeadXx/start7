@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TABLO_Widget</class>
- <widget class="QWidget" name="TABLO_Widget">
+ <class>ADAM_Widget</class>
+ <widget class="QWidget" name="ADAM_Widget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>180</width>
-    <height>85</height>
+    <width>240</width>
+    <height>208</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label_82">
+  <widget class="QLabel" name="label_83">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>151</width>
+     <width>251</width>
      <height>25</height>
     </rect>
    </property>
@@ -26,39 +26,52 @@
     <string>COM-Порт</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="Blinking">
+  <widget class="QSpinBox" name="Interval">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>57</y>
-     <width>91</width>
+     <y>100</y>
+     <width>81</width>
      <height>25</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Мигание</string>
+   <property name="maximum">
+    <number>1000</number>
    </property>
   </widget>
   <widget class="QComboBox" name="Port">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>27</y>
-     <width>101</width>
-     <height>25</height>
+     <y>26</y>
+     <width>81</width>
+     <height>22</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
      <width>66</width>
-     <height>25</height>
+     <height>20</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>999</width>
-     <height>25</height>
+     <width>81</width>
+     <height>22</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>60</y>
+     <width>261</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Интервал опроса, мсек</string>
    </property>
   </widget>
  </widget>
