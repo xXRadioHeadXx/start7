@@ -1,5 +1,5 @@
 #include "my_doublespinbox.h"
-#include <qDebug>
+#include <QDebug>
 #include <QMenu>
 #include <QLineEdit>
 #include <QContextMenuEvent>
