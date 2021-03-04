@@ -38,6 +38,7 @@ SOURCES += \
     main.cpp \
     map.cpp \
     my_combobox.cpp \
+    my_doublespinbox.cpp \
     my_lineedit.cpp \
     my_settings.cpp \
     mydrawobject.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
     group.h \
     map.h \
     my_combobox.h \
+    my_doublespinbox.h \
     my_lineedit.h \
     my_settings.h \
     mydrawobject.h \

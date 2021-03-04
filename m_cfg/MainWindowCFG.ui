@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3526,7 +3526,7 @@
      <x>0</x>
      <y>0</y>
      <width>1043</width>
-     <height>30</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
