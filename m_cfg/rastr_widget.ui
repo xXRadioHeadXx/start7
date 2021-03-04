@@ -120,7 +120,7 @@
     <string>Порт для второго монитора, (&quot;Кедр&quot;)</string>
    </property>
   </widget>
-  <widget class="My_lineEdit" name="Name">
+  <widget class="My_lineEdit" name="Name" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -148,6 +148,9 @@
      <width>201</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="maximum">
     <number>9999</number>
@@ -188,6 +191,9 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
   </widget>
   <widget class="QSpinBox" name="Port">
    <property name="geometry">
@@ -197,6 +203,9 @@
      <width>140</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="maximum">
     <number>9999</number>
@@ -216,6 +225,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

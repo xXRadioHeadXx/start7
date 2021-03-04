@@ -37,6 +37,9 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->setupUi(this);
 
+
+
+
 //    QString str="QWERTY12345";
 //    QString crypts;
 //    QString res;

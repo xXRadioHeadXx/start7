@@ -1884,6 +1884,9 @@
                  <height>25</height>
                 </rect>
                </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
+               </property>
                <property name="decimals">
                 <number>0</number>
                </property>
@@ -1902,6 +1905,9 @@
                  <width>161</width>
                  <height>25</height>
                 </rect>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
                </property>
                <property name="decimals">
                 <number>0</number>
@@ -2795,6 +2801,9 @@
                    <height>388</height>
                   </size>
                  </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -2957,6 +2966,9 @@
               <width>100</width>
               <height>25</height>
              </rect>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
             <property name="decimals">
              <number>0</number>
@@ -3127,6 +3139,9 @@
               <height>25</height>
              </rect>
             </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
+            </property>
            </widget>
            <widget class="QDoubleSpinBox" name="SQL_AutoDbStartMinute_doubleSpinBox">
             <property name="geometry">
@@ -3136,6 +3151,9 @@
               <width>62</width>
               <height>25</height>
              </rect>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
             </property>
            </widget>
            <widget class="QLabel" name="label_32">
@@ -3255,6 +3273,9 @@
             <height>25</height>
            </rect>
           </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
+          </property>
           <property name="decimals">
            <number>0</number>
           </property>
@@ -3283,6 +3304,9 @@
             <width>101</width>
             <height>25</height>
            </rect>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="decimals">
            <number>0</number>
@@ -3343,6 +3367,9 @@
             <width>211</width>
             <height>25</height>
            </rect>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="decimals">
            <number>0</number>
@@ -3441,6 +3468,9 @@
             <width>100</width>
             <height>25</height>
            </rect>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
           </property>
           <property name="decimals">
            <number>0</number>
