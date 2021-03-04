@@ -106,9 +106,27 @@ void StatusConnectRequester::init() {
         }
     }
 
-    setMaxBeatCount(200);
-    setTimeIntervalRequest(100);
     setTimeIntervalWaiteFirst(0);
+
+    int udpTimeout = 50;
+
+    if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
+        for(UnitNode * uncld : as_const(getUnReciver()->getListChilde())) {
+            if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
+                udpTimeout = qMax(udpTimeout, uncld->getUdpTimeout());
+            }
+        }
+    } else {
+        udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
+    }
+    setTimeIntervalRequest(udpTimeout);
+
+    int maxBeatCount = 400;
+    if(50 != udpTimeout) {
+        maxBeatCount = (20500 / udpTimeout) + 1;
+    }
+
+    setMaxBeatCount(maxBeatCount);
 
     connect(this, SIGNAL(importantBeatStatus()), this, SLOT(specialReserveSlot()));
 }

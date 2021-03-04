@@ -194,6 +194,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
     if(nullptr == sel) {
         ui->labelSelectedUN->clear();
+        ui->labelSelectedUN->setVisible(false);
         return;
     }
 
@@ -217,6 +218,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
     } else
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + "\t" + sel->getName());
+    ui->labelSelectedUN->setVisible(true);
 
 }
 
@@ -769,7 +771,7 @@ void MainWindowServer::lockOpenClose(bool val)
 void MainWindowServer::on_actionDataBase_triggered()
 {
     QProcess *process = new QProcess(this);
-    QString file = "m_db";
+    QString file = QString( QCoreApplication::applicationDirPath() + "/m_db" );
 #if (defined (_WIN32) || defined (_WIN64))
     // windows code
     file.append(".exe");
@@ -780,7 +782,7 @@ void MainWindowServer::on_actionDataBase_triggered()
 void MainWindowServer::on_actionUNSqlSelect_triggered()
 {
     QProcess *process = new QProcess(this);
-    QString file = "m_db";
+    QString file = QString( QCoreApplication::applicationDirPath() + "/m_db" );
 
 #if (defined (_WIN32) || defined (_WIN64))
     // windows code
@@ -814,18 +816,22 @@ void MainWindowServer::preparePageCustomization(int /*typeUN*/)
     case TypeUnitNode::RLM_C:
         preparePageRLM(selUN);
         ui->stackedWidget->setCurrentIndex(0);
+        ui->stackedWidget->setMaximumHeight(140);
         break;
     case TypeUnitNode::TG:
         preparePagePoint(selUN->getType());
         ui->stackedWidget->setCurrentIndex(3);
+        ui->stackedWidget->setMaximumHeight(185);
         break;
     case TypeUnitNode::DD_SOTA:
         preparePageSota1(selUN->getType());
         ui->stackedWidget->setCurrentIndex(1);
+        ui->stackedWidget->setMaximumHeight(200);
         break;
     case TypeUnitNode::DD_T4K_M:
         preparePageSota2(selUN->getType());
         ui->stackedWidget->setCurrentIndex(2);
+        ui->stackedWidget->setMaximumHeight(200);
         break;
     default:
         ui->groupBox_Customization->setVisible(false);
@@ -848,13 +854,13 @@ void MainWindowServer::preparePageRLM(const UnitNode * un)
         }
     } else if(TypeUnitNode::RLM_KRL == un->getType() &&
               (0 == un->getAdamOff() ||
-               1 == un->getAdamOff() ||
-               2 == un->getAdamOff())) {
+               1 == un->getAdamOff())) {
         for(int i = 0, n = 4; i < n; i++) {
             ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
         }
     } else if(TypeUnitNode::RLM_KRL == un->getType() &&
-              3 == un->getAdamOff()) {
+              (3 == un->getAdamOff() ||
+              2 == un->getAdamOff())) {
         for(int i = 0, n = 2; i < n; i++) {
             ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
         }
@@ -1345,29 +1351,49 @@ void MainWindowServer::on_pushButton_ReadCustomization_clicked()
 
 void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 {
-    if(!ui->groupBox_Customization->isVisible())
+//    qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked() -->";
+    if(!ui->groupBox_Customization->isVisible()) {
+//        qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
         return;
-    if(!ui->actionCustomization->isChecked())
+    }
+    if(!ui->actionCustomization->isChecked()) {
+//        qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
         return;
-    if(nullptr == selUN)
+    }
+    if(nullptr == selUN) {
+//        qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
         return;
+    }
 
     switch (selUN->getType()) {
     case TypeUnitNode::RLM_KRL: {
         auto newStateWord = selUN->getStateWord();
-        if(newStateWord.isEmpty())
+        if(newStateWord.isEmpty()) {
+//            qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
             return;
+        }
 
         auto clockPeriod = ui->comboBox_RLMTactPeriod->currentData().toInt();
-        auto modeProcessing = ui->comboBox_RLMCondition->currentData().toInt();
-        auto threshold = ui->comboBox_RLMEdge->currentData().toDouble();
+//        qDebug() << "clockPeriod --> " << clockPeriod;
 
-        if(-1 == clockPeriod || -1 == modeProcessing || -1 == threshold)
+        auto modeProcessing = ui->comboBox_RLMCondition->currentData().toInt();
+//        qDebug() << "modeProcessing --> " << modeProcessing;
+
+        auto threshold = ui->comboBox_RLMEdge->currentData().toDouble();
+//        qDebug() << "threshold --> " << threshold;
+
+        if(-1 == clockPeriod || -1 == modeProcessing || -1 == threshold) {
+            qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
             return;
+        }
+
+//        qDebug() << "original newStateWord " << newStateWord.toHex();
 
         newStateWord[0] = static_cast<quint8>(0x00);
+//        qDebug() << "prepare newStateWord " << newStateWord.toHex();
 
         newStateWord[0] = static_cast<quint8>(newStateWord[0]) | (static_cast<quint8>(clockPeriod) << 5);
+//        qDebug() << "clockPeriod newStateWord " << newStateWord.toHex();
 
         if(treatAsEqual(10.0, threshold)) {
             newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(0);
@@ -1402,8 +1428,10 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         } else if(treatAsEqual(00.1, threshold)) {
             newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(15);
         }
+//        qDebug() << "threshold newStateWord " << newStateWord.toHex();
 
         newStateWord[0] = static_cast<quint8>(newStateWord[0]) | (static_cast<quint8>(modeProcessing) << 4);
+//        qDebug() << "modeProcessing newStateWord " << newStateWord.toHex();
 
         m_portManager->requestModeSensor(selUN, newStateWord);
 
@@ -1411,15 +1439,19 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
     }
     case TypeUnitNode::RLM_C: {
         auto newStateWord = selUN->getStateWord();
-        if(newStateWord.isEmpty())
+        if(newStateWord.isEmpty()) {
+//            qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
             return;
+        }
 
         auto clockPeriod = ui->comboBox_RLMTactPeriod->currentData().toInt();
         auto modeProcessing = ui->comboBox_RLMCondition->currentData().toInt();
         auto threshold = ui->comboBox_RLMEdge->currentData().toDouble();
 
-        if(-1 == clockPeriod || -1 == modeProcessing || -1 == threshold)
+        if(-1 == clockPeriod || -1 == modeProcessing || -1 == threshold) {
+//            qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
             return;
+        }
 
         newStateWord[2] = static_cast<quint8>(0x00);
         newStateWord[3] = static_cast<quint8>(0x00);
@@ -1476,6 +1508,32 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         fillPageSota2(selUN->getType()); //CurrentIndex(2);
         break;
     default:
+//        qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
         return;
     }
+//    qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked() <--";
 }
+
+//void MainWindowServer::on_comboBox_RLMEdge_currentIndexChanged(int index)
+//{
+//    qDebug() << "MainWindowServer::on_comboBox_RLMEdge_currentIndexChanged(" << index << ") -->";
+//    qDebug() << "itemText --> " << ui->comboBox_RLMEdge->itemText(index);
+//    qDebug() << "itemData --> " << ui->comboBox_RLMEdge->itemData(index);
+//    qDebug() << "MainWindowServer::on_comboBox_RLMEdge_currentIndexChanged(" << index << ") <--";
+//}
+
+//void MainWindowServer::on_comboBox_RLMCondition_currentIndexChanged(int index)
+//{
+//    qDebug() << "MainWindowServer::on_comboBox_RLMCondition_currentIndexChanged(" << index << ") -->";
+//    qDebug() << "itemText --> " << ui->comboBox_RLMCondition->itemText(index);
+//    qDebug() << "itemData --> " << ui->comboBox_RLMCondition->itemData(index);
+//    qDebug() << "MainWindowServer::on_comboBox_RLMCondition_currentIndexChanged(" << index << ") <--";
+//}
+
+//void MainWindowServer::on_comboBox_RLMTactPeriod_currentIndexChanged(int index)
+//{
+//    qDebug() << "MainWindowServer::on_comboBox_RLMTactPeriod_currentIndexChanged(" << index << ") -->";
+//    qDebug() << "itemText --> " << ui->comboBox_RLMTactPeriod->itemText(index);
+//    qDebug() << "itemData --> " << ui->comboBox_RLMTactPeriod->itemData(index);
+//    qDebug() << "MainWindowServer::on_comboBox_RLMTactPeriod_currentIndexChanged(" << index << ") <--";
+//}

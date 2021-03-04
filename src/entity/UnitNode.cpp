@@ -1490,7 +1490,7 @@ float UnitNode_RLM_KRL::voltage() const
 {
     if(getStateWord().isEmpty())
         return -1.0;
-    return qFabs(static_cast<float>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(1)) / 255.0))));
+    return qFabs(static_cast<double>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(1)) / 255.0))));
 }
 
 int UnitNode_RLM_KRL::isOn() const

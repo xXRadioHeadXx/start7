@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <Operator.h>
+#include <QCoreApplication>
 
 namespace Ui {
 class AuthenticationDialog;
@@ -28,7 +29,7 @@ private:
     QList<Operator> listUser;
     int initialResult = 0;
 
-    int initialForm(const QString fileName = "rifx.ini");
+    int initialForm(const QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 };
 
 #endif // AUTHENTICATIONDIALOG_H
