@@ -1,5 +1,6 @@
 #include "delegate.h"
 #include <QDebug>
+#include <QRect>
 
 
 Delegate::Delegate(QObject *parent) : QStyledItemDelegate(parent)
@@ -38,7 +39,11 @@ void Delegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QM
 void Delegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     qDebug()<<"[updateEditorGeometry]";
-    editor->setGeometry(option.rect);
+
+   editor->setGeometry(option.rect.x()+20,
+                       option.rect.y()-1,
+                       option.rect.width(),
+                       option.rect.height()+1);
 }
 
 QSize Delegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const

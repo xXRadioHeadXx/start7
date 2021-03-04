@@ -71,7 +71,7 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
          }
          }
          if(!pxm.isNull())
-             pxm = pxm.scaled(14,14);
+             pxm = pxm.scaled(17,17);
 
          return QVariant(pxm);
      }
