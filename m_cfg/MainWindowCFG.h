@@ -81,6 +81,7 @@ private:
     bool no_equal_unit(MainWindowCFG* cfg,UnitNode *unit,UnitNode *supreme,bool (*is_equal)(MainWindowCFG* cfg,UnitNode* unit,UnitNode* un));
     bool no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *unit, UnitNode *parent, bool (*is_equal)(MainWindowCFG *, UnitNode *, UnitNode *));
 
+    bool correct_UDP_parametres(UnitNode *unit);
 
     void expandChildren(const QModelIndex &index);
     void collapseChildren(const QModelIndex &index);

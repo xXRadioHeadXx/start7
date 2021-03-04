@@ -460,6 +460,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 
 
 
+
+
      ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
      menu = new QMenu(ui->treeView);
@@ -1554,6 +1556,33 @@ bool MainWindowCFG::no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *
     return true;
 }
 
+bool MainWindowCFG::correct_UDP_parametres(UnitNode *unit)
+{
+    qDebug()<<"UdpUse "<<unit->getUdpUse();
+    qDebug()<<"UdpAdress "<<unit->getUdpAdress();
+    if(unit->getUdpUse()==1)
+    {
+        QHostAddress myIP;
+           if(myIP.setAddress( unit->getUdpAdress()))
+           {
+           qDebug()<<"Valid IP Address";
+           unit->setUdpAdress(myIP.toString());
+           }
+           else
+           {
+           qDebug()<<"Invalid IP address";
+
+        QMessageBox::critical(0,"Ошибка","Не заданы пармаетры UDP протокола (IP адрес или порт)");
+
+        return false;
+           }
+    }
+
+
+
+    return true;
+}
+
 
 
 void MainWindowCFG::setDK()
@@ -1755,6 +1784,9 @@ if(unit->getName()=="")
 
 }
 
+if (!correct_UDP_parametres(unit))
+    return false;
+
 
 //Если БОД Сота-М, то:
 if(unit->getType()==TypeUnitNode::BOD_SOTA)
@@ -1927,7 +1959,10 @@ if(unit->getType()==TypeUnitNode::GROUP)
 if(false==pass_to_add_GROUP(unit,parrent))
     return false;
 }
-        return true;
+
+
+
+return true;
 }
 
         bool MainWindowCFG::pass_to_add_GROUP(UnitNode *unit, UnitNode *parrent)
@@ -2796,6 +2831,7 @@ QString MainWindowCFG::get_y4(UnitNode *unit)
 
 bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
 {
+
     //СД может быть добавлен только к группе или к системе
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
@@ -2824,6 +2860,7 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
 
 bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parent)
 {
+
 
     //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
     if((parent->getType()==TypeUnitNode::STRAZH_IP)||
