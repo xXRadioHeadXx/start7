@@ -50,6 +50,7 @@ SOURCES += \
     rastr_widget.cpp \
     rif_widget_delegate.cpp \
     rif_widget_model.cpp \
+    sql_user_dlg.cpp \
     sqlunit.cpp \
     ssoi_port_widget.cpp \
     ssoi_widget.cpp \
@@ -82,6 +83,7 @@ HEADERS += \
     rastr_widget.h \
     rif_widget_delegate.h \
     rif_widget_model.h \
+    sql_user_dlg.h \
     sqlunit.h \
     ssoi_port_widget.h \
     ssoi_widget.h \
@@ -99,6 +101,7 @@ FORMS += \
     map.ui \
     operator_form.ui \
     rastr_widget.ui \
+    sql_user_dlg.ui \
     ssoi_port_widget.ui \
     ssoi_widget.ui \
     tablo_widget.ui

@@ -2,6 +2,7 @@
 #include "ui_dbform.h"
 #include <QSqlQuery>
 #include <QDebug>
+#include<sql_user_dlg.h>
 
 DBform::DBform(QWidget *parent) :
     QDialog(parent),
@@ -90,4 +91,10 @@ void DBform::on_use_DB_pushButton_clicked()
     {
     emit use_db(this->ui->database_tableWidget->currentItem()->text());
     }
+}
+
+void DBform::on_pushButton_clicked()
+{
+    sql_User_dlg* sql_user=new sql_User_dlg(this);
+    sql_user->show();
 }
