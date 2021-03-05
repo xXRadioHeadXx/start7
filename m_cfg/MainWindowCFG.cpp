@@ -1353,9 +1353,11 @@ void MainWindowCFG::on_actionSave_triggered()
 
          // optional, as QFile destructor will already do it:
          file.close();
+
+
     this->save_ini(path);
 
-
+       #if (defined (_WIN32) || defined (_WIN64))
                   if(this->ui->SQL_type_comboBox->currentText()!="Выкл")
                   {
                   my=new My_settings(path);
@@ -1368,7 +1370,12 @@ void MainWindowCFG::on_actionSave_triggered()
                       {
                       my->beginGroup("PostgreSQL");
                       }
+
                       QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
+
+                      QByteArray ar=this->ui->SQL_password_lineEdit->text().toLocal8Bit().toHex();
+
+
                       qDebug()<<"password "<<ar<<"   "<<QString::fromUtf8(ar);
                       QByteArray rezz=this->convert(ar);
                       my->set_value("Password",rezz);
@@ -1377,6 +1384,10 @@ void MainWindowCFG::on_actionSave_triggered()
                       my->endGroup();
 
                   }
+
+  #endif
+              /*    */
+
 }
 
 void MainWindowCFG::on_treeView_activated(const QModelIndex &/*index*/)
@@ -4989,7 +5000,11 @@ void MainWindowCFG::get_SQL(QString filename)
               this->ui->SQL_login_lineEdit->setText(settings.value("Login",-1).toString());
 
 
-
+#if (defined (_WIN32) || defined (_WIN64))
+  this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
+#else
+    this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
+#endif
            //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString(),"start7"));
               this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
 
@@ -6285,7 +6300,13 @@ int res=0;
       settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
       settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
       settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
-      settings.setValue("Password", this->XOR_Crypt(this->ui->SQL_password_lineEdit->text()));
+
+#if (defined (_WIN32) || defined (_WIN64))
+  this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
+#else
+          settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
+#endif
+
       settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
 
       if(this->ui->SQL_P1_checkBox->isChecked())
