@@ -3965,6 +3965,7 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
     QString string1;
 
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка/Гарда</b> ");
+            string1.append(":");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
     string1.append("ЧЭ: ");
@@ -4028,7 +4029,7 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     string1.append(str_trassa1l);
 
     string1.append("</b>");
-
+    string1.append(":");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
 
@@ -4082,7 +4083,7 @@ void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
 
 
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  РИФ-РЛМ-С</b>");
-
+        string1.append(":");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
 
@@ -4392,6 +4393,7 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
     QString string1;
 
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Концентратор</b> ");
+            string1.append(":");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
     string1.append("СД: ");
