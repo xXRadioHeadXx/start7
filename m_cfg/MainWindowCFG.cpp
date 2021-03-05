@@ -14,6 +14,11 @@
 #include <QDateTime>
 #include <QTimer>
 
+#include <QEvent>
+#include <QKeyEvent>
+
+#include <QAbstractItemModel>
+
 
 
 
@@ -458,7 +463,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     ui->treeView->setColumnWidth(2,1000);
 
 
-
+  //  ui->treeView->installEventFilter(this);
 
 
 
@@ -624,7 +629,7 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect(&this->db_f, SIGNAL(create_db(QString)  ) , this,SLOT     (create_db(QString)));
         connect(&this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
         connect(&this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
-
+        connect(this->ui->treeView, SIGNAL(   new_current_index(QModelIndex)) , this,SLOT     (   slot_to_get_options(QModelIndex)));
         timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
             timer->setInterval(10); // Задаем интервал таймера
             connect(timer, SIGNAL(timeout()), this, SLOT(update())); // Подключаем сигнал таймера к нашему слоту
@@ -648,6 +653,12 @@ bool MainWindowCFG::load(QString /*patch*/)
 
 
     return res;
+}
+
+void MainWindowCFG::slot_to_get_options(QModelIndex index)
+{
+UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
+this->get_option(unit);
 }
 
 void MainWindowCFG::unitNameChanged(QStandardItem */*item*/)
@@ -1375,6 +1386,56 @@ void MainWindowCFG::on_treeView_activated(const QModelIndex &/*index*/)
 
 
 
+
+
+bool MainWindowCFG::eventFilter(QObject *obj, QEvent *event)
+{
+    /*
+    if (obj == ui->treeView)
+    {
+        QModelIndex qmi = ui->treeView->currentIndex();
+        qDebug()<<qmi.row();
+        if (event->type() == QEvent::KeyPress )
+        {
+           QKeyEvent* key_ev = dynamic_cast<QKeyEvent*>(event);
+                QModelIndex qmi = ui->treeView->currentIndex();
+
+           QModelIndex new_ind;
+           UnitNode *unit;
+
+           switch(key_ev->key())
+           {
+           case Qt::Key_Down:
+        //    qDebug()<<"[Down]";
+
+
+         //   unit = static_cast<UnitNode*>(new_ind.internalPointer());
+
+         //   this->get_option(unit);
+
+
+           break;
+
+           case Qt::Key_Up:
+        //    qDebug()<<"[Up]";
+
+          //  unit = static_cast<UnitNode*>(new_ind.internalPointer());
+
+
+          //  this->get_option(unit);
+
+
+
+           break;
+           }
+
+
+
+        }
+    }
+    */
+
+}
 
 void MainWindowCFG::operator_add(Operator * op)
 {

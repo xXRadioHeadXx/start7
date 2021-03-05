@@ -46,6 +46,8 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:
 
+  bool eventFilter(QObject *obj, QEvent *event);
+
 
     My_settings* my;
 
@@ -566,6 +568,7 @@ public:
 
 private slots:
 
+    void slot_to_get_options(QModelIndex index);
     void update();
 
     void unitNameChanged(QStandardItem*);
