@@ -3892,6 +3892,10 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
         string1.append(" ");
         string1.append("СД:");
         string1.append(QString::number(unit->getNum2()));
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
     }
 
 
@@ -3924,6 +3928,7 @@ void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
 
 
 
+
         if(unit->getUdpAdress()!="")
         {
             string1.append(" ");
@@ -3940,6 +3945,12 @@ void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
         string1.append(" ");
         string1.append("ИУ:");
         string1.append(QString::number(unit->getNum2()));
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
+
+
     }
 
 
@@ -3981,6 +3992,10 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
 
     }
 
@@ -4046,6 +4061,10 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
 
     }
 
@@ -4095,6 +4114,10 @@ void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
 
     }
 
@@ -4123,6 +4146,10 @@ void MainWindowCFG::get_option_BOD_T4K_M(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
     }
 
 
@@ -4247,6 +4274,10 @@ if(unit->getUdpUse()==1)
     string1.append("::");
     string1.append(QString::number(unit->getUdpPort()));
     string1.append(" ");
+    string1.append("\n");
+    string1.append("Таймаут: ");
+    string1.append(QString::number(unit->getUdpTimeout()));
+    string1.append("\n");
 }
 
 
@@ -4391,6 +4422,10 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
     }
   this->ui->textEdit->append(string1);
 }
@@ -5864,6 +5899,10 @@ void MainWindowCFG::get_option_TOROS(UnitNode *unit)
     string1.append("\n");
     string1.append("Канал: ");
     string1.append(QString::number(unit->getUdpPort()));
+    string1.append("\n");
+    string1.append("Таймаут: ");
+    string1.append(QString::number(unit->getUdpTimeout()));
+    string1.append("\n");
 
     this->ui->textEdit->append(string1);
 
