@@ -876,7 +876,7 @@ void MainWindowCFG::get_option_GROUP(UnitNode *unit)
 
     this->ui->textEdit->clear();
     QString string1;
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Группа</b> ");
+   //     string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Группа</b> ");
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
     string1.append(unit->getName());
     this->ui->textEdit->append(string1);
