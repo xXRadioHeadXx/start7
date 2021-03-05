@@ -41,6 +41,7 @@ SOURCES += \
     my_doublespinbox.cpp \
     my_lineedit.cpp \
     my_settings.cpp \
+    my_treeview.cpp \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
@@ -75,6 +76,7 @@ HEADERS += \
     my_doublespinbox.h \
     my_lineedit.h \
     my_settings.h \
+    my_treeview.h \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
