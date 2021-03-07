@@ -30,6 +30,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     ui->actionControl->setShortcut(QKeySequence("Ins"));//Qt::Key_Insert));
 
     m_dbManager = new DataBaseManager(this);
+
+    m_alarmSwitchOffLogger = new AlarmSwitchOffLogger(this);
+
     DataBaseManager::setIdStartLastDuty();
 
     this->modelMSG = new TableModelMSG(this);
@@ -135,7 +138,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     preparePageCustomization(-1);
 
-
+    m_alarmSwitchOffLogger->start();
 }
 
 MainWindowServer::~MainWindowServer()
@@ -146,6 +149,8 @@ MainWindowServer::~MainWindowServer()
     msg.setComment(tr("Программа остановлена"));
     DataBaseManager::insertJourMsg(msg);
     GraphTerminal::sendAbonentEventsAndStates(msg);
+
+    delete m_alarmSwitchOffLogger;
 
     delete ui;
 }

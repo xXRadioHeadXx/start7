@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 //#include <QUdpSocket>
+#include <AlarmSwitchOffLogger.h>
 #include <QDebug>
 #include <QTableWidget>
 
@@ -126,6 +127,7 @@ private:
 
     PortManager *m_portManager = nullptr;
     DataBaseManager *m_dbManager = nullptr;
+    AlarmSwitchOffLogger *m_alarmSwitchOffLogger = nullptr;
     TableModelMSG *modelMSG = nullptr;
     TreeModelUnitNode *modelTreeUN = nullptr;
 
