@@ -14,6 +14,7 @@
 #include <OnOffIUWaiter.h>
 #include <StatusConnectRequester.h>
 #include <GraphTerminal.h>
+#include <MultiUNStatusConnectRequester.h>
 
 class PortManager : public QObject
 {
@@ -31,7 +32,7 @@ private:
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    static QList<StatusConnectRequester *> lsSCR;
+    static QList<MultiUNStatusConnectRequester *> lsSCR;
     static QList<AbstractRequester *> lsWaiter;
 
     void setupPort(const int index = 0);

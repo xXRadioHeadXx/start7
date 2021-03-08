@@ -159,6 +159,7 @@ public slots:
             return;
         }
 
+//        qDebug() << "beatRepeatFirstRequest("<<this<<") -- makeFirstMsg " << getUnReciver()->toString();
         setFirstMsg(makeFirstMsg());
 
         if(!getFirstMsg().isValid()) {
@@ -170,6 +171,7 @@ public slots:
             return;
         }
 
+//        qDebug() << "beatRepeatFirstRequest("<<this<<") -- write " << QTime::currentTime().toString("hh:mm:ss.zzz") << getFirstMsg().data().toHex();
         Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerFirstStart(getTimeIntervalRequest());

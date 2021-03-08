@@ -295,6 +295,16 @@ int UnitNode::getUdpTimeout() const
 void UnitNode::setUdpTimeout(int value)
 {
     UdpTimeout = value;
+
+    int udpTimeout = 50;
+
+    udpTimeout = qMax(udpTimeout, getUdpTimeout());
+
+    int maxBeatCount = 400;
+    if(50 != udpTimeout) {
+        maxBeatCount = (20500 / udpTimeout) + 1;
+    }
+    setMaxCountSCRWA(maxBeatCount);
 }
 
 int UnitNode::getMetka1Time_0() const
@@ -907,10 +917,30 @@ bool UnitNode::isEditableControl() const
     return editableControl;
 }
 
+int UnitNode::getCountSCRWA() const
+{
+    return countSCRWA;
+}
+
+void UnitNode::setCountSCRWA(int value)
+{
+    countSCRWA = value;
+}
+
+int UnitNode::getMaxCountSCRWA() const
+{
+    return maxCountSCRWA;
+}
+
+void UnitNode::setMaxCountSCRWA(int value)
+{
+    maxCountSCRWA = value;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
-       ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
+            ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
         TypeUnitNode::RLM_C == getType() ||
         TypeUnitNode::RLM_KRL == getType()))
         editableControl = true;
@@ -1440,7 +1470,7 @@ QString UnitNode::toString()
     case Y4_SOTA: result.append("Участок Сота"); break; // 30,Участок Сота
     case DD_SOTA: result.append("ДД Сота"); break; // 31,ДД Сота
     case NET_DEV: result.append("Сетевое устройство"); break; // 200,Сетевое устройство
-    case BL_IP: result.append("БЛ-IP"); break; // 0xFF,БЛ IP
+    case BL_IP: result.append("БЛ-IP").append(getUdpAdress()).append(":").append(QString::number(getUdpPort())); break; // 0xFF,БЛ IP
     default: result.append("UNKNOWEN"); break; //
     }
     result = result.append(" [" + getName() + "]").append(")");

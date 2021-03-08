@@ -13,6 +13,7 @@
 #include <LockWaiter.h>
 #include <global.hpp>
 #include <QMessageBox>
+#include <MultiUNStatusConnectRequester.h>
 
 PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {
@@ -34,7 +35,7 @@ QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
 GraphTerminal * PortManager::graphTerminal = nullptr;
 
 
-QList<StatusConnectRequester *> PortManager::lsSCR = QList<StatusConnectRequester *>();
+QList<MultiUNStatusConnectRequester *> PortManager::lsSCR = QList<MultiUNStatusConnectRequester *>();
 
 QList<AbstractRequester *> PortManager::lsWaiter = QList<AbstractRequester *>();
 
@@ -257,7 +258,7 @@ void PortManager::pushOverallWriteQueue(const DataQueueItem &value){
 }
 
 void PortManager::startStatusRequest(){
-
+//    qDebug() << "PortManager::startStatusRequest() -->";
     disconnect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(UnitNode *)), this, SLOT(unLostedConnect(UnitNode *)));
 
     for(AbstractRequester * scr : as_const(lsSCR)) {
@@ -270,15 +271,36 @@ void PortManager::startStatusRequest(){
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::RLM_C == un->getType() ||
            TypeUnitNode::RLM_KRL == un->getType()) {
-            StatusConnectRequester * tmpSCR = new StatusConnectRequester(un);
-            tmpSCR->init();
+//            qDebug() << "PortManager::startStatusRequest() -- un" << un->toString();
+            AbstractPort * ptrPort = nullptr;
+            QPair<QString, QString> unIpPort(un->getUdpAdress(), QString::number(un->getUdpPort()));
             for(const auto& p : as_const(getUdpPortsVector())) {
-                if(Port::typeDefPort(p)->getStIpPort().contains(tmpSCR->getIpPort())) {
-                    tmpSCR->setPtrPort(p);
+                if(Port::typeDefPort(p)->getStIpPort().contains(unIpPort)) {
+                    ptrPort = p;
+//                    qDebug() << "PortManager::startStatusRequest() -- ptrPort " << ptrPort << ":" << unIpPort;
                     break;
                 }
             }
-            lsSCR.append(tmpSCR);
+            bool needMakeNew = true;
+            for(const auto& scr : as_const(lsSCR)) {
+                if(scr->getIpPort() == unIpPort) {
+//                    qDebug() << "PortManager::startStatusRequest() -- match scr->getPtrPort("<<scr->getPtrPort()<<")";
+                    scr->addLsTrackedUN(un);
+//                    qDebug() << "PortManager::startStatusRequest() -- match scr->getLsTrackedUN("<<scr->getLsTrackedUN()<<")";
+                    needMakeNew = false;
+                    break;
+                }
+            }
+            if(needMakeNew) {
+                auto tmpSCR = new MultiUNStatusConnectRequester(un);
+                tmpSCR->init();
+                tmpSCR->setPtrPort(ptrPort);
+                lsSCR.append(tmpSCR);
+                tmpSCR->addLsTrackedUN(un);
+//                qDebug() << "PortManager::startStatusRequest() -- new scr->getPtrPort("<<tmpSCR->getPtrPort()<<")";
+//                qDebug() << "PortManager::startStatusRequest() -- new scr->getLsTrackedUN("<<tmpSCR->getLsTrackedUN()<<")";
+//                qDebug() << "PortManager::startStatusRequest() -- new lsSCR.size("<<lsSCR.size()<<")";
+            }
         }
     }
 
@@ -287,6 +309,7 @@ void PortManager::startStatusRequest(){
     }
 
     connect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(UnitNode *)), this, SLOT(unLostedConnect(UnitNode *)));
+//    qDebug() << "PortManager::startStatusRequest() <--";
 }
 
 void PortManager::requestAlarmReset(UnitNode * selUN) {
@@ -776,6 +799,9 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
     for(UnitNode * un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
+        {
+            un->setCountSCRWA(0);
+        }
         QPointer<UnitNode> previousCopyUNLockSdBlIp = nullptr, previousCopyUNLockIuBlIp = nullptr;
         UnitNode * unLockSdBlIp = nullptr, * unLockIuBlIp = nullptr;
         bool isLockPair = false;
@@ -1139,6 +1165,10 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
     for(UnitNode * un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
+
+        {
+            un->setCountSCRWA(0);
+        }
 
         QPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
 

@@ -95,7 +95,7 @@ private:
     int UdpUse;//=0
     QString UdpAdress;//=
     int UdpPort;//=0
-    int UdpTimeout = 0;
+    int UdpTimeout = 50;
     int Metka1Time_0;//=0
     int Metka1Time_1;//=0
     int Metka2Time_0;//=0
@@ -127,6 +127,9 @@ private:
     bool dkInvolved = false;
     bool visible = false;
     bool control = true;
+
+    int countSCRWA = 0;
+    int maxCountSCRWA = 400;
 
 private:
     bool editableControl = false;
@@ -370,6 +373,12 @@ public:
     bool isEditableOnOff() const;
 
     bool isNeedsPreamble() const;
+
+    int getCountSCRWA() const;
+    void setCountSCRWA(int value);
+
+    int getMaxCountSCRWA() const;
+    void setMaxCountSCRWA(int value);
 
 public slots:
 
