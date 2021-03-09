@@ -1215,7 +1215,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
-                if(1 == un->isOn() && 1 == un->isAlarm()) {
+                if((1 == un->isOn()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm())) {
                     //нужен сброс
                     DataQueueItem::makeAlarmReset0x24(resultRequest, un);
                 }

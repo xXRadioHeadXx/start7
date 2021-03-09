@@ -1263,7 +1263,7 @@ int UnitNode_RLM_C::isInAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -1273,7 +1273,7 @@ int UnitNode_RLM_C::isOutAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
+    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -1548,7 +1548,7 @@ int UnitNode_RLM_KRL::isInAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
+    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -1558,7 +1558,7 @@ int UnitNode_RLM_KRL::isOutAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
+    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;

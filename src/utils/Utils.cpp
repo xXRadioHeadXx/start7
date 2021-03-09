@@ -374,246 +374,242 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode *
 void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode *un)
 {
     // prepare -->
-    table->setRowCount(7);
-    table->setColumnCount(4);
+    table->setRowCount(9);
+    table->setColumnCount(3);
 
-    table->setColumnWidth(0, 100);
+    table->setColumnWidth(0, 150);
     table->setColumnWidth(1, 150);
     table->setColumnWidth(2, 150);
-    table->setColumnWidth(3, 150);
 
-    setCellText( table, 0,0, (QObject::tr("Параметр")));
-    setCellText( table, 0,1, (QObject::tr("Значение")));
-    setCellText( table, 0,2, (QObject::tr("Параметр")));
-    setCellText( table, 0,3, (QObject::tr("Значение")));
-
-    setCellText( table, 1,0, (QObject::tr("Состояние")));
-    setCellText( table, 2,0, (QObject::tr("Тревога")));
-    setCellText( table, 3,0, (QObject::tr("Сработка")));
-
-    setCellText( table, 4,0, QObject::tr("Вскрытие"));
-    setCellColor( table, 4,0, cellGray);
-
-    setCellText( table, 5,0, QObject::tr("ДК"));
-    setCellColor( table, 5,0, cellGray);
-
-    setCellText( table, 6,0, QObject::tr("Уровень"));
-    setCellColor( table, 6,0, cellGray);
-
-    for(int i = 0, n = 7; i < n; i++) {
-        for(int j = 0, m = 4; j < m; j++) {
-            if(2 == i && 2 == j)
-                setCellText( table, i, j, QObject::tr("Вход \"Тревога\""));
-            else if(4 == i && 2 == j)
-                setCellText( table, i, j, QObject::tr("Вход \"Вскрытие\""));
-            else if(5 == i && 2 == j)
-                setCellText( table, i, j, QObject::tr("Вход \"ДК\""));
-            else if(0 != i && 2 == j)
-                setCellText( table, i, j, "");
-            else if(0 != i && 0 != j)
-                setCellText( table, i, j, "");
-
+    for(int i = 0, n = table->rowCount(); i < n; i++) {
+        for(int j = 0, m = table->colorCount(); j < m; j++) {
+            setCellText( table, i, j, "");
             setCellColor( table, i, j, cellGray);
         }
     }
+
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+//    setCellText( table, 0,1, (QObject::tr("Вход")));
+    setCellText( table, 0,2, (QObject::tr("Статус")));
+
+    setCellText( table, 1,0, (QObject::tr("Датчик")));
+    setCellText( table, 2,0, (QObject::tr("Срабатывание")));
+
+//    setCellText( table, 3,0, (QObject::tr("Параметр")));
+    setCellText( table, 3,1, (QObject::tr("Выход")));
+    setCellText( table, 3,2, (QObject::tr("Статус")));
+
+    setCellText( table, 4,0, (QObject::tr("Тревога")));
+
+//    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 5,1, (QObject::tr("Вход")));
+    setCellText( table, 5,2, (QObject::tr("Статус")));
+
+    setCellText( table, 6,0, (QObject::tr("ДК")));
+    setCellText( table, 7,0, (QObject::tr("Вскрытие")));
+    setCellText( table, 8,0, (QObject::tr("Уровень")));
     // prepare <--
 
     // fill -->
-    //"Состояние"
+    //"Датчик"
     if(1 == un->isOn()) {
-        setCellText( table, 1,1, (QObject::tr("Вкл[1]")));
-        setCellColor( table, 1,1, cellGray);
+        setCellText( table, 1,2, (QObject::tr("Вкл[1]")));
+        setCellColor( table, 1,2, cellGray);
     } else if(1 == un->isOff()) {
-        setCellText( table, 1,1, (QObject::tr("Выкл[0]")));
-        setCellColor( table, 1,1, cellGray);
+        setCellText( table, 1,2, (QObject::tr("Выкл[0]")));
+        setCellColor( table, 1,2, cellGray);
     }
-    //"Тревога"
-    if(1 == un->isInAlarm()) {
-        setCellText( table, 2,1, (QObject::tr("Да[1]")));
+    //"Срабатывание"
+    if(1 == un->isOutAlarm()) {
+        setCellText( table, 2,1, (QObject::tr("Было[1]")));
         setCellColor( table, 2,1, cellRed);
-    } else if(0 == un->isInAlarm()) {
+    } else if(0 == un->isOutAlarm()) {
         setCellText( table, 2,1, (QObject::tr("Нет[0]")));
         setCellColor( table, 2,1, cellGreen);
     }
-    //"Вход \"Тревога\""
-    if(1 == un->isOutAlarm()) {
-        setCellText( table, 2,3, (QObject::tr("Да[1]")));
-        setCellColor( table, 2,3, cellRed);
-    } else if(0 == un->isOutAlarm()) {
-        setCellText( table, 2,3, (QObject::tr("Нет[0]")));
-        setCellColor( table, 2,3, cellGreen);
-    }
-    //"Сработка"
-    if(1 == un->isWasAlarm()) {
-        setCellText( table, 3,1, (QObject::tr("Да[1]")));
-        setCellColor( table, 3,1, cellRed);
-    } else if(0 == un->isWasAlarm()) {
-        setCellText( table, 3,1, (QObject::tr("Нет[0]")));
-        setCellColor( table, 3,1, cellGreen);
-    }
-    //"Вскрытие"
-    if(1 == un->isOpened()) {
+    //"Выход \"Тревога\""
+    if(1 == un->isInAlarm()) {
         setCellText( table, 4,1, (QObject::tr("Да[1]")));
         setCellColor( table, 4,1, cellRed);
-    } else if(0 == un->isOpened()) {
+    } else if(0 == un->isInAlarm()) {
         setCellText( table, 4,1, (QObject::tr("Нет[0]")));
         setCellColor( table, 4,1, cellGreen);
     }
-    //"Вход \"Вскрытие\""
-    if(1 == un->isInOpened()) {
-        setCellText( table, 4,3, (QObject::tr("Да[1]")));
-        setCellColor( table, 4,3, cellRed);
-    } else if(0 == un->isInOpened()) {
-        setCellText( table, 4,3, (QObject::tr("Нет[0]")));
-        setCellColor( table, 4,3, cellGreen);
-    }
-    //"ДК"
-    if(1 == un->isExistDK()) {
-        setCellText( table, 5,1, (QObject::tr("Есть[1]")));
-        setCellColor( table, 5,1, cellYellow);
-    } else if(0 == un->isExistDK()) {
-        setCellText( table, 5,1, (QObject::tr("Нет[0]")));
-        setCellColor( table, 5,1, cellGreen);
+    //"Статус \"Тревога\""
+    if(1 == un->isInAlarm()) {
+        setCellText( table, 4,2, (QObject::tr("Было[1]")));
+        setCellColor( table, 4,2, cellRed);
+    } else if(0 == un->isInAlarm()) {
+        setCellText( table, 4,2, (QObject::tr("Нет[0]")));
+        setCellColor( table, 4,2, cellGreen);
     }
     //"Вход \"ДК\""
+    if(1 == un->isExistDK()) {
+        setCellText( table, 6,1, (QObject::tr("Есть[1]")));
+        setCellColor( table, 6,1, cellYellow);
+    } else if(0 == un->isExistDK()) {
+        setCellText( table, 6,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 6,1, cellGreen);
+    }
+    //"Статус \"ДК\""
     if(1 == un->isWasDK()) {
-        setCellText( table, 5,3, (QObject::tr("Есть[1]")));
-        setCellColor( table, 5,3, cellYellow);
+        setCellText( table, 6,2, (QObject::tr("Было[1]")));
+        setCellColor( table, 6,2, cellYellow);
     } else if(0 == un->isWasDK()) {
-        setCellText( table, 5,3, (QObject::tr("Нет[0]")));
-        setCellColor( table, 5,3, cellGreen);
+        setCellText( table, 6,2, (QObject::tr("Нет[0]")));
+        setCellColor( table, 6,2, cellGreen);
+    }
+    //"Вход \"Вскрытие\""
+    if(1 == un->isInOpened()) {
+        setCellText( table, 7,1, (QObject::tr("Есть[1]")));
+        setCellColor( table, 7,1, cellRed);
+    } else if(0 == un->isInOpened()) {
+        setCellText( table, 7,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 7,1, cellGreen);
+    }
+    //"Статус \"Вскрытие\""
+    if(1 == un->isInOpened()) {
+        setCellText( table, 7,2, (QObject::tr("Было[1]")));
+        setCellColor( table, 7,2, cellRed);
+    } else if(0 == un->isInOpened()) {
+        setCellText( table, 7,2, (QObject::tr("Нет[0]")));
+        setCellColor( table, 7,2, cellGreen);
     }
     //"Уровень"
     if(-1.0 != un->voltage()) {
-        setCellText( table, 6,1, (QString::number(un->voltage(), 'f', 2)));
-        setCellColor( table, 6,1, cellGray);
+        setCellText( table, 8,1, (QString::number(un->voltage(), 'f', 2)));
+        setCellColor( table, 8,1, cellGray);
     }
     // fill <--
 }
 
 void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
 {
-    table->setRowCount(11);
-    table->setColumnCount(4);
+    // prepare -->
+    table->setRowCount(13);
+    table->setColumnCount(3);
 
-    table->setColumnWidth(0, 100);
+    table->setColumnWidth(0, 150);
     table->setColumnWidth(1, 150);
     table->setColumnWidth(2, 150);
-    table->setColumnWidth(3, 150);
 
-    setCellText( table, 0,0, (QObject::tr("Параметр")));
-    setCellText( table, 0,1, (QObject::tr("Значение")));
-    setCellText( table, 0,2, (QObject::tr("Параметр")));
-    setCellText( table, 0,3, (QObject::tr("Значение")));
-
-    setCellText( table, 1,0, (QObject::tr("Состояние")));
-    setCellText( table, 2,0, (QObject::tr("Тревога")));
-    setCellText( table, 3,0, (QObject::tr("Сработка")));
-    setCellText( table, 4,0, (QObject::tr("ДК")));
-    setCellText( table, 5,0, (QObject::tr("Синхронизация")));
-    setCellText( table, 6,0, (QObject::tr("Низкий ровень")));
-    setCellText( table, 7,0, (QObject::tr("Уровень")));
-    setCellText( table, 8,0, (QObject::tr("Пороги")));
-    setCellText( table, 9,0, (QObject::tr("Период тактирования")));
-    setCellText( table, 10,0, (QObject::tr("Режим обработки")));
-
-    for(int i = 0, n = 11; i < n; i++) {
-        for(int j = 0, m = 4; j < m; j++) {
-            if(2 == i && 2 == j)
-                setCellText(table, i, j, QObject::tr("Вход \"Тревога\""));
-            else if(4 == i && 2 == j)
-                setCellText(table, i, j, QObject::tr("Вход \"ДК\""));
-            else if(0 != i && 2 == j)
-                setCellText(table, i, j, "");
-            else if(0 != i && 0 != j)
-                setCellText(table, i, j, ""); // or "?"
-
-            setCellColor(table, i, j, cellGray);
+    for(int i = 0, n = table->rowCount(); i < n; i++) {
+        for(int j = 0, m = table->colorCount(); j < m; j++) {
+            setCellText( table, i, j, "");
+            setCellColor( table, i, j, cellGray);
         }
     }
 
-    if(1 == un->isOn()) {
-        setCellText( table, 1,1, (QObject::tr("Вкл[1]")));
-        setCellColor( table, 1,1, cellGray);
-    } else if(1 == un->isOff()) {
-        setCellText( table, 1,1, (QObject::tr("Выкл[0]")));
-        setCellColor( table, 1,1, cellGray);
-    }
+    setCellText( table, 0,0, (QObject::tr("Параметр")));
+//    setCellText( table, 0,1, (QObject::tr("Вход")));
+    setCellText( table, 0,2, (QObject::tr("Статус")));
 
-    if(1 == un->isInAlarm()) {
-        setCellText( table, 2,1, (QObject::tr("Да[1]")));
+    setCellText( table, 1,0, (QObject::tr("Датчик")));
+    setCellText( table, 2,0, (QObject::tr("Срабатывание")));
+
+//    setCellText( table, 3,0, (QObject::tr("Параметр")));
+    setCellText( table, 3,1, (QObject::tr("Выход")));
+    setCellText( table, 3,2, (QObject::tr("Статус")));
+
+    setCellText( table, 4,0, (QObject::tr("Тревога")));
+
+//    setCellText( table, 0,0, (QObject::tr("Параметр")));
+    setCellText( table, 5,1, (QObject::tr("Вход")));
+    setCellText( table, 5,2, (QObject::tr("Статус")));
+
+    setCellText( table, 6,0, (QObject::tr("ДК")));
+    setCellText( table, 7,0, (QObject::tr("Синхронизация")));
+    setCellText( table, 8,0, (QObject::tr("Низкий ровень")));
+    setCellText( table, 9,0, (QObject::tr("Уровень")));
+    setCellText( table, 10,0, (QObject::tr("Пороги")));
+    setCellText( table, 11,0, (QObject::tr("Период тактирования")));
+    setCellText( table, 12,0, (QObject::tr("Режим обработки")));
+    // prepare <--
+
+    // fill -->
+    //"Датчик"
+    if(1 == un->isOn()) {
+        setCellText( table, 1,2, (QObject::tr("Вкл[1]")));
+        setCellColor( table, 1,2, cellGray);
+    } else if(1 == un->isOff()) {
+        setCellText( table, 1,2, (QObject::tr("Выкл[0]")));
+        setCellColor( table, 1,2, cellGray);
+    }
+    //"Срабатывание"
+    if(1 == un->isOutAlarm()) {
+        setCellText( table, 2,1, (QObject::tr("Было[1]")));
         setCellColor( table, 2,1, cellRed);
-    } else if(0 == un->isInAlarm()) {
+    } else if(0 == un->isOutAlarm()) {
         setCellText( table, 2,1, (QObject::tr("Нет[0]")));
         setCellColor( table, 2,1, cellGreen);
     }
-
-    if(1 == un->isOutAlarm()) {
-        setCellText( table, 2,3, (QObject::tr("Да[1]")));
-        setCellColor( table, 2,3, cellRed);
-    } else if(0 == un->isOutAlarm()) {
-        setCellText( table, 2,3, (QObject::tr("Нет[0]")));
-        setCellColor( table, 2,3, cellGreen);
-    }
-
-    if(1 == un->isWasAlarm()) {
-        setCellText( table, 3,1, (QObject::tr("Да[1]")));
-        setCellColor( table, 3,1, cellRed);
-    } else if(0 == un->isWasAlarm()) {
-        setCellText( table, 3,1, (QObject::tr("Нет[0]")));
-        setCellColor( table, 3,1, cellGreen);
-    }
-
-    if(1 == un->isExistDK()) {
-        setCellText( table, 4,1, (QObject::tr("Есть[1]")));
-        setCellColor( table, 4,1, cellYellow);
-    } else if(0 == un->isExistDK()) {
+    //"Выход \"Тревога\""
+    if(1 == un->isInAlarm()) {
+        setCellText( table, 4,1, (QObject::tr("Да[1]")));
+        setCellColor( table, 4,1, cellRed);
+    } else if(0 == un->isInAlarm()) {
         setCellText( table, 4,1, (QObject::tr("Нет[0]")));
         setCellColor( table, 4,1, cellGreen);
     }
-
-    if(1 == un->isWasDK()) {
-        setCellText( table, 4,3, (QObject::tr("Есть[1]")));
-        setCellColor( table, 4,3, cellYellow);
-    } else if(0 == un->isWasDK()) {
-        setCellText( table, 4,3, (QObject::tr("Нет[0]")));
-        setCellColor( table, 4,3, cellGreen);
+    //"Статус \"Тревога\""
+    if(1 == un->isInAlarm()) {
+        setCellText( table, 4,2, (QObject::tr("Было[1]")));
+        setCellColor( table, 4,2, cellRed);
+    } else if(0 == un->isInAlarm()) {
+        setCellText( table, 4,2, (QObject::tr("Нет[0]")));
+        setCellColor( table, 4,2, cellGreen);
     }
-
-    if(1 == un->isExternalSynchronization()) {
-        setCellText( table, 5,1, (QObject::tr("Внешняя")));
-        setCellColor( table, 5,1, cellGray);
-    } else if(0 == un->isExternalSynchronization()) {
-        setCellText( table, 5,1, (QObject::tr("Внутренняя")));
-        setCellColor( table, 5,1, cellGray);
-    }
-
-    if(1 == un->lowLevl()) {
-        setCellText( table, 6,1, (QObject::tr("Да<1>")));
-        setCellColor( table, 6,1, cellRed);
-    } else if(0 == un->lowLevl()) {
+    //"Вход \"ДК\""
+    if(1 == un->isExistDK()) {
+        setCellText( table, 6,1, (QObject::tr("Есть[1]")));
+        setCellColor( table, 6,1, cellYellow);
+    } else if(0 == un->isExistDK()) {
         setCellText( table, 6,1, (QObject::tr("Нет[0]")));
         setCellColor( table, 6,1, cellGreen);
     }
-
-    if(-1.0 != un->voltage()) {
-        setCellText( table, 7,1, (QString::number(un->voltage(), 'f', 2)));
+    //"Статус \"ДК\""
+    if(1 == un->isWasDK()) {
+        setCellText( table, 6,2, (QObject::tr("Было[1]")));
+        setCellColor( table, 6,2, cellYellow);
+    } else if(0 == un->isWasDK()) {
+        setCellText( table, 6,2, (QObject::tr("Нет[0]")));
+        setCellColor( table, 6,2, cellGreen);
+    }
+    //"Синхронизация"
+    if(1 == un->isExternalSynchronization()) {
+        setCellText( table, 7,1, (QObject::tr("Внешняя")));
+        setCellColor( table, 7,1, cellGray);
+    } else if(0 == un->isExternalSynchronization()) {
+        setCellText( table, 7,1, (QObject::tr("Внутренняя")));
         setCellColor( table, 7,1, cellGray);
     }
-
-    if(-1.0 != un->threshold()) {
-        if(1.0 > un->threshold())
-            setCellText( table, 8,1, (QString::number(un->threshold(), 'f', 1)));
-        else
-            setCellText( table, 8,1, (QString::number(un->threshold(), 'f', 0)));
-        setCellColor( table, 8,1, cellGray);
+    //"Низкий ровень"
+    if(1 == un->lowLevl()) {
+        setCellText( table, 8,1, (QObject::tr("Да<1>")));
+        setCellColor( table, 8,1, cellRed);
+    } else if(0 == un->lowLevl()) {
+        setCellText( table, 8,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 8,1, cellGreen);
     }
-
-    if(-1 != un->clockPeriod()) {
-        setCellText( table, 9,1, (QObject::tr("Такт ") + QString::number(un->clockPeriod() + 1)));
+    //"Уровень"
+    if(-1.0 != un->voltage()) {
+        setCellText( table, 9,1, (QString::number(un->voltage(), 'f', 2)));
         setCellColor( table, 9,1, cellGray);
     }
-
+    //"Пороги"
+    if(-1.0 != un->threshold()) {
+        if(1.0 > un->threshold())
+            setCellText( table, 10,1, (QString::number(un->threshold(), 'f', 1)));
+        else
+            setCellText( table, 10,1, (QString::number(un->threshold(), 'f', 0)));
+        setCellColor( table, 10,1, cellGray);
+    }
+    //"Период тактирования"
+    if(-1 != un->clockPeriod()) {
+        setCellText( table, 11,1, (QObject::tr("Такт ") + QString::number(un->clockPeriod() + 1)));
+        setCellColor( table, 11,1, cellGray);
+    }
+    //"Режим обработки"
     if(-1 != un->modeProcessing()) {
         QString str;
         switch (un->modeProcessing()) {
@@ -622,10 +618,10 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
         case 2: str = QObject::tr("Ползущий (Плз)"); break;
         case 3: str = QObject::tr("2-й ярус (2Яр)"); break;
         }
-        setCellText( table, 10,1, (str));
-        setCellColor( table, 10,1, cellGray);
+        setCellText( table, 12,1, (str));
+        setCellColor( table, 12,1, cellGray);
     }
-
+    // fill <--
 }
 
 void Utils::fillDiagnosticTableTG(QTableWidget * const table, const UnitNode */*selUN*/)
