@@ -1373,7 +1373,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
                       QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
 
-                      QByteArray ar=this->ui->SQL_password_lineEdit->text().toLocal8Bit().toHex();
+                      ar=this->ui->SQL_password_lineEdit->text().toLocal8Bit().toHex();
 
 
                       qDebug()<<"password "<<ar<<"   "<<QString::fromUtf8(ar);
@@ -1587,7 +1587,7 @@ bool MainWindowCFG::no_equal_unit(MainWindowCFG* m_cfg,UnitNode *unit,UnitNode *
          if(is_equal(m_cfg,unit,un))
           {
 
-             QMessageBox::critical(0,"Ошибка","этот IP адрес уже  занят");
+             QMessageBox::critical(0,"Ошибка","Объект с такими параметрами уже существует");
              return false;
           }
         }

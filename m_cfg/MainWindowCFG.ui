@@ -71,7 +71,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="My_TreeView" name="treeView">
+         <widget class="My_treeView" name="treeView" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -142,7 +142,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -637,7 +637,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>15</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -2051,7 +2051,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="coordinates_for_all">
              <widget class="QGroupBox" name="groupBox_4">
@@ -2098,6 +2098,9 @@
                  <height>25</height>
                 </rect>
                </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
+               </property>
                <property name="maximum">
                 <double>9999.989999999999782</double>
                </property>
@@ -2110,6 +2113,9 @@
                  <width>123</width>
                  <height>25</height>
                 </rect>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
                </property>
                <property name="maximum">
                 <double>9999.989999999999782</double>
@@ -2346,6 +2352,9 @@
                  <height>25</height>
                 </rect>
                </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
+               </property>
                <property name="maximum">
                 <double>9999.989999999999782</double>
                </property>
@@ -2358,6 +2367,9 @@
                  <width>80</width>
                  <height>25</height>
                 </rect>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
                </property>
                <property name="maximum">
                 <double>9999.989999999999782</double>
@@ -2397,6 +2409,9 @@
                  <height>25</height>
                 </rect>
                </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
+               </property>
                <property name="maximum">
                 <double>9999.989999999999782</double>
                </property>
@@ -2409,6 +2424,9 @@
                  <width>80</width>
                  <height>25</height>
                 </rect>
+               </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::NoContextMenu</enum>
                </property>
                <property name="maximum">
                 <double>9999.989999999999782</double>
@@ -3582,6 +3600,9 @@
    </attribute>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -3597,7 +3618,7 @@
   </widget>
   <action name="actionCreate">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/create-file-icon.png</normaloff>:/images/create-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -3606,7 +3627,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/open-file-icon.png</normaloff>:/images/open-file-icon.png</iconset>
    </property>
    <property name="text">
@@ -3615,7 +3636,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
+    <iconset resource="my_cfg_resources.qrc">
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
@@ -3653,7 +3674,15 @@
    <extends>QWidget</extends>
    <header>my_lineedit.h</header>
   </customwidget>
+  <customwidget>
+   <class>My_treeView</class>
+   <extends>QWidget</extends>
+   <header location="global">my_treeview.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="my_cfg_resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
