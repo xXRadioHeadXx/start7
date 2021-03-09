@@ -30,6 +30,21 @@ void MultiUNStatusConnectRequester::setLsTrackedUN(const QList<UnitNode *> &valu
 void MultiUNStatusConnectRequester::addLsTrackedUN(UnitNode *  value)
 {
     lsTrackedUN.append(value);
+
+    int sumUdpTimeout = 0;
+    for(auto uncld : as_const(getLsTrackedUN())) {
+        sumUdpTimeout += uncld->getUdpTimeout();
+    }
+
+    int maxBeatCount = 400;
+    if(0 < sumUdpTimeout) {
+        maxBeatCount = (20500 / sumUdpTimeout) + 1;
+    }
+
+    for(auto uncld : as_const(getLsTrackedUN())) {
+        uncld->setMaxCountSCRWA(maxBeatCount);
+    }
+
 }
 
 void MultiUNStatusConnectRequester::specialReserveSlot() const
