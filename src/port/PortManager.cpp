@@ -797,6 +797,9 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
     const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
     for(UnitNode * un : tmpSet) {
+        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) && item.port() == un->getUdpPort() && TypeUnitNode::BL_IP == un->getType()) {
+            un->setCountSCRWA(0);
+        }
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
         {
