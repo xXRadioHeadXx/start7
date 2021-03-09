@@ -1602,7 +1602,7 @@ bool MainWindowCFG::no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *
 
 
     QList<UnitNode *> List1;
-    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    this->modelTreeUN->getListFromModel(List1,parent);
 
     foreach(UnitNode *un, List1 )
     {
@@ -2955,28 +2955,23 @@ bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parent)
 
              return false;
 
-         return no_equal_unit(this,unit,parent,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+         return no_equal_unit_from_one_parent(this,unit,parent,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
                               {
 
 
-                      QModelIndex ind = m_cfg->modelTreeUN->parent(m_cfg->modelTreeUN->findeIndexUN(unit));
-                      QModelIndex index=m_cfg->modelTreeUN->findeIndexUN(un);
-                      QModelIndex un_parent_index= m_cfg->modelTreeUN->parent(index);
 
-                       if(ind==un_parent_index)
                        if(un->getType()==unit->getType())
                        if(un->getUdpUse()==unit->getUdpUse())
 
                        if(un->getNum2()==unit->getNum2())
                        {
                            m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                           QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
 
-                           return false;
+                           return true;
                        }
 
 
-        return true;
+        return false;
                     });
 }
 
