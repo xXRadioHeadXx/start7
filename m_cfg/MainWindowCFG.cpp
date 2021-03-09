@@ -5008,7 +5008,7 @@ void MainWindowCFG::get_SQL(QString filename)
     this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
 #endif
            //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString(),"start7"));
-              this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
+           //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
 
           //    this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
               this->ui->SQL_database_lineEdit->setText(settings.value("DbName",-1).toString());
