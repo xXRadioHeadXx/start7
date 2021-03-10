@@ -3868,14 +3868,14 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 
     }
 
-    string1.append(" : ");
-    string1.append("СД:");
+    string1.append(" :");
+    string1.append(" СД:");
     string1.append(QString::number(unit->getNum2()));
 
     if(unit->getBazalt()==1)
     {
-        string1.append(" + ");
-        string1.append("ИУ:");
+        string1.append(" +");
+        string1.append(" ИУ:");
         string1.append(QString::number(unit->getNum2()));
     }
 
@@ -3890,8 +3890,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 
             if(unit->getUdpAdress()!="")
         {
-            string1.append(" ");
-            string1.append("(");
+            string1.append(" (");
             string1.append(unit->getUdpAdress());
             string1.append(")");
         }
@@ -3927,14 +3926,13 @@ void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
 
 
             string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
-        string1.append("Кан : ");
+        string1.append(": Кан:");
 
 
     if(unit->getUdpUse()==0)
     {
         string1.append(QString::number(unit->getNum3()));
-        string1.append(" ");
-        string1.append("ИУ : ");
+        string1.append(" ИУ:");
         string1.append(QString::number(unit->getNum2()));
 
 
@@ -3981,7 +3979,7 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
     string1.append(" : ");
     string1.append("ЧЭ: ");
     string1.append(QString::number(unit->getNum2()));
-    string1.append(" ");
+    string1.append("\r\n");
     string1.append("Кан: ");
 
     if(unit->getUdpUse()==0)
@@ -4004,13 +4002,12 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
-        string1.append("\n");
+        string1.append("\r\n");
         string1.append("Таймаут: ");
         string1.append(QString::number(unit->getUdpTimeout()));
-        string1.append("\n");
-
+        string1.append("\r\n");
     }
-
+    qDebug()<<string1;
     this->ui->textEdit->append(string1);
 
 }

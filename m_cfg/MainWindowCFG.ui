@@ -118,6 +118,9 @@
             <height>91</height>
            </size>
           </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -142,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>7</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3046,6 +3049,9 @@
               <height>25</height>
              </rect>
             </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
+            </property>
            </widget>
            <widget class="QLabel" name="label_30">
             <property name="geometry">
@@ -3574,7 +3580,7 @@
      <x>0</x>
      <y>0</y>
      <width>1043</width>
-     <height>30</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
