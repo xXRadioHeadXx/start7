@@ -876,7 +876,7 @@ void MainWindowCFG::get_option_GROUP(UnitNode *unit)
 
     this->ui->textEdit->clear();
     QString string1;
-   //     string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Группа</b> ");
+   //     string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" ");//  Группа</b> ");
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
     string1.append(unit->getName());
     this->ui->textEdit->append(string1);
@@ -3859,30 +3859,36 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 
     if(unit->getBazalt()==1)
     {
-            string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> Уз");
-        string1.append("Кан:");
+            string1.append("<b>");string1.append("УЗ Монолит ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" УЗ ");string1.append("</b> ");//  БЛ-IP</b> Уз");
+
     }
     if(unit->getBazalt()==0)
     {
             string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
-        string1.append("Кан:");
+
     }
+
+    string1.append(" : ");
+    string1.append("СД:");
+    string1.append(QString::number(unit->getNum2()));
+
+    if(unit->getBazalt()==1)
+    {
+        string1.append(" + ");
+        string1.append("ИУ:");
+        string1.append(QString::number(unit->getNum2()));
+    }
+
+    string1.append("\n");
+
+        string1.append(" Кан:");
 
     if(unit->getUdpUse()==0)
     {
         string1.append(QString::number(unit->getNum3()));
-        string1.append(" ");
-        string1.append("СД:");
-        string1.append(QString::number(unit->getNum2()));
 
-        if(unit->getBazalt()==1)
-        {
-            string1.append(" - ");
-            string1.append("ИУ");
-            string1.append(QString::number(unit->getNum2()));
-        }
 
-        if(unit->getUdpAdress()!="")
+            if(unit->getUdpAdress()!="")
         {
             string1.append(" ");
             string1.append("(");
@@ -3895,9 +3901,8 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
         string1.append(unit->getUdpAdress());
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
-        string1.append(" ");
-        string1.append("СД:");
-        string1.append(QString::number(unit->getNum2()));
+
+
         string1.append("\n");
         string1.append("Таймаут: ");
         string1.append(QString::number(unit->getUdpTimeout()));
@@ -3922,14 +3927,14 @@ void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
 
 
             string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
-        string1.append("Кан:");
+        string1.append("Кан : ");
 
 
     if(unit->getUdpUse()==0)
     {
         string1.append(QString::number(unit->getNum3()));
         string1.append(" ");
-        string1.append("ИУ:");
+        string1.append("ИУ : ");
         string1.append(QString::number(unit->getNum2()));
 
 
@@ -3971,9 +3976,9 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
     QString string1;
 
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка/Гарда</b> ");
-            string1.append(":");
+            string1.append(" : ");
     string1.append(QString::number(unit->getNum1()));
-    string1.append(" ");
+    string1.append(" : ");
     string1.append("ЧЭ: ");
     string1.append(QString::number(unit->getNum2()));
     string1.append(" ");
@@ -4015,7 +4020,7 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");
+    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));//  ");
     if(0==unit->getAdamOff())
     string1.append(str_RIF_RLM);
 
@@ -4035,7 +4040,7 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     string1.append(str_trassa1l);
 
     string1.append("</b>");
-    string1.append(":");
+    string1.append(" : ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
 
@@ -4399,7 +4404,7 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
     QString string1;
 
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Концентратор</b> ");
-            string1.append(":");
+            string1.append(" : ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
     string1.append("СД: ");
