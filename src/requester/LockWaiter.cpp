@@ -2,6 +2,8 @@
 #include "SignalSlotCommutator.h"
 
 #include <PortManager.h>
+#include <UnitNodeFactory.h>
+#include <SettingUtils.h>
 #include <Utils.h>
 #include <global.hpp>
 
@@ -15,15 +17,45 @@ LockWaiter::~LockWaiter()
     qDebug() << "LockWaiter::~LockWaiter(" << this << ") <--";
 }
 
+UnitNode *LockWaiter::getUnReciverIuBlIp() const
+{
+    return unReciverIuBlIp;
+}
+
+void LockWaiter::setUnReciverIuBlIp(UnitNode *value)
+{
+    unReciverIuBlIp = value;
+}
+
+UnitNode *LockWaiter::getUnReciverSdBlIp() const
+{
+    return unReciverSdBlIp;
+}
+
+void LockWaiter::setUnReciverSdBlIp(UnitNode *value)
+{
+    unReciverSdBlIp = value;
+}
+
+int LockWaiter::getInitVarianrt() const
+{
+    return initVarianrt;
+}
+
+void LockWaiter::setInitVarianrt(int value)
+{
+    initVarianrt = value;
+}
+
 DataQueueItem LockWaiter::getOnMsg()
 {
     DataQueueItem msgOn;
-    msgOn.setData(DataQueueItem::makeOnOff0x23(unReciverIuBlIp, true, getUnReciver()));
+    msgOn.setData(DataQueueItem::makeOnOff0x23(getUnReciverIuBlIp(), true, getUnReciver()));
     msgOn.setPort(getUnReciver()->getUdpPort());
     msgOn.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     msgOn.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
-    if(nullptr != unReciverIuBlIp && TypeUnitNode::RLM_C == unReciverIuBlIp->getType())
+    if(nullptr != getUnReciverIuBlIp() && TypeUnitNode::RLM_C == getUnReciverIuBlIp()->getType())
         msgOn.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
 
     return msgOn;
@@ -32,37 +64,37 @@ DataQueueItem LockWaiter::getOnMsg()
 DataQueueItem LockWaiter::getOffMsg()
 {
     DataQueueItem msgOff;
-    msgOff.setData(DataQueueItem::makeOnOff0x23(unReciverIuBlIp, false, getUnReciver()));
+    msgOff.setData(DataQueueItem::makeOnOff0x23(getUnReciverIuBlIp(), false, getUnReciver()));
     msgOff.setPort(getUnReciver()->getUdpPort());
     msgOff.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     msgOff.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
-    if(nullptr != unReciverIuBlIp && TypeUnitNode::RLM_C == unReciverIuBlIp->getType())
+    if(nullptr != getUnReciverIuBlIp() && TypeUnitNode::RLM_C == getUnReciverIuBlIp()->getType())
         msgOff.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
 
     return msgOff;
 }
 
 DataQueueItem LockWaiter::makeFirstMsg() {
-    if(1 == initVarianrt)
+    if(1 == getInitVarianrt())
         return getOnMsg();
-    else if(2 == initVarianrt)
+    else if(2 == getInitVarianrt())
         return getOffMsg();
-    else if(3 == initVarianrt)
+    else if(3 == getInitVarianrt())
         return getOffMsg();
-    else if(4 == initVarianrt)
+    else if(4 == getInitVarianrt())
         return getOnMsg();
     return DataQueueItem();
 }
 
 DataQueueItem LockWaiter::makeSecondMsg() {
-    if(1 == initVarianrt)
+    if(1 == getInitVarianrt())
         return DataQueueItem();
-    else if(2 == initVarianrt)
+    else if(2 == getInitVarianrt())
         return DataQueueItem();
-    else if(3 == initVarianrt)
+    else if(3 == getInitVarianrt())
         return getOnMsg();
-    else if(4 == initVarianrt)
+    else if(4 == getInitVarianrt())
         return getOffMsg();
     return DataQueueItem();
 }
@@ -76,7 +108,7 @@ void LockWaiter::init() {
     if(nullptr == getUnTarget())
         return;
 
-    unReciverSdBlIp = getUnTarget();
+    setUnReciverSdBlIp(getUnTarget());
 
     UnitNode * reciver = getUnTarget();
     while(nullptr != reciver) {
@@ -87,16 +119,27 @@ void LockWaiter::init() {
     }
     setUnReciver(reciver);
 
-    unReciverIuBlIp = nullptr;
-    if(nullptr != reciver)
-        for(UnitNode * un : as_const(reciver->getListChilde())) {
-            if(TypeUnitNode::IU_BL_IP == un->getType() && unReciverSdBlIp->getNum2() == un->getNum2()) {
-                unReciverIuBlIp = un;
-                break;
-            }
+    for(UnitNode * un : as_const(SettingUtils::getSetMetaRealUnitNodes().toList())) {
+        if(TypeUnitNode::IU_BL_IP == un->getType() && getUnReciverSdBlIp()->getNum2() == un->getNum2() && getUnReciverSdBlIp()->getUdpPort() == un->getUdpPort() && getUnReciverSdBlIp()->getUdpAdress() == un->getUdpAdress()) {
+            setUnReciverIuBlIp(un);
+            break;
         }
+    }
 
-    if(unReciverSdBlIp == reciver || nullptr == reciver || nullptr == unReciverIuBlIp)
+    if(nullptr == getUnReciverIuBlIp() && nullptr != reciver) {
+        auto newMetaUnIuBlIp = UnitNodeFactory::make(TypeUnitNode::IU_BL_IP, reciver);
+        newMetaUnIuBlIp->setNum2(getUnReciverSdBlIp()->getNum2());
+        newMetaUnIuBlIp->setUdpPort(getUnReciverSdBlIp()->getUdpPort());
+        newMetaUnIuBlIp->setUdpAdress(getUnReciverSdBlIp()->getUdpAdress());
+        newMetaUnIuBlIp->setUdpTimeout(getUnReciverSdBlIp()->getUdpTimeout());
+        newMetaUnIuBlIp->setNum1(getUnReciverSdBlIp()->getNum1());
+
+        SettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
+        setUnReciverIuBlIp(newMetaUnIuBlIp);
+    }
+
+
+    if(getUnReciverSdBlIp() == reciver || nullptr == reciver || nullptr == getUnReciverIuBlIp())
         return;
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
@@ -135,35 +178,35 @@ void LockWaiter::init() {
     }
 
 
-    if(1 == unReciverSdBlIp->isAlarm() &&
-       1 == unReciverIuBlIp->isOff()) {
+    if(1 == getUnReciverSdBlIp()->isAlarm() &&
+       1 == getUnReciverIuBlIp()->isOff()) {
 //        qDebug() << "LockRequester::init 1";
         //Открыто
-        initVarianrt = 1;
+        setInitVarianrt(1);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
-    } else if(1 == unReciverSdBlIp->isNorm() &&
-              1 == unReciverIuBlIp->isOn()) {
+    } else if(1 == getUnReciverSdBlIp()->isNorm() &&
+              1 == getUnReciverIuBlIp()->isOn()) {
 //        qDebug() << "LockRequester::init 2";
         //Закрыто
-        initVarianrt = 2;
+        setInitVarianrt(2);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
-    } else if(1 == unReciverSdBlIp->isAlarm() &&
-              1 == unReciverIuBlIp->isOn()) {
+    } else if(1 == getUnReciverSdBlIp()->isAlarm() &&
+              1 == getUnReciverIuBlIp()->isOn()) {
 //        qDebug() << "LockRequester::init 3";
         //Открыто ключом
-        initVarianrt = 3;
+        setInitVarianrt(3);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);
         setTimeIntervalRequest(500);
-    } else if(1 == unReciverSdBlIp->isNorm() &&
-              1 == unReciverIuBlIp->isOff()) {
+    } else if(1 == getUnReciverSdBlIp()->isNorm() &&
+              1 == getUnReciverIuBlIp()->isOff()) {
 //        qDebug() << "LockRequester::init 4";
         //Закрыто ключом
-        initVarianrt = 4;
+        setInitVarianrt(4);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);
         setTimeIntervalRequest(500);

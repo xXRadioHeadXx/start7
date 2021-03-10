@@ -33,6 +33,12 @@ public:
 
     virtual void init() override;
 
+    UnitNode *getUnReciverIuBlIp() const;
+    void setUnReciverIuBlIp(UnitNode *value);
+    UnitNode *getUnReciverSdBlIp() const;
+    void setUnReciverSdBlIp(UnitNode *value);
+    int getInitVarianrt() const;
+    void setInitVarianrt(int value);
 };
 
 #endif // LOCKWAITER_H

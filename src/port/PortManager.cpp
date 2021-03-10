@@ -568,6 +568,12 @@ void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)
     LockWaiter * lw = new LockWaiter(selUN);
 
     lw->init();
+
+    if(0 == lw->getInitVarianrt() || nullptr == lw->getUnReciverIuBlIp() || nullptr == lw->getUnReciverSdBlIp()) {
+        delete lw;
+        return;
+    }
+
     appLsWaiter(lw);
 
     JourEntity msg;

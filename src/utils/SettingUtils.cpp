@@ -231,11 +231,11 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
       return listTreeUnitNodes;
 }
 
-QList<UnitNode *> SettingUtils::getListTreeUnitNodes() {
+QList<UnitNode *> & SettingUtils::getListTreeUnitNodes() {
     return SettingUtils::listTreeUnitNodes;
 }
 
-QSet<UnitNode *> SettingUtils::getSetMetaRealUnitNodes() {
+QSet<UnitNode *> & SettingUtils::getSetMetaRealUnitNodes() {
     return SettingUtils::listMetaRealUnitNodes;
 }
 
