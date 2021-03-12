@@ -126,15 +126,20 @@ void LockWaiter::init() {
         }
     }
 
-    if(nullptr == getUnReciverIuBlIp() && nullptr != reciver) {
-        auto newMetaUnIuBlIp = UnitNodeFactory::make(TypeUnitNode::IU_BL_IP, reciver);
+    if(nullptr == getUnReciverIuBlIp() && nullptr != getUnReciver()) {
+        auto newMetaUnIuBlIp = UnitNodeFactory::make(TypeUnitNode::IU_BL_IP, getUnReciver());
         newMetaUnIuBlIp->setNum2(getUnReciverSdBlIp()->getNum2());
         newMetaUnIuBlIp->setUdpPort(getUnReciverSdBlIp()->getUdpPort());
         newMetaUnIuBlIp->setUdpAdress(getUnReciverSdBlIp()->getUdpAdress());
         newMetaUnIuBlIp->setUdpTimeout(getUnReciverSdBlIp()->getUdpTimeout());
         newMetaUnIuBlIp->setNum1(getUnReciverSdBlIp()->getNum1());
+        newMetaUnIuBlIp->setStateWord(getUnReciverSdBlIp()->getStateWord());
+
+        newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
 
         SettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
+        getUnReciver()->addChild(newMetaUnIuBlIp);
+
         setUnReciverIuBlIp(newMetaUnIuBlIp);
     }
 
