@@ -62,7 +62,7 @@
     <string>Ключевой диск</string>
    </property>
   </widget>
-  <widget class="My_lineEdit" name="version">
+  <widget class="My_lineEdit" name="version" native="true">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -70,6 +70,9 @@
      <width>141</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="ChekIn">
@@ -85,7 +88,7 @@
     <string>Проверить</string>
    </property>
   </widget>
-  <widget class="My_lineEdit" name="DateTime">
+  <widget class="My_lineEdit" name="DateTime" native="true">
    <property name="geometry">
     <rect>
      <x>330</x>
@@ -94,7 +97,7 @@
      <height>25</height>
     </rect>
    </property>
-   <property name="text">
+   <property name="text" stdset="0">
     <string/>
    </property>
   </widget>
@@ -113,6 +116,11 @@
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
+  </customwidget>
   <customwidget>
    <class>My_combobox</class>
    <extends>QWidget</extends>

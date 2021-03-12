@@ -4,7 +4,10 @@
 #include <QIcon>
 #include <QMutex>
 #include <QSystemSemaphore>
-#include <windows.h>
+
+#if (defined (_WIN32) || defined (_WIN64))
+#include <Windows.h>
+#endif
 
 #include <QApplication>
 #include <RunGuard.h>

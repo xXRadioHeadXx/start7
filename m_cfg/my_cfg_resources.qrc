@@ -50,10 +50,10 @@
         <file>images/unknown.png</file>
         <file>images/Y4_SOTA.png</file>
         <file>images/БЛ-IP СД.png</file>
-        <file>icons/iu.png</file>
         <file>icons/сетевое_устройство.png</file>
         <file>icons/onvif.png</file>
         <file>icons/exec.ico</file>
         <file>images/save.png</file>
+        <file>icons/iu.png</file>
     </qresource>
 </RCC>

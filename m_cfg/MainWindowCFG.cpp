@@ -14,6 +14,12 @@
 #include <QDateTime>
 #include <QTimer>
 
+#include <QEvent>
+#include <QKeyEvent>
+
+#include <QAbstractItemModel>
+
+
 
 
 
@@ -36,13 +42,16 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
     ui->setupUi(this);
 
-    QString str="QWERTY12345";
-    QString crypts;
-    QString res;
-    crypts.append(XOR_Crypt(str));
-    res.append(XOR_Crypt(crypts));
-    qDebug()<<"crypts"<<crypts;
-    qDebug()<<"res"<<res;
+
+
+
+//    QString str="QWERTY12345";
+//    QString crypts;
+//    QString res;
+//    crypts.append(XOR_Crypt(str));
+//    res.append(XOR_Crypt(crypts));
+//    qDebug()<<"crypts"<<crypts;
+//    qDebug()<<"res"<<res;
 
 
 
@@ -74,7 +83,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 //ui->ipadress_lineedit->setInputMask( "000.000.000.000" );
 
-    this->ui->SQL_password_lineEdit->setEchoMode(QLineEdit::Password);
+    this->ui->SQL_password_lineEdit->setEchoMode(QLineEdit::PasswordEchoOnEdit);
 
     ui->tableView->verticalHeader()->setVisible(false);
     rif_model = new rif_widget_model();
@@ -140,7 +149,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
     }
-    else
+/*    else
     {
 
         QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
@@ -148,7 +157,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
         this->ui->RASTRMTV_Name_SerNum->addItem("не определено");
 //        this->ui->Use->setCurrentIndex(0);
-    }
+    }*/
 
 
 for(int i=1;i<5;i++)
@@ -246,7 +255,7 @@ for(int i=1;i<1000;i++)
     }
 
     str.append(QString::number(i));
-    qDebug()<<str;
+//    qDebug()<<str;
     this->ui->TABLO_Num2->addItem(str);
 }
 
@@ -405,8 +414,8 @@ qSort(l_Unittype.begin(), l_Unittype.end(), [](const QVariant &v1,
                                                                 );
 
 
-qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype.indexOf(str_GROUP);
-qDebug()<<"l_Unittype.count(ГРУППА);"<<l_Unittype.count(str_GROUP);
+//qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype.indexOf(str_GROUP);
+//qDebug()<<"l_Unittype.count(ГРУППА);"<<l_Unittype.count(str_GROUP);
 l_Unittype.move(l_Unittype.indexOf(str_GROUP),0);
 l_Unittype.move(l_Unittype.indexOf(str_Y4_SOTA),(l_Unittype.indexOf(str_BOD_SOTA)+1));
 l_Unittype.move(l_Unittype.indexOf(str_DD_SOTA),(l_Unittype.indexOf(str_BOD_SOTA)+2));
@@ -453,6 +462,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     ui->treeView->setColumnWidth(1,1000);
     ui->treeView->setColumnWidth(2,1000);
 
+
+  //  ui->treeView->installEventFilter(this);
 
 
 
@@ -618,7 +629,7 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect(&this->db_f, SIGNAL(create_db(QString)  ) , this,SLOT     (create_db(QString)));
         connect(&this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
         connect(&this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
-
+        connect(this->ui->treeView, SIGNAL(   new_current_index(QModelIndex)) , this,SLOT     (   slot_to_get_options(QModelIndex)));
         timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
             timer->setInterval(10); // Задаем интервал таймера
             connect(timer, SIGNAL(timeout()), this, SLOT(update())); // Подключаем сигнал таймера к нашему слоту
@@ -642,6 +653,12 @@ bool MainWindowCFG::load(QString /*patch*/)
 
 
     return res;
+}
+
+void MainWindowCFG::slot_to_get_options(QModelIndex index)
+{
+UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
+this->get_option(unit);
 }
 
 void MainWindowCFG::unitNameChanged(QStandardItem */*item*/)
@@ -693,7 +710,7 @@ this->ui->pushButton_4->setDisabled(true);
      this->ui->tabWidget->setCurrentIndex(2);
 
    //     this->ui->stackedWidget->setCurrentWidget()
-        qDebug()<<"[+]";
+   //     qDebug()<<"[+]";
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
   //  this->object_menu_change(unit->getType());
     this->object_menu_set_enabled_for_edit(false);
@@ -842,6 +859,10 @@ qDebug()
     this->get_option_INFO_TABLO(unit);
     break;
 
+    case TypeUnitNode::KL:
+    this->get_option_KL(unit);
+    break;
+
     }
 
 
@@ -855,7 +876,8 @@ void MainWindowCFG::get_option_GROUP(UnitNode *unit)
 
     this->ui->textEdit->clear();
     QString string1;
-    string1.append("Группа: ");
+   //     string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" ");//  Группа</b> ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
     string1.append(unit->getName());
     this->ui->textEdit->append(string1);
 }
@@ -980,7 +1002,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
 
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -989,7 +1011,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::IU_BL_IP:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
-
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
 
 
 
@@ -998,20 +1020,25 @@ void MainWindowCFG::on_pushButton_4_clicked()
     case TypeUnitNode::TG:
 
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
     break;
 
     case TypeUnitNode::RLM_KRL:
-
-
+        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
 
 
     break;
 
     case TypeUnitNode::RLM_C:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1022,6 +1049,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::BOD_T4K_M:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1040,6 +1068,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::BOD_SOTA:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1056,6 +1085,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::KL:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1075,6 +1105,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::SSOI_SD:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1090,6 +1121,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::TOROS:
         unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -1271,8 +1303,15 @@ void MainWindowCFG::on_actionCreate_triggered()
 void MainWindowCFG::on_actionOpen_triggered()
 {
      qDebug()<<"[Open]";
+     QString dir="";
+     #if (defined (_WIN32) || defined (_WIN64))
+         dir= "C:/Program Files/RIFx/rifx.ini";
+     #else
+         dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
+     #endif
+         qDebug()<<dir;
 
-     QString patch=QFileDialog::getOpenFileName(this, "open file","","*.ini");
+     QString patch=QFileDialog::getOpenFileName(this, "open file",dir,"*.ini");
       qDebug()<<"patch = "<<patch;
       if(patch!="")
       {
@@ -1299,7 +1338,13 @@ void MainWindowCFG::on_actionOpen_triggered()
 
 void MainWindowCFG::on_actionSave_triggered()
 {
-   QString path=QFileDialog::getSaveFileName(this, "save file","","*.ini");
+    QString dir="";
+    #if (defined (_WIN32) || defined (_WIN64))
+        dir= "C:/Program Files/RIFx/rifx.ini";
+    #else
+        dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
+    #endif
+   QString path=QFileDialog::getSaveFileName(this, "save file",dir,"*.ini");
 
        QFile file(path);
        file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -1308,7 +1353,41 @@ void MainWindowCFG::on_actionSave_triggered()
 
          // optional, as QFile destructor will already do it:
          file.close();
+
+
     this->save_ini(path);
+
+       #if (defined (_WIN32) || defined (_WIN64))
+                  if(this->ui->SQL_type_comboBox->currentText()!="Выкл")
+                  {
+                  my=new My_settings(path);
+
+                      if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
+                      {
+                      my->beginGroup("MYSQL");
+                      }
+                      if(this->ui->SQL_type_comboBox->currentText()=="Postgres")
+                      {
+                      my->beginGroup("PostgreSQL");
+                      }
+
+                      QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
+
+                      ar=this->ui->SQL_password_lineEdit->text().toLocal8Bit().toHex();
+
+
+                      qDebug()<<"password "<<ar<<"   "<<QString::fromUtf8(ar);
+                      QByteArray rezz=this->convert(ar);
+                      my->set_value("Password",rezz);
+                      qDebug()<<"PASSWORD "<<rezz<<" "<<rezz.toHex();
+                      my->save_ini(path);
+                      my->endGroup();
+
+                  }
+
+  #endif
+              /*    */
+
 }
 
 void MainWindowCFG::on_treeView_activated(const QModelIndex &/*index*/)
@@ -1318,6 +1397,56 @@ void MainWindowCFG::on_treeView_activated(const QModelIndex &/*index*/)
 
 
 
+
+
+bool MainWindowCFG::eventFilter(QObject *obj, QEvent *event)
+{
+    /*
+    if (obj == ui->treeView)
+    {
+        QModelIndex qmi = ui->treeView->currentIndex();
+        qDebug()<<qmi.row();
+        if (event->type() == QEvent::KeyPress )
+        {
+           QKeyEvent* key_ev = dynamic_cast<QKeyEvent*>(event);
+                QModelIndex qmi = ui->treeView->currentIndex();
+
+           QModelIndex new_ind;
+           UnitNode *unit;
+
+           switch(key_ev->key())
+           {
+           case Qt::Key_Down:
+        //    qDebug()<<"[Down]";
+
+
+         //   unit = static_cast<UnitNode*>(new_ind.internalPointer());
+
+         //   this->get_option(unit);
+
+
+           break;
+
+           case Qt::Key_Up:
+        //    qDebug()<<"[Up]";
+
+          //  unit = static_cast<UnitNode*>(new_ind.internalPointer());
+
+
+          //  this->get_option(unit);
+
+
+
+           break;
+           }
+
+
+
+        }
+    }
+    */
+
+}
 
 void MainWindowCFG::operator_add(Operator * op)
 {
@@ -1351,6 +1480,7 @@ QString MainWindowCFG::XOR_Crypt(QString src)
 {
         qDebug()<<"[XOR_Crypt]";
     QByteArray ar=src.toLocal8Bit();
+    qDebug()<<src<<" "<<ar.toHex();
 qDebug()<<"src "<<src;
 QString key="start7";
 
@@ -1379,7 +1509,8 @@ QString key="start7";
          res.append(chr);
     }
     QString str_res = QString::fromLocal8Bit(res);
-    qDebug()<<"res "<<str_res;
+    qDebug()<<"res "<<str_res<<" "<<str_res.toLocal8Bit().toHex();
+            qDebug()<<"[end XOR_Crypt]";
 return str_res;
 
 }
@@ -1417,22 +1548,109 @@ QString MainWindowCFG::get_unit_name(int /*type*/)
     return QString();
 }
 
-bool MainWindowCFG::find_equal_unit(UnitNode *unit, bool (*is_equal)(UnitNode *unit, UnitNode *un))
+bool MainWindowCFG::no_equal_unit(MainWindowCFG* m_cfg,UnitNode *unit,UnitNode *supreme, bool (*is_equal)(MainWindowCFG* cfg,UnitNode *unit, UnitNode *un))
 {
+    if(unit->getUdpUse()==0)
+    {
+  //            qDebug()<<"[getUdpUse()==0]";
+        QList<UnitNode *> List1;
+        this->modelTreeUN->getListFromModel(List1,supreme);//this->modelTreeUN->rootItemUN
+        foreach(UnitNode *un, List1 )
+        {
+
+    qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+         if((un->getNum3()==unit->getNum3()))
+         if(is_equal(m_cfg,unit,un))
+         {
+
+             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+             return false;
+         }
+
+
+        }
+     //проконтроилровать отсутствие в дереве такого же порта
+
+    }
+
+    if(unit->getUdpUse()==1)
+    {
+      //проконтроилровать отсутствие в дереве такого же IP адреса
+        QList<UnitNode *> List1;
+        this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+        foreach(UnitNode *un, List1 )
+        {
+//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+         if((un->getUdpAdress()==unit->getUdpAdress()))
+         if((un->getUdpPort()==unit->getUdpPort()))
+         if(is_equal(m_cfg,unit,un))
+          {
+
+             QMessageBox::critical(0,"Ошибка","Объект с такими параметрами уже существует");
+             return false;
+          }
+        }
+    }
+    return true;
+}
+
+bool MainWindowCFG::no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *unit, UnitNode *parent, bool (*is_equal)(MainWindowCFG *, UnitNode *, UnitNode *))
+{
+    //Если общий родитель
+    QModelIndex ind = this->modelTreeUN->findeIndexUN(parent);
+
+
     QList<UnitNode *> List1;
-    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
+    this->modelTreeUN->getListFromModel(List1,parent);
+
     foreach(UnitNode *un, List1 )
     {
 
-        if(is_equal(unit,un))
-        {
-            this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-            QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+       qDebug()<<".";
+//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+       QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+       QModelIndex un_parent_index= this->modelTreeUN->parent(index);
 
+     if(ind==un_parent_index)
+      {
+         qDebug()<<"[+]";
+         if(un->getType()==unit->getType())
+         if(is_equal(cfg,unit,un))
+         {
+             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+             return false;
 
-            return false;
-        }
+         }
+      }
     }
+    return true;
+}
+
+bool MainWindowCFG::correct_UDP_parametres(UnitNode *unit)
+{
+    qDebug()<<"UdpUse "<<unit->getUdpUse();
+    qDebug()<<"UdpAdress "<<unit->getUdpAdress();
+    if(unit->getUdpUse()==1)
+    {
+        QHostAddress myIP;
+           if(myIP.setAddress( unit->getUdpAdress()))
+           {
+           qDebug()<<"Valid IP Address";
+           unit->setUdpAdress(myIP.toString());
+           }
+           else
+           {
+           qDebug()<<"Invalid IP address";
+
+        QMessageBox::critical(0,"Ошибка","Не заданы пармаетры UDP протокола (IP адрес или порт)");
+
+        return false;
+           }
+    }
+
+
 
     return true;
 }
@@ -1638,6 +1856,9 @@ if(unit->getName()=="")
 
 }
 
+if (!correct_UDP_parametres(unit))
+    return false;
+
 
 //Если БОД Сота-М, то:
 if(unit->getType()==TypeUnitNode::BOD_SOTA)
@@ -1810,7 +2031,10 @@ if(unit->getType()==TypeUnitNode::GROUP)
 if(false==pass_to_add_GROUP(unit,parrent))
     return false;
 }
-        return true;
+
+
+
+return true;
 }
 
         bool MainWindowCFG::pass_to_add_GROUP(UnitNode *unit, UnitNode *parrent)
@@ -2586,7 +2810,6 @@ this->ui->IU_BL_IP_num_combobox->setEnabled(true);
 void MainWindowCFG::RS485_UDP_set_default_with_timeout(int timeout)
 {
 qDebug()<<"[RS485_UDP_set_default_with_timeout(int timeout)]";
-this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
 this->ui->UDP_RS485_Widget->setVisible(true);
 this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
 this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
@@ -2638,7 +2861,7 @@ if(enable==true)
         }
 
 
-    this->ui->timeout_doubleSpinBox->setDisabled(true);
+   // this->ui->timeout_doubleSpinBox->setDisabled(true);
     this->ui->port_combobox->setDisabled(true);
     this->ui->UdpPort_doubleSpinBox->setDisabled(true);
     this->ui->UDP_RS485_combobox->setDisabled(true);
@@ -2680,6 +2903,7 @@ QString MainWindowCFG::get_y4(UnitNode *unit)
 
 bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
 {
+
     //СД может быть добавлен только к группе или к системе
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
@@ -2693,54 +2917,10 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
     if(unit->getNum2()<0||unit->getNum2()>8)
         return false;
 
-    //Если выбран RS-485
-    if(unit->getUdpUse()==0)
-    {
-        qDebug()<<"[RS485]";
-        //Контролируем отсутствие юнита с таким же Num2 и Num3
 
-           QList<UnitNode *> List1;
-           this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-           foreach(UnitNode *un, List1 )
-           {
-            if(un->getType()==unit->getType())
-            if(un->getUdpUse()==unit->getUdpUse())
-            if(un->getNum3()==unit->getNum3())
-            if(un->getNum2()==unit->getNum2())
-            {
-       //         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+    return no_equal_unit(this,unit,this->modelTreeUN->rootItemUN,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                         {return ((un->getNum2()==unit->getNum2()));});
 
-                return false;
-            }
-           }
-
-    }
-
-    //Если выбран UDP
-        if(unit->getUdpUse()==1)
-        {
-                    qDebug()<<"[UDP]";
-         //Контролируем отсутствие юнита с таким же Num2 и Num3
-
-               QList<UnitNode *> List1;
-               this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-               foreach(UnitNode *un, List1 )
-            {
-                   if(un->getType()==unit->getType())
-                   if(un->getUdpUse()==unit->getUdpUse())
-                   if(un->getUdpAdress()==unit->getUdpAdress())
-                   if(un->getNum2()==unit->getNum2())
-             {
-               //  this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                       QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-
-                 return false;
-             }
-            }
-         }
 
 
 
@@ -2750,46 +2930,18 @@ bool MainWindowCFG::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent)
         return true;
 }
 
-bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parrent)
+bool MainWindowCFG::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parent)
 {
-  /*
-    //ИУ может быть добавлен только к группе или к системе
-if(
-    (parrent->getType()!=TypeUnitNode::SYSTEM)&&
-    (parrent->getType()!=TypeUnitNode::GROUP)&&
-    (parrent->getType()!=TypeUnitNode::KL)&&
-    (parrent->getType()!=TypeUnitNode::SD_BL_IP)&&
-//    (parrent->getType()!=TypeUnitNode::IU_BL_IP)&&
-    (parrent->getType()!=TypeUnitNode::TG)&&
-    (parrent->getType()!=TypeUnitNode::RLM_KRL)&&
-    (parrent->getType()!=TypeUnitNode::RLM_C)&&
-//    (parrent->getType()!=TypeUnitNode::STRAZH_IP)&&
-//    (parrent->getType()!=TypeUnitNode::ONVIF)&&
-//    (parrent->getType()!=TypeUnitNode::BOD_T4K_M)&&
-//    (parrent->getType()!=TypeUnitNode::Y4_T4K_M)&&
-    (parrent->getType()!=TypeUnitNode::DD_T4K_M)&&
-//    (parrent->getType()!=TypeUnitNode::BOD_SOTA)&&
-//    (parrent->getType()!=TypeUnitNode::Y4_SOTA)&&
-    (parrent->getType()!=TypeUnitNode::DD_SOTA)&&
-//    (parrent->getType()!=TypeUnitNode::NET_DEV)&&
-//    (parrent->getType()!=TypeUnitNode::BL_IP)&&
-    (parrent->getType()!=TypeUnitNode::SSOI_SD)&&
-//    (parrent->getType()!=TypeUnitNode::SSOI_IU)&&
-    (parrent->getType()!=TypeUnitNode::ADAM)&&
-    (parrent->getType()!=TypeUnitNode::TOROS)
-//    (parrent->getType()!=TypeUnitNode::DEVLINE)&&
-//    (parrent->getType()!=TypeUnitNode::RASTRMTV)&&
-//    (parrent->getType()!=TypeUnitNode::INFO_TABLO)
 
-)*/
+
     //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
-    if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
-       (parrent->getType()==TypeUnitNode::ONVIF)||
-       (parrent->getType()==TypeUnitNode::DEVLINE)||
-       (parrent->getType()==TypeUnitNode::RASTRMTV)||
-       (parrent->getType()==TypeUnitNode::INFO_TABLO)||
-       (parrent->getType()==TypeUnitNode::SSOI_IU) ||
-       (parrent->getType()==TypeUnitNode::IU_BL_IP))
+    if((parent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parent->getType()==TypeUnitNode::ONVIF)||
+       (parent->getType()==TypeUnitNode::DEVLINE)||
+       (parent->getType()==TypeUnitNode::RASTRMTV)||
+       (parent->getType()==TypeUnitNode::INFO_TABLO)||
+       (parent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parent->getType()==TypeUnitNode::IU_BL_IP))
     {
 
         return false;
@@ -2803,66 +2955,24 @@ if(
 
              return false;
 
-         QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
+         return no_equal_unit_from_one_parent(this,unit,parent,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                              {
 
-         //Если выбран RS-485
-         if(unit->getUdpUse()==0)
-         {
-             qDebug()<<"[RS485]";
-             //Контролируем отсутствие юнита с таким же Num2 и Num3 у одного и того же родителя
 
-                QList<UnitNode *> List1;
-                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-                foreach(UnitNode *un, List1 )
-                {
-                QModelIndex index=this->modelTreeUN->findeIndexUN(un);
-                QModelIndex un_parent_index= this->modelTreeUN->parent(index);
 
-                 if(ind==un_parent_index)
-                 if(un->getType()==unit->getType())
-                 if(un->getUdpUse()==unit->getUdpUse())
-                 if(un->getNum3()==unit->getNum3())
-                 if(un->getNum2()==unit->getNum2())
-                 {
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+                       if(un->getType()==unit->getType())
+                       if(un->getUdpUse()==unit->getUdpUse())
 
-                     return false;
-                 }
-                }
+                       if(un->getNum2()==unit->getNum2())
+                       {
+                           m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
 
-         }
+                           return true;
+                       }
 
-         //Если выбран UDP
-             if(unit->getUdpUse()==1)
-             {
-                         qDebug()<<"[UDP]";
-              //Контролируем отсутствие юнита с таким же Num2 и Num3
 
-                    QList<UnitNode *> List1;
-                    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-                    foreach(UnitNode *un, List1 )
-                 {
-                        QModelIndex index=this->modelTreeUN->findeIndexUN(un);
-                        QModelIndex un_parent_index= this->modelTreeUN->parent(index);
-
-                        if(ind==un_parent_index)
-                        if(un->getType()==unit->getType())
-                        if(un->getUdpUse()==unit->getUdpUse())
-                        if(un->getUdpAdress()==unit->getUdpAdress())
-                        if(un->getNum2()==unit->getNum2())
-                  {
-
-                      this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                            QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-
-                      return false;
-                  }
-                 }
-              }
-
-        return true;
-
+        return false;
+                    });
 }
 
 bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
@@ -2884,33 +2994,15 @@ bool MainWindowCFG::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent)
      //     qDebug()<<"[BOD_SOTA]";
 
 
-
-
-            if(unit->getUdpUse()==0)
-                return find_equal_unit(unit,[](UnitNode *unit, UnitNode *un)
-                                              ->bool
-                                   {
-
-                                    return ((un->getNum3()==unit->getNum3())&&
-                                            (un->getNum1()==unit->getNum1()));
-                                    }
-                                                  );
+       return no_equal_unit(this,unit,this->modelTreeUN->rootItemUN,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                            {return (un->getNum1()==unit->getNum1());});
 
 
 
 
-            if(unit->getUdpUse()==1)
-
-                return find_equal_unit(unit,[](UnitNode *unit, UnitNode *un)->bool
-                                   {
-                                    return ((un->getUdpAdress()==unit->getUdpAdress())&&
-                                            (un->getNum1()==unit->getNum1()));
-                                   }
-                                );
 
 
 
-            return true;
 }
 
 bool MainWindowCFG::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent)
@@ -3092,48 +3184,8 @@ bool MainWindowCFG::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode *parrent)
     //    Если связь по UDP - контроль по IP адресу
 
 
-            if(unit->getUdpUse()==0)
-            {
-          //            qDebug()<<"[getUdpUse()==0]";
-                QList<UnitNode *> List1;
-                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-                foreach(UnitNode *un, List1 )
-                {
-
-            qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-                 if((un->getNum3()==unit->getNum3()))
-                 if((un->getNum1()==unit->getNum1()))
-                 {
-
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                     return false;
-                 }
-
-
-                }
-             //проконтроилровать отсутствие в дереве такого же порта
-
-            }
-
-            if(unit->getUdpUse()==1)
-            {
-              //проконтроилровать отсутствие в дереве такого же IP адреса
-                QList<UnitNode *> List1;
-                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-                foreach(UnitNode *un, List1 )
-                {
-       //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-                 if((un->getUdpAdress()==unit->getUdpAdress()))
-                 if((un->getNum1()==unit->getNum1()))
-                  {
-
-                     QMessageBox::critical(0,"Ошибка","этот IP адрес уже  занят");
-                     return false;
-                  }
-                }
-            }
-            return true;
+    return no_equal_unit(this,unit,this->modelTreeUN->rootItemUN,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                         {return (un->getNum1()==unit->getNum1());});
 
 
 }
@@ -3311,23 +3363,14 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
 
     }
 
-    //на свободный адрес этого ком порта
-    if(unit->getUdpUse()==0)
-    {
-  //            qDebug()<<"[getUdpUse()==0]";
-        QList<UnitNode *> List1;
-        this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-        foreach(UnitNode *un, List1 )
-        {
+    return no_equal_unit(this,unit,this->modelTreeUN->rootItemUN,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                         {
 
-    qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-         if((un->getNum3()==unit->getNum3()))
              if((un->getNum1()==unit->getNum1()))
              {
                  if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
                   {
-
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
                      QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                      return false;
                   }
@@ -3335,59 +3378,16 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
                   {
                      if(un->getNum2()==unit->getNum2())
                      {
-                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                         m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
                          QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                          return false;
-
                      }
-
                   }
-
              }
+                     });
 
 
-        }
-     //проконтроилровать отсутствие в дереве такого же порта
 
-    }
-
-    if(unit->getUdpUse()==1)
-    {
-      //проконтроилровать отсутствие в дереве такого же IP адреса
-        QList<UnitNode *> List1;
-        this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-        foreach(UnitNode *un, List1 )
-        {
-//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-         if((un->getUdpAdress()==unit->getUdpAdress()))
-         if((un->getNum1()==unit->getNum1()))
-         {
-             if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
-              {
-
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                 return false;
-              }
-             if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
-              {
-                 if(un->getNum2()==unit->getNum2())
-                 {
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-
-                     return false;
-
-                 }
-
-              }
-
-         }
-
-        }
-    }
-
-    return true;
 }
 
 bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
@@ -3405,49 +3405,10 @@ bool MainWindowCFG::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode *parrent)
     //    Если связь по UDP - контроль по IP адресу
 
 
-            if(unit->getUdpUse()==0)
-            {
-          //            qDebug()<<"[getUdpUse()==0]";
-                QList<UnitNode *> List1;
-                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-                foreach(UnitNode *un, List1 )
-                {
 
-            qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-                 if((un->getNum3()==unit->getNum3()))
-                 if((un->getNum1()==unit->getNum1()))
-                 {
+        return no_equal_unit(this,unit,this->modelTreeUN->rootItemUN,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                             {return ((un->getNum1()==unit->getNum1()));});
 
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                     return false;
-                 }
-
-
-                }
-             //проконтроилровать отсутствие в дереве такого же порта
-
-            }
-
-            if(unit->getUdpUse()==1)
-            {
-              //проконтроилровать отсутствие в дереве такого же IP адреса
-                QList<UnitNode *> List1;
-                this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-                foreach(UnitNode *un, List1 )
-                {
-       //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-                 if((un->getUdpAdress()==unit->getUdpAdress()))
-                 if((un->getNum1()==unit->getNum1()))
-                  {
-
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                     return false;
-                  }
-                }
-            }
-            return true;
 }
 
 bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
@@ -3464,49 +3425,8 @@ bool MainWindowCFG::pass_to_add_RLM_C(UnitNode *unit, UnitNode *parrent)
 //    Если связь по UDP - контроль по IP адресу
 
 
-        if(unit->getUdpUse()==0)
-        {
-      //            qDebug()<<"[getUdpUse()==0]";
-            QList<UnitNode *> List1;
-            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-            foreach(UnitNode *un, List1 )
-            {
-
-        qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-             if((un->getNum3()==unit->getNum3()))
-             if((un->getNum1()==unit->getNum1()))
-             {
-
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                 return false;
-             }
-
-
-            }
-         //проконтроилровать отсутствие в дереве такого же порта
-
-        }
-
-        if(unit->getUdpUse()==1)
-        {
-          //проконтроилровать отсутствие в дереве такого же IP адреса
-            QList<UnitNode *> List1;
-            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-            foreach(UnitNode *un, List1 )
-            {
-   //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-             if((un->getUdpAdress()==unit->getUdpAdress()))
-             if((un->getNum1()==unit->getNum1()))
-              {
-
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                 return false;
-              }
-            }
-        }
-        return true;
+    return no_equal_unit(this,unit,this->modelTreeUN->rootItemUN,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                         {return ((un->getNum1()==unit->getNum1()));});
 }
 
 bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
@@ -3528,17 +3448,8 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
             return false;
         }
 
-        //на свободный адрес этого ком порта
-        if(unit->getUdpUse()==0)
-        {
-      //            qDebug()<<"[getUdpUse()==0]";
-            QList<UnitNode *> List1;
-            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-            foreach(UnitNode *un, List1 )
-            {
-  qDebug()<<"[1]";
-        qDebug()<<un->getName()<<" "<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-             if((un->getNum3()==unit->getNum3()))
+        return no_equal_unit(this,unit,this->modelTreeUN->rootItemUN,[](MainWindowCFG* m_cfg,UnitNode *unit, UnitNode *un)->bool
+                             {
                  if((un->getNum1()==unit->getNum1()))
                  {
                        qDebug()<<"[2]";
@@ -3546,7 +3457,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                       {
                            qDebug()<<"[3]";
 
-                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                         m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
                            QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                          return false;
                       }
@@ -3556,7 +3467,7 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                          if(un->getNum2()==unit->getNum2())
                          {
                                qDebug()<<"[5]";
-                             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                             m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
                                QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                              return false;
 
@@ -3565,64 +3476,23 @@ bool MainWindowCFG::pass_to_add_KL(UnitNode *unit, UnitNode *parrent)
                       }
 
                  }
-
-
-            }
-         //проконтроилровать отсутствие в дереве такого же порта
-
-        }
-
-        if(unit->getUdpUse()==1)
-        {
-          //проконтроилровать отсутствие в дереве такого же IP адреса
-            QList<UnitNode *> List1;
-            this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-            foreach(UnitNode *un, List1 )
-            {
-    //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-             if((un->getUdpAdress()==unit->getUdpAdress()))
-             if((un->getNum1()==unit->getNum1()))
-             {
-                 if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
-                  {
-
-                     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                     return false;
-                  }
-                 if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
-                  {
-                     if(un->getNum2()==unit->getNum2())
-                     {
-                         this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                         QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                         return false;
-
-                     }
-
-                  }
-
-             }
-
-            }
-        }
-
-        return true;
+                 return true;
+});
 }
 
-bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
+bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parent)
 {
 //добавляется в системе группе и любому датчику - у одной точке
 //не более одной камеры с одним айпишником
 
     qDebug()<<"onvif";
-    if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
-       (parrent->getType()==TypeUnitNode::ONVIF)||
-       (parrent->getType()==TypeUnitNode::DEVLINE)||
-       (parrent->getType()==TypeUnitNode::RASTRMTV)||
-       (parrent->getType()==TypeUnitNode::INFO_TABLO)||
-       (parrent->getType()==TypeUnitNode::SSOI_IU) ||
-       (parrent->getType()==TypeUnitNode::IU_BL_IP))
+    if((parent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parent->getType()==TypeUnitNode::ONVIF)||
+       (parent->getType()==TypeUnitNode::DEVLINE)||
+       (parent->getType()==TypeUnitNode::RASTRMTV)||
+       (parent->getType()==TypeUnitNode::INFO_TABLO)||
+       (parent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parent->getType()==TypeUnitNode::IU_BL_IP))
     {
 
         return false;
@@ -3632,34 +3502,9 @@ bool MainWindowCFG::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent)
 
 
 
-        //Если общий родитель
-        QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
-
-
-        QList<UnitNode *> List1;
-        this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-
-        foreach(UnitNode *un, List1 )
-        {
-
-           qDebug()<<".";
-    //     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-           QModelIndex index=this->modelTreeUN->findeIndexUN(un);
-           QModelIndex un_parent_index= this->modelTreeUN->parent(index);
-
-         if(ind==un_parent_index)
-          {
-             qDebug()<<"[+]";
-             if(un->getType()==unit->getType())
-             if(un->getIcon1Path()==unit->getIcon1Path())
-             {
-                 this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                 return false;
-
-             }
-          }
-        }
+return no_equal_unit_from_one_parent(this,unit,parent,[](MainWindowCFG *cfg, UnitNode *unit, UnitNode *un)->bool{
+             return(un->getIcon1Path()==unit->getIcon1Path());}
+);
 /*
      if(un->getParentUN()==unit->getParentUN())
      if(un->getType()==unit->getType())
@@ -4014,33 +3859,38 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 
     if(unit->getBazalt()==1)
     {
-        string1.append("БЛ-IP Уз");
-        string1.append("Кан:");
+            string1.append("<b>");string1.append("УЗ Монолит ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" УЗ ");string1.append("</b> ");//  БЛ-IP</b> Уз");
+
     }
     if(unit->getBazalt()==0)
     {
-        string1.append("БЛ-IP ");
-        string1.append("Кан:");
+            string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
+
     }
+
+    string1.append(" :");
+    string1.append(" СД:");
+    string1.append(QString::number(unit->getNum2()));
+
+    if(unit->getBazalt()==1)
+    {
+        string1.append(" +");
+        string1.append(" ИУ:");
+        string1.append(QString::number(unit->getNum2()));
+    }
+
+    string1.append("\n");
+
+        string1.append(" Кан:");
 
     if(unit->getUdpUse()==0)
     {
         string1.append(QString::number(unit->getNum3()));
-        string1.append(" ");
-        string1.append("СД:");
-        string1.append(QString::number(unit->getNum2()));
 
-        if(unit->getBazalt()==1)
-        {
-            string1.append(" - ");
-            string1.append("ИУ");
-            string1.append(QString::number(unit->getNum2()));
-        }
 
-        if(unit->getUdpAdress()!="")
+            if(unit->getUdpAdress()!="")
         {
-            string1.append(" ");
-            string1.append("(");
+            string1.append(" (");
             string1.append(unit->getUdpAdress());
             string1.append(")");
         }
@@ -4050,9 +3900,12 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
         string1.append(unit->getUdpAdress());
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
-        string1.append(" ");
-        string1.append("СД:");
-        string1.append(QString::number(unit->getNum2()));
+
+
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
     }
 
 
@@ -4072,16 +3925,16 @@ void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
 
 
 
-        string1.append("БЛ-IP ");
-        string1.append("Кан:");
+            string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
+        string1.append(": Кан:");
 
 
     if(unit->getUdpUse()==0)
     {
         string1.append(QString::number(unit->getNum3()));
-        string1.append(" ");
-        string1.append("ИУ:");
+        string1.append(" ИУ:");
         string1.append(QString::number(unit->getNum2()));
+
 
 
 
@@ -4101,6 +3954,12 @@ void MainWindowCFG::get_option_IU_BL_IP(UnitNode *unit)
         string1.append(" ");
         string1.append("ИУ:");
         string1.append(QString::number(unit->getNum2()));
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
+
+
     }
 
 
@@ -4114,12 +3973,13 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-    string1.append("Точка/Гарда: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка/Гарда</b> ");
+            string1.append(" : ");
     string1.append(QString::number(unit->getNum1()));
-    string1.append(" ");
+    string1.append(" : ");
     string1.append("ЧЭ: ");
     string1.append(QString::number(unit->getNum2()));
-    string1.append(" ");
+    string1.append("\r\n");
     string1.append("Кан: ");
 
     if(unit->getUdpUse()==0)
@@ -4142,9 +4002,12 @@ void MainWindowCFG::get_option_TG(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
-
+        string1.append("\r\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\r\n");
     }
-
+    qDebug()<<string1;
     this->ui->textEdit->append(string1);
 
 }
@@ -4154,7 +4017,7 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-
+    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));//  ");
     if(0==unit->getAdamOff())
     string1.append(str_RIF_RLM);
 
@@ -4173,19 +4036,22 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
     if(5==unit->getAdamOff())
     string1.append(str_trassa1l);
 
-    string1.append(":");
-
+    string1.append("</b>");
+    string1.append(" : ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
 
 
-    string1.append("Кан:");
 
-    string1.append(QString::number(unit->getNum3()));
-    string1.append(" ");
 
     if(unit->getUdpUse()==0)
     {
+
+        string1.append("Кан:");
+
+        string1.append(QString::number(unit->getNum3()));
+        string1.append(" ");
+
   // string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
@@ -4204,6 +4070,10 @@ void MainWindowCFG::get_option_RLM_KRL(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
 
     }
 
@@ -4220,19 +4090,21 @@ void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
 
 
 
-    string1.append("РИФ-РЛМ-С:");
-
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  РИФ-РЛМ-С</b>");
+        string1.append(":");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
 
 
-    string1.append("Кан:");
 
-    string1.append(QString::number(unit->getNum3()));
-    string1.append(" ");
 
     if(unit->getUdpUse()==0)
     {
+        string1.append("Кан:");
+
+        string1.append(QString::number(unit->getNum3()));
+        string1.append(" ");
+
  //  string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
@@ -4251,6 +4123,10 @@ void MainWindowCFG::get_option_RLM_C(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
 
     }
 
@@ -4263,7 +4139,7 @@ void MainWindowCFG::get_option_BOD_T4K_M(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-    string1.append("Точка-М/Гарда-М ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка-М/Гарда-М</b> ");
 
     string1.append("Кан:");
 
@@ -4279,6 +4155,10 @@ void MainWindowCFG::get_option_BOD_T4K_M(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
     }
 
 
@@ -4322,7 +4202,7 @@ void MainWindowCFG::get_option_Y4_T4K_M(UnitNode *unit)
    this->ui->textEdit->clear();
    QString string1;
 
-   string1.append("Точка-М/Гарда-М ");
+       string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка-М/Гарда-М</b> ");
 
    string1.append("Кан:");
 
@@ -4357,7 +4237,7 @@ void MainWindowCFG::get_option_DD_T4K_M(UnitNode *unit)
    this->ui->textEdit->clear();
    QString string1;
 
-   string1.append("Точка-М/Гарда-М ");
+       string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка-М/Гарда-М</b> ");
 
    string1.append("Кан:");
 
@@ -4387,7 +4267,7 @@ void MainWindowCFG::get_option_BOD_SOTA(UnitNode *unit)
 this->ui->textEdit->clear();
 QString string1;
 
-string1.append("Сота/Сота-М ");
+    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
 
 string1.append("Кан:");
 
@@ -4403,6 +4283,10 @@ if(unit->getUdpUse()==1)
     string1.append("::");
     string1.append(QString::number(unit->getUdpPort()));
     string1.append(" ");
+    string1.append("\n");
+    string1.append("Таймаут: ");
+    string1.append(QString::number(unit->getUdpTimeout()));
+    string1.append("\n");
 }
 
 
@@ -4448,7 +4332,7 @@ void MainWindowCFG::get_option_Y4_SOTA(UnitNode *unit)
    this->ui->textEdit->clear();
    QString string1;
 
-   string1.append("Сота/Сота-М ");
+       string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
 
    string1.append("Кан:");
 
@@ -4483,7 +4367,7 @@ void MainWindowCFG::get_option_DD_SOTA(UnitNode *unit)
    this->ui->textEdit->clear();
    QString string1;
 
-   string1.append("Сота/Сота-М ");
+       string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
 
    string1.append("Кан:");
 
@@ -4516,7 +4400,8 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
     this->ui->textEdit->clear();
     QString string1;
 
-    string1.append("Концентратор: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Концентратор</b> ");
+            string1.append(" : ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
     string1.append("СД: ");
@@ -4526,6 +4411,9 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
 
     if(unit->getUdpUse()==0)
     {
+
+
+
    string1.append(QString::number(unit->getNum3()));
    if(unit->getUdpAdress()!="")
    {
@@ -4544,6 +4432,10 @@ void MainWindowCFG::get_option_KL(UnitNode *unit)
         string1.append("::");
         string1.append(QString::number(unit->getUdpPort()));
         string1.append(" ");
+        string1.append("\n");
+        string1.append("Таймаут: ");
+        string1.append(QString::number(unit->getUdpTimeout()));
+        string1.append("\n");
     }
   this->ui->textEdit->append(string1);
 }
@@ -4552,7 +4444,7 @@ void MainWindowCFG::get_option_ONVIF(UnitNode *unit)
 {
     this->ui->textEdit->clear();
     QString string1;
-    string1.append("ONVIF-камера: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ONVIF-камера</b> ");
     string1.append(unit->getIcon1Path());
 
 
@@ -4564,7 +4456,7 @@ void MainWindowCFG::get_option_STRAZH_IP(UnitNode *unit)
 {
     this->ui->textEdit->clear();
     QString string1;
-    string1.append("Страж- IP: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Страж- IP</b> ");
     string1.append(unit->getIcon1Path());
     string1.append("; ");
     string1.append(unit->getIcon4Path());
@@ -4578,7 +4470,7 @@ void MainWindowCFG::get_option_NET_DEV(UnitNode *unit)
 {
     this->ui->textEdit->clear();
     QString string1;
-    string1.append("Сетевое устройство: ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сетевое устройство</b> ");
     string1.append(unit->getIcon1Path());
 
 
@@ -4758,6 +4650,8 @@ void MainWindowCFG::default_options()
 
     default_SSOI();
     default_TABLO();
+
+    default_ASOOSD();
     this->ui->RASTR_wgt->default_options();
     this->ui->ADAM_wgt->default_options();
     this->ui->AdmAud_wgt->default_options();
@@ -4848,13 +4742,13 @@ void MainWindowCFG::default_RIF()
      //  QModelIndex index = this->ui->tableView->indexAt(QPoint(i,1));
         QModelIndex index = this->rif_model->index(i,1,QModelIndex());
 
-       qDebug()<<index.row()<<" "<<index.column()<<" "<<this->rif_model->data(index,Qt::DisplayRole);
+
 
        this->rif_model->setData(index, 4800, Qt::EditRole);
 
         index = this->rif_model->index(i,2,QModelIndex());
 
-          qDebug()<<index.row()<<" "<<index.column()<<" "<<this->rif_model->data(index,Qt::DisplayRole);
+
 
        this->rif_model->setData(index, 50, Qt::EditRole);
 
@@ -5105,9 +4999,13 @@ void MainWindowCFG::get_SQL(QString filename)
               this->ui->SQL_login_lineEdit->setText(settings.value("Login",-1).toString());
 
 
-
+#if (defined (_WIN32) || defined (_WIN64))
+  this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
+#else
+    this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
+#endif
            //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString(),"start7"));
-              this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
+           //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
 
           //    this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
               this->ui->SQL_database_lineEdit->setText(settings.value("DbName",-1).toString());
@@ -5502,9 +5400,24 @@ void MainWindowCFG::default_OPERATORS()
     operators_use=0;
 }
 
-void MainWindowCFG::get_ASOOSD(QString /*filename*/)
+void MainWindowCFG::get_ASOOSD(QString filename)
 {
+    QSettings settings(filename, QSettings::IniFormat);
+  #if (defined (_WIN32) || defined (_WIN64))
+      settings.setIniCodec( "Windows-1251" );
+  #else
+      settings.setIniCodec( "UTF-8" );
+  #endif
+    settings.beginGroup("ASOOSD");
 
+      this->ui->ASOOSD_Use->setCurrentText(m_ASOOSD_use.value(settings.value("Use",0).toInt()));
+      this->ui->ASOOSD_Host->setText(settings.value("Host","").toString());
+      this->ui->ASOOSD_Port->setValue(settings.value("Port",0).toInt());
+
+
+
+
+  settings.endGroup();
 }
 
 void MainWindowCFG::set_ASOOSD(QString /*filename*/)
@@ -5514,6 +5427,13 @@ void MainWindowCFG::set_ASOOSD(QString /*filename*/)
 
 void MainWindowCFG::default_ASOOSD()
 {
+    foreach(QString str,m_ASOOSD_use)
+        this->ui->ASOOSD_Use->addItem(str);
+
+
+    this->ui->ASOOSD_Use->setCurrentText(m_ASOOSD_use.value(0));
+    this->ui->ASOOSD_Host->setText("localhost");
+    this->ui->ASOOSD_Port->setValue(1975);
 
 }
 
@@ -5993,6 +5913,10 @@ void MainWindowCFG::get_option_TOROS(UnitNode *unit)
     string1.append("\n");
     string1.append("Канал: ");
     string1.append(QString::number(unit->getUdpPort()));
+    string1.append("\n");
+    string1.append("Таймаут: ");
+    string1.append(QString::number(unit->getUdpTimeout()));
+    string1.append("\n");
 
     this->ui->textEdit->append(string1);
 
@@ -6068,15 +5992,15 @@ void MainWindowCFG::set_option_DEVLINE(UnitNode *unit)
 
 }
 
-bool MainWindowCFG::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parrent)
+bool MainWindowCFG::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parent)
 {
-    if((parrent->getType()==TypeUnitNode::STRAZH_IP)||
-       (parrent->getType()==TypeUnitNode::ONVIF)||
-       (parrent->getType()==TypeUnitNode::DEVLINE)||
-       (parrent->getType()==TypeUnitNode::RASTRMTV)||
-       (parrent->getType()==TypeUnitNode::INFO_TABLO)||
-       (parrent->getType()==TypeUnitNode::SSOI_IU) ||
-       (parrent->getType()==TypeUnitNode::IU_BL_IP))
+    if((parent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parent->getType()==TypeUnitNode::ONVIF)||
+       (parent->getType()==TypeUnitNode::DEVLINE)||
+       (parent->getType()==TypeUnitNode::RASTRMTV)||
+       (parent->getType()==TypeUnitNode::INFO_TABLO)||
+       (parent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parent->getType()==TypeUnitNode::IU_BL_IP))
     {
 
         return false;
@@ -6084,39 +6008,12 @@ bool MainWindowCFG::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parrent)
     }
 
     //Если общий родитель
-    QModelIndex ind = this->modelTreeUN->findeIndexUN(parrent);
 
+    return no_equal_unit_from_one_parent(this,unit,parent,[](MainWindowCFG *cfg, UnitNode *unit, UnitNode *un)->bool{
+        return((un->getNum1()==unit->getNum1())&&
+        (un->getOutType()==unit->getOutType()));}
+);
 
-    QList<UnitNode *> List1;
-    this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-
-    foreach(UnitNode *un, List1 )
-    {
-
-       qDebug()<<".";
-//     qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-       QModelIndex index=this->modelTreeUN->findeIndexUN(un);
-       QModelIndex un_parent_index= this->modelTreeUN->parent(index);
-
-     if(ind==un_parent_index)
-      {
-         qDebug()<<"[+]";
-
-    //     unit->setNum1(this->ui->DEVLINE_Num1->value());
-    //     unit->setOutType(this->ui->DEVLINE_OutType->currentText().toInt());
-         if(un->getType()==unit->getType())
-         if(un->getNum1()==unit->getNum1())
-         if(un->getOutType()==unit->getOutType())
-         {
-             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-             return false;
-
-         }
-      }
-    }
-
-    return true;
 }
 
 void MainWindowCFG::get_option_RASTRMTV(UnitNode *unit)
@@ -6402,7 +6299,13 @@ int res=0;
       settings.setValue("Host", this->ui->SQL_server_lineEdit->text());
       settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
       settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
-      settings.setValue("Password", this->XOR_Crypt(this->ui->SQL_password_lineEdit->text()));
+
+#if (defined (_WIN32) || defined (_WIN64))
+  this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
+#else
+          settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
+#endif
+
       settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
 
       if(this->ui->SQL_P1_checkBox->isChecked())
@@ -6483,6 +6386,19 @@ int res=0;
         settings.endGroup();
         }
        qDebug()<<"OPERATORS";
+
+
+       settings.beginGroup("ASOOSD");
+//       settings.setValue("Count",List.count()-1);
+
+settings.setValue("Use",m_ASOOSD_use.key(this->ui->ASOOSD_Use->currentText()));
+settings.setValue("Host",this->ui->ASOOSD_Host->text());
+settings.setValue("Port",this->ui->ASOOSD_Port->value());
+
+       settings.endGroup();
+
+
+
 
     settings.beginGroup("TREE");
     settings.setValue("Count",List.count()-1);
@@ -7155,6 +7071,7 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 
 void MainWindowCFG::create_db(QString db_name)
 {
+    /*
     qDebug()<<"[create_db]";
     if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
     {
@@ -7188,6 +7105,7 @@ void MainWindowCFG::create_db(QString db_name)
         this->db_f.find_rif_db(db_psql);
 
     }
+    */
 
 }
 
@@ -7449,4 +7367,40 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
     this->object_menu_change(type);
 
 
+}
+
+QByteArray MainWindowCFG::convert(QByteArray src)
+{
+  //  QByteArray src=srcc.toHex();
+    qDebug()<<"[convert]";
+    qDebug()<<QString::fromLocal8Bit(src);
+    QByteArray res;
+    res.clear();
+    for(int i=0;i<src.size();i++)
+    {
+        QByteArray one;
+
+        one.append(src[i]);
+
+      //  qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt();
+        int v1=QString::fromUtf8(one).toInt(nullptr,16);
+
+        QByteArray two;
+
+        two.append(src[i+1]);
+
+         qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt(nullptr,16)<<QString::fromUtf8(two)<<" "<<QString::fromUtf8(one).toInt(nullptr,16);
+        int v2=QString::fromUtf8(two).toInt(nullptr,16);
+
+        quint64 val=v1*0x10+v2;
+        qDebug()<<(v1*0x10)<<" "<<v2;
+        i++;
+
+        res.append(val);
+
+
+    }
+    qDebug()<<res<<" "<<res.toHex();
+    qDebug()<<"[end convert]";
+    return res;
 }

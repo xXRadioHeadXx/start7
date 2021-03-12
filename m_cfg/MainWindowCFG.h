@@ -20,6 +20,7 @@
 #include <rif_widget_model.h>
 #include <rif_widget_delegate.h>
 #include <QMessageBox>
+#include <my_settings.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -45,7 +46,10 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:
 
+  bool eventFilter(QObject *obj, QEvent *event);
 
+
+    My_settings* my;
 
     QTimer *timer;
     QMap <QString, SerNum_Name> mSerNum_Name;
@@ -76,7 +80,10 @@ private:
 
     QString get_unit_name(int type);
 
-    bool find_equal_unit(UnitNode *unit,bool (*is_equal)(UnitNode* unit,UnitNode* un));
+    bool no_equal_unit(MainWindowCFG* cfg,UnitNode *unit,UnitNode *supreme,bool (*is_equal)(MainWindowCFG* cfg,UnitNode* unit,UnitNode* un));
+    bool no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *unit, UnitNode *parent, bool (*is_equal)(MainWindowCFG *, UnitNode *, UnitNode *));
+
+    bool correct_UDP_parametres(UnitNode *unit);
 
     void expandChildren(const QModelIndex &index);
     void collapseChildren(const QModelIndex &index);
@@ -262,7 +269,7 @@ private:
 
 
 
-
+    QByteArray convert(QByteArray src);
 
 
 
@@ -449,6 +456,34 @@ private:
 {5,str_trassa1l},
 };
 
+    QMap <int,QString> m_TypeUnitNode_d{
+{TypeUnitNode::GROUP, str_GROUP},
+{TypeUnitNode::KL ,str_KL },
+{TypeUnitNode::SD_BL_IP ,str_SD_BL_IP },
+{TypeUnitNode::IU_BL_IP ,str_IU_BL_IP },
+{TypeUnitNode::TG ,str_TG },
+{TypeUnitNode::RLM_KRL ,str_RLM_KRL },
+{TypeUnitNode::RLM_C ,str_RLM_C },
+{TypeUnitNode::STRAZH_IP ,str_STRAZH_IP },
+{TypeUnitNode::ONVIF ,str_ONVIF },
+{TypeUnitNode::BOD_T4K_M ,str_BOD_T4K_M },
+{TypeUnitNode::Y4_T4K_M ,str_Y4_T4K_M },
+{TypeUnitNode::DD_T4K_M ,str_DD_T4K_M },
+{TypeUnitNode::BOD_SOTA ,str_BOD_SOTA },
+{TypeUnitNode::Y4_SOTA ,str_Y4_SOTA },
+{TypeUnitNode::DD_SOTA ,str_DD_SOTA },
+{TypeUnitNode::NET_DEV ,str_NET_DEV },
+
+{TypeUnitNode::SSOI_SD ,str_SSOI_SD },
+{TypeUnitNode::SSOI_IU ,str_SSOI_IU },
+{TypeUnitNode::ADAM ,str_ADAM },
+{TypeUnitNode::TOROS ,str_TOROS },
+{TypeUnitNode::DEVLINE ,str_DEVLINE },
+{TypeUnitNode::RASTRMTV ,str_RASTRMTV },
+{TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
+
+    };
+
     QMap <int,QString> m_TypeUnitNode{
 {TypeUnitNode::GROUP, str_GROUP},
 {TypeUnitNode::KL ,str_KL },
@@ -487,6 +522,11 @@ private:
         {6,"Точка-Гарда"},
         {7,"Разряд"}
     };
+
+QMap <int,QString> m_ASOOSD_use{
+{0,"ВЫКЛ"},
+{1,"ВКЛ"},
+};
 
     QMap <int,QString> SSOI_IU_Num3{
 {1 , "ИУ1"},
@@ -528,6 +568,7 @@ public:
 
 private slots:
 
+    void slot_to_get_options(QModelIndex index);
     void update();
 
     void unitNameChanged(QStandardItem*);

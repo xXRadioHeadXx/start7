@@ -58,7 +58,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="OprosVariant_1">
     <widget class="QLabel" name="label_84">
@@ -96,6 +96,9 @@
        <height>25</height>
       </rect>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
      <property name="maximum">
       <number>3000</number>
      </property>
@@ -111,6 +114,9 @@
        <width>101</width>
        <height>25</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="maximum">
       <number>10</number>
@@ -139,6 +145,9 @@
        <width>201</width>
        <height>25</height>
       </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="maximum">
       <number>250</number>

@@ -34,10 +34,14 @@ SOURCES += \
     dbform.cpp \
     delegate.cpp \
     edit_unit_widget.cpp \
+    group.cpp \
     main.cpp \
     map.cpp \
     my_combobox.cpp \
+    my_doublespinbox.cpp \
     my_lineedit.cpp \
+    my_settings.cpp \
+    my_treeview.cpp \
     mydrawobject.cpp \
     myscene.cpp \
     operator_form.cpp \
@@ -47,6 +51,7 @@ SOURCES += \
     rastr_widget.cpp \
     rif_widget_delegate.cpp \
     rif_widget_model.cpp \
+    sql_user_dlg.cpp \
     sqlunit.cpp \
     ssoi_port_widget.cpp \
     ssoi_widget.cpp \
@@ -65,9 +70,13 @@ HEADERS += \
     dbform.h \
     delegate.h \
     edit_unit_widget.h \
+    group.h \
     map.h \
     my_combobox.h \
+    my_doublespinbox.h \
     my_lineedit.h \
+    my_settings.h \
+    my_treeview.h \
     mydrawobject.h \
     myscene.h \
     operator_form.h \
@@ -76,6 +85,7 @@ HEADERS += \
     rastr_widget.h \
     rif_widget_delegate.h \
     rif_widget_model.h \
+    sql_user_dlg.h \
     sqlunit.h \
     ssoi_port_widget.h \
     ssoi_widget.h \
@@ -93,6 +103,7 @@ FORMS += \
     map.ui \
     operator_form.ui \
     rastr_widget.ui \
+    sql_user_dlg.ui \
     ssoi_port_widget.ui \
     ssoi_widget.ui \
     tablo_widget.ui

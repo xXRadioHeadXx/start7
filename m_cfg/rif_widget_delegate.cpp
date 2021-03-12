@@ -38,6 +38,7 @@ QWidget *rif_widget_delegate::createEditor(QWidget *parent, const QStyleOptionVi
      editor->setMinimum(50);
      editor->setSingleStep(5);
      editor->setMaximum(5000);
+     editor->setContextMenuPolicy(Qt::NoContextMenu);
      return editor;
 
     }
