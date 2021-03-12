@@ -792,8 +792,13 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
             continue;
 
         QDomElement  deviceElement  =  doc.createElement("device");
-        QString id = un->getMetaNames().values().first();
-        id.remove("Obj_");
+        QString id;
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
+            id.remove("Obj_");
+        } else {
+            id = "X";
+        }
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
         deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
@@ -857,8 +862,13 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     QDomElement  deviceElement  =  doc.createElement("device");
     QString id;
     if(nullptr != un) {
-        id = un->getMetaNames().values().first();
-        id = id.remove("Obj_");
+        QString id;
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
+            id.remove("Obj_");
+        } else {
+            id = "X";
+        }
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
         deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
@@ -1052,10 +1062,14 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
     }
 
     QDomElement  deviceElement  =  doc.createElement("device");
-    QString id;
     if(nullptr != un) {
-        id = un->getMetaNames().values().first();
-        id = id.remove("Obj_");
+        QString id;
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
+            id.remove("Obj_");
+        } else {
+            id = "X";
+        }
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
         deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
