@@ -61,6 +61,8 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
         return result;
 
     if(getUnReciver()->getMaxCountSCRWA() <= getUnReciver()->getCountSCRWA()) {
+        qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg() -- max:" << getUnReciver()->getMaxCountSCRWA() << "<= curr:" << getUnReciver()->getCountSCRWA() << " " << getUnReciver()->toString();
+        getUnReciver()->setCountSCRWA(0);
         SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
     }
 
@@ -76,13 +78,14 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
         DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
     }
 
+    if(1 < getLsTrackedUN().size())
     {
         int index = getLsTrackedUN().indexOf(getUnReciver());
         UnitNode * un = nullptr;
-        if( -1 == index || index + 1 >= getLsTrackedUN().size() ) {
+        if( -1 == index || index >= getLsTrackedUN().size() ) {
             un = getLsTrackedUN().value(0, nullptr);
         } else {
-            un = getLsTrackedUN().at(index + 1);
+            un = getLsTrackedUN().value(index + 1, getLsTrackedUN().value(0, nullptr));
         }
         setUnReciver(un);
         setUnTarget(un);
@@ -163,7 +166,7 @@ void MultiUNStatusConnectRequester::init() {
         maxBeatCount = (20500 / udpTimeout) + 1;
     }
 
-    setMaxBeatCount(maxBeatCount);
+    setMaxBeatCount(0);
 
     connect(this, SIGNAL(importantBeatStatus()), this, SLOT(specialReserveSlot()));
 }

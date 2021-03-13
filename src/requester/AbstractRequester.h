@@ -150,7 +150,7 @@ public slots:
     void beatRepeatFirstRequest() {
 //        qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") -->";
         timerTripleStop();
-        if(getMaxBeatCount() <= getBeatCount()) {
+        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit importantBeatStatus();
@@ -250,7 +250,7 @@ public slots:
 //        qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") -->";
         timerTripleStop();
 
-        if(getMaxBeatCount() <= getBeatCount()) {
+        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit importantBeatStatus();
@@ -348,7 +348,7 @@ public slots:
 //        qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") -->";
         timerTripleStop();
 
-        if(getMaxBeatCount() <= getBeatCount()) {
+        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit importantBeatStatus();

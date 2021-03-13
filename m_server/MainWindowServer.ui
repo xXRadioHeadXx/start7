@@ -1126,7 +1126,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>614</width>
+                  <width>534</width>
                   <height>235</height>
                  </rect>
                 </property>
@@ -1424,6 +1424,9 @@
            </property>
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::NoSelection</enum>
            </property>
           </widget>
          </item>
