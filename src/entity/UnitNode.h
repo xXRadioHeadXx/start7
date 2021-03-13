@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSet>
 #include <QVariant>
+#include <SWPTGType1.h>
 
 enum SubTypeApp {
     any = 0x00,
@@ -67,7 +68,11 @@ class UnitNode : public QObject
 {
     Q_OBJECT
 private:
+    int neededStateWordType = 0;
     QByteArray stateWord;
+    QByteArray subStateWordType1;
+    QByteArray subStateWordType2;
+    QByteArray subStateWordType3;
     QSet<UnitNode *> doubles; //[Obj_1]
     QSet<QString> metaNames; //[Obj_1]
     int Type;//=0
@@ -380,6 +385,18 @@ public:
     int getMaxCountSCRWA() const;
     void setMaxCountSCRWA(int value);
 
+    QByteArray getSubStateWordType1() const;
+    void setSubStateWordType1(const QByteArray &value);
+
+    QByteArray getSubStateWordType2() const;
+    void setSubStateWordType2(const QByteArray &value);
+
+    QByteArray getSubStateWordType3() const;
+    void setSubStateWordType3(const QByteArray &value);
+
+    int getNeededStateWordType() const;
+    void setNeededStateWordType(int value);
+
 public slots:
 
 signals:
@@ -442,6 +459,24 @@ class UnitNode_TG : public UnitNode {
 public:
     explicit UnitNode_TG(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {}
+    SWPTGType1 getSWPTochkaGardaType1() const;
+    virtual int calcDKStatus() const final {
+         SWPTGType1 swp = getSWPTochkaGardaType1();
+        if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == swp.isNorm() && 1 == swp.isWasAlarm()) {
+            return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+        } else if(1 == swp.isAlarm()) {
+            return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == swp.isOff()) {
+            return DKCiclStatus::DKWrong;
+        } else if(1 == swp.isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
+        return DKCiclStatus::DKWrong;
+    }
 };
 class UnitNode_RLM_KRL : public UnitNode {
 public:

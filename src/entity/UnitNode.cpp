@@ -641,6 +641,9 @@ void UnitNode::updDoubl()
 {
     for(auto c : as_const(this->doubles)) {
         c->stateWord = this->stateWord;
+        c->subStateWordType1 = this->subStateWordType1;
+        c->subStateWordType2 = this->subStateWordType2;
+        c->subStateWordType3 = this->subStateWordType3;
         c->status1 = this->status1;
         c->status2 = this->status2;
         c->dkStatus = this->dkStatus;
@@ -937,11 +940,51 @@ void UnitNode::setMaxCountSCRWA(int value)
     maxCountSCRWA = value;
 }
 
+QByteArray UnitNode::getSubStateWordType1() const
+{
+    return subStateWordType1;
+}
+
+void UnitNode::setSubStateWordType1(const QByteArray &value)
+{
+    subStateWordType1 = value;
+}
+
+QByteArray UnitNode::getSubStateWordType2() const
+{
+    return subStateWordType2;
+}
+
+void UnitNode::setSubStateWordType2(const QByteArray &value)
+{
+    subStateWordType2 = value;
+}
+
+QByteArray UnitNode::getSubStateWordType3() const
+{
+    return subStateWordType3;
+}
+
+void UnitNode::setSubStateWordType3(const QByteArray &value)
+{
+    subStateWordType3 = value;
+}
+
+int UnitNode::getNeededStateWordType() const
+{
+    return neededStateWordType;
+}
+
+void UnitNode::setNeededStateWordType(int value)
+{
+    neededStateWordType = value;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
             ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
-        TypeUnitNode::RLM_C == getType() ||
+             TypeUnitNode::RLM_C == getType() ||
         TypeUnitNode::RLM_KRL == getType()))
         editableControl = true;
 }
@@ -982,6 +1025,9 @@ UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 UnitNode::UnitNode(const UnitNode & parent) :
     QObject(nullptr),
     stateWord(parent.stateWord),
+    subStateWordType1(parent.subStateWordType1),
+    subStateWordType2(parent.subStateWordType2),
+    subStateWordType3(parent.subStateWordType3),
     metaNames(parent.metaNames),
     Type(parent.Type),
     Num1(parent.Num1),
@@ -1022,6 +1068,9 @@ UnitNode::UnitNode(const UnitNode & parent) :
     dkInvolved(parent.dkInvolved)
 {
     setStateWord(parent.getStateWord());
+    setSubStateWordType1(parent.getSubStateWordType1());
+    setSubStateWordType2(parent.getSubStateWordType2());
+    setSubStateWordType3(parent.getSubStateWordType3());
     setMetaNames(parent.getMetaNames());
     setType(parent.getType());
     setNum1(parent.getNum1());
@@ -1068,6 +1117,9 @@ UnitNode::UnitNode(const UnitNode & parent) :
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
     setStateWord(c.getStateWord());
+    setSubStateWordType1(c.getSubStateWordType1());
+    setSubStateWordType2(c.getSubStateWordType2());
+    setSubStateWordType3(c.getSubStateWordType3());
     setMetaNames(c.getMetaNames());
     setType(c.getType());
     setNum1(c.getNum1());
@@ -1628,4 +1680,9 @@ int UnitNode_RLM_KRL::isWasOpened() const
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
+}
+
+SWPTGType1 UnitNode_TG::getSWPTochkaGardaType1() const
+{
+    return SWPTGType1(getStateWord());
 }
