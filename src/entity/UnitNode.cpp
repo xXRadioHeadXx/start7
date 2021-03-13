@@ -980,6 +980,16 @@ void UnitNode::setNeededStateWordType(int value)
     neededStateWordType = value;
 }
 
+QByteArray UnitNode::getSubStateWordType4() const
+{
+    return subStateWordType4;
+}
+
+void UnitNode::setSubStateWordType4(const QByteArray &value)
+{
+    subStateWordType4 = value;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
@@ -1028,6 +1038,7 @@ UnitNode::UnitNode(const UnitNode & parent) :
     subStateWordType1(parent.subStateWordType1),
     subStateWordType2(parent.subStateWordType2),
     subStateWordType3(parent.subStateWordType3),
+    subStateWordType4(parent.subStateWordType4),
     metaNames(parent.metaNames),
     Type(parent.Type),
     Num1(parent.Num1),
@@ -1071,6 +1082,7 @@ UnitNode::UnitNode(const UnitNode & parent) :
     setSubStateWordType1(parent.getSubStateWordType1());
     setSubStateWordType2(parent.getSubStateWordType2());
     setSubStateWordType3(parent.getSubStateWordType3());
+    setSubStateWordType4(parent.getSubStateWordType4());
     setMetaNames(parent.getMetaNames());
     setType(parent.getType());
     setNum1(parent.getNum1());
@@ -1120,6 +1132,7 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     setSubStateWordType1(c.getSubStateWordType1());
     setSubStateWordType2(c.getSubStateWordType2());
     setSubStateWordType3(c.getSubStateWordType3());
+    setSubStateWordType4(c.getSubStateWordType4());
     setMetaNames(c.getMetaNames());
     setType(c.getType());
     setNum1(c.getNum1());
@@ -1680,9 +1693,4 @@ int UnitNode_RLM_KRL::isWasOpened() const
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
-}
-
-SWPTGType1 UnitNode_TG::getSWPTochkaGardaType1() const
-{
-    return SWPTGType1(getStateWord());
 }
