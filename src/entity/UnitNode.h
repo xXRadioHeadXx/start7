@@ -5,6 +5,7 @@
 #include <QSet>
 #include <QVariant>
 #include <SWPBLIP.h>
+#include <SWPSDBLIP.h>
 #include <SWPTGType1.h>
 #include <SWPTGType2.h>
 #include <SWPTGType3.h>
@@ -477,7 +478,7 @@ public:
     SWPTGType3 swpSWPTGType3() const {return SWPTGType3(getSubStateWordType3());}
     SWPTGType4 swpSWPTGType4() const {return SWPTGType4(getSubStateWordType4());}
     virtual int calcDKStatus() const {
-         SWPTGType1 swp = getSWPTochkaGardaType1();
+         SWPTGType1 swp = swpSWPTGType1();
         if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(1 == swp.isNorm() && 1 == swp.isWasAlarm()) {
