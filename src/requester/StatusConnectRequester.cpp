@@ -4,7 +4,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 
 StatusConnectRequester::StatusConnectRequester(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
@@ -123,7 +123,7 @@ void StatusConnectRequester::init() {
 
     int maxBeatCount = 400;
     if(50 != udpTimeout) {
-        maxBeatCount = (20500 / udpTimeout) + 1;
+        maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
     }
 
     setMaxBeatCount(maxBeatCount);

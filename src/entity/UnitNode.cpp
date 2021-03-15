@@ -5,7 +5,7 @@
 #include <Icons.h>
 #include <Icons_cfg.h>
 #include <SignalSlotCommutator.h>
-#include <global.hpp>
+#include <global.h>
 #include <QtMath>
 
 QSet<QString> UnitNode::getMetaNames() const
@@ -302,7 +302,7 @@ void UnitNode::setUdpTimeout(int value)
 
     int maxBeatCount = 400;
     if(50 != udpTimeout) {
-        maxBeatCount = (20500 / udpTimeout) + 1;
+        maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
     }
     setMaxCountSCRWA(maxBeatCount);
 }

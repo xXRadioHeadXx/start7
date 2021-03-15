@@ -51,6 +51,7 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    ../src/global.h \
     AuthenticationDialog.h \
     MainWindowServer.h
 

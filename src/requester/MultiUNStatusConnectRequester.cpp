@@ -4,7 +4,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 
 MultiUNStatusConnectRequester::MultiUNStatusConnectRequester(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
@@ -38,7 +38,7 @@ void MultiUNStatusConnectRequester::addLsTrackedUN(UnitNode *  value)
 
     int maxBeatCount = 400;
     if(0 < sumUdpTimeout) {
-        maxBeatCount = (20500 / sumUdpTimeout) + 1;
+        maxBeatCount = (delayDisconnectStatus / sumUdpTimeout) + 1;
     }
 
     for(auto uncld : as_const(getLsTrackedUN())) {
@@ -163,7 +163,7 @@ void MultiUNStatusConnectRequester::init() {
 
     int maxBeatCount = 400;
     if(50 != udpTimeout) {
-        maxBeatCount = (20500 / udpTimeout) + 1;
+        maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
     }
 
     setMaxBeatCount(0);
