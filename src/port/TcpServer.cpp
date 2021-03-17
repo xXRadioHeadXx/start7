@@ -21,7 +21,7 @@ TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
 //                               "Unable to start the server:"
 //                               + m_ptrTcpServer->errorString()
 //                              );
-         qDebug() << "TcpServer Error: Unable to start the server:" + m_ptrTcpServer->errorString();
+         //qDebug() << "TcpServer Error: Unable to start the server:" + m_ptrTcpServer->errorString();
          m_ptrTcpServer->close();
          delete m_ptrTcpServer;
          m_ptrTcpServer = nullptr;
@@ -74,7 +74,7 @@ bool TcpServer::writeData(QTcpSocket *socket, QByteArray data)
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
-//        qDebug() << "TcpServer::writeData(" << QString::fromLocal8Bit(data) << ")";
+//        //qDebug() << "TcpServer::writeData(" << QString::fromLocal8Bit(data) << ")";
         socket->write(data); //write the data itself
         return socket->waitForBytesWritten();
     }
@@ -109,7 +109,7 @@ void TcpServer::readyRead()
     QByteArray *buffer = buffers.value(socket);
     while (socket->bytesAvailable() > 0)
     {
-//        qDebug() << "socket->bytesAvailable(" << socket->bytesAvailable() << ")";
+//        //qDebug() << "socket->bytesAvailable(" << socket->bytesAvailable() << ")";
         buffer->append(socket->readAll());
         while (0 < buffer->size()) //While can process data, process it
         {
@@ -119,7 +119,7 @@ void TcpServer::readyRead()
             QString domStr = data;
             QDomDocument doc;
             if(doc.setContent(domStr)) {
-//                qDebug() << "TcpServer::(1)readyRead(" << domStr << ")";
+//                //qDebug() << "TcpServer::(1)readyRead(" << domStr << ")";
                 buffer->clear();
 
                 DataQueueItem itm(data, socket->peerAddress(), socket->peerPort(), 0);
@@ -143,26 +143,26 @@ void TcpServer::readyRead()
 
                 domStr = data;
                 if(doc.setContent(domStr)) {
-                    qDebug() << "TcpServer::(2)readyRead(" << domStr << ")";
+                    //qDebug() << "TcpServer::(2)readyRead(" << domStr << ")";
 
                     DataQueueItem itm(domStr.toUtf8(), socket->peerAddress(), socket->peerPort(), 0);
 
                     emit dataReceived(itm);
                 } else {
-                    qDebug() << "TcpServer::(3)readyRead[need correcting](" << domStr << ")";
+                    //qDebug() << "TcpServer::(3)readyRead[need correcting](" << domStr << ")";
                     if(domStr.contains("'"))
                         continue;
 
                     if(domStr.contains(QRegExp("<\\s*RIFPlusPacket\\s*type\\s*=\\s*\"Commands\"\\s*>\\s*<\\s*Commands>\\s*<Command\\s*id\\s*=\\s*\"\\d*\"\\s*\\/>\\s*<\\s*device\\s*id\\s*=\\s*\"\\d*\"\\s*>\\s*<\\/\\s*Commands\\s*>\\s*<\\/\\s*RIFPlusPacket\\s*>"))) {
-                        qDebug() << "TcpServer::(31) match";
+                        //qDebug() << "TcpServer::(31) match";
                         domStr.insert(domStr.indexOf(QRegExp("<\/\s*Commands\s*>\s*<\/\s*RIFPlusPacket\s*>")), "</device>");
                     } else if(domStr.contains(QRegExp("<\\s*RIFPlusPacket\\s*type\\s*=\\s*\"Commands\"\\s*>\\s*<\\s*Commands>\\s*<Command\\s*id\\s*=\\s*\"\\d*\"\\s*name\\s*=\\s*\".*\"\\s*\\/>\\s*<\\s*device\\s*id\\s*=\\s*\"\\d*\"\\s*level\\s*=\\s*\"\\d*\"\\s*type\\s*=\\s*\"\\d*\"\\s*num1\\s*=\\s*\"\\d*\"\\s*num2\\s*=\\s*\"\\d*\"\\s*num3\\s*=\\s*\"\\d*\"\\s*>\\s*<\\/\\s*Commands\\s*>\\s*<\\/\\s*RIFPlusPacket\\s*>"))) {
-                        qDebug() << "TcpServer::(31) match";
+                        //qDebug() << "TcpServer::(31) match";
                         domStr.insert(domStr.indexOf(QRegExp("<\/\s*Commands\s*>\s*<\/\s*RIFPlusPacket\s*>")), "</device>");
                     }
 
                     if(doc.setContent(domStr)) {
-                        qDebug() << "TcpServer::(32)readyRead(" << domStr << ")";
+                        //qDebug() << "TcpServer::(32)readyRead(" << domStr << ")";
 
                         DataQueueItem itm(domStr.toUtf8(), socket->peerAddress(), socket->peerPort(), 0);
 

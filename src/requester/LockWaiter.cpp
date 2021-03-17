@@ -7,12 +7,12 @@
 
 LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "LockWaiter::LockWaiter(" << this << ") -->";
+    //qDebug() << "LockWaiter::LockWaiter(" << this << ") -->";
 }
 
 LockWaiter::~LockWaiter()
 {
-    qDebug() << "LockWaiter::~LockWaiter(" << this << ") <--";
+    //qDebug() << "LockWaiter::~LockWaiter(" << this << ") <--";
 }
 
 DataQueueItem LockWaiter::getOnMsg()
@@ -137,7 +137,7 @@ void LockWaiter::init() {
 
     if(1 == unReciverSdBlIp->isAlarm() &&
        1 == unReciverIuBlIp->isOff()) {
-//        qDebug() << "LockRequester::init 1";
+//        //qDebug() << "LockRequester::init 1";
         //Открыто
         initVarianrt = 1;
         setTimeIntervalWaiteFirst(30000);
@@ -145,7 +145,7 @@ void LockWaiter::init() {
         setTimeIntervalRequest(500);
     } else if(1 == unReciverSdBlIp->isNorm() &&
               1 == unReciverIuBlIp->isOn()) {
-//        qDebug() << "LockRequester::init 2";
+//        //qDebug() << "LockRequester::init 2";
         //Закрыто
         initVarianrt = 2;
         setTimeIntervalWaiteFirst(30000);
@@ -153,7 +153,7 @@ void LockWaiter::init() {
         setTimeIntervalRequest(500);
     } else if(1 == unReciverSdBlIp->isAlarm() &&
               1 == unReciverIuBlIp->isOn()) {
-//        qDebug() << "LockRequester::init 3";
+//        //qDebug() << "LockRequester::init 3";
         //Открыто ключом
         initVarianrt = 3;
         setTimeIntervalWaiteFirst(30000);
@@ -161,7 +161,7 @@ void LockWaiter::init() {
         setTimeIntervalRequest(500);
     } else if(1 == unReciverSdBlIp->isNorm() &&
               1 == unReciverIuBlIp->isOff()) {
-//        qDebug() << "LockRequester::init 4";
+//        //qDebug() << "LockRequester::init 4";
         //Закрыто ключом
         initVarianrt = 4;
         setTimeIntervalWaiteFirst(30000);

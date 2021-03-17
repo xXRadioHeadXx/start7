@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <TreeModelUnitNode.h>
-#include "map.h"
 #include <QErrorMessage>
 #include "operator_form.h"
 #include "edit_unit_widget.h"
@@ -373,7 +372,7 @@ private:
 
     bool this_name_is_free(QString Name);
 
-    void update_map();
+
 
     void update_rif_comport_table();
 
@@ -557,7 +556,7 @@ public:
 
     bool load(QString patch);
 
-    Map map;
+
 
     operator_form op_f;
     DBform db_f;
@@ -610,7 +609,7 @@ private slots:
     void on_actionSave_triggered();
     void on_treeView_activated(const QModelIndex &index);
     void on_pushButton_2_clicked();
-    void on_pushButton_7_clicked();
+
     void on_pushButton_8_clicked();
 
     void on_pushButton_9_clicked();

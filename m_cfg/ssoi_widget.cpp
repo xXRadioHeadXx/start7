@@ -113,9 +113,9 @@ this->set_SsoiFixNewWarning(0);
 
 void ssoi_widget::set_Version(int val)
 {
-    qDebug()<<"Version "<<val;
+    //qDebug()<<"Version "<<val;
     QString str=l_Version.value(val);
-    qDebug()<<str;
+    //qDebug()<<str;
 this->ui->Version->setCurrentText(l_Version.value(val));
 }
 

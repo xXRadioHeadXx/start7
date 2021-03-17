@@ -12,13 +12,13 @@ My_lineEdit::My_lineEdit(QWidget *parent) : QLineEdit(parent)
 
 void My_lineEdit::contextMenuEvent(QContextMenuEvent *event)
 {
-qDebug()<<"!!!!!!!!!!!!!!!!!!";
+//qDebug()<<"!!!!!!!!!!!!!!!!!!";
 QMenu *menu = this->createStandardContextMenu();
 
 for(int i=0;i<menu->actions().count();i++)
 {
 QAction* action=menu->actions().at(i);
-qDebug()<<i<<" "<<action->text();
+//qDebug()<<i<<" "<<action->text();
 }
 menu->actions().at(0)->setText("Отмена\tCtrl+Z");
 menu->actions().at(1)->setText("Вернуть\tCtrl+Y");

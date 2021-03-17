@@ -344,7 +344,7 @@ void MainWindowDB::updateListRecords()
 {
     if(getBlockSignal())
         return;
-    qDebug() << getCurrentSqlQueryStr();
+    //qDebug() << getCurrentSqlQueryStr();
     modelMSG->castomUpdateListRecords(getCurrentSqlQueryStr());
 }
 

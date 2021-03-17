@@ -20,7 +20,7 @@ DBform::~DBform()
 // и отобразить в таблице все бд с названием rif_bd0 (1,2,3)
 void DBform::find_rif_db(QSqlDatabase db)
 {
-qDebug()<<"[find_rif_db]";
+//qDebug()<<"[find_rif_db]";
  //   SELECT name FROM system.databases
     QSqlQuery query(db);
 
@@ -33,7 +33,7 @@ qDebug()<<"[find_rif_db]";
 
          cmd="SELECT datname FROM pg_database";
     }
-    qDebug()<<"cmd "<<cmd;
+    //qDebug()<<"cmd "<<cmd;
       query.prepare(cmd);
 
 
@@ -47,13 +47,13 @@ qDebug()<<"[find_rif_db]";
     {
 
         QString db_name=query.value(0).toString();
-        qDebug()<<db_name;
+        //qDebug()<<db_name;
         if((db_name=="rif_db0")||
            (db_name=="rif_db1")||
            (db_name=="rif_db2")||
            (db_name=="rif_db3"))
         {
-                    qDebug()<<".";
+                    //qDebug()<<".";
             databases.append(query.value(0).toString());
             cnt=this->ui->database_tableWidget->rowCount();
             this->ui->database_tableWidget->insertRow(cnt);
@@ -66,7 +66,7 @@ qDebug()<<"[find_rif_db]";
 
 
 
-qDebug()<<"[/find_rif_db]";
+//qDebug()<<"[/find_rif_db]";
 }
 
 

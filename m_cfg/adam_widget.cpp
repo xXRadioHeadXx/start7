@@ -10,7 +10,7 @@ ADAM_Widget::ADAM_Widget(QWidget *parent) :
     this->ui->Port->addItem(" ВЫКЛ"," ВЫКЛ");
     for(int i(1), n(100); i < n; i++)
     {
-     //   qDebug()<<"i= "<<i;
+     //   //qDebug()<<"i= "<<i;
         QString str(" COM%1");
         str = str.arg(i);
         this->ui->Port->addItem(str,str);

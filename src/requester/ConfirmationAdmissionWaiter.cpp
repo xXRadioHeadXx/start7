@@ -6,12 +6,12 @@
 
 ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(" << this << ") -->";
+    //qDebug() << "ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(" << this << ") -->";
 }
 
 ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter()
 {
-    qDebug() << "ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter(" << this << ") <--";
+    //qDebug() << "ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter(" << this << ") <--";
 }
 
 void ConfirmationAdmissionWaiter::init()

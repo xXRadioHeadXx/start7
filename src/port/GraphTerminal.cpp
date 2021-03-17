@@ -38,7 +38,7 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
         }
 
     }  catch (...) {
-      qDebug() << "GraphTerminal::GraphTerminal -- some exception";
+      //qDebug() << "GraphTerminal::GraphTerminal -- some exception";
     }
 
 }
@@ -75,7 +75,7 @@ DataQueueItem GraphTerminal::popReadQueue()
 
 void GraphTerminal::pushOverallReadQueue(const QList<DataQueueItem> &value) {
     overallReadQueue.append(value);
-    //    qDebug() << "pushOverallReadQueue size(" << overallReadQueue.size() << ")";
+    //    //qDebug() << "pushOverallReadQueue size(" << overallReadQueue.size() << ")";
 }
 
 void GraphTerminal::pushReadQueue(const DataQueueItem &value)
@@ -85,7 +85,7 @@ void GraphTerminal::pushReadQueue(const DataQueueItem &value)
 
 void GraphTerminal::pushOverallReadQueue(const DataQueueItem &value){
     overallReadQueue.append(value);
-//    qDebug() << "pushOverallReadQueue size(" << overallReadQueue.size() << ")";
+//    //qDebug() << "pushOverallReadQueue size(" << overallReadQueue.size() << ")";
 }
 
 QList<DataQueueItem> GraphTerminal::getOverallWriteQueue() const
@@ -129,7 +129,7 @@ void GraphTerminal::pushOverallWriteQueue(const DataQueueItem &value){
 
 void GraphTerminal::manageOverallReadQueue()
 {
-//    qDebug() << "GraphTerminal::manageOverallReadQueue() -->";
+//    //qDebug() << "GraphTerminal::manageOverallReadQueue() -->";
     while(!getOverallReadQueue().isEmpty()) {
         DataQueueItem itm = popReadQueue();
 
@@ -148,7 +148,7 @@ void GraphTerminal::manageOverallReadQueue()
 
         QString type = root.attribute("type");
 
-//        qDebug() << "root.attribute(\"type\") " << type;
+//        //qDebug() << "root.attribute(\"type\") " << type;
         if("Commands" == type) {
             procCommands(itm);
             continue;
@@ -191,7 +191,7 @@ void GraphTerminal::manageOverallReadQueue()
         }
 
     }
-//    qDebug() << "GraphTerminal::manageOverallReadQueue() <--";
+//    //qDebug() << "GraphTerminal::manageOverallReadQueue() <--";
 
 }
 
@@ -202,7 +202,7 @@ void GraphTerminal::disconnected()
 }
 
 void GraphTerminal::procCommands(DataQueueItem itm) {
-    qDebug() << "GraphTerminal::procCommands() -->";
+    //qDebug() << "GraphTerminal::procCommands() -->";
     QDomDocument doc;
     if(!doc.setContent(itm.data()))
         return;
@@ -218,15 +218,15 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
     for(int i = 0, n = nodeListCommands.count(); i < n; i++) {
         QDomNode nodeCommand = nodeListCommands.at(i);
         if("Command" == nodeCommand.nodeName()) {
-            qDebug() << nodeCommand.nodeName();
+            //qDebug() << nodeCommand.nodeName();
             if(!nodeCommand.attributes().contains("id"))
                 continue;
 
             QDomNode idCommand = nodeCommand.attributes().namedItem("id");
 //            QDomDocument docAnswer;
             QByteArray dataAnswer;
-            qDebug() << "GraphTerminal::procCommands() idCommand.nodeValue(" << idCommand.nodeValue() << ")";
-//            qDebug() << "GraphTerminal::procCommands() " << doc.toString();
+            //qDebug() << "GraphTerminal::procCommands() idCommand.nodeValue(" << idCommand.nodeValue() << ")";
+//            //qDebug() << "GraphTerminal::procCommands() " << doc.toString();
             if("0" == idCommand.nodeValue()) {
                 dataAnswer = makeInitialStatus("InitialStatus answer command 0").toByteArray();
                 //
@@ -328,7 +328,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
             } else/* if("101" == idCommand.nodeValue()) {
                 //
             } else*/ if(("133" == idCommand.nodeValue()) || ("1133" == idCommand.nodeValue())) {
-                qDebug() << "-->";
+                //qDebug() << "-->";
                 if(2 != nodeCommands.childNodes().count())
                     continue;
 
@@ -354,7 +354,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 UnitNode * unTarget = nullptr;
                 QSet<UnitNode *> unTargetSet;
 
-                qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
+                //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
                 for(UnitNode * un : as_const(SettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
@@ -388,14 +388,14 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& un : as_const(unTargetSet.values())) {
                     if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
                         unTarget = un;
-                        qDebug() << unTarget->toString();
+                        //qDebug() << unTarget->toString();
                         break;
                     }
                 }
 
                 SignalSlotCommutator::getInstance()->emitRequestDK(true, unTarget);
 
-                qDebug() << "<--";
+                //qDebug() << "<--";
                 //
 //            } else if("1133" == idCommand.nodeValue()) {
 //                //
@@ -442,7 +442,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 UnitNode * unTarget = nullptr;
                 QSet<UnitNode *> unTargetSet;
 
-                qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
+                //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
                 for(auto un : as_const(SettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
@@ -476,7 +476,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& un : as_const(unTargetSet.values())) {
                     if(un->isEditableControl()) {
                         unTarget = un;
-                        qDebug() << unTarget->toString();
+                        //qDebug() << unTarget->toString();
                         break;
                     }
                 }
@@ -509,7 +509,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                         unTarget->setStatus2(Status::Uncnown);
                     }
                 }
-                qDebug() << "<--";
+                //qDebug() << "<--";
 
                 //
 //            } else if("136" == idCommand.nodeValue()) {
@@ -540,7 +540,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 UnitNode * unTarget = nullptr;
                 QSet<UnitNode *> unTargetSet;
 
-                qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
+                //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
                 for(auto un : as_const(SettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
@@ -574,7 +574,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& un : as_const(unTargetSet.values())) {
                     if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
                         unTarget = un;
-                        qDebug() << unTarget->toString();
+                        //qDebug() << unTarget->toString();
                         break;
                     }
                 }
@@ -618,7 +618,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
         }
     }
-    qDebug() << "GraphTerminal::procCommands() <--";
+    //qDebug() << "GraphTerminal::procCommands() <--";
 }
 
 void GraphTerminal::procKeepAlive(QDomElement /*root*/) {
@@ -630,7 +630,7 @@ void GraphTerminal::procEventBook(QDomElement /*root*/) {
 }
 
 void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
-    qDebug() << "GraphTerminal::procEventsAndStates() -->";
+    //qDebug() << "GraphTerminal::procEventsAndStates() -->";
     QDomDocument doc;
     if(!doc.setContent(itm.data()))
         return;
@@ -646,7 +646,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
     for(int i = 0, n = nodeListDevices.count(); i < n; i++) {
         QDomNode nodeDevice = nodeListDevices.at(i);
         if("device" == nodeDevice.nodeName()) {
-//            qDebug() << nodeDevice.nodeName();
+//            //qDebug() << nodeDevice.nodeName();
 //            if(!nodeDevice.attributes().contains("id"))
 //                continue;
 
@@ -660,8 +660,8 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                 if("state" == nodeState.nodeName()) {
                     QDomNode idState = nodeState.attributes().namedItem("id");
                     QDomDocument docAnswer;
-                    qDebug() << "GraphTerminal::procEventsAndStates() idState.nodeValue(" << idState.nodeValue() << ")";
-                    qDebug() << "GraphTerminal::procEventsAndStates() " << doc.toString();
+                    //qDebug() << "GraphTerminal::procEventsAndStates() idState.nodeValue(" << idState.nodeValue() << ")";
+                    //qDebug() << "GraphTerminal::procEventsAndStates() " << doc.toString();
 
                     if("903" == idState.nodeValue()) {
                         {
@@ -712,7 +712,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
         }
     }
 
-    qDebug() << "GraphTerminal::procEventsAndStates() <--";
+    //qDebug() << "GraphTerminal::procEventsAndStates() <--";
 }
 
 void GraphTerminal::procAlarmsReset(QDomElement /*root*/) {
@@ -751,7 +751,7 @@ QDomDocument GraphTerminal::makeInitialStatus(QString /*docType*/)
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
         deviceElement.setAttribute("name", un->getName());
-//        qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
+//        //qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
         deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
@@ -768,7 +768,7 @@ QDomDocument GraphTerminal::makeInitialStatus(QString /*docType*/)
         statesElement.appendChild(stateElement);
     }
 
-//    qDebug() << "GraphTerminal::makeInitialStatus()" << doc.toString();
+//    //qDebug() << "GraphTerminal::makeInitialStatus()" << doc.toString();
 
     return doc;
 }
@@ -816,7 +816,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
         statesElement.appendChild(stateElement);
     }
 
-//    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
+//    //qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
 
     return doc;
 }
@@ -866,7 +866,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
         deviceElement.setAttribute("name", un->getName());
-//        qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
+//        //qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
         deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
@@ -893,7 +893,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
         statesElement.appendChild(stateElement);
     }
 
-//    qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
+//    //qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
 
     return doc;
 
@@ -1003,7 +1003,7 @@ void GraphTerminal::sendAbonentEventsAndStates(UnitNode *un, JourEntity jour){
 }
 
 void GraphTerminal::sendAbonent(QByteArray ba) {
-//    qDebug() << "GraphTerminal::sendAbonent()" << ba;
+//    //qDebug() << "GraphTerminal::sendAbonent()" << ba;
     if(ba.isEmpty() || abonents.keys().isEmpty())
         return;
 
@@ -1063,7 +1063,7 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
         deviceElement.setAttribute("num2", un->getNum2());
         deviceElement.setAttribute("num3", un->getNum3());
         deviceElement.setAttribute("name", un->getName());
-//        qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
+//        //qDebug() << "deviceElement.setAttribute(\"name\", un->getName(" << un->getName() << "))";
         deviceElement.setAttribute("lat", (0 == un->getLan() ? "0.00000000" : QString::number(un->getLan())));
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
@@ -1082,7 +1082,7 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
     stateElement.setAttribute("name", jour.getComment());
     statesElement.appendChild(stateElement);
 
-//    qDebug() << "GraphTerminal::makeEventBook()" << doc.toString();
+//    //qDebug() << "GraphTerminal::makeEventBook()" << doc.toString();
 
     return doc;
 }

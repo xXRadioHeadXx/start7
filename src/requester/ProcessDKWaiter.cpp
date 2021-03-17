@@ -7,12 +7,12 @@
 
 ProcessDKWaiter::ProcessDKWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "ProcessDKWaiter::ProcessDKWaiter(" << this << ") -->";
+    //qDebug() << "ProcessDKWaiter::ProcessDKWaiter(" << this << ") -->";
 }
 
 ProcessDKWaiter::~ProcessDKWaiter()
 {
-    qDebug() << "ProcessDKWaiter::~ProcessDKWaiter(" << this << ") <--";
+    //qDebug() << "ProcessDKWaiter::~ProcessDKWaiter(" << this << ") <--";
     Port::typeDefPort(getPtrPort())->setProcDK(false);
     if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
         getUnReciver()->setDkInvolved(false);

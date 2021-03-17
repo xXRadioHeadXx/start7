@@ -175,7 +175,7 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
 
  void TreeModelUnitNode::appendNewUNInStructure(QModelIndex &index, UnitNode* un)
  {
-     qDebug() << "TreeModelUnitNode::appendNewUNInStructure(" << index << ", " << un << ") -->";
+     //qDebug() << "TreeModelUnitNode::appendNewUNInStructure(" << index << ", " << un << ") -->";
      UnitNode *parent = static_cast<UnitNode*>(index.internalPointer());
 
      this->beginInsertRows(index.parent(), index.row(), index.row());
@@ -183,7 +183,7 @@ bool TreeModelUnitNode::setData(const QModelIndex &index, const QVariant &value,
      parent->addChild(un);
      this->endInsertRows();
 
-     qDebug() << "TreeModelUnitNode::appendNewUNInStructure() <--";
+     //qDebug() << "TreeModelUnitNode::appendNewUNInStructure() <--";
 
      return;
  }
@@ -254,7 +254,7 @@ QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *tc,
          parentTC = rootItemUN;
          if(parentTC == tc)
          {
-//             qDebug() << "findeIndexUN false 1";
+//             //qDebug() << "findeIndexUN false 1";
              return index;
          }
      }
@@ -272,13 +272,13 @@ QModelIndex TreeModelUnitNode::findeIndexUN(UnitNode *tc,
                                         parentTC->treeChild(i));///1
              if(index.isValid())
              {
-           //      qDebug() << "findeIndexUN " << index;
+           //      //qDebug() << "findeIndexUN " << index;
                  return index;
              }
          }
 
      }
-  //   qDebug() << "findeIndexUN false 2";
+  //   //qDebug() << "findeIndexUN false 2";
      return index;
 }
 
@@ -342,7 +342,7 @@ void TreeModelUnitNode::getListFromModel(QList<UnitNode *> &list, UnitNode* pare
 
 bool TreeModelUnitNode::deleteUnit(QModelIndex index)
 {
-    qDebug()<<"TreeModelUnitNode::deleteUnit(" << index << ") -->";
+    //qDebug()<<"TreeModelUnitNode::deleteUnit(" << index << ") -->";
 
     if(this->parent(index).isValid()) {
         this->beginRemoveRows(index.parent(),index.row(),index.row());
@@ -351,10 +351,10 @@ bool TreeModelUnitNode::deleteUnit(QModelIndex index)
         //emit dataChanged(index,index);
         this->endRemoveRows();
         emit dataChanged(index,index);
-        qDebug()<<"TreeModelUnitNode::deleteUnit() <-- true";
+        //qDebug()<<"TreeModelUnitNode::deleteUnit() <-- true";
         return true;
     } else
-        qDebug()<<"TreeModelUnitNode::deleteUnit() <-- false";
+        //qDebug()<<"TreeModelUnitNode::deleteUnit() <-- false";
 
     return false;
 }

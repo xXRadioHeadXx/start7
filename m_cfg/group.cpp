@@ -4,7 +4,7 @@
 MY_GROUP::MY_GROUP(QObject *parent) : QObject(parent)
 {
     static int val=0;
-    qDebug()<<"static int val: "<<val;
+    //qDebug()<<"static int val: "<<val;
     id=val;
 
     val++;

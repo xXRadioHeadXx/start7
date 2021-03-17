@@ -19,6 +19,7 @@ public:
         SERIAL = 2
     };
     AbstractPort::Protocol protocol = AbstractPort::UDP;
+
     AbstractPort::Protocol getProtocol() const {return protocol;}
     void setProtocol(const AbstractPort::Protocol &value) { protocol = value; }
     explicit AbstractPort(const AbstractPort::Protocol &protocol, QObject *parent = nullptr) : QObject(parent), protocol(protocol) {}

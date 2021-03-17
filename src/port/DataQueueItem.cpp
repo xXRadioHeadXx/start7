@@ -418,7 +418,7 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
         return true;
 
     } catch (...) {
-        qDebug() << "fillDiagnosticTable catch exception ...";
+        //qDebug() << "fillDiagnosticTable catch exception ...";
     }
 
 

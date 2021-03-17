@@ -80,7 +80,7 @@ bool TablePrint::prepareTmpFileHtmlTableFromModel(const QTableView *tableView) {
            "    </tr>"
            "</table>";
 
-    qDebug() << strStream;
+    //qDebug() << strStream;
 
 
     if(QFile::exists("tmpprint"))
@@ -88,7 +88,7 @@ bool TablePrint::prepareTmpFileHtmlTableFromModel(const QTableView *tableView) {
 
     QFile tmpf("tmpprint");
     if (!tmpf.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Can`t create file tmpprint";
+        //qDebug() << "Can`t create file tmpprint";
         return false;
     } else {
         QTextStream fout(&tmpf);
@@ -104,7 +104,7 @@ bool TablePrint::print()
     QTextDocument *loc_document = new QTextDocument();
     QFile tmpf("tmpprint");
     if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Can`t read file tmpprint";
+        //qDebug() << "Can`t read file tmpprint";
         delete loc_document;
         return false;
     } else {
@@ -130,7 +130,7 @@ bool TablePrint::printPdf()
     QTextDocument loc_document;
     QFile tmpf("tmpprint");
     if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Can`t read file tmpprint";
+        //qDebug() << "Can`t read file tmpprint";
         return false;
     } else {
         QTextStream sin(&tmpf);
@@ -139,7 +139,7 @@ bool TablePrint::printPdf()
     }
 
     QString filename = QFileDialog::getSaveFileName(nullptr, "Open File",QString(),"Pdf File(*.pdf)");
-    qDebug()<<"Print file name is "<<filename;
+    //qDebug()<<"Print file name is "<<filename;
     if(!filename.isEmpty()) {
         if(QFileInfo(filename).suffix().isEmpty())
             filename.append(".pdf");
@@ -168,7 +168,7 @@ bool TablePrint::printPreview()
     document = new QTextDocument();
     QFile tmpf("tmpprint");
     if (!tmpf.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Can`t read file tmpprint";
+        //qDebug() << "Can`t read file tmpprint";
         return false;
     } else {
         QTextStream sin(&tmpf);

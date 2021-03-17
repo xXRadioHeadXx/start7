@@ -27,7 +27,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
 
 
-    qDebug() << "cntTrItm" << cntTrItm;
+    //qDebug() << "cntTrItm" << cntTrItm;
     if(0 >= cntTrItm)
         return listTreeUnitNodes;
 
@@ -121,7 +121,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
             if(!tmpUN->getName().isEmpty())
             {
-//                qDebug() << tmpUN->metaName << tmpUN->toString();
+//                //qDebug() << tmpUN->metaName << tmpUN->toString();
                 listTreeUnitNodes.append(tmpUN);
                 bool key = true;
                 for (auto rit = listTreeUnitNodes.rbegin(); rit != listTreeUnitNodes.rend(); ++rit) {
@@ -269,6 +269,6 @@ QVariant SettingUtils::getValueSettings(const QString key, const QString group, 
 
 bool SettingUtils::loadTreeUnitNodes(UnitNode */*root*/, UnitNode */*unit*/)
 {
-//    qDebug()<<"SettingUtils::loadTreeUnitNodes";
+//    //qDebug()<<"SettingUtils::loadTreeUnitNodes";
     return true;
 }

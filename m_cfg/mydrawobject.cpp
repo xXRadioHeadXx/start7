@@ -42,13 +42,13 @@ painter->setBrush(Qt::yellow);
 void MyDrawObject::mousePressEvent(QGraphicsSceneMouseEvent */*event*/)
 {
 //QGraphicsItem::mousePressEvent(event);
-//qDebug()<<" Press";
+////qDebug()<<" Press";
 }
 
 void MyDrawObject::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 
-//qDebug()<<" Move";
+////qDebug()<<" Move";
 
 this->setPos(mapToScene(event->pos()));
 
@@ -56,5 +56,5 @@ this->setPos(mapToScene(event->pos()));
 
 void MyDrawObject::mouseReleaseEvent(QGraphicsSceneMouseEvent */*event*/)
 {
-//qDebug()<<" Release";
+////qDebug()<<" Release";
 }

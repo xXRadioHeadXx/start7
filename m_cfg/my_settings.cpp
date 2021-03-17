@@ -42,7 +42,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
            quint8 data;
 
                       stream >> data;
-//                          qDebug()<<(char)data<<" "<<data;
+//                          //qDebug()<<(char)data<<" "<<data;
                       if((data==13)||(data==10))
                           flag=1;
 
@@ -57,7 +57,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
 
                         QString str=QString::fromLocal8Bit(ar);
                         if(ar.size()>0)
-//                          qDebug()<<"fl "<<flag<<" "<<str<<"            "<<ar.toHex();
+//                          //qDebug()<<"fl "<<flag<<" "<<str<<"            "<<ar.toHex();
 
 
 
@@ -90,8 +90,8 @@ My_settings::My_settings(QString filepath, QObject *parent)
 
 
                                    }
-                           //      qDebug()<<"key "<<QString::fromUtf8(key);
-                           //      qDebug()<< "val "<<" "<<QString::fromUtf8(val)<<" "<<val.toHex();
+                           //      //qDebug()<<"key "<<QString::fromUtf8(key);
+                           //      //qDebug()<< "val "<<" "<<QString::fromUtf8(val)<<" "<<val.toHex();
 
                               //    fields.insert(QString::fromUtf8(key),val);
 
@@ -103,23 +103,23 @@ My_settings::My_settings(QString filepath, QObject *parent)
                       }
                    }
 
-   //    qDebug()<<"----------------------------------------------------------";
+   //    //qDebug()<<"----------------------------------------------------------";
 
        QString str_group;
 
    //   MY_GROUP group[100];
       long cnt_group=0;
       int field=0;
-   //   qDebug()<<"sz "<<list.size();
+   //   //qDebug()<<"sz "<<list.size();
      foreach(QByteArray val,list)
        {
-     //       qDebug()<< "ar "<<" "<<QString::fromUtf8(val)<<" "<<val.toHex();
+     //       //qDebug()<< "ar "<<" "<<QString::fromUtf8(val)<<" "<<val.toHex();
             //check for GROUP
             if(((quint8)val[0]==91)&&((quint8)val[val.size()-1])==93)
             {
                 field=0;
 
-      //       qDebug()<<"----------------------------";
+      //       //qDebug()<<"----------------------------";
 
 
                 str_group=QString::fromUtf8(val);
@@ -130,16 +130,16 @@ My_settings::My_settings(QString filepath, QObject *parent)
                 MY_GROUP* gr=new MY_GROUP(this);
 
 
-         //       qDebug()<<"id "<<gr->get_id();
+         //       //qDebug()<<"id "<<gr->get_id();
 
                 map.insert(str_group,gr);
 
                 cnt_group++;
 
-            //    qDebug()<<"id "<<map.last()->get_id();
+            //    //qDebug()<<"id "<<map.last()->get_id();
 
-           //     qDebug()<<"GROUP "<<str_group<<" id "<<map.last()->get_id();
-          //      qDebug()<<"GROUP "<<str_group<<" id "<<map.value(str_group)->get_id();
+           //     //qDebug()<<"GROUP "<<str_group<<" id "<<map.last()->get_id();
+          //      //qDebug()<<"GROUP "<<str_group<<" id "<<map.value(str_group)->get_id();
             }
               else
             {
@@ -147,7 +147,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
                 QByteArray src;
                 QByteArray key;
 
-          //      qDebug()<<map.value(str_group)->map.size();
+          //      //qDebug()<<map.value(str_group)->map.size();
 
                 int res=0;
                 for(int i=0;i<val.size();i++)
@@ -162,26 +162,26 @@ My_settings::My_settings(QString filepath, QObject *parent)
                 }
 
                 map.value(str_group)->map.insert(QString::fromUtf8(key), qMakePair(field,src));
-           //     qDebug()<<"[+]";
+           //     //qDebug()<<"[+]";
             }
             field++;
 
        }
     }
-   qDebug()<<"size"<<map.size();
+   //qDebug()<<"size"<<map.size();
 
    QList<MY_GROUP*> list;
    foreach(MY_GROUP* val,map.values())
    {
        list.append(val);
    }
-//qDebug()<<"[1]";
+////qDebug()<<"[1]";
    for (int i = 0; i <list.count(); ++i)
    {
-     qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
+     //qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
 
    }
-//qDebug()<<"[2]";
+////qDebug()<<"[2]";
 /**/
 }
 
@@ -243,7 +243,7 @@ void My_settings::save_ini(QString filepath)
         list.append(val);
     }
 
- //   qDebug()<<"-- До сортировки ------------------------";
+ //   //qDebug()<<"-- До сортировки ------------------------";
 
     int res=1;
     int cnt=0;
@@ -254,28 +254,28 @@ void My_settings::save_ini(QString filepath)
     {
       if(list.at(i)->get_id()<(list.at(i+1)->get_id()))
       {
-         //     qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" меньше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
+         //     //qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" меньше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
       }
       else
       {
-         //  qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" больше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
+         //  //qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" больше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
            list.move(i+1,i);
            res=1;
       }
     }
      cnt++;
-   //  qDebug()<<"-----------------cnt "<<cnt<<" res"<<res;
+   //  //qDebug()<<"-----------------cnt "<<cnt<<" res"<<res;
     }
 
 
-    qDebug()<<"-- После сортировки ------------------------";
+    //qDebug()<<"-- После сортировки ------------------------";
 
     for (int i = 0; i <list.count(); ++i)
     {
-      qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
+      //qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
 
     }
-    qDebug()<<"-- После сортировки ------------------------";
+    //qDebug()<<"-- После сортировки ------------------------";
 
     if(file.open(QIODevice::WriteOnly))
     {
@@ -305,20 +305,20 @@ void My_settings::set_value(QString field, QByteArray value)
 
 
 
-qDebug()<<"[1]";
+//qDebug()<<"[1]";
     int first=map.value(current_group)->map.value(field).first;
-qDebug()<<"[2]";
+//qDebug()<<"[2]";
     QByteArray ar;
-qDebug()<<"[3]";
+//qDebug()<<"[3]";
     ar.clear();
-qDebug()<<"[4]";
+//qDebug()<<"[4]";
     ar.append(value);
-qDebug()<<"[5]";
+//qDebug()<<"[5]";
 
 MY_GROUP* mgroup=map.value(current_group);
 
     mgroup->map.remove(field);
-qDebug()<<"[6]";
+//qDebug()<<"[6]";
     mgroup->map.insert(field, qMakePair(first,ar));
 
 
@@ -330,11 +330,11 @@ QByteArray My_settings::value(QString field)
     ar.clear();
   if(current_group!="")
   {
-      qDebug()<<"[1]";
+      //qDebug()<<"[1]";
       QByteArray ar =  map.value(current_group)->map.value(field).second;
-      qDebug()<<"[2]";
-      qDebug()<<QString::fromUtf8(ar);
-      qDebug()<<"[3]";
+      //qDebug()<<"[2]";
+      //qDebug()<<QString::fromUtf8(ar);
+      //qDebug()<<"[3]";
       return ar;
   }
 
