@@ -1359,7 +1359,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
                       QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
 
-                      //ar=this->ui->SQL_password_lineEdit->text().toLocal8Bit().toHex();
+
 
 
                       qDebug()<<"сохраняю пароль "<<"   "<<QString::fromUtf8(ar);
