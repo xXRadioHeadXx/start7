@@ -1359,10 +1359,10 @@ void MainWindowCFG::on_actionSave_triggered()
 
                       QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
 
-                      ar=this->ui->SQL_password_lineEdit->text().toLocal8Bit().toHex();
+                      //ar=this->ui->SQL_password_lineEdit->text().toLocal8Bit().toHex();
 
 
-                      //qDebug()<<"password "<<ar<<"   "<<QString::fromUtf8(ar);
+                      qDebug()<<"сохраняю пароль "<<"   "<<QString::fromUtf8(ar);
                       QByteArray rezz=this->convert(ar);
                       my->set_value("Password",rezz);
                       //qDebug()<<"PASSWORD "<<rezz<<" "<<rezz.toHex();
@@ -4990,6 +4990,7 @@ void MainWindowCFG::get_SQL(QString filename)
 
 #if (defined (_WIN32) || defined (_WIN64))
   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
+              qDebug()<<"загрузил пароль "<<this->ui->SQL_password_lineEdit->text();
 #else
     this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
 #endif
