@@ -7054,7 +7054,7 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 
 void MainWindowCFG::create_db(QString db_name)
 {
-    /*
+
     //qDebug()<<"[create_db]";
     if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
     {
@@ -7088,7 +7088,7 @@ void MainWindowCFG::create_db(QString db_name)
         this->db_f.find_rif_db(db_psql);
 
     }
-    */
+ /*   */
 
 }
 
