@@ -444,25 +444,25 @@ class UnitNode_SD_BL_IP : public UnitNode {
 public:
     explicit UnitNode_SD_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_SD_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    virtual quint8 mask() const;
-    virtual int isAlarm() const;
-    virtual int isInAlarm() const;
-    virtual int isNorm() const;
-    virtual int isWasAlarm() const;
-    virtual int isOn() const;
-    virtual int isOff() const;
+//    virtual quint8 mask() const;
+//    virtual int isAlarm() const;
+//    virtual int isInAlarm() const;
+//    virtual int isNorm() const;
+//    virtual int isWasAlarm() const;
+//    virtual int isOn() const;
+//    virtual int isOff() const;
     virtual int calcDKStatus() const {
-        if(1 == isWasAlarm() && 1 == isAlarm()) {
+        if(1 == swpSDBLIP().isWasAlarm() && 1 == swpSDBLIP().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+        } else if(1 == swpSDBLIP().isNorm() && 1 == swpSDBLIP().isWasAlarm()) {
             return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-        } else if(1 == isAlarm()) {
+        } else if(1 == swpSDBLIP().isAlarm()) {
             return DKCiclStatus::DKWrong;
 //            return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isOff()) {
+        } else if(1 == swpSDBLIP().isOff()) {
             return DKCiclStatus::DKWrong;
-        } else if(1 == isNorm()) {
+        } else if(1 == swpSDBLIP().isNorm()) {
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
@@ -473,10 +473,10 @@ public:
     explicit UnitNode_IU_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_IU_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
 
-    virtual quint8 mask() const;
-    virtual int isOutAlarm() const;
-    virtual int isOn() const;
-    virtual int isOff() const;
+//    virtual quint8 mask() const;
+//    virtual int isOutAlarm() const;
+//    virtual int isOn() const;
+//    virtual int isOff() const;
 };
 class UnitNode_TG : public UnitNode {
 public:
@@ -504,35 +504,35 @@ class UnitNode_RLM_KRL : public UnitNode {
 public:
     explicit UnitNode_RLM_KRL(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_KRL(const UnitNode & parent) : UnitNode(parent) {}
-    virtual float threshold() const;
-    virtual int modeProcessing() const;
-    virtual int clockPeriod() const;
-    virtual float voltage() const;
-    virtual int isOn() const;
-    virtual int isOff() const;
-    virtual int isAlarm() const;
-    virtual int isInAlarm() const;
-    virtual int isOutAlarm() const;
-    virtual int isNorm() const;
-    virtual int isWasAlarm() const;
-    virtual int isExistDK() const;
-    virtual int synchronization() const;
-    virtual int isWasDK() const;
-    virtual int isOpened() const;
-    virtual int isInOpened() const;
-    virtual int isWasOpened() const;
+//    virtual float threshold() const;
+//    virtual int modeProcessing() const;
+//    virtual int clockPeriod() const;
+//    virtual float voltage() const;
+//    virtual int isOn() const;
+//    virtual int isOff() const;
+//    virtual int isAlarm() const;
+//    virtual int isInAlarm() const;
+//    virtual int isOutAlarm() const;
+//    virtual int isNorm() const;
+//    virtual int isWasAlarm() const;
+//    virtual int isExistDK() const;
+//    virtual int synchronization() const;
+//    virtual int isWasDK() const;
+//    virtual int isOpened() const;
+//    virtual int isInOpened() const;
+//    virtual int isWasOpened() const;
     virtual int calcDKStatus() const {
-        if(1 == isWasAlarm() && 1 == isAlarm()) {
+        if(1 == swpRLM().isWasAlarm() && 1 == swpRLM().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+        } else if(1 == swpRLM().isNorm() && 1 == swpRLM().isWasAlarm()) {
             return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-        } else if(1 == isAlarm()) {
+        } else if(1 == swpRLM().isAlarm()) {
             return DKCiclStatus::DKWrong;
 //            return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isOff()) {
+        } else if(1 == swpRLM().isOff()) {
             return DKCiclStatus::DKWrong;
-        } else if(1 == isNorm()) {
+        } else if(1 == swpRLM().isNorm()) {
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
@@ -544,35 +544,35 @@ class UnitNode_RLM_C : public UnitNode {
 public:
     explicit UnitNode_RLM_C(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_C(const UnitNode & parent) : UnitNode(parent) {}
-    virtual int isAlarm() const;
-    virtual int isInAlarm() const;
-    virtual int isOutAlarm() const;
-    virtual int isNorm() const;
-    virtual int isWasDK() const;
-    virtual int isExistDK() const;
-    virtual int isWasAlarm() const;
-    virtual int isOn() const;
-    virtual int isOff() const;
-    virtual float voltage() const;
-    virtual int synchronization() const;
-    virtual int isExternalSynchronization() const;
-    virtual int isInternalSynchronization() const;
-    virtual float threshold() const;
-    virtual int clockPeriod() const;
-    virtual int modeProcessing() const;
-    virtual int lowLevl() const;
+//    virtual int isAlarm() const;
+//    virtual int isInAlarm() const;
+//    virtual int isOutAlarm() const;
+//    virtual int isNorm() const;
+//    virtual int isWasDK() const;
+//    virtual int isExistDK() const;
+//    virtual int isWasAlarm() const;
+//    virtual int isOn() const;
+//    virtual int isOff() const;
+//    virtual float voltage() const;
+//    virtual int synchronization() const;
+//    virtual int isExternalSynchronization() const;
+//    virtual int isInternalSynchronization() const;
+//    virtual float threshold() const;
+//    virtual int clockPeriod() const;
+//    virtual int modeProcessing() const;
+//    virtual int lowLevl() const;
     virtual int calcDKStatus() const {
-        if(1 == isWasAlarm() && 1 == isAlarm()) {
+        if(1 == swpRLMC().isWasAlarm() && 1 == swpRLMC().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+        } else if(1 == swpRLMC().isNorm() && 1 == swpRLMC().isWasAlarm()) {
             return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-        } else if(1 == isAlarm()) {
+        } else if(1 == swpRLMC().isAlarm()) {
             return DKCiclStatus::DKWrong;
 //            return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isOff()) {
+        } else if(1 == swpRLMC().isOff()) {
             return DKCiclStatus::DKWrong;
-        } else if(1 == isNorm()) {
+        } else if(1 == swpRLMC().isNorm()) {
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;

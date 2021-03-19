@@ -797,145 +797,145 @@ int UnitNode::isConnected() const
         return 1;
 }
 
-quint8 UnitNode_SD_BL_IP::mask() const
-{
-    quint8 mask = 0;
-    switch (this->getNum2()) {
-    case 1:
-        mask = 0x01;
-        break;
-    case 2:
-        mask = 0x02;
-        break;
-    case 3:
-        mask = 0x04;
-        break;
-    case 4:
-        mask = 0x08;
-        break;
-    case 5:
-        mask = 0x10;
-        break;
-    case 6:
-        mask = 0x20;
-        break;
-    case 7:
-        mask = 0x40;
-        break;
-    case 8:
-        mask = 0x80;
-        break;
-    default:
-        mask = 0x00;
-        break;
-    }
-    return mask;
-}
+//quint8 UnitNode_SD_BL_IP::mask() const
+//{
+//    quint8 mask = 0;
+//    switch (this->getNum2()) {
+//    case 1:
+//        mask = 0x01;
+//        break;
+//    case 2:
+//        mask = 0x02;
+//        break;
+//    case 3:
+//        mask = 0x04;
+//        break;
+//    case 4:
+//        mask = 0x08;
+//        break;
+//    case 5:
+//        mask = 0x10;
+//        break;
+//    case 6:
+//        mask = 0x20;
+//        break;
+//    case 7:
+//        mask = 0x40;
+//        break;
+//    case 8:
+//        mask = 0x80;
+//        break;
+//    default:
+//        mask = 0x00;
+//        break;
+//    }
+//    return mask;
+//}
 
-int UnitNode_SD_BL_IP::isAlarm() const
-{
-    return isInAlarm();
-}
+//int UnitNode_SD_BL_IP::isAlarm() const
+//{
+//    return isInAlarm();
+//}
 
-int UnitNode_SD_BL_IP::isInAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & mask())
-        return 1; //Status::Alarm);
-    else
-        return 0; //Status::Norm);
-}
-
-
-int UnitNode_SD_BL_IP::isNorm() const
-{
-    int isalarm = isAlarm();
-    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
-}
-
-int UnitNode_SD_BL_IP::isWasAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & mask())
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not);
-}
-
-int UnitNode_SD_BL_IP::isOn() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(0) == (static_cast<quint8>(getStateWord().at(3)) & mask()))
-        return 0; //Status::Off;
-    else
-        return 1; //
-}
-
-int UnitNode_SD_BL_IP::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
+//int UnitNode_SD_BL_IP::isInAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(0)) & mask())
+//        return 1; //Status::Alarm);
+//    else
+//        return 0; //Status::Norm);
+//}
 
 
-quint8 UnitNode_IU_BL_IP::mask() const
-{
-    quint8 mask = 0;
-    switch (this->getNum2()) {
-    case 1:
-        mask = 0x01;
-        break;
-    case 2:
-        mask = 0x02;
-        break;
-    case 3:
-        mask = 0x04;
-        break;
-    case 4:
-        mask = 0x08;
-        break;
-    case 5:
-        mask = 0x10;
-        break;
-    case 6:
-        mask = 0x20;
-        break;
-    case 7:
-        mask = 0x40;
-        break;
-    case 8:
-        mask = 0x80;
-        break;
-    default:
-        mask = 0x00;
-        break;
-    }
-    return mask;
-}
+//int UnitNode_SD_BL_IP::isNorm() const
+//{
+//    int isalarm = isAlarm();
+//    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+//}
 
-int UnitNode_IU_BL_IP::isOutAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & mask())
-        return 1; //Status::On);
-    else
-        return 0; //Status::Off;
-}
+//int UnitNode_SD_BL_IP::isWasAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & mask())
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not);
+//}
 
-int UnitNode_IU_BL_IP::isOn() const
-{
-    return isOutAlarm();
-}
+//int UnitNode_SD_BL_IP::isOn() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(0) == (static_cast<quint8>(getStateWord().at(3)) & mask()))
+//        return 0; //Status::Off;
+//    else
+//        return 1; //
+//}
 
-int UnitNode_IU_BL_IP::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
+//int UnitNode_SD_BL_IP::isOff() const
+//{
+//    int ison = isOn();
+//    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+//}
+
+
+//quint8 UnitNode_IU_BL_IP::mask() const
+//{
+//    quint8 mask = 0;
+//    switch (this->getNum2()) {
+//    case 1:
+//        mask = 0x01;
+//        break;
+//    case 2:
+//        mask = 0x02;
+//        break;
+//    case 3:
+//        mask = 0x04;
+//        break;
+//    case 4:
+//        mask = 0x08;
+//        break;
+//    case 5:
+//        mask = 0x10;
+//        break;
+//    case 6:
+//        mask = 0x20;
+//        break;
+//    case 7:
+//        mask = 0x40;
+//        break;
+//    case 8:
+//        mask = 0x80;
+//        break;
+//    default:
+//        mask = 0x00;
+//        break;
+//    }
+//    return mask;
+//}
+
+//int UnitNode_IU_BL_IP::isOutAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & mask())
+//        return 1; //Status::On);
+//    else
+//        return 0; //Status::Off;
+//}
+
+//int UnitNode_IU_BL_IP::isOn() const
+//{
+//    return isOutAlarm();
+//}
+
+//int UnitNode_IU_BL_IP::isOff() const
+//{
+//    int ison = isOn();
+//    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+//}
 
 bool UnitNode::isEditableControl() const
 {
@@ -1341,159 +1341,159 @@ int UnitNode_BL_IP::isWasAlarm() const
         return 0; //Status::Not);
 }
 
-int UnitNode_RLM_C::isAlarm() const
-{
-    return isInAlarm();
-}
+//int UnitNode_RLM_C::isAlarm() const
+//{
+//    return isInAlarm();
+//}
 
-int UnitNode_RLM_C::isInAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
-        return 1; //Status::Alarm);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isInAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
+//        return 1; //Status::Alarm);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isOutAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isOutAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isNorm() const
-{
-    int isalarm = isAlarm();
-    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
-}
+//int UnitNode_RLM_C::isNorm() const
+//{
+//    int isalarm = isAlarm();
+//    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+//}
 
-int UnitNode_RLM_C::isWasDK() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x20))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isWasDK() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x20))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isExistDK() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x10))
-        return 1; //Status::Exist);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isExistDK() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x10))
+//        return 1; //Status::Exist);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isWasAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isWasAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isOn() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
-        return 1; //Status::On);
-    else
-        return 0; //Status::Off;
-}
-//b5fe6304312c011600d9
-int UnitNode_RLM_C::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
+//int UnitNode_RLM_C::isOn() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
+//        return 1; //Status::On);
+//    else
+//        return 0; //Status::Off;
+//}
+////b5fe6304312c011600d9
+//int UnitNode_RLM_C::isOff() const
+//{
+//    int ison = isOn();
+//    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+//}
 
-float UnitNode_RLM_C::voltage() const
-{
-    if(getStateWord().isEmpty())
-        return -1.0;
-    return qFabs(static_cast<float>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0))));
-}
+//float UnitNode_RLM_C::voltage() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1.0;
+//    return qFabs(static_cast<float>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0))));
+//}
 
-int UnitNode_RLM_C::synchronization() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x40))
-        return 1; //External);
-    else
-        return 0; //Internal;
-}
+//int UnitNode_RLM_C::synchronization() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x40))
+//        return 1; //External);
+//    else
+//        return 0; //Internal;
+//}
 
-int UnitNode_RLM_C::isExternalSynchronization() const
-{
-    return synchronization();
-}
+//int UnitNode_RLM_C::isExternalSynchronization() const
+//{
+//    return synchronization();
+//}
 
-int UnitNode_RLM_C::isInternalSynchronization() const
-{
-    int ises = isExternalSynchronization();
-    return ((0 == ises) ? 1 : ((1 == ises) ? 0 : ises));
-}
+//int UnitNode_RLM_C::isInternalSynchronization() const
+//{
+//    int ises = isExternalSynchronization();
+//    return ((0 == ises) ? 1 : ((1 == ises) ? 0 : ises));
+//}
 
-float UnitNode_RLM_C::threshold() const
-{
-    if(getStateWord().isEmpty())
-        return -1.0;
-    switch (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x0F)) {
-    case static_cast<quint8>(0):  return 10.0;
-    case static_cast<quint8>(1):  return 09.0;
-    case static_cast<quint8>(2):  return 08.0;
-    case static_cast<quint8>(3):  return 07.0;
-    case static_cast<quint8>(4):  return 06.0;
-    case static_cast<quint8>(5):  return 05.0;
-    case static_cast<quint8>(6):  return 04.0;
-    case static_cast<quint8>(7):  return 03.0;
-    case static_cast<quint8>(8):  return 02.0;
-    case static_cast<quint8>(9):  return 01.0;
-    case static_cast<quint8>(10): return 00.6;
-    case static_cast<quint8>(11): return 00.5;
-    case static_cast<quint8>(12): return 00.4;
-    case static_cast<quint8>(13): return 00.3;
-    case static_cast<quint8>(14): return 00.2;
-    case static_cast<quint8>(15): return 00.1;
-    default: return -1.0;
-    }
-}
+//float UnitNode_RLM_C::threshold() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1.0;
+//    switch (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x0F)) {
+//    case static_cast<quint8>(0):  return 10.0;
+//    case static_cast<quint8>(1):  return 09.0;
+//    case static_cast<quint8>(2):  return 08.0;
+//    case static_cast<quint8>(3):  return 07.0;
+//    case static_cast<quint8>(4):  return 06.0;
+//    case static_cast<quint8>(5):  return 05.0;
+//    case static_cast<quint8>(6):  return 04.0;
+//    case static_cast<quint8>(7):  return 03.0;
+//    case static_cast<quint8>(8):  return 02.0;
+//    case static_cast<quint8>(9):  return 01.0;
+//    case static_cast<quint8>(10): return 00.6;
+//    case static_cast<quint8>(11): return 00.5;
+//    case static_cast<quint8>(12): return 00.4;
+//    case static_cast<quint8>(13): return 00.3;
+//    case static_cast<quint8>(14): return 00.2;
+//    case static_cast<quint8>(15): return 00.1;
+//    default: return -1.0;
+//    }
+//}
 
-int UnitNode_RLM_C::clockPeriod() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    return (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x70)) >> 4;
-}
+//int UnitNode_RLM_C::clockPeriod() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    return (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x70)) >> 4;
+//}
 
-int UnitNode_RLM_C::modeProcessing() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    return static_cast<quint8>(getStateWord().at(3)) & static_cast<quint8>(0x03);
-}
+//int UnitNode_RLM_C::modeProcessing() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    return static_cast<quint8>(getStateWord().at(3)) & static_cast<quint8>(0x03);
+//}
 
-int UnitNode_RLM_C::lowLevl() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x80))
-        return 1; //Status::Error);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::lowLevl() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x80))
+//        return 1; //Status::Error);
+//    else
+//        return 0; //Status::Not;
+//}
 
 QString UnitNode::getIcon1Path() const
 {
@@ -1564,155 +1564,155 @@ QString UnitNode::toString()
     return result;
 }
 
-float UnitNode_RLM_KRL::threshold() const
-{
-    if(getStateWord().isEmpty())
-        return -1.0;
-    switch (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x0F)) {
-    case static_cast<quint8>(0):  return 10.0;
-    case static_cast<quint8>(1):  return 09.0;
-    case static_cast<quint8>(2):  return 08.0;
-    case static_cast<quint8>(3):  return 07.0;
-    case static_cast<quint8>(4):  return 06.0;
-    case static_cast<quint8>(5):  return 05.0;
-    case static_cast<quint8>(6):  return 04.0;
-    case static_cast<quint8>(7):  return 03.0;
-    case static_cast<quint8>(8):  return 02.0;
-    case static_cast<quint8>(9):  return 01.0;
-    case static_cast<quint8>(10): return 00.6;
-    case static_cast<quint8>(11): return 00.5;
-    case static_cast<quint8>(12): return 00.4;
-    case static_cast<quint8>(13): return 00.3;
-    case static_cast<quint8>(14): return 00.2;
-    case static_cast<quint8>(15): return 00.1;
-    default: return -1.0;
-    }
-}
+//float UnitNode_RLM_KRL::threshold() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1.0;
+//    switch (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x0F)) {
+//    case static_cast<quint8>(0):  return 10.0;
+//    case static_cast<quint8>(1):  return 09.0;
+//    case static_cast<quint8>(2):  return 08.0;
+//    case static_cast<quint8>(3):  return 07.0;
+//    case static_cast<quint8>(4):  return 06.0;
+//    case static_cast<quint8>(5):  return 05.0;
+//    case static_cast<quint8>(6):  return 04.0;
+//    case static_cast<quint8>(7):  return 03.0;
+//    case static_cast<quint8>(8):  return 02.0;
+//    case static_cast<quint8>(9):  return 01.0;
+//    case static_cast<quint8>(10): return 00.6;
+//    case static_cast<quint8>(11): return 00.5;
+//    case static_cast<quint8>(12): return 00.4;
+//    case static_cast<quint8>(13): return 00.3;
+//    case static_cast<quint8>(14): return 00.2;
+//    case static_cast<quint8>(15): return 00.1;
+//    default: return -1.0;
+//    }
+//}
 
-int UnitNode_RLM_KRL::modeProcessing() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x10)) >> 4;
-}
+//int UnitNode_RLM_KRL::modeProcessing() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x10)) >> 4;
+//}
 
-int UnitNode_RLM_KRL::clockPeriod() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
-}
+//int UnitNode_RLM_KRL::clockPeriod() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
+//}
 
-float UnitNode_RLM_KRL::voltage() const
-{
-    if(getStateWord().isEmpty())
-        return -1.0;
-    return qFabs(static_cast<double>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(1)) / 255.0))));
-}
+//float UnitNode_RLM_KRL::voltage() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1.0;
+//    return qFabs(static_cast<double>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(1)) / 255.0))));
+//}
 
-int UnitNode_RLM_KRL::isOn() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x01))
-        return 1; //Status::On);
-    else
-        return 0; //Status::Off;
-}
+//int UnitNode_RLM_KRL::isOn() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x01))
+//        return 1; //Status::On);
+//    else
+//        return 0; //Status::Off;
+//}
 
-int UnitNode_RLM_KRL::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
+//int UnitNode_RLM_KRL::isOff() const
+//{
+//    int ison = isOn();
+//    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+//}
 
-int UnitNode_RLM_KRL::isAlarm() const
-{
-    return isInAlarm();
-}
+//int UnitNode_RLM_KRL::isAlarm() const
+//{
+//    return isInAlarm();
+//}
 
-int UnitNode_RLM_KRL::isInAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
-        return 1; //Status::Alarm);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isInAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
+//        return 1; //Status::Alarm);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isOutAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isOutAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isNorm() const
-{
-    int isalarm = isAlarm();
-    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
-}
+//int UnitNode_RLM_KRL::isNorm() const
+//{
+//    int isalarm = isAlarm();
+//    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+//}
 
-int UnitNode_RLM_KRL::isWasAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x08))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isWasAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x08))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isExistDK() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x10))
-        return 1; //Status::Exist);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isExistDK() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x10))
+//        return 1; //Status::Exist);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::synchronization() const
-{
-    return isExistDK();
-}
+//int UnitNode_RLM_KRL::synchronization() const
+//{
+//    return isExistDK();
+//}
 
-int UnitNode_RLM_KRL::isWasDK() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x20))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isWasDK() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x20))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isOpened() const
-{
-    return isInOpened();
-}
+//int UnitNode_RLM_KRL::isOpened() const
+//{
+//    return isInOpened();
+//}
 
-int UnitNode_RLM_KRL::isInOpened() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x40))
-        return 1; //Status::Exist);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isInOpened() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x40))
+//        return 1; //Status::Exist);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isWasOpened() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x80))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isWasOpened() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x80))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
