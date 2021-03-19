@@ -1,6 +1,6 @@
 #include "MainWindowCFG.h"
 #include "ui_MainWindowCFG.h"
-#include <global.hpp>
+#include <global.h>
 
 
 #include "QFileDialog"

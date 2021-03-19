@@ -2,7 +2,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 
 ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

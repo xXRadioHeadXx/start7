@@ -34,7 +34,7 @@ int SWPBLIP::isExistDK() const
         return 0; // Status::Not);
 }
 
-int SWPBLIP::isWasAlarm() const
+int SWPBLIP::isWasDK() const
 {
     if(getStateWord().isEmpty())
         return -1;

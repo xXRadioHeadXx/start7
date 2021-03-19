@@ -6,7 +6,6 @@
 class SWPSDBLIP : public SWP
 {
     quint8 _mask;
-    quint8 mask() const;
 public:
     SWPSDBLIP(const QByteArray &stateWord, int numSD);
     SWPSDBLIP(const SWPSDBLIP & parent);
@@ -18,6 +17,7 @@ public:
     int isWasAlarm() const;
     int isOn() const;
     int isOff() const;
+    quint8 mask() const;
 };
 
 #endif // SWPSDBLIP_H

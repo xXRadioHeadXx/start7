@@ -4,7 +4,7 @@
 #include <QDebug>
 
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 #include<QTextCodec>
 
 SettingUtils::SettingUtils()

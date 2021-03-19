@@ -1,5 +1,5 @@
 #include <DataQueueItem.h>
-#include <global.hpp>
+#include <global.h>
 
 QByteArray DataQueueItem::preamble() const
 {
@@ -236,13 +236,17 @@ QByteArray DataQueueItem::makeOnOff0x23(UnitNode *un, bool onOff, UnitNode *pun)
         for(auto un : as_const(reciver->getListChilde())) {
             if(type != un->getType())
                 continue;
-            quint8 mask = un->mask();
+            quint8 mask = 0x00;
+            if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIP().isNull())
+                mask = un->swpSDBLIP().mask();
+            else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIP().isNull())
+                mask = un->swpIUBLIP().mask();
 
-            if(TypeUnitNode::SD_BL_IP == un->getType() &&
-                    1 == un->isOff())
+            if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIP().isNull() &&
+                    1 == un->swpSDBLIP().isOff())
                 D1 = D1 & ~mask;
-            else if(TypeUnitNode::IU_BL_IP == un->getType() &&
-                    1 == un->isOff())
+            else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIP().isNull() &&
+                    1 == un->swpIUBLIP().isOff())
                 D1 = D1 & ~mask;
             else
                 D1 = D1 | mask;

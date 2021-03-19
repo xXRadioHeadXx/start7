@@ -5,7 +5,7 @@
 #include <UnitNodeFactory.h>
 #include <SettingUtils.h>
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 
 LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
@@ -183,32 +183,32 @@ void LockWaiter::init() {
     }
 
 
-    if(1 == getUnReciverSdBlIp()->isAlarm() &&
-       1 == getUnReciverIuBlIp()->isOff()) {
+    if(1 == getUnReciverSdBlIp()->swpSDBLIP().isAlarm() &&
+       1 == getUnReciverIuBlIp()->swpIUBLIP().isOff()) {
 //        qDebug() << "LockRequester::init 1";
         //Открыто
         setInitVarianrt(1);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
-    } else if(1 == getUnReciverSdBlIp()->isNorm() &&
-              1 == getUnReciverIuBlIp()->isOn()) {
+    } else if(1 == getUnReciverSdBlIp()->swpSDBLIP().isNorm() &&
+              1 == getUnReciverIuBlIp()->swpIUBLIP().isOn()) {
 //        qDebug() << "LockRequester::init 2";
         //Закрыто
         setInitVarianrt(2);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
-    } else if(1 == getUnReciverSdBlIp()->isAlarm() &&
-              1 == getUnReciverIuBlIp()->isOn()) {
+    } else if(1 == getUnReciverSdBlIp()->swpSDBLIP().isAlarm() &&
+              1 == getUnReciverIuBlIp()->swpIUBLIP().isOn()) {
 //        qDebug() << "LockRequester::init 3";
         //Открыто ключом
         setInitVarianrt(3);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);
         setTimeIntervalRequest(500);
-    } else if(1 == getUnReciverSdBlIp()->isNorm() &&
-              1 == getUnReciverIuBlIp()->isOff()) {
+    } else if(1 == getUnReciverSdBlIp()->swpSDBLIP().isNorm() &&
+              1 == getUnReciverIuBlIp()->swpIUBLIP().isOff()) {
 //        qDebug() << "LockRequester::init 4";
         //Закрыто ключом
         setInitVarianrt(4);

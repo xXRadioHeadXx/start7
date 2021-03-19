@@ -1,7 +1,7 @@
 #include "admaud_widget.h"
 #include "ui_admaud_widget.h"
 #include <QDebug>
-#include <global.hpp>
+#include <global.h>
 #include <QStorageInfo>
 
 #if (defined (_WIN32) || defined (_WIN64))

@@ -6,7 +6,6 @@
 class SWPIUBLIP : public SWP
 {
     quint8 _mask;
-    quint8 mask() const;
 public:
     SWPIUBLIP(const QByteArray &stateWord, int numIU);
     SWPIUBLIP(const SWPIUBLIP & parent);
@@ -15,6 +14,7 @@ public:
     int isOutAlarm() const;
     int isOn() const;
     int isOff() const;
+    quint8 mask() const;
 };
 
 #endif // SWPIUBLIP_H

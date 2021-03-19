@@ -13,7 +13,7 @@ public:
     virtual ~SWPBLIP();
 
     int isExistDK() const;
-    int isWasAlarm() const;
+    int isWasDK() const;
 
     const SWPSDBLIP sd(int numSD) const;
     const SWPSDBLIP sd1() const {return sd(1);};

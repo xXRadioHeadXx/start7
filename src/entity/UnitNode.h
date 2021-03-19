@@ -5,6 +5,8 @@
 #include <QSet>
 #include <QVariant>
 #include <SWPBLIP.h>
+#include <SWPRLM.h>
+#include <SWPRLMC.h>
 #include <SWPSDBLIP.h>
 #include <SWPTGType1.h>
 #include <SWPTGType2.h>
@@ -336,31 +338,31 @@ public:
     void setStateWord(const QByteArray &value);
 
     //
-    virtual quint8 mask() const {return 0;};
-    virtual int isAlarm() const {return -1;};
-    virtual int isInAlarm() const {return -1;};
-    virtual int isOutAlarm() const {return -1;};
-    virtual int isNorm() const {return -1;};
-    virtual int isWasDK() const {return -1;};
-    virtual int isExistDK() const {return -1;};
-    virtual int isWasAlarm() const {return -1;};
-    virtual int isOn() const {return -1;}
-    virtual int isOff() const {return -1;}
+//    virtual quint8 mask() const {return 0;};
+//    virtual int isAlarm() const {return -1;};
+//    virtual int isInAlarm() const {return -1;};
+//    virtual int isOutAlarm() const {return -1;};
+//    virtual int isNorm() const {return -1;};
+//    virtual int isWasDK() const {return -1;};
+//    virtual int isExistDK() const {return -1;};
+//    virtual int isWasAlarm() const {return -1;};
+//    virtual int isOn() const {return -1;}
+//    virtual int isOff() const {return -1;}
     virtual int isConnected() const;
     virtual int calcDKStatus() const {return DKCiclStatus::DKIgnore;}
-    //
-    virtual float voltage() const {return -1.0;};
-    virtual int synchronization() const {return -1;};
-    virtual int isExternalSynchronization() const {return -1;};
-    virtual int isInternalSynchronization() const {return -1;};
-    virtual float threshold() const {return -1.0;};
-    virtual int clockPeriod() const {return -1;};
-    virtual int modeProcessing() const {return -1;};
-    virtual int lowLevl() const {return -1;};
-    virtual int isOpened() const {return -1;};
-    virtual int isInOpened() const {return -1;};
-    virtual int isOutOpened() const {return -1;};
-    virtual int isWasOpened() const {return -1;};
+//    //
+//    virtual float voltage() const {return -1.0;};
+//    virtual int synchronization() const {return -1;};
+//    virtual int isExternalSynchronization() const {return -1;};
+//    virtual int isInternalSynchronization() const {return -1;};
+//    virtual float threshold() const {return -1.0;};
+//    virtual int clockPeriod() const {return -1;};
+//    virtual int modeProcessing() const {return -1;};
+//    virtual int lowLevl() const {return -1;};
+//    virtual int isOpened() const {return -1;};
+//    virtual int isInOpened() const {return -1;};
+//    virtual int isOutOpened() const {return -1;};
+//    virtual int isWasOpened() const {return -1;};
 
     //
 
@@ -406,6 +408,17 @@ public:
     QByteArray getSubStateWordType4() const;
     void setSubStateWordType4(const QByteArray &value);
 
+    const SWPSDBLIP swpSDBLIP() const {return SWPSDBLIP(getStateWord(), getNum2());}
+    const SWPIUBLIP swpIUBLIP() const {return SWPIUBLIP(getStateWord(), getNum2());}
+    const SWPBLIP swpBLIP() const {return SWPBLIP(getStateWord());}
+    const SWPRLM swpRLM() const {return SWPRLM(getStateWord());}
+    const SWPRLMC swpRLMC() const {return SWPRLMC(getStateWord());}
+    const SWPTGType1 swpSWPTGType1() const {return SWPTGType1(getStateWord());}
+    const SWPTGType2 swpSWPTGType2() const {return SWPTGType2(getSubStateWordType2());}
+    const SWPTGType3 swpSWPTGType3() const {return SWPTGType3(getSubStateWordType3());}
+    const SWPTGType4 swpSWPTGType4() const {return SWPTGType4(getSubStateWordType4());}
+
+
 public slots:
 
 signals:
@@ -431,8 +444,6 @@ class UnitNode_SD_BL_IP : public UnitNode {
 public:
     explicit UnitNode_SD_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_SD_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    const SWPSDBLIP swpSDBLIP() {return SWPSDBLIP(getStateWord(), getNum2());}
-    const SWPBLIP swpBLIP() {return SWPBLIP(getStateWord());}
     virtual quint8 mask() const;
     virtual int isAlarm() const;
     virtual int isInAlarm() const;
@@ -461,8 +472,6 @@ class UnitNode_IU_BL_IP : public UnitNode {
 public:
     explicit UnitNode_IU_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_IU_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    const SWPIUBLIP swpIUBLIP() {return SWPIUBLIP(getStateWord(), getNum2());}
-    const SWPBLIP swpBLIP() {return SWPBLIP(getStateWord());}
 
     virtual quint8 mask() const;
     virtual int isOutAlarm() const;
@@ -473,10 +482,6 @@ class UnitNode_TG : public UnitNode {
 public:
     explicit UnitNode_TG(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {}
-    SWPTGType1 swpSWPTGType1() const {return SWPTGType1(getStateWord());}
-    SWPTGType2 swpSWPTGType2() const {return SWPTGType2(getSubStateWordType2());}
-    SWPTGType3 swpSWPTGType3() const {return SWPTGType3(getSubStateWordType3());}
-    SWPTGType4 swpSWPTGType4() const {return SWPTGType4(getSubStateWordType4());}
     virtual int calcDKStatus() const {
          SWPTGType1 swp = swpSWPTGType1();
         if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
