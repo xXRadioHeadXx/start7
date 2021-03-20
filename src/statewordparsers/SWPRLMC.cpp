@@ -94,11 +94,11 @@ int SWPRLMC::isOff() const
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
-float SWPRLMC::voltage() const
+double SWPRLMC::voltage() const
 {
     if(getStateWord().isEmpty())
         return -1.0;
-    return qFabs(static_cast<float>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0))));
+    return 5.0 - 5.0 * ((double)(0x00FF&getStateWord().at(0)) / 255.0);
 }
 
 int SWPRLMC::synchronization() const

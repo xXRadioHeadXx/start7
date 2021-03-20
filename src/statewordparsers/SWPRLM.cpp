@@ -56,11 +56,12 @@ int SWPRLM::clockPeriod() const
     return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
 }
 
-float SWPRLM::voltage() const
+double SWPRLM::voltage() const
 {
     if(getStateWord().isEmpty())
         return -1.0;
-    return qFabs(static_cast<double>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(1)) / 255.0))));
+
+    return 5.0 - 5.0 * ((double)(0x00FF&getStateWord().at(1)) / 255.0);
 }
 
 int SWPRLM::isOn() const

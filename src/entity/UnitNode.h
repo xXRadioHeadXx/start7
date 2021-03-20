@@ -351,7 +351,7 @@ public:
     virtual int isConnected() const;
     virtual int calcDKStatus() const {return DKCiclStatus::DKIgnore;}
 //    //
-//    virtual float voltage() const {return -1.0;};
+//    virtual double voltage() const {return -1.0;};
 //    virtual int synchronization() const {return -1;};
 //    virtual int isExternalSynchronization() const {return -1;};
 //    virtual int isInternalSynchronization() const {return -1;};
@@ -507,7 +507,7 @@ public:
 //    virtual float threshold() const;
 //    virtual int modeProcessing() const;
 //    virtual int clockPeriod() const;
-//    virtual float voltage() const;
+//    virtual double voltage() const;
 //    virtual int isOn() const;
 //    virtual int isOff() const;
 //    virtual int isAlarm() const;
@@ -553,7 +553,7 @@ public:
 //    virtual int isWasAlarm() const;
 //    virtual int isOn() const;
 //    virtual int isOff() const;
-//    virtual float voltage() const;
+//    virtual double voltage() const;
 //    virtual int synchronization() const;
 //    virtual int isExternalSynchronization() const;
 //    virtual int isInternalSynchronization() const;

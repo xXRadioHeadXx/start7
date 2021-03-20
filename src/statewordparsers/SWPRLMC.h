@@ -19,7 +19,7 @@ public:
     int isWasAlarm() const;
     int isOn() const;
     int isOff() const;
-    float voltage() const;
+    double voltage() const;
     int synchronization() const;
     int isExternalSynchronization() const;
     int isInternalSynchronization() const;

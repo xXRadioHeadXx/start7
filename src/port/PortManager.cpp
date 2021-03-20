@@ -1171,16 +1171,19 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
 DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueItem &resultRequest)
 {
-//    qDebug() << "Utils::parcingStatusWord0x31 -->";
+//    qDebug() << "PortManager::parcingStatusWord0x31 -->";
     QByteArray newStateWord = item.data().mid(5, item.data().at(3));
     resultRequest = item;
     resultRequest.setData();
 
     const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
     for(UnitNode * un : tmpSet) {
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
+        if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType())
             continue;
-
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+//            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(1)";
+            continue;
+        }
         {
             un->setCountSCRWA(0);
         }
@@ -1192,6 +1195,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                 delete previousCopyUN.data();
                 previousCopyUN = nullptr;
             }
+//            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(2)";
             continue;
         }
 
@@ -1199,6 +1203,12 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
+        if((TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
+           (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm()))) {
+            //нужен сброс
+            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
+//                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+        }
 
         if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
@@ -1228,17 +1238,14 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
-                if((TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && 1 == un->swpRLMC().isAlarm() && 1 == un->swpRLMC().isWasAlarm()) ||
-                   (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && 1 == un->swpRLM().isAlarm() && 1 == un->swpRLM().isWasAlarm())) {
-                    //нужен сброс
-                    DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-                }
+
 
                 if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType()) {
                     if(!previousCopyUN.isNull()) {
                         delete previousCopyUN.data();
                         previousCopyUN = nullptr;
                     }
+//                    qDebug() << "PortManager::parcingStatusWord0x31 -- continue(3)";
                     continue;
                 } else if(TypeUnitNode::RLM_KRL == un->getType()) {
                     if(un->getControl() && (1 == un->swpRLM().isAlarm()) && (1 == un->swpRLM().isWasAlarm()) && (previousCopyUN->swpRLM().isAlarm() != un->swpRLM().isAlarm() || previousCopyUN->swpRLM().isWasAlarm() != un->swpRLM().isWasAlarm())) {
@@ -1318,8 +1325,10 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             delete previousCopyUN.data();
             previousCopyUN = nullptr;
         }
+//        qDebug() << "PortManager::parcingStatusWord0x31 -- break(1)";
+        break;
     }
-//    qDebug() << "Utils::parcingStatusWord0x31 -->";
+//    qDebug() << "PortManager::parcingStatusWord0x31 <--";
     return resultRequest;
 }
 

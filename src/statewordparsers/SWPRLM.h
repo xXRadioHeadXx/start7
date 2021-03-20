@@ -13,7 +13,7 @@ public:
     float threshold() const;
     int modeProcessing() const;
     int clockPeriod() const;
-    float voltage() const;
+    double voltage() const;
     int isOn() const;
     int isOff() const;
     int isAlarm() const;

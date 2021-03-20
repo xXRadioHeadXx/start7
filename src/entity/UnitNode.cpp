@@ -1418,7 +1418,7 @@ int UnitNode_BL_IP::isWasAlarm() const
 //    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 //}
 
-//float UnitNode_RLM_C::voltage() const
+//double UnitNode_RLM_C::voltage() const
 //{
 //    if(getStateWord().isEmpty())
 //        return -1.0;
@@ -1603,7 +1603,7 @@ QString UnitNode::toString()
 //    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
 //}
 
-//float UnitNode_RLM_KRL::voltage() const
+//double UnitNode_RLM_KRL::voltage() const
 //{
 //    if(getStateWord().isEmpty())
 //        return -1.0;
