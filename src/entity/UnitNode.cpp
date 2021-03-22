@@ -481,9 +481,13 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::fldr();
             else
                 return Icons::fldr_empt();
-        } else if(TypeUnitNode::SD_BL_IP == getType() && !swpSDBLIP().isNull()) {
+        } else if(TypeUnitNode::SD_BL_IP == getType()) {
             if(0 == getBazalt()) {
-                if(1 == swpSDBLIP().isWasAlarm() && getControl()) {
+                if(getControl() && swpSDBLIP().isNull()) {
+                    return Icons::sqr_ylw();
+                } else if(!getControl() && swpSDBLIP().isNull()) {
+                    return Icons::sqr_blk_crs_ylw();
+                } else if(1 == swpSDBLIP().isWasAlarm() && getControl()) {
                     return Icons::sqr_rd();
                 } else if(1 == swpSDBLIP().isWasAlarm() && !getControl()) {
                     return Icons::sqr_blk_crs_rd();
@@ -505,7 +509,11 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                     return Icons::sqr_blk_crs_ylw();
                 }
             } else {
-                if(1 == swpSDBLIP().isAlarm()) {
+                if(getControl() && swpSDBLIP().isNull()) {
+                    return Icons::sqr_ylw();
+                } else if(!getControl() && swpSDBLIP().isNull()) {
+                    return Icons::sqr_blk_crs_ylw();
+                } else if(1 == swpSDBLIP().isAlarm()) {
                     return Icons::sqr_rd_opn();
                 } else if(1 == swpSDBLIP().isNorm()) {
                     return Icons::sqr_grn_cls();
@@ -514,15 +522,23 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 }
             }
 
-        } else if(TypeUnitNode::IU_BL_IP == getType() && !swpIUBLIP().isNull()) {
-            if(1 == swpIUBLIP().isOn()) {
+        } else if(TypeUnitNode::IU_BL_IP == getType()) {
+            if(getControl() && swpIUBLIP().isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl() && swpSDBLIP().isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swpIUBLIP().isOn()) {
                 return Icons::sqr_grn_crs2_rd();
             } else if(1 == swpIUBLIP().isOff()) {
                 return Icons::sqr_grn_mns_gry();
             } else
                 return Icons::sqr_ylw();
         } else if(TypeUnitNode::RLM_C == getType()) {
-            if(1 == swpRLMC().lowLevl() && getControl()) {
+            if(getControl() && swpRLMC().isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl() && swpRLMC().isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swpRLMC().lowLevl() && getControl()) {
                 return Icons::sqr_blu();
             } else if(1 == swpRLMC().lowLevl() && !getControl()) {
                 return Icons::sqr_blk_crs_blu();
@@ -548,7 +564,11 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_blk_crs_ylw();
             }
         } else if(TypeUnitNode::RLM_KRL == getType()) {
-            if(1 == swpRLM().isWasAlarm() && getControl()) {
+            if(getControl() && swpRLM().isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl() && swpRLM().isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swpRLM().isWasAlarm() && getControl()) {
                 return Icons::sqr_rd();
             } else if(1 == swpRLM().isWasAlarm() && !getControl()) {
                 return Icons::sqr_blk_crs_rd();
