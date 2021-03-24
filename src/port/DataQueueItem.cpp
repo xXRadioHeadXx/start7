@@ -96,12 +96,16 @@ QByteArray DataQueueItem::makeOnOff0x20(const UnitNode * un)
             out.append(static_cast<quint8>(0xFF));
         } else if(TypeUnitNode::RLM_C == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
-            out[2] = static_cast<quint8>(0x02);        //<NBB> 0x00
+            out[2] = static_cast<quint8>(0x02);        //<NBB> 0x02
             out.append(un->getStateWord().right(2));
         } else if(TypeUnitNode::RLM_KRL == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
-            out[2] = static_cast<quint8>(0x01);        //<NBB> 0x00
+            out[2] = static_cast<quint8>(0x01);        //<NBB> 0x01
             out.append(un->getStateWord().left(1));
+        } else if(TypeUnitNode::TG == un->getType()) {
+            out[1] = static_cast<quint8>(un->getNum1());
+            out[2] = static_cast<quint8>(0x07);        //<NBB> 0x07
+            out.append(QByteArray().fill(0x00, 7));
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
@@ -135,7 +139,9 @@ QByteArray DataQueueItem::makeDK0x21(const UnitNode * un)
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
             out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()) {
+        } else if(TypeUnitNode::RLM_C == un->getType() ||
+                  TypeUnitNode::RLM_KRL == un->getType() ||
+                  TypeUnitNode::TG == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
         }
     }
@@ -170,7 +176,9 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
            TypeUnitNode::SD_BL_IP == un->getType() ||
            TypeUnitNode::IU_BL_IP == un->getType()) {
             out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()) {
+        } else if(TypeUnitNode::RLM_C == un->getType() ||
+                  TypeUnitNode::RLM_KRL == un->getType() ||
+                  TypeUnitNode::TG == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
         }
     }
@@ -369,9 +377,101 @@ QByteArray DataQueueItem::makeOn0x26(const UnitNode * un)
     return out;
 }
 
+QByteArray DataQueueItem::data0x2A = QByteArray();
+
+DataQueueItem DataQueueItem::makeStatusRequest0x2A(DataQueueItem &item, const UnitNode * un)
+{
+    item.setData(DataQueueItem::makeStatusRequest0x2A(un));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    return item;
+}
+
+QByteArray DataQueueItem::makeStatusRequest0x2A(const UnitNode * un)
+{
+    if(DataQueueItem::data0x2A.isEmpty()) {
+        DataQueueItem::data0x2A.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x2A.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x2A.append(static_cast<char>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x2A.append(static_cast<quint8>(0x2A));      //<CMD> 0x2A
+//        DataQueueItem::data0x2A.append(Utils::getByteSumm(DataQueueItem::data0x2A)); //<CHKS>
+    }
+
+    QByteArray out = DataQueueItem::data0x2A;
+    if(nullptr != un) {
+        out[1] = static_cast<quint8>(un->getNum1());
+    }
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    return out;
+}
+
+
+QByteArray DataQueueItem::data0x2C = QByteArray();
+
+DataQueueItem DataQueueItem::makeStatusRequest0x2C(DataQueueItem &item, const UnitNode * un)
+{
+    item.setData(DataQueueItem::makeStatusRequest0x2C(un));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    return item;
+}
+
+QByteArray DataQueueItem::makeStatusRequest0x2C(const UnitNode * un)
+{
+    if(DataQueueItem::data0x2C.isEmpty()) {
+        DataQueueItem::data0x2C.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x2C.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x2C.append(static_cast<char>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x2C.append(static_cast<quint8>(0x2C));      //<CMD> 0x2C
+//        DataQueueItem::data0x2C.append(Utils::getByteSumm(DataQueueItem::data0x2C)); //<CHKS>
+    }
+
+    QByteArray out = DataQueueItem::data0x2C;
+    if(nullptr != un) {
+        out[1] = static_cast<quint8>(un->getNum1());
+    }
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    return out;
+}
+
+
+QByteArray DataQueueItem::data0x2E = QByteArray();
+
+DataQueueItem DataQueueItem::makeStatusRequest0x2E(DataQueueItem &item, const UnitNode * un)
+{
+    item.setData(DataQueueItem::makeStatusRequest0x2E(un));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    return item;
+}
+
+QByteArray DataQueueItem::makeStatusRequest0x2E(const UnitNode * un)
+{
+    if(DataQueueItem::data0x2E.isEmpty()) {
+        DataQueueItem::data0x2E.append(static_cast<quint8>(0xB5));      //<SB>
+        DataQueueItem::data0x2E.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x2E.append(static_cast<char>(0x00));        //<NBB> 0x00
+        DataQueueItem::data0x2E.append(static_cast<quint8>(0x2E));      //<CMD> 0x2E
+//        DataQueueItem::data0x2E.append(Utils::getByteSumm(DataQueueItem::data0x2E)); //<CHKS>
+    }
+
+    QByteArray out = DataQueueItem::data0x2E;
+    if(nullptr != un) {
+        out[1] = static_cast<quint8>(un->getNum1());
+    }
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    return out;
+}
+
 bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
 {
-    if(item.data().isEmpty() || item.address().isNull() || 0 > item.port() || -1 > item.portIndex())
+    if(item.data().isEmpty() ||
+       item.address().isNull() ||
+       0 > item.port() ||
+       -1 > item.portIndex())
         return false;
     auto itemData = item.data();
     while(0 == itemData.indexOf(static_cast<quint8>(0xFF))) {
@@ -400,8 +500,8 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
             return false;
 
         switch (CMD) {
-        case static_cast<quint8>(0x41): {
-            if(static_cast<quint8>(0x04) != NBB)
+        case static_cast<quint8>(0x30): {
+            if(static_cast<quint8>(0x00) != NBB)
                 return false;
             return true;
         }
@@ -410,8 +510,23 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
                 return false;
             return true;
         }
-        case static_cast<quint8>(0x30): {
-            if(static_cast<quint8>(0x00) != NBB)
+        case static_cast<quint8>(0x32): {
+            if(static_cast<quint8>(0x0D) != NBB)
+                return false;
+            return true;
+        }
+        case static_cast<quint8>(0x33): {
+            if(static_cast<quint8>(0x03) != NBB)
+                return false;
+            return true;
+        }
+        case static_cast<quint8>(0x34): {
+            if(static_cast<quint8>(0x1C) != NBB)
+                return false;
+            return true;
+        }
+        case static_cast<quint8>(0x41): {
+            if(static_cast<quint8>(0x04) != NBB)
                 return false;
             return true;
         }

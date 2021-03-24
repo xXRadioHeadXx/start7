@@ -476,6 +476,21 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         if(0 == sel->getBazalt() && 0 != sel->getDK())
             menu->addAction(ui->actionDK);
 
+    } else if(TypeUnitNode::TG == sel->getType()) {
+
+        if(sel->isEditableControl())
+            menu->addAction(ui->actionControl);
+        menu->addSeparator();
+        if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOn())) {
+            menu->addAction(ui->actionUNOff);
+        } else if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOff())) {
+            menu->addAction(ui->actionUNOn);
+        }
+
+        menu->addSeparator();
+        if(0 == sel->getBazalt() && 0 != sel->getDK())
+            menu->addAction(ui->actionDK);
+
     }
 
     if(!sel->getName().isEmpty() && !(TypeUnitNode::SYSTEM == sel->getType() || TypeUnitNode::GROUP == sel->getType())) {
@@ -573,7 +588,9 @@ void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
-    if(TypeUnitNode::RLM_C == selUN->getType() || TypeUnitNode::RLM_KRL == selUN->getType()) {
+    if(TypeUnitNode::RLM_C == selUN->getType() ||
+       TypeUnitNode::RLM_KRL == selUN->getType() ||
+       TypeUnitNode::TG == selUN->getType()) {
         int ret = QMessageBox::question(this, tr("Предупреждение"),
                                        tr("Вы действительно хотите отключить устройство?"),
                                        QMessageBox::Ok | QMessageBox::Cancel,
@@ -1466,6 +1483,13 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 
         newStateWord[0] = static_cast<quint8>(0x00);
 //        qDebug() << "prepare newStateWord " << newStateWord.toHex();
+
+        {
+            quint8 cp = clockPeriod;
+            cp = ReverseBits(cp);
+            cp = cp >> 6;
+            clockPeriod = cp;
+        }
 
         newStateWord[0] = static_cast<quint8>(newStateWord[0]) | (static_cast<quint8>(clockPeriod) << 5);
 //        qDebug() << "clockPeriod newStateWord " << newStateWord.toHex();

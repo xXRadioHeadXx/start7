@@ -1,5 +1,5 @@
-#ifndef SWPTGSUBTYPE2_H
-#define SWPTGSUBTYPE2_H
+#ifndef SWPTGSUBTYPE0X34_H
+#define SWPTGSUBTYPE0X34_H
 
 #include "SWP.h"
 
@@ -24,4 +24,4 @@ public:
 
 };
 
-#endif // SWPTGSUBTYPE2_H
+#endif // SWPTGSUBTYPE0X34_H

@@ -1,5 +1,5 @@
-#ifndef SWPTGTYPE3_H
-#define SWPTGTYPE3_H
+#ifndef SWPTGTYPE0X33_H
+#define SWPTGTYPE0X33_H
 
 #include "SWP.h"
 
@@ -54,4 +54,4 @@ public:
 
 };
 
-#endif // SWPTGTYPE3_H
+#endif // SWPTGTYPE0X33_H

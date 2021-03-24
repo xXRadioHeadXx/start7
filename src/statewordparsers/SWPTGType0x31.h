@@ -1,5 +1,5 @@
-#ifndef SWPTGTYPE1_H
-#define SWPTGTYPE1_H
+#ifndef SWPTGTYPE0X31_H
+#define SWPTGTYPE0X31_H
 
 #include <SWP.h>
 
@@ -24,4 +24,4 @@ public:
     int isWasOpened() const;
 };
 
-#endif // SWPTGTYPE1_H
+#endif // SWPTGTYPE0X31_H

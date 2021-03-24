@@ -161,7 +161,8 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                         (TypeUnitNode::SD_BL_IP == tmpUN->getType() ||
                         TypeUnitNode::IU_BL_IP == tmpUN->getType() ||
                         TypeUnitNode::RLM_C == tmpUN->getType() ||
-                        TypeUnitNode::RLM_KRL == tmpUN->getType())) {
+                        TypeUnitNode::RLM_KRL == tmpUN->getType() ||
+                        TypeUnitNode::TG == tmpUN->getType())) {
                     key = true;
                     UnitNode * tmpParentUN = UnitNodeFactory::make(TypeUnitNode::BL_IP);
                     tmpParentUN->setType(TypeUnitNode::BL_IP);
@@ -201,7 +202,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     }
 
     for(UnitNode * un : as_const(SettingUtils::getSetMetaRealUnitNodes().toList())) {
-        if(TypeUnitNode::SD_BL_IP == un->getType() && nullptr != un->getParentUN()) {
+        if(TypeUnitNode::SD_BL_IP == un->getType() && nullptr != un->getParentUN() && 1 <= un->getNum1() && 4 >= un->getNum1()) {
             auto parent = un->getParentUN();
             bool needAddUI = true;
             for(int i = 0, n = parent->childCount(); i < n; i++) {
@@ -226,6 +227,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                 newMetaUnIuBlIp->setStateWord(un->getStateWord());
 
                 newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
+                newMetaUnIuBlIp->setControl(false);
 
                 SettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
                 parent->addChild(newMetaUnIuBlIp);

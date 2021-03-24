@@ -8,10 +8,10 @@
 #include <SWPRLM.h>
 #include <SWPRLMC.h>
 #include <SWPSDBLIP.h>
-#include <SWPTGType1.h>
-#include <SWPTGType2.h>
-#include <SWPTGType3.h>
-#include <SWPTGType4.h>
+#include <SWPTGType0x31.h>
+#include <SWPTGType0x34.h>
+#include <SWPTGType0x33.h>
+#include <SWPTGType0x32.h>
 
 enum SubTypeApp {
     any = 0x00,
@@ -77,10 +77,10 @@ class UnitNode : public QObject
 private:
     int neededStateWordType = 0;
     QByteArray stateWord;
-    QByteArray subStateWordType1;
-    QByteArray subStateWordType2;
-    QByteArray subStateWordType3;
-    QByteArray subStateWordType4;
+    QByteArray stateWordType0x31;
+    QByteArray stateWordType0x32;
+    QByteArray stateWordType0x33;
+    QByteArray stateWordType0x34;
     QSet<UnitNode *> doubles; //[Obj_1]
     QSet<QString> metaNames; //[Obj_1]
     int Type;//=0
@@ -378,7 +378,7 @@ public:
     QString getIcon4Path() const;
     void setIcon4Path(const QString &value);
 
-    virtual QString toString();
+    virtual QString toString() const;
 
 
     bool isEditableControl() const;    
@@ -393,30 +393,30 @@ public:
     int getMaxCountSCRWA() const;
     void setMaxCountSCRWA(int value);
 
-    QByteArray getSubStateWordType1() const;
-    void setSubStateWordType1(const QByteArray &value);
+    QByteArray getStateWordType0x31() const;
+    void setStateWordType0x31(const QByteArray &value);
 
-    QByteArray getSubStateWordType2() const;
-    void setSubStateWordType2(const QByteArray &value);
+    QByteArray getStateWordType0x34() const;
+    void setStateWordType0x34(const QByteArray &value);
 
-    QByteArray getSubStateWordType3() const;
-    void setSubStateWordType3(const QByteArray &value);
+    QByteArray getStateWordType0x33() const;
+    void setStateWordType0x33(const QByteArray &value);
 
     int getNeededStateWordType() const;
     void setNeededStateWordType(int value);
 
-    QByteArray getSubStateWordType4() const;
-    void setSubStateWordType4(const QByteArray &value);
+    QByteArray getStateWordType0x32() const;
+    void setStateWordType0x32(const QByteArray &value);
 
     const SWPSDBLIP swpSDBLIP() const {return SWPSDBLIP(getStateWord(), getNum2());}
     const SWPIUBLIP swpIUBLIP() const {return SWPIUBLIP(getStateWord(), getNum2());}
     const SWPBLIP swpBLIP() const {return SWPBLIP(getStateWord());}
     const SWPRLM swpRLM() const {return SWPRLM(getStateWord());}
     const SWPRLMC swpRLMC() const {return SWPRLMC(getStateWord());}
-    const SWPTGType1 swpSWPTGType1() const {return SWPTGType1(getStateWord());}
-    const SWPTGType2 swpSWPTGType2() const {return SWPTGType2(getSubStateWordType2());}
-    const SWPTGType3 swpSWPTGType3() const {return SWPTGType3(getSubStateWordType3());}
-    const SWPTGType4 swpSWPTGType4() const {return SWPTGType4(getSubStateWordType4());}
+    const SWPTGType1 swpTGType0x31() const {return SWPTGType1(getStateWord());}
+    const SWPTGType2 swpTGType0x34() const {return SWPTGType2(getStateWordType0x34());}
+    const SWPTGType3 swpTGType0x33() const {return SWPTGType3(getStateWordType0x33());}
+    const SWPTGType4 swpTGType0x32() const {return SWPTGType4(getStateWordType0x32());}
 
 
 public slots:
@@ -483,7 +483,7 @@ public:
     explicit UnitNode_TG(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {}
     virtual int calcDKStatus() const {
-         SWPTGType1 swp = swpSWPTGType1();
+         SWPTGType1 swp = swpTGType0x31();
         if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(1 == swp.isNorm() && 1 == swp.isWasAlarm()) {

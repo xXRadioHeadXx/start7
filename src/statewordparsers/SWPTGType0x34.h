@@ -1,8 +1,8 @@
-#ifndef SWPTGTYPE2_H
-#define SWPTGTYPE2_H
+#ifndef SWPTGTYPE0X34_H
+#define SWPTGTYPE0X34_H
 
 #include <SWP.h>
-#include <SWPTGSubType2.h>
+#include <SWPTGSubType0x34.h>
 
 class SWPTGType2 : public SWP
 {
@@ -31,4 +31,4 @@ public:
     SWPTGSubType2 in4() const;
 };
 
-#endif // SWPTGTYPE2_H
+#endif // SWPTGTYPE0X34_H

@@ -32,7 +32,7 @@ private:
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    static QList<MultiUNStatusConnectRequester *> lsSCR;
+    static QList<AbstractRequester *> lsSCR;
     static QList<AbstractRequester *> lsWaiter;
 
     void setupPort(const int index = 0);
@@ -42,6 +42,9 @@ private:
     static QList<AbstractPort *> loadPortsUdpObj(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
     static DataQueueItem parcingStatusWord0x31(DataQueueItem &item, DataQueueItem & resultRequest);
+    static DataQueueItem parcingStatusWord0x32(DataQueueItem &item, DataQueueItem & resultRequest);
+    static DataQueueItem parcingStatusWord0x33(DataQueueItem &item, DataQueueItem & resultRequest);
+    static DataQueueItem parcingStatusWord0x34(DataQueueItem &item, DataQueueItem & resultRequest);
     static void procDK(UnitNode * current, UnitNode * previous);
 
 
@@ -78,8 +81,16 @@ public:
     static QList<AbstractRequester *> getLsWaiter();
     void setLsWaiter(const QList<AbstractRequester *> &value);
     void appLsWaiter(AbstractRequester *value);
-    void preppLsWaiter(AbstractRequester *value);
+    void prependLsWaiter(AbstractRequester *value);
     void removeLsWaiter(AbstractRequester *value);
+    void clearLsWaiter();
+
+    static QList<AbstractRequester *> getLsSCR();
+    void setLsSCR(const QList<AbstractRequester *> &value);
+    void appLsSCR(AbstractRequester *value);
+    void prependLsSCR(AbstractRequester *value);
+    void removeLsSCR(AbstractRequester *value);
+    void clearLsSCR();
 
 
 signals:

@@ -74,8 +74,30 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
        TypeUnitNode::SD_BL_IP == getUnReciver()->getType() ||
        TypeUnitNode::IU_BL_IP == getUnReciver()->getType() ||
        TypeUnitNode::RLM_C == getUnReciver()->getType() ||
-       TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
-        DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
+       TypeUnitNode::RLM_KRL == getUnReciver()->getType() ||
+       TypeUnitNode::TG == getUnReciver()->getType()) {
+        switch (getUnReciver()->getNeededStateWordType()) {
+            case 0: {
+                DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
+                break;
+            }
+            case 1: {
+                DataQueueItem::makeStatusRequest0x2A(result, getUnReciver());
+                break;
+            }
+            case 2: {
+                DataQueueItem::makeStatusRequest0x2C(result, getUnReciver());
+                break;
+            }
+            case 3: {
+                DataQueueItem::makeStatusRequest0x2E(result, getUnReciver());
+                break;
+            }
+            default: {
+                DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
+                break;
+            }
+        }
     }
 
     if(1 < getLsTrackedUN().size())
@@ -119,7 +141,8 @@ void MultiUNStatusConnectRequester::init() {
 
             if(TypeUnitNode::BL_IP == un->getType() /* или датчик */ ||
                TypeUnitNode::RLM_C == un->getType() ||
-               TypeUnitNode::RLM_KRL == un->getType()) {
+               TypeUnitNode::RLM_KRL == un->getType() ||
+               TypeUnitNode::TG == un->getType()) {
                 setUnReciver(un);
                 break;
             }

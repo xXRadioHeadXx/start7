@@ -589,6 +589,32 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             } else if(!getControl()) {
                 return Icons::sqr_blk_crs_ylw();
             }
+        } else if(TypeUnitNode::TG == getType()) {
+            if(getControl() && swpTGType0x31().isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl() && swpTGType0x31().isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swpTGType0x31().isWasAlarm() && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swpTGType0x31().isWasAlarm() && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swpTGType0x31().isAlarm() && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swpTGType0x31().isAlarm() && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swpTGType0x31().isOff() && getControl()) {
+                return Icons::sqr_blk();
+            } else if(1 == swpTGType0x31().isOff() && !getControl()) {
+                return Icons::sqr_blk_crs_gry();
+            } else if(1 == swpTGType0x31().isNorm() && getControl()) {
+                return Icons::sqr_grn();
+            } else if(1 == swpTGType0x31().isNorm() && !getControl()) {
+                return Icons::sqr_blk_crs_grn();
+            } else if(getControl()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()) {
+                return Icons::sqr_blk_crs_ylw();
+            }
         }
     } else if(SubTypeApp::configurator == type) {
 
@@ -683,9 +709,10 @@ void UnitNode::updDoubl()
 {
     for(auto c : as_const(this->doubles)) {
         c->stateWord = this->stateWord;
-        c->subStateWordType1 = this->subStateWordType1;
-        c->subStateWordType2 = this->subStateWordType2;
-        c->subStateWordType3 = this->subStateWordType3;
+        c->stateWordType0x31 = this->stateWordType0x31;
+        c->stateWordType0x32 = this->stateWordType0x32;
+        c->stateWordType0x33 = this->stateWordType0x33;
+        c->stateWordType0x34 = this->stateWordType0x34;
         c->status1 = this->status1;
         c->status2 = this->status2;
         c->dkStatus = this->dkStatus;
@@ -982,34 +1009,34 @@ void UnitNode::setMaxCountSCRWA(int value)
     maxCountSCRWA = value;
 }
 
-QByteArray UnitNode::getSubStateWordType1() const
+QByteArray UnitNode::getStateWordType0x31() const
 {
-    return subStateWordType1;
+    return stateWordType0x31;
 }
 
-void UnitNode::setSubStateWordType1(const QByteArray &value)
+void UnitNode::setStateWordType0x31(const QByteArray &value)
 {
-    subStateWordType1 = value;
+    stateWordType0x31 = value;
 }
 
-QByteArray UnitNode::getSubStateWordType2() const
+QByteArray UnitNode::getStateWordType0x34() const
 {
-    return subStateWordType2;
+    return stateWordType0x34;
 }
 
-void UnitNode::setSubStateWordType2(const QByteArray &value)
+void UnitNode::setStateWordType0x34(const QByteArray &value)
 {
-    subStateWordType2 = value;
+    stateWordType0x34 = value;
 }
 
-QByteArray UnitNode::getSubStateWordType3() const
+QByteArray UnitNode::getStateWordType0x33() const
 {
-    return subStateWordType3;
+    return stateWordType0x33;
 }
 
-void UnitNode::setSubStateWordType3(const QByteArray &value)
+void UnitNode::setStateWordType0x33(const QByteArray &value)
 {
-    subStateWordType3 = value;
+    stateWordType0x33 = value;
 }
 
 int UnitNode::getNeededStateWordType() const
@@ -1022,22 +1049,23 @@ void UnitNode::setNeededStateWordType(int value)
     neededStateWordType = value;
 }
 
-QByteArray UnitNode::getSubStateWordType4() const
+QByteArray UnitNode::getStateWordType0x32() const
 {
-    return subStateWordType4;
+    return stateWordType0x32;
 }
 
-void UnitNode::setSubStateWordType4(const QByteArray &value)
+void UnitNode::setStateWordType0x32(const QByteArray &value)
 {
-    subStateWordType4 = value;
+    stateWordType0x32 = value;
 }
 
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
-            ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
-             TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType()))
+       ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
+        TypeUnitNode::RLM_C == getType() ||
+        TypeUnitNode::RLM_KRL == getType() ||
+        TypeUnitNode::TG == getType()))
         editableControl = true;
 }
 
@@ -1047,7 +1075,8 @@ void UnitNode::matchEditableOnOff()
        ((0 == getBazalt() && TypeUnitNode::SD_BL_IP == getType()) ||
         TypeUnitNode::IU_BL_IP == getType() ||
         TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType()))
+        TypeUnitNode::RLM_KRL == getType()/* ||
+        TypeUnitNode::TG == getType()*/))
         editableOnOff = true;
 }
 
@@ -1059,8 +1088,9 @@ bool UnitNode::isNeedsPreamble() const
 void UnitNode::matchNeedsPreamble()
 {
     if(!needsPreamble &&
-            (TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType()))
+       (TypeUnitNode::RLM_C == getType() ||
+        TypeUnitNode::RLM_KRL == getType() ||
+        TypeUnitNode::TG == getType()))
         needsPreamble = true;
 }
 
@@ -1077,10 +1107,10 @@ UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 UnitNode::UnitNode(const UnitNode & parent) :
     QObject(nullptr),
     stateWord(parent.stateWord),
-    subStateWordType1(parent.subStateWordType1),
-    subStateWordType2(parent.subStateWordType2),
-    subStateWordType3(parent.subStateWordType3),
-    subStateWordType4(parent.subStateWordType4),
+    stateWordType0x31(parent.stateWordType0x31),
+    stateWordType0x32(parent.stateWordType0x32),
+    stateWordType0x33(parent.stateWordType0x33),
+    stateWordType0x34(parent.stateWordType0x34),
     metaNames(parent.metaNames),
     Type(parent.Type),
     Num1(parent.Num1),
@@ -1121,10 +1151,10 @@ UnitNode::UnitNode(const UnitNode & parent) :
     dkInvolved(parent.dkInvolved)
 {
     setStateWord(parent.getStateWord());
-    setSubStateWordType1(parent.getSubStateWordType1());
-    setSubStateWordType2(parent.getSubStateWordType2());
-    setSubStateWordType3(parent.getSubStateWordType3());
-    setSubStateWordType4(parent.getSubStateWordType4());
+    setStateWordType0x31(parent.getStateWordType0x31());
+    setStateWordType0x34(parent.getStateWordType0x34());
+    setStateWordType0x33(parent.getStateWordType0x33());
+    setStateWordType0x32(parent.getStateWordType0x32());
     setMetaNames(parent.getMetaNames());
     setType(parent.getType());
     setNum1(parent.getNum1());
@@ -1171,10 +1201,10 @@ UnitNode::UnitNode(const UnitNode & parent) :
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
     setStateWord(c.getStateWord());
-    setSubStateWordType1(c.getSubStateWordType1());
-    setSubStateWordType2(c.getSubStateWordType2());
-    setSubStateWordType3(c.getSubStateWordType3());
-    setSubStateWordType4(c.getSubStateWordType4());
+    setStateWordType0x31(c.getStateWordType0x31());
+    setStateWordType0x34(c.getStateWordType0x34());
+    setStateWordType0x33(c.getStateWordType0x33());
+    setStateWordType0x32(c.getStateWordType0x32());
     setMetaNames(c.getMetaNames());
     setType(c.getType());
     setNum1(c.getNum1());
@@ -1555,7 +1585,7 @@ void UnitNode::setIcon4Path(const QString &value)
     Icon4Path = value;
 }
 
-QString UnitNode::toString()
+QString UnitNode::toString() const
 {
     QString result;
     result = "UnitNode(" + QString::number((qulonglong)this, 16) + "@";

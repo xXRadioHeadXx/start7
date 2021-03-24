@@ -1,4 +1,4 @@
-#include "SWPTGType2.h"
+#include "SWPTGType0x34.h"
 
 SWPTGType2::SWPTGType2(const QByteArray &stateWord) :
     SWP(stateWord)

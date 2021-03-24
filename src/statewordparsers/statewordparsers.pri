@@ -10,11 +10,11 @@ SOURCES += \
     $$PWD/SWPRLM.cpp \
     $$PWD/SWPRLMC.cpp \
     $$PWD/SWPSDBLIP.cpp \
-    $$PWD/SWPTGSubType2.cpp \
-    $$PWD/SWPTGType1.cpp \
-    $$PWD/SWPTGType2.cpp \
-    $$PWD/SWPTGType3.cpp \
-    $$PWD/SWPTGType4.cpp
+    $$PWD/SWPTGSubType0x34.cpp \
+    $$PWD/SWPTGType0x31.cpp \
+    $$PWD/SWPTGType0x32.cpp \
+    $$PWD/SWPTGType0x33.cpp \
+    $$PWD/SWPTGType0x34.cpp
 
 
 HEADERS += \
@@ -24,9 +24,9 @@ HEADERS += \
     $$PWD/SWPRLM.h \
     $$PWD/SWPRLMC.h \
     $$PWD/SWPSDBLIP.h \
-    $$PWD/SWPTGSubType2.h \
-    $$PWD/SWPTGType1.h \
-    $$PWD/SWPTGType2.h \
-    $$PWD/SWPTGType3.h \
-    $$PWD/SWPTGType4.h
+    $$PWD/SWPTGSubType0x34.h \
+    $$PWD/SWPTGType0x31.h \
+    $$PWD/SWPTGType0x32.h \
+    $$PWD/SWPTGType0x33.h \
+    $$PWD/SWPTGType0x34.h
 

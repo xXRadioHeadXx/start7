@@ -22,6 +22,9 @@ private:
     static QByteArray data0x24;
     static QByteArray data0x25;
     static QByteArray data0x26;
+    static QByteArray data0x2A;
+    static QByteArray data0x2C;
+    static QByteArray data0x2E;
 
 public:
     DataQueueItem() noexcept;
@@ -64,6 +67,16 @@ public:
 
     static DataQueueItem makeOn0x26(DataQueueItem &item, const UnitNode * un);
     static QByteArray makeOn0x26(const UnitNode * un);
+
+    static DataQueueItem makeStatusRequest0x2A(DataQueueItem &item, const UnitNode * un = nullptr);
+    static QByteArray makeStatusRequest0x2A(const UnitNode * un = nullptr);
+
+    static DataQueueItem makeStatusRequest0x2C(DataQueueItem &item, const UnitNode * un = nullptr);
+    static QByteArray makeStatusRequest0x2C(const UnitNode * un = nullptr);
+
+    static DataQueueItem makeStatusRequest0x2E(DataQueueItem &item, const UnitNode * un = nullptr);
+    static QByteArray makeStatusRequest0x2E(const UnitNode * un = nullptr);
+
 
     static bool isValideDirectionI(DataQueueItem &item);
     QByteArray preamble() const;
