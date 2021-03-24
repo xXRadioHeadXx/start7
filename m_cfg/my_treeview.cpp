@@ -14,7 +14,7 @@ void My_treeView::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Down:
-     qDebug()<<"[Down]";
+     //qDebug()<<"[Down]";
 
 
   //   unit = static_cast<UnitNode*>(new_ind.internalPointer());
@@ -24,7 +24,7 @@ void My_treeView::keyPressEvent(QKeyEvent *event)
 
 
     case Qt::Key_Up:
-     qDebug()<<"[Up]";
+     //qDebug()<<"[Up]";
 
    //  unit = static_cast<UnitNode*>(new_ind.internalPointer());
 

@@ -99,14 +99,14 @@ void Port::write(const DataQueueItem &data, bool /*dbIns*/) {
     switch (getProtocol()) {
     case AbstractPort::UDP:
         if (m_ptrSocket) {
-//            qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
+//            //qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
             static_cast<QUdpSocket *>(m_ptrSocket)->writeDatagram(data.dataToWrite(), data.address(), data.port());
 
         }
         break;
     case AbstractPort::TCP:
         if (m_ptrSocket) {
-//            qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
+//            //qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
             static_cast<QTcpSocket *>(m_ptrSocket)->write(data.dataToWrite());
         }
         break;
@@ -154,18 +154,18 @@ Port * Port::typeDefPort(const AbstractPort * port) {
 bool Port::openUdpScoket(QString port)
 {
     if (port.isEmpty()) {
-        qDebug() << "Returns false when the IP address or port number is wrong.";
+        //qDebug() << "Returns false when the IP address or port number is wrong.";
         return false; // Returns false when the IP address or port number is wrong.
     }
 
     for(const auto& tmp : as_const(getStIpPort()))
-        qDebug() << QHostAddress(tmp.first)<< "port " << tmp.second;
+        //qDebug() << QHostAddress(tmp.first)<< "port " << tmp.second;
 
     if(nullptr == m_ptrSocket)
         m_ptrSocket = new QUdpSocket();
 
     if (m_ptrSocket->bind(QHostAddress::Any, (quint16)port.toInt(), QUdpSocket::ShareAddress) == false) {
-        qDebug() << "Return false when the port is occupied.";
+        //qDebug() << "Return false when the port is occupied.";
         return false; // Return false when the port is occupied.
     }
 
@@ -180,7 +180,7 @@ bool Port::openUdpScoket(QString port)
 bool Port::openTcpScoket(QString host, QString port)
 {
     if (port.isEmpty()) {
-        qDebug() << "Returns false when the IP address or port number is wrong.";
+        //qDebug() << "Returns false when the IP address or port number is wrong.";
         return false; // Returns false when the IP address or port number is wrong.
     }
 
@@ -191,7 +191,7 @@ bool Port::openTcpScoket(QString host, QString port)
     QObject::connect(m_ptrSocket,&QAbstractSocket::disconnected,[]()->void{qDebug("Disconnected");});
 
     if (m_ptrSocket->state() != QAbstractSocket::ConnectedState) { //->bind(QHostAddress::Any, (quint16)port.toInt(), QUdpSocket::ShareAddress) == false) {
-        qDebug() << "Return false when the port is occupied.";
+        //qDebug() << "Return false when the port is occupied.";
         return false; // Return false when the port is occupied.
     }
 
@@ -214,7 +214,7 @@ void Port::readUdpDatagrams()
         bool conversionOK = false;
         quint16 port;
         ((QUdpSocket *)m_ptrSocket)->readDatagram(datagram.data(), datagram.size(), &ip6Address, &port);
-//        qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
+//        //qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
         QHostAddress ip4Address(ip6Address.toIPv4Address(&conversionOK));
         if (conversionOK && getStHostAddress().contains(ip4Address) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
         {

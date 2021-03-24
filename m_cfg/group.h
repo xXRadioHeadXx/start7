@@ -19,7 +19,7 @@ public:
 
 
     bool operator<(const MY_GROUP other) const {
-        qDebug()<<"Сравнение "<<id<<" и другой "<<other.id;
+        //qDebug()<<"Сравнение "<<id<<" и другой "<<other.id;
            return id<other.id;
        }
 

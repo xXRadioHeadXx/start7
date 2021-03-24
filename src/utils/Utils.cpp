@@ -209,7 +209,7 @@ void Utils::fillDiagnosticTable(QTableWidget * const table, const UnitNode * sel
         table->resizeColumnsToContents();
         table->resizeRowsToContents();
     } catch (...) {
-        qDebug() << "fillDiagnosticTable catch exception ...";
+        //qDebug() << "fillDiagnosticTable catch exception ...";
     }
 }
 
@@ -915,11 +915,11 @@ QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
     unSetTmp.insert(un);
     unSetTmp = unSetTmp + un->getDoubles();
     for(const auto& unDouble : unSetTmp.values()) {
-//        qDebug() << "itr :" << unSetTmp;
-//        qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
+//        //qDebug() << "itr :" << unSetTmp;
+//        //qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
         if(nullptr != unDouble->getTreeParentUN()) {
             if(TypeUnitNode::SD_BL_IP == unDouble->getTreeParentUN()->getType()) {
-//                qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->toString();
+//                //qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->toString();
             } else {
                 unSetTmp.remove(unDouble);
             }
@@ -927,7 +927,7 @@ QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
             unSetTmp.remove(unDouble);
         }
     }
-//    qDebug() << "res :" << unSetTmp;
+//    //qDebug() << "res :" << unSetTmp;
     return unSetTmp;
 }
 

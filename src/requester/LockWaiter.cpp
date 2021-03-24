@@ -9,12 +9,12 @@
 
 LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "LockWaiter::LockWaiter(" << this << ") -->";
+    //qDebug() << "LockWaiter::LockWaiter(" << this << ") -->";
 }
 
 LockWaiter::~LockWaiter()
 {
-    qDebug() << "LockWaiter::~LockWaiter(" << this << ") <--";
+    //qDebug() << "LockWaiter::~LockWaiter(" << this << ") <--";
 }
 
 UnitNode *LockWaiter::getUnReciverIuBlIp() const

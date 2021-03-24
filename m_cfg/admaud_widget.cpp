@@ -39,23 +39,23 @@ void AdmAud_widget::default_combobox()
 this->ui->comboBox->clear();
 #if (defined (_WIN32) || defined (_WIN64))
 
-qDebug()<<"[0]";
+//qDebug()<<"[0]";
     LPWSTR lpbuffer;
 
     lpbuffer = new TCHAR[255];
 
-qDebug()<<"[1]";
+//qDebug()<<"[1]";
     for( int i = 0; i < 255; i++ ) lpbuffer[i] = 0;
     char dr[10];
    for( int i = 0; i < 10; i++ ) dr[i] = 0;
-qDebug()<<"[2]";
+//qDebug()<<"[2]";
     GetLogicalDriveStringsW(255,lpbuffer);
 
-qDebug()<<"[3]";
+//qDebug()<<"[3]";
 
     for( int i = 0; i < 255; i++ )
     {
-     //   qDebug()<<"[4]";
+     //   //qDebug()<<"[4]";
        if( lpbuffer[i] == ':' )
        {
        dr[0] = lpbuffer[i-1];
@@ -67,12 +67,12 @@ qDebug()<<"[3]";
        QString str = dr;
        LPCWSTR path = (const wchar_t*) str.utf16();
 
-       qDebug()<<"str: "<<str;
+       //qDebug()<<"str: "<<str;
 
 //GetDriveTypeW()
     if( GetDriveTypeW(path) == DRIVE_REMOVABLE )
     {
-       qDebug()<<"[PROFIT] str: "<<str;
+       //qDebug()<<"[PROFIT] str: "<<str;
     this->ui->comboBox->addItem(str);
     }
        }
@@ -80,32 +80,32 @@ qDebug()<<"[3]";
 
 
 #else
-    qDebug()<<"[LINUX]";
+    //qDebug()<<"[LINUX]";
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
 
-    qDebug() << storage.rootPath();
+    //qDebug() << storage.rootPath();
     if (storage.isReadOnly())
-   qDebug() << "isReadOnly:" << storage.isReadOnly();
-    qDebug() << "name:" << storage.name();
-    qDebug() << "fileSystemType:" << storage.fileSystemType();
-    qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-    qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+   //qDebug() << "isReadOnly:" << storage.isReadOnly();
+    //qDebug() << "name:" << storage.name();
+    //qDebug() << "fileSystemType:" << storage.fileSystemType();
+    //qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+    //qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
     this->ui->comboBox->addItem(storage.rootPath());
     }
 
   /*  for (auto volume : QStorageInfo::mountedVolumes()) {
-           qDebug() << "Name:" << volume.name();
-           qDebug() << "Display name:" << volume.displayName();
-           qDebug() << "Device:" << volume.device();
-           qDebug() << "Root path:" << volume.rootPath();
-           qDebug() << "File system type:" << volume.fileSystemType();
-           qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
-           qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
-           qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
-           qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
-           qDebug() << "Bytes available:" << volume.bytesAvailable();
-           qDebug() << "Bytes free:" << volume.bytesFree();
-           qDebug() << "Bytes total:" << volume.bytesTotal();
+           //qDebug() << "Name:" << volume.name();
+           //qDebug() << "Display name:" << volume.displayName();
+           //qDebug() << "Device:" << volume.device();
+           //qDebug() << "Root path:" << volume.rootPath();
+           //qDebug() << "File system type:" << volume.fileSystemType();
+           //qDebug() << "Is valid?" << (volume.isValid() ? "yes" : "no");
+           //qDebug() << "Is root?" << (volume.isRoot() ? "yes" : "no");
+           //qDebug() << "Is ready?" << (volume.isReady() ? "yes" : "no");
+           //qDebug() << "Is read only?" << (volume.isReadOnly() ? "yes" : "no");
+           //qDebug() << "Bytes available:" << volume.bytesAvailable();
+           //qDebug() << "Bytes free:" << volume.bytesFree();
+           //qDebug() << "Bytes total:" << volume.bytesTotal();
 
        }*/
 
@@ -122,7 +122,7 @@ void MainWindowCFG::on_AdmAud_Create_pushButton_clicked()
     QString filepath=this->ui->AdmAud_comboBox->currentText();
 
      filepath.append("auidit.adm");
-    qDebug()<<filepath;
+    //qDebug()<<filepath;
     AdmKey.create_key(filepath);
 
 
@@ -140,7 +140,7 @@ void AdmAud_widget::on_Create_clicked()
     QString filepath=this->ui->comboBox->currentText();
 
      filepath.append("auidit.adm");
-    qDebug()<<filepath;
+    //qDebug()<<filepath;
     AdmKey.create_key(filepath);
 }
 
@@ -149,7 +149,7 @@ void AdmAud_widget::on_ChekIn_clicked()
     QString filepath=this->ui->comboBox->currentText();
 
      filepath.append("auidit.adm");
-qDebug()<<filepath;
+//qDebug()<<filepath;
  AdmKey.check_key(filepath);
 
 this->ui->version->setText(QString::number(AdmKey.getVersion()));
@@ -174,23 +174,23 @@ void AdmAud_widget::on_pushButton_clicked()
 
 #if (defined (_WIN32) || defined (_WIN64))
 
-qDebug()<<"[0]";
+//qDebug()<<"[0]";
     LPWSTR lpbuffer;
 
     lpbuffer = new TCHAR[255];
 
-qDebug()<<"[1]";
+//qDebug()<<"[1]";
     for( int i = 0; i < 255; i++ ) lpbuffer[i] = 0;
     char dr[10];
    for( int i = 0; i < 10; i++ ) dr[i] = 0;
-qDebug()<<"[2]";
+//qDebug()<<"[2]";
     GetLogicalDriveStringsW(255,lpbuffer);
 
-qDebug()<<"[3]";
+//qDebug()<<"[3]";
 
     for( int i = 0; i < 255; i++ )
     {
-     //   qDebug()<<"[4]";
+     //   //qDebug()<<"[4]";
        if( lpbuffer[i] == ':' )
        {
        dr[0] = lpbuffer[i-1];
@@ -202,12 +202,12 @@ qDebug()<<"[3]";
        QString str = dr;
        LPCWSTR path = (const wchar_t*) str.utf16();
 
-       qDebug()<<"str: "<<str;
+       //qDebug()<<"str: "<<str;
 
 //GetDriveTypeW()
     if( GetDriveTypeW(path) == DRIVE_REMOVABLE )
     {
-       qDebug()<<"[PROFIT] str: "<<str;
+       //qDebug()<<"[PROFIT] str: "<<str;
     this->ui->comboBox->addItem(str);
     }
        }
@@ -215,16 +215,16 @@ qDebug()<<"[3]";
 
 
 #else
-    qDebug()<<"[LINUX]";
+    //qDebug()<<"[LINUX]";
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
 
-    qDebug() << storage.rootPath();
-    if (storage.isReadOnly())
-   qDebug() << "isReadOnly:" << storage.isReadOnly();
-    qDebug() << "name:" << storage.name();
-    qDebug() << "fileSystemType:" << storage.fileSystemType();
-    qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-    qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+    //qDebug() << storage.rootPath();
+//    if (storage.isReadOnly())
+   //qDebug() << "isReadOnly:" << storage.isReadOnly();
+    //qDebug() << "name:" << storage.name();
+    //qDebug() << "fileSystemType:" << storage.fileSystemType();
+    //qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+    //qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
 
     }
 #endif

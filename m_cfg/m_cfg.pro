@@ -44,14 +44,12 @@ SOURCES += \
     edit_unit_widget.cpp \
     group.cpp \
     main.cpp \
-    map.cpp \
     my_combobox.cpp \
     my_doublespinbox.cpp \
     my_lineedit.cpp \
     my_settings.cpp \
     my_treeview.cpp \
     mydrawobject.cpp \
-    myscene.cpp \
     operator_form.cpp \
     qdevicewatcher.cpp \
     qdevicewatcher_linux.cpp \
@@ -79,14 +77,12 @@ HEADERS += \
     delegate.h \
     edit_unit_widget.h \
     group.h \
-    map.h \
     my_combobox.h \
     my_doublespinbox.h \
     my_lineedit.h \
     my_settings.h \
     my_treeview.h \
     mydrawobject.h \
-    myscene.h \
     operator_form.h \
     qdevicewatcher.h \
     qdevicewatcher_p.h \
@@ -108,7 +104,6 @@ FORMS += \
     admaud_widget.ui \
     dbform.ui \
     edit_unit_widget.ui \
-    map.ui \
     operator_form.ui \
     rastr_widget.ui \
     sql_user_dlg.ui \

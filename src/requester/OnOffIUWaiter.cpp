@@ -7,12 +7,12 @@
 
 OnOffIUWaiter::OnOffIUWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    qDebug() << "OnOffIUWaiter::OnOffIUWaiter(" << this << ") -->";
+    //qDebug() << "OnOffIUWaiter::OnOffIUWaiter(" << this << ") -->";
 }
 
 OnOffIUWaiter::~OnOffIUWaiter()
 {
-    qDebug() << "OnOffIUWaiter::~OnOffIUWaiter(" << this << ") <--";
+    //qDebug() << "OnOffIUWaiter::~OnOffIUWaiter(" << this << ") <--";
 }
 
 void OnOffIUWaiter::init()

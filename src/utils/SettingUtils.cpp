@@ -27,7 +27,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
 
 
-    qDebug() << "cntTrItm" << cntTrItm;
+    //qDebug() << "cntTrItm" << cntTrItm;
     if(0 >= cntTrItm)
         return getListTreeUnitNodes();
 
@@ -304,6 +304,6 @@ QVariant SettingUtils::getValueSettings(const QString key, const QString group, 
 
 bool SettingUtils::loadTreeUnitNodes(UnitNode */*root*/, UnitNode */*unit*/)
 {
-//    qDebug()<<"SettingUtils::loadTreeUnitNodes";
+//    //qDebug()<<"SettingUtils::loadTreeUnitNodes";
     return true;
 }

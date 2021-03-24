@@ -13,7 +13,7 @@ ssoi_port_widget::ssoi_port_widget(QWidget *parent) :
 
      for(int i(1), n(100); i < n; i++)
      {
-      //   qDebug()<<"i= "<<i;
+      //   //qDebug()<<"i= "<<i;
          QString str(" COM%1");
          str = str.arg(i);
          this->ui->SsoiM_PortNum->addItem(str,str);

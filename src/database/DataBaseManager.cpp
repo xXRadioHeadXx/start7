@@ -118,20 +118,20 @@ QSqlDatabase& DataBaseManager::m_db()
             port = settings.value( "Port", "5432" ).toString();//(5432);
             settings.endGroup();
 
-            qDebug()<<"==SQL===";
-            qDebug()<<hostName;
-            qDebug()<<databaseName;
-            qDebug()<<userName;
-            qDebug()<<password;
-            qDebug()<<port;
-            qDebug()<<"========";
+            //qDebug()<<"==SQL===";
+            //qDebug()<<hostName;
+            //qDebug()<<databaseName;
+            //qDebug()<<userName;
+            //qDebug()<<password;
+            //qDebug()<<port;
+            //qDebug()<<"========";
 
             setHostName(hostName);
             setDatabaseName(databaseName);
             setUserName(userName);
             setPassword(password);
             setPort(port);
-            qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
+            //qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
         }
 
         db.setHostName(getHostName());
@@ -144,17 +144,17 @@ QSqlDatabase& DataBaseManager::m_db()
 
         if (!db.isOpen())
         {
-            qDebug() << "Cannot open database: Error: " << db.lastError();
+            //qDebug() << "Cannot open database: Error: " << db.lastError();
         }
         else
         {
-            qDebug()<<"Opened database: " << db.connectOptions();
+            //qDebug()<<"Opened database: " << db.connectOptions();
         }
     } else if(db.open(getUserName(), getPassword())) {
         return db;
-        qDebug()<<"Opened database: " << db.connectOptions();
+        //qDebug()<<"Opened database: " << db.connectOptions();
     } else {
-        qDebug() << "Cannot open database: Error: " << db.lastError();
+        //qDebug() << "Cannot open database: Error: " << db.lastError();
     }
 
     return db;
@@ -206,14 +206,14 @@ DataBaseManager::~DataBaseManager() noexcept
 
 //    if(query.exec())
 //    {
-////        qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
+////        //qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
 //        return query.lastInsertId().toUInt();
 //    }
 //    else
 //    {
-//        qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
-//        qDebug() << query.lastQuery();
-//        qDebug() << query.boundValues();
+//        //qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
+//        //qDebug() << query.lastQuery();
+//        //qDebug() << query.boundValues();
 //        return 0;
 //    }
 
@@ -271,14 +271,14 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
 
     if(query.exec())
     {
-//        qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
+//        //qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
         return query.lastInsertId().toUInt();
     }
     else
     {
-        qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
-        qDebug() << query.lastQuery();
-        qDebug() << query.boundValues();
+        //qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
+        //qDebug() << query.lastQuery();
+        //qDebug() << query.boundValues();
         return 0;
     }
 
@@ -341,15 +341,15 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
 
     if(query.exec())
     {
-//        qDebug() << "DataBaseManager::updMsg :" << msg.getId();
+//        //qDebug() << "DataBaseManager::updMsg :" << msg.getId();
 //        emit this->updateMSG(msg.getId());
         return msg.getId();
     }
     else
     {
-        qDebug() << "DataBaseManager::updMsg Error :" << query.lastError().text();
-        qDebug() << query.lastQuery();
-        qDebug() << query.boundValues();
+        //qDebug() << "DataBaseManager::updMsg Error :" << query.lastError().text();
+        //qDebug() << query.lastQuery();
+        //qDebug() << query.boundValues();
         return 0;
     }
 }
@@ -372,14 +372,14 @@ void DataBaseManager::resetAllFlags()
 
     if(query.exec())
     {
-//        qDebug() << "DataBaseManager::resetAllFlags ";
+//        //qDebug() << "DataBaseManager::resetAllFlags ";
         return;
     }
     else
     {
-        qDebug() << "DataBaseManager::resetAllFlags Error :" << query.lastError().text();
-        qDebug() << query.lastQuery();
-        qDebug() << query.boundValues();
+        //qDebug() << "DataBaseManager::resetAllFlags Error :" << query.lastError().text();
+        //qDebug() << query.lastQuery();
+        //qDebug() << query.boundValues();
         return;
     }
 }
@@ -428,7 +428,7 @@ QList<JourEntity> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
         }
     }
 
-//    qDebug() << "DataBaseManager::getQueryMSGRecord(" << query.lastQuery() << ")";
+//    //qDebug() << "DataBaseManager::getQueryMSGRecord(" << query.lastQuery() << ")";
     return result;
 }
 
@@ -444,10 +444,10 @@ int DataBaseManager::executeQuery(QString sql)
 int DataBaseManager::executeQuery(QSqlQuery query)
 {
     if(query.exec()) {
-//        qDebug() << "DataBaseManager::executeQuery(" << query.lastQuery() << ")";
+//        //qDebug() << "DataBaseManager::executeQuery(" << query.lastQuery() << ")";
         return 0;
     } else {
-        qDebug() << query.lastError().text();
+        //qDebug() << query.lastError().text();
     }
 
     return -1;
@@ -492,7 +492,7 @@ QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const
     }
 
     result = DataBaseManager::getQueryMSGRecord(query);
-//    qDebug() << "DataBaseManager::getFltMSGRecordAfter(" << flt << ", " << id << ")";
+//    //qDebug() << "DataBaseManager::getFltMSGRecordAfter(" << flt << ", " << id << ")";
 
     return result;
 }
@@ -529,7 +529,7 @@ QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const i
     }
 
     result = DataBaseManager::getQueryMSGRecord(query);
-//    qDebug() << "DataBaseManager::getFltOneMSGRecord(" << flt << ", " << id << ")";
+//    //qDebug() << "DataBaseManager::getFltOneMSGRecord(" << flt << ", " << id << ")";
 
     return result;
 }
@@ -555,7 +555,7 @@ QList<QString> DataBaseManager::getReasonGroup() {
             result.append(rec.value("reason").toString());
         }
     }
-//    qDebug() << "DataBaseManager::getReasonGroup(" << query.lastQuery() << ")";
+//    //qDebug() << "DataBaseManager::getReasonGroup(" << query.lastQuery() << ")";
     return result;
 }
 
@@ -580,7 +580,7 @@ QList<QString> DataBaseManager::getMeasuresGroup() {
             result.append(rec.value("measures").toString());
         }
     }
-//    qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";
+//    //qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";
     return result;
 }
 
@@ -605,7 +605,7 @@ QList<QString> DataBaseManager::getDirectionGroup() {
             result.append(rec.value("direction").toString());
         }
     }
-//    qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";
+//    //qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";
     return result;
 }
 
@@ -620,7 +620,7 @@ void DataBaseManager::loadSettings(QString fileName)
     setUserName(settings.value( "Login", "postgres" ).toString());//("postgres");
     setPassword(settings.value( "Password", "" ).toString());//("601275");
     setPort(settings.value( "Port", "5432" ).toString());//(5432);
-    qDebug() << "DataBaseManager::loadSettings(" << fileName << " -> " << getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
+    //qDebug() << "DataBaseManager::loadSettings(" << fileName << " -> " << getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
 
     settings.endGroup();
 }
