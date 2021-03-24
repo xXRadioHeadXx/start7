@@ -219,7 +219,7 @@ void AdmAud_widget::on_pushButton_clicked()
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
 
     //qDebug() << storage.rootPath();
-    if (storage.isReadOnly())
+//    if (storage.isReadOnly())
    //qDebug() << "isReadOnly:" << storage.isReadOnly();
     //qDebug() << "name:" << storage.name();
     //qDebug() << "fileSystemType:" << storage.fileSystemType();
