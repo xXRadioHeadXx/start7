@@ -335,7 +335,7 @@ void PortManager::startStatusRequest(){
             if(nullptr != un->getParentUN() &&
                TypeUnitNode::BL_IP == un->getParentUN()->getType() &&
                SettingUtils::getSetMetaRealUnitNodes().contains(un->getParentUN())) {
-                tmpSet.insert(un);
+                tmpSet.insert(un->getParentUN());
             }
         }
     }

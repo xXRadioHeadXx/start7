@@ -181,6 +181,8 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const UnitNode * un)
                   TypeUnitNode::TG == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
         }
+    } else {
+        out[1] = static_cast<quint8>(0xFF);
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
 
