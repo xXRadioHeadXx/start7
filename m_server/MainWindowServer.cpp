@@ -1486,7 +1486,7 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 
         {
             quint8 cp = clockPeriod;
-            cp = ReverseBits(cp);
+            cp = Utils::reverseBits(cp);
             cp = cp >> 6;
             clockPeriod = cp;
         }

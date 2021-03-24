@@ -932,3 +932,18 @@ QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
 }
 
 
+char Utils::reverseBits( char number )
+{
+   int G_bitsInByte = 8;
+   int bytes = sizeof( char );
+   int bits = bytes * G_bitsInByte;
+   char result = 0;
+   while( bits > 0 )
+   {
+      result |= ( number & 1 ) << ( bits - 1 );
+      number >>= 1;
+      --bits;
+   }
+
+   return result;
+}
