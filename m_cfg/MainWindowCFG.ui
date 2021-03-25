@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>7</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2003,7 +2003,7 @@
               </size>
              </property>
              <property name="inputMask" stdset="0">
-              <string>000.000.000.000</string>
+              <string/>
              </property>
              <property name="text" stdset="0">
               <string/>

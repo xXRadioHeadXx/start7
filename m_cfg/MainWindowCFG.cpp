@@ -1626,7 +1626,7 @@ bool MainWindowCFG::correct_UDP_parametres(UnitNode *unit)
            }
            else
            {
-           //qDebug()<<"Invalid IP address";
+           qDebug()<<"Invalid IP address";
 
         QMessageBox::critical(0,"Ошибка","Не заданы пармаетры UDP протокола (IP адрес или порт)");
 
