@@ -413,10 +413,10 @@ public:
     const SWPBLIP swpBLIP() const {return SWPBLIP(getStateWord());}
     const SWPRLM swpRLM() const {return SWPRLM(getStateWord());}
     const SWPRLMC swpRLMC() const {return SWPRLMC(getStateWord());}
-    const SWPTGType1 swpTGType0x31() const {return SWPTGType1(getStateWord());}
-    const SWPTGType2 swpTGType0x34() const {return SWPTGType2(getStateWordType0x34());}
-    const SWPTGType3 swpTGType0x33() const {return SWPTGType3(getStateWordType0x33());}
-    const SWPTGType4 swpTGType0x32() const {return SWPTGType4(getStateWordType0x32());}
+    const SWPTGType0x31 swpTGType0x31() const {return SWPTGType0x31(getStateWord());}
+    const SWPTGType0x34 swpTGType0x34() const {return SWPTGType0x34(getStateWordType0x34());}
+    const SWPTGType0x33 swpTGType0x33() const {return SWPTGType0x33(getStateWordType0x33());}
+    const SWPTGType0x32 swpTGType0x32() const {return SWPTGType0x32(getStateWordType0x32());}
 
 
 public slots:
@@ -483,7 +483,7 @@ public:
     explicit UnitNode_TG(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {}
     virtual int calcDKStatus() const {
-         SWPTGType1 swp = swpTGType0x31();
+         SWPTGType0x31 swp = swpTGType0x31();
         if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(1 == swp.isNorm() && 1 == swp.isWasAlarm()) {

@@ -1,6 +1,6 @@
 #include "SWP.h"
 
-QByteArray SWP::getStateWord() const
+const QByteArray &SWP::getStateWord() const
 {
     return stateWord;
 }
@@ -13,11 +13,12 @@ void SWP::setStateWord(const QByteArray &value)
 SWP &SWP::operator=(const SWP & c)
 {
     setStateWord(c.getStateWord());
+    return *this;
 }
 
 bool SWP::isNull() const
 {
-    getStateWord().isEmpty();
+    return getStateWord().isEmpty();
 }
 
 SWP::SWP(const QByteArray &stateWord) :

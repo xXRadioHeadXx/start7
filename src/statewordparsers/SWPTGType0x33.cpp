@@ -1,20 +1,20 @@
 #include "SWPTGType0x33.h"
 
-SWPTGType3::SWPTGType3(const QByteArray &stateWord) :
+SWPTGType0x33::SWPTGType0x33(const QByteArray &stateWord) :
     SWP(stateWord)
 {
 }
 
-SWPTGType3::SWPTGType3(const SWPTGType3 &parent) :
+SWPTGType0x33::SWPTGType0x33(const SWPTGType0x33 &parent) :
     SWP(parent)
 {
 }
 
-SWPTGType3::~SWPTGType3() {
+SWPTGType0x33::~SWPTGType0x33() {
 
 }
 
-int SWPTGType3::isInAlarmC1() const
+int SWPTGType0x33::isInAlarmC1() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -24,7 +24,7 @@ int SWPTGType3::isInAlarmC1() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isOutAlarmC1() const
+int SWPTGType0x33::isOutAlarmC1() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -34,7 +34,7 @@ int SWPTGType3::isOutAlarmC1() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isInAlarmC2() const
+int SWPTGType0x33::isInAlarmC2() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -44,7 +44,7 @@ int SWPTGType3::isInAlarmC2() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isOutAlarmC2() const
+int SWPTGType0x33::isOutAlarmC2() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -54,7 +54,7 @@ int SWPTGType3::isOutAlarmC2() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isExistDK() const
+int SWPTGType0x33::isExistDK() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -64,7 +64,7 @@ int SWPTGType3::isExistDK() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isWasDK() const
+int SWPTGType0x33::isWasDK() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -74,7 +74,7 @@ int SWPTGType3::isWasDK() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isInOpened() const
+int SWPTGType0x33::isInOpened() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -84,7 +84,7 @@ int SWPTGType3::isInOpened() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isWasOpened() const
+int SWPTGType0x33::isWasOpened() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -94,7 +94,7 @@ int SWPTGType3::isWasOpened() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isFaultC1() const
+int SWPTGType0x33::isFaultC1() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -104,7 +104,7 @@ int SWPTGType3::isFaultC1() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isFaultC2() const
+int SWPTGType0x33::isFaultC2() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -114,7 +114,7 @@ int SWPTGType3::isFaultC2() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isFaultC3() const
+int SWPTGType0x33::isFaultC3() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -124,7 +124,7 @@ int SWPTGType3::isFaultC3() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isFaultC4() const
+int SWPTGType0x33::isFaultC4() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -134,7 +134,7 @@ int SWPTGType3::isFaultC4() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isInAlarmC3() const
+int SWPTGType0x33::isInAlarmC3() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -144,7 +144,7 @@ int SWPTGType3::isInAlarmC3() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isOutAlarmC3() const
+int SWPTGType0x33::isOutAlarmC3() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -154,7 +154,7 @@ int SWPTGType3::isOutAlarmC3() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isInAlarmC4() const
+int SWPTGType0x33::isInAlarmC4() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -164,7 +164,7 @@ int SWPTGType3::isInAlarmC4() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isOutAlarmC4() const
+int SWPTGType0x33::isOutAlarmC4() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -174,7 +174,7 @@ int SWPTGType3::isOutAlarmC4() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isSideAlarmC1() const
+int SWPTGType0x33::isSideAlarmC1() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -184,7 +184,7 @@ int SWPTGType3::isSideAlarmC1() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isSideAlarmC2() const
+int SWPTGType0x33::isSideAlarmC2() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -194,7 +194,7 @@ int SWPTGType3::isSideAlarmC2() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isSideAlarmC3() const
+int SWPTGType0x33::isSideAlarmC3() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -204,7 +204,7 @@ int SWPTGType3::isSideAlarmC3() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isSideAlarmC4() const
+int SWPTGType0x33::isSideAlarmC4() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -214,50 +214,50 @@ int SWPTGType3::isSideAlarmC4() const
         return 0; //Status::Not;
 }
 
-int SWPTGType3::isOpened() const
+int SWPTGType0x33::isOpened() const
 {
     return isInOpened();
 }
 
-int SWPTGType3::isAlarmC1() const
+int SWPTGType0x33::isAlarmC1() const
 {
     return isInAlarmC1();
 }
 
-int SWPTGType3::isNormC1() const
+int SWPTGType0x33::isNormC1() const
 {
     int isalarm = isAlarmC1();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int SWPTGType3::isAlarmC2() const
+int SWPTGType0x33::isAlarmC2() const
 {
     return isInAlarmC2();
 }
 
-int SWPTGType3::isNormC2() const
+int SWPTGType0x33::isNormC2() const
 {
     int isalarm = isAlarmC2();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int SWPTGType3::isAlarmC3() const
+int SWPTGType0x33::isAlarmC3() const
 {
     return isInAlarmC3();
 }
 
-int SWPTGType3::isNormC3() const
+int SWPTGType0x33::isNormC3() const
 {
     int isalarm = isAlarmC3();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int SWPTGType3::isAlarmC4() const
+int SWPTGType0x33::isAlarmC4() const
 {
     return isInAlarmC4();
 }
 
-int SWPTGType3::isNormC4() const
+int SWPTGType0x33::isNormC4() const
 {
     int isalarm = isAlarmC4();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
