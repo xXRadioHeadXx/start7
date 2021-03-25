@@ -6,9 +6,11 @@ INCLUDEPATH += $$PWD/
 
 SOURCES += \
 #    $$PWD/AppTranslator.cpp \
+    $$PWD/AlarmSwitchOffLogger.cpp \
     $$PWD/Icons.cpp \
 #    $$PWD/ProcessDKWaiter.cpp \
     $$PWD/Icons_cfg.cpp \
+    $$PWD/RunGuard.cpp \
     $$PWD/SettingUtils.cpp \
 #    $$PWD/TablePrint.cpp \
     $$PWD/Utils.cpp \
@@ -20,9 +22,11 @@ SOURCES += \
 HEADERS += \
 #    $$PWD/AbstractRequester.h \
 #    $$PWD/AppTranslator.h \
+    $$PWD/AlarmSwitchOffLogger.h \
     $$PWD/Icons.h \
 #    $$PWD/ProcessDKWaiter.h \
     $$PWD/Icons_cfg.h \
+    $$PWD/RunGuard.h \
     $$PWD/SettingUtils.h \
 #    $$PWD/TablePrint.h \
     $$PWD/Utils.h \

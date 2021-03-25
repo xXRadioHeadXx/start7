@@ -4,6 +4,14 @@
 #include <QObject>
 #include <QSet>
 #include <QVariant>
+#include <SWPBLIP.h>
+#include <SWPRLM.h>
+#include <SWPRLMC.h>
+#include <SWPSDBLIP.h>
+#include <SWPTGType0x31.h>
+#include <SWPTGType0x34.h>
+#include <SWPTGType0x33.h>
+#include <SWPTGType0x32.h>
 
 enum SubTypeApp {
     any = 0x00,
@@ -67,7 +75,12 @@ class UnitNode : public QObject
 {
     Q_OBJECT
 private:
+    int neededStateWordType = 0;
     QByteArray stateWord;
+    QByteArray stateWordType0x31;
+    QByteArray stateWordType0x32;
+    QByteArray stateWordType0x33;
+    QByteArray stateWordType0x34;
     QSet<UnitNode *> doubles; //[Obj_1]
     QSet<QString> metaNames; //[Obj_1]
     int Type;//=0
@@ -95,7 +108,7 @@ private:
     int UdpUse;//=0
     QString UdpAdress;//=
     int UdpPort;//=0
-    int UdpTimeout = 0;
+    int UdpTimeout = 50;
     int Metka1Time_0;//=0
     int Metka1Time_1;//=0
     int Metka2Time_0;//=0
@@ -127,6 +140,9 @@ private:
     bool dkInvolved = false;
     bool visible = false;
     bool control = true;
+
+    int countSCRWA = 0;
+    int maxCountSCRWA = 400;
 
 private:
     bool editableControl = false;
@@ -322,31 +338,31 @@ public:
     void setStateWord(const QByteArray &value);
 
     //
-    virtual quint8 mask() const {return 0;};
-    virtual int isAlarm() const {return -1;};
-    virtual int isInAlarm() const {return -1;};
-    virtual int isOutAlarm() const {return -1;};
-    virtual int isNorm() const {return -1;};
-    virtual int isWasDK() const {return -1;};
-    virtual int isExistDK() const {return -1;};
-    virtual int isWasAlarm() const {return -1;};
-    virtual int isOn() const {return -1;}
-    virtual int isOff() const {return -1;}
+//    virtual quint8 mask() const {return 0;};
+//    virtual int isAlarm() const {return -1;};
+//    virtual int isInAlarm() const {return -1;};
+//    virtual int isOutAlarm() const {return -1;};
+//    virtual int isNorm() const {return -1;};
+//    virtual int isWasDK() const {return -1;};
+//    virtual int isExistDK() const {return -1;};
+//    virtual int isWasAlarm() const {return -1;};
+//    virtual int isOn() const {return -1;}
+//    virtual int isOff() const {return -1;}
     virtual int isConnected() const;
     virtual int calcDKStatus() const {return DKCiclStatus::DKIgnore;}
-    //
-    virtual float voltage() const {return -1.0;};
-    virtual int synchronization() const {return -1;};
-    virtual int isExternalSynchronization() const {return -1;};
-    virtual int isInternalSynchronization() const {return -1;};
-    virtual float threshold() const {return -1.0;};
-    virtual int clockPeriod() const {return -1;};
-    virtual int modeProcessing() const {return -1;};
-    virtual int lowLevl() const {return -1;};
-    virtual int isOpened() const {return -1;};
-    virtual int isInOpened() const {return -1;};
-    virtual int isOutOpened() const {return -1;};
-    virtual int isWasOpened() const {return -1;};
+//    //
+//    virtual double voltage() const {return -1.0;};
+//    virtual int synchronization() const {return -1;};
+//    virtual int isExternalSynchronization() const {return -1;};
+//    virtual int isInternalSynchronization() const {return -1;};
+//    virtual float threshold() const {return -1.0;};
+//    virtual int clockPeriod() const {return -1;};
+//    virtual int modeProcessing() const {return -1;};
+//    virtual int lowLevl() const {return -1;};
+//    virtual int isOpened() const {return -1;};
+//    virtual int isInOpened() const {return -1;};
+//    virtual int isOutOpened() const {return -1;};
+//    virtual int isWasOpened() const {return -1;};
 
     //
 
@@ -362,7 +378,7 @@ public:
     QString getIcon4Path() const;
     void setIcon4Path(const QString &value);
 
-    virtual QString toString();
+    virtual QString toString() const;
 
 
     bool isEditableControl() const;    
@@ -370,6 +386,38 @@ public:
     bool isEditableOnOff() const;
 
     bool isNeedsPreamble() const;
+
+    int getCountSCRWA() const;
+    void setCountSCRWA(int value);
+
+    int getMaxCountSCRWA() const;
+    void setMaxCountSCRWA(int value);
+
+    QByteArray getStateWordType0x31() const;
+    void setStateWordType0x31(const QByteArray &value);
+
+    QByteArray getStateWordType0x34() const;
+    void setStateWordType0x34(const QByteArray &value);
+
+    QByteArray getStateWordType0x33() const;
+    void setStateWordType0x33(const QByteArray &value);
+
+    int getNeededStateWordType() const;
+    void setNeededStateWordType(int value);
+
+    QByteArray getStateWordType0x32() const;
+    void setStateWordType0x32(const QByteArray &value);
+
+    const SWPSDBLIP swpSDBLIP() const {return SWPSDBLIP(getStateWord(), getNum2());}
+    const SWPIUBLIP swpIUBLIP() const {return SWPIUBLIP(getStateWord(), getNum2());}
+    const SWPBLIP swpBLIP() const {return SWPBLIP(getStateWord());}
+    const SWPRLM swpRLM() const {return SWPRLM(getStateWord());}
+    const SWPRLMC swpRLMC() const {return SWPRLMC(getStateWord());}
+    const SWPTGType1 swpTGType0x31() const {return SWPTGType1(getStateWord());}
+    const SWPTGType2 swpTGType0x34() const {return SWPTGType2(getStateWordType0x34());}
+    const SWPTGType3 swpTGType0x33() const {return SWPTGType3(getStateWordType0x33());}
+    const SWPTGType4 swpTGType0x32() const {return SWPTGType4(getStateWordType0x32());}
+
 
 public slots:
 
@@ -396,25 +444,25 @@ class UnitNode_SD_BL_IP : public UnitNode {
 public:
     explicit UnitNode_SD_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_SD_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    virtual quint8 mask() const final;
-    virtual int isAlarm() const final;
-    virtual int isInAlarm() const final;
-    virtual int isNorm() const final;
-    virtual int isWasAlarm() const final;
-    virtual int isOn() const final;
-    virtual int isOff() const final;
-    virtual int calcDKStatus() const final {
-        if(1 == isWasAlarm() && 1 == isAlarm()) {
+//    virtual quint8 mask() const;
+//    virtual int isAlarm() const;
+//    virtual int isInAlarm() const;
+//    virtual int isNorm() const;
+//    virtual int isWasAlarm() const;
+//    virtual int isOn() const;
+//    virtual int isOff() const;
+    virtual int calcDKStatus() const {
+        if(1 == swpSDBLIP().isWasAlarm() && 1 == swpSDBLIP().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+        } else if(1 == swpSDBLIP().isNorm() && 1 == swpSDBLIP().isWasAlarm()) {
             return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-        } else if(1 == isAlarm()) {
+        } else if(1 == swpSDBLIP().isAlarm()) {
             return DKCiclStatus::DKWrong;
 //            return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isOff()) {
+        } else if(1 == swpSDBLIP().isOff()) {
             return DKCiclStatus::DKWrong;
-        } else if(1 == isNorm()) {
+        } else if(1 == swpSDBLIP().isNorm()) {
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
@@ -424,49 +472,67 @@ class UnitNode_IU_BL_IP : public UnitNode {
 public:
     explicit UnitNode_IU_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_IU_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    virtual quint8 mask() const final;
-    virtual int isOutAlarm() const final;
-    virtual int isOn() const final;
-    virtual int isOff() const final;
+
+//    virtual quint8 mask() const;
+//    virtual int isOutAlarm() const;
+//    virtual int isOn() const;
+//    virtual int isOff() const;
 };
 class UnitNode_TG : public UnitNode {
 public:
     explicit UnitNode_TG(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {}
+    virtual int calcDKStatus() const {
+         SWPTGType1 swp = swpTGType0x31();
+        if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == swp.isNorm() && 1 == swp.isWasAlarm()) {
+            return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+        } else if(1 == swp.isAlarm()) {
+            return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == swp.isOff()) {
+            return DKCiclStatus::DKWrong;
+        } else if(1 == swp.isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
+        return DKCiclStatus::DKWrong;
+    }
 };
 class UnitNode_RLM_KRL : public UnitNode {
 public:
     explicit UnitNode_RLM_KRL(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_KRL(const UnitNode & parent) : UnitNode(parent) {}
-    virtual float threshold() const final;
-    virtual int modeProcessing() const final;
-    virtual int clockPeriod() const final;
-    virtual float voltage() const final;
-    virtual int isOn() const final;
-    virtual int isOff() const final;
-    virtual int isAlarm() const final;
-    virtual int isInAlarm() const final;
-    virtual int isOutAlarm() const final;
-    virtual int isNorm() const final;
-    virtual int isWasAlarm() const final;
-    virtual int isExistDK() const final;
-    virtual int synchronization() const final;
-    virtual int isWasDK() const final;
-    virtual int isOpened() const final;
-    virtual int isInOpened() const final;
-    virtual int isWasOpened() const final;
-    virtual int calcDKStatus() const final {
-        if(1 == isWasAlarm() && 1 == isAlarm()) {
+//    virtual float threshold() const;
+//    virtual int modeProcessing() const;
+//    virtual int clockPeriod() const;
+//    virtual double voltage() const;
+//    virtual int isOn() const;
+//    virtual int isOff() const;
+//    virtual int isAlarm() const;
+//    virtual int isInAlarm() const;
+//    virtual int isOutAlarm() const;
+//    virtual int isNorm() const;
+//    virtual int isWasAlarm() const;
+//    virtual int isExistDK() const;
+//    virtual int synchronization() const;
+//    virtual int isWasDK() const;
+//    virtual int isOpened() const;
+//    virtual int isInOpened() const;
+//    virtual int isWasOpened() const;
+    virtual int calcDKStatus() const {
+        if(1 == swpRLM().isWasAlarm() && 1 == swpRLM().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+        } else if(1 == swpRLM().isNorm() && 1 == swpRLM().isWasAlarm()) {
             return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-        } else if(1 == isAlarm()) {
+        } else if(1 == swpRLM().isAlarm()) {
             return DKCiclStatus::DKWrong;
 //            return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isOff()) {
+        } else if(1 == swpRLM().isOff()) {
             return DKCiclStatus::DKWrong;
-        } else if(1 == isNorm()) {
+        } else if(1 == swpRLM().isNorm()) {
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
@@ -478,35 +544,35 @@ class UnitNode_RLM_C : public UnitNode {
 public:
     explicit UnitNode_RLM_C(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_C(const UnitNode & parent) : UnitNode(parent) {}
-    virtual int isAlarm() const final;
-    virtual int isInAlarm() const final;
-    virtual int isOutAlarm() const final;
-    virtual int isNorm() const final;
-    virtual int isWasDK() const final;
-    virtual int isExistDK() const final;
-    virtual int isWasAlarm() const final;
-    virtual int isOn() const final;
-    virtual int isOff() const final;
-    virtual float voltage() const final;
-    virtual int synchronization() const final;
-    virtual int isExternalSynchronization() const final;
-    virtual int isInternalSynchronization() const final;
-    virtual float threshold() const final;
-    virtual int clockPeriod() const final;
-    virtual int modeProcessing() const final;
-    virtual int lowLevl() const final;
-    virtual int calcDKStatus() const final {
-        if(1 == isWasAlarm() && 1 == isAlarm()) {
+//    virtual int isAlarm() const;
+//    virtual int isInAlarm() const;
+//    virtual int isOutAlarm() const;
+//    virtual int isNorm() const;
+//    virtual int isWasDK() const;
+//    virtual int isExistDK() const;
+//    virtual int isWasAlarm() const;
+//    virtual int isOn() const;
+//    virtual int isOff() const;
+//    virtual double voltage() const;
+//    virtual int synchronization() const;
+//    virtual int isExternalSynchronization() const;
+//    virtual int isInternalSynchronization() const;
+//    virtual float threshold() const;
+//    virtual int clockPeriod() const;
+//    virtual int modeProcessing() const;
+//    virtual int lowLevl() const;
+    virtual int calcDKStatus() const {
+        if(1 == swpRLMC().isWasAlarm() && 1 == swpRLMC().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isNorm() && 1 == isWasAlarm()) {
+        } else if(1 == swpRLMC().isNorm() && 1 == swpRLMC().isWasAlarm()) {
             return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-        } else if(1 == isAlarm()) {
+        } else if(1 == swpRLMC().isAlarm()) {
             return DKCiclStatus::DKWrong;
 //            return DKCiclStatus::DKWasAlarn;
-        } else if(1 == isOff()) {
+        } else if(1 == swpRLMC().isOff()) {
             return DKCiclStatus::DKWrong;
-        } else if(1 == isNorm()) {
+        } else if(1 == swpRLMC().isNorm()) {
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
@@ -547,8 +613,8 @@ class UnitNode_BL_IP : public UnitNode {
 public:
     explicit UnitNode_BL_IP(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
-    virtual int isExistDK() const final;
-    virtual int isWasAlarm() const final;
+    virtual int isExistDK() const;
+    virtual int isWasAlarm() const;
 };
 
 #endif // UNITNODE_H

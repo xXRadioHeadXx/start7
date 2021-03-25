@@ -4,7 +4,7 @@
 #include <QDebug>
 
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 #include<QTextCodec>
 
 SettingUtils::SettingUtils()
@@ -16,8 +16,8 @@ QList<UnitNode *> SettingUtils::listTreeUnitNodes;
 QSet<UnitNode *> SettingUtils::listMetaRealUnitNodes;
 
 QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileName) {
-    if(!listTreeUnitNodes.isEmpty()) {
-        listTreeUnitNodes.clear();
+    if(!getListTreeUnitNodes().isEmpty()) {
+        getListTreeUnitNodes().clear();
     }
     QSettings settings(fileName, QSettings::IniFormat);
 
@@ -29,7 +29,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
     //qDebug() << "cntTrItm" << cntTrItm;
     if(0 >= cntTrItm)
-        return listTreeUnitNodes;
+        return getListTreeUnitNodes();
 
 
 #if (defined (_WIN32) || defined (_WIN64))
@@ -55,7 +55,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
         root->addTreeChild(tmpUN);
         root = tmpUN;
-        listTreeUnitNodes.append(tmpUN);
+        getListTreeUnitNodes().append(tmpUN);
     }
 
     for(int index = 0; index < cntTrItm; index++)
@@ -103,7 +103,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             tmpUN->setMetka4Time_1(settings.value( "Metka4Time_1" , -1 ).toInt());
             tmpUN->setMetkaDopuskTime_0(settings.value( "MetkaDopuskTime_0" , -1 ).toInt());
             tmpUN->setMetkaDopuskTime_1(settings.value( "MetkaDopuskTime_1" , -1 ).toInt());
-            tmpUN->setUdpTimeout(settings.value( "UdpTimeout" , -1 ).toInt());
+            tmpUN->setUdpTimeout(settings.value( "UdpTimeout" , 50 ).toInt());
 
             if(settings.value("Icon1Path").isValid())
              tmpUN->setIcon1Path(settings.value( "Icon1Path" , -1 ).toString());
@@ -121,10 +121,10 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
             if(!tmpUN->getName().isEmpty())
             {
-//                //qDebug() << tmpUN->metaName << tmpUN->toString();
-                listTreeUnitNodes.append(tmpUN);
+//                qDebug() << tmpUN->metaName << tmpUN->toString();
+                getListTreeUnitNodes().append(tmpUN);
                 bool key = true;
-                for (auto rit = listTreeUnitNodes.rbegin(); rit != listTreeUnitNodes.rend(); ++rit) {
+                for (auto rit = getListTreeUnitNodes().rbegin(); rit != getListTreeUnitNodes().rend(); ++rit) {
                     if((*rit)->getLevel() < tmpUN->getLevel())
                     {
                         (*rit)->addTreeChild(tmpUN);
@@ -137,7 +137,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                     root->addTreeChild(tmpUN);
 
                 //Double
-                for(UnitNode * un : as_const(listTreeUnitNodes)) {
+                for(UnitNode * un : as_const(getListTreeUnitNodes())) {
                     if(un->getType() == tmpUN->getType() &&
                             un->getUdpAdress() == tmpUN->getUdpAdress() &&
                             un->getUdpPort() == tmpUN->getUdpPort() &&
@@ -161,14 +161,15 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                         (TypeUnitNode::SD_BL_IP == tmpUN->getType() ||
                         TypeUnitNode::IU_BL_IP == tmpUN->getType() ||
                         TypeUnitNode::RLM_C == tmpUN->getType() ||
-                        TypeUnitNode::RLM_KRL == tmpUN->getType())) {
+                        TypeUnitNode::RLM_KRL == tmpUN->getType() ||
+                        TypeUnitNode::TG == tmpUN->getType())) {
                     key = true;
                     UnitNode * tmpParentUN = UnitNodeFactory::make(TypeUnitNode::BL_IP);
                     tmpParentUN->setType(TypeUnitNode::BL_IP);
                     tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
                     tmpParentUN->setUdpPort(tmpUN->getUdpPort());
 
-                    auto li = listMetaRealUnitNodes.values();
+                    auto li = getSetMetaRealUnitNodes().values();
                     for (auto rit = li.rbegin(); rit != li.rend(); ++rit) {
                         auto it = static_cast<UnitNode *>(*rit);
                         if(it->getUdpAdress() == tmpParentUN->getUdpAdress() &&
@@ -189,26 +190,60 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                     }
 
                     if(key) {
-                        listMetaRealUnitNodes.insert(tmpParentUN);
+                        getSetMetaRealUnitNodes().insert(tmpParentUN);
                         tmpParentUN->addChild(tmpUN);
                     }
 
-                    listMetaRealUnitNodes.insert(tmpUN);
+                    getSetMetaRealUnitNodes().insert(tmpUN);
                 }
 
             }
         }
     }
 
-    return listTreeUnitNodes;
+    for(UnitNode * un : as_const(SettingUtils::getSetMetaRealUnitNodes().toList())) {
+        if(TypeUnitNode::SD_BL_IP == un->getType() && nullptr != un->getParentUN() && 1 <= un->getNum1() && 4 >= un->getNum1()) {
+            auto parent = un->getParentUN();
+            bool needAddUI = true;
+            for(int i = 0, n = parent->childCount(); i < n; i++) {
+                auto unChild = parent->child(i);
+                if(nullptr != unChild &&
+                   TypeUnitNode::IU_BL_IP == unChild->getType() &&
+                   un->getNum2() == unChild->getNum2() &&
+                   un->getUdpPort() == unChild->getUdpPort() &&
+                   un->getUdpAdress() == unChild->getUdpAdress()) {
+                    needAddUI = false;
+                    break;
+                }
+            }
+
+            if(needAddUI) {
+                auto newMetaUnIuBlIp = UnitNodeFactory::make(TypeUnitNode::IU_BL_IP, parent);
+                newMetaUnIuBlIp->setNum2(un->getNum2());
+                newMetaUnIuBlIp->setUdpPort(un->getUdpPort());
+                newMetaUnIuBlIp->setUdpAdress(un->getUdpAdress());
+                newMetaUnIuBlIp->setUdpTimeout(un->getUdpTimeout());
+                newMetaUnIuBlIp->setNum1(un->getNum1());
+                newMetaUnIuBlIp->setStateWord(un->getStateWord());
+
+                newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
+                newMetaUnIuBlIp->setControl(false);
+
+                SettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
+                parent->addChild(newMetaUnIuBlIp);
+            }
+        }
+    }
+
+    return getListTreeUnitNodes();
 }
 
 QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
 {
-    if(!listTreeUnitNodes.isEmpty()) {
-   //     for(UnitNode *un : listTreeUnitNodes)
+    if(!getListTreeUnitNodes().isEmpty()) {
+   //     for(UnitNode *un : getListTreeUnitNodes())
    //         delete un;
-        listTreeUnitNodes.clear();
+        getListTreeUnitNodes().clear();
         root->deleteAll();
     }
 
@@ -228,19 +263,19 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
 
         root->addTreeChild(tmpUN);
 //        root = tmpUN;
-        listTreeUnitNodes.append(tmpUN);
+        getListTreeUnitNodes().append(tmpUN);
 
 
     }
 
-      return listTreeUnitNodes;
+      return getListTreeUnitNodes();
 }
 
-QList<UnitNode *> SettingUtils::getListTreeUnitNodes() {
+QList<UnitNode *> & SettingUtils::getListTreeUnitNodes() {
     return SettingUtils::listTreeUnitNodes;
 }
 
-QSet<UnitNode *> SettingUtils::getSetMetaRealUnitNodes() {
+QSet<UnitNode *> & SettingUtils::getSetMetaRealUnitNodes() {
     return SettingUtils::listMetaRealUnitNodes;
 }
 

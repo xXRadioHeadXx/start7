@@ -10,9 +10,19 @@
 #endif
 
 #include <QApplication>
+#include <RunGuard.h>
 
 int main(int argc, char *argv[])
 {
+    RunGuard guardCopyCfg( "start7_cfg" );
+    if ( !guardCopyCfg.tryToRun() )
+        return 0;
+
+    RunGuard guardServer( "start7_server" );
+    if ( !guardServer.tryToRun() )
+        return 0;
+
+
     QApplication a(argc, argv);
 
 //First change

@@ -11,8 +11,9 @@
 #include <SettingUtils.h>
 #include <StatusConnectRequester.h>
 #include <LockWaiter.h>
-#include <global.hpp>
+#include <global.h>
 #include <QMessageBox>
+#include <MultiUNStatusConnectRequester.h>
 
 PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {
@@ -34,7 +35,7 @@ QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
 GraphTerminal * PortManager::graphTerminal = nullptr;
 
 
-QList<StatusConnectRequester *> PortManager::lsSCR = QList<StatusConnectRequester *>();
+QList<AbstractRequester *> PortManager::lsSCR = QList<AbstractRequester *>();
 
 QList<AbstractRequester *> PortManager::lsWaiter = QList<AbstractRequester *>();
 
@@ -164,7 +165,7 @@ void PortManager::appLsWaiter(AbstractRequester * value) {
         delete value;
 }
 
-void PortManager::preppLsWaiter(AbstractRequester * value) {
+void PortManager::prependLsWaiter(AbstractRequester * value) {
     if(nullptr == value)
         return;
 
@@ -181,6 +182,65 @@ void PortManager::removeLsWaiter(AbstractRequester *value) {
     lsWaiter.removeAll(value);
     value->setBeatStatus(BeatStatus::Unsuccessful);
     delete value;
+}
+
+void PortManager::clearLsWaiter()
+{
+    for(int i = 0, n = lsWaiter.size(); i < n; i++) {
+        AbstractRequester *value = lsWaiter.at(i);
+
+        removeLsWaiter(value);
+    }
+    lsWaiter.clear();
+}
+
+QList<AbstractRequester *> PortManager::getLsSCR()
+{
+    return lsSCR;
+}
+
+void PortManager::setLsSCR(const QList<AbstractRequester *> &value)
+{
+    lsSCR = value;
+}
+
+void PortManager::appLsSCR(AbstractRequester * value) {
+    if(nullptr == value)
+        return;
+
+    if(value->isValid())
+        lsSCR.append(value);
+    else
+        delete value;
+}
+
+void PortManager::prependLsSCR(AbstractRequester * value) {
+    if(nullptr == value)
+        return;
+
+    if(value->isValid())
+        lsSCR.prepend(value);
+    else
+        delete value;
+}
+
+
+void PortManager::removeLsSCR(AbstractRequester *value) {
+
+    value->timerTripleStop();
+    lsSCR.removeAll(value);
+    value->setBeatStatus(BeatStatus::Unsuccessful);
+    delete value;
+}
+
+void PortManager::clearLsSCR()
+{
+    for(int i = 0, n = lsSCR.size(); i < n; i++) {
+        AbstractRequester *value = lsSCR.at(i);
+
+        removeLsSCR(value);
+    }
+    lsSCR.clear();
 }
 
 
@@ -257,43 +317,87 @@ void PortManager::pushOverallWriteQueue(const DataQueueItem &value){
 }
 
 void PortManager::startStatusRequest(){
-
+//    qDebug() << "PortManager::startStatusRequest() -->";
     disconnect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(UnitNode *)), this, SLOT(unLostedConnect(UnitNode *)));
 
-    for(AbstractRequester * scr : as_const(lsSCR)) {
-        scr->setBeatStatus(BeatStatus::Unsuccessful);
-        delete scr;
-    }
-    lsSCR.clear();
+    clearLsSCR();
 
-    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
-        if(TypeUnitNode::BL_IP == un->getType() ||
+    QSet<UnitNode *> tmpSet;
+    for(const auto& un : as_const(SettingUtils::getListTreeUnitNodes())) {
+        if(SettingUtils::getSetMetaRealUnitNodes().contains(un) &&
+          (TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::RLM_C == un->getType() ||
-           TypeUnitNode::RLM_KRL == un->getType()) {
-            StatusConnectRequester * tmpSCR = new StatusConnectRequester(un);
-            tmpSCR->init();
-            for(const auto& p : as_const(getUdpPortsVector())) {
-                if(Port::typeDefPort(p)->getStIpPort().contains(tmpSCR->getIpPort())) {
-                    tmpSCR->setPtrPort(p);
-                    break;
-                }
+           TypeUnitNode::RLM_KRL == un->getType() ||
+           TypeUnitNode::TG == un->getType())) {
+            tmpSet.insert(un);
+        } else if(TypeUnitNode::SD_BL_IP == un->getType() ||
+                  TypeUnitNode::IU_BL_IP == un->getType()) {
+            if(nullptr != un->getParentUN() &&
+               TypeUnitNode::BL_IP == un->getParentUN()->getType() &&
+               SettingUtils::getSetMetaRealUnitNodes().contains(un->getParentUN())) {
+                tmpSet.insert(un);
             }
-            lsSCR.append(tmpSCR);
         }
     }
 
-    for(auto& scr : as_const(lsSCR)) {
+    for(const UnitNode * un : as_const(tmpSet)) {
+        qDebug() << "tmpSet -- " << un->toString();
+    }
+
+    for(const auto& un : as_const(tmpSet)) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::RLM_C == un->getType() ||
+           TypeUnitNode::RLM_KRL == un->getType() ||
+           TypeUnitNode::TG == un->getType()) {
+//            qDebug() << "PortManager::startStatusRequest() -- un" << un->toString();
+            AbstractPort * ptrPort = nullptr;
+            QPair<QString, QString> unIpPort(un->getUdpAdress(), QString::number(un->getUdpPort()));
+            for(const auto& p : as_const(getUdpPortsVector())) {
+                if(Port::typeDefPort(p)->getStIpPort().contains(unIpPort)) {
+                    ptrPort = p;
+//                    qDebug() << "PortManager::startStatusRequest() -- ptrPort " << ptrPort << ":" << unIpPort;
+                    break;
+                }
+            }
+            bool needMakeNew = true;
+            for(const auto& scr : as_const(lsSCR)) {
+                if(scr->getIpPort() == unIpPort) {
+//                    qDebug() << "PortManager::startStatusRequest() -- match scr->getPtrPort("<<scr->getPtrPort()<<")";
+                    static_cast<MultiUNStatusConnectRequester *>(scr)->addLsTrackedUN(un);
+//                    qDebug() << "PortManager::startStatusRequest() -- match scr->getLsTrackedUN("<<scr->getLsTrackedUN()<<")";
+                    needMakeNew = false;
+                    break;
+                }
+            }
+            if(needMakeNew) {
+                auto tmpSCR = new MultiUNStatusConnectRequester(un);
+                tmpSCR->init();
+                tmpSCR->setPtrPort(ptrPort);
+                lsSCR.append(tmpSCR);
+                tmpSCR->addLsTrackedUN(un);
+//                qDebug() << "PortManager::startStatusRequest() -- new scr->getPtrPort("<<tmpSCR->getPtrPort()<<")";
+//                qDebug() << "PortManager::startStatusRequest() -- new scr->getLsTrackedUN("<<tmpSCR->getLsTrackedUN()<<")";
+//                qDebug() << "PortManager::startStatusRequest() -- new lsSCR.size("<<lsSCR.size()<<")";
+            }
+        }
+    }
+
+    for(auto& scr : as_const(getLsSCR())) {
         scr->startFirstRequest();
     }
 
     connect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(UnitNode *)), this, SLOT(unLostedConnect(UnitNode *)));
+//    qDebug() << "PortManager::startStatusRequest() <--";
 }
 
 void PortManager::requestAlarmReset(UnitNode * selUN) {
     if(nullptr == selUN) {
         QSet<UnitNode *> lsTmp = SettingUtils::getSetMetaRealUnitNodes();
         for(UnitNode * un : lsTmp) {
-            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())
+            if(TypeUnitNode::BL_IP == un->getType() ||
+               TypeUnitNode::RLM_C == un->getType() ||
+               TypeUnitNode::RLM_KRL == un->getType() ||
+               TypeUnitNode::TG == un->getType())
                 selUN = un;
             if(nullptr != selUN) {
                 QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
@@ -315,12 +419,17 @@ void PortManager::requestAlarmReset(UnitNode * selUN) {
         }
     } else {
         UnitNode * un = selUN;
-        if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::SD_BL_IP == un->getType()) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::IU_BL_IP == un->getType() ||
+           TypeUnitNode::SD_BL_IP == un->getType()) {
             while(TypeUnitNode::BL_IP != un->getType()) {
                 un = un->getParentUN();
             }
         }
-        if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType()) {
+        if(TypeUnitNode::BL_IP == un->getType() ||
+           TypeUnitNode::RLM_C == un->getType() ||
+           TypeUnitNode::RLM_KRL == un->getType() ||
+           TypeUnitNode::TG == un->getType()) {
             selUN = un;
             ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
             tmpCAW->init();
@@ -345,12 +454,20 @@ void PortManager::requestDK(bool out, UnitNode *selUN) {
     if(nullptr == selUN) {
         QSet<UnitNode *> lsTmp = SettingUtils::getSetMetaRealUnitNodes();
         for(UnitNode * un : lsTmp)
-            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()/* или датчик */)
+            if(TypeUnitNode::BL_IP == un->getType() ||
+               TypeUnitNode::RLM_C == un->getType() ||
+               TypeUnitNode::RLM_KRL == un->getType() ||
+               TypeUnitNode::TG == un->getType()
+                    /* или датчик */)
                 lsTrgtUN.append(un);
     } else if(nullptr != selUN) {
         UnitNode * un = selUN;
         while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()/* или датчик */) {
+            if(TypeUnitNode::BL_IP == un->getType() ||
+               TypeUnitNode::RLM_C == un->getType() ||
+               TypeUnitNode::RLM_KRL == un->getType() ||
+               TypeUnitNode::TG == un->getType()
+                    /* или датчик */) {
                 lsTrgtUN.append(un);
                 break;
             }
@@ -545,6 +662,12 @@ void PortManager::lockOpenCloseCommand(bool out, UnitNode *selUN, bool value)
     LockWaiter * lw = new LockWaiter(selUN);
 
     lw->init();
+
+    if(0 == lw->getInitVarianrt() || nullptr == lw->getUnReciverIuBlIp() || nullptr == lw->getUnReciverSdBlIp()) {
+        delete lw;
+        return;
+    }
+
     appLsWaiter(lw);
 
     JourEntity msg;
@@ -630,7 +753,12 @@ void PortManager::requestOnOffCommand(bool out, UnitNode *selUN, bool value)
                 D1 = target->getStateWord().at(1) & 0x0F;
             }
 
-            quint8 mask = target->mask();
+            quint8 mask = 0x00;
+            if(TypeUnitNode::SD_BL_IP == target->getType() && !target->swpSDBLIP().isNull())
+                mask = target->swpSDBLIP().mask();
+            else if(TypeUnitNode::IU_BL_IP == target->getType() && !target->swpIUBLIP().isNull())
+                mask = target->swpIUBLIP().mask();
+
             if(value)
                 D1 = D1 | mask;
             else if(!value)
@@ -774,8 +902,14 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
     const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
     for(UnitNode * un : tmpSet) {
+        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) && item.port() == un->getUdpPort() && TypeUnitNode::BL_IP == un->getType()) {
+            un->setCountSCRWA(0);
+        }
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
+        {
+            un->setCountSCRWA(0);
+        }
         QPointer<UnitNode> previousCopyUNLockSdBlIp = nullptr, previousCopyUNLockIuBlIp = nullptr;
         UnitNode * unLockSdBlIp = nullptr, * unLockIuBlIp = nullptr;
         bool isLockPair = false;
@@ -831,9 +965,9 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             unLockIuBlIp->setStateWord(newStateWord);
         }
 
-        if(TypeUnitNode::BL_IP == un->getType()) {
-            if((un->isWasDK() != previousCopyUN->isWasDK()) ||
-               (un->isExistDK() != previousCopyUN->isExistDK())) {
+        if(TypeUnitNode::BL_IP == un->getType() && !un->swpBLIP().isNull() && !previousCopyUN->swpBLIP().isNull()) {
+            if((un->swpBLIP().isWasDK() != previousCopyUN->swpBLIP().isWasDK()) ||
+               (un->swpBLIP().isExistDK() != previousCopyUN->swpBLIP().isExistDK())) {
                 un->setStateWord(newStateWord);
                 un->updDoubl();
                 SignalSlotCommutator::getInstance()->emitUpdUN();
@@ -895,7 +1029,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 msg.setD3(un->getNum3());
                 msg.setDirection(un->getUdpAdress());
 
-                if((un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->isOn() && 1 == un->isOn())) {
+                if((TypeUnitNode::SD_BL_IP == un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpSDBLIP().isOn() && 1 == un->swpSDBLIP().isOn()) ||
+                  (TypeUnitNode::IU_BL_IP == un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpIUBLIP().isOn() && 1 == un->swpIUBLIP().isOn())) {
                     JourEntity msgOn;
                     msgOn.setObject(un->getName());
                     msgOn.setObjecttype(un->getType());
@@ -926,15 +1061,15 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     continue;
                 } else if(isLockPair) {
                     if(
-                            (1 == previousCopyUNLockSdBlIp->isAlarm() &&
-                             1 == previousCopyUNLockIuBlIp->isOff() && //Открыто
-                             1 == unLockSdBlIp->isAlarm() &&
-                             1 == unLockIuBlIp->isOn()) || //Открыто ключом
+                            (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+                             1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Открыто
+                             1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                             1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Открыто ключом
 
-                            (1 == previousCopyUNLockSdBlIp->isNorm() &&
-                             1 == previousCopyUNLockIuBlIp->isOn() && //Закрыто
-                             1 == unLockSdBlIp->isNorm() &&
-                             1 == unLockIuBlIp->isOff())) //Закрыто ключом
+                            (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+                             1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() && //Закрыто
+                             1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                             1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
                     {
                         //qDebug() << "isLockPair continue " << un->toString();
                         if(nullptr != previousCopyUNLockSdBlIp.data()) {
@@ -952,86 +1087,86 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         continue;
                     }
 
-                    if(1 == previousCopyUNLockSdBlIp->isAlarm() &&
-                       1 == previousCopyUNLockIuBlIp->isOff()) {
+                    if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+                       1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff()) {
                         //Открыто
-                        //qDebug() << "isLockPair Old O " << un->toString();
-                    } else if(1 == previousCopyUNLockSdBlIp->isNorm() &&
-                              1 == previousCopyUNLockIuBlIp->isOn()) {
+                        qDebug() << "isLockPair Old O " << un->toString();
+                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) {
                         //Закрыто
-                        //qDebug() << "isLockPair Old L " << un->toString();
-                    } else if(1 == previousCopyUNLockSdBlIp->isAlarm() &&
-                              1 == previousCopyUNLockIuBlIp->isOn()) {
+                        qDebug() << "isLockPair Old L " << un->toString();
+                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) {
                         //Открыто ключом
-                        //qDebug() << "isLockPair Old OK " << un->toString();
-                    } else if(1 == previousCopyUNLockSdBlIp->isNorm() &&
-                              1 == previousCopyUNLockIuBlIp->isOff()) {
+                        qDebug() << "isLockPair Old OK " << un->toString();
+                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff()) {
                         //Закрыто ключом
                         //qDebug() << "isLockPair Old LK " << un->toString();
                     }
 
-                    if(1 == unLockSdBlIp->isAlarm() &&
-                       1 == unLockIuBlIp->isOff()) {
+                    if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                       1 == unLockIuBlIp->swpIUBLIP().isOff()) {
                         //Открыто
-                        //qDebug() << "isLockPair New O " << un->toString();
-                    } else if(1 == unLockSdBlIp->isNorm() &&
-                              1 == unLockIuBlIp->isOn()) {
+                        qDebug() << "isLockPair New O " << un->toString();
+                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
                         //Закрыто
-                        //qDebug() << "isLockPair New L " << un->toString();
-                    } else if(1 == unLockSdBlIp->isAlarm() &&
-                              1 == unLockIuBlIp->isOn()) {
+                        qDebug() << "isLockPair New L " << un->toString();
+                    } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
                         //Открыто ключом
-                        //qDebug() << "isLockPair New OK " << un->toString();
-                    } else if(1 == unLockSdBlIp->isNorm() &&
-                              1 == unLockIuBlIp->isOff()) {
+                        qDebug() << "isLockPair New OK " << un->toString();
+                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                              1 == unLockIuBlIp->swpIUBLIP().isOff()) {
                         //Закрыто ключом
                         //qDebug() << "isLockPair New LK " << un->toString();
                     }
 
                     msg.setObject(unLockSdBlIp->getName());
-//                    //qDebug() << "isLockPair " << un->getName();
-                    if(1 == unLockSdBlIp->isAlarm() &&
-                       1 == unLockIuBlIp->isOff()) {
+//                    qDebug() << "isLockPair " << un->getName();
+                    if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                       1 == unLockIuBlIp->swpIUBLIP().isOff()) {
                         //Открыто
                         msg.setComment(QObject::tr("Открыто"));
                         msg.setType(111);
-                    } else if(1 == unLockSdBlIp->isNorm() &&
-                              1 == unLockIuBlIp->isOn()) {
+                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
                         //Закрыто
                         msg.setComment(QObject::tr("Закрыто"));
                         msg.setType(110);
-                    } else if(1 == unLockSdBlIp->isAlarm() &&
-                              1 == unLockIuBlIp->isOn()) {
+                    } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
                         //Открыто ключом
                         msg.setComment(QObject::tr("Открыто ключом"));
                         msg.setType(113);
-                    } else if(1 == unLockSdBlIp->isNorm() &&
-                              1 == unLockIuBlIp->isOff()) {
+                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                              1 == unLockIuBlIp->swpIUBLIP().isOff()) {
                         //Закрыто ключом
                         msg.setComment(QObject::tr("Закрыто ключом"));
                         msg.setType(112);
                     }
 
                     if(
-                    (1 == previousCopyUNLockSdBlIp->isAlarm() &&
-                     1 == previousCopyUNLockIuBlIp->isOn() &&  //Открыто ключом
-                     1 == unLockSdBlIp->isAlarm() &&
-                     1 == unLockIuBlIp->isOff()) ||//Открыто
+                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() &&  //Открыто ключом
+                     1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                     1 == unLockIuBlIp->swpIUBLIP().isOff()) ||//Открыто
 
-                    (1 == previousCopyUNLockSdBlIp->isNorm() &&
-                     1 == previousCopyUNLockIuBlIp->isOff() && //Закрыто ключом
-                     1 == unLockSdBlIp->isNorm() &&
-                     1 == unLockIuBlIp->isOn()) || //Закрыто
+                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Закрыто ключом
+                     1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                     1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Закрыто
 
-                    (1 == previousCopyUNLockSdBlIp->isAlarm() &&
-                     1 == previousCopyUNLockIuBlIp->isOff() && //Открыто
-                     1 == unLockSdBlIp->isAlarm() &&
-                     1 == unLockIuBlIp->isOn()) || //Открыто ключом
+                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Открыто
+                     1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                     1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Открыто ключом
 
-                     (1 == previousCopyUNLockSdBlIp->isNorm() &&
-                      1 == previousCopyUNLockIuBlIp->isOn() && //Закрыто
-                      1 == unLockSdBlIp->isNorm() &&
-                      1 == unLockIuBlIp->isOff())) //Закрыто ключом
+                     (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+                      1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() && //Закрыто
+                      1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                      1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
                     {
                         //qDebug() << "isLockPair not jour " << un->toString();
                     } else {
@@ -1060,7 +1195,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         }
                     }
 
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
                     //сохранение Тревога или Норма
                     msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                     msg.setType(20);
@@ -1068,27 +1203,27 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     //нужен сброс
                     DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isNorm()) && (previousCopyUN->swpSDBLIP().isNorm() != un->swpSDBLIP().isNorm())) {
                     msg.setComment(QObject::tr("Норма"));
                     msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isOff()) && (previousCopyUN->swpSDBLIP().isOff() != un->swpSDBLIP().isOff())) {
                     msg.setComment(QObject::tr("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                } if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
+                } if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isOn()) && (previousCopyUN->swpSDBLIP().isOn() != un->swpSDBLIP().isOn())) {
                     msg.setComment(QObject::tr("Вкл"));
                     msg.setType(101);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
+                } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->swpIUBLIP().isOff()) && (previousCopyUN->swpIUBLIP().isOff() != un->swpIUBLIP().isOff())) {
                     msg.setComment(QObject::tr("Выкл"));
                     msg.setType(100);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
+                } else if(un->getControl() && (TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->swpIUBLIP().isOn()) && (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn())) {
                     msg.setComment(QObject::tr("Вкл"));
                     msg.setType(101);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
@@ -1096,7 +1231,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 }
             }
 
-            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
+            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
                 //сохранение Тревога или Норма
                 if(0 != un->treeChildCount()) {
                     for(const auto& iuun : as_const(un->treeChild())) {
@@ -1130,15 +1265,22 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
 DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueItem &resultRequest)
 {
-//    //qDebug() << "Utils::parcingStatusWord0x31 -->";
+//    qDebug() << "PortManager::parcingStatusWord0x31 -->";
     QByteArray newStateWord = item.data().mid(5, item.data().at(3));
     resultRequest = item;
     resultRequest.setData();
 
     const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
     for(UnitNode * un : tmpSet) {
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
+        if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType() && TypeUnitNode::TG != un->getType())
             continue;
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+//            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(1)";
+            continue;
+        }
+        {
+            un->setCountSCRWA(0);
+        }
 
         QPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
 
@@ -1147,6 +1289,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                 delete previousCopyUN.data();
                 previousCopyUN = nullptr;
             }
+//            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(2)";
             continue;
         }
 
@@ -1154,6 +1297,13 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
+        if((TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
+           (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm())) ||
+           (TypeUnitNode::TG == un->getType() &&/* 0 == un->getNeededStateWordType() &&*/ 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm()))) {
+            //нужен сброс
+            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
+//                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+        }
 
         if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
@@ -1168,7 +1318,9 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                 msg.setD3(un->getNum3());
                 msg.setDirection(un->getUdpAdress());
 
-                if((TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()) && (un->getControl() && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->isOn() && 1 == un->isOn())) {
+                if((TypeUnitNode::RLM_C == un->getType() && (un->getControl() && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpRLMC().isOn() && 1 == un->swpRLMC().isOn())) ||
+                   (TypeUnitNode::RLM_KRL == un->getType() && (un->getControl() && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpRLM().isOn() && 1 == un->swpRLM().isOn())) ||
+                   (TypeUnitNode::TG == un->getType() && (un->getControl() && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpTGType0x31().isOn() && 1 == un->swpTGType0x31().isOn()))) {
                     JourEntity msgOn;
                     msgOn.setObject(un->getName());
                     msgOn.setObjecttype(un->getType());
@@ -1182,68 +1334,325 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
-                if(1 == un->isOn() && 1 == un->isAlarm()) {
-                    //нужен сброс
-                    DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-                }
 
-                if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType()) {
+
+                if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType() && TypeUnitNode::TG != un->getType()) {
                     if(!previousCopyUN.isNull()) {
                         delete previousCopyUN.data();
                         previousCopyUN = nullptr;
                     }
+//                    qDebug() << "PortManager::parcingStatusWord0x31 -- continue(3)";
                     continue;
-                } else if(un->getControl() && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
-                    //сохранение Тревога или Норма
-                    if(1 == un->isOn()) {
-                        msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
-                        msg.setType(20);
+                } else if(TypeUnitNode::RLM_KRL == un->getType()) {
+                    if(un->getControl() && (1 == un->swpRLM().isAlarm()) && (1 == un->swpRLM().isWasAlarm()) && (previousCopyUN->swpRLM().isAlarm() != un->swpRLM().isAlarm() || previousCopyUN->swpRLM().isWasAlarm() != un->swpRLM().isWasAlarm())) {
+                        //сохранение Тревога или Норма
+                        if(1 == un->swpRLM().isOn()) {
+                            msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
+                            msg.setType(20);
+                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                            GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                            //нужен сброс
+    //                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                        }
+                    } else if(un->getControl() && (1 == un->swpRLM().isNorm()) && (previousCopyUN->swpRLM().isNorm() != un->swpRLM().isNorm())) {
+                        msg.setComment(QObject::tr("Норма"));
+                        msg.setType(1);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                        //нужен сброс
-//                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                    } else if(un->getControl() && (1 == un->swpRLM().isOff()) && (previousCopyUN->swpRLM().isOff() != un->swpRLM().isOff())) {
+                        msg.setComment(QObject::tr("Выкл"));
+                        msg.setType(100);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    } else if(un->getControl() && (1 == un->swpRLM().isOn()) && (previousCopyUN->swpRLM().isOn() != un->swpRLM().isOn())) {
+                        msg.setComment(QObject::tr("Вкл"));
+                        msg.setType(101);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
-                } else if(un->getControl() && (1 == un->isNorm()) && (previousCopyUN->isNorm() != un->isNorm())) {
-                    msg.setComment(QObject::tr("Норма"));
-                    msg.setType(1);
-                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                } else if(un->getControl() && (1 == un->isOff()) && (previousCopyUN->isOff() != un->isOff())) {
-                    msg.setComment(QObject::tr("Выкл"));
-                    msg.setType(100);
-                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                } else if(un->getControl() && (1 == un->isOn()) && (previousCopyUN->isOn() != un->isOn())) {
-                    msg.setComment(QObject::tr("Вкл"));
-                    msg.setType(101);
-                    SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                } else if(TypeUnitNode::RLM_C == un->getType()) {
+                    if(un->getControl() && (1 == un->swpRLMC().isAlarm()) && (1 == un->swpRLMC().isWasAlarm()) && (previousCopyUN->swpRLMC().isAlarm() != un->swpRLMC().isAlarm() || previousCopyUN->swpRLMC().isWasAlarm() != un->swpRLMC().isWasAlarm())) {
+                        //сохранение Тревога или Норма
+                        if(1 == un->swpRLMC().isOn()) {
+                            msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
+                            msg.setType(20);
+                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                            GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                            //нужен сброс
+    //                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                        }
+                    } else if(un->getControl() && (1 == un->swpRLMC().isNorm()) && (previousCopyUN->swpRLMC().isNorm() != un->swpRLMC().isNorm())) {
+                        msg.setComment(QObject::tr("Норма"));
+                        msg.setType(1);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    } else if(un->getControl() && (1 == un->swpRLMC().isOff()) && (previousCopyUN->swpRLMC().isOff() != un->swpRLMC().isOff())) {
+                        msg.setComment(QObject::tr("Выкл"));
+                        msg.setType(100);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    } else if(un->getControl() && (1 == un->swpRLMC().isOn()) && (previousCopyUN->swpRLMC().isOn() != un->swpRLMC().isOn())) {
+                        msg.setComment(QObject::tr("Вкл"));
+                        msg.setType(101);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    }
+                } else if(TypeUnitNode::TG == un->getType()) {
+                    if(un->getControl() && (1 == un->swpTGType0x31().isAlarm()) && (1 == un->swpTGType0x31().isWasAlarm()) && (previousCopyUN->swpTGType0x31().isAlarm() != un->swpTGType0x31().isAlarm() || previousCopyUN->swpTGType0x31().isWasAlarm() != un->swpTGType0x31().isWasAlarm())) {
+                        //сохранение Тревога или Норма
+                        if(1 == un->swpTGType0x31().isOn()) {
+                            msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
+                            msg.setType(20);
+                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                            GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                            //нужен сброс
+    //                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
+                        }
+                    } else if(un->getControl() && (1 == un->swpTGType0x31().isNorm()) && (previousCopyUN->swpTGType0x31().isNorm() != un->swpTGType0x31().isNorm())) {
+                        msg.setComment(QObject::tr("Норма"));
+                        msg.setType(1);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    } else if(un->getControl() && (1 == un->swpTGType0x31().isOff()) && (previousCopyUN->swpTGType0x31().isOff() != un->swpTGType0x31().isOff())) {
+                        msg.setComment(QObject::tr("Выкл"));
+                        msg.setType(100);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    } else if(un->getControl() && (1 == un->swpTGType0x31().isOn()) && (previousCopyUN->swpTGType0x31().isOn() != un->swpTGType0x31().isOn())) {
+                        msg.setComment(QObject::tr("Вкл"));
+                        msg.setType(101);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    }
                 }
             }
-
-//            if(!un->getDkInvolved() && (TypeUnitNode::RLM_C == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->isAlarm()) && (1 == un->isWasAlarm()) && (previousCopyUN->isAlarm() != un->isAlarm() || previousCopyUN->isWasAlarm() != un->isWasAlarm())) {
-//                //сохранение Тревога или Норма
-//                //qDebug() << "need reset alarm " << un->toString();
-//                if(0 != un->treeChildCount()) {
-//                    for(const auto& iuun : as_const(un->treeChild())) {
-//                        if(TypeUnitNode::SYSTEM == iuun->getType()) {
-////                            //qDebug() << "Utils::parcingStatusWord0x31 emitAutoOnOffIU";
-//                            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(iuun);
-//                        }
-//                    }
-//                }
-
-//                //нужен сброс
-//            }
-
         }
 
         if(!previousCopyUN.isNull()) {
             delete previousCopyUN.data();
             previousCopyUN = nullptr;
         }
+//        qDebug() << "PortManager::parcingStatusWord0x31 -- break(1)";
+        break;
     }
-//    //qDebug() << "Utils::parcingStatusWord0x31 -->";
+//    qDebug() << "PortManager::parcingStatusWord0x31 <--";
+    return resultRequest;
+}
+
+DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueItem &resultRequest)
+{
+//    qDebug() << "PortManager::parcingStatusWord0x32 -->";
+    QByteArray newStateWord = item.data().mid(5, item.data().at(3));
+    resultRequest = item;
+    resultRequest.setData();
+
+    const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
+    for(UnitNode * un : tmpSet) {
+        if(TypeUnitNode::TG != un->getType())
+            continue;
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+//            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(1)";
+            continue;
+        }
+        {
+            un->setCountSCRWA(0);
+        }
+
+        QPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+
+        if(nullptr == un || previousCopyUN.isNull()) {
+            if(!previousCopyUN.isNull()) {
+                delete previousCopyUN.data();
+                previousCopyUN = nullptr;
+            }
+//            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(2)";
+            continue;
+        }
+
+        un->setStateWordType0x32(newStateWord);
+        un->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        if((TypeUnitNode::TG == un->getType() /* && 3 == un->getNeededStateWordType() */ /* && 1 == un->swpSWPTGType4().isOn() && (1 == un->swpSWPTGType4().isInAlarm() || 1 == un->swpSWPTGType4().isOutAlarm() || 1 == un->swpSWPTGType4().isWasAlarm())*/)) {
+            //нужен сброс
+            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
+//                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+        }
+
+        if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+            if(un->getDkInvolved()) {
+                // обработка дк
+//                procDK(un, previousCopyUN);
+            } else if(!un->getDkInvolved()) {
+
+                // Первое сообщение о включении
+
+                if(TypeUnitNode::TG != un->getType()) {
+                    if(!previousCopyUN.isNull()) {
+                        delete previousCopyUN.data();
+                        previousCopyUN = nullptr;
+                    }
+//                    qDebug() << "PortManager::parcingStatusWord0x32 -- continue(3)";
+                    continue;
+                } else if(TypeUnitNode::TG == un->getType()) {
+                    //Сообщения в журнал
+                }
+            }
+        }
+
+        if(!previousCopyUN.isNull()) {
+            delete previousCopyUN.data();
+            previousCopyUN = nullptr;
+        }
+//        qDebug() << "PortManager::parcingStatusWord0x32 -- break(1)";
+        break;
+    }
+//    qDebug() << "PortManager::parcingStatusWord0x32 <--";
+    return resultRequest;
+}
+
+
+DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueItem &resultRequest)
+{
+//    qDebug() << "PortManager::parcingStatusWord0x33 -->";
+    QByteArray newStateWord = item.data().mid(5, item.data().at(3));
+    resultRequest = item;
+    resultRequest.setData();
+
+    const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
+    for(UnitNode * un : tmpSet) {
+        if(TypeUnitNode::TG != un->getType())
+            continue;
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+//            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(1)";
+            continue;
+        }
+        {
+            un->setCountSCRWA(0);
+        }
+
+        QPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+
+        if(nullptr == un || previousCopyUN.isNull()) {
+            if(!previousCopyUN.isNull()) {
+                delete previousCopyUN.data();
+                previousCopyUN = nullptr;
+            }
+//            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(2)";
+            continue;
+        }
+
+        un->setStateWordType0x33(newStateWord);
+        un->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        if((TypeUnitNode::TG == un->getType()/* && 2 == un->getNeededStateWordType()*/ /*&& 1 == un->swpSWPTGType3().isOn() && (1 == un->swpSWPTGType3().isInAlarm() || 1 == un->swpSWPTGType3().isOutAlarm() || 1 == un->swpSWPTGType3().isWasAlarm())*/)) {
+            //нужен сброс
+            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
+//                qDebug() << "PortManager::parcingStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+        }
+
+        if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+            if(un->getDkInvolved()) {
+                // обработка дк
+//                procDK(un, previousCopyUN);
+            } else if(!un->getDkInvolved()) {
+
+                // Первое сообщение о включении
+
+                if(TypeUnitNode::TG != un->getType()) {
+                    if(!previousCopyUN.isNull()) {
+                        delete previousCopyUN.data();
+                        previousCopyUN = nullptr;
+                    }
+//                    qDebug() << "PortManager::parcingStatusWord0x33 -- continue(3)";
+                    continue;
+                } else if(TypeUnitNode::TG == un->getType()) {
+                    //Сообщения в журнал
+                }
+            }
+        }
+
+        if(!previousCopyUN.isNull()) {
+            delete previousCopyUN.data();
+            previousCopyUN = nullptr;
+        }
+//        qDebug() << "PortManager::parcingStatusWord0x33 -- break(1)";
+        break;
+    }
+//    qDebug() << "PortManager::parcingStatusWord0x33 <--";
+    return resultRequest;
+}
+
+DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueItem &resultRequest)
+{
+//    qDebug() << "PortManager::parcingStatusWord0x34 -->";
+    QByteArray newStateWord = item.data().mid(5, item.data().at(3));
+    resultRequest = item;
+    resultRequest.setData();
+
+    const QList<UnitNode *> tmpSet = SettingUtils::getSetMetaRealUnitNodes().values();
+    for(UnitNode * un : tmpSet) {
+        if(TypeUnitNode::TG != un->getType())
+            continue;
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+//            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(1)";
+            continue;
+        }
+        {
+            un->setCountSCRWA(0);
+        }
+
+        QPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+
+        if(nullptr == un || previousCopyUN.isNull()) {
+            if(!previousCopyUN.isNull()) {
+                delete previousCopyUN.data();
+                previousCopyUN = nullptr;
+            }
+//            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(2)";
+            continue;
+        }
+
+        un->setStateWordType0x34(newStateWord);
+        un->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        if((TypeUnitNode::TG == un->getType() /*&& 1 == un->getNeededStateWordType()*/ /*&& 1 == un->swpSWPTGType2().isOn() && (1 == un->swpSWPTGType2().isInAlarm() || 1 == un->swpSWPTGType2().isOutAlarm() || 1 == un->swpSWPTGType2().isWasAlarm())*/)) {
+            //нужен сброс
+            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
+//                qDebug() << "PortManager::parcingStatusWord0x34 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+        }
+
+        if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+            if(un->getDkInvolved()) {
+                // обработка дк
+//                procDK(un, previousCopyUN);
+            } else if(!un->getDkInvolved()) {
+
+                // Первое сообщение о включении
+
+                if(TypeUnitNode::TG != un->getType()) {
+                    if(!previousCopyUN.isNull()) {
+                        delete previousCopyUN.data();
+                        previousCopyUN = nullptr;
+                    }
+//                    qDebug() << "PortManager::parcingStatusWord0x34 -- continue(3)";
+                    continue;
+                } else if(TypeUnitNode::TG == un->getType()) {
+                    //Сообщения в журнал
+                }
+            }
+        }
+
+        if(!previousCopyUN.isNull()) {
+            delete previousCopyUN.data();
+            previousCopyUN = nullptr;
+        }
+//        qDebug() << "PortManager::parcingStatusWord0x34 -- break(1)";
+        break;
+    }
+//    qDebug() << "PortManager::parcingStatusWord0x34 <--";
     return resultRequest;
 }
 
@@ -1295,7 +1704,7 @@ void PortManager::manageOverallReadQueue()
             quint8 CMD = itm.data().at(4);
             switch (CMD) {
             case static_cast<quint8>(0x41): {
-                for(AbstractRequester * scr : as_const(this->lsSCR)) {
+                for(AbstractRequester * scr : as_const(getLsSCR())) {
                     if(scr->getIpPort() == tmpPair && TypeUnitNode::BL_IP == static_cast<quint8>(scr->getUnReciver()->getType())) {
                         scr->resetBeatCount();
                         break;
@@ -1329,14 +1738,14 @@ void PortManager::manageOverallReadQueue()
                     tmpCAW->init();
                     tmpCAW->setUnReciver(reciver);
                     tmpCAW->setFirstMsg(request);
-                    preppLsWaiter(tmpCAW);
+                    prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
                 }
                 break;
             }
             case static_cast<quint8>(0x31): {
-                for(AbstractRequester * scr : as_const(this->lsSCR)) {
-                    if(scr->getIpPort() == tmpPair && (TypeUnitNode::RLM_C == static_cast<quint8>(scr->getUnReciver()->getType()) || TypeUnitNode::RLM_KRL == static_cast<quint8>(scr->getUnReciver()->getType())) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                    if(scr->getIpPort() == tmpPair && (TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) || TypeUnitNode::RLM_C == static_cast<quint8>(scr->getUnReciver()->getType()) || TypeUnitNode::RLM_KRL == static_cast<quint8>(scr->getUnReciver()->getType())) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
                     }
@@ -1369,7 +1778,7 @@ void PortManager::manageOverallReadQueue()
                     tmpCAW->init();
                     tmpCAW->setUnReciver(reciver);
                     tmpCAW->setFirstMsg(request);
-                    preppLsWaiter(tmpCAW);
+                    prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
                 } else if(dkWait) {
                     UnitNode * reciver = nullptr;
@@ -1386,7 +1795,187 @@ void PortManager::manageOverallReadQueue()
                                 DataQueueItem request24 = itm;
                                 DataQueueItem::makeAlarmReset0x24(request24, reciver);
                                 tmpCAW->setFirstMsg(request24);
-                                preppLsWaiter(tmpCAW);
+                                prependLsWaiter(tmpCAW);
+                            }
+                        }
+
+                    }
+                }
+                break;
+            }
+            case static_cast<quint8>(0x32): {
+                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                        scr->resetBeatCount();
+                        break;
+                    }
+                }
+                DataQueueItem request;
+                parcingStatusWord0x32(itm, request);
+
+                QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
+                bool dkWait = false;
+                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                    if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
+                        ar->getIpPort() == tmpPair) {
+                        dkWait = true;
+                        break;
+                    }
+                }
+
+                if(request.isValid() && !dkWait) {
+                    UnitNode * reciver = nullptr;
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                        reciver = un;
+                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
+                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                                reciver->getUdpPort() == request.port())
+                            break;
+
+                    }
+
+                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    tmpCAW->init();
+                    tmpCAW->setUnReciver(reciver);
+                    tmpCAW->setFirstMsg(request);
+                    prependLsWaiter(tmpCAW);
+//                    tmpCAW->startFirstRequest();
+                } else if(dkWait) {
+                    UnitNode * reciver = nullptr;
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                        reciver = un;
+                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
+                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                                reciver->getUdpPort() == request.port()) {
+
+                            if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
+                                ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                                tmpCAW->init();
+                                tmpCAW->setUnReciver(reciver);
+                                DataQueueItem request24 = itm;
+                                DataQueueItem::makeAlarmReset0x24(request24, reciver);
+                                tmpCAW->setFirstMsg(request24);
+                                prependLsWaiter(tmpCAW);
+                            }
+                        }
+
+                    }
+                }
+                break;
+            }
+            case static_cast<quint8>(0x33): {
+                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                        scr->resetBeatCount();
+                        break;
+                    }
+                }
+                DataQueueItem request;
+                parcingStatusWord0x33(itm, request);
+
+                QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
+                bool dkWait = false;
+                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                    if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
+                        ar->getIpPort() == tmpPair) {
+                        dkWait = true;
+                        break;
+                    }
+                }
+
+                if(request.isValid() && !dkWait) {
+                    UnitNode * reciver = nullptr;
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                        reciver = un;
+                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
+                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                                reciver->getUdpPort() == request.port())
+                            break;
+
+                    }
+
+                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    tmpCAW->init();
+                    tmpCAW->setUnReciver(reciver);
+                    tmpCAW->setFirstMsg(request);
+                    prependLsWaiter(tmpCAW);
+//                    tmpCAW->startFirstRequest();
+                } else if(dkWait) {
+                    UnitNode * reciver = nullptr;
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                        reciver = un;
+                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
+                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                                reciver->getUdpPort() == request.port()) {
+
+                            if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
+                                ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                                tmpCAW->init();
+                                tmpCAW->setUnReciver(reciver);
+                                DataQueueItem request24 = itm;
+                                DataQueueItem::makeAlarmReset0x24(request24, reciver);
+                                tmpCAW->setFirstMsg(request24);
+                                prependLsWaiter(tmpCAW);
+                            }
+                        }
+
+                    }
+                }
+                break;
+            }
+            case static_cast<quint8>(0x34): {
+                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                        scr->resetBeatCount();
+                        break;
+                    }
+                }
+                DataQueueItem request;
+                parcingStatusWord0x34(itm, request);
+
+                QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
+                bool dkWait = false;
+                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                    if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
+                        ar->getIpPort() == tmpPair) {
+                        dkWait = true;
+                        break;
+                    }
+                }
+
+                if(request.isValid() && !dkWait) {
+                    UnitNode * reciver = nullptr;
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                        reciver = un;
+                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
+                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                                reciver->getUdpPort() == request.port())
+                            break;
+
+                    }
+
+                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    tmpCAW->init();
+                    tmpCAW->setUnReciver(reciver);
+                    tmpCAW->setFirstMsg(request);
+                    prependLsWaiter(tmpCAW);
+//                    tmpCAW->startFirstRequest();
+                } else if(dkWait) {
+                    UnitNode * reciver = nullptr;
+                    for(const auto& un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                        reciver = un;
+                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
+                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                                reciver->getUdpPort() == request.port()) {
+
+                            if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
+                                ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                                tmpCAW->init();
+                                tmpCAW->setUnReciver(reciver);
+                                DataQueueItem request24 = itm;
+                                DataQueueItem::makeAlarmReset0x24(request24, reciver);
+                                tmpCAW->setFirstMsg(request24);
+                                prependLsWaiter(tmpCAW);
                             }
                         }
 
@@ -1520,7 +2109,7 @@ void PortManager::unLostedConnect(UnitNode *un) const
         }
     }
 
-    for(AbstractRequester * scr : as_const(lsSCR)) {
+    for(AbstractRequester * scr : as_const(getLsSCR())) {
         if(scr->getUnReciver() == un && BeatStatus::Unsuccessful == scr->getBeatStatus()) {
             scr->startFirstRequest();
             break;

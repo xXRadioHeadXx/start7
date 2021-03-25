@@ -6,4 +6,4 @@ INCLUDEPATH += $$PWD/
 #SOURCES += 
 
 HEADERS += \
-    $$PWD/global.hpp 
+    $$PWD/global.h 

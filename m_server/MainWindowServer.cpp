@@ -11,7 +11,7 @@
 #include <SignalSlotCommutator.h>
 #include <Utils.h>
 #include <SettingUtils.h>
-#include <global.hpp>
+#include <global.h>
 
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
@@ -30,6 +30,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     ui->actionControl->setShortcut(QKeySequence("Ins"));//Qt::Key_Insert));
 
     m_dbManager = new DataBaseManager(this);
+
+    m_alarmSwitchOffLogger = new AlarmSwitchOffLogger(this);
+
     DataBaseManager::setIdStartLastDuty();
 
     this->modelMSG = new TableModelMSG(this);
@@ -135,7 +138,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     preparePageCustomization(-1);
 
-
+    m_alarmSwitchOffLogger->start();
 }
 
 MainWindowServer::~MainWindowServer()
@@ -146,6 +149,8 @@ MainWindowServer::~MainWindowServer()
     msg.setComment(tr("Программа остановлена"));
     DataBaseManager::insertJourMsg(msg);
     GraphTerminal::sendAbonentEventsAndStates(msg);
+
+    delete m_alarmSwitchOffLogger;
 
     delete ui;
 }
@@ -393,40 +398,101 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
             menu->addAction(ui->actionCollapseUNTree);
     }
-    if(sel->isEditableControl())
-        menu->addAction(ui->actionControl);
-    menu->addSeparator();
-    if(sel->isEditableOnOff() && (1 == sel->isOn())) {
-        menu->addAction(ui->actionUNOff);
-    } else if(sel->isEditableOnOff() && (1 == sel->isOff())) {
-        menu->addAction(ui->actionUNOn);
-    }/* else if(sel->isEditableOnOff()) {
-        menu->addAction(ui->actionUNOn);
-    }*/
-//        menu->addAction(ui->actionOnOff);
-    if(0 != sel->getBazalt() && (1 == sel->isAlarm())) {
-        menu->addAction(ui->actionClose);
-    } else if(0 != sel->getBazalt() && (1 == sel->isNorm())) {
-        menu->addAction(ui->actionOpen);
+
+    if(nullptr == selUN) {
+        return;
+    } else if(TypeUnitNode::SD_BL_IP == sel->getType()) {
+
+        if(sel->isEditableControl())
+            menu->addAction(ui->actionControl);
+        menu->addSeparator();
+        if(sel->isEditableOnOff() && (1 == sel->swpSDBLIP().isOn())) {
+            menu->addAction(ui->actionUNOff);
+        } else if(sel->isEditableOnOff() && (1 == sel->swpSDBLIP().isOff())) {
+            menu->addAction(ui->actionUNOn);
+        }/* else if(sel->isEditableOnOff()) {
+            menu->addAction(ui->actionUNOn);
+        }*/
+    //        menu->addAction(ui->actionOnOff);
+        if(0 != sel->getBazalt() && (1 == sel->swpSDBLIP().isAlarm())) {
+            menu->addAction(ui->actionClose);
+        } else if(0 != sel->getBazalt() && (1 == sel->swpSDBLIP().isNorm())) {
+            menu->addAction(ui->actionOpen);
+        }
+        menu->addSeparator();
+        if(0 == sel->getBazalt() && 0 != sel->getDK())
+            menu->addAction(ui->actionDK);
+
+    } else if(TypeUnitNode::IU_BL_IP == sel->getType()) {
+
+        if(sel->isEditableControl())
+            menu->addAction(ui->actionControl);
+        menu->addSeparator();
+        if(sel->isEditableOnOff() && (1 == sel->swpIUBLIP().isOn())) {
+            menu->addAction(ui->actionUNOff);
+        } else if(sel->isEditableOnOff() && (1 == sel->swpIUBLIP().isOff())) {
+            menu->addAction(ui->actionUNOn);
+        }/* else if(sel->isEditableOnOff()) {
+            menu->addAction(ui->actionUNOn);
+        }*/
+    //        menu->addAction(ui->actionOnOff);
+        menu->addSeparator();
+        if(0 == sel->getBazalt() && 0 != sel->getDK())
+            menu->addAction(ui->actionDK);
+
+    } else if(TypeUnitNode::RLM_C == sel->getType()) {
+
+        if(sel->isEditableControl())
+            menu->addAction(ui->actionControl);
+        menu->addSeparator();
+        if(sel->isEditableOnOff() && (1 == sel->swpRLMC().isOn())) {
+            menu->addAction(ui->actionUNOff);
+        } else if(sel->isEditableOnOff() && (1 == sel->swpRLMC().isOff())) {
+            menu->addAction(ui->actionUNOn);
+        }/* else if(sel->isEditableOnOff()) {
+            menu->addAction(ui->actionUNOn);
+        }*/
+    //        menu->addAction(ui->actionOnOff);
+
+        menu->addSeparator();
+        if(0 == sel->getBazalt() && 0 != sel->getDK())
+            menu->addAction(ui->actionDK);
+
+    } else if(TypeUnitNode::RLM_KRL == sel->getType()) {
+
+        if(sel->isEditableControl())
+            menu->addAction(ui->actionControl);
+        menu->addSeparator();
+        if(sel->isEditableOnOff() && (1 == sel->swpRLM().isOn())) {
+            menu->addAction(ui->actionUNOff);
+        } else if(sel->isEditableOnOff() && (1 == sel->swpRLM().isOff())) {
+            menu->addAction(ui->actionUNOn);
+        }/* else if(sel->isEditableOnOff()) {
+            menu->addAction(ui->actionUNOn);
+        }*/
+    //        menu->addAction(ui->actionOnOff);
+
+        menu->addSeparator();
+        if(0 == sel->getBazalt() && 0 != sel->getDK())
+            menu->addAction(ui->actionDK);
+
+    } else if(TypeUnitNode::TG == sel->getType()) {
+
+        if(sel->isEditableControl())
+            menu->addAction(ui->actionControl);
+        menu->addSeparator();
+        if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOn())) {
+            menu->addAction(ui->actionUNOff);
+        } else if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOff())) {
+            menu->addAction(ui->actionUNOn);
+        }
+
+        menu->addSeparator();
+        if(0 == sel->getBazalt() && 0 != sel->getDK())
+            menu->addAction(ui->actionDK);
+
     }
-    menu->addSeparator();
-    if(0 == sel->getBazalt() && 0 != sel->getDK() && (TypeUnitNode::SD_BL_IP == sel->getType() || TypeUnitNode::IU_BL_IP == sel->getType() || TypeUnitNode::RLM_C == sel->getType() || TypeUnitNode::RLM_KRL == sel->getType()))
-        menu->addAction(ui->actionDK);
-    menu->addSeparator();
-//        menu->addAction(ui->actionRemoteControlOn);
-    menu->addSeparator();
-//        if(TypeUnitNode::IU_BL_IP == sel->getType())
-//            menu->addAction(ui->actionAllOff);
-    menu->addSeparator();
-//        menu->addAction(ui->actionRemoteControlOff);
-//        menu->addAction(ui->actionGuardStamp);
-//        menu->addAction(ui->actionConnectBlock_pdi);
-//        menu->addAction(ui->actionOnOff);
-//        QMenu * submenu = new QMenu(tr("Изменить состояние"), menu);
-//        submenu->addAction(ui->actionNormUN);
-//        submenu->addAction(ui->actionAlarmUN);
-//        submenu->addAction(ui->actionNoConnectUN);
-//        menu->addMenu(submenu);
+
     if(!sel->getName().isEmpty() && !(TypeUnitNode::SYSTEM == sel->getType() || TypeUnitNode::GROUP == sel->getType())) {
         menu->addAction(ui->actionUNSqlSelect);
         setUnSqlSelect(QString("SELECT id, cdate, mdate, objectid, object, comment, reason, measures, operator, operatorid, status, direction, type, flag, d1, d2, d3, d4, objecttype FROM public.jour where object = '%1' ORDER BY id;").arg(sel->getName()));
@@ -522,7 +588,9 @@ void MainWindowServer::on_actionUNOff_triggered()
 {
     if(nullptr == selUN)
         return;
-    if(TypeUnitNode::RLM_C == selUN->getType() || TypeUnitNode::RLM_KRL == selUN->getType()) {
+    if(TypeUnitNode::RLM_C == selUN->getType() ||
+       TypeUnitNode::RLM_KRL == selUN->getType() ||
+       TypeUnitNode::TG == selUN->getType()) {
         int ret = QMessageBox::question(this, tr("Предупреждение"),
                                        tr("Вы действительно хотите отключить устройство?"),
                                        QMessageBox::Ok | QMessageBox::Cancel,
@@ -1281,22 +1349,46 @@ void MainWindowServer::fillPageRLM()
         return;
     if(TypeUnitNode::RLM_C != selUN->getType() && TypeUnitNode::RLM_KRL != selUN->getType())
         return;
-    //qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
-    //qDebug() << "StateWord " << selUN->getStateWord().toHex();
-    //qDebug() << "clockPeriod " << selUN->clockPeriod();
-    //qDebug() << "modeProcessing " << selUN->modeProcessing();
-    //qDebug() << "threshold " << selUN->threshold();
+    else if(TypeUnitNode::RLM_C == selUN->getType()) {
+        qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
+        qDebug() << "StateWord " << selUN->getStateWord().toHex();
+        qDebug() << "clockPeriod " << selUN->swpRLMC().clockPeriod();
+        qDebug() << "modeProcessing " << selUN->swpRLMC().modeProcessing();
+        qDebug() << "threshold " << selUN->swpRLMC().threshold();
 
-    int tmpIndex = 0;
-    tmpIndex = ui->comboBox_RLMTactPeriod->findData(selUN->clockPeriod());
-    ui->comboBox_RLMTactPeriod->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+        int tmpIndex = 0;
+        tmpIndex = ui->comboBox_RLMTactPeriod->findData(selUN->swpRLMC().clockPeriod());
+        ui->comboBox_RLMTactPeriod->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
 
-    tmpIndex = ui->comboBox_RLMCondition->findData(selUN->modeProcessing());
-    ui->comboBox_RLMCondition->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+        tmpIndex = ui->comboBox_RLMCondition->findData(selUN->swpRLMC().modeProcessing());
+        ui->comboBox_RLMCondition->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
 
-    tmpIndex = ui->comboBox_RLMEdge->findData(selUN->threshold());
-    ui->comboBox_RLMEdge->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
-    //qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") <--";
+        tmpIndex = ui->comboBox_RLMEdge->findData(selUN->swpRLMC().threshold());
+        ui->comboBox_RLMEdge->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+        qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") <--";
+
+        return;
+    } else if(TypeUnitNode::RLM_KRL == selUN->getType()) {
+        qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
+        qDebug() << "StateWord " << selUN->getStateWord().toHex();
+        qDebug() << "clockPeriod " << selUN->swpRLM().clockPeriod();
+        qDebug() << "modeProcessing " << selUN->swpRLM().modeProcessing();
+        qDebug() << "threshold " << selUN->swpRLM().threshold();
+
+        int tmpIndex = 0;
+        tmpIndex = ui->comboBox_RLMTactPeriod->findData(selUN->swpRLM().clockPeriod());
+        ui->comboBox_RLMTactPeriod->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+
+        tmpIndex = ui->comboBox_RLMCondition->findData(selUN->swpRLM().modeProcessing());
+        ui->comboBox_RLMCondition->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+
+        tmpIndex = ui->comboBox_RLMEdge->findData(selUN->swpRLM().threshold());
+        ui->comboBox_RLMEdge->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+        qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") <--";
+
+        return;
+    }
+
 
 }
 
@@ -1391,6 +1483,13 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 
         newStateWord[0] = static_cast<quint8>(0x00);
 //        //qDebug() << "prepare newStateWord " << newStateWord.toHex();
+
+        {
+            quint8 cp = clockPeriod;
+            cp = ReverseBits(cp);
+            cp = cp >> 6;
+            clockPeriod = cp;
+        }
 
         newStateWord[0] = static_cast<quint8>(newStateWord[0]) | (static_cast<quint8>(clockPeriod) << 5);
 //        //qDebug() << "clockPeriod newStateWord " << newStateWord.toHex();

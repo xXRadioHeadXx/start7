@@ -8,7 +8,7 @@
 #include <Port.h>
 #include <MessageEntity.h>
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 
 void Port::setDbm(DataBaseManager *dbm)
 {

@@ -6,9 +6,20 @@
 //#include <AuthenticationDialog.h>
 #include <QMessageBox>
 #include <QSplashScreen>
+#include <RunGuard.h>
 
 int main(int argc, char *argv[])
 {
+
+    RunGuard guardCopyServer( "start7_server" );
+    if ( !guardCopyServer.tryToRun() )
+        return 0;
+
+    RunGuard guardCfg( "start7_cfg" );
+    if ( !guardCfg.tryToRun() )
+        return 0;
+
+
     QApplication app(argc, argv);
 
     AuthenticationDialog ad;

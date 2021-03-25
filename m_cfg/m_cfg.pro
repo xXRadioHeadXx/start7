@@ -1,8 +1,16 @@
 QT       += core gui widgets printsupport network sql
 
+TARGET = m_cfg
+TEMPLATE = app
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
+
+OBJECTS_DIR = obj
+MOC_DIR = moc
+RCC_DIR = rcc
+UI_DIR = ui
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings

@@ -5,7 +5,7 @@
 #include <Icons.h>
 #include <Icons_cfg.h>
 #include <SignalSlotCommutator.h>
-#include <global.hpp>
+#include <global.h>
 #include <QtMath>
 
 QSet<QString> UnitNode::getMetaNames() const
@@ -295,6 +295,16 @@ int UnitNode::getUdpTimeout() const
 void UnitNode::setUdpTimeout(int value)
 {
     UdpTimeout = value;
+
+    int udpTimeout = 50;
+
+    udpTimeout = qMax(udpTimeout, getUdpTimeout());
+
+    int maxBeatCount = 400;
+    if(50 != udpTimeout) {
+        maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
+    }
+    setMaxCountSCRWA(maxBeatCount);
 }
 
 int UnitNode::getMetka1Time_0() const
@@ -473,21 +483,25 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::fldr_empt();
         } else if(TypeUnitNode::SD_BL_IP == getType()) {
             if(0 == getBazalt()) {
-                if(1 == isWasAlarm() && getControl()) {
+                if(getControl() && swpSDBLIP().isNull()) {
+                    return Icons::sqr_ylw();
+                } else if(!getControl() && swpSDBLIP().isNull()) {
+                    return Icons::sqr_blk_crs_ylw();
+                } else if(1 == swpSDBLIP().isWasAlarm() && getControl()) {
                     return Icons::sqr_rd();
-                } else if(1 == isWasAlarm() && !getControl()) {
+                } else if(1 == swpSDBLIP().isWasAlarm() && !getControl()) {
                     return Icons::sqr_blk_crs_rd();
-                } else if(1 == isAlarm() && getControl()) {
+                } else if(1 == swpSDBLIP().isAlarm() && getControl()) {
                     return Icons::sqr_rd();
-                } else if(1 == isAlarm() && !getControl()) {
+                } else if(1 == swpSDBLIP().isAlarm() && !getControl()) {
                     return Icons::sqr_blk_crs_rd();
-                } else if(1 == isOff() && getControl()) {
+                } else if(1 == swpSDBLIP().isOff() && getControl()) {
                     return Icons::sqr_blk();
-                } else if(1 == isOff() && !getControl()) {
+                } else if(1 == swpSDBLIP().isOff() && !getControl()) {
                     return Icons::sqr_blk_crs_gry();
-                } else if(1 == isNorm() && getControl()) {
+                } else if(1 == swpSDBLIP().isNorm() && getControl()) {
                     return Icons::sqr_grn();
-                } else if(1 == isNorm() && !getControl()) {
+                } else if(1 == swpSDBLIP().isNorm() && !getControl()) {
                     return Icons::sqr_blk_crs_grn();
                 } else if(getControl()) {
                     return Icons::sqr_ylw();
@@ -495,9 +509,13 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                     return Icons::sqr_blk_crs_ylw();
                 }
             } else {
-                if(1 == isAlarm()) {
+                if(getControl() && swpSDBLIP().isNull()) {
+                    return Icons::sqr_ylw();
+                } else if(!getControl() && swpSDBLIP().isNull()) {
+                    return Icons::sqr_blk_crs_ylw();
+                } else if(1 == swpSDBLIP().isAlarm()) {
                     return Icons::sqr_rd_opn();
-                } else if(1 == isNorm()) {
+                } else if(1 == swpSDBLIP().isNorm()) {
                     return Icons::sqr_grn_cls();
                 } else {
                     return Icons::sqr_ylw();
@@ -505,32 +523,92 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             }
 
         } else if(TypeUnitNode::IU_BL_IP == getType()) {
-            if(1 == isOn()) {
+            if(getControl() && swpIUBLIP().isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl() && swpSDBLIP().isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swpIUBLIP().isOn()) {
                 return Icons::sqr_grn_crs2_rd();
-            } else if(1 == isOff()) {
+            } else if(1 == swpIUBLIP().isOff()) {
                 return Icons::sqr_grn_mns_gry();
             } else
                 return Icons::sqr_ylw();
-        } else if(TypeUnitNode::RLM_C == getType() || TypeUnitNode::RLM_KRL == getType()) {
-            if(1 == lowLevl() && getControl()) {
+        } else if(TypeUnitNode::RLM_C == getType()) {
+            if(getControl() && swpRLMC().isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl() && swpRLMC().isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swpRLMC().lowLevl() && getControl()) {
                 return Icons::sqr_blu();
-            } else if(1 == lowLevl() && !getControl()) {
+            } else if(1 == swpRLMC().lowLevl() && !getControl()) {
                 return Icons::sqr_blk_crs_blu();
-            } else if(1 == isWasAlarm() && getControl()) {
+            } else if(1 == swpRLMC().isWasAlarm() && getControl()) {
                 return Icons::sqr_rd();
-            } else if(1 == isWasAlarm() && !getControl()) {
+            } else if(1 == swpRLMC().isWasAlarm() && !getControl()) {
                 return Icons::sqr_blk_crs_rd();
-            } else if(1 == isAlarm() && getControl()) {
+            } else if(1 == swpRLMC().isAlarm() && getControl()) {
                 return Icons::sqr_rd();
-            } else if(1 == isAlarm() && !getControl()) {
+            } else if(1 == swpRLMC().isAlarm() && !getControl()) {
                 return Icons::sqr_blk_crs_rd();
-            } else if(1 == isOff() && getControl()) {
+            } else if(1 == swpRLMC().isOff() && getControl()) {
                 return Icons::sqr_blk();
-            } else if(1 == isOff() && !getControl()) {
+            } else if(1 == swpRLMC().isOff() && !getControl()) {
                 return Icons::sqr_blk_crs_gry();
-            } else if(1 == isNorm() && getControl()) {
+            } else if(1 == swpRLMC().isNorm() && getControl()) {
                 return Icons::sqr_grn();
-            } else if(1 == isNorm() && !getControl()) {
+            } else if(1 == swpRLMC().isNorm() && !getControl()) {
+                return Icons::sqr_blk_crs_grn();
+            } else if(getControl()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()) {
+                return Icons::sqr_blk_crs_ylw();
+            }
+        } else if(TypeUnitNode::RLM_KRL == getType()) {
+            if(getControl() && swpRLM().isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl() && swpRLM().isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swpRLM().isWasAlarm() && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swpRLM().isWasAlarm() && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swpRLM().isAlarm() && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swpRLM().isAlarm() && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swpRLM().isOff() && getControl()) {
+                return Icons::sqr_blk();
+            } else if(1 == swpRLM().isOff() && !getControl()) {
+                return Icons::sqr_blk_crs_gry();
+            } else if(1 == swpRLM().isNorm() && getControl()) {
+                return Icons::sqr_grn();
+            } else if(1 == swpRLM().isNorm() && !getControl()) {
+                return Icons::sqr_blk_crs_grn();
+            } else if(getControl()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()) {
+                return Icons::sqr_blk_crs_ylw();
+            }
+        } else if(TypeUnitNode::TG == getType()) {
+            if(getControl() && swpTGType0x31().isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl() && swpTGType0x31().isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swpTGType0x31().isWasAlarm() && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swpTGType0x31().isWasAlarm() && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swpTGType0x31().isAlarm() && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swpTGType0x31().isAlarm() && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swpTGType0x31().isOff() && getControl()) {
+                return Icons::sqr_blk();
+            } else if(1 == swpTGType0x31().isOff() && !getControl()) {
+                return Icons::sqr_blk_crs_gry();
+            } else if(1 == swpTGType0x31().isNorm() && getControl()) {
+                return Icons::sqr_grn();
+            } else if(1 == swpTGType0x31().isNorm() && !getControl()) {
                 return Icons::sqr_blk_crs_grn();
             } else if(getControl()) {
                 return Icons::sqr_ylw();
@@ -631,6 +709,10 @@ void UnitNode::updDoubl()
 {
     for(auto c : as_const(this->doubles)) {
         c->stateWord = this->stateWord;
+        c->stateWordType0x31 = this->stateWordType0x31;
+        c->stateWordType0x32 = this->stateWordType0x32;
+        c->stateWordType0x33 = this->stateWordType0x33;
+        c->stateWordType0x34 = this->stateWordType0x34;
         c->status1 = this->status1;
         c->status2 = this->status2;
         c->dkStatus = this->dkStatus;
@@ -762,149 +844,219 @@ int UnitNode::isConnected() const
         return 1;
 }
 
-quint8 UnitNode_SD_BL_IP::mask() const
-{
-    quint8 mask = 0;
-    switch (this->getNum2()) {
-    case 1:
-        mask = 0x01;
-        break;
-    case 2:
-        mask = 0x02;
-        break;
-    case 3:
-        mask = 0x04;
-        break;
-    case 4:
-        mask = 0x08;
-        break;
-    case 5:
-        mask = 0x10;
-        break;
-    case 6:
-        mask = 0x20;
-        break;
-    case 7:
-        mask = 0x40;
-        break;
-    case 8:
-        mask = 0x80;
-        break;
-    default:
-        mask = 0x00;
-        break;
-    }
-    return mask;
-}
+//quint8 UnitNode_SD_BL_IP::mask() const
+//{
+//    quint8 mask = 0;
+//    switch (this->getNum2()) {
+//    case 1:
+//        mask = 0x01;
+//        break;
+//    case 2:
+//        mask = 0x02;
+//        break;
+//    case 3:
+//        mask = 0x04;
+//        break;
+//    case 4:
+//        mask = 0x08;
+//        break;
+//    case 5:
+//        mask = 0x10;
+//        break;
+//    case 6:
+//        mask = 0x20;
+//        break;
+//    case 7:
+//        mask = 0x40;
+//        break;
+//    case 8:
+//        mask = 0x80;
+//        break;
+//    default:
+//        mask = 0x00;
+//        break;
+//    }
+//    return mask;
+//}
 
-int UnitNode_SD_BL_IP::isAlarm() const
-{
-    return isInAlarm();
-}
+//int UnitNode_SD_BL_IP::isAlarm() const
+//{
+//    return isInAlarm();
+//}
 
-int UnitNode_SD_BL_IP::isInAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & mask())
-        return 1; //Status::Alarm);
-    else
-        return 0; //Status::Norm);
-}
-
-
-int UnitNode_SD_BL_IP::isNorm() const
-{
-    int isalarm = isAlarm();
-    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
-}
-
-int UnitNode_SD_BL_IP::isWasAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & mask())
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not);
-}
-
-int UnitNode_SD_BL_IP::isOn() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(0) == (static_cast<quint8>(getStateWord().at(3)) & mask()))
-        return 0; //Status::Off;
-    else
-        return 1; //
-}
-
-int UnitNode_SD_BL_IP::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
+//int UnitNode_SD_BL_IP::isInAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(0)) & mask())
+//        return 1; //Status::Alarm);
+//    else
+//        return 0; //Status::Norm);
+//}
 
 
-quint8 UnitNode_IU_BL_IP::mask() const
-{
-    quint8 mask = 0;
-    switch (this->getNum2()) {
-    case 1:
-        mask = 0x01;
-        break;
-    case 2:
-        mask = 0x02;
-        break;
-    case 3:
-        mask = 0x04;
-        break;
-    case 4:
-        mask = 0x08;
-        break;
-    case 5:
-        mask = 0x10;
-        break;
-    case 6:
-        mask = 0x20;
-        break;
-    case 7:
-        mask = 0x40;
-        break;
-    case 8:
-        mask = 0x80;
-        break;
-    default:
-        mask = 0x00;
-        break;
-    }
-    return mask;
-}
+//int UnitNode_SD_BL_IP::isNorm() const
+//{
+//    int isalarm = isAlarm();
+//    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+//}
 
-int UnitNode_IU_BL_IP::isOutAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & mask())
-        return 1; //Status::On);
-    else
-        return 0; //Status::Off;
-}
+//int UnitNode_SD_BL_IP::isWasAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & mask())
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not);
+//}
 
-int UnitNode_IU_BL_IP::isOn() const
-{
-    return isOutAlarm();
-}
+//int UnitNode_SD_BL_IP::isOn() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(0) == (static_cast<quint8>(getStateWord().at(3)) & mask()))
+//        return 0; //Status::Off;
+//    else
+//        return 1; //
+//}
 
-int UnitNode_IU_BL_IP::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
+//int UnitNode_SD_BL_IP::isOff() const
+//{
+//    int ison = isOn();
+//    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+//}
+
+
+//quint8 UnitNode_IU_BL_IP::mask() const
+//{
+//    quint8 mask = 0;
+//    switch (this->getNum2()) {
+//    case 1:
+//        mask = 0x01;
+//        break;
+//    case 2:
+//        mask = 0x02;
+//        break;
+//    case 3:
+//        mask = 0x04;
+//        break;
+//    case 4:
+//        mask = 0x08;
+//        break;
+//    case 5:
+//        mask = 0x10;
+//        break;
+//    case 6:
+//        mask = 0x20;
+//        break;
+//    case 7:
+//        mask = 0x40;
+//        break;
+//    case 8:
+//        mask = 0x80;
+//        break;
+//    default:
+//        mask = 0x00;
+//        break;
+//    }
+//    return mask;
+//}
+
+//int UnitNode_IU_BL_IP::isOutAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & mask())
+//        return 1; //Status::On);
+//    else
+//        return 0; //Status::Off;
+//}
+
+//int UnitNode_IU_BL_IP::isOn() const
+//{
+//    return isOutAlarm();
+//}
+
+//int UnitNode_IU_BL_IP::isOff() const
+//{
+//    int ison = isOn();
+//    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+//}
 
 bool UnitNode::isEditableControl() const
 {
     return editableControl;
+}
+
+int UnitNode::getCountSCRWA() const
+{
+    return countSCRWA;
+}
+
+void UnitNode::setCountSCRWA(int value)
+{
+    countSCRWA = value;
+}
+
+int UnitNode::getMaxCountSCRWA() const
+{
+    return maxCountSCRWA;
+}
+
+void UnitNode::setMaxCountSCRWA(int value)
+{
+    maxCountSCRWA = value;
+}
+
+QByteArray UnitNode::getStateWordType0x31() const
+{
+    return stateWordType0x31;
+}
+
+void UnitNode::setStateWordType0x31(const QByteArray &value)
+{
+    stateWordType0x31 = value;
+}
+
+QByteArray UnitNode::getStateWordType0x34() const
+{
+    return stateWordType0x34;
+}
+
+void UnitNode::setStateWordType0x34(const QByteArray &value)
+{
+    stateWordType0x34 = value;
+}
+
+QByteArray UnitNode::getStateWordType0x33() const
+{
+    return stateWordType0x33;
+}
+
+void UnitNode::setStateWordType0x33(const QByteArray &value)
+{
+    stateWordType0x33 = value;
+}
+
+int UnitNode::getNeededStateWordType() const
+{
+    return neededStateWordType;
+}
+
+void UnitNode::setNeededStateWordType(int value)
+{
+    neededStateWordType = value;
+}
+
+QByteArray UnitNode::getStateWordType0x32() const
+{
+    return stateWordType0x32;
+}
+
+void UnitNode::setStateWordType0x32(const QByteArray &value)
+{
+    stateWordType0x32 = value;
 }
 
 void UnitNode::matchEditableControl()
@@ -912,7 +1064,8 @@ void UnitNode::matchEditableControl()
     if(!editableControl &&
        ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
         TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType()))
+        TypeUnitNode::RLM_KRL == getType() ||
+        TypeUnitNode::TG == getType()))
         editableControl = true;
 }
 
@@ -922,7 +1075,8 @@ void UnitNode::matchEditableOnOff()
        ((0 == getBazalt() && TypeUnitNode::SD_BL_IP == getType()) ||
         TypeUnitNode::IU_BL_IP == getType() ||
         TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType()))
+        TypeUnitNode::RLM_KRL == getType()/* ||
+        TypeUnitNode::TG == getType()*/))
         editableOnOff = true;
 }
 
@@ -934,8 +1088,9 @@ bool UnitNode::isNeedsPreamble() const
 void UnitNode::matchNeedsPreamble()
 {
     if(!needsPreamble &&
-            (TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType()))
+       (TypeUnitNode::RLM_C == getType() ||
+        TypeUnitNode::RLM_KRL == getType() ||
+        TypeUnitNode::TG == getType()))
         needsPreamble = true;
 }
 
@@ -952,6 +1107,10 @@ UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 UnitNode::UnitNode(const UnitNode & parent) :
     QObject(nullptr),
     stateWord(parent.stateWord),
+    stateWordType0x31(parent.stateWordType0x31),
+    stateWordType0x32(parent.stateWordType0x32),
+    stateWordType0x33(parent.stateWordType0x33),
+    stateWordType0x34(parent.stateWordType0x34),
     metaNames(parent.metaNames),
     Type(parent.Type),
     Num1(parent.Num1),
@@ -992,6 +1151,10 @@ UnitNode::UnitNode(const UnitNode & parent) :
     dkInvolved(parent.dkInvolved)
 {
     setStateWord(parent.getStateWord());
+    setStateWordType0x31(parent.getStateWordType0x31());
+    setStateWordType0x34(parent.getStateWordType0x34());
+    setStateWordType0x33(parent.getStateWordType0x33());
+    setStateWordType0x32(parent.getStateWordType0x32());
     setMetaNames(parent.getMetaNames());
     setType(parent.getType());
     setNum1(parent.getNum1());
@@ -1038,6 +1201,10 @@ UnitNode::UnitNode(const UnitNode & parent) :
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
     setStateWord(c.getStateWord());
+    setStateWordType0x31(c.getStateWordType0x31());
+    setStateWordType0x34(c.getStateWordType0x34());
+    setStateWordType0x33(c.getStateWordType0x33());
+    setStateWordType0x32(c.getStateWordType0x32());
     setMetaNames(c.getMetaNames());
     setType(c.getType());
     setNum1(c.getNum1());
@@ -1224,159 +1391,159 @@ int UnitNode_BL_IP::isWasAlarm() const
         return 0; //Status::Not);
 }
 
-int UnitNode_RLM_C::isAlarm() const
-{
-    return isInAlarm();
-}
+//int UnitNode_RLM_C::isAlarm() const
+//{
+//    return isInAlarm();
+//}
 
-int UnitNode_RLM_C::isInAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
-        return 1; //Status::Alarm);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isInAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
+//        return 1; //Status::Alarm);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isOutAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isOutAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isNorm() const
-{
-    int isalarm = isAlarm();
-    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
-}
+//int UnitNode_RLM_C::isNorm() const
+//{
+//    int isalarm = isAlarm();
+//    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+//}
 
-int UnitNode_RLM_C::isWasDK() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x20))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isWasDK() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x20))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isExistDK() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x10))
-        return 1; //Status::Exist);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isExistDK() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x10))
+//        return 1; //Status::Exist);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isWasAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::isWasAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_C::isOn() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
-        return 1; //Status::On);
-    else
-        return 0; //Status::Off;
-}
-//b5fe6304312c011600d9
-int UnitNode_RLM_C::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
+//int UnitNode_RLM_C::isOn() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
+//        return 1; //Status::On);
+//    else
+//        return 0; //Status::Off;
+//}
+////b5fe6304312c011600d9
+//int UnitNode_RLM_C::isOff() const
+//{
+//    int ison = isOn();
+//    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+//}
 
-float UnitNode_RLM_C::voltage() const
-{
-    if(getStateWord().isEmpty())
-        return -1.0;
-    return qFabs(static_cast<float>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0))));
-}
+//double UnitNode_RLM_C::voltage() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1.0;
+//    return qFabs(static_cast<float>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(0)) / 255.0))));
+//}
 
-int UnitNode_RLM_C::synchronization() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x40))
-        return 1; //External);
-    else
-        return 0; //Internal;
-}
+//int UnitNode_RLM_C::synchronization() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x40))
+//        return 1; //External);
+//    else
+//        return 0; //Internal;
+//}
 
-int UnitNode_RLM_C::isExternalSynchronization() const
-{
-    return synchronization();
-}
+//int UnitNode_RLM_C::isExternalSynchronization() const
+//{
+//    return synchronization();
+//}
 
-int UnitNode_RLM_C::isInternalSynchronization() const
-{
-    int ises = isExternalSynchronization();
-    return ((0 == ises) ? 1 : ((1 == ises) ? 0 : ises));
-}
+//int UnitNode_RLM_C::isInternalSynchronization() const
+//{
+//    int ises = isExternalSynchronization();
+//    return ((0 == ises) ? 1 : ((1 == ises) ? 0 : ises));
+//}
 
-float UnitNode_RLM_C::threshold() const
-{
-    if(getStateWord().isEmpty())
-        return -1.0;
-    switch (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x0F)) {
-    case static_cast<quint8>(0):  return 10.0;
-    case static_cast<quint8>(1):  return 09.0;
-    case static_cast<quint8>(2):  return 08.0;
-    case static_cast<quint8>(3):  return 07.0;
-    case static_cast<quint8>(4):  return 06.0;
-    case static_cast<quint8>(5):  return 05.0;
-    case static_cast<quint8>(6):  return 04.0;
-    case static_cast<quint8>(7):  return 03.0;
-    case static_cast<quint8>(8):  return 02.0;
-    case static_cast<quint8>(9):  return 01.0;
-    case static_cast<quint8>(10): return 00.6;
-    case static_cast<quint8>(11): return 00.5;
-    case static_cast<quint8>(12): return 00.4;
-    case static_cast<quint8>(13): return 00.3;
-    case static_cast<quint8>(14): return 00.2;
-    case static_cast<quint8>(15): return 00.1;
-    default: return -1.0;
-    }
-}
+//float UnitNode_RLM_C::threshold() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1.0;
+//    switch (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x0F)) {
+//    case static_cast<quint8>(0):  return 10.0;
+//    case static_cast<quint8>(1):  return 09.0;
+//    case static_cast<quint8>(2):  return 08.0;
+//    case static_cast<quint8>(3):  return 07.0;
+//    case static_cast<quint8>(4):  return 06.0;
+//    case static_cast<quint8>(5):  return 05.0;
+//    case static_cast<quint8>(6):  return 04.0;
+//    case static_cast<quint8>(7):  return 03.0;
+//    case static_cast<quint8>(8):  return 02.0;
+//    case static_cast<quint8>(9):  return 01.0;
+//    case static_cast<quint8>(10): return 00.6;
+//    case static_cast<quint8>(11): return 00.5;
+//    case static_cast<quint8>(12): return 00.4;
+//    case static_cast<quint8>(13): return 00.3;
+//    case static_cast<quint8>(14): return 00.2;
+//    case static_cast<quint8>(15): return 00.1;
+//    default: return -1.0;
+//    }
+//}
 
-int UnitNode_RLM_C::clockPeriod() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    return (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x70)) >> 4;
-}
+//int UnitNode_RLM_C::clockPeriod() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    return (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x70)) >> 4;
+//}
 
-int UnitNode_RLM_C::modeProcessing() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    return static_cast<quint8>(getStateWord().at(3)) & static_cast<quint8>(0x03);
-}
+//int UnitNode_RLM_C::modeProcessing() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    return static_cast<quint8>(getStateWord().at(3)) & static_cast<quint8>(0x03);
+//}
 
-int UnitNode_RLM_C::lowLevl() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x80))
-        return 1; //Status::Error);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_C::lowLevl() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x80))
+//        return 1; //Status::Error);
+//    else
+//        return 0; //Status::Not;
+//}
 
 QString UnitNode::getIcon1Path() const
 {
@@ -1418,7 +1585,7 @@ void UnitNode::setIcon4Path(const QString &value)
     Icon4Path = value;
 }
 
-QString UnitNode::toString()
+QString UnitNode::toString() const
 {
     QString result;
     result = "UnitNode(" + QString::number((qulonglong)this, 16) + "@";
@@ -1440,162 +1607,162 @@ QString UnitNode::toString()
     case Y4_SOTA: result.append("Участок Сота"); break; // 30,Участок Сота
     case DD_SOTA: result.append("ДД Сота"); break; // 31,ДД Сота
     case NET_DEV: result.append("Сетевое устройство"); break; // 200,Сетевое устройство
-    case BL_IP: result.append("БЛ-IP"); break; // 0xFF,БЛ IP
+    case BL_IP: result.append("БЛ-IP").append(getUdpAdress()).append(":").append(QString::number(getUdpPort())); break; // 0xFF,БЛ IP
     default: result.append("UNKNOWEN"); break; //
     }
     result = result.append(" [" + getName() + "]").append(")");
     return result;
 }
 
-float UnitNode_RLM_KRL::threshold() const
-{
-    if(getStateWord().isEmpty())
-        return -1.0;
-    switch (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x0F)) {
-    case static_cast<quint8>(0):  return 10.0;
-    case static_cast<quint8>(1):  return 09.0;
-    case static_cast<quint8>(2):  return 08.0;
-    case static_cast<quint8>(3):  return 07.0;
-    case static_cast<quint8>(4):  return 06.0;
-    case static_cast<quint8>(5):  return 05.0;
-    case static_cast<quint8>(6):  return 04.0;
-    case static_cast<quint8>(7):  return 03.0;
-    case static_cast<quint8>(8):  return 02.0;
-    case static_cast<quint8>(9):  return 01.0;
-    case static_cast<quint8>(10): return 00.6;
-    case static_cast<quint8>(11): return 00.5;
-    case static_cast<quint8>(12): return 00.4;
-    case static_cast<quint8>(13): return 00.3;
-    case static_cast<quint8>(14): return 00.2;
-    case static_cast<quint8>(15): return 00.1;
-    default: return -1.0;
-    }
-}
+//float UnitNode_RLM_KRL::threshold() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1.0;
+//    switch (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x0F)) {
+//    case static_cast<quint8>(0):  return 10.0;
+//    case static_cast<quint8>(1):  return 09.0;
+//    case static_cast<quint8>(2):  return 08.0;
+//    case static_cast<quint8>(3):  return 07.0;
+//    case static_cast<quint8>(4):  return 06.0;
+//    case static_cast<quint8>(5):  return 05.0;
+//    case static_cast<quint8>(6):  return 04.0;
+//    case static_cast<quint8>(7):  return 03.0;
+//    case static_cast<quint8>(8):  return 02.0;
+//    case static_cast<quint8>(9):  return 01.0;
+//    case static_cast<quint8>(10): return 00.6;
+//    case static_cast<quint8>(11): return 00.5;
+//    case static_cast<quint8>(12): return 00.4;
+//    case static_cast<quint8>(13): return 00.3;
+//    case static_cast<quint8>(14): return 00.2;
+//    case static_cast<quint8>(15): return 00.1;
+//    default: return -1.0;
+//    }
+//}
 
-int UnitNode_RLM_KRL::modeProcessing() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x10)) >> 4;
-}
+//int UnitNode_RLM_KRL::modeProcessing() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x10)) >> 4;
+//}
 
-int UnitNode_RLM_KRL::clockPeriod() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
-}
+//int UnitNode_RLM_KRL::clockPeriod() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
+//}
 
-float UnitNode_RLM_KRL::voltage() const
-{
-    if(getStateWord().isEmpty())
-        return -1.0;
-    return qFabs(static_cast<double>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(1)) / 255.0))));
-}
+//double UnitNode_RLM_KRL::voltage() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1.0;
+//    return qFabs(static_cast<double>(5.0 - qFabs(5.0 * (static_cast<double>(getStateWord().at(1)) / 255.0))));
+//}
 
-int UnitNode_RLM_KRL::isOn() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x01))
-        return 1; //Status::On);
-    else
-        return 0; //Status::Off;
-}
+//int UnitNode_RLM_KRL::isOn() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x01))
+//        return 1; //Status::On);
+//    else
+//        return 0; //Status::Off;
+//}
 
-int UnitNode_RLM_KRL::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
+//int UnitNode_RLM_KRL::isOff() const
+//{
+//    int ison = isOn();
+//    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+//}
 
-int UnitNode_RLM_KRL::isAlarm() const
-{
-    return isInAlarm();
-}
+//int UnitNode_RLM_KRL::isAlarm() const
+//{
+//    return isInAlarm();
+//}
 
-int UnitNode_RLM_KRL::isInAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
-        return 1; //Status::Alarm);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isInAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
+//        return 1; //Status::Alarm);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isOutAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isOutAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isNorm() const
-{
-    int isalarm = isAlarm();
-    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
-}
+//int UnitNode_RLM_KRL::isNorm() const
+//{
+//    int isalarm = isAlarm();
+//    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+//}
 
-int UnitNode_RLM_KRL::isWasAlarm() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x08))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isWasAlarm() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x08))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isExistDK() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x10))
-        return 1; //Status::Exist);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isExistDK() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x10))
+//        return 1; //Status::Exist);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::synchronization() const
-{
-    return isExistDK();
-}
+//int UnitNode_RLM_KRL::synchronization() const
+//{
+//    return isExistDK();
+//}
 
-int UnitNode_RLM_KRL::isWasDK() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x20))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isWasDK() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x20))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isOpened() const
-{
-    return isInOpened();
-}
+//int UnitNode_RLM_KRL::isOpened() const
+//{
+//    return isInOpened();
+//}
 
-int UnitNode_RLM_KRL::isInOpened() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x40))
-        return 1; //Status::Exist);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isInOpened() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x40))
+//        return 1; //Status::Exist);
+//    else
+//        return 0; //Status::Not;
+//}
 
-int UnitNode_RLM_KRL::isWasOpened() const
-{
-    if(getStateWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x80))
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not;
-}
+//int UnitNode_RLM_KRL::isWasOpened() const
+//{
+//    if(getStateWord().isEmpty())
+//        return -1;
+//    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x80))
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not;
+//}

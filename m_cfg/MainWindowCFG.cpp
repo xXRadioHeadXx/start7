@@ -1,6 +1,6 @@
 #include "MainWindowCFG.h"
 #include "ui_MainWindowCFG.h"
-#include <global.hpp>
+#include <global.h>
 
 
 #include "QFileDialog"
@@ -43,15 +43,6 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     ui->setupUi(this);
 
 
-
-
-//    QString str="QWERTY12345";
-//    QString crypts;
-//    QString res;
-//    crypts.append(XOR_Crypt(str));
-//    res.append(XOR_Crypt(crypts));
-//    //qDebug()<<"crypts"<<crypts;
-//    //qDebug()<<"res"<<res;
 
 
 
@@ -1633,6 +1624,32 @@ bool MainWindowCFG::correct_UDP_parametres(UnitNode *unit)
         return false;
            }
     }
+    return true;
+}
+
+bool MainWindowCFG::correct_UDP_parametres(UnitNode *unit)
+{
+    qDebug()<<"UdpUse "<<unit->getUdpUse();
+    qDebug()<<"UdpAdress "<<unit->getUdpAdress();
+    if(unit->getUdpUse()==1)
+    {
+        QHostAddress myIP;
+           if(myIP.setAddress( unit->getUdpAdress()))
+           {
+           qDebug()<<"Valid IP Address";
+           unit->setUdpAdress(myIP.toString());
+           }
+           else
+           {
+           qDebug()<<"Invalid IP address";
+
+        QMessageBox::critical(0,"Ошибка","Не заданы пармаетры UDP протокола (IP адрес или порт)");
+
+        return false;
+           }
+    }
+
+
 
 
 
@@ -3369,7 +3386,6 @@ bool MainWindowCFG::pass_to_add_TG(UnitNode *unit, UnitNode *parrent)
                   }
              }
                      });
-
 
 
 }
@@ -6374,6 +6390,19 @@ int res=0;
         settings.endGroup();
         }
        //qDebug()<<"OPERATORS";
+
+
+       settings.beginGroup("ASOOSD");
+//       settings.setValue("Count",List.count()-1);
+
+settings.setValue("Use",m_ASOOSD_use.key(this->ui->ASOOSD_Use->currentText()));
+settings.setValue("Host",this->ui->ASOOSD_Host->text());
+settings.setValue("Port",this->ui->ASOOSD_Port->value());
+
+       settings.endGroup();
+
+
+
 
 
        settings.beginGroup("ASOOSD");

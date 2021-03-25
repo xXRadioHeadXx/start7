@@ -1,6 +1,8 @@
 QT += core
 CONFIG += c++17
 
+include(../statewordparsers/statewordparsers.pri)
+
 INCLUDEPATH += $$PWD/
 
 SOURCES += \

@@ -3,7 +3,7 @@
 
 #include <ComboBoxDelegate.h>
 #include <TablePrint.h>
-#include <global.hpp>
+#include <global.h>
 #include <UnitNodeFactory.h>
 #include <SettingUtils.h>
 

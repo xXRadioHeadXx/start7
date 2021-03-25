@@ -2,16 +2,16 @@
 
 #include <PortManager.h>
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 
 ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
-    //qDebug() << "ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(" << this << ") -->";
+//    qDebug() << "ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(" << this << ") -->";
 }
 
 ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter()
 {
-    //qDebug() << "ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter(" << this << ") <--";
+//    qDebug() << "ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter(" << this << ") <--";
 }
 
 void ConfirmationAdmissionWaiter::init()

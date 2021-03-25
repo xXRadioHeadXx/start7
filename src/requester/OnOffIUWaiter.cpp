@@ -3,7 +3,7 @@
 
 #include <PortManager.h>
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 
 OnOffIUWaiter::OnOffIUWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

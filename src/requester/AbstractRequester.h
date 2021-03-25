@@ -150,7 +150,7 @@ public slots:
     void beatRepeatFirstRequest() {
 //        //qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") -->";
         timerTripleStop();
-        if(getMaxBeatCount() <= getBeatCount()) {
+        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit importantBeatStatus();
@@ -159,6 +159,7 @@ public slots:
             return;
         }
 
+//        qDebug() << "beatRepeatFirstRequest("<<this<<") -- makeFirstMsg " << getUnReciver()->toString();
         setFirstMsg(makeFirstMsg());
 
         if(!getFirstMsg().isValid()) {
@@ -170,6 +171,7 @@ public slots:
             return;
         }
 
+//        qDebug() << "beatRepeatFirstRequest("<<this<<") -- write " << QTime::currentTime().toString("hh:mm:ss.zzz") << getFirstMsg().data().toHex();
         Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerFirstStart(getTimeIntervalRequest());
@@ -248,7 +250,7 @@ public slots:
 //        //qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") -->";
         timerTripleStop();
 
-        if(getMaxBeatCount() <= getBeatCount()) {
+        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit importantBeatStatus();
@@ -346,7 +348,7 @@ public slots:
 //        //qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") -->";
         timerTripleStop();
 
-        if(getMaxBeatCount() <= getBeatCount()) {
+        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
             timerTripleStop();
             setBeatStatus(BeatStatus::Unsuccessful);
             emit importantBeatStatus();

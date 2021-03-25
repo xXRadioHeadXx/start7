@@ -5,7 +5,7 @@
 #include <QTime>
 #include <QDomDocument>
 #include <Utils.h>
-#include <global.hpp>
+#include <global.h>
 
 //#include <QMessageBox>
 

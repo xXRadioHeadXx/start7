@@ -5,7 +5,7 @@
 #include <QDomDocument>
 #include <SettingUtils.h>
 #include <SignalSlotCommutator.h>
-#include <global.hpp>
+#include <global.h>
 
 TcpServer * GraphTerminal::m_tcpServer = nullptr;
 QHash<QTcpSocket*, QByteArray*> GraphTerminal::abonents = QHash<QTcpSocket*, QByteArray*>();
@@ -294,16 +294,24 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 if(nullptr == unTarget)
                     continue;
+                if(TypeUnitNode::IU_BL_IP == unTarget->getType())
+                    if(unTarget->swpIUBLIP().isNull())
+                        continue;
+
+                if(TypeUnitNode::SD_BL_IP == unTarget->getType())
+                    if(unTarget->swpSDBLIP().isNull())
+                        continue;
+
 
                 bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
 
-                if(0 != unTarget->getBazalt() && 1 == unTarget->isAlarm() && "100" == idCommand.nodeValue()) {
+                if(0 != unTarget->getBazalt() && 1 == unTarget->swpSDBLIP().isAlarm() && "100" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, false);
-                } else if(0 != unTarget->getBazalt() && 1 == unTarget->isNorm() && "101" == idCommand.nodeValue()) {
+                } else if(0 != unTarget->getBazalt() && 1 == unTarget->swpSDBLIP().isNorm() && "101" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, true);
                 } else if(0 != unTarget->getBazalt()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, value);
-                } else if(unTarget->isEditableOnOff() && 1 == unTarget->isOff() && "101" == idCommand.nodeValue()) {
+                } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIP().isOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
                         SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
@@ -317,9 +325,9 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     } else {
                         SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
                     }
-                } else if(unTarget->isEditableOnOff() && (1 == unTarget->isOff()) && "101" == idCommand.nodeValue()) {
+                } else if(unTarget->isEditableOnOff() && (1 == unTarget->swpIUBLIP().isOff()) && "101" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
-                } else if(unTarget->isEditableOnOff() && 1 == unTarget->isOn() && "100" == idCommand.nodeValue()) {
+                } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIP().isOn() && "100" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else  {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, value);
@@ -386,7 +394,11 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 }
 
                 for(const auto& un : as_const(unTargetSet.values())) {
-                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
+                    if(TypeUnitNode::SD_BL_IP == un->getType() ||
+                       TypeUnitNode::IU_BL_IP == un->getType() ||
+                       TypeUnitNode::RLM_C == un->getType() ||
+                       TypeUnitNode::RLM_KRL == un->getType() ||
+                       TypeUnitNode::TG == un->getType()) {
                         unTarget = un;
                         //qDebug() << unTarget->toString();
                         break;
@@ -572,7 +584,11 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 }
 
                 for(const auto& un : as_const(unTargetSet.values())) {
-                    if((TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType() || TypeUnitNode::RLM_C == un->getType())) {
+                    if(TypeUnitNode::SD_BL_IP == un->getType() ||
+                       TypeUnitNode::IU_BL_IP == un->getType() ||
+                       TypeUnitNode::RLM_C == un->getType() ||
+                       TypeUnitNode::RLM_KRL == un->getType() ||
+                       TypeUnitNode::TG == un->getType()) {
                         unTarget = un;
                         //qDebug() << unTarget->toString();
                         break;
@@ -792,8 +808,13 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
             continue;
 
         QDomElement  deviceElement  =  doc.createElement("device");
-        QString id = un->getMetaNames().values().first();
-        id.remove("Obj_");
+        QString id;
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
+            id.remove("Obj_");
+        } else {
+            id = "X";
+        }
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
         deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
@@ -857,8 +878,13 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     QDomElement  deviceElement  =  doc.createElement("device");
     QString id;
     if(nullptr != un) {
-        id = un->getMetaNames().values().first();
-        id = id.remove("Obj_");
+        QString id;
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
+            id.remove("Obj_");
+        } else {
+            id = "X";
+        }
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
         deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
@@ -935,42 +961,42 @@ QDomElement GraphTerminal::makeActualStateElement(UnitNode *un, QDomElement &sta
     //
 
     if(isLockPair && TypeUnitNode::SD_BL_IP == un->getType()) {
-        if(1 == unLockSdBlIp->isAlarm() &&
-           1 == unLockIuBlIp->isOff()) {
+        if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+           1 == unLockIuBlIp->swpIUBLIP().isOff()) {
             //Открыто
             stateElement.setAttribute("id", 111);
             stateElement.setAttribute("name", "Открыто");
-        } else if(1 == unLockSdBlIp->isNorm() &&
-                  1 == unLockIuBlIp->isOn()) {
+        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                  1 == unLockIuBlIp->swpIUBLIP().isOn()) {
             //Закрыто
             stateElement.setAttribute("id", 110);
             stateElement.setAttribute("name", "Закрыто");
-        } else if(1 == unLockSdBlIp->isAlarm() &&
-                  1 == unLockIuBlIp->isOn()) {
+        } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                  1 == unLockIuBlIp->swpIUBLIP().isOn()) {
             //Открыто ключом
             stateElement.setAttribute("id", 113);
             stateElement.setAttribute("name", "Открыто ключом");
-        } else if(1 == unLockSdBlIp->isNorm() &&
-                  1 == unLockIuBlIp->isOff()) {
+        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                  1 == unLockIuBlIp->swpIUBLIP().isOff()) {
             //Закрыто ключом
             stateElement.setAttribute("id", 112);
             stateElement.setAttribute("name", "Закрыто ключом");
         }
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && ((1 == un->isAlarm()) || (1 == un->isWasAlarm()))) {
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && ((1 == un->swpSDBLIP().isAlarm()) || (1 == un->swpSDBLIP().isWasAlarm()))) {
         //сохранение Тревога или Норма
         stateElement.setAttribute("id", 20);
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", "Тревога-СРАБОТКА");
-    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isNorm())) {
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isNorm())) {
         stateElement.setAttribute("id", 1);
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", "Норма");
-    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->isOff())) {
+    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isOff())) {
         stateElement.setAttribute("id", 100);
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", "Выкл");
-    } else if((TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->isOff())) {
+    } else if((TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->swpIUBLIP().isOff())) {
         stateElement.setAttribute("id", 100);
         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         stateElement.setAttribute("name", "Выкл");
@@ -1052,10 +1078,14 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
     }
 
     QDomElement  deviceElement  =  doc.createElement("device");
-    QString id;
     if(nullptr != un) {
-        id = un->getMetaNames().values().first();
-        id = id.remove("Obj_");
+        QString id;
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
+            id.remove("Obj_");
+        } else {
+            id = "X";
+        }
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
         deviceElement.setAttribute("type", (0 > un->getType() ? 0 : un->getType()));
@@ -1081,8 +1111,7 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
     stateElement.setAttribute("datetime", jour.getCdate().toString("yyyy-MM-dd hh:mm:ss"));
     stateElement.setAttribute("name", jour.getComment());
     statesElement.appendChild(stateElement);
-
-//    //qDebug() << "GraphTerminal::makeEventBook()" << doc.toString();
+//    qDebug() << "GraphTerminal::makeEventBook()" << doc.toString();
 
     return doc;
 }
