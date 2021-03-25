@@ -1,38 +1,38 @@
 #include "SWPTGType0x34.h"
 
-SWPTGType2::SWPTGType2(const QByteArray &stateWord) :
+SWPTGType0x34::SWPTGType0x34(const QByteArray &stateWord) :
     SWP(stateWord)
 {
 }
 
-SWPTGType2::SWPTGType2(const SWPTGType2 &parent) :
+SWPTGType0x34::SWPTGType0x34(const SWPTGType0x34 &parent) :
     SWP(parent)
 {
 }
 
-SWPTGType2::~SWPTGType2() {
+SWPTGType0x34::~SWPTGType0x34() {
 
 }
 
-SWPTGSubType2 SWPTGType2::in1() const
+SWPTGSubType0x34 SWPTGType0x34::in1() const
 {
-    return SWPTGSubType2(getStateWord().mid(0, 7));
+    return SWPTGSubType0x34(getStateWord().mid(0, 7));
 }
 
-SWPTGSubType2 SWPTGType2::in2() const
+SWPTGSubType0x34 SWPTGType0x34::in2() const
 {
-    return SWPTGSubType2(getStateWord().mid(7, 7));
-
-}
-
-SWPTGSubType2 SWPTGType2::in3() const
-{
-    return SWPTGSubType2(getStateWord().mid(14, 7));
+    return SWPTGSubType0x34(getStateWord().mid(7, 7));
 
 }
 
-SWPTGSubType2 SWPTGType2::in4() const
+SWPTGSubType0x34 SWPTGType0x34::in3() const
 {
-    return SWPTGSubType2(getStateWord().mid(21, 7));
+    return SWPTGSubType0x34(getStateWord().mid(14, 7));
+
+}
+
+SWPTGSubType0x34 SWPTGType0x34::in4() const
+{
+    return SWPTGSubType0x34(getStateWord().mid(21, 7));
 
 }

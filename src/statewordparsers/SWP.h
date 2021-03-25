@@ -10,7 +10,7 @@ public:
     SWP(const QByteArray &stateWord);
     SWP(const SWP & parent);
     virtual ~SWP();
-    QByteArray getStateWord() const;
+    const QByteArray & getStateWord() const;
     void setStateWord(const QByteArray &value);
 
     SWP & operator=(const SWP& c);

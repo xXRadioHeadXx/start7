@@ -1,5 +1,6 @@
 #include "SWPRLM.h"
 
+#include <Utils.h>
 #include <global.h>
 
 SWPRLM::SWPRLM(const QByteArray &stateWord) :
@@ -55,7 +56,7 @@ int SWPRLM::clockPeriod() const
         return -1;
 
     quint8 cp = (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
-    cp = ReverseBits(cp);
+    cp = Utils::reverseBits(cp);
     cp = cp >> 6;
     return cp;
 

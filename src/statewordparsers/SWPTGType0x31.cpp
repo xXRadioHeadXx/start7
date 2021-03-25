@@ -1,20 +1,20 @@
 #include "SWPTGType0x31.h"
 
-SWPTGType1::SWPTGType1(const QByteArray &stateWord) :
+SWPTGType0x31::SWPTGType0x31(const QByteArray &stateWord) :
     SWP(stateWord)
 {
 }
 
-SWPTGType1::SWPTGType1(const SWPTGType1 &parent) :
+SWPTGType0x31::SWPTGType0x31(const SWPTGType0x31 &parent) :
     SWP(parent)
 {
 }
 
-SWPTGType1::~SWPTGType1() {
+SWPTGType0x31::~SWPTGType0x31() {
 
 }
 
-int SWPTGType1::isOn() const
+int SWPTGType0x31::isOn() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -24,18 +24,18 @@ int SWPTGType1::isOn() const
         return 0; //Status::Off;
 }
 
-int SWPTGType1::isOff() const
+int SWPTGType0x31::isOff() const
 {
     int ison = isOn();
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
-int SWPTGType1::isAlarm() const
+int SWPTGType0x31::isAlarm() const
 {
     return isInAlarm();
 }
 
-int SWPTGType1::isInAlarm() const
+int SWPTGType0x31::isInAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -45,7 +45,7 @@ int SWPTGType1::isInAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPTGType1::isOutAlarm() const
+int SWPTGType0x31::isOutAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -55,13 +55,13 @@ int SWPTGType1::isOutAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPTGType1::isNorm() const
+int SWPTGType0x31::isNorm() const
 {
     int isalarm = isAlarm();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int SWPTGType1::isWasAlarm() const
+int SWPTGType0x31::isWasAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -71,7 +71,7 @@ int SWPTGType1::isWasAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPTGType1::isExistDK() const
+int SWPTGType0x31::isExistDK() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -81,7 +81,7 @@ int SWPTGType1::isExistDK() const
         return 0; //Status::Not;
 }
 
-int SWPTGType1::isWasDK() const
+int SWPTGType0x31::isWasDK() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -91,12 +91,12 @@ int SWPTGType1::isWasDK() const
         return 0; //Status::Not;
 }
 
-int SWPTGType1::isOpened() const
+int SWPTGType0x31::isOpened() const
 {
     return isInOpened();
 }
 
-int SWPTGType1::isInOpened() const
+int SWPTGType0x31::isInOpened() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -106,7 +106,7 @@ int SWPTGType1::isInOpened() const
         return 0; //Status::Not;
 }
 
-int SWPTGType1::isWasOpened() const
+int SWPTGType0x31::isWasOpened() const
 {
     if(getStateWord().isEmpty())
         return -1;

@@ -73,6 +73,9 @@ public:
     static void fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const UnitNode *selUN);
     static QSet<UnitNode *> findeSetAutoOnOffUN(UnitNode *un);
 
+    static char reverseBits( char number );
+
+
 };
 
 #endif // UTILS_H

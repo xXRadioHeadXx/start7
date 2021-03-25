@@ -3,12 +3,12 @@
 
 #include "SWP.h"
 
-class SWPTGType4 : public SWP
+class SWPTGType0x32 : public SWP
 {
 public:
-    SWPTGType4(const QByteArray &stateWord);
-    SWPTGType4(const SWPTGType4 & parent);
-    virtual ~SWPTGType4();
+    SWPTGType0x32(const QByteArray &stateWord);
+    SWPTGType0x32(const SWPTGType0x32 & parent);
+    virtual ~SWPTGType0x32();
 
     int isInAlarmC1() const;
     int isOutAlarmC1() const;

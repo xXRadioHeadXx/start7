@@ -1627,10 +1627,6 @@ bool MainWindowCFG::correct_UDP_parametres(UnitNode *unit)
     return true;
 }
 
-
-
-
-
 void MainWindowCFG::setDK()
 {
 //    //qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!]";

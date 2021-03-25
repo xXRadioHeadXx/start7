@@ -4,12 +4,12 @@
 #include "SWP.h"
 
 
-class SWPTGSubType2 : public SWP
+class SWPTGSubType0x34 : public SWP
 {
 public:
-    SWPTGSubType2(const QByteArray &stateWord);
-    SWPTGSubType2(const SWPTGSubType2 & parent);
-    virtual ~SWPTGSubType2();
+    SWPTGSubType0x34(const QByteArray &stateWord);
+    SWPTGSubType0x34(const SWPTGSubType0x34 & parent);
+    virtual ~SWPTGSubType0x34();
 
     int numberIn() const;
     int isOnFlt1() const;
