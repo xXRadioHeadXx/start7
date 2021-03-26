@@ -6719,6 +6719,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
             break;
 
             case TypeUnitNode::SD_BL_IP:
+            case TypeUnitNode::SSOI_SD:
 
                 menu->addAction(action_setDK);
                 if(un->getDK()==0)
@@ -6761,6 +6762,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
             break;
 
             case TypeUnitNode::IU_BL_IP:
+            case TypeUnitNode::SSOI_IU:
                 action_setAlarmMsgOn->setChecked(true);
                 action_setAdamOff_off->setChecked(false);
                 action_setAdamOff_5_sec->setChecked(false);
