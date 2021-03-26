@@ -97,6 +97,9 @@
      <height>30</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="text" stdset="0">
     <string/>
    </property>
