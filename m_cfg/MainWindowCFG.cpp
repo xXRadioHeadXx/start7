@@ -6930,9 +6930,11 @@ void MainWindowCFG::on_change_operator_button_clicked()
 
 
     int index = this->ui->tableWidget->currentRow();
-    //qDebug()<<index;
-    if(0<=index<operators.size())
+    qDebug()<<index;
+    qDebug()<<operators.size();
+    if((0<=index)&&(index<operators.size()))
     {
+        qDebug()<<"[1]";
         op_f.set_operator_data_on_form(operators.at(index)->getFN(),
                                        operators.at(index)->getN1(),
                                        operators.at(index)->getN2(),
