@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QSqlDatabase>
+#include <QMap>
 
 namespace Ui {
 class DBform;
@@ -35,6 +36,17 @@ private slots:
 
 private:
     Ui::DBform *ui;
+
+    QMap <int,QString> m_db{
+        {0,"rif_db0"},
+        {1,"rif_db1"},
+        {2,"rif_db2"},
+        {3,"rif_db3"},
+        {4,"ssoi_db0"},
+        {5,"ssoi_db1"},
+        {6,"ssoi_db2"},
+        {7,"ssoi_db3"}
+    };
 
 signals:
     void create_db(QString db_name);

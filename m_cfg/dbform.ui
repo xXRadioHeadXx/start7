@@ -181,26 +181,6 @@
       <height>30</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>rif_db0</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>rif_db1</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>rif_db2</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>rif_db3</string>
-     </property>
-    </item>
    </widget>
   </widget>
  </widget>

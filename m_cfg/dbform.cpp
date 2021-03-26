@@ -9,6 +9,11 @@ DBform::DBform(QWidget *parent) :
     ui(new Ui::DBform)
 {
     ui->setupUi(this);
+
+    foreach(int key,m_db.keys())
+    {
+        this->ui->comboBox->insertItem(key,m_db.value(key));
+    }
 }
 
 DBform::~DBform()
@@ -51,7 +56,12 @@ void DBform::find_rif_db(QSqlDatabase db)
         if((db_name=="rif_db0")||
            (db_name=="rif_db1")||
            (db_name=="rif_db2")||
-           (db_name=="rif_db3"))
+           (db_name=="rif_db3")||
+           (db_name=="ssoi_db0")||
+           (db_name=="ssoi_db1")||
+           (db_name=="ssoi_db2")||
+           (db_name=="ssoi_db3"))
+
         {
                     //qDebug()<<".";
             databases.append(query.value(0).toString());
