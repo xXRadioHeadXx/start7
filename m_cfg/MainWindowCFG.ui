@@ -212,7 +212,7 @@
                <x>10</x>
                <y>50</y>
                <width>181</width>
-               <height>25</height>
+               <height>30</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -224,13 +224,13 @@
              <property name="minimumSize">
               <size>
                <width>129</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>999</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
             </widget>
@@ -259,7 +259,7 @@
                <x>210</x>
                <y>50</y>
                <width>331</width>
-               <height>25</height>
+               <height>30</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -271,7 +271,7 @@
              <property name="minimumSize">
               <size>
                <width>186</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -300,7 +300,7 @@
                <x>10</x>
                <y>50</y>
                <width>411</width>
-               <height>25</height>
+               <height>30</height>
               </rect>
              </property>
             </widget>
@@ -323,7 +323,7 @@
                <x>430</x>
                <y>50</y>
                <width>111</width>
-               <height>25</height>
+               <height>30</height>
               </rect>
              </property>
              <property name="text">
@@ -336,7 +336,7 @@
                <x>10</x>
                <y>100</y>
                <width>531</width>
-               <height>25</height>
+               <height>30</height>
               </rect>
              </property>
             </widget>
@@ -379,7 +379,7 @@
               <x>20</x>
               <y>140</y>
               <width>531</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -391,7 +391,7 @@
             <property name="minimumSize">
              <size>
               <width>146</width>
-              <height>25</height>
+              <height>30</height>
              </size>
             </property>
            </widget>
@@ -601,9 +601,9 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>39</y>
+              <y>34</y>
               <width>261</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
            </widget>
@@ -624,9 +624,9 @@
             <property name="geometry">
              <rect>
               <x>280</x>
-              <y>39</y>
+              <y>33</y>
               <width>281</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
            </widget>
@@ -640,7 +640,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>16</number>
+             <number>19</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -649,7 +649,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -659,7 +659,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>61</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -674,7 +674,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -687,7 +687,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -699,7 +699,7 @@
                 <x>100</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -712,7 +712,7 @@
                 <x>100</x>
                 <y>26</y>
                 <width>171</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <item>
@@ -742,7 +742,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -755,7 +755,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>81</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -767,7 +767,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>181</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -793,7 +793,7 @@
                 <x>280</x>
                 <y>0</y>
                 <width>141</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -806,7 +806,7 @@
                 <x>10</x>
                 <y>76</y>
                 <width>551</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -816,7 +816,7 @@
                 <x>280</x>
                 <y>26</y>
                 <width>281</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -826,7 +826,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="inputMask" stdset="0">
@@ -847,7 +847,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="inputMask" stdset="0">
@@ -863,7 +863,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>111</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -876,7 +876,7 @@
                 <x>280</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -889,7 +889,7 @@
                 <x>280</x>
                 <y>26</y>
                 <width>281</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -899,7 +899,7 @@
                 <x>280</x>
                 <y>50</y>
                 <width>50</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -912,7 +912,7 @@
                 <x>280</x>
                 <y>76</y>
                 <width>281</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -922,7 +922,7 @@
                 <x>10</x>
                 <y>50</y>
                 <width>231</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -935,7 +935,7 @@
                 <x>10</x>
                 <y>76</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="inputMask" stdset="0">
@@ -953,7 +953,7 @@
                 <x>290</x>
                 <y>26</y>
                 <width>271</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -963,7 +963,7 @@
                 <x>305</x>
                 <y>0</y>
                 <width>221</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -976,7 +976,7 @@
                 <x>110</x>
                 <y>26</y>
                 <width>81</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -986,7 +986,7 @@
                 <x>200</x>
                 <y>26</y>
                 <width>81</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -996,7 +996,7 @@
                 <x>110</x>
                 <y>0</y>
                 <width>81</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1009,7 +1009,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1022,7 +1022,7 @@
                 <x>200</x>
                 <y>0</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1035,7 +1035,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>91</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1047,7 +1047,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>91</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1057,7 +1057,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1070,7 +1070,7 @@
                 <x>110</x>
                 <y>26</y>
                 <width>161</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1080,7 +1080,7 @@
                 <x>110</x>
                 <y>0</y>
                 <width>81</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1093,7 +1093,7 @@
                 <x>10</x>
                 <y>76</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1103,7 +1103,7 @@
                 <x>10</x>
                 <y>50</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1118,7 +1118,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1131,7 +1131,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>81</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="sizeAdjustPolicy">
@@ -1144,7 +1144,7 @@
                 <x>100</x>
                 <y>26</y>
                 <width>171</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="sizeAdjustPolicy">
@@ -1157,7 +1157,7 @@
                 <x>100</x>
                 <y>0</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1172,7 +1172,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="sizeAdjustPolicy">
@@ -1185,7 +1185,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1200,7 +1200,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -1225,7 +1225,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>81</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="maximum">
@@ -1238,7 +1238,7 @@
                 <x>100</x>
                 <y>26</y>
                 <width>171</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <item>
@@ -1258,7 +1258,7 @@
                 <x>100</x>
                 <y>0</y>
                 <width>71</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -1285,7 +1285,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1295,7 +1295,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>151</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1308,7 +1308,7 @@
                 <x>281</x>
                 <y>26</y>
                 <width>141</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1318,7 +1318,7 @@
                 <x>281</x>
                 <y>0</y>
                 <width>81</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1333,7 +1333,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1343,7 +1343,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>231</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1358,7 +1358,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1368,7 +1368,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>201</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1467,7 +1467,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <item>
@@ -1517,7 +1517,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1530,9 +1530,9 @@
               <property name="geometry">
                <rect>
                 <x>10</x>
-                <y>26</y>
+                <y>21</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <item>
@@ -1562,7 +1562,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1577,7 +1577,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>61</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1587,7 +1587,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>61</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1600,7 +1600,7 @@
                 <x>80</x>
                 <y>26</y>
                 <width>191</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <item>
@@ -1630,7 +1630,7 @@
                 <x>80</x>
                 <y>0</y>
                 <width>111</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1645,7 +1645,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1658,7 +1658,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>61</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1668,7 +1668,7 @@
                 <x>80</x>
                 <y>26</y>
                 <width>191</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1678,7 +1678,7 @@
                 <x>80</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1693,7 +1693,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1703,7 +1703,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1718,7 +1718,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1731,7 +1731,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1743,7 +1743,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>61</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1756,7 +1756,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1768,7 +1768,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1778,7 +1778,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1793,7 +1793,7 @@
                 <x>10</x>
                 <y>26</y>
                 <width>261</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
              </widget>
@@ -1803,7 +1803,7 @@
                 <x>10</x>
                 <y>0</y>
                 <width>47</width>
-                <height>25</height>
+                <height>30</height>
                </rect>
               </property>
               <property name="text">
@@ -1849,7 +1849,7 @@
               </rect>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="UDP">
               <widget class="QLabel" name="label_80">
@@ -1882,9 +1882,9 @@
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>24</y>
+                 <y>19</y>
                  <width>111</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="contextMenuPolicy">
@@ -1904,9 +1904,9 @@
                <property name="geometry">
                 <rect>
                  <x>120</x>
-                 <y>24</y>
+                 <y>19</y>
                  <width>161</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="contextMenuPolicy">
@@ -1928,21 +1928,21 @@
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>24</y>
+                 <y>19</y>
                  <width>281</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="minimumSize">
                 <size>
                  <width>66</width>
-                 <height>25</height>
+                 <height>30</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>999</width>
-                 <height>20</height>
+                 <height>30</height>
                 </size>
                </property>
               </widget>
@@ -1965,9 +1965,9 @@
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>30</y>
+               <y>25</y>
                <width>80</width>
-               <height>25</height>
+               <height>30</height>
               </rect>
              </property>
              <item>
@@ -1985,21 +1985,21 @@
              <property name="geometry">
               <rect>
                <x>90</x>
-               <y>30</y>
+               <y>25</y>
                <width>171</width>
-               <height>25</height>
+               <height>30</height>
               </rect>
              </property>
              <property name="minimumSize">
               <size>
                <width>101</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>999</width>
-               <height>20</height>
+               <height>30</height>
               </size>
              </property>
              <property name="inputMask" stdset="0">
@@ -2075,7 +2075,7 @@
                  <x>10</x>
                  <y>43</y>
                  <width>140</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
               </widget>
@@ -2085,7 +2085,7 @@
                  <x>13</x>
                  <y>16</y>
                  <width>71</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="text">
@@ -2098,7 +2098,7 @@
                  <x>160</x>
                  <y>43</y>
                  <width>120</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="contextMenuPolicy">
@@ -2114,7 +2114,7 @@
                  <x>290</x>
                  <y>43</y>
                  <width>123</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="contextMenuPolicy">
@@ -2130,7 +2130,7 @@
                  <x>160</x>
                  <y>16</y>
                  <width>121</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2155,7 +2155,7 @@
                  <x>290</x>
                  <y>16</y>
                  <width>171</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2189,7 +2189,7 @@
                  <x>495</x>
                  <y>17</y>
                  <width>16</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2214,7 +2214,7 @@
                  <x>440</x>
                  <y>17</y>
                  <width>16</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2239,7 +2239,7 @@
                  <x>175</x>
                  <y>17</y>
                  <width>91</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2262,9 +2262,9 @@
                <property name="geometry">
                 <rect>
                  <x>344</x>
-                 <y>45</y>
+                 <y>40</y>
                  <width>91</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="text">
@@ -2277,7 +2277,7 @@
                  <x>5</x>
                  <y>17</y>
                  <width>91</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2302,7 +2302,7 @@
                  <x>260</x>
                  <y>17</y>
                  <width>91</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2325,15 +2325,15 @@
                <property name="geometry">
                 <rect>
                  <x>495</x>
-                 <y>45</y>
+                 <y>40</y>
                  <width>50</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="minimumSize">
                 <size>
                  <width>1</width>
-                 <height>25</height>
+                 <height>30</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -2350,9 +2350,9 @@
                <property name="geometry">
                 <rect>
                  <x>5</x>
-                 <y>45</y>
+                 <y>40</y>
                  <width>80</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="contextMenuPolicy">
@@ -2366,9 +2366,9 @@
                <property name="geometry">
                 <rect>
                  <x>90</x>
-                 <y>45</y>
+                 <y>40</y>
                  <width>80</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="contextMenuPolicy">
@@ -2384,7 +2384,7 @@
                  <x>90</x>
                  <y>17</y>
                  <width>91</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2407,9 +2407,9 @@
                <property name="geometry">
                 <rect>
                  <x>260</x>
-                 <y>45</y>
+                 <y>40</y>
                  <width>80</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="contextMenuPolicy">
@@ -2423,9 +2423,9 @@
                <property name="geometry">
                 <rect>
                  <x>175</x>
-                 <y>45</y>
+                 <y>40</y>
                  <width>80</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="contextMenuPolicy">
@@ -2439,15 +2439,15 @@
                <property name="geometry">
                 <rect>
                  <x>440</x>
-                 <y>45</y>
+                 <y>40</y>
                  <width>50</width>
-                 <height>25</height>
+                 <height>30</height>
                 </rect>
                </property>
                <property name="minimumSize">
                 <size>
                  <width>1</width>
-                 <height>25</height>
+                 <height>30</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -2497,7 +2497,7 @@
              <property name="minimumSize">
               <size>
                <width>108</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -2528,7 +2528,7 @@
              <property name="minimumSize">
               <size>
                <width>100</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -2559,7 +2559,7 @@
              <property name="minimumSize">
               <size>
                <width>108</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -2596,7 +2596,7 @@
              <property name="maximumSize">
               <size>
                <width>999</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="text">
@@ -2621,7 +2621,7 @@
              <property name="minimumSize">
               <size>
                <width>100</width>
-               <height>25</height>
+               <height>30</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -2734,7 +2734,7 @@
                  <property name="minimumSize">
                   <size>
                    <width>121</width>
-                   <height>25</height>
+                   <height>30</height>
                   </size>
                  </property>
                  <item>
@@ -2775,7 +2775,7 @@
                  <property name="minimumSize">
                   <size>
                    <width>121</width>
-                   <height>25</height>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="text">
@@ -2794,7 +2794,7 @@
                  <property name="minimumSize">
                   <size>
                    <width>401</width>
-                   <height>25</height>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="text">
@@ -2813,7 +2813,7 @@
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>25</height>
+                   <height>30</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -2921,7 +2921,7 @@
               <x>10</x>
               <y>55</y>
               <width>95</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <item>
@@ -2946,7 +2946,7 @@
               <x>10</x>
               <y>31</y>
               <width>91</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -2959,7 +2959,7 @@
               <x>115</x>
               <y>55</y>
               <width>175</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text" stdset="0">
@@ -2972,7 +2972,7 @@
               <x>115</x>
               <y>31</y>
               <width>181</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -2985,7 +2985,7 @@
               <x>300</x>
               <y>55</y>
               <width>100</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="contextMenuPolicy">
@@ -3007,7 +3007,7 @@
               <x>300</x>
               <y>31</y>
               <width>121</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3020,7 +3020,7 @@
               <x>10</x>
               <y>115</y>
               <width>140</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text" stdset="0">
@@ -3033,7 +3033,7 @@
               <x>10</x>
               <y>90</y>
               <width>131</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3046,7 +3046,7 @@
               <x>160</x>
               <y>115</y>
               <width>241</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="contextMenuPolicy">
@@ -3059,7 +3059,7 @@
               <x>160</x>
               <y>90</y>
               <width>261</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3072,7 +3072,7 @@
               <x>9</x>
               <y>164</y>
               <width>551</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
            </widget>
@@ -3082,7 +3082,7 @@
               <x>10</x>
               <y>140</y>
               <width>251</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3095,7 +3095,7 @@
               <x>410</x>
               <y>55</y>
               <width>151</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3108,7 +3108,7 @@
               <x>410</x>
               <y>115</y>
               <width>151</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3121,7 +3121,7 @@
               <x>10</x>
               <y>200</y>
               <width>491</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3134,7 +3134,7 @@
               <x>10</x>
               <y>230</y>
               <width>501</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3147,7 +3147,7 @@
               <x>10</x>
               <y>267</y>
               <width>471</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3160,7 +3160,7 @@
               <x>10</x>
               <y>300</y>
               <width>62</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="contextMenuPolicy">
@@ -3173,7 +3173,7 @@
               <x>10</x>
               <y>330</y>
               <width>62</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="contextMenuPolicy">
@@ -3186,7 +3186,7 @@
               <x>80</x>
               <y>300</y>
               <width>201</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3199,7 +3199,7 @@
               <x>80</x>
               <y>330</y>
               <width>181</width>
-              <height>25</height>
+              <height>30</height>
              </rect>
             </property>
             <property name="text">
@@ -3232,7 +3232,7 @@
             <x>115</x>
             <y>30</y>
             <width>131</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3245,7 +3245,7 @@
             <x>300</x>
             <y>32</y>
             <width>131</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3258,7 +3258,7 @@
             <x>10</x>
             <y>55</y>
             <width>95</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
          </widget>
@@ -3268,7 +3268,7 @@
             <x>10</x>
             <y>31</y>
             <width>101</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3281,7 +3281,7 @@
             <x>115</x>
             <y>55</y>
             <width>175</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text" stdset="0">
@@ -3294,7 +3294,7 @@
             <x>300</x>
             <y>55</y>
             <width>100</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="contextMenuPolicy">
@@ -3313,7 +3313,7 @@
             <x>410</x>
             <y>55</y>
             <width>151</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3326,7 +3326,7 @@
             <x>10</x>
             <y>115</y>
             <width>101</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="contextMenuPolicy">
@@ -3345,7 +3345,7 @@
             <x>10</x>
             <y>90</y>
             <width>91</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -3363,7 +3363,7 @@
           <property name="maximumSize">
            <size>
             <width>999</width>
-            <height>25</height>
+            <height>30</height>
            </size>
           </property>
           <property name="text">
@@ -3376,7 +3376,7 @@
             <x>130</x>
             <y>90</y>
             <width>251</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3389,7 +3389,7 @@
             <x>130</x>
             <y>115</y>
             <width>211</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="contextMenuPolicy">
@@ -3418,7 +3418,7 @@
             <x>10</x>
             <y>46</y>
             <width>461</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
          </widget>
@@ -3428,7 +3428,7 @@
             <x>480</x>
             <y>46</y>
             <width>81</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3441,7 +3441,7 @@
             <x>10</x>
             <y>20</y>
             <width>531</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3467,7 +3467,7 @@
             <x>10</x>
             <y>40</y>
             <width>121</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
          </widget>
@@ -3477,7 +3477,7 @@
             <x>350</x>
             <y>17</y>
             <width>131</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3490,7 +3490,7 @@
             <x>350</x>
             <y>40</y>
             <width>100</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="contextMenuPolicy">
@@ -3509,7 +3509,7 @@
             <x>140</x>
             <y>14</y>
             <width>181</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3522,7 +3522,7 @@
             <x>140</x>
             <y>40</y>
             <width>201</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="inputMask" stdset="0">
@@ -3541,7 +3541,7 @@
             <x>10</x>
             <y>14</y>
             <width>101</width>
-            <height>25</height>
+            <height>30</height>
            </rect>
           </property>
           <property name="text">
@@ -3580,7 +3580,7 @@
      <x>0</x>
      <y>0</y>
      <width>1043</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -3676,15 +3676,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>My_lineEdit</class>
-   <extends>QWidget</extends>
-   <header>my_lineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>My_treeView</class>
    <extends>QWidget</extends>
    <header location="global">my_treeview.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

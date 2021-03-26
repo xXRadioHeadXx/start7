@@ -151,19 +151,19 @@
      <x>0</x>
      <y>25</y>
      <width>190</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
      <width>1</width>
-     <height>25</height>
+     <height>30</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
      <width>999</width>
-     <height>25</height>
+     <height>30</height>
     </size>
    </property>
   </widget>
@@ -173,7 +173,7 @@
      <x>0</x>
      <y>100</y>
      <width>181</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -186,7 +186,7 @@
      <x>0</x>
      <y>0</y>
      <width>191</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -199,7 +199,7 @@
      <x>0</x>
      <y>75</y>
      <width>190</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -211,7 +211,7 @@
    <property name="maximumSize">
     <size>
      <width>999</width>
-     <height>25</height>
+     <height>30</height>
     </size>
    </property>
   </widget>
@@ -221,7 +221,7 @@
      <x>0</x>
      <y>50</y>
      <width>181</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -234,7 +234,7 @@
      <x>0</x>
      <y>125</y>
      <width>190</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -246,7 +246,7 @@
    <property name="maximumSize">
     <size>
      <width>999</width>
-     <height>25</height>
+     <height>30</height>
     </size>
    </property>
   </widget>
@@ -291,7 +291,7 @@
       <x>10</x>
       <y>20</y>
       <width>80</width>
-      <height>25</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">

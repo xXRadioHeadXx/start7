@@ -19,7 +19,7 @@
      <x>10</x>
      <y>27</y>
      <width>106</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -41,7 +41,7 @@
      <x>10</x>
      <y>0</y>
      <width>111</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -67,7 +67,7 @@
        <x>100</x>
        <y>0</y>
        <width>101</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -80,7 +80,7 @@
        <x>0</x>
        <y>0</y>
        <width>101</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -93,7 +93,7 @@
        <x>0</x>
        <y>26</y>
        <width>91</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="contextMenuPolicy">
@@ -112,7 +112,7 @@
        <x>100</x>
        <y>26</y>
        <width>101</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="contextMenuPolicy">
@@ -130,7 +130,7 @@
        <x>0</x>
        <y>0</y>
        <width>191</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -143,7 +143,7 @@
        <x>0</x>
        <y>26</y>
        <width>201</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="contextMenuPolicy">

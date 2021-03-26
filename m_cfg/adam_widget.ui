@@ -19,7 +19,7 @@
      <x>0</x>
      <y>0</y>
      <width>251</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -32,7 +32,7 @@
      <x>0</x>
      <y>100</y>
      <width>81</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="contextMenuPolicy">
@@ -70,7 +70,7 @@
      <x>0</x>
      <y>60</y>
      <width>261</width>
-     <height>25</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
