@@ -6,7 +6,7 @@
 class AlarmSwitchOffLogger : public QThread
 {
     Q_OBJECT
-    bool runing;
+    bool runing = false;
 
 public:
     AlarmSwitchOffLogger(QObject * parent = nullptr);

@@ -44,7 +44,7 @@ private slots:
 
     void on_toolButtonTakenMeasures_clicked();
 
-    void on_pushButton_clicked();
+//    void on_pushButton_clicked();
 
     void on_pushButtonAlarmReset_clicked();
 

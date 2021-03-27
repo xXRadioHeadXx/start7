@@ -287,12 +287,12 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 //    ui->retranslateUi(this);
 //}
 
-void MainWindowServer::on_pushButton_clicked()
-{
-    createDiagnosticTable();
+//void MainWindowServer::on_pushButton_clicked()
+//{
+//    createDiagnosticTable();
 
-    write();
-}
+//    write();
+//}
 
 void MainWindowServer::createDiagnosticTable()
 {
@@ -325,7 +325,7 @@ void MainWindowServer::createDiagnosticTable()
     if(!ui->groupBox_4->isVisible())
         return;
 
-    ui->tableWidget->clear();
+//    ui->tableWidget->clear();
     ui->tableWidget->verticalHeader()->hide();
     ui->tableWidget->horizontalHeader()->hide();
 

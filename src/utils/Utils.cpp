@@ -145,26 +145,28 @@ bool Utils::isSavedMsg(const QByteArray ba) {
 
 void Utils::setCellText(QTableWidget * const table, const int row, const int column, const QString text)
 {
-    if(row >= table->rowCount() || column >= table->colorCount())
+    if(row >= table->rowCount() || column >= table->columnCount())
         return;
     QTableWidgetItem * item = table->item(row, column);
     if(nullptr == item) {
-        item = new QTableWidgetItem();
-        table->setItem(row, column, item);
+        table->setItem(row, column, new QTableWidgetItem(text));
+    } else {
+        item->setText(text);
     }
-    item->setText(text);
 }
 
 void Utils::setCellColor(QTableWidget * const table, const int row, const int column, const QColor color)
 {
-    if(row >= table->rowCount() || column >= table->colorCount())
+    if(row >= table->rowCount() || column >= table->columnCount())
         return;
     QTableWidgetItem * item = table->item(row, column);
     if(nullptr == item) {
-        item = new QTableWidgetItem();
-        table->setItem(row, column, item);
+        table->setItem(row, column, new QTableWidgetItem());
+        item = table->item(row, column);
     }
-    item->setBackground(QBrush(color));
+    if(nullptr != item) {
+        item->setBackground(QBrush(color));
+    }
 
 }
 
@@ -188,7 +190,8 @@ void Utils::fillDiagnosticTable(QTableWidget * const table, const UnitNode * sel
         if(nullptr == selUN || nullptr == table)
             return;
 
-        table->clear();
+//        table->clear();
+
         if(TypeUnitNode::RLM_KRL == selUN->getType())
             Utils::fillDiagnosticTableRLMKRL(table, selUN);
         else if(TypeUnitNode::RLM_C == selUN->getType())
@@ -226,6 +229,8 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode *
     } else {
         return;
     }
+
+//    table->clear();
 
     table->setRowCount(15);
     table->setColumnCount(3);
@@ -374,6 +379,8 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode *
 void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode *un)
 {
     // prepare -->
+//    table->clear();
+
     table->setRowCount(9);
     table->setColumnCount(3);
 
@@ -382,7 +389,7 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode
     table->setColumnWidth(2, 150);
 
     for(int i = 0, n = table->rowCount(); i < n; i++) {
-        for(int j = 0, m = table->colorCount(); j < m; j++) {
+        for(int j = 0, m = table->columnCount(); j < m; j++) {
             setCellText( table, i, j, "");
             setCellColor( table, i, j, cellGray);
         }
@@ -486,6 +493,8 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode
 void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
 {
     // prepare -->
+//    table->clear();
+
     table->setRowCount(13);
     table->setColumnCount(3);
 
@@ -494,7 +503,7 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
     table->setColumnWidth(2, 150);
 
     for(int i = 0, n = table->rowCount(); i < n; i++) {
-        for(int j = 0, m = table->colorCount(); j < m; j++) {
+        for(int j = 0, m = table->columnCount(); j < m; j++) {
             setCellText( table, i, j, "");
             setCellColor( table, i, j, cellGray);
         }
@@ -626,6 +635,8 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
 
 void Utils::fillDiagnosticTableTG(QTableWidget * const table, const UnitNode */*selUN*/)
 {
+//    table->clear();
+
     table->setRowCount(15);
     table->setColumnCount(6);
 
@@ -690,6 +701,8 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const UnitNode */*
 
 void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const UnitNode */*selUN*/)
 {
+//    table->clear();
+
     table->setRowCount(14);
     table->setColumnCount(4);
 
@@ -742,6 +755,8 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const UnitNo
 
 void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const UnitNode */*selUN*/)
 {
+//    table->clear();
+
     table->setRowCount(14);
     table->setColumnCount(4);
 
@@ -792,6 +807,8 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const UnitNod
 
 void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const UnitNode */*selUN*/)
 {
+//    table->clear();
+
     table->setRowCount(20);
     table->setColumnCount(53);
 
@@ -848,6 +865,8 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const UnitNod
 
 void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const UnitNode */*selUN*/)
 {
+//    table->clear();
+
     table->setRowCount(22);
     table->setColumnCount(29);
 

@@ -9,11 +9,11 @@
 class DataQueueItem
 {
 private:
-    int m_port;
+    int m_port = -1;
     QHostAddress m_address;
     QByteArray m_data;
     QByteArray m_preamble;
-    int m_portIndex;
+    int m_portIndex = -1;
 
     static QByteArray data0x20;
     static QByteArray data0x21;

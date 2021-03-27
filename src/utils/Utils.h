@@ -42,6 +42,7 @@ inline bool treatAsEqual(FloatingType1 value1, FloatingType2 value2, FloatingTyp
 
 class Utils
 {
+
 public:
     static QColor cellRed;
     static QColor cellGreen;

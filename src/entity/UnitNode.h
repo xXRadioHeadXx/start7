@@ -83,8 +83,8 @@ private:
     QByteArray stateWordType0x34;
     QSet<UnitNode *> doubles; //[Obj_1]
     QSet<QString> metaNames; //[Obj_1]
-    int Type;//=0
-    int Num1;//=0
+    int Type=TypeUnitNode::SYSTEM;
+    int Num1=-1;//=0
     int Num2;//=0
     int Num3;//=0
     int Level;//=1
@@ -92,8 +92,8 @@ private:
     int IconVisible;//=0
     int X;//=40
     int Y;//=40
-    int DK;//=1
-    int Bazalt;//=0
+    int DK=1;
+    int Bazalt=0;
     int Metka;//=0
     int Razriv;//=0
     int AdamOff;//=0

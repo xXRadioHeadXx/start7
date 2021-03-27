@@ -48,6 +48,7 @@ AlarmSwitchOffLogger::~AlarmSwitchOffLogger()
 
 void AlarmSwitchOffLogger::run()
 {
+    setRuning(true);
     while(isRuning()) {
         try {
             QFile file( QCoreApplication::applicationDirPath() + "/AlarmSwitchOffLog.txt" );
