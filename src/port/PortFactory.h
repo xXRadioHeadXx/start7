@@ -2,8 +2,6 @@
 #define PORTFACTORY_H
 
 #include <QString>
-
-//#include <AbstractPort.h>
 #include <AbstractPortFactory.h>
 #include <Port.h>
 

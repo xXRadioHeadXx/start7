@@ -2,8 +2,8 @@
 #define SIGNALSLOTCOMMUTATOR_H
 
 #include <QObject>
-#include <UnitNode.h>
 
+class UnitNode;
 class SignalSlotCommutator : public QObject
 {
     Q_OBJECT

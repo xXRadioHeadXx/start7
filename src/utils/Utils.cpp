@@ -1,7 +1,16 @@
 #include <Utils.h>
+#include <QTableWidget>
+#include <QHostAddress>
 #include <SettingUtils.h>
 #include <SignalSlotCommutator.h>
 #include <global.h>
+#include <UnitNode.h>
+#include <SWPBLIP.h>
+#include <SWPRLM.h>
+#include <SWPRLMC.h>
+#include <SWPSDBLIP.h>
+#include <SWPIUBLIP.h>
+
 
 Utils::Utils()
 {

@@ -2,7 +2,6 @@
 #define MAINWINDOWSERVER_H
 
 #include <QMainWindow>
-//#include <QUdpSocket>
 #include <AlarmSwitchOffLogger.h>
 #include <QDebug>
 #include <QTableWidget>

@@ -2,10 +2,10 @@
 
 #include <QSettings>
 #include <QDebug>
-
+#include <UnitNodeFactory.h>
 #include <Utils.h>
 #include <global.h>
-#include<QTextCodec>
+#include <QTextCodec>
 
 SettingUtils::SettingUtils()
 {

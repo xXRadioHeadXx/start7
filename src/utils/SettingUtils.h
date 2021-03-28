@@ -2,13 +2,9 @@
 #define SETTINGUTILS_H
 
 #include <QCoreApplication>
-#include <QSettings>
-#include <UnitNodeFactory.h>
-//#include <AbstractPort.h>
-//#include <PortFactory.h>
 
-
-
+class QSettings;
+class UnitNode;
 class SettingUtils
 {
 private:

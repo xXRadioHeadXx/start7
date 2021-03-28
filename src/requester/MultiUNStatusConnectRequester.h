@@ -1,15 +1,7 @@
 #ifndef MULTIUNSTATUSCONNECTREQUESTER_H
 #define MULTIUNSTATUSCONNECTREQUESTER_H
 
-#include "AbstractPort.h"
 #include <AbstractRequester.h>
-#include "DataQueueItem.h"
-
-#include <AbstractRequester.h>
-#include <Utils.h>
-#include <QDebug>
-
-#include <UnitNode.h>
 
 class MultiUNStatusConnectRequester final : public AbstractRequester
 {

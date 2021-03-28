@@ -1,16 +1,7 @@
 #ifndef PROCESSDKWAITER_H
 #define PROCESSDKWAITER_H
 
-#include "AbstractPort.h"
 #include <AbstractRequester.h>
-#include "DataQueueItem.h"
-
-#include <QObject>
-#include <QTimer>
-#include <Utils.h>
-#include <QDebug>
-
-#include <UnitNode.h>
 
 class ProcessDKWaiter final : public AbstractRequester
 {

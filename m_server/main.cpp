@@ -3,7 +3,6 @@
 
 #include <AppTranslator.h>
 #include <MainWindowServer.h>
-//#include <AuthenticationDialog.h>
 #include <QMessageBox>
 #include <QSplashScreen>
 #include <RunGuard.h>

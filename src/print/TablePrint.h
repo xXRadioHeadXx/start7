@@ -2,17 +2,15 @@
 #define TABLEPRINT_H
 
 #include <QObject>
-#include <QPrinter>
-#include <QTableView>
-#include <QTextDocument>
-//#include <QWebView>
 
+class QTableView;
+class QPrinter;
+class QTextDocument;
 class TablePrint : public QObject
 {
     Q_OBJECT
 private:
     QTextDocument * document = nullptr;
-//    QWebView *printHtmlView = nullptr;
 public:
     explicit TablePrint(QObject *parent = nullptr);
     static bool prepareTmpFileHtmlTableFromModel(const QTableView * tableView);

@@ -1,6 +1,7 @@
 ﻿#include <TreeModelUnitNode.h>
 #include <SettingUtils.h>
 #include <SignalSlotCommutator.h>
+#include <QPixmap>
 
 SubTypeApp TreeModelUnitNode::getTypeApp() const
 {

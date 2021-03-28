@@ -7,11 +7,6 @@
 #include <Utils.h>
 #include <global.h>
 
-//#include <QMessageBox>
-
-//static inline qint32 ArrayToInt(QByteArray source);
-//static inline QByteArray IntToArray(qint32 source);
-
 TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
  {
      m_ptrTcpServer = new QTcpServer(this);

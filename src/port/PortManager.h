@@ -2,20 +2,16 @@
 #define PORTMANAGER_H
 
 #include <QObject>
-#include <QSettings>
 #include <QQueue>
-#include <ProcessDKWaiter.h>
-
-#include <DataBaseManager.h>
-#include <UnitNode.h>
 #include <Port.h>
-#include <DataQueueItem.h>
-#include <ConfirmationAdmissionWaiter.h>
-#include <OnOffIUWaiter.h>
-#include <StatusConnectRequester.h>
 #include <GraphTerminal.h>
-#include <MultiUNStatusConnectRequester.h>
 
+class UnitNode;
+class DataBaseManager;
+class QSettings;
+class GraphTerminal;
+class AbstractRequester;
+class DataQueueItem;
 class PortManager : public QObject
 {
     Q_OBJECT

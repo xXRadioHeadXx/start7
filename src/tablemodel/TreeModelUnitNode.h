@@ -3,8 +3,10 @@
 
 #include <QAbstractItemModel>
 #include <UnitNode.h>
-#include "DataBaseManager.h"
+#include <QCoreApplication>
 
+class UnitNode;
+class DataBaseManager;
 class TreeModelUnitNode : public QAbstractItemModel
 {
     Q_OBJECT

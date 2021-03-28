@@ -1,5 +1,11 @@
 #include "GraphTerminal.h"
 
+#include <SWPSDBLIP.h>
+#include <SWPIUBLIP.h>
+#include <TcpServer.h>
+#include <QTcpSocket>
+#include <qdom.h>
+#include <UnitNode.h>
 #include <DataBaseManager.h>
 #include <JourEntity.h>
 #include <QDomDocument>
@@ -516,10 +522,10 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                     dataAnswer = makeEventsAndStates(unTarget, msgOn).toByteArray();
 
-                    if(unTarget->getControl()) {
-                        unTarget->setStatus1(Status::Uncnown);
-                        unTarget->setStatus2(Status::Uncnown);
-                    }
+//                    if(unTarget->getControl()) {
+//                        unTarget->setStatus1(Status::Uncnown);
+//                        unTarget->setStatus2(Status::Uncnown);
+//                    }
                 }
                 //qDebug() << "<--";
 

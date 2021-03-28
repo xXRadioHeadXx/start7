@@ -10,6 +10,9 @@
 #include <QPrintDialog>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QTableView>
+#include <QTextDocument>
+
 
 TablePrint::TablePrint(QObject *parent) : QObject(parent)
 {

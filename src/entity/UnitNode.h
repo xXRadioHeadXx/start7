@@ -4,14 +4,6 @@
 #include <QObject>
 #include <QSet>
 #include <QVariant>
-#include <SWPBLIP.h>
-#include <SWPRLM.h>
-#include <SWPRLMC.h>
-#include <SWPSDBLIP.h>
-#include <SWPTGType0x31.h>
-#include <SWPTGType0x34.h>
-#include <SWPTGType0x33.h>
-#include <SWPTGType0x32.h>
 
 enum SubTypeApp {
     any = 0x00,
@@ -20,17 +12,17 @@ enum SubTypeApp {
     configurator = 0x03
 };
 
-enum Status {
-    Uncnown = 0x00,
-    On = 0x01,
-    Off = 0x02,
-    Was = 0x04,
-    Not = 0x08,
-    Alarm = 0x10,
-    Norm = 0x20,
-    NoConnection = 0x40,
-    Exists = 0x80
-};
+//enum Status {
+//    Uncnown = 0x00,
+//    On = 0x01,
+//    Off = 0x02,
+//    Was = 0x04,
+//    Not = 0x08,
+//    Alarm = 0x10,
+//    Norm = 0x20,
+//    NoConnection = 0x40,
+//    Exists = 0x80
+//};
 
 enum TypeUnitNode {
     SYSTEM = -1, //Система
@@ -71,6 +63,16 @@ enum DKCiclStatus {
     DKWrong = -1
 };
 
+class SWPBLIP;
+class SWPRLM;
+class SWPRLMC;
+class SWPSDBLIP;
+class SWPIUBLIP;
+class SWPTGType0x31;
+class SWPTGType0x34;
+class SWPTGType0x33;
+class SWPTGType0x32;
+class DataQueueItem;
 class UnitNode : public QObject
 {
     Q_OBJECT
@@ -134,8 +136,8 @@ private:
 
     int timeIntervalStatusRequest = 70;
 
-    quint8 status1 = Status::Uncnown;
-    quint8 status2 = Status::Uncnown;
+//    quint8 status1 = Status::Uncnown;
+//    quint8 status2 = Status::Uncnown;
     int dkStatus = DKCiclStatus::DKIgnore;
     bool dkInvolved = false;
     bool visible = false;
@@ -408,16 +410,18 @@ public:
     QByteArray getStateWordType0x32() const;
     void setStateWordType0x32(const QByteArray &value);
 
-    const SWPSDBLIP swpSDBLIP() const {return SWPSDBLIP(getStateWord(), getNum2());}
-    const SWPIUBLIP swpIUBLIP() const {return SWPIUBLIP(getStateWord(), getNum2());}
-    const SWPBLIP swpBLIP() const {return SWPBLIP(getStateWord());}
-    const SWPRLM swpRLM() const {return SWPRLM(getStateWord());}
-    const SWPRLMC swpRLMC() const {return SWPRLMC(getStateWord());}
-    const SWPTGType0x31 swpTGType0x31() const {return SWPTGType0x31(getStateWord());}
-    const SWPTGType0x34 swpTGType0x34() const {return SWPTGType0x34(getStateWordType0x34());}
-    const SWPTGType0x33 swpTGType0x33() const {return SWPTGType0x33(getStateWordType0x33());}
-    const SWPTGType0x32 swpTGType0x32() const {return SWPTGType0x32(getStateWordType0x32());}
+    const SWPSDBLIP swpSDBLIP() const; // {return SWPSDBLIP(getStateWord(), getNum2());}
+    const SWPIUBLIP swpIUBLIP() const; // {return SWPIUBLIP(getStateWord(), getNum2());}
+    const SWPBLIP swpBLIP() const; // {return SWPBLIP(getStateWord());}
+    const SWPRLM swpRLM() const; // {return SWPRLM(getStateWord());}
+    const SWPRLMC swpRLMC() const; // {return SWPRLMC(getStateWord());}
+    const SWPTGType0x31 swpTGType0x31() const; // {return SWPTGType0x31(getStateWord());}
+    const SWPTGType0x34 swpTGType0x34() const; // {return SWPTGType0x34(getStateWordType0x34());}
+    const SWPTGType0x33 swpTGType0x33() const; // {return SWPTGType0x33(getStateWordType0x33());}
+    const SWPTGType0x32 swpTGType0x32() const; // {return SWPTGType0x32(getStateWordType0x32());}
 
+public:
+//    QQueue<DataQueueItem> queueMsg;
 
 public slots:
 
@@ -451,7 +455,7 @@ public:
 //    virtual int isWasAlarm() const;
 //    virtual int isOn() const;
 //    virtual int isOff() const;
-    virtual int calcDKStatus() const {
+    virtual int calcDKStatus() const;/* {
         if(1 == swpSDBLIP().isWasAlarm() && 1 == swpSDBLIP().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(1 == swpSDBLIP().isNorm() && 1 == swpSDBLIP().isWasAlarm()) {
@@ -466,7 +470,7 @@ public:
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
-    }
+    }*/
 };
 class UnitNode_IU_BL_IP : public UnitNode {
 public:
@@ -482,7 +486,7 @@ class UnitNode_TG : public UnitNode {
 public:
     explicit UnitNode_TG(UnitNode * parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {}
-    virtual int calcDKStatus() const {
+    virtual int calcDKStatus() const; /*{
          SWPTGType0x31 swp = swpTGType0x31();
         if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
@@ -498,7 +502,7 @@ public:
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
-    }
+    }*/
 };
 class UnitNode_RLM_KRL : public UnitNode {
 public:
@@ -521,7 +525,7 @@ public:
 //    virtual int isOpened() const;
 //    virtual int isInOpened() const;
 //    virtual int isWasOpened() const;
-    virtual int calcDKStatus() const {
+    virtual int calcDKStatus() const; /*{
         if(1 == swpRLM().isWasAlarm() && 1 == swpRLM().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(1 == swpRLM().isNorm() && 1 == swpRLM().isWasAlarm()) {
@@ -536,7 +540,7 @@ public:
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
-    }
+    }*/
 
 
 };
@@ -561,7 +565,7 @@ public:
 //    virtual int clockPeriod() const;
 //    virtual int modeProcessing() const;
 //    virtual int lowLevl() const;
-    virtual int calcDKStatus() const {
+    virtual int calcDKStatus() const; /*{
         if(1 == swpRLMC().isWasAlarm() && 1 == swpRLMC().isAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(1 == swpRLMC().isNorm() && 1 == swpRLMC().isWasAlarm()) {
@@ -576,7 +580,7 @@ public:
             return DKCiclStatus::DKNorm;
         }
         return DKCiclStatus::DKWrong;
-    }
+    }*/
 
 };
 class UnitNode_BOD_T4K_M : public UnitNode {

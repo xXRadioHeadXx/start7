@@ -5,8 +5,7 @@
 #include <QtSql>
 
 #include <JourEntity.h>
-//#include <MessageEntity.h>
-#include <Operator.h>
+//#include <Operator.h>
 
 class DataBaseManager : public QObject
 {

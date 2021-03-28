@@ -14,6 +14,27 @@
 #include <global.h>
 #include <QMessageBox>
 #include <MultiUNStatusConnectRequester.h>
+#include <QQueue>
+#include <ProcessDKWaiter.h>
+#include <UnitNodeFactory.h>
+
+#include <DataBaseManager.h>
+#include <UnitNode.h>
+#include <Port.h>
+#include <DataQueueItem.h>
+#include <ConfirmationAdmissionWaiter.h>
+#include <OnOffIUWaiter.h>
+#include <GraphTerminal.h>
+
+#include <SWPBLIP.h>
+#include <SWPRLM.h>
+#include <SWPRLMC.h>
+#include <SWPSDBLIP.h>
+#include <SWPIUBLIP.h>
+#include <SWPTGType0x31.h>
+#include <SWPTGType0x34.h>
+#include <SWPTGType0x33.h>
+#include <SWPTGType0x32.h>
 
 PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {

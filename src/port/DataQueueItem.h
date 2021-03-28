@@ -3,9 +3,9 @@
 
 #include <QByteArray>
 #include <QHostAddress>
-#include <UnitNode.h>
 #include <Utils.h>
 
+class UnitNode;
 class DataQueueItem
 {
 private:

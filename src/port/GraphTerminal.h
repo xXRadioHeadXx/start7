@@ -1,13 +1,15 @@
 #ifndef GRAPHTERMINAL_H
 #define GRAPHTERMINAL_H
 
-#include <DataQueueItem.h>
 #include <QObject>
-#include <TcpServer.h>
-#include <QTcpSocket>
-#include <qdom.h>
 #include <JourEntity.h>
+#include <DataQueueItem.h>
 
+class TcpServer;
+class QTcpSocket;
+class UnitNode;
+class QDomElement;
+class QDomDocument;
 class GraphTerminal : public QObject
 {
     Q_OBJECT
@@ -58,6 +60,7 @@ public slots:
     void pushReadQueue(const DataQueueItem &value);
     void pushOverallWriteQueue(const DataQueueItem &value);
 
+public:
     static void sendAbonentEventBook(JourEntity jour);
     static void sendAbonentEventsAndStates(JourEntity jour);
     static void sendAbonentEventsAndStates(UnitNode *un);

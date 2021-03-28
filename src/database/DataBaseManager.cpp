@@ -1,8 +1,7 @@
-﻿#include <QStringBuilder>
-
-#include <DataBaseManager.h>
+﻿#include <DataBaseManager.h>
 #include <SignalSlotCommutator.h>
 #include <Utils.h>
+#include <Operator.h>
 
 qint64 DataBaseManager::idStartLastDuty = -1;
 

@@ -6,6 +6,8 @@
 #include <SettingUtils.h>
 #include <Utils.h>
 #include <global.h>
+#include <SWPSDBLIP.h>
+#include <SWPIUBLIP.h>
 
 LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

@@ -1,16 +1,7 @@
 #ifndef LOCKWAITER_H
 #define LOCKWAITER_H
 
-#include "AbstractPort.h"
 #include <AbstractRequester.h>
-#include "DataQueueItem.h"
-
-#include <QObject>
-#include <QTimer>
-#include <Utils.h>
-#include <QDebug>
-
-#include <UnitNode.h>
 
 class LockWaiter final : public AbstractRequester
 {

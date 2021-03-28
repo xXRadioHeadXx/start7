@@ -16,6 +16,10 @@
 
 #include <QEvent>
 #include <QKeyEvent>
+#include <QSettings>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QTextCodec>
 
 #include <QAbstractItemModel>
 

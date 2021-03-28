@@ -1,6 +1,7 @@
 #include <QByteArray>
 
 #include <TableModelMSG.h>
+#include <DataBaseManager.h>
 #include <SignalSlotCommutator.h>
 #include <Icons.h>
 

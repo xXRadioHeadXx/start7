@@ -20,6 +20,7 @@
 #include <rif_widget_delegate.h>
 #include <QMessageBox>
 #include <my_settings.h>
+#include <Operator.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -39,7 +40,7 @@ struct SerNum_Name{
 };
 
 
-
+class QSettings;
 class MainWindowCFG : public QMainWindow
 {
     Q_OBJECT

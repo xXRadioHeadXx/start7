@@ -1,15 +1,7 @@
 #ifndef CONFIRMATIONADMISSIONWAITER_H
 #define CONFIRMATIONADMISSIONWAITER_H
 
-#include "AbstractPort.h"
 #include "AbstractRequester.h"
-#include "DataQueueItem.h"
-
-#include <QObject>
-#include <QTimer>
-#include <Utils.h>
-
-#include <UnitNode.h>
 
 class ConfirmationAdmissionWaiter final : public AbstractRequester
 {

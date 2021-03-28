@@ -2,11 +2,11 @@
 #define COMBOBOXDELEGATE_H
 
 #include <QItemDelegate>
-#include <QComboBox>
 
 class QModelIndex;
 class QWidget;
 class QVariant;
+class QComboBox;
 
 class ComboBoxDelegate : public QItemDelegate
 {

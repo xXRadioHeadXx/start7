@@ -1,45 +1,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <QHostAddress>
-#include <QTableWidget>
-
-#include <UnitNode.h>
-
-///
-/// \brief Значения, меньшие по модулю этой величины, считаем нулевыми
-///
-/// \remarks
-///     Для подстраховки при сравнении значений с плавающей точкой
-///
-template<typename FloatingType = float>
-const FloatingType _threshold0 = 0.09;
-
-///
-/// \brief Проверка на равенство нулю с учетом возможной погрешности
-///
-/// \remarks
-///     Для подстраховки при сравнении значений с плавающей точкой
-///
-template<typename FloatingType, typename FloatingType2 = FloatingType>
-inline bool treatAs0(FloatingType value, FloatingType2 threshold0 = _threshold0<FloatingType2>)
-{
-    return qFabs(value) < threshold0;
-};
-
-///
-/// \brief Проверка на равенство с учетом возможной погрешности
-///
-/// \remarks
-///     Для подстраховки при сравнении значений с плавающей точкой
-///
-template<typename FloatingType1, typename FloatingType2, typename FloatingType3 = FloatingType1>
-inline bool treatAsEqual(FloatingType1 value1, FloatingType2 value2, FloatingType3 threshold0 = _threshold0<FloatingType3>)
-{
-    return treatAs0(value1 - value2, threshold0);
-};
+#include <QByteArray>
+#include <QtMath>
 
 
+class UnitNode;
+class QTableWidget;
+class QHostAddress;
+class QColor;
 class Utils
 {
 
@@ -51,6 +20,21 @@ public:
 
 public:
     Utils();
+
+    template<typename FloatingType = float>
+    static const FloatingType _threshold0 = 0.09;
+
+    template<typename FloatingType, typename FloatingType2 = FloatingType>
+    static inline bool treatAs0(FloatingType value, FloatingType2 threshold0 = _threshold0<FloatingType2>)
+    {
+        return qFabs(value) < threshold0;
+    };
+
+    template<typename FloatingType1, typename FloatingType2, typename FloatingType3 = FloatingType1>
+    static inline bool treatAsEqual(FloatingType1 value1, FloatingType2 value2, FloatingType3 threshold0 = _threshold0<FloatingType3>)
+    {
+        return treatAs0(value1 - value2, threshold0);
+    };
 
     static QHostAddress hostAddress(const QString ip);
     static QString strHostAddress(const QString ip);

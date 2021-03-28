@@ -6,7 +6,16 @@
 #include <Icons_cfg.h>
 #include <SignalSlotCommutator.h>
 #include <global.h>
-#include <QtMath>
+#include <SWPBLIP.h>
+#include <SWPRLM.h>
+#include <SWPRLMC.h>
+#include <SWPSDBLIP.h>
+#include <SWPIUBLIP.h>
+#include <SWPTGType0x31.h>
+#include <SWPTGType0x34.h>
+#include <SWPTGType0x33.h>
+#include <SWPTGType0x32.h>
+#include <DataQueueItem.h>
 
 QSet<QString> UnitNode::getMetaNames() const
 {
@@ -449,27 +458,27 @@ QList<UnitNode *> UnitNode::getListChilde() const
     return listChilde;
 }
 
-quint8 UnitNode::getStatus1() const
-{
-    return status1;
-}
+//quint8 UnitNode::getStatus1() const
+//{
+//    return status1;
+//}
 
-void UnitNode::setStatus1(const quint8 &value)
-{
-    status1 = value;
-//    updDoubl();
-}
+//void UnitNode::setStatus1(const quint8 &value)
+//{
+//    status1 = value;
+////    updDoubl();
+//}
 
-quint8 UnitNode::getStatus2() const
-{
-    return status2;
-}
+//quint8 UnitNode::getStatus2() const
+//{
+//    return status2;
+//}
 
-void UnitNode::setStatus2(const quint8 &value)
-{
-    status2 = value;
-//    updDoubl();
-}
+//void UnitNode::setStatus2(const quint8 &value)
+//{
+//    status2 = value;
+////    updDoubl();
+//}
 
 QPixmap UnitNode::getPxm(SubTypeApp type)
 {
@@ -721,8 +730,8 @@ void UnitNode::updDoubl()
         c->stateWordType0x32 = this->stateWordType0x32;
         c->stateWordType0x33 = this->stateWordType0x33;
         c->stateWordType0x34 = this->stateWordType0x34;
-        c->status1 = this->status1;
-        c->status2 = this->status2;
+//        c->status1 = this->status1;
+//        c->status2 = this->status2;
         c->dkStatus = this->dkStatus;
         c->dkInvolved = this->dkInvolved;
         c->visible = this->visible;
@@ -1111,6 +1120,18 @@ UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 {
     this->parentUN = parent;
 }
+
+const SWPSDBLIP UnitNode::swpSDBLIP() const {return SWPSDBLIP(getStateWord(), getNum2());}
+const SWPIUBLIP UnitNode::swpIUBLIP() const {return SWPIUBLIP(getStateWord(), getNum2());}
+const SWPBLIP UnitNode::swpBLIP() const {return SWPBLIP(getStateWord());}
+const SWPRLM UnitNode::swpRLM() const {return SWPRLM(getStateWord());}
+const SWPRLMC UnitNode::swpRLMC() const {return SWPRLMC(getStateWord());}
+const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getStateWord());}
+const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getStateWordType0x34());}
+const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWordType0x33());}
+const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWordType0x32());}
+
+
 
 UnitNode::UnitNode(const UnitNode & parent) :
     QObject(nullptr),
@@ -1774,3 +1795,73 @@ QString UnitNode::toString() const
 //    else
 //        return 0; //Status::Not;
 //}
+
+int UnitNode_SD_BL_IP::calcDKStatus() const {
+    if(1 == swpSDBLIP().isWasAlarm() && 1 == swpSDBLIP().isAlarm()) {
+        return DKCiclStatus::DKWasAlarn;
+    } else if(1 == swpSDBLIP().isNorm() && 1 == swpSDBLIP().isWasAlarm()) {
+        return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+    } else if(1 == swpSDBLIP().isAlarm()) {
+        return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+    } else if(1 == swpSDBLIP().isOff()) {
+        return DKCiclStatus::DKWrong;
+    } else if(1 == swpSDBLIP().isNorm()) {
+        return DKCiclStatus::DKNorm;
+    }
+    return DKCiclStatus::DKWrong;
+}
+
+
+int UnitNode_TG::calcDKStatus() const {
+     SWPTGType0x31 swp = swpTGType0x31();
+    if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
+        return DKCiclStatus::DKWasAlarn;
+    } else if(1 == swp.isNorm() && 1 == swp.isWasAlarm()) {
+        return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+    } else if(1 == swp.isAlarm()) {
+        return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+    } else if(1 == swp.isOff()) {
+        return DKCiclStatus::DKWrong;
+    } else if(1 == swp.isNorm()) {
+        return DKCiclStatus::DKNorm;
+    }
+    return DKCiclStatus::DKWrong;
+}
+
+int UnitNode_RLM_KRL::calcDKStatus() const {
+    if(1 == swpRLM().isWasAlarm() && 1 == swpRLM().isAlarm()) {
+        return DKCiclStatus::DKWasAlarn;
+    } else if(1 == swpRLM().isNorm() && 1 == swpRLM().isWasAlarm()) {
+        return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+    } else if(1 == swpRLM().isAlarm()) {
+        return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+    } else if(1 == swpRLM().isOff()) {
+        return DKCiclStatus::DKWrong;
+    } else if(1 == swpRLM().isNorm()) {
+        return DKCiclStatus::DKNorm;
+    }
+    return DKCiclStatus::DKWrong;
+}
+
+int UnitNode_RLM_C::calcDKStatus() const {
+    if(1 == swpRLMC().isWasAlarm() && 1 == swpRLMC().isAlarm()) {
+        return DKCiclStatus::DKWasAlarn;
+    } else if(1 == swpRLMC().isNorm() && 1 == swpRLMC().isWasAlarm()) {
+        return DKCiclStatus::DKWas;
+//            return DKCiclStatus::DKWrong;
+    } else if(1 == swpRLMC().isAlarm()) {
+        return DKCiclStatus::DKWrong;
+//            return DKCiclStatus::DKWasAlarn;
+    } else if(1 == swpRLMC().isOff()) {
+        return DKCiclStatus::DKWrong;
+    } else if(1 == swpRLMC().isNorm()) {
+        return DKCiclStatus::DKNorm;
+    }
+    return DKCiclStatus::DKWrong;
+}
