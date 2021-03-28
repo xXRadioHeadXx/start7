@@ -22,7 +22,7 @@ public:
     Utils();
 
     template<typename FloatingType = float>
-    static const FloatingType _threshold0 = 0.09;
+    constexpr static const FloatingType _threshold0 = 0.09;
 
     template<typename FloatingType, typename FloatingType2 = FloatingType>
     static inline bool treatAs0(FloatingType value, FloatingType2 threshold0 = _threshold0<FloatingType2>)
