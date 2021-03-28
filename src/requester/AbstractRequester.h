@@ -172,7 +172,15 @@ public slots:
         }
 
 //        qDebug() << "beatRepeatFirstRequest("<<this<<") -- write " << QTime::currentTime().toString("hh:mm:ss.zzz") << getFirstMsg().data().toHex();
-        Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
+        if(DKWaiter == getRequesterType() ||
+           AutoOnOffWaiter == getRequesterType() ||
+           ConfirmWaiter == getRequesterType() ||
+           LockRequester == getRequesterType()) {
+            getUnReciver()->queueMsg.enqueue(getFirstMsg());
+        } else {
+            Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
+        }
+//        Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerFirstStart(getTimeIntervalRequest());
 //        //qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <--";
@@ -270,7 +278,15 @@ public slots:
             return;
         }
 
-        Port::typeDefPort(ptrPort)->write(getSecondMsg(), false);
+        if(DKWaiter == getRequesterType() ||
+           AutoOnOffWaiter == getRequesterType() ||
+           ConfirmWaiter == getRequesterType() ||
+           LockRequester == getRequesterType()) {
+            getUnReciver()->queueMsg.enqueue(getSecondMsg());
+        } else {
+            Port::typeDefPort(getPtrPort())->write(getSecondMsg(), false);
+        }
+//        Port::typeDefPort(ptrPort)->write(getSecondMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerSecondStart(getTimeIntervalRequest());
 //        //qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <--";
@@ -368,7 +384,15 @@ public slots:
             return;
         }
 
-        Port::typeDefPort(ptrPort)->write(getEndMsg(), false);
+        if(DKWaiter == getRequesterType() ||
+           AutoOnOffWaiter == getRequesterType() ||
+           ConfirmWaiter == getRequesterType() ||
+           LockRequester == getRequesterType()) {
+            getUnReciver()->queueMsg.enqueue(getEndMsg());
+        } else {
+            Port::typeDefPort(getPtrPort())->write(getEndMsg(), false);
+        }
+//        Port::typeDefPort(ptrPort)->write(getEndMsg(), false);
         setBeatCount(getBeatCount() + 1);
         timerEndStart(getTimeIntervalRequest());
 //        //qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <--";

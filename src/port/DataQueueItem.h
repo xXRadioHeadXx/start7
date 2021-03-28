@@ -40,7 +40,7 @@ public:
     QHostAddress address() const;
     int port() const;
     bool isValid();
-    DataQueueItem& operator=(const DataQueueItem& right);
+    DataQueueItem & operator=(const DataQueueItem&);
 
     bool operator==(const DataQueueItem &right) const;
     void setPort(int port);

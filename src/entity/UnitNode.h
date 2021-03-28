@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QSet>
 #include <QVariant>
+#include <DataQueueItem.h>
+#include <QQueue>
 
 enum SubTypeApp {
     any = 0x00,
@@ -72,7 +74,6 @@ class SWPTGType0x31;
 class SWPTGType0x34;
 class SWPTGType0x33;
 class SWPTGType0x32;
-class DataQueueItem;
 class UnitNode : public QObject
 {
     Q_OBJECT
@@ -421,7 +422,7 @@ public:
     const SWPTGType0x32 swpTGType0x32() const; // {return SWPTGType0x32(getStateWordType0x32());}
 
 public:
-//    QQueue<DataQueueItem> queueMsg;
+    QQueue<DataQueueItem> queueMsg;
 
 public slots:
 

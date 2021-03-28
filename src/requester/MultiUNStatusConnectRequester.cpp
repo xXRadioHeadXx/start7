@@ -76,26 +76,31 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
        TypeUnitNode::RLM_C == getUnReciver()->getType() ||
        TypeUnitNode::RLM_KRL == getUnReciver()->getType() ||
        TypeUnitNode::TG == getUnReciver()->getType()) {
-        switch (getUnReciver()->getNeededStateWordType()) {
-            case 0: {
-                DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
-                break;
-            }
-            case 1: {
-                DataQueueItem::makeStatusRequest0x2A(result, getUnReciver());
-                break;
-            }
-            case 2: {
-                DataQueueItem::makeStatusRequest0x2C(result, getUnReciver());
-                break;
-            }
-            case 3: {
-                DataQueueItem::makeStatusRequest0x2E(result, getUnReciver());
-                break;
-            }
-            default: {
-                DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
-                break;
+
+        if(!getUnReciver()->queueMsg.isEmpty()) {
+            result = getUnReciver()->queueMsg.dequeue();
+        } else {
+            switch (getUnReciver()->getNeededStateWordType()) {
+                case 0: {
+                    DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
+                    break;
+                }
+                case 1: {
+                    DataQueueItem::makeStatusRequest0x2A(result, getUnReciver());
+                    break;
+                }
+                case 2: {
+                    DataQueueItem::makeStatusRequest0x2C(result, getUnReciver());
+                    break;
+                }
+                case 3: {
+                    DataQueueItem::makeStatusRequest0x2E(result, getUnReciver());
+                    break;
+                }
+                default: {
+                    DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
+                    break;
+                }
             }
         }
     }

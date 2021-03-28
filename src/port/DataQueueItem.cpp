@@ -39,16 +39,13 @@ int DataQueueItem::port() const {return m_port;}
 bool DataQueueItem::isValid() {return !data().isEmpty() && !address().isNull() && 0 < port() && -1 < portIndex();}
 
 DataQueueItem& DataQueueItem::operator=(const DataQueueItem& right) {
-        //проверка на самоприсваивание
-        if (this == &right) {
-            return *this;
-        }
-        m_data = right.data();
-        m_portIndex = right.portIndex();
-        m_address = right.address();
-        m_port = right.port();
-        return *this;
-    }
+    m_data = right.data();
+    m_portIndex = right.portIndex();
+    m_address = right.address();
+    m_port = right.port();
+
+    return *this;
+}
 
 bool DataQueueItem::operator==(const DataQueueItem &right) const
 {
