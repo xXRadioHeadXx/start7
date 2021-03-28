@@ -412,9 +412,9 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         if(sel->isEditableControl())
             menu->addAction(ui->actionControl);
         menu->addSeparator();
-        if(sel->isEditableOnOff() && (1 == sel->swpSDBLIP().isOn())) {
+        if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOn() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionUNOff);
-        } else if(sel->isEditableOnOff() && (1 == sel->swpSDBLIP().isOff())) {
+        } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOff() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionUNOn);
         }/* else if(sel->isEditableOnOff()) {
             menu->addAction(ui->actionUNOn);

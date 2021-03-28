@@ -953,7 +953,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 }
 
                 for(const auto& tmpUN : as_const(reciver->getListChilde())) {
-                    if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2() && 0 != un->getBazalt()) {
+                    if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2() && 0 != tmpUN->getBazalt()) {
                         previousCopyUNLockSdBlIp = UnitNodeFactory::make(*tmpUN);
                         unLockSdBlIp = tmpUN;
                         break;
