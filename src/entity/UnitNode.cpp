@@ -656,8 +656,18 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
          else if(TypeUnitNode::ONVIF       == getType()) {return Icons_cfg::ONVIF();     }
          else if(TypeUnitNode::STRAZH_IP   == getType()) {return Icons_cfg::ONVIF();     }
 
-         else if(TypeUnitNode::SSOI_SD   == getType()) {return Icons_cfg::default_square_gray();     }
+         else if(TypeUnitNode::SSOI_SD   == getType())
+
+             {
+                 if(this->getBazalt()==1)
+                     return Icons_cfg::sd_basalt();
+                 return Icons_cfg::sd();
+             }
+
+
          else if(TypeUnitNode::SSOI_IU   == getType()) {return Icons_cfg::default_square_gray();     }
+
+
          else if(TypeUnitNode::ADAM   == getType()) {return Icons_cfg::default_square_gray();     }
          else if(TypeUnitNode::TOROS   == getType()) {return Icons_cfg::default_square_gray();     }
          else if(TypeUnitNode::DEVLINE   == getType()) {return Icons_cfg::ONVIF();       }

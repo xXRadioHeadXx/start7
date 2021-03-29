@@ -5721,38 +5721,101 @@ void MainWindowCFG::set_option_NET_DEV(UnitNode *unit)
 
 void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
 {
-    this->ui->textEdit->clear();
-    QString str;
+
+    //    int Num2=unit->getNum2();
+
+    //    bool DK=false;
+    //    if(unit->getDK())
+    //       DK=true;
+    //    int Bazalt=unit->getBazalt();
+    //    int connectblock=unit->getConnectBlock();
+
+    //    int UdpUse=unit->getUdpUse();
+
+        QString UdpAdress=unit->getUdpAdress();
+
+    //    int UdpPort=unit->getUdpPort();
+
+        qDebug()<<"Name: "<<unit->getName()
+                <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
+                <<" Num2:"<<QString::number(unit->getNum2())
+                <<" DK:"<<QString::number(unit->getDK())
+                <<" Bazalt:"<<QString::number(unit->getBazalt())
+                <<" connectblock:"<<QString::number(unit->getConnectBlock())
+                <<" UdpUse:"<<QString::number(unit->getUdpUse())
+                <<" UdpAdress:"<<unit->getUdpAdress();
+    /*
+        //qDebug()<<"Name: "<<Name
+                <<" Type:"<<Type
+                <<" Num2:"<<QString::number(Num2)
+                <<" DK:"<<QString::number(DK)
+                <<" Bazalt:"<<QString::number(Bazalt)
+                <<" connectblock:"<<QString::number(connectblock)
+                <<" UdpUse:"<<QString::number(UdpUse)
+                <<" UdpAdress:"<<UdpAdress;
+    */
+
+        this->ui->textEdit->clear();
+        QString string1;
 
 
 
-    str.append("ССОИ CД");
 
-    str.append(" Канал: ");
-    str.append(QString::number(unit->getNum1()));
+        if(unit->getBazalt()==1)
+        {
+                string1.append("<b>");string1.append("УЗ Монолит ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" УЗ ");string1.append("</b> ");//  БЛ-IP</b> Уз");
 
-    str.append(" БЛ: ");
-    str.append(QString::number(unit->getNum2()));
+        }
+        if(unit->getBazalt()==0)
+        {
+                string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
+
+        }
+
+        string1.append(" :");
+        string1.append(" СД:");
+        string1.append(QString::number(unit->getNum2()));
+
+        if(unit->getBazalt()==1)
+        {
+            string1.append(" +");
+            string1.append(" ИУ:");
+            string1.append(QString::number(unit->getNum2()));
+        }
+
+        string1.append("\n");
+
+            string1.append(" Кан:");
+
+        if(unit->getUdpUse()==0)
+        {
+            string1.append(QString::number(unit->getNum3()));
 
 
-    if(unit->getNum3()==9)
-    {
-        str.append(" Вскрытие");
-
-    }
-    else
-    {
-        str.append(" СД ");
-        str.append(QString::number(unit->getNum3()));
-
-        str.append(" ");
-        str.append(m_SSOI_SD_OutType.value(unit->getOutType()));
-
-    }
+                if(unit->getUdpAdress()!="")
+            {
+                string1.append(" (");
+                string1.append(unit->getUdpAdress());
+                string1.append(")");
+            }
+        }
+        if(unit->getUdpUse()==1)
+        {
+            string1.append(unit->getUdpAdress());
+            string1.append("::");
+            string1.append(QString::number(unit->getUdpPort()));
 
 
+            string1.append("\n");
+            string1.append("Таймаут: ");
+            string1.append(QString::number(unit->getUdpTimeout()));
+            string1.append("\n");
+        }
 
-    this->ui->textEdit->append(str);
+
+    this->ui->textEdit->append(string1);
+
+
 }
 
 void MainWindowCFG::set_option_SSOI_SD(UnitNode *unit)
