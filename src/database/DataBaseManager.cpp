@@ -113,7 +113,11 @@ QSqlDatabase& DataBaseManager::m_db()
             hostName = Utils::strHostAddress(hostName);
             databaseName = settings.value( "DbName", "rif_db0" ).toString();//("postgres");
             userName = settings.value( "Login", "postgres" ).toString();//("postgres");
-            password = settings.value( "Password", "0987" ).toString();//("601275");
+
+
+            password = Utils::XOR_Crypt(settings.value( "Password", "0987" ).toString());//("601275");
+
+
             port = settings.value( "Port", "5432" ).toString();//(5432);
             settings.endGroup();
 
