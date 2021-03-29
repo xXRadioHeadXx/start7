@@ -6380,11 +6380,7 @@ int res=0;
       settings.setValue("Port", this->ui->SQL_port_doubleSpinBox->text());
       settings.setValue("Login", this->ui->SQL_login_lineEdit->text());
  // //qDebug()<<"пароль 1"<<ui->SQL_password_lineEdit->text();
-#if (defined (_WIN32) || defined (_WIN64))
- // this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
-#else
-          settings.setValue("Password", this->ui->SQL_password_lineEdit->text());
-#endif
+//пароль после.
  // //qDebug()<<"пароль 2"<<ui->SQL_password_lineEdit->text();
       settings.setValue("DbName", this->ui->SQL_database_lineEdit->text());
 
