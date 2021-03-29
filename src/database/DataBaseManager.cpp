@@ -108,15 +108,22 @@ QSqlDatabase& DataBaseManager::m_db()
             QString password;
             QString port;
             QSettings settings(QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ), QSettings::IniFormat);
+
+            QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+             QTextCodec::setCodecForLocale(codec);
+           settings.setIniCodec(codec);
+
             settings.beginGroup("PostgresSQL");
             hostName = settings.value( "Host", "127.0.0.1" ).toString();//("127.0.0.1");
             hostName = Utils::strHostAddress(hostName);
             databaseName = settings.value( "DbName", "rif_db0" ).toString();//("postgres");
             userName = settings.value( "Login", "postgres" ).toString();//("postgres");
 
-
+            QString str=settings.value( "Password", "" ).toString();
+            qDebug()<<str;
+            qDebug()<<" "<<Utils::XOR_Crypt(str);
+          //  password = settings.value( "Password", "0987" ).toString();//("601275");
             password = Utils::XOR_Crypt(settings.value( "Password", "0987" ).toString());//("601275");
-
 
             port = settings.value( "Port", "5432" ).toString();//(5432);
             settings.endGroup();
