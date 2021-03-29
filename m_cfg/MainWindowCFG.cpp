@@ -1383,7 +1383,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
 
     this->save_ini(path);
-     //    //qDebug()<<"пароль 3 "<<ui->SQL_password_lineEdit->text();
+         qDebug()<<"пароль 3 "<<ui->SQL_password_lineEdit->text();
 
 
                   if(this->ui->SQL_type_comboBox->currentText()!="Выкл")
@@ -1407,7 +1407,7 @@ void MainWindowCFG::on_actionSave_triggered()
                       qDebug()<<"сохраняю пароль "<<"   "<<QString::fromUtf8(ar);
                       QByteArray rezz=this->convert(ar);
                       my->set_value("Password",rezz);
-                      //qDebug()<<"PASSWORD "<<rezz<<" "<<rezz.toHex();
+                      qDebug()<<"PASSWORD "<<rezz<<" "<<rezz.toHex();
                       my->save_ini(path);
                       my->endGroup();
 
@@ -4977,11 +4977,11 @@ void MainWindowCFG::get_SQL(QString filename)
 {
       //qDebug()<< "[get_SQL]";
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
+
       int res=0;
 
 
@@ -5022,12 +5022,10 @@ void MainWindowCFG::get_SQL(QString filename)
               this->ui->SQL_login_lineEdit->setText(settings.value("Login",-1).toString());
 
 
-#if (defined (_WIN32) || defined (_WIN64))
+
   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
               qDebug()<<"загрузил пароль "<<this->ui->SQL_password_lineEdit->text();
-#else
-    this->ui->SQL_password_lineEdit->setText(settings.value("Password",-1).toString());
-#endif
+
            //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString(),"start7"));
            //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString()));
 
