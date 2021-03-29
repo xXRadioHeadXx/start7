@@ -16,7 +16,7 @@ public:
 
     void save_ini(QString filepath);
 
-    void set_value(QString field, QByteArray value);
+    void set_value(QString field, QByteArray *val);
     QByteArray value(QString field);
 
     void beginGroup(QString group);

@@ -3,6 +3,7 @@
 #include <QDataStream>
 #include <QDebug>
 #include <QPair>
+#include <QMap>
 
 My_settings::My_settings(QObject *parent)
 {
@@ -187,12 +188,15 @@ My_settings::My_settings(QString filepath, QObject *parent)
 
 void My_settings::save_ini(QString filepath)
 {
+    qDebug()<<"[11111111111]";
+
+
     QByteArray next_string;
     next_string.append(0x0D);
     next_string.append(0x0A);
     QFile file(filepath);
 
-
+    qDebug()<<"[22222222]";
 
     auto write_group = [](QDataStream* stream, QString src)
     {
@@ -205,7 +209,7 @@ void My_settings::save_ini(QString filepath)
       res.append(0x0D);
       res.append(0x0A);
 
-
+    qDebug()<<"[2]";
       stream->writeRawData(res,res.size());
     };
 
@@ -220,7 +224,7 @@ void My_settings::save_ini(QString filepath)
 
       stream->writeRawData(res,res.size());
     };
-
+    qDebug()<<"[3]";
     auto write_field = [](QDataStream* stream, QString key, QByteArray val)
     {
       QByteArray res=key.toLocal8Bit();
@@ -234,7 +238,7 @@ void My_settings::save_ini(QString filepath)
 
       stream->writeRawData(res,res.size());
     };
-
+ //   qDebug()<<"[4]";
 
 //Создадим QList из ключей map и отсортируем
     QList<MY_GROUP*> list;
@@ -242,8 +246,8 @@ void My_settings::save_ini(QString filepath)
     {
         list.append(val);
     }
-
- //   //qDebug()<<"-- До сортировки ------------------------";
+ // qDebug()<<"[5]";
+// qDebug()<<"-- До сортировки ------------------------";
 
     int res=1;
     int cnt=0;
@@ -254,28 +258,30 @@ void My_settings::save_ini(QString filepath)
     {
       if(list.at(i)->get_id()<(list.at(i+1)->get_id()))
       {
-         //     //qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" меньше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
+   //      qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" меньше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
       }
       else
       {
-         //  //qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" больше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
+  //       qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" больше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
            list.move(i+1,i);
            res=1;
       }
     }
      cnt++;
-   //  //qDebug()<<"-----------------cnt "<<cnt<<" res"<<res;
+ //  qDebug()<<"-----------------cnt "<<cnt<<" res"<<res;
     }
 
 
-    //qDebug()<<"-- После сортировки ------------------------";
+  //  qDebug()<<"-- После сортировки ------------------------";
 
     for (int i = 0; i <list.count(); ++i)
     {
-      //qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
+      qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
 
     }
-    //qDebug()<<"-- После сортировки ------------------------";
+  //  qDebug()<<"-- После сортировки ------------------------";
+
+
 
     if(file.open(QIODevice::WriteOnly))
     {
@@ -298,22 +304,29 @@ void My_settings::save_ini(QString filepath)
     }
 
     file.close();
+   /* */
 }
 
-void My_settings::set_value(QString field, QByteArray value)
+void My_settings::set_value(QString field, QByteArray *val)
 {
 
 
 
-//qDebug()<<"[1]";
+qDebug()<<"[1]";
+qDebug()<<"current_group "<<current_group;
+qDebug()<<"field "<<field;
+
     int first=map.value(current_group)->map.value(field).first;
-//qDebug()<<"[2]";
+qDebug()<<"[2]";
     QByteArray ar;
 //qDebug()<<"[3]";
     ar.clear();
 //qDebug()<<"[4]";
-    ar.append(value);
+   for(int i=0;i<val->size();i++)
+       ar.append(val->at(i));
 //qDebug()<<"[5]";
+
+
 
 MY_GROUP* mgroup=map.value(current_group);
 

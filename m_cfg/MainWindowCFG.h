@@ -270,7 +270,7 @@ private:
 
 
 
-    QByteArray convert(QByteArray src);
+    void convert(QByteArray* src);
 
 
 

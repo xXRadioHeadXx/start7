@@ -1394,9 +1394,10 @@ void MainWindowCFG::on_actionSave_triggered()
                       {
                       my->beginGroup("MYSQL");
                       }
-                      if(this->ui->SQL_type_comboBox->currentText()=="Postgres")
+                      if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
                       {
-                      my->beginGroup("PostgreSQL");
+                          qDebug()<<"Postgres";
+                      my->beginGroup("PostgresSQL");
                       }
 
                       QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text())).toLocal8Bit().toHex();
@@ -1404,17 +1405,19 @@ void MainWindowCFG::on_actionSave_triggered()
 
 
 
-                      qDebug()<<"сохраняю пароль "<<"   "<<QString::fromUtf8(ar);
-                      QByteArray rezz=this->convert(ar);
-                      my->set_value("Password",rezz);
-                      qDebug()<<"PASSWORD "<<rezz<<" "<<rezz.toHex();
+                      qDebug()<<"save password "<<"   "<<QString::fromUtf8(ar);
+                      this->convert(&ar);
+                      my->set_value("Password",&ar);
+                     qDebug()<<"PASSWORD "<<ar<<" "<<ar.toHex();
+                     qDebug()<<"[01]";
                       my->save_ini(path);
+                      qDebug()<<"[02]";      /*   */
+
                       my->endGroup();
 
                   }
 
 
-              /*    */
 
 }
 
@@ -7455,38 +7458,47 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
 }
 
-QByteArray MainWindowCFG::convert(QByteArray src)
+void MainWindowCFG::convert(QByteArray* src)
 {
+
   //  QByteArray src=srcc.toHex();
-    //qDebug()<<"[convert]";
-    //qDebug()<<QString::fromLocal8Bit(src);
-    QByteArray res;
+    qDebug()<<"[convert]";
+//    qDebug()<<QString::fromLocal8Bit(&src);
+   QByteArray res;
     res.clear();
-    for(int i=0;i<src.size();i++)
+
+    for(int i=0;i<src->size();i++)
     {
         QByteArray one;
 
-        one.append(src[i]);
+        one.append(src->at(i));
 
-      //  //qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt();
+      qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt();
         int v1=QString::fromUtf8(one).toInt(nullptr,16);
 
         QByteArray two;
 
-        two.append(src[i+1]);
+        two.append(src->at(i+1));
 
-         //qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt(nullptr,16)<<QString::fromUtf8(two)<<" "<<QString::fromUtf8(one).toInt(nullptr,16);
+     //    qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt(nullptr,16)<<QString::fromUtf8(two)<<" "<<QString::fromUtf8(one).toInt(nullptr,16);
         int v2=QString::fromUtf8(two).toInt(nullptr,16);
 
         quint64 val=v1*0x10+v2;
-        //qDebug()<<(v1*0x10)<<" "<<v2;
+        qDebug()<<(v1*0x10)<<" "<<v2;
         i++;
 
         res.append(val);
 
 
     }
-    //qDebug()<<res<<" "<<res.toHex();
-    //qDebug()<<"[end convert]";
-    return res;
+  /*   */
+    qDebug()<<res<<" "<<res.toHex();
+    qDebug()<<"[end convert]";
+
+
+
+    src->clear();
+    src->append(res);
+
+
 }
