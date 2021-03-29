@@ -56,6 +56,10 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
         ui->setupUi(this);
 
+        if(str_system=="РИФ+")
+        {
+         this->setWindowTitle("Настройка комплекса РИФ+");
+        }
         if(str_system=="ССОИ")
         {
 
@@ -67,6 +71,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
          //  this->ui->Subsystem_RIF->setVisible(false);
          //   this->ui->Subsystem_ADAM->setVisible(false);
             this->ui->DevLine_groupbox->setVisible(false);
+            this->setWindowTitle("Настройка комплекса ССОИ");
+
 
         }
 
