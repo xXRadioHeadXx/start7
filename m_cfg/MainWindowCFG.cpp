@@ -22,6 +22,7 @@
 //#include "first_dialog.h"
 
 #include <QInputDialog>
+#include <QDate>
 
 
 
@@ -55,10 +56,10 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
         ui->setupUi(this);
-
+QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
         if(str_system=="РИФ+")
         {
-         this->setWindowTitle("Настройка комплекса РИФ+");
+         this->setWindowTitle("Настройка комплекса РИФ+ " + date.toString("dd.MM.yyyy"));
         }
         if(str_system=="ССОИ")
         {
@@ -71,7 +72,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
          //  this->ui->Subsystem_RIF->setVisible(false);
          //   this->ui->Subsystem_ADAM->setVisible(false);
             this->ui->DevLine_groupbox->setVisible(false);
-            this->setWindowTitle("Настройка комплекса ССОИ");
+            this->setWindowTitle("Настройка комплекса ССОИ " + date.toString("dd.MM.yyyy"));
 
 
         }
