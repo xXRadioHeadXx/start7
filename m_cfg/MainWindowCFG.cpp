@@ -442,7 +442,10 @@ if(str_system=="РИФ+")
 else
 if(str_system=="ССОИ")
 {
-
+    foreach(QString str, l_Unittype_ssoi)
+    {
+    this->ui->uType_combobox->addItem(str);
+    }
 
 }
 
@@ -5270,7 +5273,14 @@ void MainWindowCFG::set_BACKUP(QString filename)
 
 void MainWindowCFG::default_BACKUP()
 {
+    if(str_system=="РИФ+")
     this->ui->BACKUP_BackupPath_lineedit->setText("C:/RIFx/Backup");
+    else
+    if(str_system=="ССОИ")
+    this->ui->BACKUP_BackupPath_lineedit->setText("C:/SSOI/Backup");
+
+
+
     this->ui->BACKUP_MaxBdStringCnt_comboBox->setCurrentText(map_BACKUP_MaxBdStringCnt.value(0));
 }
 
