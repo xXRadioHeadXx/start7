@@ -6232,7 +6232,9 @@ void MainWindowCFG::save_ini(QString filename)
     QSettings settings(filename,QSettings::IniFormat);
 
 #if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
+ //   settings.setIniCodec( "Windows-1251" );
+    settings.setIniCodec( "UTF-8" );
+        settings.setIniCodec( QTextCodec::codecForLocale() );
 #else
   //  settings.setIniCodec( "UTF-8" );
     settings.setIniCodec( QTextCodec::codecForLocale() );
