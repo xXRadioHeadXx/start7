@@ -420,7 +420,7 @@ private:
     QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
     QString str_INFO_TABLO =    " информационное табло";
 
-    QList<QString> l_Unittype={
+    QList<QString> l_Unittype_rif={
         str_GROUP,
         str_SD_BL_IP,
         str_IU_BL_IP,
@@ -448,7 +448,35 @@ private:
         str_INFO_TABLO
  };
 
+    QList<QString> l_Unittype_ssoi={
 
+
+        str_GROUP,
+        str_SD_BL_IP,
+        str_IU_BL_IP,
+        str_KL,
+        str_TG,
+        str_RLM_KRL,
+        str_RLM_C,
+        str_STRAZH_IP,
+        str_NET_DEV,
+        str_ONVIF,
+        str_BOD_T4K_M,
+        str_Y4_T4K_M,
+        str_DD_T4K_M,
+        str_BOD_SOTA,
+        str_Y4_SOTA,
+        str_DD_SOTA,
+
+
+        str_SSOI_SD,
+        str_SSOI_IU,
+        str_ADAM,
+        str_TOROS,
+        str_DEVLINE,
+        str_RASTRMTV,
+        str_INFO_TABLO
+ };
  QMap <int,QString> m_RLM_KRL_type{
 {0,str_RIF_RLM},
 {1,str_RIF_RLM_24},

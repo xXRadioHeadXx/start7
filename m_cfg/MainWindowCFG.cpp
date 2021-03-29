@@ -414,24 +414,36 @@ AnsiString str;
 
 default_OPERATORS();
 
-qSort(l_Unittype.begin(), l_Unittype.end(), [](const QVariant &v1,
-                                               const QVariant &v2)
-                                                            ->bool
-                                                 {  return v1<v2;}
-                                                                );
-
-
-////qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype.indexOf(str_GROUP);
-////qDebug()<<"l_Unittype.count(ГРУППА);"<<l_Unittype.count(str_GROUP);
-l_Unittype.move(l_Unittype.indexOf(str_GROUP),0);
-l_Unittype.move(l_Unittype.indexOf(str_Y4_SOTA),(l_Unittype.indexOf(str_BOD_SOTA)+1));
-l_Unittype.move(l_Unittype.indexOf(str_DD_SOTA),(l_Unittype.indexOf(str_BOD_SOTA)+2));
-l_Unittype.move(l_Unittype.indexOf(str_Y4_T4K_M),(l_Unittype.indexOf(str_Y4_T4K_M)-1));
-l_Unittype.move(l_Unittype.indexOf(str_Y4_T4K_M),(l_Unittype.indexOf(str_BOD_T4K_M)+1));
-l_Unittype.move(l_Unittype.indexOf(str_DD_T4K_M),(l_Unittype.indexOf(str_BOD_T4K_M)+2));
-foreach(QString str, l_Unittype)
+if(str_system=="РИФ+")
 {
-this->ui->uType_combobox->addItem(str);
+    qSort(l_Unittype_rif.begin(), l_Unittype_rif.end(), [](const QVariant &v1,
+                                                   const QVariant &v2)
+                                                                ->bool
+                                                     {  return v1<v2;}
+                                                                    );
+
+
+    ////qDebug()<<"Unittype.indexOf(ГРУППА)"<<l_Unittype_rif.indexOf(str_GROUP);
+    ////qDebug()<<"l_Unittype_rif.count(ГРУППА);"<<l_Unittype_rif.count(str_GROUP);
+    l_Unittype_rif.move(l_Unittype_rif.indexOf(str_GROUP),0);
+    l_Unittype_rif.move(l_Unittype_rif.indexOf(str_Y4_SOTA),(l_Unittype_rif.indexOf(str_BOD_SOTA)+1));
+    l_Unittype_rif.move(l_Unittype_rif.indexOf(str_DD_SOTA),(l_Unittype_rif.indexOf(str_BOD_SOTA)+2));
+    l_Unittype_rif.move(l_Unittype_rif.indexOf(str_Y4_T4K_M),(l_Unittype_rif.indexOf(str_Y4_T4K_M)-1));
+    l_Unittype_rif.move(l_Unittype_rif.indexOf(str_Y4_T4K_M),(l_Unittype_rif.indexOf(str_BOD_T4K_M)+1));
+    l_Unittype_rif.move(l_Unittype_rif.indexOf(str_DD_T4K_M),(l_Unittype_rif.indexOf(str_BOD_T4K_M)+2));
+
+
+
+    foreach(QString str, l_Unittype_rif)
+    {
+    this->ui->uType_combobox->addItem(str);
+    }
+}
+else
+if(str_system=="ССОИ")
+{
+
+
 }
 
 
