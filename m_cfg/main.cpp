@@ -4,6 +4,7 @@
 #include <QIcon>
 #include <QMutex>
 #include <QSystemSemaphore>
+#include "first_dialog.h"
 
 #if (defined (_WIN32) || defined (_WIN64))
 #include <Windows.h>
@@ -57,9 +58,13 @@ int main(int argc, char *argv[])
     CloseHandle(hMutex_Mclient);
 */
 
+
+
     MainWindowCFG w;
     w.setWindowIcon(QIcon::fromTheme(":icons/exec.ico"));
     w.show();
+
+
 
 
 

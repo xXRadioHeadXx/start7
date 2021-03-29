@@ -19,6 +19,10 @@
 
 #include <QAbstractItemModel>
 
+//#include "first_dialog.h"
+
+#include <QInputDialog>
+
 
 
 
@@ -39,11 +43,23 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 {
 
 
+    QStringList list;
+    list<<str_system_RIF;
+    list<<str_system_SSOI;
 
-    ui->setupUi(this);
+       str_system=QInputDialog::getItem(nullptr,"РИФ+","ССОИ",list);
+
+        qDebug()<<str_system;
 
 
 
+
+        ui->setupUi(this);
+
+
+
+
+    db_f=new DBform(this,str_system);
 
 
     this->ui->tabWidget->setCurrentIndex(0);
@@ -617,9 +633,9 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect (action_open_device_tree, SIGNAL(triggered()) , this, SLOT(open_device_tree()));
         connect (action_close_device_tree, SIGNAL(triggered()) , this, SLOT(close_device_tree()));
 
-        connect(&this->db_f, SIGNAL(create_db(QString)  ) , this,SLOT     (create_db(QString)));
-        connect(&this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
-        connect(&this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
+        connect(this->db_f, SIGNAL(create_db(QString)  ) , this,SLOT     (create_db(QString)));
+        connect(this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
+        connect(this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
         connect(this->ui->treeView, SIGNAL(   new_current_index(QModelIndex)) , this,SLOT     (   slot_to_get_options(QModelIndex)));
         timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
             timer->setInterval(10); // Задаем интервал таймера
@@ -7084,8 +7100,8 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     }
     else{
         //qDebug()<<"PROFIT";
-        this->db_f.find_rif_db(db_mysql);
-        db_f.show();
+        this->db_f->find_rif_db(db_mysql);
+        db_f->show();
     }
 
 
@@ -7109,8 +7125,8 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
     }
     else{
         //qDebug()<<"PROFIT";
-        this->db_f.find_rif_db(db_psql);
-        db_f.show();
+        this->db_f->find_rif_db(db_psql);
+        db_f->show();
     }
     }
 }
@@ -7132,7 +7148,7 @@ void MainWindowCFG::create_db(QString db_name)
 
     query.prepare(sql_cmd);
     query.exec();
-    this->db_f.find_rif_db(db_mysql);
+    this->db_f->find_rif_db(db_mysql);
     }
     if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
     {
@@ -7148,7 +7164,7 @@ void MainWindowCFG::create_db(QString db_name)
 
         //qDebug()<<sql_cmd;
         query.exec(sql_cmd);
-        this->db_f.find_rif_db(db_psql);
+        this->db_f->find_rif_db(db_psql);
 
     }
  /*   */
@@ -7167,7 +7183,7 @@ sql_cmd.append(db_name);
 
 query.prepare(sql_cmd);
 query.exec();
-  this->db_f.find_rif_db(db_mysql);
+  this->db_f->find_rif_db(db_mysql);
 
 
 }
@@ -7182,7 +7198,7 @@ query.prepare(sql_cmd);
 
 //qDebug()<<sql_cmd;
 query.exec(sql_cmd);
-  this->db_f.find_rif_db(db_psql);
+  this->db_f->find_rif_db(db_psql);
 
 
 }

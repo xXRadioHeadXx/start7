@@ -29,8 +29,9 @@ enum op_tbl {
     Add = 1,
     Edit = 2,
     Delete = 3
-
 };
+
+
 
 
 struct SerNum_Name{
@@ -47,6 +48,7 @@ private:
 
   bool eventFilter(QObject *obj, QEvent *event);
 
+    int cfg_type;
 
     My_settings* my;
 
@@ -381,8 +383,9 @@ private:
     QModelIndex current_index;
 
 
-
-
+    QString str_system;
+    QString str_system_RIF=          "РИФ+";
+    QString str_system_SSOI=       "ССОИ";
 
 
     QString str_GROUP=          " ГРУППА";
@@ -559,7 +562,7 @@ public:
 
 
     operator_form op_f;
-    DBform db_f;
+    DBform* db_f;
 
     edit_unit_widget unit_wgt;
 

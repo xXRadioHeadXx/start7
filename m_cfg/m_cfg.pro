@@ -42,6 +42,7 @@ SOURCES += \
     dbform.cpp \
     delegate.cpp \
     edit_unit_widget.cpp \
+    first_dialog.cpp \
     group.cpp \
     main.cpp \
     my_combobox.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
     dbform.h \
     delegate.h \
     edit_unit_widget.h \
+    first_dialog.h \
     group.h \
     my_combobox.h \
     my_doublespinbox.h \
@@ -104,6 +106,7 @@ FORMS += \
     admaud_widget.ui \
     dbform.ui \
     edit_unit_widget.ui \
+    first_dialog.ui \
     operator_form.ui \
     rastr_widget.ui \
     sql_user_dlg.ui \

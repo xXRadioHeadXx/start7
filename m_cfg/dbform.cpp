@@ -4,15 +4,23 @@
 #include <QDebug>
 #include<sql_user_dlg.h>
 
-DBform::DBform(QWidget *parent) :
+DBform::DBform(QWidget *parent,QString system_type) :
     QDialog(parent),
     ui(new Ui::DBform)
 {
     ui->setupUi(this);
 
-    foreach(int key,m_db.keys())
+sys_type=system_type;
+    if(sys_type=="РИФ+")
+    foreach(int key,m_db_rif.keys())
     {
-        this->ui->comboBox->insertItem(key,m_db.value(key));
+        this->ui->comboBox->insertItem(key,m_db_rif.value(key));
+    }
+    else
+    if(sys_type=="ССОИ")
+    foreach(int key,m_db_ssoi.keys())
+    {
+        this->ui->comboBox->insertItem(key,m_db_ssoi.value(key));
     }
 }
 
@@ -53,15 +61,23 @@ void DBform::find_rif_db(QSqlDatabase db)
 
         QString db_name=query.value(0).toString();
         //qDebug()<<db_name;
+        bool res=0;
+
+        if(sys_type=="РИФ+")
         if((db_name=="rif_db0")||
            (db_name=="rif_db1")||
            (db_name=="rif_db2")||
-           (db_name=="rif_db3")||
-           (db_name=="ssoi_db0")||
+           (db_name=="rif_db3"))
+            res=1;
+
+           if(sys_type=="ССОИ")
+            if((db_name=="ssoi_db0")||
            (db_name=="ssoi_db1")||
            (db_name=="ssoi_db2")||
            (db_name=="ssoi_db3"))
+            res=1;
 
+       if(res==1)
         {
                     //qDebug()<<".";
             databases.append(query.value(0).toString());
