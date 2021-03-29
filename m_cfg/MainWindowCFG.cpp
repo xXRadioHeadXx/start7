@@ -56,6 +56,21 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
         ui->setupUi(this);
 
+        if(str_system=="ССОИ")
+        {
+
+            this->ui->tabWidget->removeTab(3);
+          this->ui->tabWidget->removeTab(6);
+
+        this->ui->Subsystem_RIF->setHidden(true);
+        this->ui->Subsystem_ADAM->setHidden(true);
+         //  this->ui->Subsystem_RIF->setVisible(false);
+         //   this->ui->Subsystem_ADAM->setVisible(false);
+            this->ui->DevLine_groupbox->setVisible(false);
+
+        }
+
+
 
 
 

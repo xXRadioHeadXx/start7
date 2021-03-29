@@ -2880,7 +2880,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tab">
+       <widget class="QWidget" name="Subsystem_ADAM">
         <attribute name="title">
          <string>ADAM</string>
         </attribute>
@@ -3400,7 +3400,7 @@
           </property>
          </widget>
         </widget>
-        <widget class="QGroupBox" name="groupBox_13">
+        <widget class="QGroupBox" name="DevLine_groupbox">
          <property name="geometry">
           <rect>
            <x>10</x>
