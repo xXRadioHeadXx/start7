@@ -1385,7 +1385,7 @@ void MainWindowCFG::on_actionSave_triggered()
     this->save_ini(path);
      //    //qDebug()<<"пароль 3 "<<ui->SQL_password_lineEdit->text();
 
-       #if (defined (_WIN32) || defined (_WIN64))
+
                   if(this->ui->SQL_type_comboBox->currentText()!="Выкл")
                   {
                   my=new My_settings(path);
@@ -1413,7 +1413,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
                   }
 
-  #endif
+
               /*    */
 
 }
