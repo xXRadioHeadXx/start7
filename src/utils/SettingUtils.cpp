@@ -31,7 +31,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     if(0 >= cntTrItm)
         return getListTreeUnitNodes();
 
-
+/*
 #if (defined (_WIN32) || defined (_WIN64))
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     QTextCodec::setCodecForLocale(codec);
@@ -41,6 +41,11 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 #else
     settings.setIniCodec( "UTF-8" );
 #endif
+*/
+
+   QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+  settings.setIniCodec(codec);
 
     {
         UnitNode * tmpUN = UnitNodeFactory::make(TypeUnitNode::SYSTEM, root);

@@ -4944,11 +4944,9 @@ void MainWindowCFG::get_INTEGRATION(QString filename)
 void MainWindowCFG::set_INTEGRATION(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
       settings.beginGroup("INTEGRATION");
 
@@ -5209,11 +5207,9 @@ void MainWindowCFG::default_ADAM4068()
 void MainWindowCFG::get_TABLO(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
       int res=0;
 
    //   Port=0
@@ -5391,11 +5387,10 @@ void MainWindowCFG::get_OPERATORS(QString filename)
 void MainWindowCFG::set_OPERATORS(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
     settings.beginGroup("OPERATORS");
     settings.setValue("Use",operators_use);
@@ -6231,22 +6226,11 @@ void MainWindowCFG::save_ini(QString filename)
 
     QSettings settings(filename,QSettings::IniFormat);
 
-#if (defined (_WIN32) || defined (_WIN64))
- //   settings.setIniCodec( "Windows-1251" );
-    settings.setIniCodec( "UTF-8" );
-        settings.setIniCodec( QTextCodec::codecForLocale() );
-#else
-  //  settings.setIniCodec( "UTF-8" );
-    settings.setIniCodec( QTextCodec::codecForLocale() );
-#endif
- //   settings.setIniCodec( QTextCodec::codecForLocale() );
-    /*
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
-    */
+
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
+
 //   foreach(UnitNode* unit,this->modelTreeUN->listItemUN)
     QList<UnitNode *> List;
     this->modelTreeUN->getListFromModel(List);
