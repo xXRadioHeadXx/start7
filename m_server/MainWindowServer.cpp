@@ -409,9 +409,10 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         return;
     } else if(TypeUnitNode::SD_BL_IP == sel->getType()) {
 
-        if(sel->isEditableControl())
+        if(sel->isEditableControl() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionControl);
-        menu->addSeparator();
+            menu->addSeparator();
+        }
         if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOn() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionUNOff);
         } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOff() && 1 != sel->getBazalt()) {
