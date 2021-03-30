@@ -30,6 +30,7 @@ QList<UnitNodeCFG*> SettingUtils::loadTreeUnitNodes(UnitNodeCFG* root, QString f
     if(0 >= cntTrItm)
         return getListTreeUnitNodes();
 
+    /*
 
 #if (defined (_WIN32) || defined (_WIN64))
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
@@ -40,6 +41,14 @@ QList<UnitNodeCFG*> SettingUtils::loadTreeUnitNodes(UnitNodeCFG* root, QString f
 #else
     settings.setIniCodec( "UTF-8" );
 #endif
+    */
+
+
+//Для совместимости. со старым. конфигуратором.
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+     QTextCodec::setCodecForLocale(codec);
+   settings.setIniCodec(codec);
+
 
     {
         UnitNodeCFG* tmpUN = new UnitNodeCFG();
