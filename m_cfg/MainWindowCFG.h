@@ -78,6 +78,10 @@ private:
     void SSOI_SD_set_values_from_combobox(UnitNode *unit); //красота требует жертв. - в один комбобокс сваливаем разные настройки.
     void SSOI_SD_set_combobox_value_from(UnitNode *unit); //красота требует жертв - в один комбобокс сваливаем разные настройки.
 
+    void SD_BL_IP_set_values_from_combobox(UnitNode *unit); //красота требует жертв. - в один комбобокс сваливаем разные настройки.
+    void SD_BL_IP_set_combobox_value_from(UnitNode *unit); //красота требует жертв - в один комбобокс сваливаем разные настройки.
+
+
     QString XOR_Crypt(QString in);
 
     void update_operators_table();
@@ -540,6 +544,12 @@ private:
         {9,"Блок связи"},
     };
 
+    QMap <int,QString> m_SD_BL_IP_OutType{
+        {0,"не указан"},
+        {1,"Монолит"},
+        {2,"Блок связи"},
+    };
+
 QMap <int,QString> m_ASOOSD_use{
 {0,"ВЫКЛ"},
 {1,"ВКЛ"},
@@ -672,5 +682,7 @@ private slots:
    void on_devline_xy_pushButton_clicked();
    void on_uType_combobox_currentTextChanged(const QString &arg1);
    void on_SSOI_SD_Num3_currentTextChanged(const QString &arg1);
+   void on_SD_BL_IP_num_combobox_currentTextChanged(const QString &arg1);
+   void on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

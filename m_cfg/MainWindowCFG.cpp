@@ -56,6 +56,13 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
         ui->setupUi(this);
+
+
+            this->ui->SD_BL_IP_OutType->insertItem(0,m_SD_BL_IP_OutType.value(0));
+        this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
+
+
+
 QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
         if(str_system==str_system_RIF)
         {
@@ -676,10 +683,18 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect(this->db_f, SIGNAL(  drop_db(QString)  ) , this,SLOT     (  drop_db(QString)));
         connect(this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
         connect(this->ui->treeView, SIGNAL(   new_current_index(QModelIndex)) , this,SLOT     (   slot_to_get_options(QModelIndex)));
+
+
+
+
+
+
         timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
             timer->setInterval(10); // Задаем интервал таймера
             connect(timer, SIGNAL(timeout()), this, SLOT(update())); // Подключаем сигнал таймера к нашему слоту
             timer->start(); // Запускаем таймер
+
+
 
         this->on_actionCreate_triggered();
 }
@@ -1551,6 +1566,16 @@ void MainWindowCFG::SSOI_SD_set_combobox_value_from(UnitNode *unit)
     {
      this->ui->SSOI_SD_OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
     }
+}
+
+void MainWindowCFG::SD_BL_IP_set_values_from_combobox(UnitNode *unit)
+{
+
+}
+
+void MainWindowCFG::SD_BL_IP_set_combobox_value_from(UnitNode *unit)
+{
+
 }
 
 QString MainWindowCFG::XOR_Crypt(QString src)
@@ -7604,6 +7629,66 @@ this->ui->SSOI_SD_OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
     case 5:
     case 6:
 this->ui->SSOI_SD_OutType->insertItem(9,m_SSOI_SD_OutType.value(9));
+
+    break;
+
+    }
+}
+
+void MainWindowCFG::on_SD_BL_IP_num_combobox_currentTextChanged(const QString &arg1)
+{
+    int res=arg1.toInt();
+
+    this->ui->SD_BL_IP_OutType->clear();
+
+    this->ui->SD_BL_IP_OutType->insertItem(0,m_SD_BL_IP_OutType.value(0));
+
+
+    switch(res)
+    {
+    case 1:
+    case 2:
+    case 3:
+
+this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
+
+    break;
+
+    case 4:
+    case 5:
+    case 6:
+this->ui->SD_BL_IP_OutType->insertItem(2,m_SD_BL_IP_OutType.value(2));
+
+    break;
+
+    }
+}
+
+
+
+void MainWindowCFG::on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &arg1)
+{
+    int res=arg1.toInt();
+
+    this->ui->SD_BL_IP_OutType->clear();
+
+    this->ui->SD_BL_IP_OutType->insertItem(0,m_SD_BL_IP_OutType.value(0));
+
+
+    switch(res)
+    {
+    case 1:
+    case 2:
+    case 3:
+
+this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
+
+    break;
+
+    case 4:
+    case 5:
+    case 6:
+this->ui->SD_BL_IP_OutType->insertItem(2,m_SD_BL_IP_OutType.value(2));
 
     break;
 
