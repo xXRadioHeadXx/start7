@@ -5954,18 +5954,21 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
             {
                 string1.append(" +");
                 string1.append(" ИУ:");
-                string1.append(QString::number(unit->getNum2()));
+                string1.append(QString::number(unit->getNum1()));
             }
         else
         if(unit->getConnectBlock()==1)
             {
                 string1.append(" +");
                 string1.append(" ИУ:");
-                string1.append(QString::number(unit->getNum2()-3));
+                string1.append(QString::number(unit->getNum1()-3));
             }
 
         string1.append("\n");
 
+          string1.append(" БЛ: ");
+          string1.append(QString::number(unit->getNum2()));
+ string1.append("\n");
             string1.append(" Кан:");
 
         if(unit->getUdpUse()==0)
