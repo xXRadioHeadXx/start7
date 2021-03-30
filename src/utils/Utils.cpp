@@ -976,41 +976,35 @@ char Utils::reverseBits( char number )
    return result;
 }
 
+QByteArray Utils::xorCrypt(const QByteArray in, const QByteArray key)
+{
+   QByteArray out;
+   for (int x = 0; x < in.size(); x++) {
+      out.append((static_cast<quint8>(in.at(x)) ^ static_cast<quint8>(key.at((x + 1) % key.size())) * static_cast<quint8>(2)));
+   }
+   return out;
+}
+
+QString Utils::xorCrypt(const QString in, const QString key)
+{
+    return QString::fromLocal8Bit(Utils::xorCrypt(in.toLocal8Bit(),  key.toLocal8Bit()));
+}
+
 QString Utils::XOR_Crypt(QString src)
 {
-        //qDebug()<<"[XOR_Crypt]";
     QByteArray ar=src.toLocal8Bit();
-    //qDebug()<<src<<" "<<ar.toHex();
-//qDebug()<<"src "<<src;
-QString key="start7";
-
+    QString key="start7";
     QByteArray pw=key.toLocal8Bit();
 
-    //qDebug()<<pw.size();
     QByteArray res;
     res.clear();
-    for (int x=1;x<ar.size()+1;x++)
-    {
-    //qDebug()<<"---"<<x<<"-------------";
-
-           int val1=  pw[(x)%pw.size()] * 2;
-
-         int inx=ar[x-1];
-        //qDebug()<<" val1 "<<val1<<"inx "<<inx;
-
-         int val2= inx ^ val1;
-         char chr = (char)val2;
-         //qDebug()<<chr;
- //         OutputDebugString(&in[x]);
- //         OutputDebugString(&pass[x%pass.Length()+1]);
- //         OutputDebugString(&chr);
- //          OutputDebugString("----------------");
- //      out +=  chr; /// ??????? * 2 ? ????? ?????????? ?????????
-         res.append(chr);
+    for (int x=1; x < ar.size() + 1; x++) {
+        int val1=  pw[(x)%pw.size()] * 2;
+        int inx=ar[x-1];
+        int val2= inx ^ val1;
+        char chr = (char)val2;
+        res.append(chr);
     }
     QString str_res = QString::fromLocal8Bit(res);
-    //qDebug()<<"res "<<str_res<<" "<<str_res.toLocal8Bit().toHex();
-            //qDebug()<<"[end XOR_Crypt]";
-return str_res;
-
+    return str_res;
 }

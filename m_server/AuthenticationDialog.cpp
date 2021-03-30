@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <Utils.h>
 #include <QTextCodec>
+#include <Utils.h>
 
 AuthenticationDialog::AuthenticationDialog(QWidget *parent) :
     QDialog(parent),
@@ -82,7 +83,8 @@ void AuthenticationDialog::on_pushButton_clicked()
     QString in = ui->lineEdit->text();
     QString key = "start7";
 
-    QString crPW = Operator::XOR_Crypt(in,  key);
+//    QString crPW = Operator::XOR_Crypt(in,  key);
+    QString crPW = Utils::xorCrypt(in,  key);
     QString PW = listUser.at(ui->comboBox->currentIndex()).getPW();
 
     if(PW == crPW) {

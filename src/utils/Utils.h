@@ -63,6 +63,10 @@ public:
 
     static char reverseBits( char number );
 
+    static QByteArray xorCrypt(const QByteArray in, const QByteArray key);
+    static QString xorCrypt(const QString in, const QString key);
+
+
     static QString XOR_Crypt(QString src);
 
 

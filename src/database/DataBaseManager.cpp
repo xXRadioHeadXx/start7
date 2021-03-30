@@ -120,8 +120,10 @@ QSqlDatabase& DataBaseManager::m_db()
             userName = settings.value( "Login", "postgres" ).toString();//("postgres");
 
             QString str=settings.value( "Password", "" ).toString();
-            qDebug()<<str;
-            qDebug()<<" "<<Utils::XOR_Crypt(str);
+            qDebug() << "Crypt -- " << str;
+            qDebug() << "DeCrypt -- " << Utils::XOR_Crypt(str);
+            QString key = "start7";
+            qDebug() << "DeCrypt -- " << Utils::xorCrypt(str, key);
           //  password = settings.value( "Password", "0987" ).toString();//("601275");
             password = Utils::XOR_Crypt(settings.value( "Password", "0987" ).toString());//("601275");
 

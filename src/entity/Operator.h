@@ -26,8 +26,8 @@ public:
     QString getPW() const;
     void setPW(const QString &value);
 
-    static QByteArray XOR_Crypt(const QByteArray in, const QByteArray key);
-    static QString XOR_Crypt(const QString in, const QString key);
+//    static QByteArray XOR_Crypt(const QByteArray in, const QByteArray key);
+//    static QString XOR_Crypt(const QString in, const QString key);
 
     static Operator getApprovedOperator();
     static void setApprovedOperator(const Operator &value);

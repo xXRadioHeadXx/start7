@@ -76,19 +76,19 @@ void Operator::setPW(const QString &value)
     PW = value;
 }
 
-QByteArray Operator::XOR_Crypt(const QByteArray in, const QByteArray key)
-{
-   QByteArray out;
-   for (int x = 0; x < in.size(); x++) {
-      out.append((static_cast<quint8>(in.at(x)) ^ static_cast<quint8>(key.at((x + 1) % key.size())) * static_cast<quint8>(2)));
-   }
-   return out;
-}
+//QByteArray Operator::XOR_Crypt(const QByteArray in, const QByteArray key)
+//{
+//   QByteArray out;
+//   for (int x = 0; x < in.size(); x++) {
+//      out.append((static_cast<quint8>(in.at(x)) ^ static_cast<quint8>(key.at((x + 1) % key.size())) * static_cast<quint8>(2)));
+//   }
+//   return out;
+//}
 
-QString Operator::XOR_Crypt(const QString in, const QString key)
-{
-    return QString::fromLocal8Bit(Operator::XOR_Crypt(in.toLocal8Bit(),  key.toLocal8Bit()));
-}
+//QString Operator::XOR_Crypt(const QString in, const QString key)
+//{
+//    return QString::fromLocal8Bit(Operator::XOR_Crypt(in.toLocal8Bit(),  key.toLocal8Bit()));
+//}
 
 Operator Operator::getApprovedOperator()
 {
