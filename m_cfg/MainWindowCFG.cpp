@@ -221,14 +221,16 @@ for(int i=1;i<5;i++)
 
 for(int i=1;i<100;i++)
 {
+/*
 QString str;
 str.clear();
 if(i/10<1)
     str.append("0");
 str.append(QString::number(i));
 this->ui->SSOI_IU_Num2->addItem(str);
-this->ui->SSOI_SD_Num2->addItem(str);
-
+this->ui->SSOI_SD_Num2->addItem(str);*/
+this->ui->SSOI_IU_Num2->addItem(QString::number(i));
+this->ui->SSOI_SD_Num2->addItem(QString::number(i));
 }
 
 for(int i=0;i<8;i++)
@@ -304,7 +306,7 @@ foreach(QString str, SSOI_SD_Num3)
 this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
 
     this->ui->SQL_server_lineEdit->setText("localhost");
-
+/*
     foreach(QString str, m_SSOI_SD_OutType)
     {
         this->ui->SSOI_SD_OutType->addItem(str);
@@ -312,7 +314,7 @@ this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
 
 
 
- /*   */
+    */
 
  /*
 AnsiString str;
@@ -1138,6 +1140,8 @@ void MainWindowCFG::on_pushButton_4_clicked()
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+        SSOI_SD_set_values_from_combobox(unit);
     break;
 
     case TypeUnitNode::SSOI_IU:
@@ -1505,6 +1509,46 @@ void MainWindowCFG::operator_delete()
 {
    //qDebug()<<"operator_delete";
 
+}
+
+void MainWindowCFG::SSOI_SD_set_values_from_combobox(UnitNode *unit)
+{
+    int key=m_SSOI_SD_OutType.key(this->ui->SSOI_SD_OutType->currentText());
+
+    if(key<8)
+    {
+        unit->setOutType(key);
+        unit->setBazalt(0);
+        unit->setConnectBlock(0);
+    }
+    else if(key==8)
+    {
+        unit->setOutType(0);
+        unit->setBazalt(1);
+        unit->setConnectBlock(0);
+    }
+    else if(key=9)
+    {
+        unit->setOutType(0);
+        unit->setBazalt(0);
+        unit->setConnectBlock(1);
+    }
+}
+
+void MainWindowCFG::SSOI_SD_set_combobox_value_from(UnitNode *unit)
+{
+    if(unit->getBazalt())
+    {
+     this->ui->SSOI_SD_OutType->setCurrentText(m_SSOI_SD_OutType.value(8));
+    }
+    else if(unit->getConnectBlock())
+    {
+     this->ui->SSOI_SD_OutType->setCurrentText(m_SSOI_SD_OutType.value(9));
+    }
+    else
+    {
+     this->ui->SSOI_SD_OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
+    }
 }
 
 QString MainWindowCFG::XOR_Crypt(QString src)
@@ -2365,7 +2409,14 @@ this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
 break;
 
 case TypeUnitNode::SSOI_SD:
+
 this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_SD_groupbox);
+
+
+this->ui->SSOI_SD_Num1->setCurrentIndex(0);
+this->ui->SSOI_SD_Num2->setCurrentIndex(0);
+this->ui->SSOI_SD_Num3->setCurrentIndex(0);
+this->ui->SSOI_SD_OutType->setCurrentText(m_SSOI_SD_OutType.value(0));
 break;
 
 case TypeUnitNode::SSOI_IU:
@@ -2546,10 +2597,16 @@ case TypeUnitNode::NET_DEV:
 break;
 
 case TypeUnitNode::SSOI_SD:
+
+    qDebug()<<"SSOI_SD";
     this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_SD_groupbox);
     this->ui->SSOI_SD_Num1->setCurrentText(QString::number(unit->getNum1()));
+
+    qDebug()<<"unit->getNum2()"<<unit->getNum2();
     this->ui->SSOI_SD_Num2->setCurrentText(QString::number(unit->getNum2()));
+    qDebug()<<"unit->getNum2()"<<unit->getNum2()<<" str "<<this->ui->SSOI_SD_Num2->currentText();
     this->ui->SSOI_SD_Num3->setCurrentText(QString::number(unit->getNum3()));
+    SSOI_SD_set_combobox_value_from(unit);
 break;
 
 case TypeUnitNode::SSOI_IU:
@@ -2687,6 +2744,7 @@ if(enable==true)
     this->ui->SSOI_SD_Num1->setDisabled(true);
     this->ui->SSOI_SD_Num2->setDisabled(true);
     this->ui->SSOI_SD_Num3->setDisabled(true);
+
     //break;
 
     //case TypeUnitNode::SSOI_IU:
@@ -5794,7 +5852,11 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
 
         qDebug()<<"Name: "<<unit->getName()
                 <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
+                <<" Num1:"<<QString::number(unit->getNum1())
                 <<" Num2:"<<QString::number(unit->getNum2())
+                <<" Num3:"<<QString::number(unit->getNum3())
+                <<" OutType:"<<QString::number(unit->getOutType())
+
                 <<" DK:"<<QString::number(unit->getDK())
                 <<" Bazalt:"<<QString::number(unit->getBazalt())
                 <<" connectblock:"<<QString::number(unit->getConnectBlock())
@@ -5868,6 +5930,9 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
             string1.append("\n");
         }
 
+        string1.append("Тип подключаемого обьекта: ");
+        string1.append(m_SSOI_SD_OutType.value(unit->getOutType()));
+
 
     this->ui->textEdit->append(string1);
 
@@ -5879,9 +5944,11 @@ void MainWindowCFG::set_option_SSOI_SD(UnitNode *unit)
     unit->setNum1(this->ui->SSOI_SD_Num1->currentText().toInt());
     unit->setNum2(this->ui->SSOI_SD_Num2->currentText().toInt());
     unit->setNum3(SSOI_SD_Num3.key(this->ui->SSOI_SD_Num3->currentText()));
-    unit->setOutType(m_SSOI_SD_OutType.key(this->ui->SSOI_SD_OutType->currentText()));
-}
 
+
+
+    SSOI_SD_set_values_from_combobox(unit);
+}
 bool MainWindowCFG::pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent)
 {
     //СД может быть добавлен только к группе или к системе
@@ -5914,6 +5981,8 @@ bool MainWindowCFG::pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent)
             }
            }
            return true;
+
+
 
 
 }
@@ -7501,4 +7570,34 @@ void MainWindowCFG::convert(QByteArray* src)
     src->append(res);
 
 
+}
+
+void MainWindowCFG::on_SSOI_SD_Num3_currentTextChanged(const QString &arg1)
+{
+    int res=arg1.toInt();
+
+    this->ui->SSOI_SD_OutType->clear();
+    for(int i=0;i<8;i++)
+    {
+        this->ui->SSOI_SD_OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+    }
+
+    switch(res)
+    {
+    case 1:
+    case 2:
+    case 3:
+
+this->ui->SSOI_SD_OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
+
+    break;
+
+    case 4:
+    case 5:
+    case 6:
+this->ui->SSOI_SD_OutType->insertItem(9,m_SSOI_SD_OutType.value(9));
+
+    break;
+
+    }
 }
