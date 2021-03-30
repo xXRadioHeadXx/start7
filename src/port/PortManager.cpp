@@ -961,17 +961,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 }
             }
 
-            if(nullptr == unLockSdBlIp || nullptr == unLockIuBlIp) {
-                if(nullptr != previousCopyUNLockIuBlIp.data()) {
-                    delete previousCopyUNLockIuBlIp.data();
-                    previousCopyUNLockIuBlIp = nullptr;
-                }
-                unLockIuBlIp = nullptr;
-                if(nullptr != previousCopyUNLockSdBlIp.data()) {
-                    delete previousCopyUNLockSdBlIp.data();
-                    previousCopyUNLockSdBlIp = nullptr;
-                }
-                unLockSdBlIp = nullptr;
+            if(unLockSdBlIp.isNull() || unLockIuBlIp.isNull()) {
+                previousCopyUNLockIuBlIp.clear();
+                previousCopyUNLockSdBlIp.clear();
+                unLockIuBlIp.clear();
+                unLockSdBlIp.clear();
                 isLockPair = false;
             } else if(0 != unLockSdBlIp->getBazalt()) {
                 isLockPair = true;
@@ -1067,18 +1061,10 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                 if(un->getParentUN()->getDkInvolved()) {
 //                    //qDebug() << "DkInvolved continue " << un->toString();
-                    if(nullptr != previousCopyUNLockSdBlIp.data()) {
-                        delete previousCopyUNLockSdBlIp.data();
-                        previousCopyUNLockSdBlIp = nullptr;
-                    }
-                    if(nullptr != previousCopyUNLockIuBlIp.data()) {
-                        delete previousCopyUNLockIuBlIp.data();
-                        previousCopyUNLockIuBlIp = nullptr;
-                    }
-                    if(nullptr != previousCopyUN.data()) {
-                        delete previousCopyUN.data();
-                        previousCopyUN = nullptr;
-                    }
+                    previousCopyUNLockIuBlIp.clear();
+                    previousCopyUNLockSdBlIp.clear();
+                    unLockIuBlIp.clear();
+                    unLockSdBlIp.clear();
                     continue;
                 } else if(isLockPair) {
                     if(
@@ -1093,18 +1079,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                              1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
                     {
                         //qDebug() << "isLockPair continue " << un->toString();
-                        if(nullptr != previousCopyUNLockSdBlIp.data()) {
-                            delete previousCopyUNLockSdBlIp.data();
-                            previousCopyUNLockSdBlIp = nullptr;
-                        }
-                        if(nullptr != previousCopyUNLockIuBlIp.data()) {
-                            delete previousCopyUNLockIuBlIp.data();
-                            previousCopyUNLockIuBlIp = nullptr;
-                        }
-                        if(nullptr != previousCopyUN.data()) {
-                            delete previousCopyUN.data();
-                            previousCopyUN = nullptr;
-                        }
+                        previousCopyUNLockIuBlIp.clear();
+                        previousCopyUNLockSdBlIp.clear();
+                        unLockIuBlIp.clear();
+                        unLockSdBlIp.clear();
+                        previousCopyUN.clear();
                         continue;
                     }
 
@@ -1267,18 +1246,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             }
         }
 
-        if(nullptr != previousCopyUNLockSdBlIp.data()) {
-            delete previousCopyUNLockSdBlIp.data();
-            previousCopyUNLockSdBlIp = nullptr;
-        }
-        if(nullptr != previousCopyUNLockIuBlIp.data()) {
-            delete previousCopyUNLockIuBlIp.data();
-            previousCopyUNLockIuBlIp = nullptr;
-        }
-        if(nullptr != previousCopyUN.data()) {
-            delete previousCopyUN.data();
-            previousCopyUN = nullptr;
-        }
+        previousCopyUNLockIuBlIp.clear();
+        previousCopyUNLockSdBlIp.clear();
+        unLockIuBlIp.clear();
+        unLockSdBlIp.clear();
+        previousCopyUN.clear();
     }
 //    //qDebug() << "Utils::parcingStatusWord0x41 <--";
     return resultRequest;
@@ -1306,10 +1278,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
 
         if(nullptr == un || previousCopyUN.isNull()) {
-            if(!previousCopyUN.isNull()) {
-                delete previousCopyUN.data();
-                previousCopyUN = nullptr;
-            }
+            previousCopyUN.clear();
 //            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(2)";
             continue;
         }
@@ -1358,10 +1327,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
 
                 if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType() && TypeUnitNode::TG != un->getType()) {
-                    if(!previousCopyUN.isNull()) {
-                        delete previousCopyUN.data();
-                        previousCopyUN = nullptr;
-                    }
+                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x31 -- continue(3)";
                     continue;
                 } else if(TypeUnitNode::RLM_KRL == un->getType()) {
@@ -1449,10 +1415,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             }
         }
 
-        if(!previousCopyUN.isNull()) {
-            delete previousCopyUN.data();
-            previousCopyUN = nullptr;
-        }
+        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x31 -- break(1)";
         break;
     }
@@ -1482,10 +1445,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
 
         if(nullptr == un || previousCopyUN.isNull()) {
-            if(!previousCopyUN.isNull()) {
-                delete previousCopyUN.data();
-                previousCopyUN = nullptr;
-            }
+            previousCopyUN.clear();
 //            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(2)";
             continue;
         }
@@ -1509,10 +1469,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                 // Первое сообщение о включении
 
                 if(TypeUnitNode::TG != un->getType()) {
-                    if(!previousCopyUN.isNull()) {
-                        delete previousCopyUN.data();
-                        previousCopyUN = nullptr;
-                    }
+                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x32 -- continue(3)";
                     continue;
                 } else if(TypeUnitNode::TG == un->getType()) {
@@ -1521,10 +1478,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
             }
         }
 
-        if(!previousCopyUN.isNull()) {
-            delete previousCopyUN.data();
-            previousCopyUN = nullptr;
-        }
+        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x32 -- break(1)";
         break;
     }
