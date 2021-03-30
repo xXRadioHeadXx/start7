@@ -385,7 +385,7 @@ private:
 
     QString str_system;
     QString str_system_RIF=          "РИФ+";
-    QString str_system_SSOI=       "ССОИ";
+    QString str_system_SSOI=       "ССОИ-М";
 
 
     QString str_GROUP=          " ГРУППА";

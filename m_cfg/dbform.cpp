@@ -17,7 +17,7 @@ sys_type=system_type;
         this->ui->comboBox->insertItem(key,m_db_rif.value(key));
     }
     else
-    if(sys_type=="ССОИ")
+    if(sys_type=="ССОИ-M")
     foreach(int key,m_db_ssoi.keys())
     {
         this->ui->comboBox->insertItem(key,m_db_ssoi.value(key));
@@ -70,7 +70,7 @@ void DBform::find_rif_db(QSqlDatabase db)
            (db_name=="rif_db3"))
             res=1;
 
-           if(sys_type=="ССОИ")
+           if(sys_type=="ССОИ-M")
             if((db_name=="ssoi_db0")||
            (db_name=="ssoi_db1")||
            (db_name=="ssoi_db2")||

@@ -48,7 +48,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     list<<str_system_RIF;
     list<<str_system_SSOI;
 
-       str_system=QInputDialog::getItem(nullptr,"РИФ+","ССОИ",list);
+       str_system=QInputDialog::getItem(nullptr,"Настройка","Комплекс",list);
 
         qDebug()<<str_system;
 
@@ -57,11 +57,11 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
         ui->setupUi(this);
 QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
-        if(str_system=="РИФ+")
+        if(str_system==str_system_RIF)
         {
-         this->setWindowTitle("Настройка комплекса РИФ+ " + date.toString("dd.MM.yyyy"));
+         this->setWindowTitle("Настройка комплекса РИФ+ b." + date.toString("dd.MM.yyyy"));
         }
-        if(str_system=="ССОИ")
+        if(str_system==str_system_SSOI)
         {
 
             this->ui->tabWidget->removeTab(3);
@@ -72,7 +72,7 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
          //  this->ui->Subsystem_RIF->setVisible(false);
          //   this->ui->Subsystem_ADAM->setVisible(false);
             this->ui->DevLine_groupbox->setVisible(false);
-            this->setWindowTitle("Настройка комплекса ССОИ " + date.toString("dd.MM.yyyy"));
+            this->setWindowTitle("Настройка комплекса ССОИ-М b." + date.toString("dd.MM.yyyy"));
 
 
         }
@@ -436,7 +436,7 @@ AnsiString str;
 
 default_OPERATORS();
 
-if(str_system=="РИФ+")
+if(str_system==str_system_RIF)
 {
     qSort(l_Unittype_rif.begin(), l_Unittype_rif.end(), [](const QVariant &v1,
                                                    const QVariant &v2)
@@ -462,7 +462,7 @@ if(str_system=="РИФ+")
     }
 }
 else
-if(str_system=="ССОИ")
+if(str_system==str_system_SSOI)
 {
     foreach(QString str, l_Unittype_ssoi)
     {
@@ -5292,10 +5292,10 @@ void MainWindowCFG::set_BACKUP(QString filename)
 
 void MainWindowCFG::default_BACKUP()
 {
-    if(str_system=="РИФ+")
+    if(str_system==str_system_RIF)
     this->ui->BACKUP_BackupPath_lineedit->setText("C:/RIFx/Backup");
     else
-    if(str_system=="ССОИ")
+    if(str_system==str_system_SSOI)
     this->ui->BACKUP_BackupPath_lineedit->setText("C:/SSOI/Backup");
 
 

@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2856,7 +2856,7 @@
        </widget>
        <widget class="QWidget" name="Subsystem_TV_RASTR_M">
         <attribute name="title">
-         <string>РАСТР</string>
+         <string>РАСТР-М</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_9">
          <item row="0" column="0">

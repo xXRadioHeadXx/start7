@@ -26,7 +26,7 @@ RASTR_Widget::RASTR_Widget(QWidget *parent) :
 
     l_Use.insert(0,Use_0);
     l_Use.insert(1,Use_1);
-    l_Use.insert(2,Use_2);
+  //  l_Use.insert(2,Use_2);
     foreach (QString str, l_Use)
     {
     this->ui->Use->addItem(str);
@@ -209,6 +209,7 @@ void RASTR_Widget::on_Use_activated(const QString &arg1)
      }
      else
      {
+
 //         dialog.showMessage("Файл rastrmtv_cfg.ini не найден");
 //         dialog.exec();
          QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
@@ -226,7 +227,7 @@ void RASTR_Widget::on_pushButton_clicked()
 
 QString RASTR_Widget::rastrmtv_cfg__path() const
 {
-    QString path=QDir::currentPath();
-    path.append("/rastrmtv_cfg.ini");
+    QString path=QCoreApplication::applicationDirPath() + "/rastrmtv_cfg.ini";
+    qDebug()<<path;
     return path;
 }
