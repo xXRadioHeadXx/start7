@@ -640,7 +640,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>15</number>
+             <number>5</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -950,9 +950,9 @@
              <widget class="QComboBox" name="SSOI_SD_OutType">
               <property name="geometry">
                <rect>
-                <x>290</x>
+                <x>280</x>
                 <y>21</y>
-                <width>271</width>
+                <width>280</width>
                 <height>30</height>
                </rect>
               </property>
@@ -960,7 +960,7 @@
              <widget class="QLabel" name="label_111">
               <property name="geometry">
                <rect>
-                <x>305</x>
+                <x>280</x>
                 <y>5</y>
                 <width>221</width>
                 <height>16</height>
@@ -973,19 +973,19 @@
              <widget class="QComboBox" name="SSOI_SD_Num2">
               <property name="geometry">
                <rect>
-                <x>110</x>
+                <x>100</x>
                 <y>21</y>
-                <width>81</width>
+                <width>70</width>
                 <height>30</height>
                </rect>
               </property>
              </widget>
-             <widget class="QComboBox" name="SSOI_SD_Num1">
+             <widget class="QComboBox" name="SSOI_SD_Num3">
               <property name="geometry">
                <rect>
-                <x>200</x>
+                <x>10</x>
                 <y>21</y>
-                <width>81</width>
+                <width>80</width>
                 <height>30</height>
                </rect>
               </property>
@@ -993,7 +993,7 @@
              <widget class="QLabel" name="label_98">
               <property name="geometry">
                <rect>
-                <x>110</x>
+                <x>102</x>
                 <y>5</y>
                 <width>81</width>
                 <height>16</height>
@@ -1006,7 +1006,7 @@
              <widget class="QLabel" name="label_99">
               <property name="geometry">
                <rect>
-                <x>10</x>
+                <x>182</x>
                 <y>5</y>
                 <width>71</width>
                 <height>16</height>
@@ -1019,7 +1019,7 @@
              <widget class="QLabel" name="label_100">
               <property name="geometry">
                <rect>
-                <x>200</x>
+                <x>10</x>
                 <y>5</y>
                 <width>71</width>
                 <height>16</height>
@@ -1029,12 +1029,12 @@
                <string>СД</string>
               </property>
              </widget>
-             <widget class="QComboBox" name="SSOI_SD_Num3">
+             <widget class="QComboBox" name="SSOI_SD_Num1">
               <property name="geometry">
                <rect>
-                <x>10</x>
+                <x>180</x>
                 <y>21</y>
-                <width>91</width>
+                <width>90</width>
                 <height>30</height>
                </rect>
               </property>

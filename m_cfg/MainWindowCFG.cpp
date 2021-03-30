@@ -1585,12 +1585,7 @@ else if(key==1)
     unit->setConnectBlock(0);
     unit->setDK(0);
     }
-else if(key==2)
-    {
-    unit->setBazalt(0);
-    unit->setConnectBlock(1);
-    unit->setDK(0);
-    }
+
 
 }
 
@@ -1601,10 +1596,6 @@ qDebug()<<"SD_BL_IP_set_combobox_value_from";
 if(unit->getBazalt()==1)
 {
 this->ui->SD_BL_IP_OutType->setCurrentText(m_SD_BL_IP_OutType.value(1));
-}
-else if(unit->getConnectBlock()==1)
-{
- this->ui->SD_BL_IP_OutType->setCurrentText(m_SD_BL_IP_OutType.value(2));
 }
 else
 {
@@ -4020,13 +4011,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
             string1.append(" ИУ:");
             string1.append(QString::number(unit->getNum2()));
         }
-    else
-    if(unit->getConnectBlock()==1)
-        {
-            string1.append(" +");
-            string1.append(" ИУ:");
-            string1.append(QString::number(unit->getNum2()+3));
-        }
+
 
     string1.append("\n");
 
@@ -4062,11 +4047,6 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
     {
 
         string1.append(m_SD_BL_IP_OutType.value(1));
-    }
-    else if(unit->getConnectBlock())
-    {
-
-        string1.append(m_SD_BL_IP_OutType.value(2));
     }
     else
     {
@@ -5964,7 +5944,11 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
 
         string1.append(" :");
         string1.append(" СД:");
-        string1.append(QString::number(unit->getNum1()));
+        int val=unit->getNum3();
+                if(val==9)
+        string1.append("Вскрытие ");
+                else
+        string1.append(QString::number(unit->getNum3()));
 
         if(unit->getBazalt()==1)
             {
@@ -5977,7 +5961,7 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
             {
                 string1.append(" +");
                 string1.append(" ИУ:");
-                string1.append(QString::number(unit->getNum2()+3));
+                string1.append(QString::number(unit->getNum2()-3));
             }
 
         string1.append("\n");
@@ -5986,7 +5970,7 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
 
         if(unit->getUdpUse()==0)
         {
-            string1.append(QString::number(unit->getNum3()));
+            string1.append(QString::number(unit->getNum1()));
 
 
                 if(unit->getUdpAdress()!="")
@@ -6008,7 +5992,7 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
             string1.append(QString::number(unit->getUdpTimeout()));
             string1.append("\n");
         }
-        string1.append(" Тип обьекта: ");
+        string1.append(" Тип: ");
         if(unit->getBazalt())
         {
 

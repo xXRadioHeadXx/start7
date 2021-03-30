@@ -640,8 +640,6 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                  if(this->getBazalt()==1)
                      return Icons_cfg::sd_basalt();
 
-                 if(this->getConnectBlock()==1)
-                     return Icons_cfg::sd_connect_block();
 
                  return Icons_cfg::sd();
              }
