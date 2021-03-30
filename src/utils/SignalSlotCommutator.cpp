@@ -87,52 +87,52 @@ void SignalSlotCommutator::emitEndLockWait() const
     emit this->endLockWait();
 }
 
-void SignalSlotCommutator::emitAutoOnOffIU(bool out, UnitNode * un) const
+void SignalSlotCommutator::emitAutoOnOffIU(bool out, QSharedPointer<UnitNode>  un) const
 {
     emit this->autoOnOffIU(out , un);
 }
 
-void SignalSlotCommutator::emitAutoOnOffIU(UnitNode * un) const
+void SignalSlotCommutator::emitAutoOnOffIU(QSharedPointer<UnitNode>  un) const
 {
     emit this->autoOnOffIU(false, un);
 }
 
-void SignalSlotCommutator::emitLostedConnect(UnitNode * un) const
+void SignalSlotCommutator::emitLostedConnect(QSharedPointer<UnitNode>  un) const
 {
     emit this->lostConnect(un);
 }
 
-void SignalSlotCommutator::emitRequestOnOffCommand(UnitNode * un, bool value) const
+void SignalSlotCommutator::emitRequestOnOffCommand(QSharedPointer<UnitNode>  un, bool value) const
 {
     emit this->requestOnOffCommand(false, un, value);
 }
 
-void SignalSlotCommutator::emitRequestOnOffCommand(bool out, UnitNode * un, bool value) const
+void SignalSlotCommutator::emitRequestOnOffCommand(bool out, QSharedPointer<UnitNode>  un, bool value) const
 {
     emit this->requestOnOffCommand(out, un, value);
 }
 
-void SignalSlotCommutator::emitLockOpenCloseCommand(bool out, UnitNode * un, bool value) const
+void SignalSlotCommutator::emitLockOpenCloseCommand(bool out, QSharedPointer<UnitNode>  un, bool value) const
 {
     emit this->lockOpenCloseCommand(out, un, value);
 }
 
-void SignalSlotCommutator::emitLockOpenCloseCommand(UnitNode * un, bool value) const
+void SignalSlotCommutator::emitLockOpenCloseCommand(QSharedPointer<UnitNode>  un, bool value) const
 {
     emit this->lockOpenCloseCommand(false, un, value);
 }
 
-void SignalSlotCommutator::emitChangeSelectUN(UnitNode * un) const
+void SignalSlotCommutator::emitChangeSelectUN(QSharedPointer<UnitNode>  un) const
 {
     emit this->changeSelectUN(un);
 }
 
-void SignalSlotCommutator::emitRequestDK(UnitNode * un) const
+void SignalSlotCommutator::emitRequestDK(QSharedPointer<UnitNode>  un) const
 {
     emit this->requestDK(un);
 }
 
-void SignalSlotCommutator::emitRequestDK(bool out, UnitNode *un) const
+void SignalSlotCommutator::emitRequestDK(bool out, QSharedPointer<UnitNode> un) const
 {
     emit this->requestDK(out, un);
 }
@@ -142,7 +142,7 @@ void SignalSlotCommutator::emitForcedNewDuty(bool out) const
     emit this->forcedNewDuty(out);
 }
 
-void SignalSlotCommutator::emitAlarmsReset(UnitNode *un) const
+void SignalSlotCommutator::emitAlarmsReset(QSharedPointer<UnitNode> un) const
 {
     emit this->alarmsReset(un);
 }

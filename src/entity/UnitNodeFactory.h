@@ -8,8 +8,8 @@ class UnitNodeFactory
 public:
     UnitNodeFactory();
 
-    static UnitNode * make(TypeUnitNode type, UnitNode * parent = nullptr);
-    static UnitNode * make(const UnitNode & parent);
+    static QSharedPointer<UnitNode> make(TypeUnitNode type, QSharedPointer<UnitNode> parent = QSharedPointer<UnitNode>(nullptr));
+    static QSharedPointer<UnitNode> make(const UnitNode & parent);
 
 };
 

@@ -9,7 +9,7 @@
 #include <DataBaseManager.h>
 #include <JourEntity.h>
 #include <QDomDocument>
-#include <SettingUtils.h>
+#include <ServerSettingUtils.h>
 #include <SignalSlotCommutator.h>
 #include <global.h>
 
@@ -285,8 +285,8 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 if(!nodeDevice.attributes().contains("num3")) continue;
                 else deviceNum3 = nodeDevice.attributes().namedItem("num3");
 
-                UnitNode * unTarget = nullptr;
-                for(auto un : as_const(SettingUtils::getSetMetaRealUnitNodes())) {
+                QSharedPointer<UnitNode> unTarget = QSharedPointer<UnitNode>(nullptr);
+                for(auto un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                     if(un->getMetaNames().contains("Obj_" + deviceId.nodeValue()) &&
                        un->getLevel() == deviceLevel.nodeValue().toInt() &&
                        un->getType() == deviceType.nodeValue().toInt() &&
@@ -365,12 +365,12 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 if(nodeDevice.attributes().contains("num3")) deviceNum3 = nodeDevice.attributes().namedItem("num3");
 
-                UnitNode * unTarget = nullptr;
-                QSet<UnitNode *> unTargetSet;
+                QSharedPointer<UnitNode>  unTarget = nullptr;
+                QSet<QSharedPointer<UnitNode> > unTargetSet;
 
                 //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
-                for(UnitNode * un : as_const(SettingUtils::getListTreeUnitNodes())) {
+                for(QSharedPointer<UnitNode>  un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
                         if(un->getMetaNames().contains(unMetaName)) {
@@ -427,7 +427,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     continue;
                 QString unMetaName("Obj_" + nodeDevice.attributes().namedItem("id").nodeValue());
 
-                for(auto un : as_const(SettingUtils::getListTreeUnitNodes())) {
+                for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
                     if(un->getMetaNames().contains(unMetaName)) {
                         SignalSlotCommutator::getInstance()->emitChangeSelectUN(un);
                     }
@@ -457,12 +457,12 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 if(nodeDevice.attributes().contains("num3")) deviceNum3 = nodeDevice.attributes().namedItem("num3");
 
-                UnitNode * unTarget = nullptr;
-                QSet<UnitNode *> unTargetSet;
+                QSharedPointer<UnitNode>  unTarget = nullptr;
+                QSet<QSharedPointer<UnitNode> > unTargetSet;
 
                 //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
-                for(auto un : as_const(SettingUtils::getListTreeUnitNodes())) {
+                for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
                         if(un->getMetaNames().contains(unMetaName)) {
@@ -555,12 +555,12 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 if(nodeDevice.attributes().contains("num3")) deviceNum3 = nodeDevice.attributes().namedItem("num3");
 
-                UnitNode * unTarget = nullptr;
-                QSet<UnitNode *> unTargetSet;
+                QSharedPointer<UnitNode>  unTarget = nullptr;
+                QSet<QSharedPointer<UnitNode> > unTargetSet;
 
                 //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
-                for(auto un : as_const(SettingUtils::getListTreeUnitNodes())) {
+                for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
                         if(un->getMetaNames().contains(unMetaName)) {
@@ -756,7 +756,7 @@ QDomDocument GraphTerminal::makeInitialStatus(QString /*docType*/)
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
 
-    for(auto un : as_const(SettingUtils::getListTreeUnitNodes())) {
+    for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
         // <device id="1" level="1" type="33" num1="1" num2="1" num3="1" name="Устройство 1" lat=”55.761248” lon: “37.608074” description=”Текстовое
         // описание длиной не более 50 символов” dk=”1” option=”0”>
 
@@ -806,7 +806,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
 
-    for(UnitNode * un : as_const(SettingUtils::getListTreeUnitNodes())) {
+    for(QSharedPointer<UnitNode>  un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
         // <device id="0" level="0" type="33" num1="1" num2="1" num3="1" name="1" lat=”55.761248” lon: “37.608074” description=”Текстовое описание длиной
         // не более 50 символов”>
 
@@ -857,11 +857,11 @@ QDomDocument GraphTerminal::makeEventsAndStates(JourEntity jour) {
     return makeEventsAndStates(nullptr, jour);
 }
 
-QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un) {
+QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un) {
     return makeEventsAndStates(un, JourEntity());
 }
 
-QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
+QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, JourEntity jour)
 {
     QDomDocument doc;//(docType);
 
@@ -873,7 +873,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
     RIFPlusPacketElement.appendChild(devicesElement);
 
     if(nullptr == un) {
-        for(UnitNode * unTmp : as_const(SettingUtils::getListTreeUnitNodes())) {
+        for(QSharedPointer<UnitNode>  unTmp : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
             if(unTmp->getMetaNames().contains("Obj_0")) {
                 un = unTmp;
                 break;
@@ -931,12 +931,12 @@ QDomDocument GraphTerminal::makeEventsAndStates(UnitNode * un, JourEntity jour)
 
 }
 
-QDomElement GraphTerminal::makeActualStateElement(UnitNode *un, QDomElement &stateElement)
+QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, QDomElement &stateElement)
 {
     bool isLockPair = false;
-    UnitNode * unLockSdBlIp = nullptr, * unLockIuBlIp = nullptr;
+    QSharedPointer<UnitNode>  unLockSdBlIp = nullptr, unLockIuBlIp = nullptr;
     if(1 >= un->getNum2() && 4 >= un->getNum2()) {
-        UnitNode * reciver = un;
+        QSharedPointer<UnitNode>  reciver = un;
         while(nullptr != reciver) {
             if(TypeUnitNode::BL_IP == reciver->getType()) {
                 break;
@@ -1026,11 +1026,11 @@ void GraphTerminal::sendAbonentEventsAndStates(JourEntity jour){
     sendAbonent(makeEventsAndStates(jour).toByteArray());
 }
 
-void GraphTerminal::sendAbonentEventsAndStates(UnitNode *un){
+void GraphTerminal::sendAbonentEventsAndStates(QSharedPointer<UnitNode> un){
     sendAbonent(makeEventsAndStates(un).toByteArray());
 }
 
-void GraphTerminal::sendAbonentEventsAndStates(UnitNode *un, JourEntity jour){
+void GraphTerminal::sendAbonentEventsAndStates(QSharedPointer<UnitNode> un, JourEntity jour){
     sendAbonent(makeEventsAndStates(un, jour).toByteArray());
 }
 
@@ -1067,8 +1067,8 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
 
-    UnitNode * un = nullptr;
-    for(UnitNode * unTmp : as_const(SettingUtils::getListTreeUnitNodes())) {
+    QSharedPointer<UnitNode>  un = nullptr;
+    for(QSharedPointer<UnitNode>  unTmp : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
         if(unTmp->getName() == jour.getObject() &&
            unTmp->getNum1() == jour.getD1() &&
            unTmp->getNum2() == jour.getD2() &&

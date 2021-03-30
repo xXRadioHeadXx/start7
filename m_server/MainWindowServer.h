@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QTableWidget>
 
-#include <TreeModelUnitNode.h>
+#include <ServerTreeModelUnitNode.h>
 #include <PortManager.h>
 #include <DataBaseManager.h>
 #include <TableModelMSG.h>
@@ -91,10 +91,10 @@ private slots:
 
     void on_actionUNSqlSelect_triggered();
 
-    void changeSelectUN(UnitNode * un);
+    void changeSelectUN(QSharedPointer<UnitNode> un);
 
     void preparePageCustomization(int typeUN);
-    void preparePageRLM(const UnitNode *un);
+    void preparePageRLM(QSharedPointer<UnitNode> un);
     void preparePagePoint(int typeUN);
     void preparePageSota1(int typeUN);
     void preparePageSota2(int typeUN);
@@ -128,9 +128,9 @@ private:
     DataBaseManager *m_dbManager = nullptr;
     AlarmSwitchOffLogger *m_alarmSwitchOffLogger = nullptr;
     TableModelMSG *modelMSG = nullptr;
-    TreeModelUnitNode *modelTreeUN = nullptr;
+    ServerTreeModelUnitNode*modelTreeUN = nullptr;
 
-    UnitNode * selUN = nullptr;
+    QSharedPointer<UnitNode> selUN = nullptr;
     QModelIndex selIndex;
     JourEntity selMsg = nullptr;
 //    QTranslator *ruTranslator;

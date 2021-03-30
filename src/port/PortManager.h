@@ -41,7 +41,7 @@ private:
     static DataQueueItem parcingStatusWord0x32(DataQueueItem &item, DataQueueItem & resultRequest);
     static DataQueueItem parcingStatusWord0x33(DataQueueItem &item, DataQueueItem & resultRequest);
     static DataQueueItem parcingStatusWord0x34(DataQueueItem &item, DataQueueItem & resultRequest);
-    static void procDK(UnitNode * current, UnitNode * previous);
+    static void procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous);
 
 
 public:
@@ -104,20 +104,20 @@ public slots:
     void write(const QList<DataQueueItem> &data);
     void write(const DataQueueItem &data);
     void startStatusRequest();
-    void requestAlarmReset(UnitNode *selUN = nullptr);
-    void requestDK(bool out, UnitNode *selUN = nullptr);
-    void requestDK(UnitNode *selUN = nullptr);
-    void requestOnOffCommand(UnitNode *selUN, bool value);
-    void requestOnOffCommand(bool out, UnitNode *selUN, bool value);
-    void requestAutoOnOffIUCommand(bool out, UnitNode *selUN);
-    void requestAutoOnOffIUCommand(UnitNode *selUN);
-    void lockOpenCloseCommand(bool out, UnitNode *selUN, bool value);
-    void lockOpenCloseCommand(UnitNode *selUN, bool value);
-    void requestModeSensor(UnitNode *selUN, QByteArray stateWord);
+    void requestAlarmReset(QSharedPointer<UnitNode> selUN = nullptr);
+    void requestDK(bool out, QSharedPointer<UnitNode> selUN = nullptr);
+    void requestDK(QSharedPointer<UnitNode> selUN = nullptr);
+    void requestOnOffCommand(QSharedPointer<UnitNode> selUN, bool value);
+    void requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, bool value);
+    void requestAutoOnOffIUCommand(bool out, QSharedPointer<UnitNode> selUN);
+    void requestAutoOnOffIUCommand(QSharedPointer<UnitNode> selUN);
+    void lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN, bool value);
+    void lockOpenCloseCommand(QSharedPointer<UnitNode> selUN, bool value);
+    void requestModeSensor(QSharedPointer<UnitNode> selUN, QByteArray stateWord);
 
 
     void manageOverallReadQueue();
-    void unLostedConnect(UnitNode *un) const;
+    void unLostedConnect(QSharedPointer<UnitNode> un) const;
 };
 
 #endif // PORTMANAGER_H

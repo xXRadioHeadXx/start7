@@ -4,9 +4,15 @@
 
 #include <iostream>
 #include <QString>
+#include <RunGuard.h>
 
 int main(int argc, char *argv[])
 {
+
+    RunGuard guardCopyDB( "start7_db" );
+    if ( !guardCopyDB.tryToRun() )
+        return 0;
+
     QApplication a(argc, argv);
     // Перебираем каждый аргумент и выводим его порядковый номер и значение
     QMap<QString, QString> argMap;

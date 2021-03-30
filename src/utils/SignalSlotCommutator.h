@@ -29,18 +29,18 @@ public slots:
      void emitStartLockWait(int interval) const;
      void emitStopLockWait() const;
      void emitEndLockWait() const;
-     void emitAutoOnOffIU(bool, UnitNode *) const;
-     void emitAutoOnOffIU(UnitNode *) const;
-     void emitLostedConnect(UnitNode *) const;
-     void emitRequestOnOffCommand(bool, UnitNode *, bool) const;
-     void emitRequestOnOffCommand(UnitNode *, bool) const;
-     void emitLockOpenCloseCommand(bool, UnitNode *, bool) const;
-     void emitLockOpenCloseCommand(UnitNode *, bool) const;
-     void emitChangeSelectUN (UnitNode *) const;
-     void emitRequestDK (UnitNode *) const;
-     void emitRequestDK (bool, UnitNode * un = nullptr) const;
+     void emitAutoOnOffIU(bool, QSharedPointer<UnitNode> ) const;
+     void emitAutoOnOffIU(QSharedPointer<UnitNode> ) const;
+     void emitLostedConnect(QSharedPointer<UnitNode> ) const;
+     void emitRequestOnOffCommand(bool, QSharedPointer<UnitNode> , bool) const;
+     void emitRequestOnOffCommand(QSharedPointer<UnitNode> , bool) const;
+     void emitLockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool) const;
+     void emitLockOpenCloseCommand(QSharedPointer<UnitNode> , bool) const;
+     void emitChangeSelectUN (QSharedPointer<UnitNode> ) const;
+     void emitRequestDK (QSharedPointer<UnitNode> ) const;
+     void emitRequestDK (bool, QSharedPointer<UnitNode>  un) const;
      void emitForcedNewDuty(bool out) const;
-     void emitAlarmsReset(UnitNode * un) const;
+     void emitAlarmsReset(QSharedPointer<UnitNode>  un) const;
 
 signals:
      void insNewCommandMSG(const quint32 id) const;
@@ -58,16 +58,16 @@ signals:
      void startLockWait(int interval) const;
      void stopLockWait() const;
      void endLockWait() const;
-     void autoOnOffIU(UnitNode *) const;
-     void autoOnOffIU(bool, UnitNode *) const;
-     void lostConnect(UnitNode *) const;
-     void requestOnOffCommand(bool, UnitNode *, bool) const;
-     void lockOpenCloseCommand(bool, UnitNode *, bool) const;
-     void changeSelectUN (UnitNode *) const;
-     void requestDK (UnitNode *) const;
-     void requestDK (bool, UnitNode *) const;
+     void autoOnOffIU(QSharedPointer<UnitNode> ) const;
+     void autoOnOffIU(bool, QSharedPointer<UnitNode> ) const;
+     void lostConnect(QSharedPointer<UnitNode> ) const;
+     void requestOnOffCommand(bool, QSharedPointer<UnitNode> , bool) const;
+     void lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool) const;
+     void changeSelectUN (QSharedPointer<UnitNode> ) const;
+     void requestDK (QSharedPointer<UnitNode> ) const;
+     void requestDK (bool, QSharedPointer<UnitNode> ) const;
      void forcedNewDuty(bool out) const;
-     void alarmsReset(UnitNode * un) const;
+     void alarmsReset(QSharedPointer<UnitNode>  un) const;
 
 };
 

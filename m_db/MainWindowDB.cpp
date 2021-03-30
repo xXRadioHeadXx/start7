@@ -5,7 +5,7 @@
 #include <TablePrint.h>
 #include <global.h>
 #include <UnitNodeFactory.h>
-#include <SettingUtils.h>
+#include <ServerSettingUtils.h>
 
 GraphTerminal * MainWindowDB::graphTerminal = nullptr;
 
@@ -59,7 +59,7 @@ MainWindowDB::MainWindowDB(QWidget *parent)
     ui->comboBox_9->setVisible(false);
     ui->comboBox_4->setVisible(false);
 
-    SettingUtils::loadTreeUnitNodes(UnitNodeFactory::make(TypeUnitNode::SYSTEM));
+    ServerSettingUtils::loadTreeUnitNodes(UnitNodeFactory::make(TypeUnitNode::SYSTEM));
 
     m_dbManager = new DataBaseManager(this);
 

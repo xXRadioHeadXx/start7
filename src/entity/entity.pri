@@ -10,6 +10,7 @@ SOURCES += \
     $$PWD/Operator.cpp \
     $$PWD/UnitNode.cpp \
 #    $$PWD/MessageEntity.cpp \
+    $$PWD/UnitNodeCFG.cpp \
     $$PWD/UnitNodeFactory.cpp
 
 HEADERS += \
@@ -17,4 +18,5 @@ HEADERS += \
     $$PWD/Operator.h \
     $$PWD/UnitNode.h \
 #    $$PWD/MessageEntity.h \
+    $$PWD/UnitNodeCFG.h \
     $$PWD/UnitNodeFactory.h

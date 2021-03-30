@@ -4,24 +4,22 @@
 #include <QCoreApplication>
 
 class QSettings;
-class UnitNode;
+class UnitNode_CFG;
 class SettingUtils
 {
 private:
-    static QList<UnitNode *> listTreeUnitNodes;
-    static QSet<UnitNode *> listMetaRealUnitNodes;
+    static QList<UnitNode_CFG *> listTreeUnitNodes;
 
 public:
     SettingUtils();
-    static QList<UnitNode *> loadTreeUnitNodes(UnitNode * root, QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
-    static QList<UnitNode *> loadEmptyTree(UnitNode * root);
+    static QList<UnitNode_CFG *> loadTreeUnitNodes(UnitNode_CFG * root, QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
+    static QList<UnitNode_CFG *> loadEmptyTree(UnitNode_CFG * root);
 
-    static QList<UnitNode *> &getListTreeUnitNodes();
-    static QSet<UnitNode *> &getSetMetaRealUnitNodes();
+    static QList<UnitNode_CFG *> &getListTreeUnitNodes();
 
     static QVariant getValueSettings(const QString key, const QString group, const QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
-    static bool loadTreeUnitNodes(UnitNode * root, UnitNode *unit);
+    static bool loadTreeUnitNodes(UnitNode_CFG * root, UnitNode_CFG *unit);
 };
 
 #endif // SETTINGUTILS_H

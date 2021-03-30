@@ -3,13 +3,13 @@
 
 #include <PortManager.h>
 #include <UnitNodeFactory.h>
-#include <SettingUtils.h>
+#include <ServerSettingUtils.h>
 #include <Utils.h>
 #include <global.h>
 #include <SWPSDBLIP.h>
 #include <SWPIUBLIP.h>
 
-LockWaiter::LockWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
+LockWaiter::LockWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
     //qDebug() << "LockWaiter::LockWaiter(" << this << ") -->";
 }
@@ -19,22 +19,22 @@ LockWaiter::~LockWaiter()
     //qDebug() << "LockWaiter::~LockWaiter(" << this << ") <--";
 }
 
-UnitNode *LockWaiter::getUnReciverIuBlIp() const
+QSharedPointer<UnitNode> LockWaiter::getUnReciverIuBlIp() const
 {
     return unReciverIuBlIp;
 }
 
-void LockWaiter::setUnReciverIuBlIp(UnitNode *value)
+void LockWaiter::setUnReciverIuBlIp(QSharedPointer<UnitNode> value)
 {
     unReciverIuBlIp = value;
 }
 
-UnitNode *LockWaiter::getUnReciverSdBlIp() const
+QSharedPointer<UnitNode> LockWaiter::getUnReciverSdBlIp() const
 {
     return unReciverSdBlIp;
 }
 
-void LockWaiter::setUnReciverSdBlIp(UnitNode *value)
+void LockWaiter::setUnReciverSdBlIp(QSharedPointer<UnitNode> value)
 {
     unReciverSdBlIp = value;
 }
@@ -112,7 +112,7 @@ void LockWaiter::init() {
 
     setUnReciverSdBlIp(getUnTarget());
 
-    UnitNode * reciver = getUnTarget();
+    QSharedPointer<UnitNode>  reciver = getUnTarget();
     while(nullptr != reciver) {
         if(TypeUnitNode::BL_IP == reciver->getType()) {
             break;
@@ -121,7 +121,7 @@ void LockWaiter::init() {
     }
     setUnReciver(reciver);
 
-    for(UnitNode * un : as_const(SettingUtils::getSetMetaRealUnitNodes().toList())) {
+    for(QSharedPointer<UnitNode>  un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes().toList())) {
         if(TypeUnitNode::IU_BL_IP == un->getType() && getUnReciverSdBlIp()->getNum2() == un->getNum2() && getUnReciverSdBlIp()->getUdpPort() == un->getUdpPort() && getUnReciverSdBlIp()->getUdpAdress() == un->getUdpAdress()) {
             setUnReciverIuBlIp(un);
             break;
@@ -139,7 +139,7 @@ void LockWaiter::init() {
 
         newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
 
-        SettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
+        ServerSettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
         getUnReciver()->addChild(newMetaUnIuBlIp);
 
         setUnReciverIuBlIp(newMetaUnIuBlIp);
@@ -161,7 +161,7 @@ void LockWaiter::init() {
 
     //
     if(nullptr != getUnTarget()) {
-        UnitNode * un = getUnTarget();
+        QSharedPointer<UnitNode>  un = getUnTarget();
         while(nullptr != un) {
             if(TypeUnitNode::BL_IP == un->getType() /* или датчик */) {
                 setUnReciver(un);

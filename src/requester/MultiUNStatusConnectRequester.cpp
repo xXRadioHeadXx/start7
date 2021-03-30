@@ -6,7 +6,7 @@
 #include <Utils.h>
 #include <global.h>
 
-MultiUNStatusConnectRequester::MultiUNStatusConnectRequester(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
+MultiUNStatusConnectRequester::MultiUNStatusConnectRequester(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
 //    qDebug() << "MultiUNStatusConnectRequester::MultiUNStatusConnectRequester(" << this << ") -->";
 }
@@ -17,17 +17,17 @@ MultiUNStatusConnectRequester::~MultiUNStatusConnectRequester()
     Port::typeDefPort(getPtrPort())->setProcDK(false);
 }
 
-QList<UnitNode *> MultiUNStatusConnectRequester::getLsTrackedUN() const
+QList<QSharedPointer<UnitNode> > MultiUNStatusConnectRequester::getLsTrackedUN() const
 {
     return lsTrackedUN;
 }
 
-void MultiUNStatusConnectRequester::setLsTrackedUN(const QList<UnitNode *> &value)
+void MultiUNStatusConnectRequester::setLsTrackedUN(const QList<QSharedPointer<UnitNode>> &value)
 {
     lsTrackedUN = value;
 }
 
-void MultiUNStatusConnectRequester::addLsTrackedUN(UnitNode *  value)
+void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  value)
 {
     lsTrackedUN.append(value);
 
@@ -108,7 +108,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     if(1 < getLsTrackedUN().size())
     {
         int index = getLsTrackedUN().indexOf(getUnReciver());
-        UnitNode * un = nullptr;
+        QSharedPointer<UnitNode>  un = nullptr;
         if( -1 == index || index >= getLsTrackedUN().size() ) {
             un = getLsTrackedUN().value(0, nullptr);
         } else {
@@ -141,7 +141,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeEndMsg()
 
 void MultiUNStatusConnectRequester::init() {
     if(nullptr != getUnTarget()) {
-        UnitNode * un = getUnTarget();
+        QSharedPointer<UnitNode>  un = getUnTarget();
         while(nullptr != un) {
 
             if(TypeUnitNode::BL_IP == un->getType() /* или датчик */ ||
@@ -168,7 +168,7 @@ void MultiUNStatusConnectRequester::init() {
         }
     }
 
-//    for(UnitNode * uncld : as_const(getUnReciver()->getListChilde())) {
+//    for(QSharedPointer<UnitNode>  uncld : as_const(getUnReciver()->getListChilde())) {
 //        if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
 //            this->lsTrackedUN.append(uncld);
 //        }
@@ -179,7 +179,7 @@ void MultiUNStatusConnectRequester::init() {
     int udpTimeout = 50;
 
     if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
-        for(UnitNode * uncld : as_const(getUnReciver()->getListChilde())) {
+        for(QSharedPointer<UnitNode>  uncld : as_const(getUnReciver()->getListChilde())) {
             if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
                 udpTimeout = qMax(udpTimeout, uncld->getUdpTimeout());
             }

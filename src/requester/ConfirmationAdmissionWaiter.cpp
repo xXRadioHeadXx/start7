@@ -4,7 +4,7 @@
 #include <Utils.h>
 #include <global.h>
 
-ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
+ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
 //    qDebug() << "ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(" << this << ") -->";
 }
@@ -17,7 +17,7 @@ ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter()
 void ConfirmationAdmissionWaiter::init()
 {
     if(nullptr != getUnTarget()) {
-        UnitNode * un = getUnTarget();
+        QSharedPointer<UnitNode>  un = getUnTarget();
         while(nullptr != un) {
             if(TypeUnitNode::BL_IP == un->getType()) {
                 setUnReciver(un);

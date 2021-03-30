@@ -6,7 +6,7 @@
 class ProcessDKWaiter final : public AbstractRequester
 {
 private:
-    QList<UnitNode *> lsTrackedUN;
+    QList<QSharedPointer<UnitNode> > lsTrackedUN;
 
 protected:
     virtual DataQueueItem makeFirstMsg() override;
@@ -14,14 +14,14 @@ protected:
     virtual DataQueueItem makeEndMsg() override;
 
 public:
-    explicit ProcessDKWaiter(UnitNode * target, RequesterType requesterType = RequesterType::DKWaiter);
+    explicit ProcessDKWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType = RequesterType::DKWaiter);
     virtual ~ProcessDKWaiter();
 
     virtual void init() override;
 
-    QList<UnitNode *> getLsTrackedUN() const;
-    void setLsTrackedUN(const QList<UnitNode *> &value);
-    void addLsTrackedUN(UnitNode *value);
+    QList<QSharedPointer<UnitNode> > getLsTrackedUN() const;
+    void setLsTrackedUN(const QList<QSharedPointer<UnitNode> > &value);
+    void addLsTrackedUN(QSharedPointer<UnitNode> value);
 };
 
 #endif // PROCESSDKWAITER_H

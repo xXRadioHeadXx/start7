@@ -5,7 +5,7 @@
 #include <Utils.h>
 #include <global.h>
 
-OnOffIUWaiter::OnOffIUWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
+OnOffIUWaiter::OnOffIUWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
     //qDebug() << "OnOffIUWaiter::OnOffIUWaiter(" << this << ") -->";
 }
@@ -18,7 +18,7 @@ OnOffIUWaiter::~OnOffIUWaiter()
 void OnOffIUWaiter::init()
 {
     if(nullptr != getUnTarget()) {
-        UnitNode * un = getUnTarget();
+        QSharedPointer<UnitNode>  un = getUnTarget();
         while(nullptr != un) {
             if(TypeUnitNode::BL_IP == un->getType()) {
                 setUnReciver(un);
@@ -41,7 +41,7 @@ void OnOffIUWaiter::init()
         }
     }
 
-    int interval = UnitNode::adamOffToMs(getUnTarget()->getAdamOff());
+    int interval = UnitNodeCFG::adamOffToMs(getUnTarget()->getAdamOff());
 
     setTimeIntervalWaiteFirst(interval);
     setTimeIntervalRequest(500);

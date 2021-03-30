@@ -10,7 +10,7 @@
 #include <Port.h>
 #include <SignalSlotCommutator.h>
 #include <Utils.h>
-#include <SettingUtils.h>
+#include <ServerSettingUtils.h>
 #include <global.h>
 
 #include <SWPRLM.h>
@@ -48,7 +48,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             ui->tableView,
             SLOT(scrollToBottom()));
 
-    this->modelTreeUN = new TreeModelUnitNode(this);
+    this->modelTreeUN = new ServerTreeModelUnitNode(this);
     modelMSG->setFont(ui->tableView->font());
 
     ui->treeView->setModel(this->modelTreeUN);
@@ -118,9 +118,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SLOT(beatWaitProgressBar()));
 
     connect(SignalSlotCommutator::getInstance(),
-            SIGNAL(changeSelectUN(UnitNode *)),
+            SIGNAL(changeSelectUN(QSharedPointer<UnitNode> )),
             this,
-            SLOT(changeSelectUN(UnitNode *)));
+            SLOT(changeSelectUN(QSharedPointer<UnitNode> )));
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(forcedNewDuty(bool)),
             this,
@@ -201,7 +201,7 @@ void MainWindowServer::updComboBox(QList<QString> lst, QComboBox * cmb) {
 
 void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 {
-    UnitNode * sel = this->modelTreeUN->clickedUN(index);
+    QSharedPointer<UnitNode>  sel = this->modelTreeUN->clickedUN(index);
 
     if(nullptr == sel) {
         ui->labelSelectedUN->clear();
@@ -224,7 +224,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
         QString subStr;
         if(!setUN.isEmpty()) {
             subStr.append("(Авто %1с.)");
-            subStr = subStr.arg(UnitNode::adamOffToMs(setUN.values().first()->getAdamOff()) / 1000);
+            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(setUN.values().first()->getAdamOff()) / 1000);
         }
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
     } else
@@ -385,7 +385,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         selIndex = QModelIndex();
         return;
     }
-    UnitNode * sel = this->modelTreeUN->clickedUN(index);
+    QSharedPointer<UnitNode>  sel = this->modelTreeUN->clickedUN(index);
     if(nullptr == sel)
         return;
 
@@ -773,7 +773,7 @@ void MainWindowServer::on_actionNewScheme_triggered()
 
     if(QMessageBox::Ok == ret) {
 
-        if(0 != SettingUtils::getValueSettings("P1", "MYSQL").toInt() || 0 != SettingUtils::getValueSettings("P2", "MYSQL").toInt()) {
+        if(0 != ServerSettingUtils::getValueSettings("P1", "MYSQL").toInt() || 0 != ServerSettingUtils::getValueSettings("P2", "MYSQL").toInt()) {
             QString sql = " select * from jour where flag != 0 ";
             QList<JourEntity> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
 
@@ -867,11 +867,11 @@ void MainWindowServer::on_actionUNSqlSelect_triggered()
     process->start(file, QStringList() << "-sql" << "\"" + getUnSqlSelect() + "\"");
 }
 
-void MainWindowServer::changeSelectUN(UnitNode *un)
+void MainWindowServer::changeSelectUN(QSharedPointer<UnitNode> un)
 {
     if(nullptr == un)
         return;
-    QModelIndex index = this->modelTreeUN->findeIndexUN(un);
+    QModelIndex index = this->modelTreeUN->findeIndexUN(un.data());
     ui->treeView->setCurrentIndex(index);
 }
 
@@ -915,7 +915,7 @@ void MainWindowServer::preparePageCustomization(int /*typeUN*/)
     ui->groupBox_Customization->setVisible(true);
 }
 
-void MainWindowServer::preparePageRLM(const UnitNode * un)
+void MainWindowServer::preparePageRLM(const QSharedPointer<UnitNode>  un)
 {
     ui->comboBox_RLMTactPeriod->clear();
     ui->comboBox_RLMTactPeriod->setEnabled(false);

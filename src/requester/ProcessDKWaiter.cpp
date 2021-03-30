@@ -5,7 +5,7 @@
 #include <Utils.h>
 #include <global.h>
 
-ProcessDKWaiter::ProcessDKWaiter(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
+ProcessDKWaiter::ProcessDKWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
     //qDebug() << "ProcessDKWaiter::ProcessDKWaiter(" << this << ") -->";
 }
@@ -19,17 +19,17 @@ ProcessDKWaiter::~ProcessDKWaiter()
     }
 }
 
-QList<UnitNode *> ProcessDKWaiter::getLsTrackedUN() const
+QList<QSharedPointer<UnitNode> > ProcessDKWaiter::getLsTrackedUN() const
 {
     return lsTrackedUN;
 }
 
-void ProcessDKWaiter::setLsTrackedUN(const QList<UnitNode *> &value)
+void ProcessDKWaiter::setLsTrackedUN(const QList<QSharedPointer<UnitNode> > &value)
 {
     lsTrackedUN = value;
 }
 
-void ProcessDKWaiter::addLsTrackedUN(UnitNode *  value)
+void ProcessDKWaiter::addLsTrackedUN(QSharedPointer<UnitNode> value)
 {
     lsTrackedUN.append(value);
 }
@@ -75,7 +75,7 @@ DataQueueItem ProcessDKWaiter::makeEndMsg()
 
 void ProcessDKWaiter::init() {
     if(nullptr != getUnTarget()) {
-        UnitNode * un = getUnTarget();
+        QSharedPointer<UnitNode>  un = getUnTarget();
         while(nullptr != un) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
@@ -103,7 +103,7 @@ void ProcessDKWaiter::init() {
     }
 
     if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
-        for(UnitNode * uncld : as_const(getUnReciver()->getListChilde())) {
+        for(QSharedPointer<UnitNode>  uncld : as_const(getUnReciver()->getListChilde())) {
             if(0 != uncld->getDK() && (TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */)) {
                 uncld->setDkInvolved(true);
                 uncld->setDkStatus(DKCiclStatus::DKReady);

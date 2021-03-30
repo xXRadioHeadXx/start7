@@ -47,35 +47,35 @@ public:
     void setAddress(const QHostAddress &address);
     void setPortIndex(int portIndex);
 
-    static DataQueueItem makeOnOff0x20(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeOnOff0x20(const UnitNode * un = nullptr);
+    static DataQueueItem makeOnOff0x20(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeOnOff0x20(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
-    static DataQueueItem makeDK0x21(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeDK0x21(const UnitNode * un = nullptr);
+    static DataQueueItem makeDK0x21(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeDK0x21(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
-    static DataQueueItem makeStatusRequest0x22(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeStatusRequest0x22(const UnitNode * un = nullptr);
+    static DataQueueItem makeStatusRequest0x22(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeStatusRequest0x22(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
-    static QByteArray makeOnOff0x23(UnitNode *un = nullptr, bool onOff = true, UnitNode *pun = nullptr);
-    static DataQueueItem makeOnOff0x23(DataQueueItem &item, UnitNode *un = nullptr);
+    static QByteArray makeOnOff0x23(QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr), bool onOff = true, QSharedPointer<UnitNode> pun = QSharedPointer<UnitNode>(nullptr));
+    static DataQueueItem makeOnOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un = QSharedPointer<UnitNode>(nullptr));
 
-    static DataQueueItem makeAlarmReset0x24(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeAlarmReset0x24(const UnitNode * un = nullptr);
+    static DataQueueItem makeAlarmReset0x24(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeAlarmReset0x24(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
-    static DataQueueItem makeOff0x25(DataQueueItem &item, const UnitNode * un);
-    static QByteArray makeOff0x25(const UnitNode * un);
+    static DataQueueItem makeOff0x25(DataQueueItem &item, const QSharedPointer<UnitNode> un);
+    static QByteArray makeOff0x25(const QSharedPointer<UnitNode> un);
 
-    static DataQueueItem makeOn0x26(DataQueueItem &item, const UnitNode * un);
-    static QByteArray makeOn0x26(const UnitNode * un);
+    static DataQueueItem makeOn0x26(DataQueueItem &item, const QSharedPointer<UnitNode> un);
+    static QByteArray makeOn0x26(const QSharedPointer<UnitNode> un);
 
-    static DataQueueItem makeStatusRequest0x2A(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeStatusRequest0x2A(const UnitNode * un = nullptr);
+    static DataQueueItem makeStatusRequest0x2A(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeStatusRequest0x2A(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
-    static DataQueueItem makeStatusRequest0x2C(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeStatusRequest0x2C(const UnitNode * un = nullptr);
+    static DataQueueItem makeStatusRequest0x2C(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeStatusRequest0x2C(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
-    static DataQueueItem makeStatusRequest0x2E(DataQueueItem &item, const UnitNode * un = nullptr);
-    static QByteArray makeStatusRequest0x2E(const UnitNode * un = nullptr);
+    static DataQueueItem makeStatusRequest0x2E(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeStatusRequest0x2E(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
 
     static bool isValideDirectionI(DataQueueItem &item);

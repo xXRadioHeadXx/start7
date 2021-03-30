@@ -11,8 +11,9 @@ SOURCES += \
 #    $$PWD/ProcessDKWaiter.cpp \
     $$PWD/Icons_cfg.cpp \
     $$PWD/RunGuard.cpp \
-    $$PWD/SettingUtils.cpp \
 #    $$PWD/TablePrint.cpp \
+    $$PWD/ServerSettingUtils.cpp \
+#    $$PWD/SettingUtils.cpp \
     $$PWD/Utils.cpp \
 #    $$PWD/ConfirmationAdmissionWaiter.cpp \
 #    $$PWD/StatusRequester.cpp \
@@ -27,8 +28,9 @@ HEADERS += \
 #    $$PWD/ProcessDKWaiter.h \
     $$PWD/Icons_cfg.h \
     $$PWD/RunGuard.h \
-    $$PWD/SettingUtils.h \
 #    $$PWD/TablePrint.h \
+    $$PWD/ServerSettingUtils.h \
+#    $$PWD/SettingUtils.h \
     $$PWD/Utils.h \
 #    $$PWD/ConfirmationAdmissionWaiter.h \
 #    $$PWD/StatusRequester.h \

@@ -6,7 +6,7 @@
 class OnOffIUWaiter final : public AbstractRequester
 {
 public:
-    explicit OnOffIUWaiter(UnitNode * target, RequesterType requesterType = RequesterType::AutoOnOffWaiter);
+    explicit OnOffIUWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType = RequesterType::AutoOnOffWaiter);
     virtual ~OnOffIUWaiter();
     virtual void init() override;
 

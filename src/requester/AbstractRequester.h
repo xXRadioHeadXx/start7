@@ -36,8 +36,8 @@ class AbstractRequester : public QObject
 private:
     RequesterType requesterType = RequesterType::ConfirmWaiter;
     BeatStatus beatStatus = BeatStatus::Start;
-    UnitNode * unTarget = nullptr;
-    UnitNode * unReciver = nullptr;
+    QSharedPointer<UnitNode> unTarget = nullptr;
+    QSharedPointer<UnitNode> unReciver = nullptr;
     DataQueueItem firstMsg;
     DataQueueItem secondMsg;
     DataQueueItem endMsg;
@@ -59,7 +59,7 @@ public:
         timerEndStop();
     }
 
-    AbstractRequester(UnitNode * target, RequesterType requesterType = RequesterType::ConfirmWaiter) : QObject(target) {
+    AbstractRequester(QSharedPointer<UnitNode> target, RequesterType requesterType = RequesterType::ConfirmWaiter) : QObject(target.data()) {
 //        //qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -->";
         setUnTarget(target);
         setRequesterType(requesterType);
@@ -400,11 +400,11 @@ public slots:
     //Step#end <--
 
 public:
-    UnitNode * getUnTarget() const { return unTarget; }
-    void setUnTarget(UnitNode *value) { unTarget = value; }
+    QSharedPointer<UnitNode> getUnTarget() const { return unTarget; }
+    void setUnTarget(QSharedPointer<UnitNode> value) { unTarget = value; }
 
-    UnitNode * getUnReciver() const  { return unReciver; }
-    void setUnReciver(UnitNode *value) { unReciver = value; }
+    QSharedPointer<UnitNode> getUnReciver() const  { return unReciver; }
+    void setUnReciver(QSharedPointer<UnitNode> value) { unReciver = value; }
 
     DataQueueItem getFirstMsg() const { return firstMsg; }
     void setFirstMsg(const DataQueueItem &value) {firstMsg = value;}

@@ -31,9 +31,9 @@ private:
     QDomDocument makeEventsAndStates(QString docType = "EventsAndStates");
     QByteArray makeProtocolVersionInfo();
     static QDomDocument makeEventsAndStates(JourEntity jour);
-    static QDomDocument makeEventsAndStates(UnitNode *un);
-    static QDomDocument makeEventsAndStates(UnitNode *un, JourEntity jour);
-    static QDomElement makeActualStateElement(UnitNode * un, QDomElement &stateElement);
+    static QDomDocument makeEventsAndStates(QSharedPointer<UnitNode> un);
+    static QDomDocument makeEventsAndStates(QSharedPointer<UnitNode> un, JourEntity jour);
+    static QDomElement makeActualStateElement(QSharedPointer<UnitNode>  un, QDomElement &stateElement);
     static QDomDocument makeEventBook(JourEntity jour);
 
 public:
@@ -63,8 +63,8 @@ public slots:
 public:
     static void sendAbonentEventBook(JourEntity jour);
     static void sendAbonentEventsAndStates(JourEntity jour);
-    static void sendAbonentEventsAndStates(UnitNode *un);
-    static void sendAbonentEventsAndStates(UnitNode *un, JourEntity jour);
+    static void sendAbonentEventsAndStates(QSharedPointer<UnitNode> un);
+    static void sendAbonentEventsAndStates(QSharedPointer<UnitNode> un, JourEntity jour);
     static void sendAbonent(QByteArray ba);
 
 signals:

@@ -6,7 +6,7 @@
 class ConfirmationAdmissionWaiter final : public AbstractRequester
 {
 public:
-    explicit ConfirmationAdmissionWaiter(UnitNode * target, RequesterType requesterType = RequesterType::ConfirmWaiter);
+    explicit ConfirmationAdmissionWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType = RequesterType::ConfirmWaiter);
     virtual ~ConfirmationAdmissionWaiter();
     virtual void init() override;
 

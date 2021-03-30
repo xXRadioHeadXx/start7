@@ -1,7 +1,7 @@
 #include <Utils.h>
 #include <QTableWidget>
 #include <QHostAddress>
-#include <SettingUtils.h>
+#include <ServerSettingUtils.h>
 #include <SignalSlotCommutator.h>
 #include <global.h>
 #include <UnitNode.h>
@@ -193,7 +193,7 @@ QColor Utils::cellGray = QColor(0xCF, 0xCF, 0xCF);
 QColor Utils::cellYellow = QColor(0xFF, 0xDD, 0x0E);
 
 
-void Utils::fillDiagnosticTable(QTableWidget * const table, const UnitNode * selUN)
+void Utils::fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     try {
         if(nullptr == selUN || nullptr == table)
@@ -225,8 +225,8 @@ void Utils::fillDiagnosticTable(QTableWidget * const table, const UnitNode * sel
     }
 }
 
-void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode *selUN) {
-    UnitNode * parent = selUN->getParentUN();
+void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPointer<UnitNode> selUN) {
+    QSharedPointer<UnitNode>  parent = selUN->getParentUN();
     if((TypeUnitNode::SD_BL_IP == selUN->getType() ||
             TypeUnitNode::IU_BL_IP == selUN->getType()) &&
             nullptr != parent) {
@@ -324,8 +324,8 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode *
         }
     }
 
-    QList<UnitNode *> tmpLs = parent->getListChilde();
-    for(UnitNode * un : tmpLs) {
+    QList<QSharedPointer<UnitNode> > tmpLs = parent->getListChilde();
+    for(QSharedPointer<UnitNode>  un : tmpLs) {
         if(TypeUnitNode::SD_BL_IP != un->getType() && TypeUnitNode::IU_BL_IP != un->getType()) {
             continue;
         }
@@ -385,7 +385,7 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode *
     }
 }
 
-void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode *un)
+void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedPointer<UnitNode> un)
 {
     // prepare -->
 //    table->clear();
@@ -499,7 +499,7 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode
     // fill <--
 }
 
-void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
+void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<UnitNode> un)
 {
     // prepare -->
 //    table->clear();
@@ -642,7 +642,7 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *un)
     // fill <--
 }
 
-void Utils::fillDiagnosticTableTG(QTableWidget * const table, const UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
 //    table->clear();
 
@@ -708,7 +708,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const UnitNode */*
     }
 }
 
-void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
 //    table->clear();
 
@@ -762,7 +762,7 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const UnitNo
     }
 }
 
-void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
 //    table->clear();
 
@@ -814,7 +814,7 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const UnitNod
     }
 }
 
-void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
 //    table->clear();
 
@@ -872,7 +872,7 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const UnitNod
     }
 }
 
-void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const UnitNode */*selUN*/)
+void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
 //    table->clear();
 
@@ -934,9 +934,9 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const UnitNo
     }
 }
 
-QSet<UnitNode *> Utils::findeSetAutoOnOffUN(UnitNode *un)
+QSet<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(QSharedPointer<UnitNode> un)
 {
-    QSet<UnitNode *> unSetTmp;
+    QSet<QSharedPointer<UnitNode> > unSetTmp;
     if(TypeUnitNode::IU_BL_IP != un->getType()) {
         return unSetTmp;
     }

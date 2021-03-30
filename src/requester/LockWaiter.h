@@ -6,8 +6,8 @@
 class LockWaiter final : public AbstractRequester
 {
 private:
-    UnitNode * unReciverIuBlIp = nullptr;
-    UnitNode * unReciverSdBlIp = nullptr;
+    QSharedPointer<UnitNode>  unReciverIuBlIp = nullptr;
+    QSharedPointer<UnitNode>  unReciverSdBlIp = nullptr;
     int initVarianrt = 0;
 
     DataQueueItem getOnMsg();
@@ -19,15 +19,15 @@ protected:
     virtual DataQueueItem makeEndMsg() override;
 
 public:
-    explicit LockWaiter(UnitNode * target, RequesterType requesterType = RequesterType::LockRequester);
+    explicit LockWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType = RequesterType::LockRequester);
     virtual ~LockWaiter();
 
     virtual void init() override;
 
-    UnitNode *getUnReciverIuBlIp() const;
-    void setUnReciverIuBlIp(UnitNode *value);
-    UnitNode *getUnReciverSdBlIp() const;
-    void setUnReciverSdBlIp(UnitNode *value);
+    QSharedPointer<UnitNode> getUnReciverIuBlIp() const;
+    void setUnReciverIuBlIp(QSharedPointer<UnitNode> value);
+    QSharedPointer<UnitNode> getUnReciverSdBlIp() const;
+    void setUnReciverSdBlIp(QSharedPointer<UnitNode> value);
     int getInitVarianrt() const;
     void setInitVarianrt(int value);
 };

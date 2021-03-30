@@ -3,12 +3,15 @@
 
 #include <QByteArray>
 #include <QtMath>
+#include <UnitNode.h>;
 
 
 class UnitNode;
 class QTableWidget;
 class QHostAddress;
 class QColor;
+//class QSharedPointer;
+//class UnitNode;
 class Utils
 {
 
@@ -47,16 +50,16 @@ public:
     static QList<T> reversed( const QList<T> & in );
     static void setCellText(QTableWidget * const table, const int row, const int column, const QString text);
     static void setCellColor(QTableWidget * const table, const int row, const int column, const QColor color);
-    static void fillDiagnosticTable(QTableWidget * const table, const UnitNode *selUN);
-    static void fillDiagnosticTableBLIP(QTableWidget * const table, const UnitNode * selUN);
-    static void fillDiagnosticTableRLMKRL(QTableWidget * const table, const UnitNode *un);
-    static void fillDiagnosticTableRLM_C(QTableWidget *table, const UnitNode *selUN);
-    static void fillDiagnosticTableTG(QTableWidget *const table, const UnitNode *selUN);
-    static void fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const UnitNode *selUN);
-    static void fillDiagnosticTableDD_SOTA(QTableWidget * const table, const UnitNode *selUN);
-    static void fillDiagnosticTableY4_SOTA(QTableWidget * const table, const UnitNode *selUN);
-    static void fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const UnitNode *selUN);
-    static QSet<UnitNode *> findeSetAutoOnOffUN(UnitNode *un);
+    static void fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
+    static void fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
+    static void fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedPointer<UnitNode> un);
+    static void fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<UnitNode> selUN);
+    static void fillDiagnosticTableTG(QTableWidget *const table, const QSharedPointer<UnitNode> selUN);
+    static void fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
+    static void fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
+    static void fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
+    static void fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
+    static QSet<QSharedPointer<UnitNode> > findeSetAutoOnOffUN(QSharedPointer<UnitNode> un);
 
     static char reverseBits( char number );
 

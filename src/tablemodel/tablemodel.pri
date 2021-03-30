@@ -5,10 +5,12 @@ INCLUDEPATH += $$PWD/
 
 SOURCES += \
     $$PWD/ComboBoxDelegate.cpp \
-    $$PWD/TableModelMSG.cpp \
-    $$PWD/TreeModelUnitNode.cpp
+    $$PWD/ServerTreeModelUnitNode.cpp \
+#    $$PWD/TreeModelUnitNode.cpp \
+    $$PWD/TableModelMSG.cpp
 
 HEADERS += \
     $$PWD/ComboBoxDelegate.h \
-    $$PWD/TableModelMSG.h \
-    $$PWD/TreeModelUnitNode.h
+    $$PWD/ServerTreeModelUnitNode.h \
+#    $$PWD/TreeModelUnitNode.h \
+    $$PWD/TableModelMSG.h
