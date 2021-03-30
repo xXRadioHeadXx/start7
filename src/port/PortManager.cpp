@@ -353,7 +353,7 @@ void PortManager::startStatusRequest(){
             tmpSet.insert(un);
         } else if(TypeUnitNode::SD_BL_IP == un->getType() ||
                   TypeUnitNode::IU_BL_IP == un->getType()) {
-            if(nullptr != un->getParentUN() &&
+            if(!un->getParentUN().isNull() &&
                TypeUnitNode::BL_IP == un->getParentUN()->getType() &&
                ServerSettingUtils::getSetMetaRealUnitNodes().contains(un->getParentUN())) {
                 tmpSet.insert(un->getParentUN());
@@ -412,7 +412,7 @@ void PortManager::startStatusRequest(){
 }
 
 void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
-    if(nullptr == selUN) {
+    if(selUN.isNull()) {
         QSet<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
         for(QSharedPointer<UnitNode>  un : lsTmp) {
             if(TypeUnitNode::BL_IP == un->getType() ||
@@ -420,7 +420,7 @@ void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
                TypeUnitNode::RLM_KRL == un->getType() ||
                TypeUnitNode::TG == un->getType())
                 selUN = un;
-            if(nullptr != selUN) {
+            if(!selUN.isNull()) {
                 QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
                 for(const auto& pt : as_const(m_udpPortsVector)) {
                     if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
@@ -472,7 +472,7 @@ void PortManager::requestDK(QSharedPointer<UnitNode> selUN)
 void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
     //
     QList<QSharedPointer<UnitNode> > lsTrgtUN;
-    if(nullptr == selUN) {
+    if(selUN.isNull()) {
         QSet<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
         for(QSharedPointer<UnitNode>  un : lsTmp)
             if(TypeUnitNode::BL_IP == un->getType() ||
@@ -481,9 +481,9 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                TypeUnitNode::TG == un->getType()
                     /* или датчик */)
                 lsTrgtUN.append(un);
-    } else if(nullptr != selUN) {
+    } else if(!selUN.isNull()) {
         QSharedPointer<UnitNode>  un = selUN;
-        while(nullptr != un) {
+        while(!un.isNull()) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
@@ -499,7 +499,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
     if(lsTrgtUN.isEmpty())
         return;
 
-    if(nullptr == selUN) {
+    if(selUN.isNull()) {
         JourEntity msg;
         msg.setObject(tr("РИФ Общий"));
         if(out) {
@@ -525,7 +525,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                 break;
             }
         }
-        if(nullptr == selUN && !un->getName().isEmpty() && un->getControl()) {
+        if(selUN.isNull() && !un->getName().isEmpty() && un->getControl()) {
             JourEntity msg;
             if(out) {
                 msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
@@ -544,7 +544,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
             GraphTerminal::sendAbonentEventsAndStates(msg);
         }
     }
-    if(nullptr != selUN && selUN->getControl()) {
+    if(!selUN.isNull() && selUN->getControl()) {
         JourEntity msg;
         msg.setObjecttype(selUN->getType());
         msg.setD1(selUN->getNum1());
@@ -622,7 +622,7 @@ void PortManager::lockOpenCloseCommand(QSharedPointer<UnitNode> selUN, bool valu
 
 void PortManager::requestModeSensor(QSharedPointer<UnitNode> un, QByteArray stateWord)
 {
-    if(nullptr == un || stateWord.isEmpty()) {
+    if(un.isNull() || stateWord.isEmpty()) {
         return;
     } else if(un->getStateWord().size() > stateWord.size()) {
         return;
@@ -684,7 +684,7 @@ void PortManager::lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN,
 
     lw->init();
 
-    if(0 == lw->getInitVarianrt() || nullptr == lw->getUnReciverIuBlIp() || nullptr == lw->getUnReciverSdBlIp()) {
+    if(0 == lw->getInitVarianrt() || lw->getUnReciverIuBlIp().isNull() || lw->getUnReciverSdBlIp().isNull()) {
         delete lw;
         return;
     }
@@ -754,7 +754,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
     quint8 D1 = 0x00;
     if(TypeUnitNode::SD_BL_IP == target->getType() ||
             TypeUnitNode::IU_BL_IP == target->getType()) {
-        while(nullptr != reciver) {
+        while(!reciver.isNull()) {
             if(TypeUnitNode::BL_IP == reciver->getType()) {
                 break;
             }
@@ -764,7 +764,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
         reciver = target;
     }
 
-    if(nullptr != reciver) {
+    if(!reciver.isNull()) {
 
         if(TypeUnitNode::SD_BL_IP == reciver->getType() || TypeUnitNode::IU_BL_IP == reciver->getType() || TypeUnitNode::BL_IP == reciver->getType()) {
 
@@ -936,17 +936,17 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
         bool isLockPair = false;
         if(1 <= un->getNum2() && 4 >= un->getNum2()) {
             QSharedPointer<UnitNode>  reciver = un;
-            while(nullptr != reciver) {
+            while(!reciver.isNull()) {
                 if(TypeUnitNode::BL_IP == reciver->getType()) {
                     reciver->setStateWord(newStateWord);
                     break;
                 }
                 reciver = reciver->getParentUN();
             }
-            if(nullptr != reciver) {
+            if(!reciver.isNull()) {
                 for(const auto tmpUN : as_const(reciver->getListChilde())) {
                     if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
-                        previousCopyUNLockIuBlIp = UnitNodeFactory::make(*tmpUN);
+                        previousCopyUNLockIuBlIp = UnitNodeFactory::makeShare(*tmpUN);
                         unLockIuBlIp = tmpUN;
                         break;
                     }
@@ -954,7 +954,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                 for(const auto& tmpUN : as_const(reciver->getListChilde())) {
                     if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2() && 0 != tmpUN->getBazalt()) {
-                        previousCopyUNLockSdBlIp = UnitNodeFactory::make(*tmpUN);
+                        previousCopyUNLockSdBlIp = UnitNodeFactory::makeShare(*tmpUN);
                         unLockSdBlIp = tmpUN;
                         break;
                     }
@@ -962,20 +962,20 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             }
 
             if(unLockSdBlIp.isNull() || unLockIuBlIp.isNull()) {
-                previousCopyUNLockIuBlIp.clear();
-                previousCopyUNLockSdBlIp.clear();
-                unLockIuBlIp.clear();
-                unLockSdBlIp.clear();
+//                previousCopyUNLockIuBlIp.clear();
+//                previousCopyUNLockSdBlIp.clear();
+//                unLockIuBlIp.clear();
+//                unLockSdBlIp.clear();
                 isLockPair = false;
             } else if(0 != unLockSdBlIp->getBazalt()) {
                 isLockPair = true;
             }
         }
-        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
         un->setStateWord(newStateWord);
         un->updDoubl();
 
-        if(isLockPair && (nullptr != unLockSdBlIp || nullptr != unLockIuBlIp)) {
+        if(isLockPair && (!unLockSdBlIp.isNull() || !unLockIuBlIp.isNull())) {
             unLockSdBlIp->setStateWord(newStateWord);
             unLockIuBlIp->setStateWord(newStateWord);
         }
@@ -1022,11 +1022,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 //            //qDebug() << "DkStatus <--";
         }
 
-        if((!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) ||
-           (!previousCopyUNLockSdBlIp.isNull() && nullptr != unLockSdBlIp && (previousCopyUNLockSdBlIp->getStateWord() != unLockSdBlIp->getStateWord())) ||
-           (!previousCopyUNLockIuBlIp.isNull() && nullptr != unLockIuBlIp && (previousCopyUNLockIuBlIp->getStateWord() != unLockIuBlIp->getStateWord()))) {
+        if((!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) ||
+           (!previousCopyUNLockSdBlIp.isNull() && !unLockSdBlIp.isNull() && (previousCopyUNLockSdBlIp->getStateWord() != unLockSdBlIp->getStateWord())) ||
+           (!previousCopyUNLockIuBlIp.isNull() && !unLockIuBlIp.isNull() && (previousCopyUNLockIuBlIp->getStateWord() != unLockIuBlIp->getStateWord()))) {
             un->setStateWord(newStateWord);
-            if(nullptr != unLockIuBlIp && nullptr != unLockSdBlIp && isLockPair) {
+            if(!unLockIuBlIp.isNull() && !unLockSdBlIp.isNull() && isLockPair) {
                 unLockSdBlIp->setStateWord(newStateWord);
                 unLockIuBlIp->setStateWord(newStateWord);
             }
@@ -1059,12 +1059,19 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                 }
 
-                if(un->getParentUN()->getDkInvolved()) {
+                if(un->getDkInvolved()) {
 //                    //qDebug() << "DkInvolved continue " << un->toString();
-                    previousCopyUNLockIuBlIp.clear();
-                    previousCopyUNLockSdBlIp.clear();
-                    unLockIuBlIp.clear();
-                    unLockSdBlIp.clear();
+//                    previousCopyUNLockIuBlIp.clear();
+//                    previousCopyUNLockSdBlIp.clear();
+//                    unLockIuBlIp.clear();
+//                    unLockSdBlIp.clear();
+                    continue;
+                } else if(!un->getParentUN().isNull() && un->getParentUN()->getDkInvolved()) {
+//                    //qDebug() << "DkInvolved continue " << un->toString();
+//                    previousCopyUNLockIuBlIp.clear();
+//                    previousCopyUNLockSdBlIp.clear();
+//                    unLockIuBlIp.clear();
+//                    unLockSdBlIp.clear();
                     continue;
                 } else if(isLockPair) {
                     if(
@@ -1079,11 +1086,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                              1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
                     {
                         //qDebug() << "isLockPair continue " << un->toString();
-                        previousCopyUNLockIuBlIp.clear();
-                        previousCopyUNLockSdBlIp.clear();
-                        unLockIuBlIp.clear();
-                        unLockSdBlIp.clear();
-                        previousCopyUN.clear();
+//                        previousCopyUNLockIuBlIp.clear();
+//                        previousCopyUNLockSdBlIp.clear();
+//                        unLockIuBlIp.clear();
+//                        unLockSdBlIp.clear();
+//                        previousCopyUN.clear();
                         continue;
                     }
 
@@ -1246,11 +1253,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             }
         }
 
-        previousCopyUNLockIuBlIp.clear();
-        previousCopyUNLockSdBlIp.clear();
-        unLockIuBlIp.clear();
-        unLockSdBlIp.clear();
-        previousCopyUN.clear();
+//        previousCopyUNLockIuBlIp.clear();
+//        previousCopyUNLockSdBlIp.clear();
+//        unLockIuBlIp.clear();
+//        unLockSdBlIp.clear();
+//        previousCopyUN.clear();
     }
 //    //qDebug() << "Utils::parcingStatusWord0x41 <--";
     return resultRequest;
@@ -1275,10 +1282,10 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             un->setCountSCRWA(0);
         }
 
-        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
-        if(nullptr == un || previousCopyUN.isNull()) {
-            previousCopyUN.clear();
+        if(un.isNull() || previousCopyUN.isNull()) {
+//            previousCopyUN.clear();
 //            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(2)";
             continue;
         }
@@ -1295,7 +1302,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 //                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
         }
 
-        if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+        if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
                 procDK(un, previousCopyUN);
             } else if(!un->getDkInvolved()) {
@@ -1327,7 +1334,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
 
                 if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType() && TypeUnitNode::TG != un->getType()) {
-                    previousCopyUN.clear();
+//                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x31 -- continue(3)";
                     continue;
                 } else if(TypeUnitNode::RLM_KRL == un->getType()) {
@@ -1415,7 +1422,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             }
         }
 
-        previousCopyUN.clear();
+//        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x31 -- break(1)";
         break;
     }
@@ -1442,10 +1449,10 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
             un->setCountSCRWA(0);
         }
 
-        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
-        if(nullptr == un || previousCopyUN.isNull()) {
-            previousCopyUN.clear();
+        if(un.isNull() || previousCopyUN.isNull()) {
+//            previousCopyUN.clear();
 //            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(2)";
             continue;
         }
@@ -1460,7 +1467,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 //                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
         }
 
-        if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+        if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
                 // обработка дк
 //                procDK(un, previousCopyUN);
@@ -1469,7 +1476,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                 // Первое сообщение о включении
 
                 if(TypeUnitNode::TG != un->getType()) {
-                    previousCopyUN.clear();
+//                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x32 -- continue(3)";
                     continue;
                 } else if(TypeUnitNode::TG == un->getType()) {
@@ -1478,7 +1485,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
             }
         }
 
-        previousCopyUN.clear();
+//        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x32 -- break(1)";
         break;
     }
@@ -1506,13 +1513,10 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
             un->setCountSCRWA(0);
         }
 
-        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
-        if(nullptr == un || previousCopyUN.isNull()) {
-            if(!previousCopyUN.isNull()) {
-                delete previousCopyUN.data();
-                previousCopyUN = nullptr;
-            }
+        if(un.isNull() || previousCopyUN.isNull()) {
+//            previousCopyUN.clear();
 //            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(2)";
             continue;
         }
@@ -1527,7 +1531,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 //                qDebug() << "PortManager::parcingStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
         }
 
-        if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+        if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
                 // обработка дк
 //                procDK(un, previousCopyUN);
@@ -1536,10 +1540,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                 // Первое сообщение о включении
 
                 if(TypeUnitNode::TG != un->getType()) {
-                    if(!previousCopyUN.isNull()) {
-                        delete previousCopyUN.data();
-                        previousCopyUN = nullptr;
-                    }
+//                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x33 -- continue(3)";
                     continue;
                 } else if(TypeUnitNode::TG == un->getType()) {
@@ -1548,10 +1549,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
             }
         }
 
-        if(!previousCopyUN.isNull()) {
-            delete previousCopyUN.data();
-            previousCopyUN = nullptr;
-        }
+//        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x33 -- break(1)";
         break;
     }
@@ -1578,13 +1576,10 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
             un->setCountSCRWA(0);
         }
 
-        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::make(*un);
+        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
-        if(nullptr == un || previousCopyUN.isNull()) {
-            if(!previousCopyUN.isNull()) {
-                delete previousCopyUN.data();
-                previousCopyUN = nullptr;
-            }
+        if(un.isNull() || previousCopyUN.isNull()) {
+//            previousCopyUN.clear();
 //            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(2)";
             continue;
         }
@@ -1599,7 +1594,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
 //                qDebug() << "PortManager::parcingStatusWord0x34 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
         }
 
-        if(!previousCopyUN.isNull() && nullptr != un && (previousCopyUN->getStateWord() != un->getStateWord())) {
+        if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
                 // обработка дк
 //                procDK(un, previousCopyUN);
@@ -1608,10 +1603,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
                 // Первое сообщение о включении
 
                 if(TypeUnitNode::TG != un->getType()) {
-                    if(!previousCopyUN.isNull()) {
-                        delete previousCopyUN.data();
-                        previousCopyUN = nullptr;
-                    }
+//                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x34 -- continue(3)";
                     continue;
                 } else if(TypeUnitNode::TG == un->getType()) {
@@ -1620,10 +1612,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
             }
         }
 
-        if(!previousCopyUN.isNull()) {
-            delete previousCopyUN.data();
-            previousCopyUN = nullptr;
-        }
+//        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x34 -- break(1)";
         break;
     }
@@ -1632,7 +1621,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
 }
 
 void PortManager::procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous) {
-    if(nullptr == current || nullptr == previous)
+    if(current.isNull() || previous.isNull())
         return;
     if(0 != current->getDK() &&
        DKCiclStatus::DKIgnore != previous->getDkStatus() &&
@@ -1699,7 +1688,7 @@ void PortManager::manageOverallReadQueue()
                 }
 
                 if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if(TypeUnitNode::BL_IP == reciver->getType() &&
@@ -1739,7 +1728,7 @@ void PortManager::manageOverallReadQueue()
                 }
 
                 if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
@@ -1756,7 +1745,7 @@ void PortManager::manageOverallReadQueue()
                     prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
                 } else if(dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
@@ -1799,7 +1788,7 @@ void PortManager::manageOverallReadQueue()
                 }
 
                 if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
@@ -1816,7 +1805,7 @@ void PortManager::manageOverallReadQueue()
                     prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
                 } else if(dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
@@ -1859,7 +1848,7 @@ void PortManager::manageOverallReadQueue()
                 }
 
                 if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
@@ -1876,7 +1865,7 @@ void PortManager::manageOverallReadQueue()
                     prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
                 } else if(dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
@@ -1919,7 +1908,7 @@ void PortManager::manageOverallReadQueue()
                 }
 
                 if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
@@ -1936,7 +1925,7 @@ void PortManager::manageOverallReadQueue()
                     prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
                 } else if(dkWait) {
-                    QSharedPointer<UnitNode>  reciver = nullptr;
+                    QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
@@ -1965,7 +1954,7 @@ void PortManager::manageOverallReadQueue()
 
                         if(BeatStatus::RequestStep1 == ar->getBeatStatus()) { // переводим в первое ожидание
 
-                            if(nullptr != ar->getUnReciver() && RequesterType::DKWaiter == ar->getRequesterType() && static_cast<quint8>(ar->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                            if(!ar->getUnReciver().isNull() && RequesterType::DKWaiter == ar->getRequesterType() && static_cast<quint8>(ar->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                                 for(QSharedPointer<UnitNode>  un : as_const(((ProcessDKWaiter *)ar)->getLsTrackedUN())) {
                                     un->setDkInvolved(true);
                                     un->setDkStatus(DKCiclStatus::DKReady);

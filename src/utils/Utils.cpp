@@ -244,9 +244,9 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
     table->setRowCount(15);
     table->setColumnCount(3);
 
-    table->setColumnWidth(0, 60);
-    table->setColumnWidth(1, 150);
-    table->setColumnWidth(3, 150);
+//    table->setColumnWidth(0, 60);
+//    table->setColumnWidth(1, 150);
+//    table->setColumnWidth(3, 150);
 
     setCellText( table, 0,0, (QObject::tr("Параметр"))); // ("Параметр"));
     setCellText( table, 0,1, (QObject::tr("Вход"))); // ("Вход"));
@@ -393,9 +393,9 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedP
     table->setRowCount(9);
     table->setColumnCount(3);
 
-    table->setColumnWidth(0, 150);
-    table->setColumnWidth(1, 150);
-    table->setColumnWidth(2, 150);
+//    table->setColumnWidth(0, 150);
+//    table->setColumnWidth(1, 150);
+//    table->setColumnWidth(2, 150);
 
     for(int i = 0, n = table->rowCount(); i < n; i++) {
         for(int j = 0, m = table->columnCount(); j < m; j++) {
@@ -507,9 +507,9 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
     table->setRowCount(13);
     table->setColumnCount(3);
 
-    table->setColumnWidth(0, 150);
-    table->setColumnWidth(1, 150);
-    table->setColumnWidth(2, 150);
+//    table->setColumnWidth(0, 150);
+//    table->setColumnWidth(1, 150);
+//    table->setColumnWidth(2, 150);
 
     for(int i = 0, n = table->rowCount(); i < n; i++) {
         for(int j = 0, m = table->columnCount(); j < m; j++) {
@@ -649,12 +649,12 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
     table->setRowCount(15);
     table->setColumnCount(6);
 
-    table->setColumnWidth(0, 100);
-    table->setColumnWidth(1, 150);
-    table->setColumnWidth(2, 150);
-    table->setColumnWidth(3, 150);
-    table->setColumnWidth(4, 150);
-    table->setColumnWidth(5, 150);
+//    table->setColumnWidth(0, 100);
+//    table->setColumnWidth(1, 150);
+//    table->setColumnWidth(2, 150);
+//    table->setColumnWidth(3, 150);
+//    table->setColumnWidth(4, 150);
+//    table->setColumnWidth(5, 150);
 
     setCellText( table, 0,0, (QObject::tr("Параметр")));
     setCellText( table, 0,1, (QObject::tr("Значение")));
@@ -715,10 +715,10 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
     table->setRowCount(14);
     table->setColumnCount(4);
 
-    table->setColumnWidth(0, 100);
-    table->setColumnWidth(1, 150);
-    table->setColumnWidth(2, 150);
-    table->setColumnWidth(3, 150);
+//    table->setColumnWidth(0, 100);
+//    table->setColumnWidth(1, 150);
+//    table->setColumnWidth(2, 150);
+//    table->setColumnWidth(3, 150);
 
     setCellText( table, 0,0, (QObject::tr("Параметр")));
     setCellText( table, 0,1, (QObject::tr("Значение")));
@@ -769,10 +769,10 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
     table->setRowCount(14);
     table->setColumnCount(4);
 
-    table->setColumnWidth(0, 100);
-    table->setColumnWidth(1, 150);
-    table->setColumnWidth(2, 150);
-    table->setColumnWidth(3, 150);
+//    table->setColumnWidth(0, 100);
+//    table->setColumnWidth(1, 150);
+//    table->setColumnWidth(2, 150);
+//    table->setColumnWidth(3, 150);
 
     setCellText( table, 0,0, (QObject::tr("Параметр")));
     setCellText( table, 0,1, (QObject::tr("Значение")));
@@ -821,10 +821,10 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
     table->setRowCount(20);
     table->setColumnCount(53);
 
-    table->setColumnWidth(0, 150);
-    table->setColumnWidth(1, 150);
-    table->setColumnWidth(2, 150);
-    table->setColumnWidth(3, 150);
+//    table->setColumnWidth(0, 150);
+//    table->setColumnWidth(1, 150);
+//    table->setColumnWidth(2, 150);
+//    table->setColumnWidth(3, 150);
 
     setCellText( table, 0,0, (QObject::tr("Параметр")));
     setCellText( table, 0,1, (QObject::tr("Значение")));
@@ -879,10 +879,10 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
     table->setRowCount(22);
     table->setColumnCount(29);
 
-    table->setColumnWidth(0, 150);
-    table->setColumnWidth(1, 150);
-    table->setColumnWidth(2, 150);
-    table->setColumnWidth(3, 150);
+//    table->setColumnWidth(0, 150);
+//    table->setColumnWidth(1, 150);
+//    table->setColumnWidth(2, 150);
+//    table->setColumnWidth(3, 150);
 
     setCellText( table, 0,0, (QObject::tr("Параметр")));
     setCellText( table, 0,1, (QObject::tr("Значение")));

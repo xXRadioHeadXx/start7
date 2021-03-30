@@ -46,7 +46,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
     settings.setIniCodec(codec);
 
     {
-        QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::make(TypeUnitNode::SYSTEM, root);
+        QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
 
         tmpUN->setType(TypeUnitNode::SYSTEM);
         tmpUN->setNum1(0);
@@ -69,7 +69,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         if(settings.childGroups().contains(strGroup))
         {
             settings.beginGroup(strGroup);
-            QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::make((TypeUnitNode)settings.value( "Type" , -1 ).toInt(), root);
+            QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare((TypeUnitNode)settings.value( "Type" , -1 ).toInt(), root);
             tmpUN->setMetaNames(strGroup);
 
             tmpUN->setType(settings.value( "Type" , -1 ).toInt());
@@ -184,7 +184,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         }
                     }
                     if(tmpParentUN.isNull()){
-                        tmpParentUN = UnitNodeFactory::make(TypeUnitNode::BL_IP);
+                        tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNode::BL_IP);
                         tmpParentUN->setType(TypeUnitNode::BL_IP);
                         tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
                         tmpParentUN->setUdpPort(tmpUN->getUdpPort());
@@ -244,7 +244,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
             }
 
             if(needAddUI) {
-                QSharedPointer<UnitNode> newMetaUnIuBlIp = UnitNodeFactory::make(TypeUnitNode::IU_BL_IP, parent);
+                QSharedPointer<UnitNode> newMetaUnIuBlIp = UnitNodeFactory::makeShare(TypeUnitNode::IU_BL_IP, parent);
                 newMetaUnIuBlIp->setNum2(un->getNum2());
                 newMetaUnIuBlIp->setUdpPort(un->getUdpPort());
                 newMetaUnIuBlIp->setUdpAdress(un->getUdpAdress());
@@ -278,7 +278,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointe
 
 
     {
-        QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::make(TypeUnitNode::SYSTEM, root);
+        QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
 
         tmpUN->setType(TypeUnitNode::SYSTEM);
         tmpUN->setNum1(0);

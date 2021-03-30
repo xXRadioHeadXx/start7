@@ -59,7 +59,7 @@ MainWindowDB::MainWindowDB(QWidget *parent)
     ui->comboBox_9->setVisible(false);
     ui->comboBox_4->setVisible(false);
 
-    ServerSettingUtils::loadTreeUnitNodes(UnitNodeFactory::make(TypeUnitNode::SYSTEM));
+    ServerSettingUtils::loadTreeUnitNodes(UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM));
 
     m_dbManager = new DataBaseManager(this);
 

@@ -5,7 +5,7 @@ UnitNodeFactory::UnitNodeFactory()
 
 }
 
-QSharedPointer<UnitNode> UnitNodeFactory::make(TypeUnitNode type, QSharedPointer<UnitNode> parent)
+QSharedPointer<UnitNode> UnitNodeFactory::makeShare(TypeUnitNode type, QSharedPointer<UnitNode> parent)
 {
     QSharedPointer<UnitNode> newUN;
     switch (type) {
@@ -31,7 +31,7 @@ QSharedPointer<UnitNode> UnitNodeFactory::make(TypeUnitNode type, QSharedPointer
     return newUN;
 }
 
-QSharedPointer<UnitNode> UnitNodeFactory::make(const UnitNode & parent)
+QSharedPointer<UnitNode> UnitNodeFactory::makeShare(const UnitNode & parent)
 {
     QSharedPointer<UnitNode> newUN;
     switch (parent.getType()) {

@@ -129,7 +129,7 @@ void LockWaiter::init() {
     }
 
     if(nullptr == getUnReciverIuBlIp() && nullptr != getUnReciver()) {
-        auto newMetaUnIuBlIp = UnitNodeFactory::make(TypeUnitNode::IU_BL_IP, getUnReciver());
+        auto newMetaUnIuBlIp = UnitNodeFactory::makeShare(TypeUnitNode::IU_BL_IP, getUnReciver());
         newMetaUnIuBlIp->setNum2(getUnReciverSdBlIp()->getNum2());
         newMetaUnIuBlIp->setUdpPort(getUnReciverSdBlIp()->getUdpPort());
         newMetaUnIuBlIp->setUdpAdress(getUnReciverSdBlIp()->getUdpAdress());
