@@ -1052,6 +1052,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
+        SD_BL_IP_set_values_from_combobox(unit);
 
         break;
 
@@ -1570,12 +1571,45 @@ void MainWindowCFG::SSOI_SD_set_combobox_value_from(UnitNode *unit)
 
 void MainWindowCFG::SD_BL_IP_set_values_from_combobox(UnitNode *unit)
 {
+qDebug()<<"SD_BL_IP_set_values_from_combobox";
+int key=m_SD_BL_IP_OutType.key(this->ui->SD_BL_IP_OutType->currentText());
+if(key==0)
+    {
+     unit->setBazalt(0);
+     unit->setConnectBlock(0);
+    }
+else if(key==1)
+    {
+
+    unit->setBazalt(1);
+    unit->setConnectBlock(0);
+    unit->setDK(0);
+    }
+else if(key==2)
+    {
+    unit->setBazalt(0);
+    unit->setConnectBlock(1);
+    unit->setDK(0);
+    }
 
 }
 
 void MainWindowCFG::SD_BL_IP_set_combobox_value_from(UnitNode *unit)
 {
+qDebug()<<"SD_BL_IP_set_combobox_value_from";
 
+if(unit->getBazalt()==1)
+{
+this->ui->SD_BL_IP_OutType->setCurrentText(m_SD_BL_IP_OutType.value(1));
+}
+else if(unit->getConnectBlock()==1)
+{
+ this->ui->SD_BL_IP_OutType->setCurrentText(m_SD_BL_IP_OutType.value(2));
+}
+else
+{
+this->ui->SD_BL_IP_OutType->setCurrentText(m_SD_BL_IP_OutType.value(0));
+}
 }
 
 QString MainWindowCFG::XOR_Crypt(QString src)
@@ -2359,6 +2393,7 @@ case TypeUnitNode::SD_BL_IP:
 this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
 this->RS485_UDP_set_default_with_timeout(50);
 this->ui->SD_BL_IP_num_combobox->setCurrentIndex(0);
+this->ui->SD_BL_IP_OutType->setCurrentText(m_SD_BL_IP_OutType.value(0));
 
 coordinate_menu(true,false,0,0,"");
 break;
@@ -2524,6 +2559,7 @@ this->RS485_UDP_set_from_unit(unit);
 
 this->ui->SD_BL_IP_num_combobox->setCurrentText(QString::number(unit->getNum2()));
 this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
+    SD_BL_IP_set_combobox_value_from(unit);
 
 coordinate_menu(true,true,unit->getLan(),unit->getLon(),unit->getDescription());
 
@@ -3970,27 +4006,27 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 
 
 
-    if(unit->getBazalt()==1)
-    {
-            string1.append("<b>");string1.append("УЗ Монолит ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" УЗ ");string1.append("</b> ");//  БЛ-IP</b> Уз");
+    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
 
-    }
-    if(unit->getBazalt()==0)
-    {
-            string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
 
-    }
 
     string1.append(" :");
     string1.append(" СД:");
     string1.append(QString::number(unit->getNum2()));
 
     if(unit->getBazalt()==1)
-    {
-        string1.append(" +");
-        string1.append(" ИУ:");
-        string1.append(QString::number(unit->getNum2()));
-    }
+        {
+            string1.append(" +");
+            string1.append(" ИУ:");
+            string1.append(QString::number(unit->getNum2()));
+        }
+    else
+    if(unit->getConnectBlock()==1)
+        {
+            string1.append(" +");
+            string1.append(" ИУ:");
+            string1.append(QString::number(unit->getNum2()+3));
+        }
 
     string1.append("\n");
 
@@ -4021,7 +4057,22 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
         string1.append("\n");
     }
 
+    string1.append(" Тип обьекта: ");
+    if(unit->getBazalt())
+    {
 
+        string1.append(m_SD_BL_IP_OutType.value(1));
+    }
+    else if(unit->getConnectBlock())
+    {
+
+        string1.append(m_SD_BL_IP_OutType.value(2));
+    }
+    else
+    {
+
+        string1.append(m_SD_BL_IP_OutType.value(0));
+    }
 this->ui->textEdit->append(string1);
 
 
@@ -5916,11 +5967,18 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
         string1.append(QString::number(unit->getNum1()));
 
         if(unit->getBazalt()==1)
-        {
-            string1.append(" +");
-            string1.append(" ИУ:");
-            string1.append(QString::number(unit->getNum2()));
-        }
+            {
+                string1.append(" +");
+                string1.append(" ИУ:");
+                string1.append(QString::number(unit->getNum2()));
+            }
+        else
+        if(unit->getConnectBlock()==1)
+            {
+                string1.append(" +");
+                string1.append(" ИУ:");
+                string1.append(QString::number(unit->getNum2()+3));
+            }
 
         string1.append("\n");
 
