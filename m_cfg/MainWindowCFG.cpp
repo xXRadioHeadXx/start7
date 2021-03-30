@@ -1526,12 +1526,14 @@ void MainWindowCFG::SSOI_SD_set_values_from_combobox(UnitNode *unit)
         unit->setOutType(0);
         unit->setBazalt(1);
         unit->setConnectBlock(0);
+        unit->setDK(0);
     }
     else if(key=9)
     {
         unit->setOutType(0);
         unit->setBazalt(0);
         unit->setConnectBlock(1);
+        unit->setDK(0);
     }
 }
 
@@ -6905,30 +6907,27 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
             case TypeUnitNode::SD_BL_IP:
             case TypeUnitNode::SSOI_SD:
 
-                menu->addAction(action_setDK);
-                if(un->getDK()==0)
-                {
-                    //qDebug()<<"[0]";
-                    action_setDK->setChecked(false);
-                }
-                else
-                {
-                    //qDebug()<<"[1]";
-                   action_setDK->setChecked(true);
-                }
-               if(un->getNum2()==1||un->getNum2()==2||un->getNum2()==3)
-                menu->addAction(action_YZ_MONOLIT);
 
-               if(un->getBazalt()==0)
-               {
-                   //qDebug()<<"[0]";
-                   action_YZ_MONOLIT->setChecked(false);
-               }
-               else
-               {
-                   //qDebug()<<"[1]";
-                  action_YZ_MONOLIT->setChecked(true);
-               }
+                if(un->getBazalt()==0)
+                if(un->getConnectBlock()==0)
+                {
+                    menu->addAction(action_setDK);
+                    if(un->getDK()==0)
+                    {
+                        //qDebug()<<"[0]";
+                        action_setDK->setChecked(false);
+                    }
+                    else
+                    {
+                        //qDebug()<<"[1]";
+                       action_setDK->setChecked(true);
+                    }
+
+                }
+
+
+
+
 
                menu->addAction(action_setAlarmMsgOn);
 
@@ -6940,7 +6939,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                   else
                   {
                       //qDebug()<<"[1]";
-                   }
+                  }
                menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 
             break;

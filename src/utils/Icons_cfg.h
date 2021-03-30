@@ -11,6 +11,7 @@ public:
 
     static QPixmap sd();
     static QPixmap sd_basalt();
+    static QPixmap sd_connect_block();
     static QPixmap iu();
     static QPixmap BOD_T4K_M();
     static QPixmap Y4_T4K_M();

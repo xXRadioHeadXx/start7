@@ -639,6 +639,10 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
              {
                  if(this->getBazalt()==1)
                      return Icons_cfg::sd_basalt();
+
+                 if(this->getConnectBlock()==1)
+                     return Icons_cfg::sd_connect_block();
+
                  return Icons_cfg::sd();
              }
          else if(TypeUnitNode::IU_BL_IP    == getType()) {return Icons_cfg::iu();        }
@@ -661,6 +665,11 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
              {
                  if(this->getBazalt()==1)
                      return Icons_cfg::sd_basalt();
+
+
+                 if(this->getConnectBlock()==1)
+                     return Icons_cfg::sd_connect_block();
+
                  return Icons_cfg::sd();
              }
 

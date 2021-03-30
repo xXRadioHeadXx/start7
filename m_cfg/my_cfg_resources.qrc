@@ -55,5 +55,6 @@
         <file>icons/exec.ico</file>
         <file>images/save.png</file>
         <file>icons/iu.png</file>
+        <file>icons/block_connect.png</file>
     </qresource>
 </RCC>

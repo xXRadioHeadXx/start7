@@ -9,6 +9,8 @@ QPixmap Icons_cfg::sd(){return QPixmap(":icons/square_gray_20_20.png");}
 
 QPixmap Icons_cfg::sd_basalt(){return QPixmap(":icons/square_gray_close_20_20.png");}
 
+QPixmap Icons_cfg::sd_connect_block(){return QPixmap(":icons/block_connect.png");}
+
 QPixmap Icons_cfg::iu(){return QPixmap(":icons/iu.png");}
 
 QPixmap Icons_cfg::BOD_T4K_M(){return QPixmap(":icons/square_gray_20_20.png");}
