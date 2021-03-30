@@ -10,6 +10,8 @@ DBform::DBform(QWidget *parent,QString system_type) :
 {
     ui->setupUi(this);
 
+    qDebug()<<system_type;
+
 sys_type=system_type;
     if(sys_type=="РИФ+")
     foreach(int key,m_db_rif.keys())
@@ -17,9 +19,10 @@ sys_type=system_type;
         this->ui->comboBox->insertItem(key,m_db_rif.value(key));
     }
     else
-    if(sys_type=="ССОИ-M")
+    if(sys_type=="ССОИ-М")
     foreach(int key,m_db_ssoi.keys())
     {
+        qDebug()<<"[.]";
         this->ui->comboBox->insertItem(key,m_db_ssoi.value(key));
     }
 }

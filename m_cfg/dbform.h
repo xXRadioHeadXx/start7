@@ -47,10 +47,10 @@ private:
 
     QMap <int,QString> m_db_ssoi{
 
-        {4,"ssoi_db0"},
-        {5,"ssoi_db1"},
-        {6,"ssoi_db2"},
-        {7,"ssoi_db3"}
+        {0,"ssoi_db0"},
+        {1,"ssoi_db1"},
+        {2,"ssoi_db2"},
+        {3,"ssoi_db3"},
     };
 
     QString sys_type;
