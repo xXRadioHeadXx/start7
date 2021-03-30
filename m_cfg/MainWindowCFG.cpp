@@ -5879,16 +5879,10 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
 
 
 
-        if(unit->getBazalt()==1)
-        {
-                string1.append("<b>");string1.append("УЗ Монолит ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" УЗ ");string1.append("</b> ");//  БЛ-IP</b> Уз");
 
-        }
-        if(unit->getBazalt()==0)
-        {
-                string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
 
-        }
+
 
         string1.append(" :");
         string1.append(" СД:");
@@ -5929,9 +5923,24 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
             string1.append(QString::number(unit->getUdpTimeout()));
             string1.append("\n");
         }
+        string1.append(" Тип обьекта: ");
+        if(unit->getBazalt())
+        {
 
-        string1.append("Тип подключаемого обьекта: ");
-        string1.append(m_SSOI_SD_OutType.value(unit->getOutType()));
+            string1.append(m_SSOI_SD_OutType.value(8));
+        }
+        else if(unit->getConnectBlock())
+        {
+
+            string1.append(m_SSOI_SD_OutType.value(9));
+        }
+        else
+        {
+
+            string1.append(m_SSOI_SD_OutType.value(unit->getOutType()));
+        }
+
+
 
 
     this->ui->textEdit->append(string1);
