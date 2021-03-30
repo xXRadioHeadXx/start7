@@ -65,7 +65,7 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
         {
 
             this->ui->tabWidget->removeTab(3);
-          this->ui->tabWidget->removeTab(6);
+          this->ui->tabWidget->removeTab(5);
 
         this->ui->Subsystem_RIF->setHidden(true);
         this->ui->Subsystem_ADAM->setHidden(true);
@@ -5888,7 +5888,7 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
 
         string1.append(" :");
         string1.append(" СД:");
-        string1.append(QString::number(unit->getNum2()));
+        string1.append(QString::number(unit->getNum1()));
 
         if(unit->getBazalt()==1)
         {
@@ -5969,8 +5969,8 @@ bool MainWindowCFG::pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent)
             return false;
 
         }
-   //Num2 от нуля до восьми
-    if(unit->getNum2()<0||unit->getNum2()>8)
+   //Num2 от нуля до 99
+    if(unit->getNum2()<0||unit->getNum2()>99)
         return false;
 
 

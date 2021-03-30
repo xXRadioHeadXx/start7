@@ -980,7 +980,7 @@
                </rect>
               </property>
              </widget>
-             <widget class="QComboBox" name="SSOI_SD_Num3">
+             <widget class="QComboBox" name="SSOI_SD_Num1">
               <property name="geometry">
                <rect>
                 <x>200</x>
@@ -1029,7 +1029,7 @@
                <string>СД</string>
               </property>
              </widget>
-             <widget class="QComboBox" name="SSOI_SD_Num1">
+             <widget class="QComboBox" name="SSOI_SD_Num3">
               <property name="geometry">
                <rect>
                 <x>10</x>
