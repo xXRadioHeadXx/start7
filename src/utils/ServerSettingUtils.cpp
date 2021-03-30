@@ -31,7 +31,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
     if(0 >= cntTrItm)
         return getListTreeUnitNodes();
 
-
+/*
 #if (defined (_WIN32) || defined (_WIN64))
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     QTextCodec::setCodecForLocale(codec);
@@ -39,7 +39,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
 #else
     settings.setIniCodec( "UTF-8" );
 #endif
-
+*/
     //Для совместимости. со старым. конфигуратором.
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     QTextCodec::setCodecForLocale(codec);
