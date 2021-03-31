@@ -540,13 +540,13 @@ private:
         {5,"Трасса"},
         {6,"Точка-Гарда"},
         {7,"Разряд"},
-        {8,"Монолит"},
+        {8,"УЗ Монолит"},
         {9,"Блок связи"},
     };
 
     QMap <int,QString> m_SD_BL_IP_OutType{
         {0,"не указан"},
-        {1,"Монолит"},
+        {1,"УЗ Монолит"},
         {2,"Блок связи"},
     };
 
@@ -682,7 +682,6 @@ private slots:
    void on_devline_xy_pushButton_clicked();
    void on_uType_combobox_currentTextChanged(const QString &arg1);
    void on_SSOI_SD_Num3_currentTextChanged(const QString &arg1);
-   void on_SD_BL_IP_num_combobox_currentTextChanged(const QString &arg1);
    void on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

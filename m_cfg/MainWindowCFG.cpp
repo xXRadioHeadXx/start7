@@ -4042,7 +4042,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
         string1.append("\n");
     }
 
-    string1.append(" Тип обьекта: ");
+    string1.append(" ");
     if(unit->getBazalt())
     {
 
@@ -7689,34 +7689,7 @@ this->ui->SSOI_SD_OutType->insertItem(9,m_SSOI_SD_OutType.value(9));
     }
 }
 
-void MainWindowCFG::on_SD_BL_IP_num_combobox_currentTextChanged(const QString &arg1)
-{
-    int res=arg1.toInt();
 
-    this->ui->SD_BL_IP_OutType->clear();
-
-    this->ui->SD_BL_IP_OutType->insertItem(0,m_SD_BL_IP_OutType.value(0));
-
-
-    switch(res)
-    {
-    case 1:
-    case 2:
-    case 3:
-
-this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
-
-    break;
-
-    case 4:
-    case 5:
-    case 6:
-this->ui->SD_BL_IP_OutType->insertItem(2,m_SD_BL_IP_OutType.value(2));
-
-    break;
-
-    }
-}
 
 
 
@@ -7737,12 +7710,6 @@ void MainWindowCFG::on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &
 
 this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
 
-    break;
-
-    case 4:
-    case 5:
-    case 6:
-this->ui->SD_BL_IP_OutType->insertItem(2,m_SD_BL_IP_OutType.value(2));
 
     break;
 

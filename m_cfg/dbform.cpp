@@ -73,7 +73,7 @@ void DBform::find_rif_db(QSqlDatabase db)
            (db_name=="rif_db3"))
             res=1;
 
-           if(sys_type=="ССОИ-M")
+           if(sys_type=="ССОИ-М")
             if((db_name=="ssoi_db0")||
            (db_name=="ssoi_db1")||
            (db_name=="ssoi_db2")||
