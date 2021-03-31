@@ -1352,12 +1352,8 @@ void MainWindowCFG::on_actionCreate_triggered()
 void MainWindowCFG::on_actionOpen_triggered()
 {
      //qDebug()<<"[Open]";
-     QString dir="";
-     #if (defined (_WIN32) || defined (_WIN64))
-         dir= "C:/Program Files/RIFx/rifx.ini";
-     #else
-         dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
-     #endif
+     QString dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
+
          //qDebug()<<dir;
 
      QString patch=QFileDialog::getOpenFileName(this, "open file",dir,"*.ini");
