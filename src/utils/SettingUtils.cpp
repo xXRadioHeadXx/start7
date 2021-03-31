@@ -21,7 +21,14 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
     }
     QSettings settings(fileName, QSettings::IniFormat);
 
+
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+     QTextCodec::setCodecForLocale(codec);
+   settings.setIniCodec(codec);
+
     settings.beginGroup("TREE");
+
+
     int cntTrItm = settings.value( "Count", -1 ).toInt();
     settings.endGroup();
 
@@ -43,9 +50,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 #endif
 */
 
-   QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
-    QTextCodec::setCodecForLocale(codec);
-  settings.setIniCodec(codec);
+
 
     {
         UnitNode * tmpUN = UnitNodeFactory::make(TypeUnitNode::SYSTEM, root);

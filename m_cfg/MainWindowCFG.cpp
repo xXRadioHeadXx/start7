@@ -793,7 +793,8 @@ void MainWindowCFG::get_option(UnitNode* unit)
 qDebug()
 <<"; Name "<< unit->getName()
 <<"; Type "<<unit->getType()
-<<"; Num1 "<<QString::number(unit->getNum1())
+<<"; Num1 "<<unit->getNum1()
+//<<"; Num1 "<<QString::number(unit->getNum1())
 <<"; Num2 "<<QString::number(unit->getNum2())
 <<"; Num3 "<<QString::number(unit->getNum3())
 <<"; Level "<<QString::number(unit->getLevel())
@@ -1222,8 +1223,7 @@ if(this_name_is_free(this->ui->uName_lineedit->text())==false)
 
     //По умолчанию - если не является устройством, которое подключается по RS-485 к БЛ-IP
     //если является - то значение Num1 присвоится далее в одной из функций
-    unit->setNum1(0);
-    unit->setNum2(0);
+
 
     //qDebug()<<"[set_option]";
 int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
@@ -3792,7 +3792,7 @@ bool MainWindowCFG::add_unit()
 
     UnitNode *unit=new UnitNode();
     unit->setType(0);
-    unit->setNum1(0);
+    unit->setNum1(255);
     unit->setNum2(0);
     unit->setNum3(0);
     unit->setLevel(0);
@@ -3971,7 +3971,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
     QString UdpAdress=unit->getUdpAdress();
 
 //    int UdpPort=unit->getUdpPort();
-
+/*
     qDebug()<<"Name: "<<unit->getName()
             <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
             <<" Num2:"<<QString::number(unit->getNum2())
@@ -3980,7 +3980,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
             <<" connectblock:"<<QString::number(unit->getConnectBlock())
             <<" UdpUse:"<<QString::number(unit->getUdpUse())
             <<" UdpAdress:"<<unit->getUdpAdress();
-/*
+
     //qDebug()<<"Name: "<<Name
             <<" Type:"<<Type
             <<" Num2:"<<QString::number(Num2)
@@ -5591,6 +5591,7 @@ void MainWindowCFG::default_ASOOSD()
 void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 {
 
+    unit->setNum1(255);//так надо.
 
 
 
@@ -5627,6 +5628,8 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 
 void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
 {
+    unit->setNum1(255);//так надо.
+
 
     unit->setNum2(this->ui->IU_BL_IP_num_combobox->currentText().toInt());
     unit->setNum3(this->ui->port_combobox->currentText().toInt());
@@ -6669,6 +6672,7 @@ for(int i=1;i<List.count();i++)
         settings.setValue("Type",unit->getType());
 
         settings.setValue("Num1", QString::number(unit->getNum1()));
+
         settings.setValue("Num2", QString::number(unit->getNum2()));
         settings.setValue("Num3", QString::number(unit->getNum3()));
 
