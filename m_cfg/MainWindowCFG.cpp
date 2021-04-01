@@ -1365,13 +1365,7 @@ void MainWindowCFG::on_actionOpen_triggered()
           this->modelTreeUN->rootItemUN->deleteAll();
           this->modelTreeUN->loadSettings(patch);
 
-          foreach(UnitNode* un,modelTreeUN)
-          {
-              foreach(UnitNode* un,modelTreeUN)
-              {
-                qDebug()<<un->getType();
-              }
-          }
+
 
           if(modelTreeUN->rowCount()==0)
           {

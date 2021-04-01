@@ -963,6 +963,7 @@ bool Control::pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent,TreeModelUnitN
 
 bool Control::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parent,TreeModelUnitNode *modelTreeUN)
 {
+    //Не может быть добавлен к юнитам следующего типа
     if((parent->getType()==TypeUnitNode::STRAZH_IP)||
        (parent->getType()==TypeUnitNode::ONVIF)||
        (parent->getType()==TypeUnitNode::DEVLINE)||
@@ -976,11 +977,10 @@ bool Control::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parent,TreeModelUnit
 
     }
 
-    //Если общий родитель
-
+//не должен повторяться у одного родителя
     return no_equal_unit_from_one_parent(modelTreeUN,unit,parent,[](UnitNode *unit, UnitNode *un)->bool{
-        return((un->getNum1()==unit->getNum1())&&
-        (un->getOutType()==unit->getOutType()));}
+        //сравнение провожу по актуальным для того типа устройства параметрам
+        return((un->getNum1()==unit->getNum1())&&(un->getOutType()==unit->getOutType()));}
 );
 
 }
@@ -1065,19 +1065,24 @@ bool Control::correct_UDP_parametres(UnitNode *unit)
     return true;
 }
 
+// Здесь
+// bool (*is_equal)(UnitNode *unit, UnitNode *un)
+// сравнивает юниты по параметрам
+// определенным образом в зависимости от типа
+//
 bool Control::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode *unit,UnitNode *supreme, bool (*is_equal)(UnitNode *unit, UnitNode *un))
 {
+    //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
     if(unit->getUdpUse()==0)
     {
-  //            //qDebug()<<"[getUdpUse()==0]";
+
         QList<UnitNode *> List1;
         modelTreeUN->getListFromModel(List1,supreme);//modelTreeUN->rootItemUN
         foreach(UnitNode *un, List1 )
         {
 
-    //qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-         if((un->getNum3()==unit->getNum3()))
-         if(is_equal(unit,un))
+         if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+         if(is_equal(unit,un))//проверяем не идентичны ли они
          {
 
              //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
@@ -1087,21 +1092,22 @@ bool Control::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode *unit,UnitNo
 
 
         }
-     //проконтроилровать отсутствие в дереве такого же порта
+
 
     }
+    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
 
     if(unit->getUdpUse()==1)
     {
-      //проконтроилровать отсутствие в дереве такого же IP адреса
+
         QList<UnitNode *> List1;
         modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
         foreach(UnitNode *un, List1 )
         {
-//     //qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-         if((un->getUdpAdress()==unit->getUdpAdress()))
+
+         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
          if((un->getUdpPort()==unit->getUdpPort()))
-         if(is_equal(unit,un))
+         if(is_equal(unit,un))//проверяем не идентичны ли они
           {
 
              QMessageBox::critical(0,"Ошибка","Объект с такими параметрами уже существует");
@@ -1112,6 +1118,13 @@ bool Control::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode *unit,UnitNo
     return true;
 }
 
+
+// Здесь
+// bool (*is_equal)(UnitNode *unit, UnitNode *un)
+// сравнивает юниты по параметрам
+// определенным образом в зависимости от типа
+//
+//Для тех юнитов которые можно несколько раз размещать в дереве, но не нет смысла более одного раза указаывать у одного родителя
 bool Control::no_equal_unit_from_one_parent(TreeModelUnitNode *modelTreeUN,UnitNode *unit, UnitNode *parent, bool (*is_equal)(UnitNode *, UnitNode *))
 {
     //Если общий родитель
@@ -1124,16 +1137,15 @@ bool Control::no_equal_unit_from_one_parent(TreeModelUnitNode *modelTreeUN,UnitN
     foreach(UnitNode *un, List1 )
     {
 
-       //qDebug()<<".";
-//     //qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
+
        QModelIndex index=modelTreeUN->findeIndexUN(un);
        QModelIndex un_parent_index= modelTreeUN->parent(index);
 
-     if(ind==un_parent_index)
+     if(ind==un_parent_index) //ищем юнитов с тем же родителем
       {
          //qDebug()<<"[+]";
          if(un->getType()==unit->getType())
-         if(is_equal(unit,un))
+         if(is_equal(unit,un))//проверяем не идентичны ли они
          {
         //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
              QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
