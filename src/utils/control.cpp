@@ -9,9 +9,6 @@ Control::Control()
 bool Control::pass_to_add(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
 {
 
-
-//qDebug()<<"[can_i_add_or_not?]";
-
 if(unit->getName()=="")
 {
     QMessageBox::critical(0,"Ошибка","Введите имя устройства");
@@ -24,7 +21,7 @@ if (!correct_UDP_parametres(unit))
     return false;
 
 
-//Если БОД Сота-М, то:
+
 if(unit->getType()==TypeUnitNode::BOD_SOTA)
 {
 if(false==pass_to_add_BOD_SOTA(unit,parrent,modelTreeUN))
@@ -152,7 +149,6 @@ if(unit->getType()==TypeUnitNode::TOROS)
 if(false==pass_to_add_TOROS(unit,parrent,modelTreeUN))
     return false;
 }
-//pass_to_add_SSOI_SD
 
 
 if(unit->getType()==TypeUnitNode::GROUP)
@@ -179,7 +175,7 @@ return true;
 bool Control::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
 {
 
-    //СД может быть добавлен только к группе или к системе
+    //СД BL_IP может быть добавлен только к группе или к системе
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
 
@@ -192,7 +188,7 @@ bool Control::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent,TreeModelUn
     if(unit->getNum2()<0||unit->getNum2()>8)
         return false;
 
-
+//Не должен повторяться в дереве
     return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
                          {return ((un->getNum2()==unit->getNum2()));});
 
@@ -229,7 +225,7 @@ bool Control::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parent,TreeModelUni
          if(unit->getNum2()<0||unit->getNum2()>4)
 
              return false;
-
+//Может повторяться в дереве. Не должен повторяться у одного предка.
          return no_equal_unit_from_one_parent(modelTreeUN,unit,parent,[](UnitNode *unit, UnitNode *un)->bool
                               {
 
