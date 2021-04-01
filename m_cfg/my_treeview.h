@@ -11,6 +11,7 @@ public:
     explicit My_treeView(QWidget *parent = nullptr);
     
  void keyPressEvent ( QKeyEvent * event ) override;
+ void paintEvent(QPaintEvent *event) override;
 
 signals:
  void new_current_index(QModelIndex);
