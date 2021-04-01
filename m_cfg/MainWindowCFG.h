@@ -91,7 +91,7 @@ private:
     bool no_equal_unit(MainWindowCFG* cfg,UnitNode *unit,UnitNode *supreme,bool (*is_equal)(MainWindowCFG* cfg,UnitNode* unit,UnitNode* un));
     bool no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *unit, UnitNode *parent, bool (*is_equal)(MainWindowCFG *, UnitNode *, UnitNode *));
 
-    bool correct_UDP_parametres(UnitNode *unit);
+
 
     void expandChildren(const QModelIndex &index);
     void collapseChildren(const QModelIndex &index);
@@ -150,124 +150,108 @@ private:
 
     void get_option(UnitNode *unit);
     bool set_option(UnitNode *unit,UnitNode *parent);
-    bool pass_to_add(UnitNode *unit, UnitNode* parrent);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     void get_option_GROUP(UnitNode *unit);
     void set_option_GROUP(UnitNode *unit);
-    bool pass_to_add_GROUP(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_SD_BL_IP(UnitNode *unit);
     void set_option_SD_BL_IP(UnitNode *unit);
-    bool pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode* parrent);
+
 
 
     void get_option_IU_BL_IP(UnitNode *unit);
     void set_option_IU_BL_IP(UnitNode *unit);
-    bool pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode* parrent);
+
 
 
     void get_option_TG(UnitNode *unit);
     void set_option_TG(UnitNode *unit);
-    bool pass_to_add_TG(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_RLM_KRL(UnitNode *unit);
     void set_option_RLM_KRL(UnitNode *unit);
-    bool pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent);
+
 
 
 
     void get_option_RLM_C(UnitNode *unit);
     void set_option_RLM_C(UnitNode *unit);
-    bool pass_to_add_RLM_C(UnitNode *unit, UnitNode* parrent);
+
 
 
 
     void get_option_BOD_T4K_M(UnitNode *unit);
     void set_option_BOD_T4K_M(UnitNode *unit);
-    bool pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_Y4_T4K_M(UnitNode *unit);
     void set_option_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
-   bool pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_DD_T4K_M(UnitNode *unit);
     void set_option_DD_T4K_M(UnitNode *unit,UnitNode *parent);
-    bool pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_BOD_SOTA(UnitNode *unit);
     void set_option_BOD_SOTA(UnitNode *unit);
-    bool pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_Y4_SOTA(UnitNode *unit);
     void set_option_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
-    bool pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_DD_SOTA(UnitNode *unit);
     void set_option_DD_SOTA(UnitNode *unit,UnitNode *parent);
-    bool pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_BL_IP(UnitNode *unit);
     void set_option_BL_IP(UnitNode *unit);
 
     void get_option_KL(UnitNode *unit);
     void set_option_KL(UnitNode *unit);
-    bool pass_to_add_KL(UnitNode *unit, UnitNode* parrent);
+
 
     void get_option_ONVIF(UnitNode *unit);
     void set_option_ONVIF(UnitNode *unit);
-    bool pass_to_add_ONVIF(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_STRAZH_IP(UnitNode *unit);
     void set_option_STRAZH_IP(UnitNode *unit);
-    bool pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_NET_DEV(UnitNode *unit);
     void set_option_NET_DEV(UnitNode *unit);
-    bool pass_to_add_NET_DEV(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_SSOI_SD(UnitNode *unit);
     void set_option_SSOI_SD(UnitNode *unit);
-    bool pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_SSOI_IU(UnitNode *unit);
     void set_option_SSOI_IU(UnitNode *unit);
-    bool pass_to_add_SSOI_IU(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_ADAM(UnitNode *unit);
     void set_option_ADAM(UnitNode *unit);
-    bool pass_to_add_ADAM(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_TOROS(UnitNode *unit);
     void set_option_TOROS(UnitNode *unit);
-    bool pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_DEVLINE(UnitNode *unit);
     void set_option_DEVLINE(UnitNode *unit);
-    bool pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_RASTRMTV(UnitNode *unit);
     void set_option_RASTRMTV(UnitNode *unit);
-    bool pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parrent);
+
 
     void get_option_INFO_TABLO(UnitNode *unit);
     void set_option_INFO_TABLO(UnitNode *unit);
-    bool pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parrent);
+
 
     void TABLO_Num2_set(int val);
     int TABLO_Num2_get();

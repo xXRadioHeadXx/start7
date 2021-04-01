@@ -16,7 +16,8 @@ SOURCES += \
     $$PWD/Utils.cpp \
 #    $$PWD/ConfirmationAdmissionWaiter.cpp \
 #    $$PWD/StatusRequester.cpp \
-    $$PWD/SignalSlotCommutator.cpp
+    $$PWD/SignalSlotCommutator.cpp \
+    $$PWD/control.cpp
 #    $$PWD/OnOffIUWaiter.cpp
 
 HEADERS += \
@@ -32,5 +33,6 @@ HEADERS += \
     $$PWD/Utils.h \
 #    $$PWD/ConfirmationAdmissionWaiter.h \
 #    $$PWD/StatusRequester.h \
-    $$PWD/SignalSlotCommutator.h
+    $$PWD/SignalSlotCommutator.h \
+    $$PWD/control.h
 #    $$PWD/OnOffIUWaiter.h
