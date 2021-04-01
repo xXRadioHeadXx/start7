@@ -71,8 +71,6 @@ public:
     virtual ~AbstractRequester() {
 //        //qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") -->";
         timerTripleStop();
-        unTarget = nullptr;
-        unReciver = nullptr;
         ptrPort = nullptr;
 //        //qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") <--";
     }
@@ -105,22 +103,21 @@ public:
 
     //Step#1 -->
 private:
-    QTimer * timerFirst = nullptr;
+    QSharedPointer<QTimer> timerFirst;
 protected:
     void timerFirstStart(int interval = 1000) {
-        if(nullptr == timerFirst)
-            timerFirst = new QTimer;
-
+        if(timerFirst.isNull()) {
+            timerFirst = QSharedPointer<QTimer>::create();
+        }
         timerFirst->setInterval(interval);
         timerFirst->setSingleShot(true);
-        timerFirst->connect(timerFirst, SIGNAL(timeout()), this, SLOT(beatRepeatFirstRequest()));
+        timerFirst->connect(timerFirst.data(), SIGNAL(timeout()), this, SLOT(beatRepeatFirstRequest()));
         timerFirst->start();
     }
     void timerFirstStop() {
-        if(nullptr != timerFirst) {
+        if(!timerFirst.isNull()) {
             timerFirst->stop();
-            delete timerFirst;
-            timerFirst = nullptr;
+            timerFirst.clear();
         }
     }
     virtual DataQueueItem makeFirstMsg() = 0;
@@ -131,14 +128,13 @@ public slots:
         resetBeatCount();
         setBeatStatus(BeatStatus::RequestStep1);
         if(delay){
-            if(nullptr != timerFirst) {
-                delete timerFirst;
-                timerFirst = nullptr;
+            if(!timerFirst.isNull()) {
+                timerFirst.clear();
             }
-            if(nullptr == timerFirst)
-                timerFirst = new QTimer;
-
-            timerFirst->setInterval(delay);
+            if(timerFirst.isNull()) {
+                timerFirst = QSharedPointer<QTimer>::create();
+            }
+            timerFirst->setInterval(delay);            
             timerFirst->setSingleShot(true);
             timerFirst->singleShot(delay, this, SLOT(beatRepeatFirstRequest()));
 
@@ -212,22 +208,21 @@ public slots:
 
     //Step#2 -->
 private:
-    QTimer * timerSecond = nullptr;
+    QSharedPointer<QTimer> timerSecond;;
 protected:
     void timerSecondStart(int interval = 1000) {
-        if(nullptr == timerSecond)
-            timerSecond = new QTimer;
-
+        if(timerSecond.isNull()) {
+            timerSecond = QSharedPointer<QTimer>::create();
+        }
         timerSecond->setInterval(interval);
         timerSecond->setSingleShot(true);
-        timerSecond->connect(timerSecond, SIGNAL(timeout()), this, SLOT(startSecondRequest()));
+        timerSecond->connect(timerSecond.data(), SIGNAL(timeout()), this, SLOT(startSecondRequest()));
         timerSecond->start();
     }
     void timerSecondStop() {
-        if(nullptr != timerSecond) {
+        if(!timerSecond.isNull()) {
             timerSecond->stop();
-            delete timerSecond;
-            timerSecond = nullptr;
+            timerSecond.clear();
         }
     }
     virtual DataQueueItem makeSecondMsg() = 0;
@@ -238,13 +233,12 @@ public slots:
         resetBeatCount();
         setBeatStatus(BeatStatus::RequestStep2);
         if(delay){
-            if(nullptr != timerSecond) {
-                delete timerSecond;
-                timerSecond = nullptr;
+            if(!timerSecond.isNull()) {
+                timerSecond.clear();
             }
-            if(nullptr == timerSecond)
-                timerSecond = new QTimer;
-
+            if(timerSecond.isNull()) {
+                timerSecond = QSharedPointer<QTimer>::create();
+            }
             timerSecond->setInterval(delay);
             timerSecond->setSingleShot(true);
             timerSecond->singleShot(delay, this, SLOT(beatRepeatSecondRequest()));
@@ -318,22 +312,21 @@ public slots:
 
     //Step#end -->
 private:
-    QTimer * timerEnd = nullptr;
+    QSharedPointer<QTimer> timerEnd;
 protected:
     void timerEndStart(int interval = 1000) {
-        if(nullptr == timerEnd)
-            timerEnd = new QTimer;
-
+        if(timerEnd.isNull()) {
+            timerEnd = QSharedPointer<QTimer>::create();
+        }
         timerEnd->setInterval(interval);
         timerEnd->setSingleShot(true);
-        timerEnd->connect(timerEnd, SIGNAL(timeout()), this, SLOT(startEnd()));
+        timerEnd->connect(timerEnd.data(), SIGNAL(timeout()), this, SLOT(startEnd()));
         timerEnd->start();
     }
     void timerEndStop() {
-        if(nullptr != timerEnd) {
+        if(!timerEnd.isNull()) {
             timerEnd->stop();
-            delete timerEnd;
-            timerEnd = nullptr;
+            timerEnd.clear();
         }
     }
     virtual DataQueueItem makeEndMsg() = 0;
@@ -344,13 +337,12 @@ public slots:
         resetBeatCount();
         setBeatStatus(BeatStatus::End);
         if(delay){
-            if(nullptr != timerEnd) {
-                delete timerEnd;
-                timerEnd = nullptr;
+            if(!timerEnd.isNull()) {
+                timerEnd.clear();
             }
-            if(nullptr == timerEnd)
-                timerEnd = new QTimer;
-
+            if(timerEnd.isNull()) {
+                timerEnd = QSharedPointer<QTimer>::create();
+            }
             timerEnd->setInterval(delay);
             timerEnd->setSingleShot(true);
             timerEnd->singleShot(delay, this, SLOT(beatRepeatEnd()));

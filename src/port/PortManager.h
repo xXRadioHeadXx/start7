@@ -28,8 +28,8 @@ private:
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    static QList<AbstractRequester *> lsSCR;
-    static QList<AbstractRequester *> lsWaiter;
+    static QList<QSharedPointer<AbstractRequester> > lsSCR;
+    static QList<QSharedPointer<AbstractRequester> > lsWaiter;
 
     void setupPort(const int index = 0);
     void setupPort(AbstractPort *port);
@@ -74,18 +74,18 @@ public:
 
     static QList<AbstractPort *> getUdpPortsVector();
 
-    static QList<AbstractRequester *> getLsWaiter();
-    void setLsWaiter(const QList<AbstractRequester *> &value);
-    void appLsWaiter(AbstractRequester *value);
-    void prependLsWaiter(AbstractRequester *value);
-    void removeLsWaiter(AbstractRequester *value);
+    static QList<QSharedPointer<AbstractRequester> > getLsWaiter();
+    void setLsWaiter(const QList<QSharedPointer<AbstractRequester> > &value);
+    void appLsWaiter(QSharedPointer<AbstractRequester> value);
+    void prependLsWaiter(QSharedPointer<AbstractRequester> value);
+    void removeLsWaiter(QSharedPointer<AbstractRequester> value);
     void clearLsWaiter();
 
-    static QList<AbstractRequester *> getLsSCR();
-    void setLsSCR(const QList<AbstractRequester *> &value);
-    void appLsSCR(AbstractRequester *value);
-    void prependLsSCR(AbstractRequester *value);
-    void removeLsSCR(AbstractRequester *value);
+    static QList<QSharedPointer<AbstractRequester> > getLsSCR();
+    void setLsSCR(const QList<QSharedPointer<AbstractRequester> > &value);
+    void appLsSCR(QSharedPointer<AbstractRequester> value);
+    void prependLsSCR(QSharedPointer<AbstractRequester> value);
+    void removeLsSCR(QSharedPointer<AbstractRequester> value);
     void clearLsSCR();
 
 

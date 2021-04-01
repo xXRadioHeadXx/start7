@@ -56,9 +56,9 @@ QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
 GraphTerminal * PortManager::graphTerminal = nullptr;
 
 
-QList<AbstractRequester *> PortManager::lsSCR = QList<AbstractRequester *>();
+QList<QSharedPointer<AbstractRequester> > PortManager::lsSCR = QList<QSharedPointer<AbstractRequester> >();
 
-QList<AbstractRequester *> PortManager::lsWaiter = QList<AbstractRequester *>();
+QList<QSharedPointer<AbstractRequester> > PortManager::lsWaiter = QList<QSharedPointer<AbstractRequester> >();
 
 
 //Port* PortManager::createPort(AbstractPort::Protocol protocol, QObject *parent, const int index) {
@@ -166,100 +166,90 @@ QList<AbstractPort *> PortManager::getUdpPortsVector()
     return m_udpPortsVector;
 }
 
-QList<AbstractRequester *> PortManager::getLsWaiter()
+QList<QSharedPointer<AbstractRequester> > PortManager::getLsWaiter()
 {
     return lsWaiter;
 }
 
-void PortManager::setLsWaiter(const QList<AbstractRequester *> &value)
+void PortManager::setLsWaiter(const QList<QSharedPointer<AbstractRequester> > &value)
 {
     lsWaiter = value;
 }
 
-void PortManager::appLsWaiter(AbstractRequester * value) {
-    if(nullptr == value)
+void PortManager::appLsWaiter(QSharedPointer<AbstractRequester> value) {
+    if(value.isNull())
         return;
 
     if(value->isValid())
         lsWaiter.append(value);
-    else
-        delete value;
 }
 
-void PortManager::prependLsWaiter(AbstractRequester * value) {
-    if(nullptr == value)
+void PortManager::prependLsWaiter(QSharedPointer<AbstractRequester> value) {
+    if(value.isNull())
         return;
 
     if(value->isValid())
         lsWaiter.prepend(value);
-    else
-        delete value;
 }
 
 
-void PortManager::removeLsWaiter(AbstractRequester *value) {
+void PortManager::removeLsWaiter(QSharedPointer<AbstractRequester> value) {
 
     value->timerTripleStop();
     lsWaiter.removeAll(value);
     value->setBeatStatus(BeatStatus::Unsuccessful);
-    delete value;
 }
 
 void PortManager::clearLsWaiter()
 {
     for(int i = 0, n = lsWaiter.size(); i < n; i++) {
-        AbstractRequester *value = lsWaiter.at(i);
-
-        removeLsWaiter(value);
+        QSharedPointer<AbstractRequester> value = lsWaiter.at(i);
+        value->timerTripleStop();
+        value->setBeatStatus(BeatStatus::Unsuccessful);
     }
     lsWaiter.clear();
 }
 
-QList<AbstractRequester *> PortManager::getLsSCR()
+QList<QSharedPointer<AbstractRequester> > PortManager::getLsSCR()
 {
     return lsSCR;
 }
 
-void PortManager::setLsSCR(const QList<AbstractRequester *> &value)
+void PortManager::setLsSCR(const QList<QSharedPointer<AbstractRequester> > &value)
 {
     lsSCR = value;
 }
 
-void PortManager::appLsSCR(AbstractRequester * value) {
-    if(nullptr == value)
+void PortManager::appLsSCR(QSharedPointer<AbstractRequester> value) {
+    if(value.isNull())
         return;
 
     if(value->isValid())
         lsSCR.append(value);
-    else
-        delete value;
 }
 
-void PortManager::prependLsSCR(AbstractRequester * value) {
-    if(nullptr == value)
+void PortManager::prependLsSCR(QSharedPointer<AbstractRequester> value) {
+    if(value.isNull())
         return;
 
     if(value->isValid())
         lsSCR.prepend(value);
-    else
-        delete value;
 }
 
 
-void PortManager::removeLsSCR(AbstractRequester *value) {
+void PortManager::removeLsSCR(QSharedPointer<AbstractRequester> value) {
 
     value->timerTripleStop();
     lsSCR.removeAll(value);
     value->setBeatStatus(BeatStatus::Unsuccessful);
-    delete value;
 }
 
 void PortManager::clearLsSCR()
 {
     for(int i = 0, n = lsSCR.size(); i < n; i++) {
-        AbstractRequester *value = lsSCR.at(i);
-
-        removeLsSCR(value);
+        QSharedPointer<AbstractRequester>  value = lsSCR.at(i);
+        value->timerTripleStop();
+        value->setBeatStatus(BeatStatus::Unsuccessful);
     }
     lsSCR.clear();
 }
@@ -381,17 +371,17 @@ void PortManager::startStatusRequest(){
                 }
             }
             bool needMakeNew = true;
-            for(const auto& scr : as_const(lsSCR)) {
+            for(auto scr : as_const(lsSCR)) {
                 if(scr->getIpPort() == unIpPort) {
 //                    qDebug() << "PortManager::startStatusRequest() -- match scr->getPtrPort("<<scr->getPtrPort()<<")";
-                    static_cast<MultiUNStatusConnectRequester *>(scr)->addLsTrackedUN(un);
+                    static_cast<MultiUNStatusConnectRequester*>(scr.data())->addLsTrackedUN(un);
 //                    qDebug() << "PortManager::startStatusRequest() -- match scr->getLsTrackedUN("<<scr->getLsTrackedUN()<<")";
                     needMakeNew = false;
                     break;
                 }
             }
             if(needMakeNew) {
-                auto tmpSCR = new MultiUNStatusConnectRequester(un);
+                auto tmpSCR = QSharedPointer<MultiUNStatusConnectRequester>::create(un);
                 tmpSCR->init();
                 tmpSCR->setPtrPort(ptrPort);
                 lsSCR.append(tmpSCR);
@@ -425,7 +415,7 @@ void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
                 for(const auto& pt : as_const(m_udpPortsVector)) {
                     if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
 
-                        ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
+                        auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(selUN);
                         tmpCAW->init();
                         DataQueueItem itm = tmpCAW->getFirstMsg();
                         DataQueueItem::makeAlarmReset0x24(itm, selUN);
@@ -452,7 +442,7 @@ void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
            TypeUnitNode::RLM_KRL == un->getType() ||
            TypeUnitNode::TG == un->getType()) {
             selUN = un;
-            ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(selUN);
+            auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(selUN);
             tmpCAW->init();
             DataQueueItem itm = tmpCAW->getFirstMsg();
             DataQueueItem::makeAlarmReset0x24(itm, selUN);
@@ -518,7 +508,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
         for(const auto& pt : as_const(m_udpPortsVector)) {
             if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
 
-                ProcessDKWaiter * tmpPDKW = new ProcessDKWaiter(un);
+                auto tmpPDKW = QSharedPointer<ProcessDKWaiter>::create(un);
                 tmpPDKW->init();
                 appLsWaiter(tmpPDKW);
 //                tmpPDKW->startFirstRequest();
@@ -576,7 +566,7 @@ void PortManager::requestAutoOnOffIUCommand(bool out, QSharedPointer<UnitNode> s
         for(const auto& pt : as_const(m_udpPortsVector)) {
             if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
                 bool needJour = true;
-                for(AbstractRequester * ar : as_const(getLsWaiter())) {
+                for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN))) {
                         ar->timerTripleStop();
                         ar->setBeatStatus(BeatStatus::Unsuccessful);
@@ -586,7 +576,7 @@ void PortManager::requestAutoOnOffIUCommand(bool out, QSharedPointer<UnitNode> s
                     }
                 }
 
-                OnOffIUWaiter * tmpOOIUW = new OnOffIUWaiter(selUN);
+                auto tmpOOIUW = QSharedPointer<OnOffIUWaiter>::create(selUN);
                 tmpOOIUW->init();
                 appLsWaiter(tmpOOIUW);
 //                tmpOOIUW->startFirstRequest();
@@ -628,7 +618,7 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> un, QByteArray stat
         return;
     }
 
-    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(un);
+    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(un);
     tmpCAW->init();
 
     DataQueueItem itm = tmpCAW->getFirstMsg();
@@ -648,14 +638,14 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> un, QByteArray stat
 
     tmpCAW->setFirstMsg(itm);
 
-    connect(tmpCAW, &AbstractRequester::successful, [](){
+    connect(tmpCAW.data(), &AbstractRequester::successful, [](){
         QMessageBox::information(nullptr,
                                  tr("Инфо"),
                                  tr("Параметры датчика записаны успешно!"),
                                  QMessageBox::Ok);
     });
 
-    connect(tmpCAW, &AbstractRequester::unsuccessful, [](){
+    connect(tmpCAW.data(), &AbstractRequester::unsuccessful, [](){
         QMessageBox::warning(nullptr,
                              tr("Ошибка"),
                              tr("Ошибка записи параметров датчика!"),
@@ -680,12 +670,11 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> un, QByteArray stat
 void PortManager::lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN, bool value)
 {
 
-    LockWaiter * lw = new LockWaiter(selUN);
+    auto lw = QSharedPointer<LockWaiter>::create(selUN);
 
     lw->init();
 
     if(0 == lw->getInitVarianrt() || lw->getUnReciverIuBlIp().isNull() || lw->getUnReciverSdBlIp().isNull()) {
-        delete lw;
         return;
     }
 
@@ -723,7 +712,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
             QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
             for(const auto& pt : as_const(m_udpPortsVector)) {
                 if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
-                    for(AbstractRequester * ar : as_const(getLsWaiter())) {
+                    for(auto ar : as_const(getLsWaiter())) {
                         if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN))) {
                             ar->timerTripleStop();
                             ar->setBeatStatus(BeatStatus::Unsuccessful);
@@ -787,7 +776,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
         }
 
         if(TypeUnitNode::BL_IP == reciver->getType()) {
-            ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+            auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
             tmpCAW->init();
             DataQueueItem itm = tmpCAW->getFirstMsg();
             QByteArray data;
@@ -808,7 +797,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
 
         } else if(TypeUnitNode::RLM_C == reciver->getType() ||
                   TypeUnitNode::RLM_KRL == reciver->getType()) {
-            ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+            auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
             tmpCAW->init();
             DataQueueItem itm = tmpCAW->getFirstMsg();
             if(value)
@@ -1183,7 +1172,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                     QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
 
-                    for(AbstractRequester * ar : as_const(getLsWaiter())) {
+                    for(auto ar : as_const(getLsWaiter())) {
                         if(ar->getIpPort() == tmpPair &&
                            RequesterType::LockRequester == ar->getRequesterType() &&
                            ar->getUnTarget() == unLockSdBlIp) {
@@ -1668,7 +1657,7 @@ void PortManager::manageOverallReadQueue()
             quint8 CMD = itm.data().at(4);
             switch (CMD) {
             case static_cast<quint8>(0x41): {
-                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                for(auto scr : as_const(getLsSCR())) {
                     if(scr->getIpPort() == tmpPair && TypeUnitNode::BL_IP == static_cast<quint8>(scr->getUnReciver()->getType())) {
                         scr->resetBeatCount();
                         break;
@@ -1679,7 +1668,7 @@ void PortManager::manageOverallReadQueue()
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
                 bool dkWait = false;
-                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
                         dkWait = true;
@@ -1698,7 +1687,7 @@ void PortManager::manageOverallReadQueue()
 
                     }
 
-                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                     tmpCAW->init();
                     tmpCAW->setUnReciver(reciver);
                     tmpCAW->setFirstMsg(request);
@@ -1708,7 +1697,7 @@ void PortManager::manageOverallReadQueue()
                 break;
             }
             case static_cast<quint8>(0x31): {
-                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                for(auto scr : as_const(getLsSCR())) {
                     if(scr->getIpPort() == tmpPair && (TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) || TypeUnitNode::RLM_C == static_cast<quint8>(scr->getUnReciver()->getType()) || TypeUnitNode::RLM_KRL == static_cast<quint8>(scr->getUnReciver()->getType())) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
@@ -1719,7 +1708,7 @@ void PortManager::manageOverallReadQueue()
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
                 bool dkWait = false;
-                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
                         dkWait = true;
@@ -1738,7 +1727,7 @@ void PortManager::manageOverallReadQueue()
 
                     }
 
-                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                     tmpCAW->init();
                     tmpCAW->setUnReciver(reciver);
                     tmpCAW->setFirstMsg(request);
@@ -1753,7 +1742,7 @@ void PortManager::manageOverallReadQueue()
                                 reciver->getUdpPort() == request.port()) {
 
                             if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
-                                ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                                auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                                 tmpCAW->init();
                                 tmpCAW->setUnReciver(reciver);
                                 DataQueueItem request24 = itm;
@@ -1768,7 +1757,7 @@ void PortManager::manageOverallReadQueue()
                 break;
             }
             case static_cast<quint8>(0x32): {
-                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                for(auto scr : as_const(getLsSCR())) {
                     if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
@@ -1779,7 +1768,7 @@ void PortManager::manageOverallReadQueue()
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
                 bool dkWait = false;
-                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
                         dkWait = true;
@@ -1798,7 +1787,7 @@ void PortManager::manageOverallReadQueue()
 
                     }
 
-                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                     tmpCAW->init();
                     tmpCAW->setUnReciver(reciver);
                     tmpCAW->setFirstMsg(request);
@@ -1813,7 +1802,7 @@ void PortManager::manageOverallReadQueue()
                                 reciver->getUdpPort() == request.port()) {
 
                             if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
-                                ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                                auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                                 tmpCAW->init();
                                 tmpCAW->setUnReciver(reciver);
                                 DataQueueItem request24 = itm;
@@ -1828,7 +1817,7 @@ void PortManager::manageOverallReadQueue()
                 break;
             }
             case static_cast<quint8>(0x33): {
-                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                for(auto scr : as_const(getLsSCR())) {
                     if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
@@ -1839,7 +1828,7 @@ void PortManager::manageOverallReadQueue()
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
                 bool dkWait = false;
-                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
                         dkWait = true;
@@ -1858,7 +1847,7 @@ void PortManager::manageOverallReadQueue()
 
                     }
 
-                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                     tmpCAW->init();
                     tmpCAW->setUnReciver(reciver);
                     tmpCAW->setFirstMsg(request);
@@ -1873,7 +1862,7 @@ void PortManager::manageOverallReadQueue()
                                 reciver->getUdpPort() == request.port()) {
 
                             if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
-                                ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                                auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                                 tmpCAW->init();
                                 tmpCAW->setUnReciver(reciver);
                                 DataQueueItem request24 = itm;
@@ -1888,7 +1877,7 @@ void PortManager::manageOverallReadQueue()
                 break;
             }
             case static_cast<quint8>(0x34): {
-                for(AbstractRequester * scr : as_const(getLsSCR())) {
+                for(auto scr : as_const(getLsSCR())) {
                     if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
@@ -1899,7 +1888,7 @@ void PortManager::manageOverallReadQueue()
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
                 bool dkWait = false;
-                for(const AbstractRequester * ar : as_const(getLsWaiter())) {
+                for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
                         dkWait = true;
@@ -1918,7 +1907,7 @@ void PortManager::manageOverallReadQueue()
 
                     }
 
-                    ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                     tmpCAW->init();
                     tmpCAW->setUnReciver(reciver);
                     tmpCAW->setFirstMsg(request);
@@ -1933,7 +1922,7 @@ void PortManager::manageOverallReadQueue()
                                 reciver->getUdpPort() == request.port()) {
 
                             if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
-                                ConfirmationAdmissionWaiter * tmpCAW = new ConfirmationAdmissionWaiter(reciver);
+                                auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
                                 tmpCAW->init();
                                 tmpCAW->setUnReciver(reciver);
                                 DataQueueItem request24 = itm;
@@ -1949,13 +1938,13 @@ void PortManager::manageOverallReadQueue()
             }
             case static_cast<quint8>(0x30): {
 
-                for(AbstractRequester * ar : as_const(getLsWaiter())) {
+                for(auto ar : as_const(getLsWaiter())) {
                     if(ar->getIpPort() == tmpPair ) {
 
                         if(BeatStatus::RequestStep1 == ar->getBeatStatus()) { // переводим в первое ожидание
 
                             if(!ar->getUnReciver().isNull() && RequesterType::DKWaiter == ar->getRequesterType() && static_cast<quint8>(ar->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
-                                for(QSharedPointer<UnitNode>  un : as_const(((ProcessDKWaiter *)ar)->getLsTrackedUN())) {
+                                for(QSharedPointer<UnitNode>  un : as_const(((ProcessDKWaiter *)ar.data())->getLsTrackedUN())) {
                                     un->setDkInvolved(true);
                                     un->setDkStatus(DKCiclStatus::DKReady);
                                     un->updDoubl();
@@ -1973,7 +1962,7 @@ void PortManager::manageOverallReadQueue()
                         } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) { // удаляем завершившихся и переводим во второе ожидание другие
 
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                for(QSharedPointer<UnitNode>  un : as_const(((ProcessDKWaiter *)ar)->getLsTrackedUN())) {
+                                for(QSharedPointer<UnitNode>  un : as_const(((ProcessDKWaiter *)ar.data())->getLsTrackedUN())) {
                                     JourEntity msg;
                                     msg.setObject(un->getName());
                                     msg.setObjecttype(un->getType());
@@ -2033,7 +2022,7 @@ void PortManager::manageOverallReadQueue()
             }
 
             bool keypass = true;
-            for(AbstractRequester * ar : as_const(getLsWaiter())) {
+            for(auto ar : as_const(getLsWaiter())) {
                 if(BeatStatus::Unsuccessful == ar->getBeatStatus() || BeatStatus::Successful == ar->getBeatStatus()) {
                     removeLsWaiter(ar); //
                 } else if(true == keypass && BeatStatus::Start == ar->getBeatStatus()) {
@@ -2073,7 +2062,7 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
         }
     }
 
-    for(AbstractRequester * scr : as_const(getLsSCR())) {
+    for(auto scr : as_const(getLsSCR())) {
         if(scr->getUnReciver() == un && BeatStatus::Unsuccessful == scr->getBeatStatus()) {
             scr->startFirstRequest();
             break;
