@@ -309,7 +309,7 @@ public:
     void setStatus2(const quint8 &value);
 
     QPixmap getPxm(SubTypeApp type = SubTypeApp::server);
-
+    QPixmap getPxm(SubTypeApp type,int column);
 //    int calcDkStatus() const;
     int getDkStatus() const;
     void setDkStatus(int value);

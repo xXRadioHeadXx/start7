@@ -56,14 +56,33 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
 
      if(role == Qt::DecorationRole &&
         rootItemUN != item &&
-        0 == index.column())
+             (
+        0 == index.column()||
+        1 == index.column()||
+        2 == index.column()
+             ))
      {
          QPixmap pxm;
          switch(index.column())
          {
          case 0:
          {
-             pxm = item->getPxm(typeApp);
+             UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+             pxm = item->getPxm(typeApp,index.column());
+             break;
+         }
+         case 1:
+         {
+             UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+             if(un->getDK()==1)
+             pxm = item->getPxm(typeApp,index.column());
+             break;
+         }
+         case 2:
+         {
+             UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
+             if(un->getAlarmMsgOn()==1)
+             pxm = item->getPxm(typeApp,index.column());
              break;
          }
          default:

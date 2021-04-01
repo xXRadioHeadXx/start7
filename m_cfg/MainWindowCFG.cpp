@@ -513,9 +513,9 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     Delegate* dlgt = new Delegate(this);
     this->ui->treeView->setItemDelegate(dlgt);
 
-    ui->treeView->setColumnWidth(0,1000);
-    ui->treeView->setColumnWidth(1,1000);
-    ui->treeView->setColumnWidth(2,1000);
+    ui->treeView->setColumnWidth(0,300);
+    ui->treeView->setColumnWidth(1,40);
+    ui->treeView->setColumnWidth(2,40);
 
 
   //  ui->treeView->installEventFilter(this);

@@ -24,6 +24,10 @@ public:
     static QPixmap ONVIF();
     static QPixmap default_square_gray();
 
+    static QPixmap empty();
+    static QPixmap DK();
+    static QPixmap Alarm();
+
     //         Y4_SOTA = 30,//Участок Сота
     //         DD_SOTA = 28,//ДД Сота
 };

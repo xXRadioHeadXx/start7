@@ -33,7 +33,11 @@ QPixmap Icons_cfg::ONVIF(){return QPixmap(":icons/onvif.png");}
 
 QPixmap Icons_cfg::default_square_gray(){return QPixmap(":icons/square_gray_20_20.png");}
 
+QPixmap Icons_cfg::empty(){return QPixmap(":icons/empty.png");}
 
+QPixmap Icons_cfg::DK(){return QPixmap(":icons/DK.png");}
+
+QPixmap Icons_cfg::Alarm(){return QPixmap(":icons/Alarm.png");}
 
 
 

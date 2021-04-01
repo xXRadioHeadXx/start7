@@ -691,6 +691,93 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
     return QPixmap();
 }
 
+QPixmap UnitNode::getPxm(SubTypeApp type, int column)
+{
+    if(SubTypeApp::configurator == type) {
+
+             if(column==0)
+             {
+             if(TypeUnitNode::GROUP == getType()||TypeUnitNode::SYSTEM == getType())
+             {
+             if(childCount())
+             return Icons::fldr();
+             else
+             return Icons::fldr_empt();
+             }
+             else
+                 if(TypeUnitNode::SD_BL_IP    == getType())
+                 {
+                     if(this->getBazalt()==1)
+                         return Icons_cfg::sd_basalt();
+
+
+                     return Icons_cfg::sd();
+                 }
+             else if(TypeUnitNode::IU_BL_IP    == getType()) {return Icons_cfg::iu();        }
+             else if(TypeUnitNode::BOD_T4K_M   == getType()) {return Icons_cfg::BOD_T4K_M(); }
+             else if(TypeUnitNode::BOD_SOTA    == getType()) {return Icons_cfg::BOD_T4K_M(); }
+             else if(TypeUnitNode::Y4_T4K_M    == getType()) {return Icons_cfg::Y4_T4K_M();  }
+             else if(TypeUnitNode::DD_T4K_M    == getType()) {return Icons_cfg::Y4_T4K_M();  }
+             else if(TypeUnitNode::TG          == getType()) {return Icons_cfg::TG();        }
+             else if(TypeUnitNode::RLM_KRL     == getType()) {return Icons_cfg::RLM_KRL();   }
+             else if(TypeUnitNode::RLM_C       == getType()) {return Icons_cfg::RLM_KRL();   }
+             else if(TypeUnitNode::Y4_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
+             else if(TypeUnitNode::DD_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
+             else if(TypeUnitNode::KL          == getType()) {return Icons_cfg::KL();        }
+             else if(TypeUnitNode::NET_DEV     == getType()) {return Icons_cfg::NET_DEV();   }
+             else if(TypeUnitNode::ONVIF       == getType()) {return Icons_cfg::ONVIF();     }
+             else if(TypeUnitNode::STRAZH_IP   == getType()) {return Icons_cfg::ONVIF();     }
+
+             else if(TypeUnitNode::SSOI_SD   == getType())
+
+                 {
+                     if(this->getBazalt()==1)
+                         return Icons_cfg::sd_basalt();
+
+
+                     if(this->getConnectBlock()==1)
+                         return Icons_cfg::sd_connect_block();
+
+                     return Icons_cfg::sd();
+                 }
+
+
+             else if(TypeUnitNode::SSOI_IU   == getType()) {return Icons_cfg::default_square_gray();     }
+
+
+             else if(TypeUnitNode::ADAM   == getType()) {return Icons_cfg::default_square_gray();     }
+             else if(TypeUnitNode::TOROS   == getType()) {return Icons_cfg::default_square_gray();     }
+             else if(TypeUnitNode::DEVLINE   == getType()) {return Icons_cfg::ONVIF();       }
+             else if(TypeUnitNode::RASTRMTV   == getType()) {return Icons_cfg::ONVIF();       }
+             else if(TypeUnitNode::INFO_TABLO   == getType()) {return Icons_cfg::default_square_gray();     }
+
+
+
+    //         Y4_SOTA = 30,//Участок Сота
+    //         DD_SOTA = 28,//ДД Сота
+
+          }
+             else
+             if(column==1)
+             {
+                 if(DK==1)
+                 return Icons_cfg::DK();
+                 else
+                 return Icons_cfg::empty();
+
+             }
+             else
+             if(column==2)
+             {
+                 if(AlarmMsgOn==1)
+                 return Icons_cfg::Alarm();
+                 else
+                 return Icons_cfg::empty();
+             }
+    }
+
+}
+
 int UnitNode::getDkStatus() const
 {
     return dkStatus;
@@ -1287,6 +1374,14 @@ QVariant UnitNode::data(int column) const noexcept
             {
                 return QVariant(QObject::tr("Имя")); //"Имя"
             }
+        case 1:
+        {
+            return QVariant(QObject::tr("ДК"));
+        }
+        case 2:
+        {
+            return QVariant(QObject::tr("Тревоги"));
+        }
             default:
                 return QVariant();
         }
@@ -1391,7 +1486,7 @@ int UnitNode::treeRow() const noexcept
 
 int UnitNode::columnCount() const noexcept
 {
-    return 2;//itemData.count();
+    return 3;//itemData.count();
 }
 
 

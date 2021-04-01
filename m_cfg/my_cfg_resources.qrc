@@ -56,5 +56,8 @@
         <file>images/save.png</file>
         <file>icons/iu.png</file>
         <file>icons/block_connect.png</file>
+        <file>icons/Alarm.png</file>
+        <file>icons/DK.png</file>
+        <file>icons/empty.png</file>
     </qresource>
 </RCC>
