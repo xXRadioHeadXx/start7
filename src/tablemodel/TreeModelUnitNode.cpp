@@ -1,6 +1,7 @@
 ﻿#include <TreeModelUnitNode.h>
 #include <SettingUtils.h>
 #include <SignalSlotCommutator.h>
+#include <control.h>
 
 SubTypeApp TreeModelUnitNode::getTypeApp() const
 {
@@ -309,11 +310,21 @@ void TreeModelUnitNode::updateUNs()
     return;
 }
 
-void TreeModelUnitNode::loadSettings(QString fileName)
+bool TreeModelUnitNode::loadSettings(QString fileName)
 {
     this->beginResetModel();
-    listItemUN = SettingUtils::loadTreeUnitNodes(rootItemUN, fileName);
+
+
+    listItemUN= SettingUtils::loadTreeUnitNodes(this,rootItemUN, fileName);
+
     this->endResetModel();
+
+     return true;
+
+
+
+
+
 }
 
 void TreeModelUnitNode::makeEmptyTree()

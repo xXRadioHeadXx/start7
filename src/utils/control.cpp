@@ -8,7 +8,7 @@ Control::Control()
 }
 bool Control::pass_to_add(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
 {
-
+qDebug()<<"проверяю "<<unit->getName()<<" родитель "<<unit->getTreeParentUN()->getName();
 if(unit->getName()=="")
 {
     QMessageBox::critical(0,"Ошибка","Введите имя устройства");
@@ -174,7 +174,7 @@ return true;
 }
 bool Control::pass_to_add_SD_BL_IP(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
 {
-
+qDebug()<<"СД БЛ-IP";
     //СД BL_IP может быть добавлен только к группе или к системе
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
@@ -1071,11 +1071,14 @@ bool Control::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode *unit,UnitNo
     //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
     if(unit->getUdpUse()==0)
     {
-
+ qDebug()<<"---------------------";
         QList<UnitNode *> List1;
         modelTreeUN->getListFromModel(List1,supreme);//modelTreeUN->rootItemUN
         foreach(UnitNode *un, List1 )
         {
+            qDebug()<<"------";
+            qDebug()<<unit->getName();
+            qDebug()<<un->getName();
 
          if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
          if(is_equal(unit,un))//проверяем не идентичны ли они

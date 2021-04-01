@@ -6,6 +6,7 @@
 #include <Utils.h>
 #include <global.h>
 #include<QTextCodec>
+#include <control.h>
 
 SettingUtils::SettingUtils()
 {
@@ -15,7 +16,8 @@ SettingUtils::SettingUtils()
 QList<UnitNode *> SettingUtils::listTreeUnitNodes;
 QSet<UnitNode *> SettingUtils::listMetaRealUnitNodes;
 
-QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileName) {
+QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitNode * root, QString fileName)
+{
     if(!getListTreeUnitNodes().isEmpty()) {
         getListTreeUnitNodes().clear();
     }
@@ -65,7 +67,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
 
         root->addTreeChild(tmpUN);
         root = tmpUN;
-        getListTreeUnitNodes().append(tmpUN);
+        listTreeUnitNodes.append(tmpUN);
     }
 
     for(int index = 0; index < cntTrItm; index++)
@@ -132,22 +134,46 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
             if(!tmpUN->getName().isEmpty())
             {
 //                qDebug() << tmpUN->metaName << tmpUN->toString();
-                getListTreeUnitNodes().append(tmpUN);
+                UnitNode* old;
+                //Вот здесь даем юниту папу но не говорим папе у него есть юнит
                 bool key = true;
-                for (auto rit = getListTreeUnitNodes().rbegin(); rit != getListTreeUnitNodes().rend(); ++rit) {
+                for (auto rit = listTreeUnitNodes.rbegin(); rit != getListTreeUnitNodes().rend(); ++rit) {
                     if((*rit)->getLevel() < tmpUN->getLevel())
                     {
-                        (*rit)->addTreeChild(tmpUN);
+
+                        old=(*rit);
                         key = false;
                         break;
                     }
                 }
 
                 if(key)
-                    root->addTreeChild(tmpUN);
+                    old=root;
+
+                 tmpUN->setTreeParentUN(old);
+
+
+                bool res=Control::pass_to_add(tmpUN,tmpUN->getTreeParentUN(),model);//вот для этой проверки
+                if(res)//если юнит прошел проверку
+                {
+
+                    old->addTreeChild(tmpUN);
+
+
+
+                    listTreeUnitNodes.append(tmpUN);
+                }
+
+                else
+                {
+                    listTreeUnitNodes.clear();
+                    model->rootItemUN->deleteAll();
+
+                    return listTreeUnitNodes;
+                }
 
                 //Double
-                for(UnitNode * un : as_const(getListTreeUnitNodes())) {
+                /*for(UnitNode * un : as_const(getListTreeUnitNodes())) {
                     if(un->getType() == tmpUN->getType() &&
                             un->getUdpAdress() == tmpUN->getUdpAdress() &&
                             un->getUdpPort() == tmpUN->getUdpPort() &&
@@ -163,9 +189,9 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                         un->setDoubles(tmpUN->getDoubles());
                         un->setDoubles(tmpUN);
                     }
-                }
+                }*/
 
-                if(!tmpUN->getDoubles().isEmpty()) {
+               /* if(!tmpUN->getDoubles().isEmpty()) {
                     tmpUN->setParentUN(tmpUN->getDoubles().values().first()->getParentUN());
                 } else if(tmpUN->getDoubles().isEmpty() &&
                         (TypeUnitNode::SD_BL_IP == tmpUN->getType() ||
@@ -204,14 +230,16 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                         tmpParentUN->addChild(tmpUN);
                     }
 
+
+
                     getSetMetaRealUnitNodes().insert(tmpUN);
-                }
+                }*/
 
             }
         }
     }
 
-    for(UnitNode * un : as_const(SettingUtils::getSetMetaRealUnitNodes().toList())) {
+    /*for(UnitNode * un : as_const(SettingUtils::getSetMetaRealUnitNodes().toList())) {
         if(TypeUnitNode::SD_BL_IP == un->getType() && nullptr != un->getParentUN() && 1 <= un->getNum1() && 4 >= un->getNum1()) {
             auto parent = un->getParentUN();
             bool needAddUI = true;
@@ -226,6 +254,8 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                     break;
                 }
             }
+
+
 
             if(needAddUI) {
                 auto newMetaUnIuBlIp = UnitNodeFactory::make(TypeUnitNode::IU_BL_IP, parent);
@@ -243,7 +273,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(UnitNode * root, QString fileN
                 parent->addChild(newMetaUnIuBlIp);
             }
         }
-    }
+    }*/
 
     return getListTreeUnitNodes();
 }

@@ -6,6 +6,7 @@
 #include <UnitNodeFactory.h>
 //#include <AbstractPort.h>
 //#include <PortFactory.h>
+#include <TreeModelUnitNode.h>
 
 
 
@@ -17,7 +18,7 @@ private:
 
 public:
     SettingUtils();
-    static QList<UnitNode *> loadTreeUnitNodes(UnitNode * root, QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
+    static QList<UnitNode *> loadTreeUnitNodes(TreeModelUnitNode *model,UnitNode * root, QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
     static QList<UnitNode *> loadEmptyTree(UnitNode * root);
 
     static QList<UnitNode *> &getListTreeUnitNodes();
