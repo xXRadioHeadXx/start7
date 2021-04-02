@@ -580,10 +580,9 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     return *this;
 }
 
-QVariant UnitNode::dataTreeColumn(int column) const noexcept
+QVariant UnitNode::dataTreeColumn(int column) const
 {
-    if(this->getName().isEmpty() &&
-       this->getMetaNames().isEmpty())
+    if(this->isRootTreeItem())
     {
         switch(column)
         {

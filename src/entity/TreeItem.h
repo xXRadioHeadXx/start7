@@ -15,12 +15,12 @@ public:
     explicit TreeItem(QSharedPointer<TreeItem> parent);
     virtual ~TreeItem();
 
-    QSharedPointer<TreeItem> treeParent();
+    QSharedPointer<TreeItem> treeParent() const;
     void setTreePparent(QSharedPointer<TreeItem>value);
 
     QList<QSharedPointer<TreeItem> > & listTreeChilds();
 
-    QSharedPointer<TreeItem> treeChild(int index);
+    QSharedPointer<TreeItem> treeChild(int index) const;
 
     QSharedPointer<TreeItem> takeTreeChild(int index);
     QSharedPointer<TreeItem> takeTreeChild(QSharedPointer<TreeItem> child);
@@ -41,6 +41,8 @@ public:
 
 
     int treeChildIndex() const;
+    bool isRootTreeItem() const;
+
 
     bool setData(int column, const QVariant &value);
 

@@ -15,7 +15,7 @@ TreeItem::~TreeItem()
 {
 }
 
-QSharedPointer<TreeItem> TreeItem::treeParent()
+QSharedPointer<TreeItem> TreeItem::treeParent() const
 {
     return treePparentItem;
 }
@@ -30,7 +30,7 @@ QList<QSharedPointer<TreeItem> > &TreeItem::listTreeChilds()
     return treeChildItems;
 }
 
-QSharedPointer<TreeItem> TreeItem::treeChild(int index)
+QSharedPointer<TreeItem> TreeItem::treeChild(int index) const
 {
     if(index < 0 || treeChildItems.size() <= index)
         return nullptr;
@@ -73,6 +73,11 @@ int TreeItem::treeChildIndex() const
     }
 
     return 0;
+}
+
+bool TreeItem::isRootTreeItem() const
+{
+    return treeParent().isNull();
 }
 
 int TreeItem::treeColumnCount() const

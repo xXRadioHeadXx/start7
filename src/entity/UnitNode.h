@@ -85,7 +85,7 @@ public:
     virtual void setBazalt(int value) final;
     virtual void setUdpTimeout(int value) final;
 
-    QVariant dataTreeColumn(int column) const noexcept;
+    QVariant dataTreeColumn(int column) const;
 
     virtual UnitNode & operator=(const UnitNode& );
 
