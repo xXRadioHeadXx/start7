@@ -17,7 +17,7 @@ ServerTreeModelUnitNode::ServerTreeModelUnitNode(QObject *parent) :
     QAbstractItemModel(parent),
     sortOrder(Qt::AscendingOrder)
 {
-    rootItemUN = QSharedPointer<UnitNode>::create();
+//    rootItemUN = QSharedPointer<UnitNode>::create();
     rootItemUN->setLevel(0);
 
 
@@ -31,9 +31,9 @@ int ServerTreeModelUnitNode::columnCount(const QModelIndex &parent) const
  {
      if (parent.isValid())
 //         return static_cast<UnitNode*>(parent.internalPointer())->columnCount();
-         return static_cast<UnitNode*>(parent.internalPointer())->columnCount();
+         return static_cast<UnitNode*>(parent.internalPointer())->treeColumnCount();
      else
-         return rootItemUN->columnCount();
+         return rootItemUN->treeColumnCount();
      //         return rootItemSortUN->columnCount();
 }
 
@@ -58,7 +58,7 @@ int ServerTreeModelUnitNode::sizeHintForRow(int /*row*/) const
      if (!index.isValid())
          return QVariant();
 
-     UnitNode*item = static_cast<UnitNode*>(index.internalPointer());
+     UnitNode * item = static_cast<UnitNode*>(index.internalPointer());
 
 //     if(role == Qt::BackgroundRole)
 //     {
@@ -89,7 +89,7 @@ int ServerTreeModelUnitNode::sizeHintForRow(int /*row*/) const
      }
 
      if(role == Qt::DisplayRole)
-         return item->data(index.column());
+         return item->dataTreeColumn(index.column());
 
      return QVariant();
  }
@@ -150,7 +150,7 @@ bool ServerTreeModelUnitNode::setData(const QModelIndex &index, const QVariant &
      else
          parentItem = getTreeUnitNodes(static_cast<UnitNode*>(parent.internalPointer()));
 
-     QSharedPointer<UnitNode> childItem = parentItem->treeChild(row);
+     QSharedPointer<UnitNode> childItem = qSharedPointerCast<UnitNode>(parentItem->treeChild(row));
      if (childItem)
          return createIndex(row, column, childItem.data());
      else
@@ -163,12 +163,12 @@ bool ServerTreeModelUnitNode::setData(const QModelIndex &index, const QVariant &
          return QModelIndex();
 
      QSharedPointer<UnitNode> childItem = getTreeUnitNodes(static_cast<UnitNode*>(index.internalPointer()));
-     QSharedPointer<UnitNode> parentItem = childItem->getTreeParentUN();
+     QSharedPointer<UnitNode> parentItem = qSharedPointerCast<UnitNode>(childItem->treeParent());
 
      if (parentItem == rootItemUN)
          return QModelIndex();
 
-     return createIndex(parentItem->treeRow(), 0, parentItem.data());
+     return createIndex(parentItem->treeChildIndex(), 0, parentItem.data());
  }
 
  int ServerTreeModelUnitNode::rowCount(const QModelIndex &parent) const
@@ -281,7 +281,7 @@ QModelIndex ServerTreeModelUnitNode::findeIndexUN(UnitNode*tc,
          {
              index = this->findeIndexUN(tc,
                                         lr,
-                                        parentTC->treeChild(i).data());///1
+                                        static_cast<UnitNode *>(parentTC->treeChild(i).data()));///1
              if(index.isValid())
              {
            //      //qDebug() << "findeIndexUN " << index;

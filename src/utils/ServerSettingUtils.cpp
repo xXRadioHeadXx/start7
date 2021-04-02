@@ -6,6 +6,7 @@
 #include <Utils.h>
 #include <global.h>
 #include <QTextCodec>
+#include <TreeItem.h>
 
 ServerSettingUtils::ServerSettingUtils()
 {
@@ -56,8 +57,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         tmpUN->setName(QObject::tr("Система"));
         tmpUN->setMetaNames("Obj_0");
 
-        root->addTreeChild(tmpUN);
-        tmpUN->setTreeParentUN(root);
+        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
         root = tmpUN;
         getListTreeUnitNodes().append(QSharedPointer<UnitNode>(tmpUN));
     }
@@ -131,16 +131,14 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 for (auto rit = getListTreeUnitNodes().rbegin(); rit != getListTreeUnitNodes().rend(); ++rit) {
                     if((*rit)->getLevel() < tmpUN->getLevel())
                     {
-                        (*rit)->addTreeChild(tmpUN);
-                        tmpUN->setTreeParentUN((*rit));
+                        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, (*rit));
                         key = false;
                         break;
                     }
                 }
 
                 if(key) {
-                    root->addTreeChild(tmpUN);
-                    tmpUN->setTreeParentUN(root);
+                    ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
                 }
 
                 //Double
@@ -262,6 +260,9 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         }
     }
 
+    for(auto un : getListTreeUnitNodes())
+        qDebug() << un->toString();
+
     return getListTreeUnitNodes();
 }
 
@@ -271,7 +272,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointe
    //     for(UnitNode*un : getListTreeUnitNodes())
    //         delete un;
         getListTreeUnitNodes().clear();
-        root->deleteAll();
+        root->removeAllTreeChildren();
     }
 
 
@@ -288,8 +289,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointe
         tmpUN->setName(QObject::tr("Система"));
         tmpUN->setMetaNames("Obj_0");
 
-        root->addTreeChild(tmpUN);
-        tmpUN->setTreeParentUN(root);
+        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
 //        root = tmpUN;
         getListTreeUnitNodes().append(tmpUN);
 

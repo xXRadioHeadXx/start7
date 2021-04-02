@@ -7,6 +7,7 @@
 #include <DataQueueItem.h>
 #include <QQueue>
 #include <UnitNodeCFG.h>
+#include <ServerUnitNodeTreeItem.h>
 
 enum SubTypeApp {
     any = 0x00,
@@ -35,7 +36,10 @@ class SWPTGType0x34;
 class SWPTGType0x33;
 class SWPTGType0x32;
 class DataQueueItem;
-class UnitNode : public UnitNodeCFG
+
+class UnitNode :
+        public UnitNodeCFG
+      , public ServerUnitNodeTreeItem
 {
     Q_OBJECT
 private:
@@ -50,10 +54,6 @@ private:
 
     QSharedPointer<UnitNode> parentUN; //родительское устройство
     QList<QSharedPointer<UnitNode> > listChilde; //список детей
-
-    QSharedPointer<UnitNode> treeParentUN;
-    QList<QSharedPointer<UnitNode> > listTreeChilde;
-
 
     int timeIntervalStatusRequest = 70;
 
@@ -85,23 +85,13 @@ public:
     virtual void setBazalt(int value) final;
     virtual void setUdpTimeout(int value) final;
 
-    QVariant data(int column) const noexcept;
+    QVariant dataTreeColumn(int column) const noexcept;
 
     virtual UnitNode & operator=(const UnitNode& );
 
-    void addTreeChild(QSharedPointer<UnitNode> tc) noexcept;
-
-    void moveTreeChildUNUp(QSharedPointer<UnitNode>  childUN);
-    void moveTreeChildUNDown(QSharedPointer<UnitNode>  childUN);
-
     void addChild(QSharedPointer<UnitNode> tc) noexcept;
-    QSharedPointer<UnitNode>  treeChild(int num) noexcept;
-    QList<QSharedPointer<UnitNode> > treeChild() noexcept;
     QSharedPointer<UnitNode>  child(int num) noexcept;
-    int treeChildCount() const noexcept;
     int childCount() const noexcept;
-    int treeRow() const noexcept;
-    int columnCount() const noexcept;
 
     QSet<QString> getMetaNames() const;
     void resetMetaNames(const QString &value);
@@ -111,10 +101,6 @@ public:
     QSharedPointer<UnitNode> getParentUN() const;
     void setParentUN(QSharedPointer<UnitNode> value);
 
-    QSharedPointer<UnitNode> getTreeParentUN() const;
-    void setTreeParentUN(QSharedPointer<UnitNode> value);
-
-    QList<QSharedPointer<UnitNode> > getListTreeChilde() const;
     QList<QSharedPointer<UnitNode> > getListChilde() const;
 
     QPixmap getPxm(SubTypeApp type = SubTypeApp::server);

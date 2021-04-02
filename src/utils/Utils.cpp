@@ -945,8 +945,8 @@ QSet<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(QSharedPointer<UnitNo
     for(const auto& unDouble : unSetTmp.values()) {
 //        //qDebug() << "itr :" << unSetTmp;
 //        //qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
-        if(nullptr != unDouble->getTreeParentUN()) {
-            if(TypeUnitNode::SD_BL_IP == unDouble->getTreeParentUN()->getType()) {
+        if(!unDouble->treeParent().isNull()) {
+            if(TypeUnitNode::SD_BL_IP == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()) {
 //                //qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->toString();
             } else {
                 unSetTmp.remove(unDouble);

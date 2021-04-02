@@ -2,52 +2,48 @@
 #define TREEITEM_H
 
 
-#include <QVector>
-#include <QList>
-#include <QVariant>
+#include <QSharedPointer>
 
-template < class T >
 class TreeItem
 {
+private:
+    QList<QSharedPointer<TreeItem> > treeChildItems;
+    QSharedPointer<TreeItem> treePparentItem;
+
 public:
     explicit TreeItem();
-    explicit TreeItem(T & component, TreeItem * parent = nullptr);
-    ~TreeItem();
+    explicit TreeItem(QSharedPointer<TreeItem> parent);
+    virtual ~TreeItem();
 
-    T getComponent() const;
-    void setComponent(const T &value);
+    QSharedPointer<TreeItem> treeParent();
+    void setTreePparent(QSharedPointer<TreeItem>value);
 
-    TreeItem<T> *treeParent();
-    void setTreePparent(TreeItem *value);
+    QList<QSharedPointer<TreeItem> > & listTreeChilds();
 
-    TreeItem<T> * treeChild(int index);
-    TreeItem<T> * treeChild(const T & component);
+    QSharedPointer<TreeItem> treeChild(int index);
 
-    TreeItem<T> * takeTreeChild(int index);
-    TreeItem<T> * takeTreeChild(const T & component);
+    QSharedPointer<TreeItem> takeTreeChild(int index);
+    QSharedPointer<TreeItem> takeTreeChild(QSharedPointer<TreeItem> child);
 
     int treeChildCount() const;
 
     virtual int treeColumnCount() const;
     virtual QVariant data(int column) const;
 
-    bool insertTreeChildren(int position, const T & component);
-    bool insertTreeChildren(int position, TreeItem * child);
+    bool insertTreeChildren(int position, QSharedPointer<TreeItem> child);
 
-    void addTreeChildren(const T & component);
-    void addTreeChildren(TreeItem * child);
+    void addTreeChildren(QSharedPointer<TreeItem> child);
+
 
     bool removeTreeChildren(int index);
-    bool removeTreeChildren(const T & component);
+    bool removeTreeChildren(QSharedPointer<TreeItem> child);
+    void removeAllTreeChildren();
+
 
     int treeChildIndex() const;
 
     bool setData(int column, const QVariant &value);
 
-private:
-    T component;
-    QList<TreeItem *> treeChildItems;
-    TreeItem * treePparentItem;
 };
 
 #endif // TREEITEM_H

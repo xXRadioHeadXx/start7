@@ -18,7 +18,7 @@ public:
 
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
-    QSharedPointer<UnitNode> rootItemUN;
+    const QSharedPointer<UnitNode> rootItemUN = QSharedPointer<UnitNode>::create();
     QList<QSharedPointer<UnitNode> > listItemUN;
 
     QVariant data(const QModelIndex &index, int role) const;

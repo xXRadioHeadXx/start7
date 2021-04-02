@@ -78,20 +78,20 @@ void UnitNode::setParentUN(QSharedPointer<UnitNode> value)
     parentUN = value;
 }
 
-QSharedPointer<UnitNode> UnitNode::getTreeParentUN() const
-{
-    return treeParentUN;
-}
+//QSharedPointer<UnitNode> UnitNode::getTreeParentUN() const
+//{
+//    return treeParentUN;
+//}
 
-void UnitNode::setTreeParentUN(QSharedPointer<UnitNode> value)
-{
-    treeParentUN = value;
-}
+//void UnitNode::setTreeParentUN(QSharedPointer<UnitNode> value)
+//{
+//    treeParentUN = value;
+//}
 
-QList<QSharedPointer<UnitNode> > UnitNode::getListTreeChilde() const
-{
-    return listTreeChilde;
-}
+//QList<QSharedPointer<UnitNode> > UnitNode::getListTreeChilde() const
+//{
+//    return listTreeChilde;
+//}
 
 QList<QSharedPointer<UnitNode> > UnitNode::getListChilde() const
 {
@@ -365,17 +365,17 @@ void UnitNode::updDoubl()
     }
 }
 
-void UnitNode::deleteChild(int row)
-{
-    this->listChilde.removeAt(row);
-    this->listTreeChilde.removeAt(row);
-}
+//void UnitNode::deleteChild(int row)
+//{
+//    this->listChilde.removeAt(row);
+//    this->listTreeChilde.removeAt(row);
+//}
 
-void UnitNode::deleteAll()
-{
-    this->listChilde.clear();
-    this->listTreeChilde.clear();
-}
+//void UnitNode::deleteAll()
+//{
+//    this->listChilde.clear();
+//    this->listTreeChilde.clear();
+//}
 
 QByteArray UnitNode::getStateWord() const
 {
@@ -512,6 +512,7 @@ bool UnitNode::isEditableOnOff() const
 
 UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
     UnitNodeCFG(static_cast<UnitNodeCFG*>(parent.data()))
+  , ServerUnitNodeTreeItem(parent)
 {
     this->parentUN = parent;
 }
@@ -530,6 +531,7 @@ const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getSta
 
 UnitNode::UnitNode(const UnitNode & parent) :
     UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
+    ServerUnitNodeTreeItem(),
     stateWord(parent.stateWord),
     stateWordType0x31(parent.stateWordType0x31),
     stateWordType0x32(parent.stateWordType0x32),
@@ -556,7 +558,7 @@ UnitNode::UnitNode(const UnitNode & parent) :
 
 UnitNode::~UnitNode()
 {
-//    qDebug() << "UnitNode::~UnitNode("<<this->toString()<<")";
+    qDebug() << "UnitNode::~UnitNode("<<this->toString()<<")";
 }
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
@@ -578,7 +580,7 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     return *this;
 }
 
-QVariant UnitNode::data(int column) const noexcept
+QVariant UnitNode::dataTreeColumn(int column) const noexcept
 {
     if(this->getName().isEmpty() &&
        this->getMetaNames().isEmpty())
@@ -609,46 +611,46 @@ QVariant UnitNode::data(int column) const noexcept
     return QVariant();
 }
 
-void UnitNode::addTreeChild(QSharedPointer<UnitNode> tc) noexcept
-{
-    if(!tc) {
-        return;
-    }
-    tc->setTreeParentUN(QSharedPointer<UnitNode>());
+//void UnitNode::addTreeChild(QSharedPointer<UnitNode> tc) noexcept
+//{
+//    if(!tc) {
+//        return;
+//    }
+//    tc->setTreeParentUN(QSharedPointer<UnitNode>());
 
-    for(QSharedPointer<UnitNode> un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
-        QMutableListIterator<QSharedPointer<UnitNode> > i(un->listTreeChilde);
-        while (i.hasNext()) {
-            if (tc.data() == i.next().data())
-                i.remove();
-        }
-    }
-    if(!this->listTreeChilde.contains(tc)) {
-        this->listTreeChilde.append(tc);
-    }
-}
+//    for(QSharedPointer<UnitNode> un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
+//        QMutableListIterator<QSharedPointer<UnitNode> > i(un->listTreeChilde);
+//        while (i.hasNext()) {
+//            if (tc.data() == i.next().data())
+//                i.remove();
+//        }
+//    }
+//    if(!this->listTreeChilde.contains(tc)) {
+//        this->listTreeChilde.append(tc);
+//    }
+//}
 
-void UnitNode::moveTreeChildUNUp(QSharedPointer<UnitNode>  childUN)
-{
-    if(!getListTreeChilde().contains(childUN))
-        return;
-    auto index = getListTreeChilde().indexOf(childUN);
-    if(0 < index) {
-//        this->listTreeChilde.swap(index - 1, index);
-        qSwap(listTreeChilde[index - 1], listTreeChilde[index]);
-    }
-}
+//void UnitNode::moveTreeChildUNUp(QSharedPointer<UnitNode>  childUN)
+//{
+//    if(!getListTreeChilde().contains(childUN))
+//        return;
+//    auto index = getListTreeChilde().indexOf(childUN);
+//    if(0 < index) {
+////        this->listTreeChilde.swap(index - 1, index);
+//        qSwap(listTreeChilde[index - 1], listTreeChilde[index]);
+//    }
+//}
 
-void UnitNode::moveTreeChildUNDown(QSharedPointer<UnitNode> childUN)
-{
-    if(!getListTreeChilde().contains(childUN))
-        return;
-    auto index = getListTreeChilde().indexOf(childUN);
-    if(getListTreeChilde().count() > (index + 1)) {
-//        this->listTreeChilde.swap(index, index + 1);
-        qSwap(listTreeChilde[index], listTreeChilde[index + 1]);
-    }
-}
+//void UnitNode::moveTreeChildUNDown(QSharedPointer<UnitNode> childUN)
+//{
+//    if(!getListTreeChilde().contains(childUN))
+//        return;
+//    auto index = getListTreeChilde().indexOf(childUN);
+//    if(getListTreeChilde().count() > (index + 1)) {
+////        this->listTreeChilde.swap(index, index + 1);
+//        qSwap(listTreeChilde[index], listTreeChilde[index + 1]);
+//    }
+//}
 
 void UnitNode::addChild(QSharedPointer<UnitNode> tc) noexcept
 {
@@ -664,46 +666,46 @@ void UnitNode::addChild(QSharedPointer<UnitNode> tc) noexcept
     }
 }
 
-QSharedPointer<UnitNode>  UnitNode::treeChild(int num) noexcept
-{
-    return listTreeChilde.value(num, 0);
-}
+//QSharedPointer<UnitNode>  UnitNode::treeChild(int num) noexcept
+//{
+//    return listTreeChilde.value(num, 0);
+//}
 
-QList<QSharedPointer<UnitNode> > UnitNode::treeChild() noexcept
-{
-    return listTreeChilde;
-}
+//QList<QSharedPointer<UnitNode> > UnitNode::treeChild() noexcept
+//{
+//    return listTreeChilde;
+//}
 
 QSharedPointer<UnitNode>  UnitNode::child(int num) noexcept
 {
     return listChilde.value(num, 0);
 }
 
-int UnitNode::treeChildCount() const noexcept
-{
-    return this->listTreeChilde.size();////!!!!!
-}
+//int UnitNode::treeChildCount() const noexcept
+//{
+//    return this->listTreeChilde.size();////!!!!!
+//}
 
 int UnitNode::childCount() const noexcept
 {
     return this->listChilde.size();////!!!!!
 }
 
-int UnitNode::treeRow() const noexcept
-{
-    if (treeParentUN) {
-        for(int i = 0, n = treeParentUN->listTreeChilde.size(); i < n; i++) {
-            if(treeParentUN->listTreeChilde.at(i).data() == this)
-                return i;
-        }
-    }
-    return 0;
-}
+//int UnitNode::treeRow() const noexcept
+//{
+//    if (treeParentUN) {
+//        for(int i = 0, n = treeParentUN->listTreeChilde.size(); i < n; i++) {
+//            if(treeParentUN->listTreeChilde.at(i).data() == this)
+//                return i;
+//        }
+//    }
+//    return 0;
+//}
 
-int UnitNode::columnCount() const noexcept
-{
-    return 2;//itemData.count();
-}
+//int UnitNode::columnCount() const noexcept
+//{
+//    return 2;//itemData.count();
+//}
 
 
 

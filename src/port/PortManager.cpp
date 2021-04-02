@@ -1216,10 +1216,10 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
                 //сохранение Тревога или Норма
                 if(0 != un->treeChildCount()) {
-                    for(const auto& iuun : as_const(un->treeChild())) {
-                        if(TypeUnitNode::IU_BL_IP == iuun->getType()) {
+                    for(const auto& iuun : as_const(un->listTreeChilds())) {
+                        if(TypeUnitNode::IU_BL_IP == qSharedPointerCast<UnitNode>(iuun)->getType()) {
                             //qDebug() << "Utils::parcingStatusWord0x41 emitAutoOnOffIU";
-                            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(iuun);
+                            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
                         }
                     }
                 }

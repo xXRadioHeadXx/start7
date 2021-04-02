@@ -1,50 +1,36 @@
 #include "TreeItem.h"
 
-template<class T>
-TreeItem<T>::TreeItem()
+#include <QVariant>
+
+TreeItem::TreeItem()
 {
-    setTreePparent(nullptr);
 }
 
-template<class T>
-TreeItem<T>::TreeItem(T &data, TreeItem * parent)
+TreeItem::TreeItem(QSharedPointer<TreeItem> parent)
 {
-    setComponent(data);
     setTreePparent(parent);
 }
 
-template<class T>
-Q_OUTOFLINE_TEMPLATE  TreeItem<T>::~TreeItem()
+TreeItem::~TreeItem()
 {
-    qDeleteAll(treeChildItems);
 }
 
-template<class T>
-T TreeItem<T>::getComponent() const
-{
-    return getComponent;
-}
-
-template<class T>
-void TreeItem<T>::setComponent(const T &value)
-{
-    this->component = value;
-}
-
-template<class T>
-TreeItem<T> *TreeItem<T>::treeParent()
+QSharedPointer<TreeItem> TreeItem::treeParent()
 {
     return treePparentItem;
 }
 
-template<class T>
-void TreeItem<T>::setTreePparent(TreeItem *value)
+void TreeItem::setTreePparent(QSharedPointer<TreeItem> value)
 {
     treePparentItem = value;
 }
 
-template<class T>
-TreeItem<T> * TreeItem<T>::treeChild(int index)
+QList<QSharedPointer<TreeItem> > &TreeItem::listTreeChilds()
+{
+    return treeChildItems;
+}
+
+QSharedPointer<TreeItem> TreeItem::treeChild(int index)
 {
     if(index < 0 || treeChildItems.size() <= index)
         return nullptr;
@@ -52,120 +38,94 @@ TreeItem<T> * TreeItem<T>::treeChild(int index)
     return treeChildItems.value(index);
 }
 
-template<class T>
-TreeItem<T> * TreeItem<T>::treeChild(const T & component)
-{
-    for(auto child : treeChildItems) {
-        if(child->getComponent() == component) {
-            return child;
-        }
-    }
-    return nullptr;
-}
-
-template<class T>
-TreeItem<T> * TreeItem<T>::takeTreeChild(int index)
+QSharedPointer<TreeItem>  TreeItem::takeTreeChild(int index)
 {
     if(index < 0 || treeChildItems.size() <= index)
-        return nullptr;
+        return QSharedPointer<TreeItem>();
 
     return treeChildItems.takeAt(index);
 }
 
-template<class T>
-TreeItem<T> * TreeItem<T>::takeTreeChild(const T &component)
+QSharedPointer<TreeItem> TreeItem::takeTreeChild(QSharedPointer<TreeItem> child)
 {
     for(int index = 0, n = treeChildItems.size(); index < n; index++) {
-        if(treeChildItems.at(index)->getComponent() == component) {
+        if(treeChildItems.at(index) == child) {
             return treeChildItems.takeAt(index);
         }
     }
-    return nullptr;
+    return QSharedPointer<TreeItem>();
 }
 
-template<class T>
-int TreeItem<T>::treeChildCount() const
+int TreeItem::treeChildCount() const
 {
     return treeChildItems.count();
 }
 
-template<class T>
-int TreeItem<T>::treeChildIndex() const
+int TreeItem::treeChildIndex() const
 {
-    if (treePparentItem)
-        return treePparentItem->treeChildItems.indexOf(const_cast<TreeItem *>(this));
+    if(treePparentItem.isNull())
+        return 0;
+
+    for(int index = 0, n = treePparentItem->treeChildItems.size(); index < n; index++) {
+        if(treePparentItem->treeChildItems.at(index).data() == (this)) {
+            return index;
+        }
+    }
+
     return 0;
 }
 
-template<class T>
-int TreeItem<T>::treeColumnCount() const
+int TreeItem::treeColumnCount() const
 {
     return 0;
 }
 
-template<class T>
-QVariant TreeItem<T>::data(int column) const
+QVariant TreeItem::data(int column) const
 {
     Q_UNUSED(column)
     return QVariant();
 }
 
-template<class T>
-bool TreeItem<T>::insertTreeChildren(int position, const T & component)
+bool TreeItem::insertTreeChildren(int position, QSharedPointer<TreeItem> child)
 {
     if (position < 0 || position > treeChildItems.size())
         return false;
 
-    return insertTreeChildren(position, new TreeItem(component, this));
-}
-
-template<class T>
-bool TreeItem<T>::insertTreeChildren(int position, TreeItem *child)
-{
-    if (position < 0 || position > treeChildItems.size())
-        return false;
-
-    child,setTreePparent(this);
     treeChildItems.insert(position, child);
     return true;
 }
 
-template<class T>
-void TreeItem<T>::addTreeChildren(const T &component)
+void TreeItem::addTreeChildren(QSharedPointer<TreeItem> child)
 {
-    addTreeChildren(new TreeItem(component, this));
-}
-
-template<class T>
-void TreeItem<T>::addTreeChildren(TreeItem *child)
-{
-    child,setTreePparent(this);
     treeChildItems.push_back(child);
 }
 
-template<class T>
-bool TreeItem<T>::removeTreeChildren(int index)
+bool TreeItem::removeTreeChildren(int index)
 {
     auto child = takeTreeChild(index);
-    if(nullptr == child)
+    if(child.isNull())
         return false;
 
     return true;
 }
 
-template<class T>
-bool TreeItem<T>::removeTreeChildren(const T &component)
+bool TreeItem::removeTreeChildren(QSharedPointer<TreeItem> child)
 {
-    auto child = takeTreeChild(component);
-    if(nullptr == child)
+    child = takeTreeChild(child);
+    if(child.isNull())
         return false;
 
     return true;
-
 }
 
-template<class T>
-bool TreeItem<T>::setData(int column, const QVariant &value)
+void TreeItem::removeAllTreeChildren()
 {
+    treeChildItems.clear();
+}
+
+bool TreeItem::setData(int column, const QVariant &value)
+{
+    Q_UNUSED(column)
+    Q_UNUSED(value)
     return false;
 }
