@@ -35,9 +35,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     ui->actionSoundReset->setShortcut(QKeySequence("Esc"));
     ui->actionControl->setShortcut(QKeySequence("Ins"));//Qt::Key_Insert));
 
-    m_dbManager = new DataBaseManager(this);
+    m_dbManager = QSharedPointer<DataBaseManager>::create(this);
 
-    m_alarmSwitchOffLogger = new AlarmSwitchOffLogger(this);
+    m_alarmSwitchOffLogger = QSharedPointer<AlarmSwitchOffLogger>::create(this);
 
     DataBaseManager::setIdStartLastDuty();
 
@@ -48,10 +48,10 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             ui->tableView,
             SLOT(scrollToBottom()));
 
-    this->modelTreeUN = new ServerTreeModelUnitNode(this);
+    modelTreeUN = QSharedPointer<ServerTreeModelUnitNode>::create(this);
     modelMSG->setFont(ui->tableView->font());
 
-    ui->treeView->setModel(this->modelTreeUN);
+    ui->treeView->setModel(modelTreeUN.data());
 
     this->modelTreeUN->createProxySortTree();
 
@@ -71,7 +71,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     ui->tableView->setItemDelegateForColumn(4, new ComboBoxDelegate("reason", this));
     ui->tableView->setItemDelegateForColumn(5, new ComboBoxDelegate("measures", this));
 
-    m_portManager = new PortManager(this, this->m_dbManager);
+    m_portManager = QSharedPointer<PortManager>::create(m_dbManager, this);
     m_portManager->loadSettings();
 //    preparePort("192.168.0.250", "4001", 0);
 //    m_portManager->open(0);
@@ -155,8 +155,6 @@ MainWindowServer::~MainWindowServer()
     msg.setComment(tr("Программа остановлена"));
     DataBaseManager::insertJourMsg(msg);
     GraphTerminal::sendAbonentEventsAndStates(msg);
-
-    delete m_alarmSwitchOffLogger;
 
     delete ui;
 }

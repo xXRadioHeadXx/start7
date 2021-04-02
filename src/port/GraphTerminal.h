@@ -14,7 +14,7 @@ class GraphTerminal : public QObject
 {
     Q_OBJECT
 private:
-    static TcpServer * m_tcpServer;
+    static QSharedPointer<TcpServer> m_tcpServer;
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 

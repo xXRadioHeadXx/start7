@@ -9,7 +9,7 @@
 
 TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
  {
-     m_ptrTcpServer = new QTcpServer(this);
+     m_ptrTcpServer = QSharedPointer<QTcpServer>::create(this);
      if (!m_ptrTcpServer->listen(QHostAddress::Any, nPort)) {
 //         QMessageBox::critical(0,
 //                               "Server Error",
@@ -18,18 +18,16 @@ TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
 //                              );
          //qDebug() << "TcpServer Error: Unable to start the server:" + m_ptrTcpServer->errorString();
          m_ptrTcpServer->close();
-         delete m_ptrTcpServer;
-         m_ptrTcpServer = nullptr;
+         m_ptrTcpServer.clear();
          return;
      }
-     connect(m_ptrTcpServer, SIGNAL(newConnection()), SLOT(newConnection()));
+     connect(m_ptrTcpServer.data(), SIGNAL(newConnection()), SLOT(newConnection()));
 }
 
 TcpServer::~TcpServer() {
     if(nullptr != m_ptrTcpServer) {
         m_ptrTcpServer->close();
-        delete m_ptrTcpServer;
-        m_ptrTcpServer = nullptr;
+        m_ptrTcpServer.clear();
     }
 }
 

@@ -59,12 +59,12 @@ private:
     Ui::MainWindowDB *ui;
 
     bool blockSignal = true;
-    DataBaseManager *m_dbManager = nullptr;
-    TableModelMSG *modelMSG = nullptr;
+    QSharedPointer<DataBaseManager> m_dbManager;
+    QSharedPointer<TableModelMSG> modelMSG = nullptr;
     QTimer timerUpd;
     JourEntity selMsg;
     QString currentSqlQueryStr;
-    static GraphTerminal * graphTerminal;
+    static QSharedPointer<GraphTerminal> graphTerminal;
 
     void setCurrentSqlQueryStr(const QString &value);
     QString createCompositFilter();
@@ -78,7 +78,7 @@ private:
     void updComboBoxTakenMeasures();
     void updComboBoxAddress();
     void updComboBox(QList<QString> lst, QComboBox * cmb);
-    static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
+    static QSharedPointer<GraphTerminal> loadPortsTcpGraphTerminal(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
 };
 #endif // MAINWINDOWDB_H

@@ -10,7 +10,7 @@ class TcpServer : public QObject
     Q_OBJECT
 private:
     int nPort = -1;
-    QTcpServer * m_ptrTcpServer;
+    QSharedPointer<QTcpServer> m_ptrTcpServer;
     QHash<QTcpSocket*, QByteArray*> buffers; //We need a buffer to store data until block has completely received
 
     QTcpSocket *connectToHost(QString host);

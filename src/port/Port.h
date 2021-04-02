@@ -15,12 +15,12 @@ class Port :
     Q_OBJECT
 private:
 
-    QAbstractSocket *m_ptrSocket = nullptr;
+    QSharedPointer<QAbstractSocket> m_ptrSocket;
     QString strPort;
     QString strIp;
     QByteArray readArray;
     const int portIndex;
-    DataBaseManager *m_dbm = nullptr;
+    QSharedPointer<DataBaseManager> m_dbm;
     QSet<QPair<QString, QString> > stIpPort;
     QSet<QHostAddress> stHostAddress;
 
@@ -37,14 +37,10 @@ public:
     virtual ~Port();
 
     // interface -->
-    void retranslate();
-    void loadConfig(QSettings *config);
-    void saveConfig(QSettings *config);
     bool open();
     void close();
     void write(const QList<DataQueueItem> &data);
     void write(const DataQueueItem &data, bool dbIns = true);
-    bool portStatus(QString *string);
     bool isOpen();
     // interface <--
 
@@ -89,7 +85,7 @@ public:
     // getter setter <--
 
 
-    void setDbm(DataBaseManager *dbm);
+    void setDbm(QSharedPointer<DataBaseManager> dbm);
 
     bool getProcDK() const;
     void setProcDK(bool value);

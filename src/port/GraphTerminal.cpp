@@ -13,15 +13,15 @@
 #include <SignalSlotCommutator.h>
 #include <global.h>
 
-TcpServer * GraphTerminal::m_tcpServer = nullptr;
+QSharedPointer<TcpServer> GraphTerminal::m_tcpServer = QSharedPointer<TcpServer>();
 QHash<QTcpSocket*, QByteArray*> GraphTerminal::abonents = QHash<QTcpSocket*, QByteArray*>();
 
 
 GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 {
-    m_tcpServer = new TcpServer(nPort, this);
-    connect(m_tcpServer, SIGNAL(dataReceived(DataQueueItem)), this, SLOT(pushOverallReadQueue(DataQueueItem)));
-    connect(m_tcpServer, SIGNAL(dataReceived(DataQueueItem)), this, SLOT(manageOverallReadQueue()));
+    m_tcpServer = QSharedPointer<TcpServer>::create(nPort, this);
+    connect(m_tcpServer.data(), SIGNAL(dataReceived(DataQueueItem)), this, SLOT(pushOverallReadQueue(DataQueueItem)));
+    connect(m_tcpServer.data(), SIGNAL(dataReceived(DataQueueItem)), this, SLOT(manageOverallReadQueue()));
 
     try {
         QSettings settings(QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ), QSettings::IniFormat);

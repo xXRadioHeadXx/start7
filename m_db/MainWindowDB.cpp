@@ -7,7 +7,7 @@
 #include <UnitNodeFactory.h>
 #include <ServerSettingUtils.h>
 
-GraphTerminal * MainWindowDB::graphTerminal = nullptr;
+QSharedPointer<GraphTerminal> MainWindowDB::graphTerminal = QSharedPointer<GraphTerminal>();
 
 MainWindowDB::MainWindowDB(QWidget *parent)
     : QMainWindow(parent)
@@ -61,16 +61,16 @@ MainWindowDB::MainWindowDB(QWidget *parent)
 
     ServerSettingUtils::loadTreeUnitNodes(UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM));
 
-    m_dbManager = new DataBaseManager(this);
+    m_dbManager = QSharedPointer<DataBaseManager>::create(this);
 
-    this->modelMSG = new TableModelMSG(this);
+    modelMSG = QSharedPointer<TableModelMSG>::create(this);
 
     modelMSG->setFont(ui->tableView->font());
     modelMSG->setForegroundRoleFlag(false);
     modelMSG->setDecorationRoleFlag(false);
 
-    ui->tableView->setModel(this->modelMSG);
-    connect(this->modelMSG,
+    ui->tableView->setModel(modelMSG.data());
+    connect(modelMSG.data(),
             SIGNAL(needScrollToBottom()),
             ui->tableView,
             SLOT(scrollToBottom()));
@@ -535,7 +535,7 @@ void MainWindowDB::setCurrentSqlQueryStr(const QString &value)
     currentSqlQueryStr = value;
 }
 
-GraphTerminal * MainWindowDB::loadPortsTcpGraphTerminal(QString fileName) {
+QSharedPointer<GraphTerminal> MainWindowDB::loadPortsTcpGraphTerminal(QString fileName) {
 
     QSettings settings(fileName, QSettings::IniFormat);
 #if (defined (_WIN32) || defined (_WIN64))
@@ -549,9 +549,9 @@ GraphTerminal * MainWindowDB::loadPortsTcpGraphTerminal(QString fileName) {
     settings.endGroup();
 
     if(-1 != nPort)
-        return new GraphTerminal(nPort);
+        return QSharedPointer<GraphTerminal>::create(nPort);
 
-    return nullptr;
+    return QSharedPointer<GraphTerminal>();
 }
 
 void MainWindowDB::on_comboBox_4_editTextChanged(const QString &/*arg1*/)

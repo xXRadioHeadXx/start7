@@ -5,10 +5,6 @@
 
 class QSettings;
 
-enum Protocol {
-    UDP = 0
-};
-
 class AbstractPort : public QObject
 {
     Q_OBJECT
@@ -23,15 +19,10 @@ public:
     AbstractPort::Protocol getProtocol() const {return protocol;}
     void setProtocol(const AbstractPort::Protocol &value) { protocol = value; }
     explicit AbstractPort(const AbstractPort::Protocol &protocol, QObject *parent = nullptr) : QObject(parent), protocol(protocol) {}
+    virtual ~AbstractPort() {}
 
-    virtual void retranslate() {}
-    virtual void loadConfig(QSettings *config) = 0;
-    virtual void saveConfig(QSettings *config) = 0;
     virtual bool open() = 0;
     virtual void close() = 0;
-//    virtual QByteArray readAll() = 0;
-//    virtual void write(const QByteArray &data) = 0;
-    virtual bool portStatus(QString *string) = 0;
     virtual bool isOpen() = 0;
 
 signals:

@@ -36,7 +36,7 @@
 #include <SWPTGType0x33.h>
 #include <SWPTGType0x32.h>
 
-PortManager::PortManager(QObject *parent, DataBaseManager *dbm) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
+PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {
 //    m_portFactorys.reserve(1);
 //    m_portFactorys.insert(Protocol::UDP, new PortFactory());
@@ -78,16 +78,6 @@ PortManager::~PortManager()
     m_udpPortsVector.clear();
 }
 
-void PortManager::retranslate() {}
-
-void PortManager::loadConfig(QSettings *config, const int index) {
-    m_udpPortsVector.at(index)->loadConfig(config);
-}
-
-void PortManager::saveConfig(QSettings *config, const int index) {
-    m_udpPortsVector.at(index)->saveConfig(config);
-}
-
 void PortManager::loadSettings(QSettings */*config*/, const int /*index*/) {}
 
 void PortManager::loadSettings() {
@@ -98,7 +88,7 @@ void PortManager::loadSettings() {
         switch(port->getProtocol()) {
             case AbstractPort::UDP:
                 Port::typeDefPort(port)->open();
-                Port::typeDefPort(port)->setDbm(this->m_dbm);
+                Port::typeDefPort(port)->setDbm(m_dbm);
                 setupPort(port);
                 break;
             case AbstractPort::TCP:
@@ -151,10 +141,6 @@ void PortManager::write(const DataQueueItem &data) {
         default:
             break;
     }
-}
-
-bool PortManager::portStatus(QString *string, const int index) {
-    return m_udpPortsVector.at(index)->portStatus(string);
 }
 
 bool PortManager::isOpen(const int index) {

@@ -20,7 +20,7 @@ private:
 
     const int MAX_COUNT_PORTS = 256;
 
-    DataBaseManager *m_dbm = nullptr;
+    QSharedPointer<DataBaseManager> m_dbm;
 
     static QList<AbstractPort *> m_udpPortsVector;
     static GraphTerminal * graphTerminal;
@@ -45,7 +45,8 @@ private:
 
 
 public:
-    explicit PortManager(QObject *parent, DataBaseManager *dbm);
+    explicit PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent = nullptr);
+    explicit PortManager(DataBaseManager * dbm, QObject *parent = nullptr);
     virtual ~PortManager();
 //    Port* createPort(AbstractPort::Protocol protocol, QObject *parent, const int index);
     void retranslate();

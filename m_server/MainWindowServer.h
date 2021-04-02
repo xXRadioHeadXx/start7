@@ -124,13 +124,13 @@ protected:
 private:
     Ui::MainWindowServer *ui;
 
-    PortManager *m_portManager = nullptr;
-    DataBaseManager *m_dbManager = nullptr;
-    AlarmSwitchOffLogger *m_alarmSwitchOffLogger = nullptr;
+    QSharedPointer<PortManager> m_portManager;
+    QSharedPointer<DataBaseManager> m_dbManager;
+    QSharedPointer<AlarmSwitchOffLogger> m_alarmSwitchOffLogger;
     TableModelMSG *modelMSG = nullptr;
-    ServerTreeModelUnitNode*modelTreeUN = nullptr;
+    QSharedPointer<ServerTreeModelUnitNode> modelTreeUN;
 
-    QSharedPointer<UnitNode> selUN = nullptr;
+    QSharedPointer<UnitNode> selUN;
     QModelIndex selIndex;
     JourEntity selMsg = nullptr;
 //    QTranslator *ruTranslator;
