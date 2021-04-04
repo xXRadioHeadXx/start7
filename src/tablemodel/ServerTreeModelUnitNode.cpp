@@ -18,13 +18,19 @@ ServerTreeModelUnitNode::ServerTreeModelUnitNode(QObject *parent) :
     sortOrder(Qt::AscendingOrder)
 {
 //    rootItemUN = QSharedPointer<UnitNode>::create();
-    rootItemUN->setLevel(0);
+    rootItemUN->setLevel(0); //rootItemUN->treeParent().isNull();
+    rootItemUN->setName("Имя");
 
 
     connect(SignalSlotCommutator::getInstance(),
             SIGNAL(updUN()),
             this,
             SLOT(updateUNs()));
+}
+
+ServerTreeModelUnitNode::~ServerTreeModelUnitNode()
+{
+
 }
 
 int ServerTreeModelUnitNode::columnCount(const QModelIndex &parent) const

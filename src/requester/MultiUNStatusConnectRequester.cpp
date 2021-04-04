@@ -61,7 +61,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
         return result;
 
     if(getUnReciver()->getMaxCountSCRWA() <= getUnReciver()->getCountSCRWA()) {
-        qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg() -- max:" << getUnReciver()->getMaxCountSCRWA() << "<= curr:" << getUnReciver()->getCountSCRWA() << " " << getUnReciver()->toString();
+//        qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg() -- max:" << getUnReciver()->getMaxCountSCRWA() << "<= curr:" << getUnReciver()->getCountSCRWA() << " " << getUnReciver()->toString();
         getUnReciver()->setCountSCRWA(0);
         SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
     }

@@ -112,9 +112,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             const SWPSDBLIP swp = swpSDBLIP();
             if(0 == getBazalt()) {
                 if(getControl() && swp.isNull()) {
-                    qDebug() << "swp.isNull("<<swp.getStateWord().isEmpty()<<") "<<toString();
-                    qDebug() << "swp.isNull("<<swp.isNull()<<")";
-                    qDebug() << "swp.isNull("<<getStateWord().isEmpty()<<")";
+//                    qDebug() << "swp.isNull("<<swp.getStateWord().isEmpty()<<") "<<toString();
+//                    qDebug() << "swp.isNull("<<swp.isNull()<<")";
+//                    qDebug() << "swp.isNull("<<getStateWord().isEmpty()<<")";
                     return Icons::sqr_ylw();
                 } else if(!getControl() && swp.isNull()) {
                     return Icons::sqr_blk_crs_ylw();
@@ -582,7 +582,7 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
 
 QVariant UnitNode::dataTreeColumn(int column) const
 {
-    if(this->isRootTreeItem())
+    if( 0 == this->getLevel())
     {
         switch(column)
         {

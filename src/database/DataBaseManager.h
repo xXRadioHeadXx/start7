@@ -11,6 +11,7 @@ class DataBaseManager : public QObject
     Q_OBJECT
 
     static qint64 idStartLastDuty;
+    static QSqlDatabase db;
 
 public:
     explicit DataBaseManager(QObject *parent = nullptr) noexcept;
