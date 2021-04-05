@@ -6350,8 +6350,45 @@ void MainWindowCFG::create_db(QString db_name)
         query.exec(sql_cmd);
         this->db_f->find_rif_db(db_psql);
 
+  /*
+- Table: public.jour
+
+-- DROP TABLE public.jour;
+
+CREATE TABLE public.jour
+(
+  id integer NOT NULL DEFAULT nextval('jour_id_seq'::regclass),
+  cdate timestamp without time zone NOT NULL DEFAULT now(),
+  mdate timestamp without time zone NOT NULL DEFAULT now(),
+  objectid integer,
+  object character varying(128),
+  comment character varying(256) NOT NULL,
+  reason character varying(256),
+  measures character varying(256),
+  operator character varying(256),
+  operatorid character varying(256),
+  status character varying(32),
+  direction character varying(32),
+  type bigint,
+  flag bigint,
+  d1 bigint,
+  d2 bigint,
+  d3 bigint,
+  d4 bigint,
+  objecttype bigint
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.jour
+  OWNER TO root;
+
+
+
+
+  */
     }
- /*   */
+
 
 }
 
