@@ -1421,7 +1421,7 @@ void MainWindowCFG::on_actionSave_triggered()
                       my->beginGroup("PostgresSQL");
                       }
 
-                      QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text(),"Start7")).toLocal8Bit().toHex();
+                      QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text(),"start7")).toLocal8Bit().toHex();
 
 
 
@@ -4206,7 +4206,7 @@ void MainWindowCFG::get_SQL(QString filename)
 
 
 
-  this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString(),"Start7"));
+  this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString(),"start7"));
               qDebug()<<"загрузил пароль "<<this->ui->SQL_password_lineEdit->text();
 
            //   this->ui->SQL_password_lineEdit->setText(this->XOR_Crypt(settings.value("Password",-1).toString(),"start7"));
