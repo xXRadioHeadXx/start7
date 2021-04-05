@@ -8,7 +8,9 @@ Control::Control()
 }
 bool Control::pass_to_add(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
 {
+     unit->setTreeParentUN(parrent);
 qDebug()<<"проверяю "<<unit->getName()<<" родитель "<<unit->getTreeParentUN()->getName();
+
 if(unit->getName()=="")
 {
     QMessageBox::critical(0,"Ошибка","Введите имя устройства");
