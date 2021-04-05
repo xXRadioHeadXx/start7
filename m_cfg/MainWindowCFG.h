@@ -261,7 +261,7 @@ private:
 
 
 
-    void convert(QByteArray* src);
+
 
 
 

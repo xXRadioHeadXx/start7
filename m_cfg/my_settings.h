@@ -17,12 +17,15 @@ public:
     void save_ini(QString filepath);
 
     void set_value(QString field, QByteArray *val);
+    void set_value(QString group,QString field, QByteArray *val);
+
+
     QByteArray value(QString field);
 
     void beginGroup(QString group);
     void endGroup();
 
-
+    void convert(QByteArray* src);
 
 private:
     QMap<QString,MY_GROUP*> map;

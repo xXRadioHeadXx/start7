@@ -1411,30 +1411,27 @@ void MainWindowCFG::on_actionSave_triggered()
                   {
                   my=new My_settings(path);
 
+
+                  //Set SQL password value
+                  QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text(),"start7")).toLocal8Bit().toHex();
+
+
                       if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
                       {
-                      my->beginGroup("MYSQL");
+                        my->set_value("MYSQL", "Password", &ar);
+
                       }
                       if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
                       {
-                          qDebug()<<"Postgres";
-                      my->beginGroup("PostgresSQL");
+                        my->set_value("PostgresSQL", "Password", &ar);
                       }
 
-                      QByteArray ar=(this->XOR_Crypt(this->ui->SQL_password_lineEdit->text(),"start7")).toLocal8Bit().toHex();
 
-
-
-
-                      qDebug()<<"save password "<<"   "<<QString::fromUtf8(ar);
-                      this->convert(&ar);
-                      my->set_value("Password",&ar);
-                     qDebug()<<"PASSWORD "<<ar<<" "<<ar.toHex();
-                     qDebug()<<"[01]";
+                  //Save
                       my->save_ini(path);
                       qDebug()<<"[02]";      /*   */
 
-                      my->endGroup();
+
 
                   }
 
@@ -4529,7 +4526,7 @@ void MainWindowCFG::get_OPERATORS(QString filename)
         {
             QString operatorGroup("Operator_%1");
             operatorGroup = operatorGroup.arg(i);
-            //qDebug()<<operatorGroup;
+            qDebug()<<operatorGroup;
             if(settings.childGroups().contains(operatorGroup))
             {
                 settings.beginGroup(operatorGroup);
@@ -4537,7 +4534,9 @@ void MainWindowCFG::get_OPERATORS(QString filename)
                 op->setFN(settings.value("FN",-1).toString());
                 op->setN1(settings.value("N1",-1).toString());
                 op->setN2(settings.value("N2",-1).toString());
-                op->setPW(settings.value("PW",-1).toString());
+
+                op->setPW(this->XOR_Crypt(settings.value("PW",-1).toString(),"start7"));
+                qDebug()<<"пароль "<<op->getPW();
                 operators.append(op);
 
                 settings.endGroup();
@@ -6542,50 +6541,7 @@ void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 
 }
 
-void MainWindowCFG::convert(QByteArray* src)
-{
 
-  //  QByteArray src=srcc.toHex();
-    qDebug()<<"[convert]";
-//    qDebug()<<QString::fromLocal8Bit(&src);
-   QByteArray res;
-    res.clear();
-
-    for(int i=0;i<src->size();i++)
-    {
-        QByteArray one;
-
-        one.append(src->at(i));
-
-      qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt();
-        int v1=QString::fromUtf8(one).toInt(nullptr,16);
-
-        QByteArray two;
-
-        two.append(src->at(i+1));
-
-     //    qDebug()<<QString::fromUtf8(one)<<" "<<QString::fromUtf8(one).toInt(nullptr,16)<<QString::fromUtf8(two)<<" "<<QString::fromUtf8(one).toInt(nullptr,16);
-        int v2=QString::fromUtf8(two).toInt(nullptr,16);
-
-        quint64 val=v1*0x10+v2;
-        qDebug()<<(v1*0x10)<<" "<<v2;
-        i++;
-
-        res.append(val);
-
-
-    }
-  /*   */
-    qDebug()<<res<<" "<<res.toHex();
-    qDebug()<<"[end convert]";
-
-
-
-    src->clear();
-    src->append(res);
-
-
-}
 
 void MainWindowCFG::on_SSOI_SD_Num3_currentTextChanged(const QString &arg1)
 {
