@@ -24,11 +24,9 @@ AuthenticationDialog::~AuthenticationDialog()
 int AuthenticationDialog::initialForm(const QString fileName)
 {
     QSettings settings(fileName, QSettings::IniFormat);
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
     if(!settings.childGroups().contains("OPERATORS")) {
         this->setResult(QDialog::Rejected);

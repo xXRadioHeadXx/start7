@@ -25,11 +25,9 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 
     try {
         QSettings settings(QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ), QSettings::IniFormat);
-    #if (defined (_WIN32) || defined (_WIN64))
-        settings.setIniCodec( "Windows-1251" );
-    #else
-        settings.setIniCodec( "UTF-8" );
-    #endif
+        QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+        QTextCodec::setCodecForLocale(codec);
+        settings.setIniCodec(codec);
 
         settings.beginGroup("INTEGRATION");
         QString nHost = settings.value( "Host", "127.0.0.1" ).toString();

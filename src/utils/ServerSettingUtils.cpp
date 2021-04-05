@@ -22,6 +22,10 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
     }
     QSettings settings(fileName, QSettings::IniFormat);
 
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
+
     settings.beginGroup("TREE");
     int cntTrItm = settings.value( "Count", -1 ).toInt();
     settings.endGroup();
@@ -42,9 +46,6 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
 //#endif
 
     //Для совместимости. со старым. конфигуратором.
-    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
-    QTextCodec::setCodecForLocale(codec);
-    settings.setIniCodec(codec);
 
     {
         QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
@@ -333,11 +334,9 @@ QVariant ServerSettingUtils::getValueSettings(const QString key, const QString g
     QVariant result;
 
     QSettings settings(fileName, QSettings::IniFormat);
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
     if(!settings.childGroups().contains(group))
         return result;

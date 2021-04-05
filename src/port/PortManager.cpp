@@ -819,11 +819,9 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
 GraphTerminal * PortManager::loadPortsTcpGraphTerminal(QString fileName) {
 
     QSettings settings(fileName, QSettings::IniFormat);
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
     settings.beginGroup("INTEGRATION");
     int nPort = settings.value( "Port", -1 ).toInt();
@@ -839,6 +837,9 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     QList<AbstractPort *> result;
 
     QSettings settings(fileName, QSettings::IniFormat);
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
     settings.beginGroup("TREE");
     int cntTrItm = settings.value( "Count", -1 ).toInt();
@@ -848,11 +849,7 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     if(0 >= cntTrItm)
         return result;
 
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
+
 
     QSet<QPair<QString, QString> > stIpPort;
     QSet<QString> stPort;
