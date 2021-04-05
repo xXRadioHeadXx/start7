@@ -153,7 +153,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitN
                  tmpUN->setTreeParentUN(old);
 
 
-                bool res=Control::pass_to_add(tmpUN,tmpUN->getTreeParentUN(),model);//вот для этой проверки
+                bool res=Control::pass_to_add(tmpUN,old,model);//вот для этой проверки
                 if(res)//если юнит прошел проверку
                 {
 

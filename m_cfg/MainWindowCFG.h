@@ -82,7 +82,7 @@ private:
     void SD_BL_IP_set_combobox_value_from(UnitNode *unit); //красота требует жертв - в один комбобокс сваливаем разные настройки.
 
 
-    QString XOR_Crypt(QString in);
+    QString XOR_Crypt(QString in,QString key);
 
     void update_operators_table();
 
