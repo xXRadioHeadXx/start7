@@ -6340,25 +6340,61 @@ void MainWindowCFG::create_db(QString db_name)
         QSqlQuery query(db_psql);
 
 
+QString sql_cmd;
+sql_cmd.clear();
 
-        QString sql_cmd="CREATE DATABASE ";
+sql_cmd.append("CREATE DATABASE "+ db_name);
 
-        /*
-CREATE DATABASE rif_db0
-  WITH OWNER = postgres
-       ENCODING = 'UTF8'
-       TABLESPACE = pg_default
-       LC_COLLATE = 'ru_RU.UTF-8'
-       LC_CTYPE = 'ru_RU.UTF-8'
-       CONNECTION LIMIT = -1;
-         * /
+       /*sql_cmd.append("CREATE DATABASE "+ db_name +" "+
+                       "WITH OWNER = postgres "+
+                       "ENCODING = 'UTF8' "+
+                       "TABLESPACE = pg_default "+
+                       "LC_COLLATE = 'ru_RU.UTF-8' "+
+                       "LC_CTYPE = 'ru_RU.UTF-8' "+
+                       "CONNECTION LIMIT = -1");*/
 
-        sql_cmd.append(db_name);
-       sql_cmd.append(";");
+
+
+   //     sql_cmd.append(db_name);
+   //    sql_cmd.append(";");
         query.prepare(sql_cmd);
 
-        //qDebug()<<sql_cmd;
         query.exec(sql_cmd);
+
+        qDebug()<<query.lastError();
+
+        sql_cmd.clear();
+
+ sql_cmd.append("CREATE TABLE public.jour");
+ sql_cmd.append("(id integer NOT NULL DEFAULT nextval('jour_id_seq'::regclass),");
+ sql_cmd.append("cdate timestamp without time zone NOT NULL DEFAULT now(),");
+ sql_cmd.append("mdate timestamp without time zone NOT NULL DEFAULT now(),");
+ sql_cmd.append("objectid integer,");
+ sql_cmd.append("object character varying(128),");
+ sql_cmd.append("comment character varying(256) NOT NULL,");
+ sql_cmd.append("reason character varying(256),");
+ sql_cmd.append("measures character varying(256),");
+ sql_cmd.append("operator character varying(256),");
+ sql_cmd.append("operatorid character varying(256),");
+ sql_cmd.append("status character varying(32),");
+ sql_cmd.append("direction character varying(32),");
+ sql_cmd.append("type bigint,");
+ sql_cmd.append("flag bigint,");
+ sql_cmd.append("d1 bigint,");
+ sql_cmd.append("d2 bigint,");
+ sql_cmd.append("d3 bigint,");
+ sql_cmd.append("d4 bigint,");
+ sql_cmd.append("objecttype bigint)");
+
+ query.prepare(sql_cmd);
+
+ query.exec(sql_cmd);
+
+qDebug()<<query.lastError();
+
+
+
+
         this->db_f->find_rif_db(db_psql);
 
   /*
