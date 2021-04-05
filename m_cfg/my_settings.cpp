@@ -332,7 +332,7 @@ void My_settings::set_value(QString group, QString field, QByteArray *val)
 
 
     this->convert(val);
-    this->set_value("Password",val);
+    this->set_value(field,val);
    qDebug()<<"PASSWORD "<<val<<" "<<val->toHex();
 
     this->endGroup();

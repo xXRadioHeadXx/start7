@@ -1404,12 +1404,26 @@ void MainWindowCFG::on_actionSave_triggered()
 
 
     this->save_ini(path);
+    my=new My_settings(path);
+         for(int i=0;i<operators.count();i++)
+             {
+             Operator* op=operators.at(i);
+             QString strGroup("Operator_%1");
+             strGroup=strGroup.arg(i);
+
+     QByteArray ar=(this->XOR_Crypt(op->getPW(),"start7")).toLocal8Bit().toHex();
+
+             my->set_value(strGroup, "PW", &ar);
+             }
+     my->save_ini(path);
+
+
          qDebug()<<"пароль 3 "<<ui->SQL_password_lineEdit->text();
 
 
                   if(this->ui->SQL_type_comboBox->currentText()!="Выкл")
                   {
-                  my=new My_settings(path);
+
 
 
                   //Set SQL password value
@@ -1426,6 +1440,18 @@ void MainWindowCFG::on_actionSave_triggered()
                         my->set_value("PostgresSQL", "Password", &ar);
                       }
 
+                  //Set operators value
+
+                      for(int i=0;i<operators.count();i++)
+                          {
+                          Operator* op=operators.at(i);
+                          QString strGroup("Operator_%1");
+                          strGroup=strGroup.arg(i);
+
+                  QByteArray ar=(this->XOR_Crypt(op->getPW(),"start7")).toLocal8Bit().toHex();
+
+                          my->set_value(strGroup, "PW", &ar);
+                          }
 
                   //Save
                       my->save_ini(path);
