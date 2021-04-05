@@ -6342,6 +6342,17 @@ void MainWindowCFG::create_db(QString db_name)
 
 
         QString sql_cmd="CREATE DATABASE ";
+
+        /*
+CREATE DATABASE rif_db0
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'ru_RU.UTF-8'
+       LC_CTYPE = 'ru_RU.UTF-8'
+       CONNECTION LIMIT = -1;
+         * /
+
         sql_cmd.append(db_name);
        sql_cmd.append(";");
         query.prepare(sql_cmd);
