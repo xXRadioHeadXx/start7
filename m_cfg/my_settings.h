@@ -13,6 +13,9 @@ public:
 
     explicit My_settings(QObject *parent = nullptr);
     explicit My_settings(QString filepathy,QObject *parent = nullptr);
+    ~My_settings();
+
+    QString ini;
 
     void save_ini(QString filepath);
 

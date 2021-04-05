@@ -1415,8 +1415,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
              my->set_value(strGroup, "PW", &ar);
              }
-     my->save_ini(path);
-
+//     my->save_ini(path);
 
          qDebug()<<"пароль 3 "<<ui->SQL_password_lineEdit->text();
 
@@ -1454,14 +1453,14 @@ void MainWindowCFG::on_actionSave_triggered()
                           }
 
                   //Save
-                      my->save_ini(path);
+ //                     my->save_ini(path);
                       qDebug()<<"[02]";      /*   */
 
 
 
                   }
 
-
+delete my;
 
 }
 
@@ -6284,6 +6283,44 @@ void MainWindowCFG::create_db(QString db_name)
 
     query.prepare(sql_cmd);
     query.exec();
+
+
+    query.clear();
+    query.prepare("CREATE TABLE IF NOT EXISTS " +  db_name + ".events(\
+                  event_num INT UNSIGNED,\
+                  event_dt DATETIME NOT NULL,\
+                  event_code INT UNSIGNED DEFAULT '0',\
+                  event_name VARCHAR(30) DEFAULT '',\
+                  dev_type INT UNSIGNED DEFAULT '0',\
+                  dev_num1 INT UNSIGNED DEFAULT '0',\
+                  dev_num2 INT UNSIGNED DEFAULT '0',\
+                  dev_num3 INT UNSIGNED DEFAULT '0',\
+                  dev_name VARCHAR(25) DEFAULT '',\
+                  comment1 VARCHAR(25) DEFAULT '',\
+                  comment2 VARCHAR(25) DEFAULT '',\
+                  local_operator_fn VARCHAR(15) DEFAULT '',\
+                  local_operator_n1 VARCHAR(15) DEFAULT '',\
+                  local_operator_n2 VARCHAR(15) DEFAULT '',\
+                  client_operator_fn VARCHAR(15) DEFAULT '',\
+                  client_operator_n1 VARCHAR(15) DEFAULT '',\
+                  client_operator_n2 VARCHAR(15) DEFAULT '',\
+                  out_dev_type INT UNSIGNED DEFAULT '0',\
+                  PRIMARY KEY(event_num),\
+                  INDEX(event_dt),\
+                  INDEX(event_code),\
+                  INDEX(dev_num1),\
+                  INDEX(dev_num2),\
+                  INDEX(dev_num3),\
+                  INDEX(dev_type,dev_num1,dev_num2,dev_num3),\
+                  INDEX(out_dev_type,dev_type,dev_num1,dev_num2,dev_num3),\
+                  INDEX(local_operator_fn,local_operator_n1,local_operator_n2),\
+                  INDEX(client_operator_fn,client_operator_n1,client_operator_n2))");
+
+
+    query.exec();
+
+
+
     this->db_f->find_rif_db(db_mysql);
     }
     if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")

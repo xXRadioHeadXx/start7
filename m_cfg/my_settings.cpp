@@ -13,7 +13,7 @@ My_settings::My_settings(QObject *parent)
 My_settings::My_settings(QString filepath, QObject *parent)
 {
     current_group="";
-
+   ini=filepath;
    QFile file(filepath);
    if(file.open(QIODevice::ReadOnly))
    {
@@ -183,7 +183,13 @@ My_settings::My_settings(QString filepath, QObject *parent)
 
    }
 ////qDebug()<<"[2]";
-/**/
+   /**/
+}
+
+My_settings::~My_settings()
+{
+ qDebug()<<"~My_settings()" ;
+ this->save_ini(ini);
 }
 
 void My_settings::save_ini(QString filepath)
