@@ -55,7 +55,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
         qDebug()<<str_system;
 
 
-
+    last_ini_patch="";
 
         ui->setupUi(this);
 
@@ -1363,6 +1363,7 @@ void MainWindowCFG::on_actionOpen_triggered()
       //qDebug()<<"patch = "<<patch;
       if(patch!="")
       {
+          last_ini_patch=patch;
           this->modelTreeUN->rootItemUN->deleteAll();
           this->modelTreeUN->loadSettings(patch);
 
@@ -1388,11 +1389,20 @@ void MainWindowCFG::on_actionOpen_triggered()
 
 void MainWindowCFG::on_actionSave_triggered()
 {
-    QString dir="";
 
-        dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
 
-   QString path=QFileDialog::getSaveFileName(this, "save file",dir,"*.ini");
+
+        QString dir="";
+
+        if(last_ini_patch=="")
+            dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
+        else
+            dir==last_ini_patch;
+
+       QString path=QFileDialog::getSaveFileName(this, "save file",dir,"*.ini");
+
+
+
 
        QFile file(path);
        file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -3868,6 +3878,7 @@ void MainWindowCFG::default_PARAMS()
 
 void MainWindowCFG::default_options()
 {
+    last_ini_patch="";
     //qDebug()<<"[Create]";
     this->modelTreeUN->makeEmptyTree();
 

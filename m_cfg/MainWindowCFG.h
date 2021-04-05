@@ -50,6 +50,8 @@ private:
 
     int cfg_type;
 
+    QString last_ini_patch;
+
     My_settings* my;
 
     QTimer *timer;
@@ -589,6 +591,8 @@ private slots:
     void setAlarmMsgOn();
 
     void setAdamOff();
+
+
 
     void setAdamOff_off();
     void setAdamOff_5_sec();
