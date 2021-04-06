@@ -95,7 +95,10 @@ if(false==pass_to_add_RLM_C(unit,parrent,modelTreeUN))
 if(unit->getType()==TypeUnitNode::KL)
 {
 if(false==pass_to_add_KL(unit,parrent,modelTreeUN))
+{
+    qDebug()<<"[false]";
     return false;
+}
 }
 
 if(unit->getType()==TypeUnitNode::NET_DEV)
@@ -715,6 +718,7 @@ bool Control::pass_to_add_KL(UnitNode *unit, UnitNode* parrent,TreeModelUnitNode
 
     // может быть добавлен только к группе
         if(parrent->getType()!=TypeUnitNode::GROUP)
+        if(parrent->getType()!=TypeUnitNode::SYSTEM)
         {
             QMessageBox::critical(0,"Ошибка"," может быть добавлен только к группе");
             return false;
@@ -724,31 +728,29 @@ bool Control::pass_to_add_KL(UnitNode *unit, UnitNode* parrent,TreeModelUnitNode
                              {
                  if((un->getNum1()==unit->getNum1()))
                  {
-                       //qDebug()<<"[2]";
+                       qDebug()<<"[2]";
                      if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
                       {
-                           //qDebug()<<"[3]";
+                           qDebug()<<"[3]";
 
                        //  m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                           QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                         return false;
+                                                return true;
                       }
                      if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
                       {
-                    //       //qDebug()<<"[4]";
+                           qDebug()<<"[4]";
                          if(un->getNum2()==unit->getNum2())
                          {
-                               //qDebug()<<"[5]";
+                               qDebug()<<"[5]";
                         //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                               QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                             return false;
+                               return true;
 
                          }
 
                       }
 
                  }
-                 return true;
+                 return false;
 });
 }
 

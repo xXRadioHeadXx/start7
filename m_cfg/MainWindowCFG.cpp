@@ -6296,6 +6296,7 @@ void MainWindowCFG::create_db(QString db_name)
     query.exec();
 
 
+
     query.clear();
     query.prepare("CREATE TABLE IF NOT EXISTS " +  db_name + ".events(\
                   event_num INT UNSIGNED,\
@@ -6363,7 +6364,27 @@ sql_cmd.append("CREATE DATABASE "+ db_name);
 
         qDebug()<<query.lastError();
 
-        sql_cmd.clear();
+ sql_cmd.clear();
+
+ sql_cmd.append("CREATE SEQUENCE public.jour_id_seq ");
+ sql_cmd.append("INCREMENT 1 ");
+ sql_cmd.append("MINVALUE 1 ");
+ sql_cmd.append("MAXVALUE 9223372036854775807 ");
+ sql_cmd.append("START 124646 ");
+ sql_cmd.append("CACHE 1; ");
+ sql_cmd.append("ALTER TABLE public.jour_id_seq ");
+ sql_cmd.append("OWNER TO root;");
+
+
+
+
+ query.prepare(sql_cmd);
+
+ query.exec(sql_cmd);
+
+ qDebug()<<query.lastError();
+
+ sql_cmd.clear();
 
  sql_cmd.append("CREATE TABLE public.jour");
  sql_cmd.append("(id integer NOT NULL DEFAULT nextval('jour_id_seq'::regclass),");
@@ -6390,7 +6411,7 @@ sql_cmd.append("CREATE DATABASE "+ db_name);
 
  query.exec(sql_cmd);
 
-qDebug()<<query.lastError();
+ qDebug()<<query.lastError();
 
 
 
@@ -6757,3 +6778,4 @@ this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
 
     }
 }
+
