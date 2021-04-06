@@ -5987,6 +5987,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
             break;
 
             case TypeUnitNode::IU_BL_IP:
+
             case TypeUnitNode::SSOI_IU:
                 action_setAlarmMsgOn->setChecked(true);
                 action_setAdamOff_off->setChecked(false);
@@ -6052,6 +6053,39 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                 menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
             break;
             }
+
+   //        Для всех интерфейсных датчиков в контекстном меню должна быть опция "Выдавать сообщение при тревогах" (Как для СД БЛ-IP)
+            /*
+            КЛ1
+            РИФ-РЛМ-С
+            Точка/Гарда
+            РИФ-РЛМ/КРЛ/Трасса
+            РИФ- РЛМ-С
+            ДД Точка-М/Гарда
+            ДД Сота
+            Торос
+                    */
+            switch(un->getType())
+            {
+            case TypeUnitNode::KL:
+            case TypeUnitNode::RLM_C:
+            case TypeUnitNode::TG:
+            case TypeUnitNode::RLM_KRL:
+            case TypeUnitNode::TOROS:
+
+                menu->addAction(action_setAlarmMsgOn);
+
+                   if(un->getAlarmMsgOn()==0)
+                   {
+                       //qDebug()<<"[0]";
+                       action_setAlarmMsgOn->setChecked(false);
+                   }
+
+            break;
+
+            }
+
+
 
 
 

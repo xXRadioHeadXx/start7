@@ -975,11 +975,19 @@ bool Control::pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent,TreeModelUnitN
     //может быть добавлен только к группе или к системе
         if((parrent->getType()!=TypeUnitNode::GROUP)&&(parrent->getType()!=TypeUnitNode::SYSTEM))
         {
-//            QMessageBox::critical(0,"Ошибка",("может быть добавлен только к группе или к системе");
+            QMessageBox::critical(0,"Ошибка",("может быть добавлен только к группе или к системе"));
 //            dialog.exec();
             return false;
 
         }
+
+        return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
+                             {return ((un->getNum1()==unit->getNum1()));});
+
+
+
+
+
 }
 
 bool Control::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parent,TreeModelUnitNode *modelTreeUN)
