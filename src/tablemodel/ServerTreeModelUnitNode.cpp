@@ -35,12 +35,7 @@ ServerTreeModelUnitNode::~ServerTreeModelUnitNode()
 
 int ServerTreeModelUnitNode::columnCount(const QModelIndex &parent) const
  {
-     if (parent.isValid())
-//         return static_cast<UnitNode*>(parent.internalPointer())->columnCount();
-         return static_cast<UnitNode*>(parent.internalPointer())->treeColumnCount();
-     else
-         return rootItemUN->treeColumnCount();
-     //         return rootItemSortUN->columnCount();
+    return 1;
 }
 
 QSharedPointer<UnitNode> ServerTreeModelUnitNode::getTreeUnitNodes(UnitNode*target) const
@@ -136,8 +131,14 @@ bool ServerTreeModelUnitNode::setData(const QModelIndex &index, const QVariant &
  QVariant ServerTreeModelUnitNode::headerData(int section, Qt::Orientation orientation,
                                 int role) const
  {
-     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-         return rootItemUN->data(section);
+     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+         switch(section) {
+         case 0:
+             return tr("Имя");
+         default:
+             return QVariant();
+         }
+     }
 
      return QVariant();
  }
