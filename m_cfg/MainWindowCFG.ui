@@ -606,6 +606,9 @@
               <height>30</height>
              </rect>
             </property>
+            <property name="maxCount">
+             <number>40</number>
+            </property>
            </widget>
            <widget class="QLabel" name="label_4">
             <property name="geometry">

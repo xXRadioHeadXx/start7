@@ -23,6 +23,14 @@ if(unit->getName()=="")
     return false;
 
 }
+if(unit->getName().count()>40)
+{
+    QMessageBox::critical(0,"Ошибка","Слишком длинное имя");
+
+    return false;
+
+}
+
 
 if (!correct_UDP_parametres(unit))
     return false;

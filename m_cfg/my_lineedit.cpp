@@ -6,7 +6,7 @@
 
 My_lineEdit::My_lineEdit(QWidget *parent) : QLineEdit(parent)
 {
-
+this->setMaxLength(40);
   // this->setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
