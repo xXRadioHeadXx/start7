@@ -14,11 +14,12 @@ class ServerTreeModelUnitNode : public QAbstractItemModel
     SubTypeApp typeApp = SubTypeApp::server;
 public:
     explicit ServerTreeModelUnitNode(QObject *parent = nullptr);
+    virtual ~ServerTreeModelUnitNode();
 
 
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
-    const QSharedPointer<UnitNode> rootItemUN = QSharedPointer<UnitNode>::create();
+    QSharedPointer<UnitNode> rootItemUN = QSharedPointer<UnitNode>(new UnitNode());
     QList<QSharedPointer<UnitNode> > listItemUN;
 
     QVariant data(const QModelIndex &index, int role) const;

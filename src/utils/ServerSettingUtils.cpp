@@ -7,6 +7,7 @@
 #include <global.h>
 #include <QTextCodec>
 #include <TreeItem.h>
+#include <SimpleIni.h>
 
 ServerSettingUtils::ServerSettingUtils()
 {
@@ -20,31 +21,17 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
     if(!getListTreeUnitNodes().isEmpty()) {
         getListTreeUnitNodes().clear();
     }
-    QSettings settings(fileName, QSettings::IniFormat);
 
-    settings.beginGroup("TREE");
-    int cntTrItm = settings.value( "Count", -1 ).toInt();
-    settings.endGroup();
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
 
+    CSimpleIniA ini;
+    QString filePath = QCoreApplication::applicationDirPath() + "/rifx.ini";
+    ini.LoadFile(filePath.toStdString().c_str());
 
+    int cntTrItm = codec->toUnicode(ini.GetValue("TREE", "Count")).toInt();
 
-    //qDebug() << "cntTrItm" << cntTrItm;
     if(0 >= cntTrItm)
         return getListTreeUnitNodes();
-
-
-#if (defined (_WIN32) || defined (_WIN64))
-    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
-    QTextCodec::setCodecForLocale(codec);
-    settings.setIniCodec(codec);
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
-
-    //Для совместимости. со старым. конфигуратором.
-    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
-    QTextCodec::setCodecForLocale(codec);
-    settings.setIniCodec(codec);
 
     {
         QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
@@ -66,62 +53,52 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
     {
         QString strGroup("Obj_%1");
         strGroup = strGroup.arg(index + 1);
-        if(settings.childGroups().contains(strGroup))
-        {
-            settings.beginGroup(strGroup);
-            QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare((TypeUnitNode)settings.value( "Type" , -1 ).toInt(), root);
+        if(0 != ini.GetSection(strGroup.toStdString().c_str())) {
+            QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare((TypeUnitNode)codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Type")).toInt(), root);
             tmpUN->setMetaNames(strGroup);
 
-            tmpUN->setType(settings.value( "Type" , -1 ).toInt());
-            tmpUN->setNum1(settings.value( "Num1" , -1 ).toInt());
-            tmpUN->setNum2(settings.value( "Num2" , -1 ).toInt());
-            tmpUN->setNum3(settings.value( "Num3" , -1 ).toInt());
-            tmpUN->setLevel(settings.value( "Level" , -1 ).toInt());
-            tmpUN->setName(settings.value( "Name" , -1 ).toByteArray());
-            tmpUN->setIconVisible(settings.value( "IconVisible" , -1 ).toInt());
-            tmpUN->setX(settings.value( "X" , -1 ).toInt());
-            tmpUN->setY(settings.value( "Y" , -1 ).toInt());
-            tmpUN->setDK(settings.value( "DK" , -1 ).toInt());
-            tmpUN->setBazalt(settings.value( "Bazalt" , -1 ).toInt());
-            tmpUN->setMetka(settings.value( "Metka" , -1 ).toInt());
-            tmpUN->setRazriv(settings.value( "Razriv" , -1 ).toInt());
-            tmpUN->setAdamOff(settings.value( "AdamOff" , -1 ).toInt());
-            tmpUN->setAlarmMsgOn(settings.value( "AlarmMsgOn" , -1 ).toInt());
-            tmpUN->setConnectBlock(settings.value( "ConnectBlock" , -1 ).toInt());
-            tmpUN->setOutType(settings.value( "OutType" , -1 ).toInt());
-            tmpUN->setAsoosd_kk(settings.value( "asoosd_kk" , -1 ).toInt());
-            tmpUN->setAsoosd_nn(settings.value( "asoosd_nn" , -1 ).toInt());
-            tmpUN->setDescription(settings.value( "Description" , -1 ).toString());
-            tmpUN->setLan(settings.value( "lan" , -1 ).toInt());
-            tmpUN->setLon(settings.value( "lon" , -1 ).toInt());
-            tmpUN->setUdpUse(settings.value( "UdpUse" , -1 ).toInt());
-            tmpUN->setUdpAdress(settings.value( "UdpAdress" , -1 ).toString());
-            tmpUN->setUdpPort(settings.value( "UpdPort" , -1 ).toInt());
-            tmpUN->setMetka1Time_0(settings.value( "Metka1Time_0" , -1 ).toInt());
-            tmpUN->setMetka1Time_1(settings.value( "Metka1Time_1" , -1 ).toInt());
-            tmpUN->setMetka2Time_0(settings.value( "Metka2Time_0" , -1 ).toInt());
-            tmpUN->setMetka2Time_1(settings.value( "Metka2Time_1" , -1 ).toInt());
-            tmpUN->setMetka3Time_0(settings.value( "Metka3Time_0" , -1 ).toInt());
-            tmpUN->setMetka3Time_1(settings.value( "Metka3Time_1" , -1 ).toInt());
-            tmpUN->setMetka4Time_0(settings.value( "Metka4Time_0" , -1 ).toInt());
-            tmpUN->setMetka4Time_1(settings.value( "Metka4Time_1" , -1 ).toInt());
-            tmpUN->setMetkaDopuskTime_0(settings.value( "MetkaDopuskTime_0" , -1 ).toInt());
-            tmpUN->setMetkaDopuskTime_1(settings.value( "MetkaDopuskTime_1" , -1 ).toInt());
-            tmpUN->setUdpTimeout(settings.value( "UdpTimeout" , 50 ).toInt());
+            tmpUN->setType(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Type")).toInt());
+            tmpUN->setNum1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Num1")).toInt());
+            tmpUN->setNum2(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Num2")).toInt());
+            tmpUN->setNum3(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Num3")).toInt());
+            tmpUN->setLevel(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Level")).toInt());
+            tmpUN->setName(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Name")));
+            tmpUN->setIconVisible(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "IconVisible")).toInt());
+            tmpUN->setX(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "X")).toInt());
+            tmpUN->setY(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Y")).toInt());
+            tmpUN->setDK(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "DK")).toInt());
+            tmpUN->setBazalt(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Bazalt")).toInt());
+            tmpUN->setMetka(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka")).toInt());
+            tmpUN->setRazriv(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Razriv")).toInt());
+            tmpUN->setAdamOff(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "AdamOff")).toInt());
+            tmpUN->setAlarmMsgOn(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "AlarmMsgOn")).toInt());
+            tmpUN->setConnectBlock(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "ConnectBlock")).toInt());
+            tmpUN->setOutType(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "OutType")).toInt());
+            tmpUN->setAsoosd_kk(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "asoosd_kk")).toInt());
+            tmpUN->setAsoosd_nn(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "asoosd_nn")).toInt());
+            tmpUN->setDescription(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Description")));
+            tmpUN->setLan(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "lan")).toInt());
+            tmpUN->setLon(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "lon")).toInt());
+            tmpUN->setUdpUse(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "UdpUse")).toInt());
+            tmpUN->setUdpAdress(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "UdpAdress")));
+            tmpUN->setUdpPort(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "UpdPort")).toInt());
+            tmpUN->setMetka1Time_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka1Time_0")).toInt());
+            tmpUN->setMetka1Time_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka1Time_1")).toInt());
+            tmpUN->setMetka2Time_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka2Time_0")).toInt());
+            tmpUN->setMetka2Time_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka2Time_1")).toInt());
+            tmpUN->setMetka3Time_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka3Time_0")).toInt());
+            tmpUN->setMetka3Time_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka3Time_1")).toInt());
+            tmpUN->setMetka4Time_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka4Time_0")).toInt());
+            tmpUN->setMetka4Time_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka4Time_1")).toInt());
+            tmpUN->setMetkaDopuskTime_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "MetkaDopuskTime_0")).toInt());
+            tmpUN->setMetkaDopuskTime_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "MetkaDopuskTime_1")).toInt());
+            tmpUN->setUdpTimeout(qMax(50, codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "UdpTimeout")).toInt()));
 
-            if(settings.value("Icon1Path").isValid())
-             tmpUN->setIcon1Path(settings.value( "Icon1Path" , -1 ).toString());
+            tmpUN->setIcon1Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon1Path")));
+            tmpUN->setIcon2Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon2Path")));
+            tmpUN->setIcon3Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon3Path")));
+            tmpUN->setIcon4Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon4Path")));
 
-            if(settings.value("Icon2Path").isValid())
-             tmpUN->setIcon2Path(settings.value( "Icon2Path" , -1 ).toString());
-
-            if(settings.value("Icon3Path").isValid())
-             tmpUN->setIcon3Path(settings.value( "Icon3Path" , -1 ).toString());
-
-            if(settings.value("Icon4Path").isValid())
-             tmpUN->setIcon4Path(settings.value( "Icon4Path" , -1 ).toString());
-
-            settings.endGroup();
 
             if(!tmpUN->getName().isEmpty())
             {

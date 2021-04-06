@@ -2,6 +2,8 @@
 #include <SignalSlotCommutator.h>
 #include <Utils.h>
 #include <Operator.h>
+#include <QTextCodec>
+#include <SimpleIni.h>
 
 qint64 DataBaseManager::idStartLastDuty = -1;
 
@@ -10,6 +12,8 @@ QString DataBaseManager::DatabaseName = QString();
 QString DataBaseManager::UserName = QString();
 QString DataBaseManager::Password = QString();
 QString DataBaseManager::Port = QString();
+
+QSqlDatabase DataBaseManager::db = QSqlDatabase();
 
 qint64 DataBaseManager::getIdStartLastDuty()
 {
@@ -85,6 +89,7 @@ void DataBaseManager::setPort(const QString &value)
 DataBaseManager::DataBaseManager(QObject *parent) noexcept :
     QObject(parent)
 {
+//    qDebug() << "DataBaseManager::DataBaseManager()";
     if(m_db().isValid() || m_db().isOpen())
     {
         m_db().close();
@@ -96,10 +101,8 @@ DataBaseManager::DataBaseManager(QObject *parent) noexcept :
 
 QSqlDatabase& DataBaseManager::m_db()
 {
-    static QSqlDatabase db;
     if (!db.isValid()) {
         db = QSqlDatabase::addDatabase("QPSQL");
-
 
         if(getHostName().isEmpty() || getDatabaseName().isEmpty() || getUserName().isEmpty() || getPassword().isEmpty() || getPort().isEmpty()) {
             QString hostName;
@@ -107,36 +110,34 @@ QSqlDatabase& DataBaseManager::m_db()
             QString userName;
             QString password;
             QString port;
-            QSettings settings(QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ), QSettings::IniFormat);
+
+            CSimpleIniA ini;
+            QString filePath = QCoreApplication::applicationDirPath() + "/rifx.ini";
+            ini.LoadFile(filePath.toStdString().c_str());
 
             QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
-             QTextCodec::setCodecForLocale(codec);
-           settings.setIniCodec(codec);
 
-            settings.beginGroup("PostgresSQL");
-            hostName = settings.value( "Host", "127.0.0.1" ).toString();//("127.0.0.1");
-            hostName = Utils::strHostAddress(hostName);
-            databaseName = settings.value( "DbName", "rif_db0" ).toString();//("postgres");
-            userName = settings.value( "Login", "postgres" ).toString();//("postgres");
+            hostName = codec->toUnicode(ini.GetValue("PostgresSQL", "Host"));
+            databaseName = codec->toUnicode(ini.GetValue("PostgresSQL", "DbName"));
+            userName = codec->toUnicode(ini.GetValue("PostgresSQL", "Login"));
+            port = codec->toUnicode(ini.GetValue("PostgresSQL", "Port"));
 
-            QString str=settings.value( "Password", "" ).toString();
-            qDebug() << "Crypt -- " << str;
-            qDebug() << "DeCrypt -- " << Utils::XOR_Crypt(str);
+            const char * criptPasswordChar = ini.GetValue("PostgresSQL", "Password");
+            QString criptPassword = QString::fromLatin1(criptPasswordChar);
+            qDebug() << "Crypt -- " << criptPassword;
             QString key = "start7";
-            qDebug() << "DeCrypt -- " << Utils::xorCrypt(str, key);
-          //  password = settings.value( "Password", "0987" ).toString();//("601275");
-            password = Utils::XOR_Crypt(settings.value( "Password", "0987" ).toString());//("601275");
+            QString decriptPassword = Utils::xorCrypt(criptPassword, key);
+            decriptPassword = codec->toUnicode(decriptPassword.toStdString().c_str());
+            qDebug() << "DeCrypt -- " << decriptPassword;
+            password = decriptPassword;
 
-            port = settings.value( "Port", "5432" ).toString();//(5432);
-            settings.endGroup();
-
-            //qDebug()<<"==SQL===";
-            //qDebug()<<hostName;
-            //qDebug()<<databaseName;
-            //qDebug()<<userName;
-            //qDebug()<<password;
-            //qDebug()<<port;
-            //qDebug()<<"========";
+//            qDebug()<<"==SQL===";
+//            qDebug()<<hostName;
+//            qDebug()<<databaseName;
+//            qDebug()<<userName;
+//            qDebug()<<password;
+//            qDebug()<<port;
+//            qDebug()<<"========";
 
             setHostName(hostName);
             setDatabaseName(databaseName);
@@ -156,7 +157,7 @@ QSqlDatabase& DataBaseManager::m_db()
 
         if (!db.isOpen())
         {
-            //qDebug() << "Cannot open database: Error: " << db.lastError();
+            qDebug() << "Cannot open database: Error: " << db.lastError();
         }
         else
         {
@@ -166,7 +167,7 @@ QSqlDatabase& DataBaseManager::m_db()
         return db;
         //qDebug()<<"Opened database: " << db.connectOptions();
     } else {
-        //qDebug() << "Cannot open database: Error: " << db.lastError();
+        qDebug() << "Cannot open database: Error: " << db.lastError();
     }
 
     return db;
@@ -174,63 +175,10 @@ QSqlDatabase& DataBaseManager::m_db()
 
 DataBaseManager::~DataBaseManager() noexcept
 {
+    qDebug() << "DataBaseManager::~DataBaseManager()";
     if(m_db().isOpen())
         m_db().close();
 }
-
-//int DataBaseManager::insertCommandMsg_wS(const MessageEntity &msg) {
-//    int lastInsertId = insertCommandMsg(msg);
-//    if(0 != lastInsertId)
-//        SignalSlotCommutator::getInstance()->emitInsNewCommandMSG(/*lastInsertId*/);
-////        emit this->insertNewMSG();
-//    return lastInsertId;
-//}
-
-
-//int DataBaseManager::insertCommandMsg(const MessageEntity &msg)
-//{
-
-//    QString sql;
-//    sql = " INSERT INTO public.message ( ";
-//    if(msg.getCdate().isValid())
-//        sql += "cdate, ";
-//    if(msg.getMdate().isValid())
-//        sql += "mdate, ";
-//    sql += " object, operatorid, direction, bytearraydata) VALUES ( ";
-//    if(msg.getCdate().isValid())
-//        sql += "to_timestamp(:vCdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
-//    if(msg.getMdate().isValid())
-//        sql += "to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
-//    sql += " :vObject, :vOperatorid, :vDirection, :vBytearraydata); ";
-
-//    QSqlQuery query(m_db());
-//    query.prepare(sql);
-
-//    if(msg.getCdate().isValid())
-//        query.bindValue(":vCdate", msg.getCdate().toString("yyyy-MM-dd hh:mm:ss.z"));
-//    if(msg.getMdate().isValid())
-//        query.bindValue(":vMdate", msg.getMdate().toString("yyyy-MM-dd hh:mm:ss.z"));
-//    query.bindValue(":vObject", msg.getObject());
-////    query.bindValue(":vOperatorid", msg.getOperatorid());
-//    query.bindValue(":vOperatorid", Operator::getApprovedOperator().getOperatorLable());
-//    query.bindValue(":vDirection", msg.getDirection());
-//    query.bindValue(":vBytearraydata", msg.getBytearraydata());
-
-//    if(query.exec())
-//    {
-////        //qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
-//        return query.lastInsertId().toUInt();
-//    }
-//    else
-//    {
-//        //qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
-//        //qDebug() << query.lastQuery();
-//        //qDebug() << query.boundValues();
-//        return 0;
-//    }
-
-//    return 0;
-//}
 
 int DataBaseManager::insertJourMsg_wS(const JourEntity &msg) {
     int lastInsertId = insertJourMsg(msg);
@@ -288,9 +236,9 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     }
     else
     {
-        //qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
-        //qDebug() << query.lastQuery();
-        //qDebug() << query.boundValues();
+        qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
+        qDebug() << query.lastQuery();
+        qDebug() << query.boundValues();
         return 0;
     }
 
@@ -359,9 +307,9 @@ int DataBaseManager::updateJourMsg(const JourEntity &msg)
     }
     else
     {
-        //qDebug() << "DataBaseManager::updMsg Error :" << query.lastError().text();
-        //qDebug() << query.lastQuery();
-        //qDebug() << query.boundValues();
+        qDebug() << "DataBaseManager::updMsg Error :" << query.lastError().text();
+        qDebug() << query.lastQuery();
+        qDebug() << query.boundValues();
         return 0;
     }
 }
@@ -389,9 +337,9 @@ void DataBaseManager::resetAllFlags()
     }
     else
     {
-        //qDebug() << "DataBaseManager::resetAllFlags Error :" << query.lastError().text();
-        //qDebug() << query.lastQuery();
-        //qDebug() << query.boundValues();
+        qDebug() << "DataBaseManager::resetAllFlags Error :" << query.lastError().text();
+        qDebug() << query.lastQuery();
+        qDebug() << query.boundValues();
         return;
     }
 }
@@ -459,7 +407,7 @@ int DataBaseManager::executeQuery(QSqlQuery query)
 //        //qDebug() << "DataBaseManager::executeQuery(" << query.lastQuery() << ")";
         return 0;
     } else {
-        //qDebug() << query.lastError().text();
+        qDebug() << query.lastError().text();
     }
 
     return -1;

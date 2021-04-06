@@ -987,7 +987,7 @@ QByteArray Utils::xorCrypt(const QByteArray in, const QByteArray key)
 
 QString Utils::xorCrypt(const QString in, const QString key)
 {
-    return QString::fromLocal8Bit(Utils::xorCrypt(in.toLocal8Bit(),  key.toLocal8Bit()));
+    return QString::fromLatin1(Utils::xorCrypt(in.toLatin1(),  key.toLatin1()));
 }
 
 QString Utils::XOR_Crypt(QString src)
