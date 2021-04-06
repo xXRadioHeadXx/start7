@@ -12,6 +12,7 @@ Control_Unit_Manager::Control_Unit_Manager(QObject *parent) : QObject(parent)
 
 bool Control_Unit_Manager::pass_to_add(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
 {
+    double_unit_index=QModelIndex();
      unit->setTreeParentUN(parrent);
 qDebug()<<"проверяю "<<unit->getName()<<" родитель "<<unit->getTreeParentUN()->getName();
 
@@ -940,6 +941,7 @@ bool Control_Unit_Manager::pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent
             if(un->getNum2()==unit->getNum2())
             if(un->getNum3()==unit->getNum3())
             {
+                double_unit_index=modelTreeUN->findeIndexUN(un);
             //    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                 return false;
@@ -1098,9 +1100,9 @@ bool Control_Unit_Manager::correct_UDP_parametres(UnitNode *unit)
     return true;
 }
 
-UnitNode *Control_Unit_Manager::getDouble_unit() const
+QModelIndex Control_Unit_Manager::getDouble_unit_index() const
 {
-    return double_unit;
+    return double_unit_index;
 }
 
 // Здесь
@@ -1125,7 +1127,7 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
          if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
          if(is_equal(unit,un))//проверяем не идентичны ли они
          {
-            double_unit=un;
+            double_unit_index=modelTreeUN->findeIndexUN(un);
              //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
              QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
              return false;
@@ -1150,7 +1152,7 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
          if((un->getUdpPort()==unit->getUdpPort()))
          if(is_equal(unit,un))//проверяем не идентичны ли они
           {
-            double_unit=un;
+            double_unit_index=modelTreeUN->findeIndexUN(un);
              QMessageBox::critical(0,"Ошибка","Объект с такими параметрами уже существует");
              return false;
           }

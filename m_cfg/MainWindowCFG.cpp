@@ -2968,7 +2968,16 @@ set_option(unit,parrent);
         }
         else
         {
-            qDebug()<<"двойник "<<m_ctrl->getDouble_unit()->getName();
+            UnitNode* un= static_cast<UnitNode*>(m_ctrl->getDouble_unit_index().internalPointer());
+            if(un)
+            {
+                get_option(un);
+                qDebug()<<"двойник "<<un->getName();
+                this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+
+            }
+
+
         //qDebug()<<"Нельзя добавить юнит к этому родителю";
         }
 

@@ -44,13 +44,13 @@ public:
             bool correct_UDP_parametres(UnitNode *unit);
 
 
-           UnitNode* double_unit;
+           QModelIndex double_unit_index;
     //проверка на отсутствие двойников во всем дереве
             bool no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode *unit,UnitNode *supreme,bool (*is_equal)(UnitNode* unit,UnitNode* un));
     //проверка на отсутствие двойников у одного родителя
             bool no_equal_unit_from_one_parent(TreeModelUnitNode *modelTreeUN, UnitNode *unit, UnitNode *parent, bool (*is_equal)(UnitNode *, UnitNode *));
 
-            UnitNode *getDouble_unit() const;
+            QModelIndex  getDouble_unit_index() const;
 
 signals:
 
