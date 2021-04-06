@@ -6,7 +6,7 @@
 #include <Utils.h>
 #include <global.h>
 #include<QTextCodec>
-#include <control.h>
+#include<control_unit_manager.h>
 
 SettingUtils::SettingUtils()
 {
@@ -18,6 +18,7 @@ QSet<UnitNode *> SettingUtils::listMetaRealUnitNodes;
 
 QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitNode * root, QString fileName)
 {
+    Control_Unit_Manager* m_ctrl=new Control_Unit_Manager();
     if(!getListTreeUnitNodes().isEmpty()) {
         getListTreeUnitNodes().clear();
     }
@@ -153,7 +154,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitN
                  tmpUN->setTreeParentUN(old);
 
 
-                bool res=Control::pass_to_add(tmpUN,old,model);//вот для этой проверки
+                bool res=m_ctrl->pass_to_add(tmpUN,old,model);//вот для этой проверки
                 if(res)//если юнит прошел проверку
                 {
 

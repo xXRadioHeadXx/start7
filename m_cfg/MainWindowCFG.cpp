@@ -45,7 +45,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
 
-
+m_ctrl=new Control_Unit_Manager();
     QStringList list;
     list<<str_system_RIF;
     list<<str_system_SSOI;
@@ -2961,13 +2961,14 @@ set_option(unit,parrent);
 
     if (index.isValid())
     {
-        if(Control::pass_to_add(unit,parrent,modelTreeUN))
+        if(m_ctrl->pass_to_add(unit,parrent,modelTreeUN))
         {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
   //      map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
         }
         else
         {
+            qDebug()<<"двойник "<<m_ctrl->getDouble_unit()->getName();
         //qDebug()<<"Нельзя добавить юнит к этому родителю";
         }
 
