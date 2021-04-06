@@ -54,6 +54,7 @@ public:
 
 signals:
             void double_unit(UnitNode *un);
+            void double_unit_signal(UnitNode* un);
 
 };
 

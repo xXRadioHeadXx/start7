@@ -688,7 +688,7 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect(this->ui->treeView, SIGNAL(   new_current_index(QModelIndex)) , this,SLOT     (   slot_to_get_options(QModelIndex)));
 
 
-
+        connect(this->m_ctrl, SIGNAL(double_unit_signal(UnitNode *un)) , this,SLOT (double_unit_slot(UnitNode* un)));
 
 
 
@@ -717,6 +717,12 @@ bool MainWindowCFG::load(QString /*patch*/)
 
 
     return res;
+}
+
+void MainWindowCFG::double_unit_slot(UnitNode *un)
+{
+    qDebug()<<"[double_unit_slot]";
+    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
 }
 
 void MainWindowCFG::slot_to_get_options(QModelIndex index)
@@ -2966,6 +2972,8 @@ set_option(unit,parrent);
         {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
   //      map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
+      ui->treeView->setCurrentIndex(index);
+      this->ui->treeView->expand(index);
         }
         else
         {
@@ -2985,8 +2993,8 @@ set_option(unit,parrent);
 
     }
 
-    ui->treeView->setCurrentIndex(index);
-    this->ui->treeView->expand(index);
+
+
 
 
 

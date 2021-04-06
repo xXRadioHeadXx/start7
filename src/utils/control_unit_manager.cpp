@@ -1128,8 +1128,10 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
          if(is_equal(unit,un))//проверяем не идентичны ли они
          {
             double_unit_index=modelTreeUN->findeIndexUN(un);
+
              //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
              QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+             emit double_unit_signal(un);
              return false;
          }
 
@@ -1153,7 +1155,9 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
          if(is_equal(unit,un))//проверяем не идентичны ли они
           {
             double_unit_index=modelTreeUN->findeIndexUN(un);
+
              QMessageBox::critical(0,"Ошибка","Объект с такими параметрами уже существует");
+              emit double_unit_signal(un);
              return false;
           }
         }
@@ -1190,8 +1194,10 @@ bool Control_Unit_Manager::no_equal_unit_from_one_parent(TreeModelUnitNode *mode
          if(un->getType()==unit->getType())
          if(is_equal(unit,un))//проверяем не идентичны ли они
          {
+
         //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
              QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+            emit double_unit_signal(un);
              return false;
 
          }

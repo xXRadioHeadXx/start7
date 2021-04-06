@@ -584,6 +584,8 @@ public:
 
 private slots:
 
+    void double_unit_slot(UnitNode* un);
+
     void slot_to_get_options(QModelIndex index);
     void update();
 
