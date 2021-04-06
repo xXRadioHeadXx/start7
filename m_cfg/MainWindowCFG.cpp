@@ -5943,7 +5943,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                 menu->addAction(action_open_device_tree);
                 menu->addAction(action_close_device_tree);
 
-                menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+             //   menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
             break;
 
             case TypeUnitNode::SD_BL_IP:
@@ -5982,7 +5982,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                   {
                       //qDebug()<<"[1]";
                   }
-               menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+             //  menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 
             break;
 
@@ -6043,14 +6043,14 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                 action_setAdamOff_1_hour->setChecked(true);
                 break;
                 }
-               menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+            //   menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 
             break;
 
             default:
                 if(un->getType()!=TypeUnitNode::SYSTEM)
                 if(un->getType()!=TypeUnitNode::GROUP)
-                menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+            //    menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
             break;
             }
 
@@ -6085,6 +6085,8 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 
             }
 
+            if(menu->actions().count()>0)
+                menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 
 
 
