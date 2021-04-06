@@ -4,7 +4,7 @@
 
 #include <QSharedPointer>
 
-class TreeItem
+class TreeItem //: public virtual QObject
 {
 private:
     QList<QSharedPointer<TreeItem> > treeChildItems;
@@ -18,7 +18,8 @@ public:
     QSharedPointer<TreeItem> treeParent() const;
     void setTreePparent(QSharedPointer<TreeItem>value);
 
-    QList<QSharedPointer<TreeItem> > & listTreeChilds();
+    QList<QSharedPointer<TreeItem> > listTreeChilds() const;
+    void setListTreeChilds(const QList<QSharedPointer<TreeItem> > & list);
 
     QSharedPointer<TreeItem> treeChild(int index) const;
 
@@ -45,6 +46,8 @@ public:
 
 
     bool setData(int column, const QVariant &value);
+
+    virtual TreeItem & operator=(const TreeItem& copy);
 
 };
 

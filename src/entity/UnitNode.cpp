@@ -511,8 +511,8 @@ bool UnitNode::isEditableOnOff() const
 }
 
 UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
-    UnitNodeCFG(static_cast<UnitNodeCFG*>(parent.data()))
-  , ServerUnitNodeTreeItem(parent)
+    /*UnitNodeCFG(static_cast<UnitNodeCFG*>(parent.data()))
+  , */ServerUnitNodeTreeItem(parent)
 {
     this->parentUN = parent;
 }
@@ -530,7 +530,7 @@ const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getSta
 
 
 UnitNode::UnitNode(const UnitNode & parent) :
-    UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
+//    UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
     ServerUnitNodeTreeItem(),
     stateWord(parent.stateWord),
     stateWordType0x31(parent.stateWordType0x31),
@@ -541,6 +541,7 @@ UnitNode::UnitNode(const UnitNode & parent) :
     dkStatus(parent.dkStatus),
     dkInvolved(parent.dkInvolved)
 {
+    operator=(parent);
     setStateWord(parent.getStateWord());
     setStateWordType0x31(parent.getStateWordType0x31());
     setStateWordType0x34(parent.getStateWordType0x34());
@@ -562,7 +563,8 @@ UnitNode::~UnitNode()
 }
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {
-    UnitNodeCFG::operator=(static_cast<UnitNodeCFG>(c));
+    UnitNodeCFG::operator=(c);
+    TreeItem::operator=(c);
     setStateWord(c.getStateWord());
     setStateWordType0x31(c.getStateWordType0x31());
     setStateWordType0x34(c.getStateWordType0x34());

@@ -2,11 +2,13 @@
 
 #include <QVariant>
 
-TreeItem::TreeItem()
+TreeItem::TreeItem() /*:
+    QObject(nullptr)*/
 {
 }
 
-TreeItem::TreeItem(QSharedPointer<TreeItem> parent)
+TreeItem::TreeItem(QSharedPointer<TreeItem> parent) /*:
+    QObject(parent.data())*/
 {
     setTreePparent(parent);
 }
@@ -25,9 +27,14 @@ void TreeItem::setTreePparent(QSharedPointer<TreeItem> value)
     treePparentItem = value;
 }
 
-QList<QSharedPointer<TreeItem> > &TreeItem::listTreeChilds()
+QList<QSharedPointer<TreeItem> > TreeItem::listTreeChilds() const
 {
     return treeChildItems;
+}
+
+void TreeItem::setListTreeChilds(const QList<QSharedPointer<TreeItem> > &list)
+{
+    treeChildItems = list;
 }
 
 QSharedPointer<TreeItem> TreeItem::treeChild(int index) const
@@ -133,4 +140,11 @@ bool TreeItem::setData(int column, const QVariant &value)
     Q_UNUSED(column)
     Q_UNUSED(value)
     return false;
+}
+
+TreeItem & TreeItem::operator=(const TreeItem & copy)
+{
+    setTreePparent(copy.treeParent());
+    setListTreeChilds(copy.listTreeChilds());
+    return *this;
 }

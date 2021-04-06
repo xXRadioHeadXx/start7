@@ -6,7 +6,7 @@
 
 int ServerUnitNodeTreeItem::treeColumnCount() const
 {
-    return 2;
+    return 1;
 }
 
 QVariant ServerUnitNodeTreeItem::data(int column) const

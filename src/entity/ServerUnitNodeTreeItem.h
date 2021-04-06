@@ -2,12 +2,14 @@
 #define SERVERUNITNODETREEITEM_H
 
 #include <TreeItem.h>
+#include <UnitNodeCFG.h>
 
-class ServerUnitNodeTreeItem : public TreeItem
+class ServerUnitNodeTreeItem : public TreeItem, public UnitNodeCFG
 {
 public:
-    explicit ServerUnitNodeTreeItem(QSharedPointer<TreeItem> parent) :
+    explicit ServerUnitNodeTreeItem(QSharedPointer<ServerUnitNodeTreeItem> parent) :
         TreeItem(parent)
+      , UnitNodeCFG(static_cast<UnitNodeCFG*>(parent.data()))
     {
     }
 

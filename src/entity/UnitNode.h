@@ -38,8 +38,8 @@ class SWPTGType0x32;
 class DataQueueItem;
 
 class UnitNode :
-        public UnitNodeCFG
-      , public ServerUnitNodeTreeItem
+        /*public UnitNodeCFG
+      , */public ServerUnitNodeTreeItem
 {
     Q_OBJECT
 private:

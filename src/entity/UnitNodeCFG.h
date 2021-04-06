@@ -83,7 +83,7 @@ private:
     bool control = true;
 public:
 
-    explicit UnitNodeCFG(const UnitNodeCFG* parent);
+    explicit UnitNodeCFG(const UnitNodeCFG* parent = nullptr);
     explicit UnitNodeCFG(const UnitNodeCFG & parent);
     virtual ~UnitNodeCFG();
 
