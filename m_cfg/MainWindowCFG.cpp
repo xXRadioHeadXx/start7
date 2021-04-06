@@ -2961,6 +2961,7 @@ set_option(unit,parrent);
 
     if (index.isValid())
     {
+
         if(m_ctrl->pass_to_add(unit,parrent,modelTreeUN))
         {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
@@ -2968,12 +2969,13 @@ set_option(unit,parrent);
         }
         else
         {
-            UnitNode* un= static_cast<UnitNode*>(m_ctrl->getDouble_unit_index().internalPointer());
+            QModelIndex double_index=m_ctrl->getDouble_unit_index();
+            UnitNode* un= static_cast<UnitNode*>(double_index.internalPointer());
             if(un)
             {
                 get_option(un);
                 qDebug()<<"двойник "<<un->getName();
-                this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                this->ui->treeView->setCurrentIndex(double_index);
 
             }
 

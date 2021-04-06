@@ -53,6 +53,7 @@ public:
             QModelIndex  getDouble_unit_index() const;
 
 signals:
+            void double_unit(UnitNode *un);
 
 };
 
