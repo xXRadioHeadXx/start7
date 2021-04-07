@@ -49,8 +49,32 @@ m_ctrl=new Control_Unit_Manager();
     QStringList list;
     list<<str_system_RIF;
     list<<str_system_SSOI;
+/*
+    Если программа лежит в папке :/RIFx/ - открывать версию РИФ
+    Если программа лежит в папке :/SSOI/ - открывать версию ССОИ-М
+    Если ни там ни там - предлагать выбор версии
+    */
 
-       str_system=QInputDialog::getItem(nullptr,"Настройка","Комплекс",list);
+    QByteArray dir= QCoreApplication::applicationDirPath().toLocal8Bit();
+    qDebug()<<"DIR "<<dir;
+
+    QByteArray ar;
+    for(int i=0;i<dir.size();i++)
+    {
+        qDebug()<<dir.at(i)<<" "<<(quint8)dir.at(i);
+        ar.append((quint8)dir.at(i));
+        if((quint8)dir.at(i)==47)
+            ar.clear();
+
+
+    }
+    QString str=QString::fromLocal8Bit(ar);
+    if(str=="RIFx")
+        str_system=str_system_RIF;
+    else if(str=="SSOI")
+        str_system=str_system_SSOI;
+    else
+        str_system=QInputDialog::getItem(nullptr,"Настройка","Комплекс",list);
 
         qDebug()<<str_system;
 
@@ -1420,7 +1444,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
 
     this->save_ini(path);
-    my=new My_settings(path);
+    My_settings my(path);
          for(int i=0;i<operators.count();i++)
              {
              Operator* op=operators.at(i);
@@ -1429,7 +1453,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
      QByteArray ar=(this->XOR_Crypt(op->getPW(),"start7")).toLocal8Bit().toHex();
 
-             my->set_value(strGroup, "PW", &ar);
+             my.set_value(strGroup, "PW", &ar);
              }
 //     my->save_ini(path);
 
@@ -1447,12 +1471,12 @@ void MainWindowCFG::on_actionSave_triggered()
 
                       if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
                       {
-                        my->set_value("MYSQL", "Password", &ar);
+                        my.set_value("MYSQL", "Password", &ar);
 
                       }
                       if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
                       {
-                        my->set_value("PostgresSQL", "Password", &ar);
+                        my.set_value("PostgresSQL", "Password", &ar);
                       }
 
                   //Set operators value
@@ -1465,7 +1489,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
                   QByteArray ar=(this->XOR_Crypt(op->getPW(),"start7")).toLocal8Bit().toHex();
 
-                          my->set_value(strGroup, "PW", &ar);
+                          my.set_value(strGroup, "PW", &ar);
                           }
 
                   //Save
@@ -1476,7 +1500,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
                   }
 
-delete my;
+//delete my;
 
 }
 
