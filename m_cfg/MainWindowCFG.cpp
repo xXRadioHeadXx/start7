@@ -6393,81 +6393,131 @@ void MainWindowCFG::create_db(QString db_name)
     }
     if(this->ui->SQL_type_comboBox->currentText()=="PostgresSQL")
     {
-        //qDebug()<<"[psql]";
-        QSqlQuery query(db_psql);
+        QSqlDatabase db_psql = QSqlDatabase::addDatabase("QPSQL");
+
+       db_psql.setHostName("localhost");
+       db_psql.setUserName("postgres");
+       db_psql.setPassword("Start7");
+       db_psql.setDatabaseName("postgres");
+       if (!db_psql.open())
+       {
+           qDebug()<<db_psql.lastError().text();
+       }
+       else
+           {
+               qDebug()<<"PROFIT connect postgres db";
+
+           //    QString db_name="zigert_db_1";
+               QSqlQuery query(db_psql);
+               QString sql_cmd;
+               sql_cmd.clear();
+
+               sql_cmd.append("CREATE DATABASE "+ db_name);
+               query.exec(sql_cmd);
+               QSqlError error=query.lastError();
+               sql_cmd.clear();
+               if(error.isValid())
+               {
+               qDebug()<<query.lastError();
+               }
+               else
+               {
+                   qDebug()<<"PROFIT create db "<<db_name;
+
+               }
+
+               QSqlDatabase current = QSqlDatabase::addDatabase("QPSQL");
+               current.setHostName("localhost");
+               current.setUserName("postgres");
+               current.setPassword("Start7");
+               current.setDatabaseName(db_name);
+               if (!current.open())
+               {
+                   qDebug()<<current.lastError().text();
+               }
+               else
+               {
+               qDebug()<<"PROFIT open "<<db_name;
+               }
+
+                QSqlQuery query_current(current);
 
 
-QString sql_cmd;
-sql_cmd.clear();
-
-sql_cmd.append("CREATE DATABASE "+ db_name);
-
-       /*sql_cmd.append("CREATE DATABASE "+ db_name +" "+
-                       "WITH OWNER = postgres "+
-                       "ENCODING = 'UTF8' "+
-                       "TABLESPACE = pg_default "+
-                       "LC_COLLATE = 'ru_RU.UTF-8' "+
-                       "LC_CTYPE = 'ru_RU.UTF-8' "+
-                       "CONNECTION LIMIT = -1");*/
 
 
+               sql_cmd.clear();
 
-   //     sql_cmd.append(db_name);
-   //    sql_cmd.append(";");
-        query.prepare(sql_cmd);
-
-        query.exec(sql_cmd);
-
-        qDebug()<<query.lastError();
-
- sql_cmd.clear();
-
- sql_cmd.append("CREATE SEQUENCE public.jour_id_seq ");
- sql_cmd.append("INCREMENT 1 ");
- sql_cmd.append("MINVALUE 1 ");
- sql_cmd.append("MAXVALUE 9223372036854775807 ");
- sql_cmd.append("START 124646 ");
- sql_cmd.append("CACHE 1; ");
- sql_cmd.append("ALTER TABLE public.jour_id_seq ");
- sql_cmd.append("OWNER TO root;");
+               sql_cmd.append("CREATE SEQUENCE public.jour_id_seq ");
+               sql_cmd.append("INCREMENT 1 ");
+               sql_cmd.append("MINVALUE 1 ");
+               sql_cmd.append("MAXVALUE 9223372036854775807 ");
+               sql_cmd.append("START 124646 ");
+               sql_cmd.append("CACHE 1; ");
+          //     sql_cmd.append("ALTER TABLE public.jour_id_seq ");
+          //     sql_cmd.append("OWNER TO root;");
 
 
 
 
- query.prepare(sql_cmd);
 
- query.exec(sql_cmd);
 
- qDebug()<<query.lastError();
 
- sql_cmd.clear();
+               query_current.prepare(sql_cmd);
+               query_current.exec(sql_cmd);
+               error=query_current.lastError();
+               if(error.isValid())
+               qDebug()<<error.text();
+               else
+               qDebug()<<"PROFIT create jour_id_seq ";
 
- sql_cmd.append("CREATE TABLE public.jour");
- sql_cmd.append("(id integer NOT NULL DEFAULT nextval('jour_id_seq'::regclass),");
- sql_cmd.append("cdate timestamp without time zone NOT NULL DEFAULT now(),");
- sql_cmd.append("mdate timestamp without time zone NOT NULL DEFAULT now(),");
- sql_cmd.append("objectid integer,");
- sql_cmd.append("object character varying(128),");
- sql_cmd.append("comment character varying(256) NOT NULL,");
- sql_cmd.append("reason character varying(256),");
- sql_cmd.append("measures character varying(256),");
- sql_cmd.append("operator character varying(256),");
- sql_cmd.append("operatorid character varying(256),");
- sql_cmd.append("status character varying(32),");
- sql_cmd.append("direction character varying(32),");
- sql_cmd.append("type bigint,");
- sql_cmd.append("flag bigint,");
- sql_cmd.append("d1 bigint,");
- sql_cmd.append("d2 bigint,");
- sql_cmd.append("d3 bigint,");
- sql_cmd.append("d4 bigint,");
- sql_cmd.append("objecttype bigint)");
 
- query.prepare(sql_cmd);
+                       sql_cmd.clear();
 
- query.exec(sql_cmd);
+                       sql_cmd.append("CREATE TABLE public.jour");
+                       sql_cmd.append("(id integer NOT NULL DEFAULT nextval('jour_id_seq'::regclass),");
+                       sql_cmd.append("cdate timestamp without time zone NOT NULL DEFAULT now(),");
+                       sql_cmd.append("mdate timestamp without time zone NOT NULL DEFAULT now(),");
+                       sql_cmd.append("objectid integer,");
+                       sql_cmd.append("object character varying(128),");
+                       sql_cmd.append("comment character varying(256) NOT NULL,");
+                       sql_cmd.append("reason character varying(256),");
+                       sql_cmd.append("measures character varying(256),");
+                       sql_cmd.append("operator character varying(256),");
+                       sql_cmd.append("operatorid character varying(256),");
+                       sql_cmd.append("status character varying(32),");
+                       sql_cmd.append("direction character varying(32),");
+                       sql_cmd.append("type bigint,");
+                       sql_cmd.append("flag bigint,");
+                       sql_cmd.append("d1 bigint,");
+                       sql_cmd.append("d2 bigint,");
+                       sql_cmd.append("d3 bigint,");
+                       sql_cmd.append("d4 bigint,");
+                       sql_cmd.append("objecttype bigint)");
 
- qDebug()<<query.lastError();
+                       query_current.prepare(sql_cmd);
+
+                       query_current.exec(sql_cmd);
+
+                       error=query_current.lastError();
+                               sql_cmd.clear();
+                               if(error.isValid())
+                               {
+                               qDebug()<<error.text();
+                               }
+                               else
+                               {
+                                   qDebug()<<"PROFIT create jour";
+
+                               }
+
+
+
+
+
+
+
+
+           }
 
 
 
@@ -6518,6 +6568,7 @@ ALTER TABLE public.jour
 
 void MainWindowCFG::drop_db(QString db_name)
 {
+    qDebug()<<"drop db "<<db_name;
 if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
 {
 //qDebug()<<"drop "<<db_name;
@@ -6528,6 +6579,8 @@ sql_cmd.append(db_name);
 
 query.prepare(sql_cmd);
 query.exec();
+
+
   this->db_f->find_rif_db(db_mysql);
 
 
@@ -6543,6 +6596,12 @@ query.prepare(sql_cmd);
 
 //qDebug()<<sql_cmd;
 query.exec(sql_cmd);
+
+
+QSqlError error=query.lastError();
+if(error.isValid())
+    qDebug()<<error.text();
+
   this->db_f->find_rif_db(db_psql);
 
 
