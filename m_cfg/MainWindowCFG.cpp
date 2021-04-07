@@ -1427,7 +1427,8 @@ void MainWindowCFG::on_actionSave_triggered()
         if(last_ini_patch=="")
             dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
         else
-            dir==last_ini_patch;
+            dir=last_ini_patch+ "/rifx.ini";
+
 
        QString path=QFileDialog::getSaveFileName(this, "save file",dir,"*.ini");
 
