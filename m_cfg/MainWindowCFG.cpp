@@ -1390,7 +1390,7 @@ void MainWindowCFG::on_actionOpen_triggered()
          //qDebug()<<dir;
 
      QString patch=QFileDialog::getOpenFileName(this, "open file",dir,"*.ini");
-      //qDebug()<<"patch = "<<patch;
+      qDebug()<<"patch = "<<patch;
       if(patch!="")
       {
           last_ini_patch=patch;
@@ -1427,8 +1427,9 @@ void MainWindowCFG::on_actionSave_triggered()
         if(last_ini_patch=="")
             dir= QCoreApplication::applicationDirPath() + "/rifx.ini";
         else
-            dir=last_ini_patch+ "/rifx.ini";
+            dir=last_ini_patch;
 
+        qDebug()<<"dir "<<dir;
 
        QString path=QFileDialog::getSaveFileName(this, "save file",dir,"*.ini");
 
