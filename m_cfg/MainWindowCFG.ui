@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>8</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2080,7 +2080,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="coordinates_for_all">
              <widget class="QGroupBox" name="groupBox_4">
@@ -2100,7 +2100,7 @@
                 <rect>
                  <x>10</x>
                  <y>43</y>
-                 <width>140</width>
+                 <width>279</width>
                  <height>30</height>
                 </rect>
                </property>
@@ -2121,9 +2121,9 @@
               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox">
                <property name="geometry">
                 <rect>
-                 <x>160</x>
+                 <x>300</x>
                  <y>43</y>
-                 <width>120</width>
+                 <width>115</width>
                  <height>30</height>
                 </rect>
                </property>
@@ -2137,9 +2137,9 @@
               <widget class="QDoubleSpinBox" name="coordinate_Y_doubleSpinBox">
                <property name="geometry">
                 <rect>
-                 <x>290</x>
+                 <x>425</x>
                  <y>43</y>
-                 <width>123</width>
+                 <width>116</width>
                  <height>30</height>
                 </rect>
                </property>
@@ -2153,7 +2153,7 @@
               <widget class="QLabel" name="label_14">
                <property name="geometry">
                 <rect>
-                 <x>160</x>
+                 <x>290</x>
                  <y>16</y>
                  <width>121</width>
                  <height>30</height>
@@ -2178,7 +2178,7 @@
               <widget class="QLabel" name="label_15">
                <property name="geometry">
                 <rect>
-                 <x>290</x>
+                 <x>425</x>
                  <y>16</y>
                  <width>171</width>
                  <height>30</height>
@@ -2539,9 +2539,9 @@
             <widget class="QPushButton" name="pushButton_moveUp">
              <property name="geometry">
               <rect>
-               <x>432</x>
+               <x>434</x>
                <y>0</y>
-               <width>130</width>
+               <width>127</width>
                <height>30</height>
               </rect>
              </property>
@@ -2632,9 +2632,9 @@
             <widget class="QPushButton" name="pushButton_moveDown">
              <property name="geometry">
               <rect>
-               <x>432</x>
+               <x>434</x>
                <y>31</y>
-               <width>130</width>
+               <width>127</width>
                <height>30</height>
               </rect>
              </property>
@@ -3171,7 +3171,7 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>267</y>
+              <y>260</y>
               <width>471</width>
               <height>30</height>
              </rect>
@@ -3432,7 +3432,7 @@
            <x>10</x>
            <y>180</y>
            <width>572</width>
-           <height>81</height>
+           <height>86</height>
           </rect>
          </property>
          <property name="title">
@@ -3479,7 +3479,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>270</y>
+           <y>275</y>
            <width>572</width>
            <height>81</height>
           </rect>
