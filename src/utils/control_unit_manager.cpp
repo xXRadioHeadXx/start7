@@ -285,14 +285,15 @@ bool Control_Unit_Manager::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parren
 
        return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
        {
-           if(unit->getUdpUse()==0)//нельзя добавлять больше одного БОДа на RS 485
-           {
+
                if(un->getType()==TypeUnitNode::BOD_SOTA)
                    return true;
                if(un->getType()==TypeUnitNode::BOD_T4K_M)
                    return true;
 
-           }
+
+           return ((un->getNum1()==unit->getNum1()));
+
        });
 
 
@@ -484,14 +485,13 @@ bool Control_Unit_Manager::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parre
 
     return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
                 {
-                if(unit->getUdpUse()==0)//нельзя добавлять больше одного БОДа на RS 485
-                {
+
                     if(un->getType()==TypeUnitNode::BOD_SOTA)
                         return true;
                     if(un->getType()==TypeUnitNode::BOD_T4K_M)
                         return true;
 
-                }
+
                 return (un->getNum1()==unit->getNum1());
 
 
