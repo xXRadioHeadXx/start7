@@ -6119,7 +6119,8 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
             case TypeUnitNode::TG:
             case TypeUnitNode::RLM_KRL:
             case TypeUnitNode::TOROS:
-
+            case TypeUnitNode::DD_SOTA:
+            case TypeUnitNode::DD_T4K_M:
                 menu->addAction(action_setAlarmMsgOn);
 
                    if(un->getAlarmMsgOn()==0)

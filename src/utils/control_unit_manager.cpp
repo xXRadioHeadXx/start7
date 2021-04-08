@@ -181,7 +181,7 @@ return true;
 bool Control_Unit_Manager::pass_to_add_GROUP(UnitNode *unit, UnitNode* parrent,TreeModelUnitNode *modelTreeUN)
 {
 //группа может быть добавлена только к системе
-    if((parrent->getType()!=TypeUnitNode::SYSTEM))
+    if((parrent->getType()!=TypeUnitNode::SYSTEM)&&(parrent->getType()!=TypeUnitNode::GROUP))
     {
 //        QMessageBox::critical(0,"Ошибка",("Груп к системе");
 //        dialog.exec();
