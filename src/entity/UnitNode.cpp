@@ -1382,6 +1382,10 @@ QVariant UnitNode::data(int column) const noexcept
         {
             return QVariant(QObject::tr("Тревоги"));
         }
+        case 3:
+        {
+            return QVariant(QObject::tr("Автовыкл"));
+        }
             default:
                 return QVariant();
         }
@@ -1393,6 +1397,53 @@ QVariant UnitNode::data(int column) const noexcept
             case 0:
             {
                 return this->Name;
+            }
+            case 3:
+            {
+            if((this->getType()==TypeUnitNode::IU_BL_IP)||
+               (this->getType()==TypeUnitNode::SSOI_IU))
+                switch(this->getAdamOff())
+                {
+                case 0:
+
+                break;
+
+                case 1:
+                return "5 сек";
+                break;
+
+                case 2:
+                return "10 сек";
+                break;
+
+                case 3:
+                return "30 сек";
+                break;
+
+                case 4:
+                return "1 мин";
+                break;
+
+                case 5:
+                return "5 мин";
+                break;
+
+                case 6:
+                return "10 мин";
+                break;
+
+                case 7:
+                return "20 мин";
+                break;
+
+                case 8:
+                return "30 мин";
+                break;
+
+                case 9:
+                return "1 час";
+                break;
+                }
             }
             default:
                 return QVariant();
@@ -1486,7 +1537,7 @@ int UnitNode::treeRow() const noexcept
 
 int UnitNode::columnCount() const noexcept
 {
-    return 3;//itemData.count();
+    return 4;//itemData.count();
 }
 
 

@@ -85,6 +85,7 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
              pxm = item->getPxm(typeApp,index.column());
              break;
          }
+
          default:
          {
              break;
