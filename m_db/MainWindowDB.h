@@ -3,7 +3,7 @@
 
 #include <DataBaseManager.h>
 #include <QMainWindow>
-#include <TableModelMSG.h>
+#include <ServerTableModelJour.h>
 
 #include <GraphTerminal.h>
 
@@ -60,7 +60,7 @@ private:
 
     bool blockSignal = true;
     QSharedPointer<DataBaseManager> m_dbManager;
-    QSharedPointer<TableModelMSG> modelMSG = nullptr;
+    QSharedPointer<ServerTableModelJour> modelJour = nullptr;
     QTimer timerUpd;
     JourEntity selMsg;
     QString currentSqlQueryStr;

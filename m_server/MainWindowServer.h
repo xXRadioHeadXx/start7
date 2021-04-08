@@ -9,7 +9,7 @@
 #include <ServerTreeModelUnitNode.h>
 #include <PortManager.h>
 #include <DataBaseManager.h>
-#include <TableModelMSG.h>
+#include <ServerTableModelJour.h>
 #include <AuthenticationDialog.h>
 
 QT_BEGIN_NAMESPACE
@@ -110,6 +110,8 @@ private slots:
 
     void on_pushButton_WriteCustomization_clicked();
 
+    void verticalScrollBarJourValueChanged(int value);
+
 //    void on_comboBox_RLMEdge_currentIndexChanged(int index);
 
 //    void on_comboBox_RLMCondition_currentIndexChanged(int index);
@@ -127,7 +129,7 @@ private:
     QSharedPointer<PortManager> m_portManager;
     QSharedPointer<DataBaseManager> m_dbManager;
     QSharedPointer<AlarmSwitchOffLogger> m_alarmSwitchOffLogger;
-    TableModelMSG *modelMSG = nullptr;
+    QSharedPointer<ServerTableModelJour> modelJour;
     QSharedPointer<ServerTreeModelUnitNode> modelTreeUN;
 
     QSharedPointer<UnitNode> selUN;

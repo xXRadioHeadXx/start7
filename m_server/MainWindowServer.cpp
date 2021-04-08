@@ -18,6 +18,8 @@
 #include <SWPSDBLIP.h>
 #include <SWPIUBLIP.h>
 #include <SWPTGType0x31.h>
+#include <ServerTableModelJour.h>
+#include <QScrollBar>
 
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
@@ -41,15 +43,20 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     DataBaseManager::setIdStartLastDuty();
 
-    this->modelMSG = new TableModelMSG(this);
-    ui->tableView->setModel(this->modelMSG);
-    connect(this->modelMSG,
+    this->modelJour = QSharedPointer<ServerTableModelJour>::create(this);
+    ui->tableView->setModel(modelJour.data());
+    connect(this->modelJour.data(),
             SIGNAL(needScrollToBottom()),
             ui->tableView,
             SLOT(scrollToBottom()));
 
     modelTreeUN = QSharedPointer<ServerTreeModelUnitNode>::create(this);
-    modelMSG->setFont(ui->tableView->font());
+    modelJour->setFont(ui->tableView->font());
+
+    connect(ui->tableView->verticalScrollBar(),
+            SIGNAL(valueChanged(int)),
+            this,
+            SLOT(verticalScrollBarJourValueChanged(int)));
 
     ui->treeView->setModel(modelTreeUN.data());
 
@@ -63,7 +70,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     msg.setComment(tr("Программа запущена"));
     DataBaseManager::insertJourMsg(msg);
 
-    modelMSG->updateAllRecords();
+    modelJour->updateAllRecords();
 
     updComboBoxReason();
     updComboBoxTakenMeasures();
@@ -233,7 +240,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
 void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
 {
-    JourEntity sel = this->modelMSG->clickedMsg(index);
+    JourEntity sel = this->modelJour->clickedMsg(index);
 
     if(0 == sel.getId()) {
         ui->comboBoxReason->setCurrentIndex(-1);
@@ -703,7 +710,7 @@ void MainWindowServer::on_actionDiagnostics_triggered()
 
 void MainWindowServer::on_actionIncrease_triggered()
 {
-    QFont font = modelMSG->getFont();
+    QFont font = modelJour->getFont();
     int currentIndexFont = 0;
 
     for(int n = fontSize.size(); currentIndexFont < n; currentIndexFont++)
@@ -714,7 +721,7 @@ void MainWindowServer::on_actionIncrease_triggered()
         return;
 
     font.setPointSize(fontSize.at(currentIndexFont + 1).first);
-    modelMSG->setFont(font);
+    modelJour->setFont(font);
 
     ui->tableView->verticalHeader()->setMinimumHeight(fontSize.at(currentIndexFont + 1).second);
     ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont + 1).second);
@@ -734,7 +741,7 @@ void MainWindowServer::on_actionIncrease_triggered()
 
 void MainWindowServer::on_actionReduce_triggered()
 {
-    QFont font = modelMSG->getFont();
+    QFont font = modelJour->getFont();
     int currentIndexFont = 0;
 
     for(int n = fontSize.size(); currentIndexFont < n; currentIndexFont++)
@@ -745,7 +752,7 @@ void MainWindowServer::on_actionReduce_triggered()
         return;
 
     font.setPointSize(fontSize.at(currentIndexFont - 1).first);
-    modelMSG->setFont(font);
+    modelJour->setFont(font);
 
     ui->tableView->verticalHeader()->setMinimumHeight(fontSize.at(currentIndexFont - 1).second);
     ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont - 1).second);
@@ -819,7 +826,7 @@ void MainWindowServer::forcedNewDuty(bool out)
 
     DataBaseManager::setIdStartLastDuty();
 
-    modelMSG->updateAllRecords();
+    modelJour->updateAllRecords();
 
     initLabelOperator();
 }
@@ -1615,7 +1622,19 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 //        //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
         return;
     }
-//    //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked() <--";
+    //    //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked() <--";
+}
+
+void MainWindowServer::verticalScrollBarJourValueChanged(int value)
+{
+    if(value >= ui->tableView->verticalScrollBar()->maximum())
+    {
+        if(modelJour->getNeedScroll()) {
+            modelJour->setNeedScroll(false);
+        }
+    } else {
+        modelJour->setNeedScroll(false);
+    }
 }
 
 //void MainWindowServer::on_comboBox_RLMEdge_currentIndexChanged(int index)

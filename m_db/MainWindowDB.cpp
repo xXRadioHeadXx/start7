@@ -6,6 +6,7 @@
 #include <global.h>
 #include <UnitNodeFactory.h>
 #include <ServerSettingUtils.h>
+#include <ServerTableModelJour.h>
 
 QSharedPointer<GraphTerminal> MainWindowDB::graphTerminal = QSharedPointer<GraphTerminal>();
 
@@ -63,21 +64,21 @@ MainWindowDB::MainWindowDB(QWidget *parent)
 
     m_dbManager = QSharedPointer<DataBaseManager>::create(this);
 
-    modelMSG = QSharedPointer<TableModelMSG>::create(this);
+    modelJour = QSharedPointer<ServerTableModelJour>::create(this);
 
-    modelMSG->setFont(ui->tableView->font());
-    modelMSG->setForegroundRoleFlag(false);
-    modelMSG->setDecorationRoleFlag(false);
+    modelJour->setFont(ui->tableView->font());
+    modelJour->setForegroundRoleFlag(false);
+    modelJour->setDecorationRoleFlag(false);
 
-    ui->tableView->setModel(modelMSG.data());
-    connect(modelMSG.data(),
+    ui->tableView->setModel(modelJour.data());
+    connect(modelJour.data(),
             SIGNAL(needScrollToBottom()),
             ui->tableView,
             SLOT(scrollToBottom()));
     setBlockSignal(false);
 
     setCurrentSqlQueryStr(createCompositFilter());
-    modelMSG->castomUpdateListRecords(getCurrentSqlQueryStr());
+    modelJour->castomUpdateListRecords(getCurrentSqlQueryStr());
 
     updComboBoxReason();
     updComboBoxTakenMeasures();
@@ -345,7 +346,7 @@ void MainWindowDB::updateListRecords()
     if(getBlockSignal())
         return;
     //qDebug() << getCurrentSqlQueryStr();
-    modelMSG->castomUpdateListRecords(getCurrentSqlQueryStr());
+    modelJour->castomUpdateListRecords(getCurrentSqlQueryStr());
 }
 
 void MainWindowDB::on_pushButton_clicked()
@@ -407,7 +408,7 @@ void MainWindowDB::on_toolButtonAddTakenMeasures_clicked()
 
 void MainWindowDB::on_tableView_clicked(const QModelIndex &index)
 {
-    JourEntity sel = this->modelMSG->clickedMsg(index);
+    JourEntity sel = this->modelJour->clickedMsg(index);
 
     if(0 == sel.getId()) {
         ui->comboBoxReason->setCurrentIndex(-1);
@@ -467,7 +468,7 @@ void MainWindowDB::on_pushButton_4_clicked()
 
 void MainWindowDB::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    JourEntity sel = this->modelMSG->clickedMsg(index);
+    JourEntity sel = this->modelJour->clickedMsg(index);
 
     if(0 == sel.getId()) {
         return;
@@ -484,7 +485,7 @@ void MainWindowDB::on_tableView_doubleClicked(const QModelIndex &index)
 
     sqlFlt = sqlFlt.arg(selMsg.getId());
 
-    QList<JourEntity> tmpLs = this->modelMSG->getListMSG();
+    QList<JourEntity> tmpLs = modelJour->getListJour();
     if(selMsg.getId() != tmpLs.last().getId()) {
         int indexCurrentMsg = -1;
         for(int i = 0, n = tmpLs.size(); i < n; i++) {

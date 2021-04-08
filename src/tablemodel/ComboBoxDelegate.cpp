@@ -3,7 +3,7 @@
 #include <DataBaseManager.h>
 #include <JourEntity.h>
 #include <QComboBox>
-#include<TableModelMSG.h>
+#include <ServerTableModelJour.h>
 
 ComboBoxDelegate::ComboBoxDelegate(QString field, QObject *parent) : QItemDelegate(parent), field(field) { }
 
@@ -12,7 +12,7 @@ QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
     Q_UNUSED(option);
 
     QComboBox *comboBox = new QComboBox(parent);
-    auto jour = TableModelMSG::getListMSG().value(index.row(), JourEntity());
+    auto jour = ServerTableModelJour::getListJour().value(index.row(), JourEntity());
     QList<QString> items;
 
     if("reason" == field)
