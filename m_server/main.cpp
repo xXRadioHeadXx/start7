@@ -10,16 +10,23 @@
 int main(int argc, char *argv[])
 {
 
+    QApplication app(argc, argv);
+
     RunGuard guardCopyServer( "start7_server" );
-    if ( !guardCopyServer.tryToRun() )
+    if ( !guardCopyServer.tryToRun() ) {
+        QMessageBox::critical(nullptr,
+                              QObject::tr("Предупреждение"),
+                              QObject::tr("Программа уже запущена!"));
         return 0;
+    }
 
     RunGuard guardCfg( "start7_cfg" );
-    if ( !guardCfg.tryToRun() )
+    if ( !guardCfg.tryToRun() ) {
+        QMessageBox::critical(nullptr,
+                             QObject::tr("Предупреждение"),
+                             QObject::tr("Для работы программа необходимо завершить работу модуля \"Сервер\"!"));
         return 0;
-
-
-    QApplication app(argc, argv);
+    }
 
     AuthenticationDialog ad;
     if(0 != ad.getInitialResult()) {
