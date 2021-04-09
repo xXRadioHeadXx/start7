@@ -1629,8 +1629,8 @@ void MainWindowServer::verticalScrollBarJourValueChanged(int value)
 {
     if(value >= ui->tableView->verticalScrollBar()->maximum())
     {
-        if(modelJour->getNeedScroll()) {
-            modelJour->setNeedScroll(false);
+        if(!modelJour->getNeedScroll()) {
+            modelJour->setNeedScroll(true);
         }
     } else {
         modelJour->setNeedScroll(false);
