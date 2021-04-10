@@ -6,6 +6,7 @@
 #include <Utils.h>
 #include <QTextCodec>
 #include <Utils.h>
+#include <SimpleIni.h>
 
 AuthenticationDialog::AuthenticationDialog(QWidget *parent) :
     QDialog(parent),
@@ -22,35 +23,37 @@ AuthenticationDialog::~AuthenticationDialog()
 }
 
 int AuthenticationDialog::initialForm(const QString fileName)
-{
-    QSettings settings(fileName, QSettings::IniFormat);
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
+{    
+    CSimpleIniA ini;
+    ini.LoadFile(fileName.toStdString().c_str());
 
-    if(!settings.childGroups().contains("OPERATORS")) {
+    if(0 == ini.GetSection("OPERATORS")) {
         this->setResult(QDialog::Rejected);
         return 0;
     }
 
-    settings.beginGroup("OPERATORS");
-    if(!settings.childKeys().contains("Use")) {
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+
+    const char* use;
+    use = ini.GetValue("OPERATORS", "Use");
+
+    if(nullptr == use) {
         this->setResult(QDialog::Rejected);
         return 0;
     }
-    if(0 == settings.value( "Use", -1 ).toInt()){
+    if(0 == codec->toUnicode(use).toInt()){
         this->setResult(QDialog::Accepted);
         return 0;
     }
 
-    if(!settings.childKeys().contains("Count")) {
+    const char* count;
+    count = ini.GetValue("OPERATORS", "Count");
+
+    if(nullptr == count) {
         this->setResult(QDialog::Rejected);
         return 0;
     }
-    int userCount = settings.value( "Count", -1 ).toInt();
-    settings.endGroup();
+    int userCount = codec->toUnicode(count).toInt();
 
     if(0 == userCount){
         this->setResult(QDialog::Accepted);
@@ -61,33 +64,38 @@ int AuthenticationDialog::initialForm(const QString fileName)
     for(int i = 0; i < userCount; i++) {
         QString group = "Operator_%1";
         group = group.arg(i);
-        settings.beginGroup(group);
+        if(0 == ini.GetSection(group.toStdString().c_str())) {
+            continue;
+        }
         Operator newUser;
-        newUser.setFN(settings.value( "FN", -1 ).toString());
-        newUser.setN1(settings.value( "N1", -1 ).toString());
-        newUser.setN2(settings.value( "N2", -1 ).toString());
-        newUser.setPW(settings.value( "PW", -1 ).toString());
-        settings.endGroup();
+        newUser.setFN(codec->toUnicode(ini.GetValue(group.toStdString().c_str(), "FN")));
+        newUser.setN1(codec->toUnicode(ini.GetValue(group.toStdString().c_str(), "N1")));
+        newUser.setN2(codec->toUnicode(ini.GetValue(group.toStdString().c_str(), "N2")));
+        newUser.setPW(QString(ini.GetValue(group.toStdString().c_str(), "PW")));
+
+        const char * criptPasswordChar = ini.GetValue(group.toStdString().c_str(), "PW");
+        QString criptPassword = QString::fromLatin1(criptPasswordChar);
+        QString key = "start7";
+        QString decriptPassword = Utils::xorCrypt(criptPassword, key);
+        decriptPassword = codec->toUnicode(decriptPassword.toStdString().c_str());
+        newUser.setDecriptPW(decriptPassword);
+
         listUser.append(newUser);
     }
 
     ui->comboBox->clear();
     for(int i = 0; i < listUser.size(); i++) {
-        ui->comboBox->addItem(listUser.at(i).getOperatorLable());
+        ui->comboBox->addItem(listUser.at(i).getOperatorLableText());
     }
     return 1;
 }
 
 void AuthenticationDialog::on_pushButton_clicked()
 {
-    QString in = ui->lineEdit->text();
-    QString key = "start7";
+    QString dcrPWFromForm = ui->lineEdit->text();
+    QString dcrPWFromUser = listUser.at(ui->comboBox->currentIndex()).getDecriptPW();
 
-//    QString crPW = Operator::XOR_Crypt(in,  key);
-    QString crPW = Utils::xorCrypt(in,  key);
-    QString PW = listUser.at(ui->comboBox->currentIndex()).getPW();
-
-    if(PW == crPW) {
+    if(dcrPWFromForm == dcrPWFromUser) {
         Operator::setApprovedOperator(listUser.at(ui->comboBox->currentIndex()));
         this->setResult(QDialog::Accepted);
         this->accept();

@@ -559,7 +559,7 @@ UnitNode::UnitNode(const UnitNode & parent) :
 
 UnitNode::~UnitNode()
 {
-    qDebug() << "UnitNode::~UnitNode("<<this->toString()<<")";
+//    qDebug() << "UnitNode::~UnitNode("<<this->toString()<<")";
 }
 
 UnitNode & UnitNode::operator=(const UnitNode& c) {

@@ -12,7 +12,7 @@ public:
 
     Operator & operator=(const Operator& );
 
-    QString getOperatorLable() const;
+    QString getOperatorLableText() const;
 
     QString getFN() const;
     void setFN(const QString &value);
@@ -26,17 +26,22 @@ public:
     QString getPW() const;
     void setPW(const QString &value);
 
+    QString getDecriptPW() const;
+    void setDecriptPW(const QString &value);
+
 //    static QByteArray XOR_Crypt(const QByteArray in, const QByteArray key);
 //    static QString XOR_Crypt(const QString in, const QString key);
 
     static Operator getApprovedOperator();
     static void setApprovedOperator(const Operator &value);
 
+
 private:
     QString FN;
     QString N1;
     QString N2;
     QString PW;
+    QString decriptPW;
 
     static Operator approvedOperator;
 };

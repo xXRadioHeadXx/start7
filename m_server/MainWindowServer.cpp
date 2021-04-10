@@ -692,7 +692,7 @@ void MainWindowServer::initLabelOperator()
     } else {
         ui->labelOperator->clear();
         ui->labelOperator->setVisible(true);
-        ui->labelOperator->setText(tr("Оператор") + ": " + Operator::getApprovedOperator().getOperatorLable());
+        ui->labelOperator->setText(tr("Оператор") + ": " + Operator::getApprovedOperator().getOperatorLableText());
     }
 }
 

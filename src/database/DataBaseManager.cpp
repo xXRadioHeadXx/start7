@@ -217,7 +217,7 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     query.bindValue(":vReason", msg.getReason());
     query.bindValue(":vMeasures", msg.getMeasures());
 //    query.bindValue(":vOperatorid", msg.getOperatorid());
-    query.bindValue(":vOperatorid", Operator::getApprovedOperator().getOperatorLable());
+    query.bindValue(":vOperatorid", Operator::getApprovedOperator().getOperatorLableText());
     query.bindValue(":vStatus", msg.getStatus());
     query.bindValue(":vDirection", msg.getDirection());
     query.bindValue(":vD1", msg.getD1());
