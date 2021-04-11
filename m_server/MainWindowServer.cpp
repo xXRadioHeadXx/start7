@@ -161,6 +161,8 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
 MainWindowServer::~MainWindowServer()
 {
+    on_pushButtonAlarmReset_clicked();
+
     JourEntity msg;
     msg.setObject(tr("Оператор"));
     msg.setType(901);
