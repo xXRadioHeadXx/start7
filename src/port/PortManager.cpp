@@ -1399,7 +1399,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
 //        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x31 -- break(1)";
-        break;
+//        break;
     }
 //    qDebug() << "PortManager::parcingStatusWord0x31 <--";
     return resultRequest;

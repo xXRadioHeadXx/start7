@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>794</width>
-    <height>625</height>
+    <height>717</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,6 +21,23 @@
        <string>Выбор данных</string>
       </property>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="14" column="0" colspan="6">
+        <widget class="QComboBox" name="comboBox_9"/>
+       </item>
+       <item row="18" column="0" colspan="6">
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="text">
+          <string>Печать</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="4" colspan="2">
+        <widget class="QDateEdit" name="dateEdit_2">
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item row="16" column="0" colspan="6">
         <widget class="QPushButton" name="pushButton">
          <property name="text">
@@ -28,17 +45,58 @@
          </property>
         </widget>
        </item>
-       <item row="19" column="1" colspan="5">
-        <widget class="QPushButton" name="pushButton_4">
+       <item row="17" column="0" colspan="6">
+        <widget class="QPushButton" name="pushButton_2">
          <property name="text">
-          <string>Печать PDF</string>
+          <string>Предварительный просмотр</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="2" colspan="2">
-        <widget class="QLabel" name="label_9">
+       <item row="6" column="0" colspan="6">
+        <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>БЛ</string>
+          <string>Адресс </string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2" colspan="3">
+        <widget class="QComboBox" name="comboBox_7"/>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0" colspan="6">
+        <widget class="QComboBox" name="comboBox_3"/>
+       </item>
+       <item row="2" column="4">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>по</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Событие</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="5">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>СД</string>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="5">
+        <widget class="QToolButton" name="toolButtonRemoveTakenMeasures">
+         <property name="text">
+          <string>...</string>
          </property>
         </widget>
        </item>
@@ -55,57 +113,27 @@
          </property>
         </spacer>
        </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="QComboBox" name="comboBox_6"/>
-       </item>
-       <item row="10" column="2" colspan="3">
-        <widget class="QComboBox" name="comboBox_7"/>
-       </item>
-       <item row="13" column="0" colspan="6">
-        <widget class="QLabel" name="label_11">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Тип бъекта, подключаемого к СД</string>
+          <string>Тип данных</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="6">
-        <widget class="QComboBox" name="comboBox_2"/>
+       <item row="10" column="0" colspan="2">
+        <widget class="QComboBox" name="comboBox_6"/>
+       </item>
+       <item row="8" column="2" colspan="2">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>БЛ</string>
+         </property>
+        </widget>
        </item>
        <item row="4" column="0" colspan="2">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Объект</string>
-         </property>
-        </widget>
-       </item>
-       <item row="22" column="1">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Принятые меры</string>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="1">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Причины</string>
-         </property>
-        </widget>
-       </item>
-       <item row="21" column="5">
-        <widget class="QToolButton" name="toolButtonRemoveReason">
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="5">
-        <widget class="QComboBox" name="comboBox_8"/>
-       </item>
-       <item row="23" column="4">
-        <widget class="QToolButton" name="toolButtonAddTakenMeasures">
-         <property name="text">
-          <string>...</string>
          </property>
         </widget>
        </item>
@@ -116,13 +144,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Тип данных</string>
-         </property>
-        </widget>
-       </item>
        <item row="8" column="0" colspan="2">
         <widget class="QLabel" name="label_8">
          <property name="text">
@@ -130,25 +151,15 @@
          </property>
         </widget>
        </item>
-       <item row="14" column="0" colspan="6">
-        <widget class="QComboBox" name="comboBox_9"/>
-       </item>
-       <item row="8" column="5">
-        <widget class="QLabel" name="label_10">
+       <item row="13" column="0" colspan="6">
+        <widget class="QLabel" name="label_11">
          <property name="text">
-          <string>СД</string>
+          <string>Тип бъекта, подключаемого к СД</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="3">
-        <widget class="QDateEdit" name="dateEdit"/>
-       </item>
-       <item row="17" column="0" colspan="6">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>Предварительный просмотр</string>
-         </property>
-        </widget>
+       <item row="5" column="0" colspan="6">
+        <widget class="QComboBox" name="comboBox_2"/>
        </item>
        <item row="1" column="0" colspan="6">
         <widget class="QComboBox" name="comboBox">
@@ -164,56 +175,18 @@
          </item>
         </widget>
        </item>
-       <item row="21" column="4">
-        <widget class="QToolButton" name="toolButtonAddReason">
+       <item row="23" column="4">
+        <widget class="QToolButton" name="toolButtonAddTakenMeasures">
          <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
-       <item row="18" column="0" colspan="6">
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="text">
-          <string>Печать</string>
-         </property>
-        </widget>
+       <item row="10" column="5">
+        <widget class="QComboBox" name="comboBox_8"/>
        </item>
-       <item row="3" column="4" colspan="2">
-        <widget class="QDateEdit" name="dateEdit_2"/>
-       </item>
-       <item row="12" column="0" colspan="6">
-        <widget class="QComboBox" name="comboBox_3"/>
-       </item>
-       <item row="21" column="1" colspan="3">
-        <widget class="QComboBox" name="comboBoxReason">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="1" colspan="3">
-        <widget class="QComboBox" name="comboBoxTakenMeasures">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="2">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Событие</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>по</string>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="5">
-        <widget class="QToolButton" name="toolButtonRemoveTakenMeasures">
+       <item row="21" column="4">
+        <widget class="QToolButton" name="toolButtonAddReason">
          <property name="text">
           <string>...</string>
          </property>
@@ -229,10 +202,45 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="6">
-        <widget class="QLabel" name="label_12">
+       <item row="21" column="5">
+        <widget class="QToolButton" name="toolButtonRemoveReason">
          <property name="text">
-          <string>Адресс </string>
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="0" colspan="6">
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="text">
+          <string>Печать PDF</string>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="0" colspan="2">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Причины</string>
+         </property>
+        </widget>
+       </item>
+       <item row="21" column="0" colspan="4">
+        <widget class="QComboBox" name="comboBoxReason">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="22" column="0" colspan="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Принятые меры</string>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="0" colspan="4">
+        <widget class="QComboBox" name="comboBoxTakenMeasures">
+         <property name="editable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -269,7 +277,7 @@
      <x>0</x>
      <y>0</y>
      <width>794</width>
-     <height>18</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

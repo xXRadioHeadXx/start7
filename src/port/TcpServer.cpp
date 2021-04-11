@@ -27,7 +27,6 @@ TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
 TcpServer::~TcpServer() {
     if(nullptr != m_ptrTcpServer) {
         m_ptrTcpServer->close();
-        m_ptrTcpServer.clear();
     }
 }
 
