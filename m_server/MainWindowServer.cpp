@@ -870,7 +870,10 @@ void MainWindowServer::on_actionUNSqlSelect_triggered()
 #endif
 
 //    file.append(" -sql \"" + getUnSqlSelect() + "\"");
-    process->start(file, QStringList() << "-sql" << "\"" + getUnSqlSelect() + "\"");
+    QTextCodec *codec = QTextCodec::codecForName("utf-8");
+//    codec->fromUnicode("-sql");
+//    codec->fromUnicode("\"" + getUnSqlSelect() + "\"");
+    process->start(file, QStringList() << codec->fromUnicode("-sql") << codec->fromUnicode("\"" + getUnSqlSelect() + "\""));
 }
 
 void MainWindowServer::changeSelectUN(QSharedPointer<UnitNode> un)
