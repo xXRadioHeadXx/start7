@@ -227,6 +227,8 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
     if(TypeUnitNode::GROUP == selUN->getType()) {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + ": \"" + sel->getName() + "\"");
+    } else if(TypeUnitNode::SD_BL_IP == selUN->getType() && 1 == selUN->getBazalt()) {//БЛ-IP УЗ: СД:№ + ИУ:№
+        ui->labelSelectedUN->setText(QString("БЛ-IP УЗ: СД:%1 + ИУ:%1").arg(sel->getNum2()));
     } else if(TypeUnitNode::SD_BL_IP == selUN->getType()) {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString());
     } else if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
