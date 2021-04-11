@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QtSql>
+#include <ShedulerNewDuty.h>
 
 #include <JourEntity.h>
 
@@ -12,6 +13,8 @@ class DataBaseManager : public QObject
 
     static qint64 idStartLastDuty;
     static QSqlDatabase db;
+
+    static QSharedPointer<ShedulerNewDuty> shedulerNewDuty;
 
 public:
     explicit DataBaseManager(QObject *parent = nullptr) noexcept;

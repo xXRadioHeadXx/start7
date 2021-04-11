@@ -133,6 +133,11 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             this,
             SLOT(forcedNewDuty(bool)));
 
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(updateLabelOperator()),
+            this,
+            SLOT(initLabelOperator()));
+
     ui->treeView->resizeColumnToContents(0);
 
     ui->tableView->resizeColumnToContents(0);
@@ -779,7 +784,7 @@ void MainWindowServer::on_actionNewScheme_triggered()
 
     if(QMessageBox::Ok == ret) {
 
-        if(0 != ServerSettingUtils::getValueSettings("P1", "MYSQL").toInt() || 0 != ServerSettingUtils::getValueSettings("P2", "MYSQL").toInt()) {
+        if(0 != ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt() || 0 != ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt()) {
             QString sql = " select * from jour where flag != 0 ";
             QList<JourEntity> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
 

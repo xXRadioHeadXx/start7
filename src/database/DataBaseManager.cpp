@@ -7,13 +7,16 @@
 
 qint64 DataBaseManager::idStartLastDuty = -1;
 
+QSqlDatabase DataBaseManager::db = QSqlDatabase();
+
+QSharedPointer<ShedulerNewDuty> DataBaseManager::shedulerNewDuty;
+
+
 QString DataBaseManager::HostName = QString();
 QString DataBaseManager::DatabaseName = QString();
 QString DataBaseManager::UserName = QString();
 QString DataBaseManager::Password = QString();
 QString DataBaseManager::Port = QString();
-
-QSqlDatabase DataBaseManager::db = QSqlDatabase();
 
 qint64 DataBaseManager::getIdStartLastDuty()
 {
@@ -145,6 +148,15 @@ QSqlDatabase& DataBaseManager::m_db()
             setPassword(password);
             setPort(port);
             //qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
+
+            auto autoNewDuty = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStart"));
+            auto hour = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStartHour"));
+            auto minute = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStartMinute"));
+
+            if(1 == autoNewDuty.toInt()) {
+                shedulerNewDuty = QSharedPointer<ShedulerNewDuty>::create(QTime(hour.toInt(), minute.toInt()));
+                shedulerNewDuty->start();
+            }
         }
 
         db.setHostName(getHostName());

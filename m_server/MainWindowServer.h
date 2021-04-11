@@ -118,8 +118,11 @@ private slots:
 
 //    void on_comboBox_RLMTactPeriod_currentIndexChanged(int index);
 
+    void initLabelOperator();
+
 protected:
     void closeEvent(QCloseEvent * event);
+
 
 //    void resizeEvent(QResizeEvent *e = nullptr) noexcept;
 
@@ -148,7 +151,6 @@ private:
     QString getUnSqlSelect() const;
     void setUnSqlSelect(const QString &value);
 
-    void initLabelOperator();
 signals:
 //    void setTranslator(QTranslator *ts);
 //    void resetTranslator(QTranslator *ts);

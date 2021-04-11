@@ -15,6 +15,8 @@ SOURCES += \
 #    $$PWD/TablePrint.cpp \
     $$PWD/ServerSettingUtils.cpp \
 #    $$PWD/SettingUtils.cpp \
+    $$PWD/Sheduler.cpp \
+    $$PWD/ShedulerNewDuty.cpp \
     $$PWD/Utils.cpp \
 #    $$PWD/ConfirmationAdmissionWaiter.cpp \
 #    $$PWD/StatusRequester.cpp \
@@ -33,6 +35,8 @@ HEADERS += \
 #    $$PWD/TablePrint.h \
     $$PWD/ServerSettingUtils.h \
 #    $$PWD/SettingUtils.h \
+    $$PWD/Sheduler.h \
+    $$PWD/ShedulerNewDuty.h \
     $$PWD/SimpleIni.h \
     $$PWD/Utils.h \
 #    $$PWD/ConfirmationAdmissionWaiter.h \

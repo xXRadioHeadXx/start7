@@ -146,3 +146,8 @@ void SignalSlotCommutator::emitAlarmsReset(QSharedPointer<UnitNode> un) const
 {
     emit this->alarmsReset(un);
 }
+
+void SignalSlotCommutator::emitUpdateLabelOperator() const
+{
+    emit this->updateLabelOperator();
+}
