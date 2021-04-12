@@ -42,13 +42,13 @@
     <string>Фамилия</string>
    </property>
   </widget>
-  <widget class="My_lineEdit" name="FN_lineedit">
+  <widget class="My_lineEdit" name="FN_lineedit" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>30</y>
      <width>301</width>
-     <height>20</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>
@@ -65,13 +65,13 @@
     <string>Имя</string>
    </property>
   </widget>
-  <widget class="My_lineEdit" name="N1_lineedit">
+  <widget class="My_lineEdit" name="N1_lineedit" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>90</y>
      <width>141</width>
-     <height>20</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>
@@ -88,13 +88,13 @@
     <string>Отчество</string>
    </property>
   </widget>
-  <widget class="My_lineEdit" name="N2_lineedit">
+  <widget class="My_lineEdit" name="N2_lineedit" native="true">
    <property name="geometry">
     <rect>
      <x>160</x>
      <y>90</y>
      <width>151</width>
-     <height>20</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>
@@ -102,7 +102,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>150</y>
+     <y>140</y>
      <width>301</width>
      <height>16</height>
     </rect>
@@ -111,17 +111,24 @@
     <string>Пароль</string>
    </property>
   </widget>
-  <widget class="My_lineEdit" name="PW_lineedit">
+  <widget class="My_lineEdit" name="PW_lineedit" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
+     <y>160</y>
      <width>301</width>
-     <height>20</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

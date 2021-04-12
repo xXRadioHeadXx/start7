@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>8</number>
+        <number>7</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3192,12 +3192,18 @@
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
+            <property name="decimals">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <double>23.000000000000000</double>
+            </property>
            </widget>
            <widget class="QDoubleSpinBox" name="SQL_AutoDbStartMinute_doubleSpinBox">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>330</y>
+              <x>120</x>
+              <y>300</y>
               <width>62</width>
               <height>30</height>
              </rect>
@@ -3205,13 +3211,19 @@
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
+            <property name="decimals">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <double>59.000000000000000</double>
+            </property>
            </widget>
            <widget class="QLabel" name="label_32">
             <property name="geometry">
              <rect>
               <x>80</x>
               <y>300</y>
-              <width>201</width>
+              <width>41</width>
               <height>30</height>
              </rect>
             </property>
@@ -3222,8 +3234,8 @@
            <widget class="QLabel" name="label_33">
             <property name="geometry">
              <rect>
-              <x>80</x>
-              <y>330</y>
+              <x>190</x>
+              <y>300</y>
               <width>181</width>
               <height>30</height>
              </rect>
@@ -3606,7 +3618,7 @@
      <x>0</x>
      <y>0</y>
      <width>1043</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -3678,6 +3690,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>ssoi_widget</class>
    <extends>QWidget</extends>
    <header location="global">ssoi_widget.h</header>
@@ -3706,11 +3723,6 @@
    <extends>QWidget</extends>
    <header location="global">my_treeview.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>My_lineEdit</class>
-   <extends>QWidget</extends>
-   <header>my_lineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -1734,7 +1734,7 @@ void MainWindowCFG::update_operators_table()
         this->ui->tableWidget->item(cnt,1)->setFlags(this->ui->tableWidget->item(cnt,1)->flags() ^ Qt::ItemIsEditable);
         this->ui->tableWidget->item(cnt,2)->setFlags(this->ui->tableWidget->item(cnt,2)->flags() ^ Qt::ItemIsEditable);
         this->ui->tableWidget->item(cnt,3)->setFlags(this->ui->tableWidget->item(cnt,3)->flags() ^ Qt::ItemIsEditable);
-
+        this->ui->tableWidget->item(cnt,4)->setFlags(this->ui->tableWidget->item(cnt,4)->flags() ^ Qt::ItemIsEditable);
     }
 }
 
@@ -3800,11 +3800,9 @@ void MainWindowCFG::load_other_options_from_ini_file(QString filename)
 void MainWindowCFG::get_PARAMS(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
     settings.beginGroup("PARAMS");
 
@@ -3953,11 +3951,9 @@ void MainWindowCFG::default_options()
 void MainWindowCFG::get_RIF(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
 
     settings.beginGroup("RIF");
@@ -4062,11 +4058,9 @@ void MainWindowCFG::default_RIF()
 void MainWindowCFG::get_SSOI(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
     settings.beginGroup("SSOI");
 
@@ -4185,11 +4179,9 @@ void MainWindowCFG::default_RASTRMTV()
 void MainWindowCFG::get_INTEGRATION(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
       settings.beginGroup("INTEGRATION");
 
@@ -4441,11 +4433,9 @@ this->ui->SQL_type_comboBox->setCurrentText("Выкл");
 void MainWindowCFG::get_ADAM4068(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
     //  Port=0
     //  Interval=100
 
@@ -4515,11 +4505,9 @@ void MainWindowCFG::get_BACKUP(QString filename)
 {
 
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 //int res=0;
 
     settings.beginGroup("BACKUP");
@@ -4583,11 +4571,9 @@ void MainWindowCFG::default_PORT()
 void MainWindowCFG::get_OPERATORS(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
 
 
     settings.beginGroup("OPERATORS");
@@ -4604,7 +4590,7 @@ void MainWindowCFG::get_OPERATORS(QString filename)
 
         int Count=settings.value("Count",-1).toInt();
 
-        //qDebug()<<"OPERATORS Count = "<<Count;
+        qDebug()<<"OPERATORS Count = "<<Count;
         settings.endGroup();
 
         for(int i=0;i<Count;i++)
@@ -4696,11 +4682,9 @@ void MainWindowCFG::default_OPERATORS()
 void MainWindowCFG::get_ASOOSD(QString filename)
 {
     QSettings settings(filename, QSettings::IniFormat);
-  #if (defined (_WIN32) || defined (_WIN64))
-      settings.setIniCodec( "Windows-1251" );
-  #else
-      settings.setIniCodec( "UTF-8" );
-  #endif
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    QTextCodec::setCodecForLocale(codec);
+    settings.setIniCodec(codec);
     settings.beginGroup("ASOOSD");
 
       this->ui->ASOOSD_Use->setCurrentText(m_ASOOSD_use.value(settings.value("Use",0).toInt()));
