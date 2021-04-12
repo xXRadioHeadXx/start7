@@ -19,7 +19,6 @@ ServerTreeModelUnitNode::ServerTreeModelUnitNode(QObject *parent) :
 {
 //    rootItemUN = QSharedPointer<UnitNode>::create();
     rootItemUN->setLevel(0); //rootItemUN->treeParent().isNull();
-    rootItemUN->setName("Имя");
 
 
     connect(SignalSlotCommutator::getInstance(),

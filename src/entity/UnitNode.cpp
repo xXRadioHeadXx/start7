@@ -593,29 +593,14 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
 
 QVariant UnitNode::dataTreeColumn(int column) const
 {
-    if( 0 == this->getLevel())
+    switch(column)
     {
-        switch(column)
+        case 0:
         {
-            case 0:
-            {
-                return QVariant(QObject::tr("Имя")); //"Имя"
-            }
-            default:
-                return QVariant();
+            return this->getName();
         }
-    }
-    else
-    {
-        switch(column)
-        {
-            case 0:
-            {
-                return this->getName();
-            }
-            default:
-                return QVariant();
-        }
+        default:
+            return QVariant();
     }
 
     return QVariant();

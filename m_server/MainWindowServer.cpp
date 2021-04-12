@@ -1087,8 +1087,8 @@ void MainWindowServer::preparePagePoint(int /*typeUN*/)
     ui->comboBox_PointInput->clear();
     ui->comboBox_PointInput->setEnabled(false);
     ui->comboBox_PointInput->setEditable(false);
-    for(int i = 0, n = 10; i < n; i++) {
-        ui->comboBox_PointInput->addItem(QString::number(i + 1));
+    for(int i = 0, n = 4; i < n; i++) {
+        ui->comboBox_PointInput->addItem(QString::number(i + 1), i);
     }
     ui->comboBox_PointInput->setEnabled(true);
 
