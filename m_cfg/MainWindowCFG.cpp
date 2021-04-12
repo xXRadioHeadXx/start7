@@ -1732,7 +1732,7 @@ void MainWindowCFG::update_operators_table()
         this->ui->tableWidget->item(cnt,1)->setFlags(this->ui->tableWidget->item(cnt,1)->flags() ^ Qt::ItemIsEditable);
         this->ui->tableWidget->item(cnt,2)->setFlags(this->ui->tableWidget->item(cnt,2)->flags() ^ Qt::ItemIsEditable);
         this->ui->tableWidget->item(cnt,3)->setFlags(this->ui->tableWidget->item(cnt,3)->flags() ^ Qt::ItemIsEditable);
-
+        this->ui->tableWidget->item(cnt,4)->setFlags(this->ui->tableWidget->item(cnt,4)->flags() ^ Qt::ItemIsEditable);
     }
 }
 

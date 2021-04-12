@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>8</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3606,7 +3606,7 @@
      <x>0</x>
      <y>0</y>
      <width>1043</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -3678,6 +3678,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>ssoi_widget</class>
    <extends>QWidget</extends>
    <header location="global">ssoi_widget.h</header>
@@ -3706,11 +3711,6 @@
    <extends>QWidget</extends>
    <header location="global">my_treeview.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>My_lineEdit</class>
-   <extends>QWidget</extends>
-   <header>my_lineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>
