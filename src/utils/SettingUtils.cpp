@@ -36,6 +36,8 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitN
     settings.endGroup();
 
 
+    root->setDK(0);
+    root->setAlarmMsgOn(0);
 
     //qDebug() << "cntTrItm" << cntTrItm;
     if(0 >= cntTrItm)
@@ -286,6 +288,8 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
    //         delete un;
         getListTreeUnitNodes().clear();
         root->deleteAll();
+        root->setDK(0);
+        root->setAlarmMsgOn(0);
     }
 
 
