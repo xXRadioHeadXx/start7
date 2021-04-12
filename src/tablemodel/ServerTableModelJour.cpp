@@ -342,7 +342,7 @@ void ServerTableModelJour::updateRecord(const quint32 idMSG)
     for(int i = 0, n = m_listJour.size(); i < n; i++) {
         JourEntity target = m_listJour.at(i);
         if(target.getId() == updRecord.first().getId()) {
-            target = updRecord.first();
+            m_listJour[i] = updRecord.first();
             emit this->dataChanged(this->index(i, 0, QModelIndex()), this->index(i, 6, QModelIndex()));
             break;
         }
