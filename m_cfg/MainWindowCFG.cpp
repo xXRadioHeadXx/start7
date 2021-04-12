@@ -543,6 +543,8 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
     ui->treeView->setColumnWidth(3,60);
 
 
+
+
   //  ui->treeView->installEventFilter(this);
 
 
