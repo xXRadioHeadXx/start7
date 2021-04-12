@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>7</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3192,6 +3192,9 @@
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
             </property>
+            <property name="maximum">
+             <double>23.000000000000000</double>
+            </property>
            </widget>
            <widget class="QDoubleSpinBox" name="SQL_AutoDbStartMinute_doubleSpinBox">
             <property name="geometry">
@@ -3204,6 +3207,9 @@
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
+            </property>
+            <property name="maximum">
+             <double>59.000000000000000</double>
             </property>
            </widget>
            <widget class="QLabel" name="label_32">
