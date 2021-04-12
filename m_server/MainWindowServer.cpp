@@ -386,6 +386,7 @@ void MainWindowServer::on_pushButtonAlarmReset_clicked()
         msgOn.setObject(tr("Оператор"));
         msgOn.setType(903);
         msgOn.setComment(tr("Выполнен сброс тревог"));
+        msgOn.setFlag(0);
         DataBaseManager::insertJourMsg_wS(msgOn);
         GraphTerminal::sendAbonentEventsAndStates(msgOn);
     }

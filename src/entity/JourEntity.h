@@ -29,7 +29,7 @@ private:
     int d4 = 0;
     int type = 0;
     int objecttype = 0;
-    int flag = 0;
+    int flag = 1;
 
     static QMap<int, QString> mapTypeObject;
     static QMap<int, QString> mapTypeEvent;

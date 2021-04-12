@@ -692,6 +692,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                             msgOn.setType(1903);
                             msgOn.setComment(tr("Удал. ком. Сброс тревог"));
                             msgOn.setDirection(Utils::hostAddressToString(itm.address()));
+                            msgOn.setFlag(0);
                             DataBaseManager::insertJourMsg_wS(msgOn);
                             GraphTerminal::sendAbonentEventsAndStates(msgOn);
                             DataBaseManager::resetAllFlags_wS();
@@ -704,6 +705,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                             msgOn.setObject(tr("Оператор"));
                             msgOn.setType(903);
                             msgOn.setComment(tr("Выполнен сброс тревог"));
+                            msgOn.setFlag(0);
                             DataBaseManager::insertJourMsg_wS(msgOn);
                             GraphTerminal::sendAbonentEventsAndStates(msgOn);
                         }

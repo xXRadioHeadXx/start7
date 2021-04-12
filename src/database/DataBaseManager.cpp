@@ -238,8 +238,8 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     query.bindValue(":vD4", msg.getD4());
     query.bindValue(":vType", msg.getType());
     query.bindValue(":vObjecttype", msg.getObjecttype());
-    query.bindValue(":vFlag", 1);
-//    query.bindValue(":vFlag", msg.getFlag());
+//    query.bindValue(":vFlag", 1);
+    query.bindValue(":vFlag", msg.getFlag());
 
     if(query.exec())
     {
