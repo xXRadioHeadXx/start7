@@ -118,7 +118,16 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
         setUnTarget(un);
 
         int udpTimeout = 50;
-        udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
+        if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
+            for(auto i = 0, n = getUnReciver()->childCount(); i < n; i++) {
+                auto cun = getUnReciver()->child(i);
+                if(TypeUnitNode::SD_BL_IP == cun->getType() || TypeUnitNode::IU_BL_IP == cun->getType()) {
+                    udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
+                }
+            }
+        } else {
+            udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
+        }
         setTimeIntervalRequest(udpTimeout);
 
         getUnReciver()->setCountSCRWA(getUnReciver()->getCountSCRWA() + 1);
