@@ -15,14 +15,30 @@
 
 int main(int argc, char *argv[])
 {
+    {
+        RunGuard guardCopyCfg( "start7_cfg" );
+        if ( !guardCopyCfg.tryToRun() ) {
+            QMessageBox::critical(nullptr,
+                                  QObject::tr("Предупреждение"),
+                                  QObject::tr("Программа уже запущена!"));
+            guardCopyCfg.release();
+            return 0;
+        }
+    }
+
+    {
+        RunGuard guardServer( "start7_server" );
+        if ( !guardServer.tryToRun() ) {
+            QMessageBox::critical(nullptr,
+                                  QObject::tr("Предупреждение"),
+                                  QObject::tr("Для работы программа необходимо завершить работу модуля \"Сервер\"!"));
+            guardServer.release();
+            return 0;
+        }
+    }
+
     RunGuard guardCopyCfg( "start7_cfg" );
-    if ( !guardCopyCfg.tryToRun() )
-        return 0;
-
-    RunGuard guardServer( "start7_server" );
-    if ( !guardServer.tryToRun() )
-        return 0;
-
+    guardCopyCfg.tryToRun();
 
     QApplication a(argc, argv);
 
