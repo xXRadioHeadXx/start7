@@ -130,7 +130,16 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     if(1 < getLsTrackedUN().size())
     {
         int udpTimeout = 50;
-        udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
+        if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
+            for(auto i = 0, n = getUnReciver()->childCount(); i < n; i++) {
+                auto cun = getUnReciver()->child(i);
+                if(TypeUnitNode::SD_BL_IP == cun->getType() || TypeUnitNode::IU_BL_IP == cun->getType()) {
+                    udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
+                }
+            }
+        } else {
+            udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
+        }
         setTimeIntervalRequest(udpTimeout);
 
         int index = getLsTrackedUN().indexOf(getUnReciver());
@@ -142,8 +151,6 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
         }
         setUnReciver(un);
         setUnTarget(un);
-
-
 
         getUnReciver()->setCountSCRWA(getUnReciver()->getCountSCRWA() + 1);
     }
