@@ -15,6 +15,8 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
+
     {
         RunGuard guardCopyCfg( "start7_cfg" );
         if ( !guardCopyCfg.tryToRun() ) {
@@ -40,7 +42,6 @@ int main(int argc, char *argv[])
     RunGuard guardCopyCfg( "start7_cfg" );
     guardCopyCfg.tryToRun();
 
-    QApplication a(argc, argv);
 
 //First change
 
