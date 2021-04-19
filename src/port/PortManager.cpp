@@ -1050,7 +1050,12 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 //                    unLockSdBlIp.clear();
                     continue;
                 } else if(isLockPair) {
-                    if(
+                    if(unLockSdBlIp->swpSDBLIP().isAlarm() == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+                       unLockIuBlIp->swpIUBLIP().isOff() == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() &&
+                       unLockSdBlIp->swpSDBLIP().isNorm() == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+                       unLockIuBlIp->swpIUBLIP().isOn() == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) {
+                        continue;
+                    } else if(
                             (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Открыто
                              1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
@@ -1106,37 +1111,6 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         //qDebug() << "isLockPair New LK " << un->toString();
                     }
 
-                    msg.setObject(unLockSdBlIp->getName());
-//                    qDebug() << "isLockPair " << un->getName();
-                    if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                       1 == unLockIuBlIp->swpIUBLIP().isOff() &&
-                       (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
-                        unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
-                        //Открыто
-                        msg.setComment(QObject::tr("Открыто"));
-                        msg.setType(111);
-                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOn() &&
-                              (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
-                               unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
-                        //Закрыто
-                        msg.setComment(QObject::tr("Закрыто"));
-                        msg.setType(110);
-                    } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOn() &&
-                              (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
-                               unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
-                        //Открыто ключом
-                        msg.setComment(QObject::tr("Открыто ключом"));
-                        msg.setType(113);
-                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOff() &&
-                              (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
-                               unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
-                        //Закрыто ключом
-                        msg.setComment(QObject::tr("Закрыто ключом"));
-                        msg.setType(112);
-                    }
 
                     if(
                     (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
@@ -1161,6 +1135,39 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     {
                         //qDebug() << "isLockPair not jour " << un->toString();
                     } else {
+                        msg.setObject(unLockSdBlIp->getName());
+
+    //                    qDebug() << "isLockPair " << un->getName();
+                        if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                           1 == unLockIuBlIp->swpIUBLIP().isOff() &&
+                           (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
+                            unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
+                            //Открыто
+                            msg.setComment(QObject::tr("Открыто"));
+                            msg.setType(111);
+                        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                                  1 == unLockIuBlIp->swpIUBLIP().isOn() &&
+                                  (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
+                                   unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
+                            //Закрыто
+                            msg.setComment(QObject::tr("Закрыто"));
+                            msg.setType(110);
+                        } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+                                  1 == unLockIuBlIp->swpIUBLIP().isOn() &&
+                                  (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
+                                   unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
+                            //Открыто ключом
+                            msg.setComment(QObject::tr("Открыто ключом"));
+                            msg.setType(113);
+                        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+                                  1 == unLockIuBlIp->swpIUBLIP().isOff() &&
+                                  (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
+                                   unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
+                            //Закрыто ключом
+                            msg.setComment(QObject::tr("Закрыто ключом"));
+                            msg.setType(112);
+                        }
+
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
