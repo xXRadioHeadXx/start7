@@ -539,7 +539,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 
     ui->treeView->setColumnWidth(0,220);
     ui->treeView->setColumnWidth(1,40);
-    ui->treeView->setColumnWidth(2,60);
+    ui->treeView->setColumnWidth(2,65);
     ui->treeView->setColumnWidth(3,60);
 
 
