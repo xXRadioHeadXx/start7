@@ -29,7 +29,29 @@ void MultiUNStatusConnectRequester::setLsTrackedUN(const QList<QSharedPointer<Un
 
 void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  value)
 {
+    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN -->";
+    for(auto un : lsTrackedUN) {
+        if(un->getType() == value->getType() &&
+           un->getNum1() == value->getNum1() &&
+           un->getUdpPort() == value->getUdpPort() &&
+           un->getUdpAdress() == value->getUdpAdress()) {
+
+            qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN REJECT " << value->toString();
+
+
+            qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
+            return;
+        }
+    }
+
     lsTrackedUN.append(value);
+
+    for(auto un : lsTrackedUN) {
+        qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN APRUVE " << un->toString();
+    }
+    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
+
+
 
     int sumUdpTimeout = 0;
     for(auto uncld : as_const(getLsTrackedUN())) {
@@ -107,6 +129,10 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
 
     if(1 < getLsTrackedUN().size())
     {
+        int udpTimeout = 50;
+        udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
+        setTimeIntervalRequest(udpTimeout);
+
         int index = getLsTrackedUN().indexOf(getUnReciver());
         QSharedPointer<UnitNode>  un = nullptr;
         if( -1 == index || index >= getLsTrackedUN().size() ) {
@@ -117,9 +143,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
         setUnReciver(un);
         setUnTarget(un);
 
-        int udpTimeout = 50;
-        udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
-        setTimeIntervalRequest(udpTimeout);
+
 
         getUnReciver()->setCountSCRWA(getUnReciver()->getCountSCRWA() + 1);
     }

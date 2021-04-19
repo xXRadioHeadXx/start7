@@ -3,6 +3,7 @@
 
 #include "SWP.h"
 
+class SWPTGSubType0x33;
 class SWPTGType0x33 : public SWP
 {
 public:
@@ -51,6 +52,13 @@ public:
 
     int isAlarmC4() const;
     int isNormC4() const;
+
+    SWPTGSubType0x33 C(int num) const;
+    SWPTGSubType0x33 C1() const;
+    SWPTGSubType0x33 C2() const;
+    SWPTGSubType0x33 C3() const;
+    SWPTGSubType0x33 C4() const;
+
 
 };
 

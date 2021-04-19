@@ -34,6 +34,7 @@
 #include <SWPTGType0x31.h>
 #include <SWPTGType0x34.h>
 #include <SWPTGType0x33.h>
+#include <SWPTGSubType0x33.h>
 #include <SWPTGType0x32.h>
 
 PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
@@ -1108,22 +1109,30 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msg.setObject(unLockSdBlIp->getName());
 //                    qDebug() << "isLockPair " << un->getName();
                     if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                       1 == unLockIuBlIp->swpIUBLIP().isOff()) {
+                       1 == unLockIuBlIp->swpIUBLIP().isOff() &&
+                       (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
+                        unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
                         //Открыто
                         msg.setComment(QObject::tr("Открыто"));
                         msg.setType(111);
                     } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
+                              1 == unLockIuBlIp->swpIUBLIP().isOn() &&
+                              (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
+                               unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
                         //Закрыто
                         msg.setComment(QObject::tr("Закрыто"));
                         msg.setType(110);
                     } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
+                              1 == unLockIuBlIp->swpIUBLIP().isOn() &&
+                              (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
+                               unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
                         //Открыто ключом
                         msg.setComment(QObject::tr("Открыто ключом"));
                         msg.setType(113);
                     } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOff()) {
+                              1 == unLockIuBlIp->swpIUBLIP().isOff() &&
+                              (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
+                               unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
                         //Закрыто ключом
                         msg.setComment(QObject::tr("Закрыто ключом"));
                         msg.setType(112);
@@ -1480,7 +1489,9 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType())
             continue;
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
+           item.port() != un->getUdpPort() ||
+           static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
 //            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(1)";
             continue;
         }
@@ -1492,7 +1503,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 
         if(un.isNull() || previousCopyUN.isNull()) {
 //            previousCopyUN.clear();
-//            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(2)";
+//            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(2)";
             continue;
         }
 
@@ -1500,10 +1511,19 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
-        if((TypeUnitNode::TG == un->getType()/* && 2 == un->getNeededStateWordType()*/ /*&& 1 == un->swpSWPTGType3().isOn() && (1 == un->swpSWPTGType3().isInAlarm() || 1 == un->swpSWPTGType3().isOutAlarm() || 1 == un->swpSWPTGType3().isWasAlarm())*/)) {
+        if(TypeUnitNode::TG == un->getType() && 0 == un->getNum2() &&
+           ((1 == un->swpTGType0x33().C1().isInAlarm() || 1 == un->swpTGType0x33().C1().isOutAlarm() || 1 == un->swpTGType0x33().C1().isSideAlarm()) ||
+            (1 == un->swpTGType0x33().C2().isInAlarm() || 1 == un->swpTGType0x33().C2().isOutAlarm() || 1 == un->swpTGType0x33().C2().isSideAlarm()) ||
+            (1 == un->swpTGType0x33().C3().isInAlarm() || 1 == un->swpTGType0x33().C3().isOutAlarm() || 1 == un->swpTGType0x33().C3().isSideAlarm()) ||
+            (1 == un->swpTGType0x33().C4().isInAlarm() || 1 == un->swpTGType0x33().C4().isOutAlarm() || 1 == un->swpTGType0x33().C4().isSideAlarm()))) {
             //нужен сброс
             DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-//                qDebug() << "PortManager::parcingStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+        } else if(1 <= un->getNum2() && 4 >= un->getNum2() &&
+                (TypeUnitNode::TG == un->getType() &&
+                 (1 == un->swpTGType0x33().C(un->getNum2()).isInAlarm() || 1 == un->swpTGType0x33().C(un->getNum2()).isOutAlarm() || 1 == un->swpTGType0x33().C(un->getNum2()).isSideAlarm()))) {
+            //нужен сброс
+            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
+//                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
         }
 
         if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
@@ -1512,14 +1532,57 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 //                procDK(un, previousCopyUN);
             } else if(!un->getDkInvolved()) {
 
+                JourEntity msg;
+                msg.setObject(un->getName());
+                msg.setObjecttype(un->getType());
+                msg.setD1(un->getNum1());
+                msg.setD2(un->getNum2());
+                msg.setD3(un->getNum3());
+                msg.setDirection(un->getUdpAdress());
+
                 // Первое сообщение о включении
+                if((TypeUnitNode::TG == un->getType() &&
+                    (un->getControl() &&
+                     1 != previousCopyUN->isConnected() &&
+                     1 == un->isConnected()))) {
+                    JourEntity msgOn;
+                    msgOn.setObject(un->getName());
+                    msgOn.setObjecttype(un->getType());
+                    msgOn.setD1(un->getNum1());
+                    msgOn.setD2(un->getNum2());
+                    msgOn.setD3(un->getNum3());
+                    msgOn.setType(101);
+                    msgOn.setDirection(un->getUdpAdress());
+                    msgOn.setComment(QObject::tr("Вкл"));
+                    DataBaseManager::insertJourMsg_wS(msgOn);
+                    GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
+                }
+
 
                 if(TypeUnitNode::TG != un->getType()) {
 //                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x33 -- continue(3)";
                     continue;
-                } else if(TypeUnitNode::TG == un->getType()) {
+                } else if(TypeUnitNode::TG == un->getType() && 1 <= un->getNum2() && un->getNum2() <= 4) {
                     //Сообщения в журнал
+                    if(un->getControl() &&
+                       (1 == un->swpTGType0x33().C(un->getNum2()).isAlarm()) &&
+                       (1 == un->swpTGType0x33().C(un->getNum2()).isOutAlarm()) &&
+                       (previousCopyUN->swpTGType0x33().C(un->getNum2()).isAlarm() != un->swpTGType0x33().C(un->getNum2()).isAlarm() ||
+                        previousCopyUN->swpTGType0x33().C(un->getNum2()).isOutAlarm() != un->swpTGType0x33().C(un->getNum2()).isOutAlarm())) {
+                        //сохранение Тревога или Норма
+                        msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
+                        msg.setType(20);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    } else if(un->getControl() &&
+                              (1 == un->swpTGType0x33().C(un->getNum2()).isNorm()) &&
+                              (previousCopyUN->swpTGType0x33().C(un->getNum2()).isNorm() != un->swpTGType0x33().C(un->getNum2()).isNorm())) {
+                        msg.setComment(QObject::tr("Норма"));
+                        msg.setType(1);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    }
                 }
             }
         }

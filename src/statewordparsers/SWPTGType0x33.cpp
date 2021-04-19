@@ -1,5 +1,7 @@
 #include "SWPTGType0x33.h"
 
+#include <SWPTGSubType0x33.h>
+
 SWPTGType0x33::SWPTGType0x33(const QByteArray &stateWord) :
     SWP(stateWord)
 {
@@ -262,3 +264,26 @@ int SWPTGType0x33::isNormC4() const
     int isalarm = isAlarmC4();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
+
+SWPTGSubType0x33 SWPTGType0x33::C(int num) const
+{
+    return SWPTGSubType0x33(getStateWord(), num);
+}
+
+SWPTGSubType0x33 SWPTGType0x33::C1() const
+{
+    return C(1);
+}
+SWPTGSubType0x33 SWPTGType0x33::C2() const
+{
+    return C(2);
+}
+SWPTGSubType0x33 SWPTGType0x33::C3() const
+{
+    return C(3);
+}
+SWPTGSubType0x33 SWPTGType0x33::C4() const
+{
+    return C(4);
+}
+
