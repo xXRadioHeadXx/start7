@@ -101,6 +101,10 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
 
         if(!getUnReciver()->queueMsg.isEmpty()) {
             result = getUnReciver()->queueMsg.dequeue();
+
+            setBeatCount(getBeatCount() - 1);
+            if(0 > getBeatCount())
+                resetBeatCount();
         } else {
             switch (getUnReciver()->getNeededStateWordType()) {
                 case 0: {

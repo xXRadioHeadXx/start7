@@ -1020,7 +1020,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 msg.setD3(un->getNum3());
                 msg.setDirection(un->getUdpAdress());
 
-                if((TypeUnitNode::SD_BL_IP == un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpSDBLIP().isOn() && 1 == un->swpSDBLIP().isOn()) ||
+                if(/*(TypeUnitNode::SD_BL_IP = un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpSDBLIP().isOn() && 1 == un->swpSDBLIP().isOn()) ||*/
                   (TypeUnitNode::IU_BL_IP == un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpIUBLIP().isOn() && 1 == un->swpIUBLIP().isOn())) {
                     JourEntity msgOn;
                     msgOn.setObject(un->getName());
@@ -1073,6 +1073,27 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 //                        unLockSdBlIp.clear();
 //                        previousCopyUN.clear();
                         continue;
+                    }
+
+                    QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
+
+                    for(auto ar : as_const(getLsWaiter())) {
+                        if(ar->getIpPort() == tmpPair &&
+                           RequesterType::LockRequester == ar->getRequesterType() &&
+                           ar->getUnTarget() == unLockSdBlIp) {
+                            SignalSlotCommutator::getInstance()->emitEndLockWait();
+                            if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
+//                                ar->startSecondRequest();
+                                continue;
+                            } else if(BeatStatus::Waite == ar->getBeatStatus()) {
+                                ar->startSecondRequest(3000);
+                            } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) {
+//                                ar->startEnd();
+                                continue;
+                            } else if(BeatStatus::WaiteEnd == ar->getBeatStatus()) {
+                                  ar->startEnd();
+                            }
+                        }
                     }
 
                     if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
@@ -1172,26 +1193,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
 
-                    QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
 
-                    for(auto ar : as_const(getLsWaiter())) {
-                        if(ar->getIpPort() == tmpPair &&
-                           RequesterType::LockRequester == ar->getRequesterType() &&
-                           ar->getUnTarget() == unLockSdBlIp) {
-                            SignalSlotCommutator::getInstance()->emitEndLockWait();
-                            if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
-//                                ar->startSecondRequest();
-                                continue;
-                            } else if(BeatStatus::Waite == ar->getBeatStatus()) {
-                                ar->startSecondRequest(3000);
-                            } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) {
-//                                ar->startEnd();
-                                continue;
-                            } else if(BeatStatus::WaiteEnd == ar->getBeatStatus()) {
-                                  ar->startEnd();
-                            }
-                        }
-                    }
 
                 } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
                     //сохранение Тревога или Норма
@@ -1286,8 +1288,8 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
         if((TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
-           (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm())) ||
-           (TypeUnitNode::TG == un->getType() &&/* 0 == un->getNeededStateWordType() &&*/ 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm()))) {
+           (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm())) /*||
+           (TypeUnitNode::TG == un->getType() && 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm()))*/) {
             //нужен сброс
             DataQueueItem::makeAlarmReset0x24(resultRequest, un);
 //                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
