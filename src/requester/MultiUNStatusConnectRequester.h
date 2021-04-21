@@ -23,6 +23,12 @@ public:
     void setLsTrackedUN(const QList<QSharedPointer<UnitNode>> &value);
     void addLsTrackedUN(QSharedPointer<UnitNode> value);
 
+    QSharedPointer<UnitNode> previousTrackedUN() const;
+    QSharedPointer<UnitNode> currentTrackedUN() const;
+    QSharedPointer<UnitNode> nextTrackedUN() const;
+
+    int optimalTimeIntervalRequest(QSharedPointer<UnitNode> un) const;
+
 private slots:
     virtual void specialReserveSlot() const override;
 

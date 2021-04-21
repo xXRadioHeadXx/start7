@@ -14,6 +14,9 @@ private:
     QByteArray m_data;
     QByteArray m_preamble;
     int m_portIndex = -1;
+    int specialSkipTimeInterval = 1;
+    int specialSkipTimeCount = 0;
+
 
     static QByteArray data0x20;
     static QByteArray data0x21;
@@ -81,6 +84,10 @@ public:
     static bool isValideDirectionI(DataQueueItem &item);
     QByteArray preamble() const;
     void setPreamble(const QByteArray &preamble = QByteArray().fill(static_cast<quint8>(0xFF),3));
+    int getSpecialSkipTimeInterval() const;
+    void setSpecialSkipTimeInterval(int value);
+    int getSpecialSkipTimeCount() const;
+    void setSpecialSkipTimeCount(int value);
 };
 
 #endif // DATAQUEUEITEM_H

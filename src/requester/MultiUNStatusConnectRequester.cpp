@@ -69,6 +69,66 @@ void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  val
 
 }
 
+QSharedPointer<UnitNode> MultiUNStatusConnectRequester::previousTrackedUN() const
+{
+    if(1 < getLsTrackedUN().size())
+    {
+        auto index = getLsTrackedUN().indexOf(currentTrackedUN());
+
+        if(0 > index - 1) {
+            return getLsTrackedUN().last();
+        }
+
+        return getLsTrackedUN().at(index - 1);
+
+    } else if(1 == getLsTrackedUN().size()) {
+        return getLsTrackedUN().first();
+    }
+
+    return QSharedPointer<UnitNode>::create();
+}
+
+QSharedPointer<UnitNode> MultiUNStatusConnectRequester::currentTrackedUN() const
+{
+    return getUnReciver();
+}
+
+QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
+{
+    if(1 < getLsTrackedUN().size())
+    {
+        auto index = getLsTrackedUN().indexOf(currentTrackedUN());
+
+        if(getLsTrackedUN().size() <= index + 1) {
+            return getLsTrackedUN().first();
+        }
+
+        return getLsTrackedUN().at(index + 1);
+
+    } else if(1 == getLsTrackedUN().size()) {
+        return getLsTrackedUN().first();
+    }
+
+    return QSharedPointer<UnitNode>::create();
+}
+
+int MultiUNStatusConnectRequester::optimalTimeIntervalRequest(QSharedPointer<UnitNode> un) const
+{
+    int udpTimeout = 50;
+    if(TypeUnitNode::BL_IP == un->getType()) {
+        for(auto i = 0, n = un->childCount(); i < n; i++) {
+            auto cun = un->child(i);
+            if(TypeUnitNode::SD_BL_IP == cun->getType() || TypeUnitNode::IU_BL_IP == cun->getType()) {
+                udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
+            }
+        }
+    } else {
+        udpTimeout = qMax(udpTimeout, un->getUdpTimeout());
+    }
+
+    return udpTimeout;
+}
+
 void MultiUNStatusConnectRequester::specialReserveSlot() const
 {
 //    qDebug () << "MultiUNStatusConnectRequester::specialReserveSlot(" << getUnReciver()->toString() << ")";
@@ -79,85 +139,66 @@ void MultiUNStatusConnectRequester::specialReserveSlot() const
 
 DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     DataQueueItem result;
-    if(nullptr == getPtrPort() || nullptr == getUnReciver())
+    if(nullptr == getPtrPort() || nullptr == currentTrackedUN())
         return result;
 
-    if(getUnReciver()->getMaxCountSCRWA() <= getUnReciver()->getCountSCRWA()) {
+    if(currentTrackedUN()->getMaxCountSCRWA() <= currentTrackedUN()->getCountSCRWA()) {
 //        qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg() -- max:" << getUnReciver()->getMaxCountSCRWA() << "<= curr:" << getUnReciver()->getCountSCRWA() << " " << getUnReciver()->toString();
-        getUnReciver()->setCountSCRWA(0);
+        currentTrackedUN()->setCountSCRWA(0);
         SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
     }
 
-    result.setPort(getUnReciver()->getUdpPort());
-    result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
+    result.setPort(currentTrackedUN()->getUdpPort());
+    result.setAddress(Utils::hostAddress(currentTrackedUN()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
-    if(TypeUnitNode::BL_IP == getUnReciver()->getType() ||
-       TypeUnitNode::SD_BL_IP == getUnReciver()->getType() ||
-       TypeUnitNode::IU_BL_IP == getUnReciver()->getType() ||
-       TypeUnitNode::RLM_C == getUnReciver()->getType() ||
-       TypeUnitNode::RLM_KRL == getUnReciver()->getType() ||
-       TypeUnitNode::TG == getUnReciver()->getType()) {
+    if(TypeUnitNode::BL_IP == currentTrackedUN()->getType() ||
+       TypeUnitNode::SD_BL_IP == currentTrackedUN()->getType() ||
+       TypeUnitNode::IU_BL_IP == currentTrackedUN()->getType() ||
+       TypeUnitNode::RLM_C == currentTrackedUN()->getType() ||
+       TypeUnitNode::RLM_KRL == currentTrackedUN()->getType() ||
+       TypeUnitNode::TG == currentTrackedUN()->getType()) {
 
-        if(!getUnReciver()->queueMsg.isEmpty()) {
-            result = getUnReciver()->queueMsg.dequeue();
+        if(!currentTrackedUN()->queueMsg.isEmpty()) {
+            result = currentTrackedUN()->queueMsg.dequeue();
 
             setBeatCount(getBeatCount() - 1);
             if(0 > getBeatCount())
                 resetBeatCount();
         } else {
-            switch (getUnReciver()->getNeededStateWordType()) {
+            switch (currentTrackedUN()->getNeededStateWordType()) {
                 case 0: {
-                    DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
+                    DataQueueItem::makeStatusRequest0x22(result, currentTrackedUN());
                     break;
                 }
                 case 1: {
-                    DataQueueItem::makeStatusRequest0x2A(result, getUnReciver());
+                    DataQueueItem::makeStatusRequest0x2A(result, currentTrackedUN());
                     break;
                 }
                 case 2: {
-                    DataQueueItem::makeStatusRequest0x2C(result, getUnReciver());
+                    DataQueueItem::makeStatusRequest0x2C(result, currentTrackedUN());
                     break;
                 }
                 case 3: {
-                    DataQueueItem::makeStatusRequest0x2E(result, getUnReciver());
+                    DataQueueItem::makeStatusRequest0x2E(result, currentTrackedUN());
                     break;
                 }
                 default: {
-                    DataQueueItem::makeStatusRequest0x22(result, getUnReciver());
+                    DataQueueItem::makeStatusRequest0x22(result, currentTrackedUN());
                     break;
                 }
             }
         }
     }
 
-    if(1 < getLsTrackedUN().size())
-    {
-        int udpTimeout = 50;
-        if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
-            for(auto i = 0, n = getUnReciver()->childCount(); i < n; i++) {
-                auto cun = getUnReciver()->child(i);
-                if(TypeUnitNode::SD_BL_IP == cun->getType() || TypeUnitNode::IU_BL_IP == cun->getType()) {
-                    udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
-                }
-            }
-        } else {
-            udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
-        }
-        setTimeIntervalRequest(udpTimeout);
+    int udpTimeout = qMax(optimalTimeIntervalRequest(currentTrackedUN()), result.getSpecialSkipTimeInterval());
+    setTimeIntervalRequest(udpTimeout);
 
-        int index = getLsTrackedUN().indexOf(getUnReciver());
-        QSharedPointer<UnitNode>  un = nullptr;
-        if( -1 == index || index >= getLsTrackedUN().size() ) {
-            un = getLsTrackedUN().value(0, nullptr);
-        } else {
-            un = getLsTrackedUN().value(index + 1, getLsTrackedUN().value(0, nullptr));
-        }
-        setUnReciver(un);
-        setUnTarget(un);
+    auto un = nextTrackedUN();
+    setUnReciver(un); // !!! currentTrackedUN changed !!!
+    setUnTarget(un);
 
-        getUnReciver()->setCountSCRWA(getUnReciver()->getCountSCRWA() + 1);
-    }
+    currentTrackedUN()->setCountSCRWA(currentTrackedUN()->getCountSCRWA() + 1);
 
     if(result.isValid())
         return result;
@@ -211,17 +252,7 @@ void MultiUNStatusConnectRequester::init() {
 
     setTimeIntervalWaiteFirst(0);
 
-    int udpTimeout = 50;
-
-    if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
-        for(QSharedPointer<UnitNode>  uncld : as_const(getUnReciver()->getListChilde())) {
-            if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
-                udpTimeout = qMax(udpTimeout, uncld->getUdpTimeout());
-            }
-        }
-    } else {
-        udpTimeout = qMax(udpTimeout, getUnReciver()->getUdpTimeout());
-    }
+    int udpTimeout = optimalTimeIntervalRequest(currentTrackedUN());
     setTimeIntervalRequest(udpTimeout);
 
     int maxBeatCount = 400;

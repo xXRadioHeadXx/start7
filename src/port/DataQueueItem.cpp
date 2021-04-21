@@ -14,6 +14,26 @@ void DataQueueItem::setPreamble(const QByteArray &preamble)
     m_preamble = preamble;
 }
 
+int DataQueueItem::getSpecialSkipTimeInterval() const
+{
+    return specialSkipTimeInterval;
+}
+
+void DataQueueItem::setSpecialSkipTimeInterval(int value)
+{
+    specialSkipTimeInterval = value;
+}
+
+int DataQueueItem::getSpecialSkipTimeCount() const
+{
+    return specialSkipTimeCount;
+}
+
+void DataQueueItem::setSpecialSkipTimeCount(int value)
+{
+    specialSkipTimeCount = value;
+}
+
 DataQueueItem::DataQueueItem() noexcept : m_port(0), m_data(QByteArray()), m_portIndex(0) {}
 
 DataQueueItem::DataQueueItem(const QByteArray data, QHostAddress address, int port, const int index) noexcept : m_port(port), m_address(address), m_data(data), m_portIndex(index) {}
@@ -386,6 +406,8 @@ DataQueueItem DataQueueItem::makeStatusRequest0x2A(DataQueueItem &item, const QS
     item.setData(DataQueueItem::makeStatusRequest0x2A(un));
     if(nullptr != un && un->isNeedsPreamble())
         item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    item.setSpecialSkipTimeInterval(300);
+    item.setSpecialSkipTimeCount(3);
     return item;
 }
 
@@ -416,6 +438,8 @@ DataQueueItem DataQueueItem::makeStatusRequest0x2C(DataQueueItem &item, const QS
     item.setData(DataQueueItem::makeStatusRequest0x2C(un));
     if(nullptr != un && un->isNeedsPreamble())
         item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    item.setSpecialSkipTimeInterval(300);
+    item.setSpecialSkipTimeCount(3);
     return item;
 }
 
@@ -446,6 +470,8 @@ DataQueueItem DataQueueItem::makeStatusRequest0x2E(DataQueueItem &item, const QS
     item.setData(DataQueueItem::makeStatusRequest0x2E(un));
     if(nullptr != un && un->isNeedsPreamble())
         item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    item.setSpecialSkipTimeInterval(300);
+    item.setSpecialSkipTimeCount(3);
     return item;
 }
 
