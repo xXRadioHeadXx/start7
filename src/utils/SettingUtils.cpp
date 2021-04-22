@@ -303,6 +303,7 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
         tmpUN->setNum2(0);
         tmpUN->setNum3(0);
         tmpUN->setLevel(0);
+        tmpUN->setDK(0);
         tmpUN->setName(QObject::tr("Система"));
         tmpUN->setMetaNames("Obj_0");
 

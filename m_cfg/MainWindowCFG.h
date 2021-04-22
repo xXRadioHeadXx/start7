@@ -261,6 +261,8 @@ private:
     void TABLO_Num2_set(int val);
     int TABLO_Num2_get();
 
+    bool setUdpTimeout_for_BL_IP(UnitNode *unit);
+
 
 
 
