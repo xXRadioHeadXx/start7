@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "admkeygenerator.h"
-#include <my_combobox.h>
+#include <adm_aud_combobox.h>
 
 namespace Ui {
 class AdmAud_widget;

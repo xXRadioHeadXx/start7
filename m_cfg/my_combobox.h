@@ -1,21 +1,22 @@
-#ifndef MY_COMBOBOX_H
-#define MY_COMBOBOX_H
+#ifndef my_combobox_H
+#define my_combobox_H
 
 
 #include <QComboBox>
 
 #include <QWidget>
 
-class My_combobox : public QComboBox
+class my_combobox : public QComboBox
 {
     Q_OBJECT
 public:
-    My_combobox(QWidget *parent = 0);
+    my_combobox(QWidget *parent = 0);
 
-     virtual void showPopup();
+protected:
+    void contextMenuEvent(QContextMenuEvent *event);
 
 signals:
 
 };
 
-#endif // MY_COMBOBOX_H
+#endif // my_combobox_H

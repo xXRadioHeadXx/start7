@@ -26,7 +26,7 @@
     <string>Дата создания</string>
    </property>
   </widget>
-  <widget class="My_combobox" name="comboBox" native="true">
+  <widget class="adm_aud_combobox" name="comboBox" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -125,9 +125,9 @@
    <header>my_lineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>My_combobox</class>
+   <class>adm_aud_combobox</class>
    <extends>QWidget</extends>
-   <header location="global">my_combobox.h</header>
+   <header location="global">adm_aud_combobox.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

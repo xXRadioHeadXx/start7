@@ -2646,7 +2646,7 @@
              </property>
             </widget>
            </widget>
-           <widget class="QComboBox" name="uName_combobox">
+           <widget class="My_combobox" name="uName_combobox">
             <property name="geometry">
              <rect>
               <x>280</x>
@@ -3708,6 +3708,11 @@
    <extends>QWidget</extends>
    <header location="global">my_treeview.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>My_combobox</class>
+   <extends>QComboBox</extends>
+   <header>my_combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources>

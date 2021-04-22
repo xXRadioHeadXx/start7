@@ -35,6 +35,7 @@ SOURCES += \
     MainWindowCFG.cpp \
     adam_widget.cpp \
     add_sql_user_form.cpp \
+    adm_aud_combobox.cpp \
     admaud_widget.cpp \
     admkeygenerator.cpp \
     backgroundimage.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
     MainWindowCFG.h \
     adam_widget.h \
     add_sql_user_form.h \
+    adm_aud_combobox.h \
     admaud_widget.h \
     admkeygenerator.h \
     backgroundimage.h \
@@ -79,6 +81,7 @@ HEADERS += \
     edit_unit_widget.h \
     first_dialog.h \
     group.h \
+    adm_aud_combobox.h \
     my_combobox.h \
     my_doublespinbox.h \
     my_lineedit.h \
