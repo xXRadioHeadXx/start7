@@ -191,7 +191,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
         }
     }
 
-    int udpTimeout = qMax(optimalTimeIntervalRequest(currentTrackedUN()), result.getSpecialSkipTimeInterval());
+    int udpTimeout = qMax(optimalTimeIntervalRequest(currentTrackedUN()) * result.getSpecialSkipTimeCount(), result.getSpecialSkipTimeInterval());
     setTimeIntervalRequest(udpTimeout);
 
     auto un = nextTrackedUN();
