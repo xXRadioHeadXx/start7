@@ -263,6 +263,8 @@ private:
 
     bool setUdpTimeout_for_BL_IP(UnitNode *unit);
 
+    bool setUdpTimeout_for_TG(UnitNode *unit);
+
 
 
 

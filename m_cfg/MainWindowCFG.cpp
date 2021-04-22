@@ -1110,6 +1110,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
+        setUdpTimeout_for_TG(unit);
     break;
 
     case TypeUnitNode::RLM_KRL:
@@ -4811,7 +4812,7 @@ else
 unit->setUdpAdress(this->ui->ipadress_lineedit->text());
 unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
 unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
-
+setUdpTimeout_for_TG(unit);
 
 }
 
@@ -5389,10 +5390,89 @@ bool MainWindowCFG::setUdpTimeout_for_BL_IP(UnitNode *unit)
 
     auto is_equal = [](UnitNode *my,UnitNode *unit)->bool
        {
-        if(unit->getType()!=TypeUnitNode::SD_BL_IP)
+        if(unit->getType()==TypeUnitNode::SD_BL_IP)
             return true;
-        if(unit->getType()!=TypeUnitNode::IU_BL_IP)
+        if(unit->getType()==TypeUnitNode::IU_BL_IP)
             return true;
+
+        return false;
+       };
+
+    QList<UnitNode *>  list;
+    modelTreeUN->getListFromModel(list,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+
+
+    if(unit->getUdpUse()==0)
+    {
+ qDebug()<<"---------------------";
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+        foreach(UnitNode *un, List1 )
+        {
+            qDebug()<<"------";
+      //    qDebug()<<unit->getName();
+
+
+         if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+         if(is_equal(unit,un))//проверяем не идентичны ли они
+         {
+            qDebug()<<un->getName();
+            un->setUdpTimeout(val);
+             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+
+             return false;
+         }
+
+
+        }
+
+
+    }
+    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==1)
+    {
+
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
+        foreach(UnitNode *un, List1 )
+        {
+
+         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+         if((un->getUdpPort()==unit->getUdpPort()))
+         if(is_equal(unit,un))//проверяем не идентичны ли они
+          {
+
+             un->setUdpTimeout(val);
+          }
+        }
+    }
+
+    return true;
+
+
+    //find all bl ip items
+
+
+
+
+
+}
+
+bool MainWindowCFG::setUdpTimeout_for_TG(UnitNode *unit)
+{
+    if(unit->getType()!=TypeUnitNode::TG)
+      return false;
+
+    int val=unit->getUdpTimeout();
+
+    auto is_equal = [](UnitNode *my,UnitNode *unit)->bool
+       {
+        if(unit->getType()==TypeUnitNode::TG)
+        if(my->getNum1()==unit->getNum1())
+    //    ша(гтше)
+            return true;
+
 
         return false;
        };
@@ -5448,14 +5528,6 @@ bool MainWindowCFG::setUdpTimeout_for_BL_IP(UnitNode *unit)
     }
 
     return true;
-
-
-    //find all bl ip items
-
-
-
-
-
 }
 
 
