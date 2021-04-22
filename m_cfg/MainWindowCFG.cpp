@@ -138,12 +138,12 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
     ipValidator = new QRegExpValidator(ipRegex, this);
   //   Устанавливаем Валидатор на QLineEdit
 
-    this->ui->ipadress_lineedit->setValidator(ipValidator);
+    this->ui->ipadress_combobox->setValidator(ipValidator);
    */
 
-//    this->ui->ipadress_lineedit->setValidator( new QRegExpValidator( QRegExp( "[0-1][0-9][0-9]\\.[0-1][0-9][0-9]" ) ) );
+//    this->ui->ipadress_combobox->setValidator( new QRegExpValidator( QRegExp( "[0-1][0-9][0-9]\\.[0-1][0-9][0-9]" ) ) );
 
-//ui->ipadress_lineedit->setInputMask( "000.000.000.000" );
+//ui->ipadress_combobox->setInputMask( "000.000.000.000" );
 
     this->ui->SQL_password_lineEdit->setEchoMode(QLineEdit::PasswordEchoOnEdit);
 
@@ -1072,7 +1072,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
     if(m_TypeUnitNode.key(this->ui->uType_combobox->currentText())==unit->getType())
     {
     //qDebug()<<"[PRODIT]";
-    unit->setName(this->ui->uName_lineedit->text());
+    unit->setName(this->ui->uName_combobox->currentText());
 
     switch(unit->getType())
         {
@@ -1083,7 +1083,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
         case TypeUnitNode::SD_BL_IP:
 
 
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         setUdpTimeout_for_BL_IP(unit);
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
@@ -1095,7 +1095,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
         break;
 
     case TypeUnitNode::IU_BL_IP:
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         setUdpTimeout_for_BL_IP(unit);
 
@@ -1105,7 +1105,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     case TypeUnitNode::TG:
 
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
@@ -1114,7 +1114,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
     break;
 
     case TypeUnitNode::RLM_KRL:
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
@@ -1124,7 +1124,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
     break;
 
     case TypeUnitNode::RLM_C:
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
@@ -1135,7 +1135,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
     break;
 
     case TypeUnitNode::BOD_T4K_M:
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
@@ -1154,7 +1154,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
     break;
 
     case TypeUnitNode::BOD_SOTA:
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
@@ -1171,7 +1171,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
     break;
 
     case TypeUnitNode::KL:
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
@@ -1191,7 +1191,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
     break;
 
     case TypeUnitNode::SSOI_SD:
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
@@ -1209,7 +1209,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
     break;
 
     case TypeUnitNode::TOROS:
-        unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
@@ -1254,7 +1254,7 @@ bool MainWindowCFG::set_option(UnitNode *unit, UnitNode* parent)
 {
 
 /*
-if(this_name_is_free(this->ui->uName_lineedit->text())==false)
+if(this_name_is_free(this->ui->uName_combobox->currentText())==false)
 {
     //qDebug()<<"[ERROR]";
     return false;
@@ -2215,7 +2215,8 @@ void MainWindowCFG::object_menu_set_settings_default(int type)
 {
         this->ui->UDP_RS485_Widget->setVisible(false);
 
-        this->ui->uName_lineedit->setText("");
+     //   this->ui->uName_combobox->setCurrentText("");
+    this->ui->uName_combobox->setCurrentText("");
 //qDebug()<<"[object_menu_set_settings_default]";
 
 switch(type)
@@ -2383,7 +2384,7 @@ auto sstr{
 //qDebug()<<"[object_menu_set_settings_from(UnitNode *unit)]";
 
 //qDebug()<<"[object_menu_set_settings_default]";
-this->ui->uName_lineedit->setText(unit->getName());
+this->ui->uName_combobox->setCurrentText(unit->getName());
 switch(unit->getType())
 {
 case TypeUnitNode::GROUP:
@@ -2797,7 +2798,8 @@ void MainWindowCFG::RS485_UDP_set_default_with_timeout(int timeout)
 this->ui->UDP_RS485_Widget->setVisible(true);
 this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
 this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->ipadress_lineedit->setText("");
+this->ui->ipadress_combobox->clear();
+this->ui->ipadress_combobox->setCurrentText("");
 this->ui->port_combobox->setCurrentIndex(0);
 this->ui->UdpPort_doubleSpinBox->setValue(4001);
 this->ui->timeout_doubleSpinBox->setValue(timeout);
@@ -2819,7 +2821,7 @@ else
             this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
     }
 
-this->ui->ipadress_lineedit->setText(unit->getUdpAdress());
+this->ui->ipadress_combobox->setCurrentText(unit->getUdpAdress());
 this->ui->timeout_doubleSpinBox->setValue(unit->getUdpTimeout());
 this->ui->port_combobox->setCurrentText(QString::number(unit->getNum3()));
 this->ui->UdpPort_doubleSpinBox->setValue(unit->getUdpPort());
@@ -2836,12 +2838,12 @@ if(enable==true)
 
     if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
         {
-          this->ui->ipadress_lineedit->setDisabled(true);
+          this->ui->ipadress_combobox->setDisabled(true);
         }
 
     else
         {
-          this->ui->ipadress_lineedit->setEnabled(true);
+          this->ui->ipadress_combobox->setEnabled(true);
         }
 
 
@@ -2854,7 +2856,7 @@ else
 {
 
     this->ui->UDP_RS485_combobox->setEnabled(true);
-    this->ui->ipadress_lineedit->setEnabled(true);
+    this->ui->ipadress_combobox->setEnabled(true);
     this->ui->timeout_doubleSpinBox->setEnabled(true);
     this->ui->port_combobox->setEnabled(true);
     this->ui->UdpPort_doubleSpinBox->setEnabled(true);
@@ -2970,7 +2972,7 @@ bool MainWindowCFG::add_unit()
 
 
 
-    unit->setName(this->ui->uName_lineedit->text());
+    unit->setName(this->ui->uName_combobox->currentText());
     unit->setType(type);
 
 
@@ -3048,7 +3050,7 @@ bool MainWindowCFG::change_unit()
 
 
     QString origin_name=unit->getName();
-    QString new_name=    this->ui->uName_lineedit->text();
+    QString new_name=    this->ui->uName_combobox->currentText();
 
 //    bool res=true;
 
@@ -4746,7 +4748,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
             unit->setUdpUse(0);
     }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
     unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 
@@ -4782,12 +4784,12 @@ void MainWindowCFG::set_option_IU_BL_IP(UnitNode *unit)
             unit->setUdpUse(0);
     }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
     unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
     unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
     setUdpTimeout_for_BL_IP(unit);
@@ -4809,7 +4811,7 @@ else
             unit->setUdpUse(0);
     }
 
-unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
 unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
 unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 setUdpTimeout_for_TG(unit);
@@ -4832,7 +4834,7 @@ void MainWindowCFG::set_option_RLM_KRL(UnitNode *unit)
                 unit->setUdpUse(0);
         }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
     unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 
@@ -4875,7 +4877,7 @@ void MainWindowCFG::set_option_RLM_C(UnitNode *unit)
                 unit->setUdpUse(0);
         }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
     unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }
@@ -4892,7 +4894,7 @@ void MainWindowCFG::set_option_BOD_T4K_M(UnitNode *unit)
         unit->setUdpUse(0);
 
     unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }
 
@@ -4942,7 +4944,7 @@ else
     unit->setUdpUse(0);
 
 unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
 unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }
 
@@ -5008,7 +5010,7 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
         unit->setUdpUse(0);
 
     unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }
 
@@ -5276,7 +5278,7 @@ void MainWindowCFG::set_option_TOROS(UnitNode *unit)
             unit->setUdpUse(0);
     }
 
-    unit->setUdpAdress(this->ui->ipadress_lineedit->text());
+    unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
     unit->setUdpPort(this->ui->UdpPort_doubleSpinBox->text().toInt());
     unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->text().toInt());
 }

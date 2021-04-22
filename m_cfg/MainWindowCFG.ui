@@ -623,16 +623,6 @@
              <string>Имя</string>
             </property>
            </widget>
-           <widget class="My_lineEdit" name="uName_lineedit" native="true">
-            <property name="geometry">
-             <rect>
-              <x>280</x>
-              <y>33</y>
-              <width>281</width>
-              <height>30</height>
-             </rect>
-            </property>
-           </widget>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="geometry">
              <rect>
@@ -2007,37 +1997,6 @@
               </property>
              </item>
             </widget>
-            <widget class="My_lineEdit" name="ipadress_lineedit" native="true">
-             <property name="geometry">
-              <rect>
-               <x>90</x>
-               <y>25</y>
-               <width>171</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>101</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>999</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="inputMask" stdset="0">
-              <string/>
-             </property>
-             <property name="text" stdset="0">
-              <string/>
-             </property>
-             <property name="clearButtonEnabled" stdset="0">
-              <bool>true</bool>
-             </property>
-            </widget>
             <widget class="QLabel" name="label_92">
              <property name="geometry">
               <rect>
@@ -2064,11 +2023,24 @@
               <string>IP-Адрес</string>
              </property>
             </widget>
+            <widget class="QComboBox" name="ipadress_combobox">
+             <property name="geometry">
+              <rect>
+               <x>90</x>
+               <y>25</y>
+               <width>171</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
             <zorder>UDP_RS485_combobox</zorder>
-            <zorder>ipadress_lineedit</zorder>
             <zorder>label_92</zorder>
             <zorder>label_83</zorder>
             <zorder>UDP_RS485_stacked</zorder>
+            <zorder>ipadress_combobox</zorder>
            </widget>
            <widget class="QStackedWidget" name="stackedWidget_2">
             <property name="geometry">
@@ -2674,14 +2646,27 @@
              </property>
             </widget>
            </widget>
+           <widget class="QComboBox" name="uName_combobox">
+            <property name="geometry">
+             <rect>
+              <x>280</x>
+              <y>34</y>
+              <width>281</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
            <zorder>label_3</zorder>
            <zorder>uType_combobox</zorder>
            <zorder>label_4</zorder>
-           <zorder>uName_lineedit</zorder>
            <zorder>UDP_RS485_Widget</zorder>
            <zorder>stackedWidget</zorder>
            <zorder>stackedWidget_2</zorder>
            <zorder>widget1</zorder>
+           <zorder>uName_combobox</zorder>
           </widget>
          </item>
         </layout>

@@ -1086,14 +1086,14 @@ bool Control_Unit_Manager::pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parr
 
 bool Control_Unit_Manager::correct_UDP_parametres(UnitNode *unit)
 {
-    //qDebug()<<"UdpUse "<<unit->getUdpUse();
-    //qDebug()<<"UdpAdress "<<unit->getUdpAdress();
+    qDebug()<<"UdpUse "<<unit->getUdpUse();
+    qDebug()<<"UdpAdress "<<unit->getUdpAdress();
     if(unit->getUdpUse()==1)
     {
         QHostAddress myIP;
            if(myIP.setAddress( unit->getUdpAdress()))
            {
-           //qDebug()<<"Valid IP Address";
+          qDebug()<<"Valid IP Address";
            unit->setUdpAdress(myIP.toString());
            }
            else
