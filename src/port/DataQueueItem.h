@@ -14,8 +14,8 @@ private:
     QByteArray m_data;
     QByteArray m_preamble;
     int m_portIndex = -1;
-    int specialSkipTimeInterval = 1;
-    int specialSkipTimeCount = 0;
+    int specialSkipTimeInterval = 0;
+    int specialSkipTimeCount = 1;
 
 
     static QByteArray data0x20;
