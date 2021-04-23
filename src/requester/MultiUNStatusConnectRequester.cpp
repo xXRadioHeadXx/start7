@@ -95,11 +95,11 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::currentTrackedUN() const
 
 QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
 {
-    for(auto un : getLsTrackedUN()) {
-        if(!un->queueMsg.isEmpty()) {
-            return un;
-        }
-    }
+//    for(auto un : getLsTrackedUN()) {
+//        if(!un->queueMsg.isEmpty()) {
+//            return un;
+//        }
+//    }
 
     if(1 < getLsTrackedUN().size())
     {
