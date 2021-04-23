@@ -95,6 +95,12 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::currentTrackedUN() const
 
 QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
 {
+    for(auto un : getLsTrackedUN()) {
+        if(!un->queueMsg.isEmpty()) {
+            return un;
+        }
+    }
+
     if(1 < getLsTrackedUN().size())
     {
         auto index = getLsTrackedUN().indexOf(currentTrackedUN());
@@ -194,6 +200,9 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     int udpTimeout = qMax(optimalTimeIntervalRequest(currentTrackedUN()) * result.getSpecialSkipTimeCount(), result.getSpecialSkipTimeInterval());
     setTimeIntervalRequest(udpTimeout);
 
+    int maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
+    currentTrackedUN()->setMaxCountSCRWA(maxBeatCount);
+
     auto un = nextTrackedUN();
     setUnReciver(un); // !!! currentTrackedUN changed !!!
     setUnTarget(un);
@@ -259,6 +268,7 @@ void MultiUNStatusConnectRequester::init() {
     if(50 != udpTimeout) {
         maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
     }
+    currentTrackedUN()->setMaxCountSCRWA(maxBeatCount);
 
     setMaxBeatCount(0);
 
