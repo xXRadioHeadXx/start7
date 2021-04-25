@@ -15,6 +15,7 @@ QSharedPointer<UnitNode> UnitNodeFactory::makeShare(TypeUnitNode type, QSharedPo
     case TypeUnitNode::SD_BL_IP  : {newUN = QSharedPointer<UnitNode_SD_BL_IP> ::create(parent); break;}//(new UnitNode_SD_BL_IP(parent)); break;}
     case TypeUnitNode::IU_BL_IP  : {newUN = QSharedPointer<UnitNode_IU_BL_IP> ::create(parent); break;}//(new UnitNode_IU_BL_IP(parent)); break;}
     case TypeUnitNode::TG        : {newUN = QSharedPointer<UnitNode_TG>       ::create(parent); break;}//(new UnitNode_TG(parent)); break;}
+    case TypeUnitNode::TG_Base   : {newUN = QSharedPointer<UnitNode_TG>       ::create(parent); break;}//(new UnitNode_TG(parent)); break;}
     case TypeUnitNode::RLM_KRL   : {newUN = QSharedPointer<UnitNode_RLM_KRL>  ::create(parent); break;}//(new UnitNode_RLM_KRL(parent)); break;}
     case TypeUnitNode::RLM_C     : {newUN = QSharedPointer<UnitNode_RLM_C>    ::create(parent); break;}//(new UnitNode_RLM_C(parent)); break;}
     case TypeUnitNode::BOD_T4K_M : {newUN = QSharedPointer<UnitNode_BOD_T4K_M>::create(parent); break;}//(new UnitNode_BOD_T4K_M(parent)); break;}
@@ -41,6 +42,7 @@ QSharedPointer<UnitNode> UnitNodeFactory::makeShare(const UnitNode & parent)
     case TypeUnitNode::SD_BL_IP  : {newUN = QSharedPointer<UnitNode_SD_BL_IP> ::create(parent); break;}//(new UnitNode_SD_BL_IP(parent)); break;}
     case TypeUnitNode::IU_BL_IP  : {newUN = QSharedPointer<UnitNode_IU_BL_IP> ::create(parent); break;}//(new UnitNode_IU_BL_IP(parent)); break;}
     case TypeUnitNode::TG        : {newUN = QSharedPointer<UnitNode_TG>       ::create(parent); break;}//(new UnitNode_TG(parent)); break;}
+    case TypeUnitNode::TG_Base   : {newUN = QSharedPointer<UnitNode_TG>       ::create(parent); break;}//(new UnitNode_TG(parent)); break;}
     case TypeUnitNode::RLM_KRL   : {newUN = QSharedPointer<UnitNode_RLM_KRL>  ::create(parent); break;}//(new UnitNode_RLM_KRL(parent)); break;}
     case TypeUnitNode::RLM_C     : {newUN = QSharedPointer<UnitNode_RLM_C>    ::create(parent); break;}//(new UnitNode_RLM_C(parent)); break;}
     case TypeUnitNode::BOD_T4K_M : {newUN = QSharedPointer<UnitNode_BOD_T4K_M>::create(parent); break;}//(new UnitNode_BOD_T4K_M(parent)); break;}
@@ -51,5 +53,8 @@ QSharedPointer<UnitNode> UnitNodeFactory::makeShare(const UnitNode & parent)
     case TypeUnitNode::DD_SOTA   : {newUN = QSharedPointer<UnitNode_DD_SOTA>  ::create(parent); break;}//(new UnitNode_DD_SOTA(parent)); break;}
     case TypeUnitNode::BL_IP     : {newUN = QSharedPointer<UnitNode_BL_IP>    ::create(parent); break;}//(new UnitNode_BL_IP(parent)); break;}
     default                      : {newUN = QSharedPointer<UnitNode>          ::create(parent); break;}//(new UnitNode(parent)); break;}
-    }    return newUN;
+    }
+    if(!newUN.isNull())
+        newUN->setType(parent.getType());
+    return newUN;
 }

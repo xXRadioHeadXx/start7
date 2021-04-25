@@ -326,12 +326,13 @@ void PortManager::startStatusRequest(){
           (TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::RLM_C == un->getType() ||
            TypeUnitNode::RLM_KRL == un->getType() ||
-           TypeUnitNode::TG == un->getType())) {
+           TypeUnitNode::TG_Base == un->getType())) {
             tmpSet.insert(un);
         } else if(TypeUnitNode::SD_BL_IP == un->getType() ||
-                  TypeUnitNode::IU_BL_IP == un->getType()) {
+                  TypeUnitNode::IU_BL_IP == un->getType() ||
+                  TypeUnitNode::TG == un->getType()) {
             if(!un->getParentUN().isNull() &&
-               TypeUnitNode::BL_IP == un->getParentUN()->getType() &&
+               (TypeUnitNode::BL_IP == un->getParentUN()->getType() || TypeUnitNode::TG_Base == un->getParentUN()->getType()) &&
                ServerSettingUtils::getSetMetaRealUnitNodes().contains(un->getParentUN())) {
                 tmpSet.insert(un->getParentUN());
             }
@@ -346,7 +347,7 @@ void PortManager::startStatusRequest(){
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::RLM_C == un->getType() ||
            TypeUnitNode::RLM_KRL == un->getType() ||
-           TypeUnitNode::TG == un->getType()) {
+           TypeUnitNode::TG_Base == un->getType()) {
 //            qDebug() << "PortManager::startStatusRequest() -- un" << un->toString();
             AbstractPort * ptrPort = nullptr;
             QPair<QString, QString> unIpPort(un->getUdpAdress(), QString::number(un->getUdpPort()));
@@ -395,7 +396,7 @@ void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
-               TypeUnitNode::TG == un->getType())
+               TypeUnitNode::TG_Base == un->getType())
                 selUN = un;
             if(!selUN.isNull()) {
                 QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
@@ -423,11 +424,16 @@ void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
             while(TypeUnitNode::BL_IP != un->getType()) {
                 un = un->getParentUN();
             }
+        } else if(TypeUnitNode::TG == un->getType() ||
+                  TypeUnitNode::TG_Base == un->getType()) {
+            while(TypeUnitNode::TG_Base != un->getType()) {
+                un = un->getParentUN();
+            }
         }
         if(TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::RLM_C == un->getType() ||
            TypeUnitNode::RLM_KRL == un->getType() ||
-           TypeUnitNode::TG == un->getType()) {
+           TypeUnitNode::TG_Base == un->getType()) {
             selUN = un;
             auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(selUN);
             tmpCAW->init();
@@ -455,7 +461,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
-               TypeUnitNode::TG == un->getType()
+               TypeUnitNode::TG_Base == un->getType()
                     /* или датчик */)
                 lsTrgtUN.append(un);
     } else if(!selUN.isNull()) {
@@ -464,7 +470,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
-               TypeUnitNode::TG == un->getType()
+               TypeUnitNode::TG_Base == un->getType()
                     /* или датчик */) {
                 lsTrgtUN.append(un);
                 break;
@@ -1265,9 +1271,20 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
-        if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType() && TypeUnitNode::TG != un->getType())
+        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
+           item.port() == un->getUdpPort() &&
+           TypeUnitNode::TG_Base == un->getType() &&
+           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
+            un->setCountSCRWA(0);
             continue;
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+        }
+        if(TypeUnitNode::RLM_C != un->getType() &&
+           TypeUnitNode::RLM_KRL != un->getType() &&
+           TypeUnitNode::TG != un->getType())
+            continue;
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
+           item.port() != un->getUdpPort() ||
+           static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
 //            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(1)";
             continue;
         }
@@ -1432,9 +1449,18 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
+        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
+           item.port() == un->getUdpPort() &&
+           TypeUnitNode::TG_Base == un->getType() &&
+           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
+            un->setCountSCRWA(0);
+            continue;
+        }
         if(TypeUnitNode::TG != un->getType())
             continue;
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
+           item.port() != un->getUdpPort() ||
+           static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
 //            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(1)";
             continue;
         }
@@ -1496,6 +1522,13 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
+        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
+           item.port() == un->getUdpPort() &&
+           TypeUnitNode::TG_Base == un->getType() &&
+           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
+            un->setCountSCRWA(0);
+            continue;
+        }
         if(TypeUnitNode::TG != un->getType())
             continue;
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
@@ -1613,9 +1646,18 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
+        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
+           item.port() == un->getUdpPort() &&
+           TypeUnitNode::TG_Base == un->getType() &&
+           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
+            un->setCountSCRWA(0);
+            continue;
+        }
         if(TypeUnitNode::TG != un->getType())
             continue;
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
+           item.port() != un->getUdpPort() ||
+           static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
 //            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(1)";
             continue;
         }
@@ -1716,7 +1758,8 @@ void PortManager::manageOverallReadQueue()
             switch (CMD) {
             case static_cast<quint8>(0x41): {
                 for(auto scr : as_const(getLsSCR())) {
-                    if(scr->getIpPort() == tmpPair && TypeUnitNode::BL_IP == static_cast<quint8>(scr->getUnReciver()->getType())) {
+                    if(scr->getIpPort() == tmpPair &&
+                       TypeUnitNode::BL_IP == static_cast<quint8>(scr->getUnReciver()->getType())) {
                         scr->resetBeatCount();
                         break;
                     }
@@ -1739,8 +1782,8 @@ void PortManager::manageOverallReadQueue()
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
                         if(TypeUnitNode::BL_IP == reciver->getType() &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port())
+                           reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
+                           reciver->getUdpPort() == request.port())
                             break;
 
                     }
@@ -1756,7 +1799,11 @@ void PortManager::manageOverallReadQueue()
             }
             case static_cast<quint8>(0x31): {
                 for(auto scr : as_const(getLsSCR())) {
-                    if(scr->getIpPort() == tmpPair && (TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) || TypeUnitNode::RLM_C == static_cast<quint8>(scr->getUnReciver()->getType()) || TypeUnitNode::RLM_KRL == static_cast<quint8>(scr->getUnReciver()->getType())) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                    if(scr->getIpPort() == tmpPair &&
+                       (TypeUnitNode::TG_Base == static_cast<quint8>(scr->getUnReciver()->getType()) ||
+                        TypeUnitNode::RLM_C == static_cast<quint8>(scr->getUnReciver()->getType()) ||
+                        TypeUnitNode::RLM_KRL == static_cast<quint8>(scr->getUnReciver()->getType())) &&
+                       static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
                     }
@@ -1816,7 +1863,7 @@ void PortManager::manageOverallReadQueue()
             }
             case static_cast<quint8>(0x32): {
                 for(auto scr : as_const(getLsSCR())) {
-                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG_Base == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
                     }
@@ -1876,7 +1923,7 @@ void PortManager::manageOverallReadQueue()
             }
             case static_cast<quint8>(0x33): {
                 for(auto scr : as_const(getLsSCR())) {
-                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG_Base == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
                     }
@@ -1936,7 +1983,7 @@ void PortManager::manageOverallReadQueue()
             }
             case static_cast<quint8>(0x34): {
                 for(auto scr : as_const(getLsSCR())) {
-                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                    if(scr->getIpPort() == tmpPair && TypeUnitNode::TG_Base == static_cast<quint8>(scr->getUnReciver()->getType()) && static_cast<quint8>(scr->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
                     }

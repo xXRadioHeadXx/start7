@@ -122,7 +122,8 @@ QByteArray DataQueueItem::makeOnOff0x20(const QSharedPointer<UnitNode> un)
             out[1] = static_cast<quint8>(un->getNum1());
             out[2] = static_cast<quint8>(0x01);        //<NBB> 0x01
             out.append(un->getStateWord().left(1));
-        } else if(TypeUnitNode::TG == un->getType()) {
+        } else if(TypeUnitNode::TG_Base == un->getType() ||
+                  TypeUnitNode::TG == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
             out[2] = static_cast<quint8>(0x07);        //<NBB> 0x07
             out.append(QByteArray().fill(0x00, 7));
@@ -161,7 +162,8 @@ QByteArray DataQueueItem::makeDK0x21(const QSharedPointer<UnitNode> un)
             out[1] = static_cast<quint8>(0xFF);
         } else if(TypeUnitNode::RLM_C == un->getType() ||
                   TypeUnitNode::RLM_KRL == un->getType() ||
-                  TypeUnitNode::TG == un->getType()) {
+                  TypeUnitNode::TG == un->getType() ||
+                  TypeUnitNode::TG_Base == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
         }
     }
@@ -198,7 +200,8 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const QSharedPointer<UnitNode> u
             out[1] = static_cast<quint8>(0xFF);
         } else if(TypeUnitNode::RLM_C == un->getType() ||
                   TypeUnitNode::RLM_KRL == un->getType() ||
-                  TypeUnitNode::TG == un->getType()) {
+                  TypeUnitNode::TG == un->getType() ||
+                  TypeUnitNode::TG_Base == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
         }
     } else {

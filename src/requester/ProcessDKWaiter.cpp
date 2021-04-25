@@ -80,7 +80,8 @@ void ProcessDKWaiter::init() {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
-               TypeUnitNode::TG == un->getType()
+//               TypeUnitNode::TG == un->getType() ||
+               TypeUnitNode::TG_Base == un->getType()
                     /* или датчик */) {
                 setUnReciver(un);
                 break;
@@ -112,9 +113,18 @@ void ProcessDKWaiter::init() {
             }
         }
         getUnReciver()->setDkInvolved(true);
+    } else if(TypeUnitNode::TG_Base == getUnReciver()->getType()) {
+        for(QSharedPointer<UnitNode>  uncld : as_const(getUnReciver()->getListChilde())) {
+            if(0 != uncld->getDK() && (TypeUnitNode::TG == uncld->getType() /* или датчик */)) {
+                uncld->setDkInvolved(true);
+                uncld->setDkStatus(DKCiclStatus::DKReady);
+                uncld->updDoubl();
+                this->lsTrackedUN.append(uncld);
+            }
+        }
+        getUnReciver()->setDkInvolved(true);
     } else if(TypeUnitNode::RLM_C == getUnReciver()->getType() ||
-              TypeUnitNode::RLM_KRL == getUnReciver()->getType() ||
-              TypeUnitNode::TG == getUnReciver()->getType() ) {
+              TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
         getUnReciver()->setDkInvolved(true);
         getUnReciver()->setDkStatus(DKCiclStatus::DKReady);
         getUnReciver()->updDoubl();

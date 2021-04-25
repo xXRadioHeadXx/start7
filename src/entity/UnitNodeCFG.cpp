@@ -623,6 +623,7 @@ QString UnitNodeCFG::toString() const
     case SD_BL_IP: result.append("СД БЛ-IP"); break; // 11,СД БЛ-IP
     case IU_BL_IP: result.append("ИУ БЛ-IP"); break; // 12,ИУ БЛ-IP
     case TG: result.append("Точка/Гарда"); break; // 10,      //Точка/Гарда
+    case TG_Base: result.append("Meta Точка/Гарда"); break; // 110,      //Точка/Гарда
     case RLM_KRL: result.append("РИФ-РЛМ/КРЛ/Трасса"); break; // 1, //РИФ-РЛМ/КРЛ/Трасса
     case RLM_C: result.append("РИФ-РЛМ-С"); break; // 111, //РИФ- РЛМ-С
     case STRAZH_IP: result.append("Страж IP"); break; // 24, //Страж IP

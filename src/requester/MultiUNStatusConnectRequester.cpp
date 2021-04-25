@@ -128,6 +128,13 @@ int MultiUNStatusConnectRequester::optimalTimeIntervalRequest(QSharedPointer<Uni
                 udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
             }
         }
+    } else if(TypeUnitNode::TG_Base == un->getType()) {
+        for(auto i = 0, n = un->childCount(); i < n; i++) {
+            auto cun = un->child(i);
+            if(TypeUnitNode::TG == cun->getType()) {
+                udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
+            }
+        }
     } else {
         udpTimeout = qMax(udpTimeout, un->getUdpTimeout());
     }
@@ -159,11 +166,12 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
     if(TypeUnitNode::BL_IP == currentTrackedUN()->getType() ||
-       TypeUnitNode::SD_BL_IP == currentTrackedUN()->getType() ||
-       TypeUnitNode::IU_BL_IP == currentTrackedUN()->getType() ||
+//       TypeUnitNode::SD_BL_IP == currentTrackedUN()->getType() ||
+//       TypeUnitNode::IU_BL_IP == currentTrackedUN()->getType() ||
        TypeUnitNode::RLM_C == currentTrackedUN()->getType() ||
        TypeUnitNode::RLM_KRL == currentTrackedUN()->getType() ||
-       TypeUnitNode::TG == currentTrackedUN()->getType()) {
+//       TypeUnitNode::TG == currentTrackedUN()->getType() ||
+       TypeUnitNode::TG_Base == currentTrackedUN()->getType()) {
 
         if(!currentTrackedUN()->queueMsg.isEmpty()) {
             result = currentTrackedUN()->queueMsg.dequeue();
@@ -232,7 +240,8 @@ void MultiUNStatusConnectRequester::init() {
             if(TypeUnitNode::BL_IP == un->getType() /* или датчик */ ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
-               TypeUnitNode::TG == un->getType()) {
+//               TypeUnitNode::TG == un->getType() ||
+               TypeUnitNode::TG_Base == un->getType()) {
                 setUnReciver(un);
                 break;
             }

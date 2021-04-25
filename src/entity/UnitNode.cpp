@@ -232,7 +232,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             } else if(!getControl()) {
                 return Icons::sqr_blk_crs_ylw();
             }
-        } else if(TypeUnitNode::TG == getType()) {
+        } else if(TypeUnitNode::TG == getType() || TypeUnitNode::TG_Base == getType()) {
             const SWPTGType0x31 swp = swpTGType0x31();
             if(getControl() && swp.isNull()) {
                 return Icons::sqr_ylw();
@@ -485,7 +485,8 @@ void UnitNode::matchEditableControl()
        ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
         TypeUnitNode::RLM_C == getType() ||
         TypeUnitNode::RLM_KRL == getType() ||
-        TypeUnitNode::TG == getType()))
+        TypeUnitNode::TG == getType() ||
+        TypeUnitNode::TG_Base == getType()))
         editableControl = true;
 }
 
@@ -510,7 +511,8 @@ void UnitNode::matchNeedsPreamble()
     if(!needsPreamble &&
        (TypeUnitNode::RLM_C == getType() ||
         TypeUnitNode::RLM_KRL == getType() ||
-        TypeUnitNode::TG == getType()))
+        TypeUnitNode::TG == getType() ||
+        TypeUnitNode::TG_Base == getType()))
         needsPreamble = true;
 }
 
