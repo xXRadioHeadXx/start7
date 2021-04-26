@@ -221,6 +221,10 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
         return;
     }
 
+    if(!selUN.isNull() && TypeUnitNode::TG == selUN->getType()) {
+        selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+    }
+
     selUN = sel;
     selIndex = index;
 
@@ -353,9 +357,10 @@ void MainWindowServer::createDiagnosticTable()
         ui->groupBox_4->setTitle(tr("Диагностика: РИФ-РЛМ(КРП),Трасса"));
     else if(TypeUnitNode::RLM_C == selUN->getType())
         ui->groupBox_4->setTitle(tr("Диагностика: РИФ-РЛМ-С"));
-    else if(TypeUnitNode::TG == selUN->getType())
+    else if(TypeUnitNode::TG == selUN->getType()) {
+        selUN->getParentUN()->setNeededStateWordType(0x2A);
         ui->groupBox_4->setTitle(tr("Диагностика: Точка/Гарда"));
-    else if(TypeUnitNode::DD_SOTA == selUN->getType() || TypeUnitNode::DD_T4K_M == selUN->getType())
+    } else if(TypeUnitNode::DD_SOTA == selUN->getType() || TypeUnitNode::DD_T4K_M == selUN->getType())
         ui->groupBox_4->setTitle(tr("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
     else if(TypeUnitNode::Y4_SOTA == selUN->getType() || TypeUnitNode::BOD_SOTA == selUN->getType())
         ui->groupBox_4->setTitle(tr("Диагностика: Сота/Сота-М"));

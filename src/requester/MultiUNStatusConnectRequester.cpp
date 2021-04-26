@@ -181,19 +181,19 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                 resetBeatCount();
         } else {
             switch (currentTrackedUN()->getNeededStateWordType()) {
-                case 0: {
+                case 0x22: {
                     DataQueueItem::makeStatusRequest0x22(result, currentTrackedUN());
                     break;
                 }
-                case 1: {
+                case 0x2A: {
                     DataQueueItem::makeStatusRequest0x2A(result, currentTrackedUN());
                     break;
                 }
-                case 2: {
+                case 0x2C: {
                     DataQueueItem::makeStatusRequest0x2C(result, currentTrackedUN());
                     break;
                 }
-                case 3: {
+                case 0x2E: {
                     DataQueueItem::makeStatusRequest0x2E(result, currentTrackedUN());
                     break;
                 }

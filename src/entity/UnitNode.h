@@ -43,7 +43,8 @@ class UnitNode :
 {
     Q_OBJECT
 private:
-    int neededStateWordType = 0;
+    int defaultNeededStateWordType = 0x22;
+    int neededStateWordType = 0x22;
     QByteArray stateWord;
     QByteArray stateWordType0x31;
     QByteArray stateWordType0x32;
@@ -172,6 +173,11 @@ public:
 public:
     QQueue<DataQueueItem> queueMsg;
 
+    int getDefaultNeededStateWordType() const;
+
+protected :
+    void setDefaultNeededStateWordType(int value);
+
 public slots:
 
 signals:
@@ -211,8 +217,14 @@ public:
 };
 class UnitNode_TG : public UnitNode {
 public:
-    explicit UnitNode_TG(const QSharedPointer<UnitNode> parent = nullptr) : UnitNode(parent) {}
-    explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {}
+    explicit UnitNode_TG(const QSharedPointer<UnitNode> parent = nullptr) : UnitNode(parent) {
+        setDefaultNeededStateWordType(0x2E);
+        setNeededStateWordType(getDefaultNeededStateWordType());
+    }
+    explicit UnitNode_TG(const UnitNode & parent) : UnitNode(parent) {
+        setDefaultNeededStateWordType(0x2E);
+        setNeededStateWordType(getDefaultNeededStateWordType());
+    }
     virtual ~UnitNode_TG() {}
     virtual int calcDKStatus() const;
 };

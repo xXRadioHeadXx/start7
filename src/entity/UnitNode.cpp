@@ -479,12 +479,22 @@ void UnitNode::setStateWordType0x32(const QByteArray &value)
     stateWordType0x32 = value;
 }
 
+int UnitNode::getDefaultNeededStateWordType() const
+{
+    return defaultNeededStateWordType;
+}
+
+void UnitNode::setDefaultNeededStateWordType(int value)
+{
+    defaultNeededStateWordType = value;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
-       ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
-        TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType() ||
+            ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
+             TypeUnitNode::RLM_C == getType() ||
+             TypeUnitNode::RLM_KRL == getType() ||
         TypeUnitNode::TG == getType() ||
         TypeUnitNode::TG_Base == getType()))
         editableControl = true;
