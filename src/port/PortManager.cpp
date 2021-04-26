@@ -1506,7 +1506,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 
 //        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x32 -- break(1)";
-        break;
+//        break;
     }
 //    qDebug() << "PortManager::parcingStatusWord0x32 <--";
     return resultRequest;
@@ -1631,7 +1631,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 
 //        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x33 -- break(1)";
-        break;
+//        break;
     }
 //    qDebug() << "PortManager::parcingStatusWord0x33 <--";
     return resultRequest;
@@ -1703,7 +1703,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
 
 //        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x34 -- break(1)";
-        break;
+//        break;
     }
 //    qDebug() << "PortManager::parcingStatusWord0x34 <--";
     return resultRequest;
