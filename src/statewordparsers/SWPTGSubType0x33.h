@@ -10,6 +10,7 @@ private:
 public:
     SWPTGSubType0x33(const QByteArray stateWord, const int flang);
     SWPTGSubType0x33(const SWPTGSubType0x33 & parent);
+    virtual ~SWPTGSubType0x33();
     int getFlang() const;
 
     int isInAlarm() const;

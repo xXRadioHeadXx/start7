@@ -3,6 +3,7 @@
 
 #include "SWP.h"
 
+class SWPTGSubType0x32;
 class SWPTGType0x32 : public SWP
 {
 public:
@@ -109,7 +110,11 @@ public:
     int isAlarmIn4Flt3() const;
     int isNormIn4Flt3() const;
 
-
+    SWPTGSubType0x32 C(int num) const;
+    SWPTGSubType0x32 C1() const;
+    SWPTGSubType0x32 C2() const;
+    SWPTGSubType0x32 C3() const;
+    SWPTGSubType0x32 C4() const;
 
 };
 

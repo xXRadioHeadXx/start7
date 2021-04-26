@@ -15,6 +15,8 @@
 #include <SWPTGType0x34.h>
 #include <SWPTGType0x33.h>
 #include <SWPTGType0x32.h>
+#include <SWPTGSubType0x32.h>
+#include <SWPTGSubType0x33.h>
 #include <DataQueueItem.h>
 
 QSet<QString> UnitNode::getMetaNames() const
@@ -233,28 +235,64 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_blk_crs_ylw();
             }
         } else if(TypeUnitNode::TG == getType() || TypeUnitNode::TG_Base == getType()) {
-            const SWPTGType0x31 swp = swpTGType0x31();
-            if(getControl() && swp.isNull()) {
+            const SWPTGType0x31 swp31 = swpTGType0x31();
+            const SWPTGType0x32 swp32 = swpTGType0x32();
+            const SWPTGType0x33 swp33 = swpTGType0x33();
+            const SWPTGType0x34 swp34 = swpTGType0x34();
+
+            if(getControl() && swp31.isNull() && swp32.isNull() && swp33.isNull() && swp34.isNull()) {
                 return Icons::sqr_ylw();
-            } else if(!getControl() && swp.isNull()) {
+            } else if(!getControl() && swp31.isNull() && swp32.isNull() && swp33.isNull() && swp34.isNull()) {
                 return Icons::sqr_blk_crs_ylw();
-            } else if(1 == swp.isWasAlarm() && getControl()) {
-                return Icons::sqr_rd();
-            } else if(1 == swp.isWasAlarm() && !getControl()) {
-                return Icons::sqr_blk_crs_rd();
-            } else if(1 == swp.isAlarm() && getControl()) {
-                return Icons::sqr_rd();
-            } else if(1 == swp.isAlarm() && !getControl()) {
-                return Icons::sqr_blk_crs_rd();
-            } else if(1 == swp.isOff() && getControl()) {
-                return Icons::sqr_blk();
-            } else if(1 == swp.isOff() && !getControl()) {
-                return Icons::sqr_blk_crs_gry();
-            } else if(1 == swp.isNorm() && getControl()) {
-                return Icons::sqr_grn();
-            } else if(1 == swp.isNorm() && !getControl()) {
-                return Icons::sqr_blk_crs_grn();
-            } else if(getControl()) {
+            } else if(!swp31.isNull()) {
+                if(1 == swp31.isWasAlarm() && getControl()) {
+                    return Icons::sqr_rd();
+                } else if(1 == swp31.isWasAlarm() && !getControl()) {
+                    return Icons::sqr_blk_crs_rd();
+                } else if(1 == swp31.isAlarm() && getControl()) {
+                    return Icons::sqr_rd();
+                } else if(1 == swp31.isAlarm() && !getControl()) {
+                    return Icons::sqr_blk_crs_rd();
+                } else if(1 == swp31.isOff() && getControl()) {
+                    return Icons::sqr_blk();
+                } else if(1 == swp31.isOff() && !getControl()) {
+                    return Icons::sqr_blk_crs_gry();
+                } else if(1 == swp31.isNorm() && getControl()) {
+                    return Icons::sqr_grn();
+                } else if(1 == swp31.isNorm() && !getControl()) {
+                    return Icons::sqr_blk_crs_grn();
+                }
+            } else if(!swp32.isNull()) {
+                if(1 == swp32.C(getNum2()).isFault() && getControl()) {
+                    return Icons::sqr_blu();
+                } else if(1 == swp32.C(getNum2()).isFault() && !getControl()) {
+                    return Icons::sqr_blk_crs_blu();
+                } else if(1 == swp32.C(getNum2()).isAlarm() && getControl()) {
+                    return Icons::sqr_rd();
+                } else if(1 == swp32.C(getNum2()).isAlarm() && !getControl()) {
+                    return Icons::sqr_blk_crs_rd();
+                } else if(1 == swp32.C(getNum2()).isNorm() && getControl()) {
+                    return Icons::sqr_grn();
+                } else if(1 == swp32.C(getNum2()).isNorm() && !getControl()) {
+                    return Icons::sqr_blk_crs_grn();
+                }
+            } else if(!swp33.isNull()) {
+                if(1 == swp33.C(getNum2()).isFault() && getControl()) {
+                    return Icons::sqr_blu();
+                } else if(1 == swp33.C(getNum2()).isFault() && !getControl()) {
+                    return Icons::sqr_blk_crs_blu();
+                } else if(1 == swp33.C(getNum2()).isAlarm() && getControl()) {
+                    return Icons::sqr_rd();
+                } else if(1 == swp33.C(getNum2()).isAlarm() && !getControl()) {
+                    return Icons::sqr_blk_crs_rd();
+                } else if(1 == swp33.C(getNum2()).isNorm() && getControl()) {
+                    return Icons::sqr_grn();
+                } else if(1 == swp33.C(getNum2()).isNorm() && !getControl()) {
+                    return Icons::sqr_blk_crs_grn();
+                }
+            } /*else if(!swp34.isNull()) {
+
+            } */else if(getControl()) {
                 return Icons::sqr_ylw();
             } else if(!getControl()) {
                 return Icons::sqr_blk_crs_ylw();

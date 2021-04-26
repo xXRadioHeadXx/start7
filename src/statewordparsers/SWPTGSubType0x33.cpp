@@ -169,3 +169,8 @@ SWPTGSubType0x33::SWPTGSubType0x33(const SWPTGSubType0x33 &parent) :
 {
 
 }
+
+SWPTGSubType0x33::~SWPTGSubType0x33()
+{
+
+}

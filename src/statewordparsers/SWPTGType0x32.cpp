@@ -1,3 +1,4 @@
+#include "SWPTGSubType0x32.h"
 #include "SWPTGType0x32.h"
 
 SWPTGType0x32::SWPTGType0x32(const QByteArray &stateWord) :
@@ -544,4 +545,26 @@ int SWPTGType0x32::isNormIn4Flt3() const
 {
     int isalarm = isAlarmIn4Flt3();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
+}
+
+SWPTGSubType0x32 SWPTGType0x32::C(int num) const
+{
+    return SWPTGSubType0x32(getStateWord(), num);
+}
+
+SWPTGSubType0x32 SWPTGType0x32::C1() const
+{
+    return C(1);
+}
+SWPTGSubType0x32 SWPTGType0x32::C2() const
+{
+    return C(2);
+}
+SWPTGSubType0x32 SWPTGType0x32::C3() const
+{
+    return C(3);
+}
+SWPTGSubType0x32 SWPTGType0x32::C4() const
+{
+    return C(4);
 }

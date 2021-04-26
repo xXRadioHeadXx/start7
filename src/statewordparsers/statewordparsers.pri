@@ -10,6 +10,7 @@ SOURCES += \
     $$PWD/SWPRLM.cpp \
     $$PWD/SWPRLMC.cpp \
     $$PWD/SWPSDBLIP.cpp \
+    $$PWD/SWPTGSubType0x32.cpp \
     $$PWD/SWPTGSubType0x33.cpp \
     $$PWD/SWPTGSubType0x34.cpp \
     $$PWD/SWPTGType0x31.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     $$PWD/SWPRLM.h \
     $$PWD/SWPRLMC.h \
     $$PWD/SWPSDBLIP.h \
+    $$PWD/SWPTGSubType0x32.h \
     $$PWD/SWPTGSubType0x33.h \
     $$PWD/SWPTGSubType0x34.h \
     $$PWD/SWPTGType0x31.h \
