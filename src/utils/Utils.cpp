@@ -10,6 +10,8 @@
 #include <SWPRLMC.h>
 #include <SWPSDBLIP.h>
 #include <SWPIUBLIP.h>
+#include "SWPTGType0x32.h"
+#include "SWPTGSubType0x32.h"
 
 
 Utils::Utils()
@@ -642,11 +644,12 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
     // fill <--
 }
 
-void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
+void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
+    // prepare -->
 //    table->clear();
 
-    table->setRowCount(15);
+    table->setRowCount(23);
     table->setColumnCount(6);
 
 //    table->setColumnWidth(0, 100);
@@ -690,22 +693,142 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
         setCellText( table, i + 12,4, (QObject::tr("Порог")));
     }
 
+    setCellText( table, 15,0, (QObject::tr("ЧЭ3")));
+
+    for(int i = 0, n = 3; i < n; i++) {
+        setCellText( table, i + 16,0, (QObject::tr("Фильтр%1: Сработка").arg(1 + i)));
+        setCellText( table, i + 16,2, (QObject::tr("Уровень")));
+        setCellText( table, i + 16,4, (QObject::tr("Порог")));
+    }
+
+    setCellText( table, 19,0, (QObject::tr("ЧЭ4")));
+
+    for(int i = 0, n = 3; i < n; i++) {
+        setCellText( table, i + 20,0, (QObject::tr("Фильтр%1: Сработка").arg(1 + i)));
+        setCellText( table, i + 20,2, (QObject::tr("Уровень")));
+        setCellText( table, i + 20,4, (QObject::tr("Порог")));
+    }
+
+
+
     setCellText( table, 7,2, (""));
     setCellText( table, 11,2, (""));
+    setCellText( table, 15,2, (""));
+    setCellText( table, 19,2, (""));
     setCellText( table, 5,4, (""));
     setCellText( table, 6,4, (""));
     setCellText( table, 7,4, (""));
     setCellText( table, 11,4, (""));
+    setCellText( table, 15,4, (""));
+    setCellText( table, 19,4, (""));
 
 
-    for(int i = 0, n = 15; i < n; i++) {
-        for(int j = 0, m = 6; j < m; j++) {
+    for(int i = 0, n = table->rowCount(); i < n; i++) {
+        for(int j = 0, m = table->columnCount(); j < m; j++) {
             if(0 != i && 0 != j && 2 != j && 4 != j) {
-                setCellText( table, i,j, "?");
+                setCellText( table, i,j, "");
             }
             setCellColor( table, i,j, cellGray);
         }
     }
+    // prepare <--
+
+    // fill -->
+    auto swp = selUN->swpTGType0x32();
+
+    for(int i = 1, n = 5; i < n; i++) {
+//        setCellText( table, i,0, (QObject::tr("Сработка ЧЭ%1").arg(i)));
+        //"Cработка ЧЭ%1"
+        if(1 == swp.C(i).isInAlarm()) {
+            setCellText( table, i,1, (QObject::tr("Было[1]")));
+            setCellColor( table, i,1, cellGray);
+        } else if(0 == swp.C(i).isInAlarm()) {
+            setCellText( table, i,1, (QObject::tr("Нет[0]")));
+            setCellColor( table, i,1, cellGray);
+        }
+//        setCellText( table, i,2, (QObject::tr("Выход \"Тревога ЧЭ%1\"").arg(i)));
+        //Выход "Тревога ЧЭ%1"
+        if(1 == swp.C(i).isOutAlarm()) {
+            setCellText( table, i,3, (QObject::tr("Было[1]")));
+            setCellColor( table, i,3, cellGray);
+        } else if(0 == swp.C(i).isOutAlarm()) {
+            setCellText( table, i,3, (QObject::tr("Нет[0]")));
+            setCellColor( table, i,3, cellGray);
+        }
+//        setCellText( table, i,4, (QObject::tr("Сработка со стороны ЧЭ%1").arg(i)));
+        //"Сработка со стороны ЧЭ%1"
+        if(1 == swp.C(i).isSideAlarm()) {
+            setCellText( table, i,5, (QObject::tr("Было[1]")));
+            setCellColor( table, i,5, cellGray);
+        } else if(0 == swp.C(i).isSideAlarm()) {
+            setCellText( table, i,5, (QObject::tr("Нет[0]")));
+            setCellColor( table, i,5, cellGray);
+        }
+    }
+
+//    "ДК"
+    if(1 == swp.isWasDK()) {
+        setCellText( table, 5,1, (QObject::tr("Было[1]")));
+        setCellColor( table, 5,1, cellYellow);
+    } else if(0 == swp.isWasDK()) {
+        setCellText( table, 5,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 5,1, cellGreen);
+    }
+//    "Выход \"ДК\""
+    if(1 == swp.isExistDK()) {
+        setCellText( table, 5,3, (QObject::tr("Есть[1]")));
+        setCellColor( table, 5,3, cellYellow);
+    } else if(0 == swp.isExistDK()) {
+        setCellText( table, 5,3, (QObject::tr("Нет[0]")));
+        setCellColor( table, 5,3, cellGreen);
+    }
+//    "Вскрытие"
+    if(1 == swp.isWasOpened()) {
+        setCellText( table, 6,1, (QObject::tr("Было[1]")));
+        setCellColor( table, 6,1, cellRed);
+    } else if(0 == swp.isWasOpened()) {
+        setCellText( table, 6,1, (QObject::tr("Нет[0]")));
+        setCellColor( table, 6,1, cellGreen);
+    }
+//    "Выход \"Вскрытие\""
+    if(1 == swp.isInOpened()) {
+        setCellText( table, 6,3, (QObject::tr("Есть[1]")));
+        setCellColor( table, 6,3, cellRed);
+    } else if(0 == swp.isInOpened()) {
+        setCellText( table, 6,3, (QObject::tr("Нет[0]")));
+        setCellColor( table, 6,3, cellGreen);
+    }
+
+    for(int ci = 0, n = 4; ci < n; ci++) {
+//        "Фильтр%1: Сработка"
+        if(1 == swp.C(ci + 1).isInAlarmFlt1()) {
+            setCellText( table, (8 + 4 * ci),1, (QObject::tr("Было[1]")));
+            setCellColor( table, (8 + 4 * ci),1, cellGray);
+        } else if(0 == swp.C(ci + 1).isInAlarmFlt1()) {
+            setCellText( table, (8 + 4 * ci),1, (QObject::tr("Нет[0]")));
+            setCellColor( table, (8 + 4 * ci),1, cellGray);
+        }
+
+//        "Фильтр%2: Сработка"
+        if(1 == swp.C(ci + 1).isInAlarmFlt2()) {
+            setCellText( table, (9 + 4 * ci),1, (QObject::tr("Было[1]")));
+            setCellColor( table, (9 + 4 * ci),1, cellGray);
+        } else if(0 == swp.C(ci + 1).isInAlarmFlt2()) {
+            setCellText( table, (9 + 4 * ci),1, (QObject::tr("Нет[0]")));
+            setCellColor( table, (9 + 4 * ci),1, cellGray);
+        }
+
+//        "Фильтр%3: Сработка"
+        if(1 == swp.C(ci + 1).isInAlarmFlt3()) {
+            setCellText( table, (10 + 4 * ci),1, (QObject::tr("Было[1]")));
+            setCellColor( table, (10 + 4 * ci),1, cellGray);
+        } else if(0 == swp.C(ci + 1).isInAlarmFlt3()) {
+            setCellText( table, (10 + 4 * ci),1, (QObject::tr("Нет[0]")));
+            setCellColor( table, (10 + 4 * ci),1, cellGray);
+        }
+    }
+//    swp.
+    // fill <--
 }
 
 void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
