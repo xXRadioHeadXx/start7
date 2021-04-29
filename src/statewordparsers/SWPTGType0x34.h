@@ -11,24 +11,24 @@ public:
     SWPTGType0x34(const SWPTGType0x34 & parent);
     virtual ~SWPTGType0x34();
 
-    SWPTGSubType0x34 in(int numIn) const{
+    SWPTGSubType0x34 C(int numIn) const{
         switch (numIn) {
         case 1:
-        return in1();
+        return C1();
         case 2:
-        return in2();
+        return C2();
         case 3:
-        return in3();
+        return C3();
         case 4:
-        return in4();
+        return C4();
         }
         return SWPTGSubType0x34(QByteArray());
     };
 
-    SWPTGSubType0x34 in1() const;
-    SWPTGSubType0x34 in2() const;
-    SWPTGSubType0x34 in3() const;
-    SWPTGSubType0x34 in4() const;
+    SWPTGSubType0x34 C1() const;
+    SWPTGSubType0x34 C2() const;
+    SWPTGSubType0x34 C3() const;
+    SWPTGSubType0x34 C4() const;
 };
 
 #endif // SWPTGTYPE0X34_H

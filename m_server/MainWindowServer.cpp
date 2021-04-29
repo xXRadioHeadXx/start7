@@ -20,6 +20,8 @@
 #include <SWPTGType0x31.h>
 #include <ServerTableModelJour.h>
 #include <QScrollBar>
+#include "SWPTGSubType0x34.h"
+#include "SWPTGType0x34.h"
 
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
@@ -1627,9 +1629,45 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 
         break;
     }
-    case TypeUnitNode::TG:
-        fillPagePoint(selUN->getType()); //setCurrentIndex(3);
+    case TypeUnitNode::TG: {
+
+        auto ci = static_cast<quint8>(ui->comboBox_PointInput->currentText().toInt() - 1);
+
+        if(0 > ci || 3 < ci)
+            ci = 0x00;
+
+        auto newStateWord = selUN->swpTGType0x34().C(ci + 1).getStateWord();
+
+        if(newStateWord.isEmpty() || 7 > newStateWord.size())
+            newStateWord = newStateWord.fill(0x00, 7);
+
+        newStateWord[0] = ((newStateWord.at(0) & 0xFC) | ci);
+
+        newStateWord[0] = (newStateWord.at(0) & 0xFB);
+        if(ui->checkBox_PointFlt1->isChecked())
+            newStateWord[0] = newStateWord.at(0) | 0x04;
+
+        newStateWord[0] = (newStateWord.at(0) & 0xF7);
+        if(ui->checkBox_PointFlt2->isChecked())
+            newStateWord[0] = newStateWord.at(0) | 0x08;
+
+        newStateWord[0] = (newStateWord.at(0) & 0xEF);
+        if(ui->checkBox_PointFlt3->isChecked())
+            newStateWord[0] = newStateWord.at(0) | 0x10;
+
+        newStateWord[1] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt1Edge->value() & 0x0000FF00) >> 8);
+        newStateWord[2] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt1Edge->value() & 0x000000FF));
+
+        newStateWord[3] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt2Edge->value() & 0x0000FF00) >> 8);
+        newStateWord[4] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt2Edge->value() & 0x000000FF));
+
+        newStateWord[5] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt3Edge->value() & 0x0000FF00) >> 8);
+        newStateWord[6] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt3Edge->value() & 0x000000FF));
+
+        m_portManager->requestModeSensor(selUN, newStateWord);
+
         break;
+    }
     case TypeUnitNode::DD_SOTA:
         fillPageSota1(selUN->getType()); //CurrentIndex(1);
         break;

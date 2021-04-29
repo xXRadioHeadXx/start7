@@ -1180,7 +1180,11 @@
                   </widget>
                  </item>
                  <item row="2" column="3">
-                  <widget class="QSpinBox" name="spinBox_PointFlt1Edge"/>
+                  <widget class="QSpinBox" name="spinBox_PointFlt1Edge">
+                   <property name="maximum">
+                    <number>49999</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_87">
@@ -1200,7 +1204,11 @@
                   </widget>
                  </item>
                  <item row="3" column="3">
-                  <widget class="QSpinBox" name="spinBox_PointFlt2Edge"/>
+                  <widget class="QSpinBox" name="spinBox_PointFlt2Edge">
+                   <property name="maximum">
+                    <number>49999</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="2">
                   <widget class="QLabel" name="label_89">
@@ -1210,7 +1218,11 @@
                   </widget>
                  </item>
                  <item row="4" column="3">
-                  <widget class="QSpinBox" name="spinBox_PointFlt3Edge"/>
+                  <widget class="QSpinBox" name="spinBox_PointFlt3Edge">
+                   <property name="maximum">
+                    <number>49999</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="0">
                   <widget class="QLabel" name="label_90">

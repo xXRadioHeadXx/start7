@@ -623,6 +623,8 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> un, QByteArray stat
         data[5] = stateWord.at(3);
     } else if(TypeUnitNode::RLM_KRL == un->getType()){
         data[4] = stateWord.at(0);
+    } else if(TypeUnitNode::TG == un->getType()){
+        data = data.replace(4, 7, stateWord);
     }
 
     data.chop(1);
