@@ -552,7 +552,7 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
     //"Датчик"
     if(1 == un->swpRLMC().isOn()) {
         setCellText( table, 1,2, (QObject::tr("Вкл[1]")));
-        setCellColor( table, 1,2, cellGray);
+        setCellColor( table, 1,2, cellGreen);
     } else if(1 == un->swpRLMC().isOff()) {
         setCellText( table, 1,2, (QObject::tr("Выкл[0]")));
         setCellColor( table, 1,2, cellGray);
@@ -743,7 +743,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
         //"Cработка ЧЭ%1"
         if(1 == swp32.C(i).isInAlarm()) {
             setCellText( table, i,1, (QObject::tr("Было[1]")));
-            setCellColor( table, i,1, cellGray);
+            setCellColor( table, i,1, cellRed);
         } else if(0 == swp32.C(i).isInAlarm()) {
             setCellText( table, i,1, (QObject::tr("Нет[0]")));
             setCellColor( table, i,1, cellGray);
@@ -752,7 +752,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
         //Выход "Тревога ЧЭ%1"
         if(1 == swp32.C(i).isOutAlarm()) {
             setCellText( table, i,3, (QObject::tr("Было[1]")));
-            setCellColor( table, i,3, cellGray);
+            setCellColor( table, i,3, cellRed);
         } else if(0 == swp32.C(i).isOutAlarm()) {
             setCellText( table, i,3, (QObject::tr("Нет[0]")));
             setCellColor( table, i,3, cellGray);
@@ -761,7 +761,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
         //"Сработка со стороны ЧЭ%1"
         if(1 == swp32.C(i).isSideAlarm()) {
             setCellText( table, i,5, (QObject::tr("Было[1]")));
-            setCellColor( table, i,5, cellGray);
+            setCellColor( table, i,5, cellRed);
         } else if(0 == swp32.C(i).isSideAlarm()) {
             setCellText( table, i,5, (QObject::tr("Нет[0]")));
             setCellColor( table, i,5, cellGray);
@@ -807,7 +807,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
 //        "Фильтр%1: Сработка"
         if(1 == swp32.C(ci + 1).isInAlarmFlt1()) {
             setCellText( table, (8 + 4 * ci),1, (QObject::tr("Было[1]")));
-            setCellColor( table, (8 + 4 * ci),1, cellGray);
+            setCellColor( table, (8 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt1()) {
             setCellText( table, (8 + 4 * ci),1, (QObject::tr("Нет[0]")));
             setCellColor( table, (8 + 4 * ci),1, cellGray);
@@ -816,7 +816,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
 //        "Фильтр%2: Сработка"
         if(1 == swp32.C(ci + 1).isInAlarmFlt2()) {
             setCellText( table, (9 + 4 * ci),1, (QObject::tr("Было[1]")));
-            setCellColor( table, (9 + 4 * ci),1, cellGray);
+            setCellColor( table, (9 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt2()) {
             setCellText( table, (9 + 4 * ci),1, (QObject::tr("Нет[0]")));
             setCellColor( table, (9 + 4 * ci),1, cellGray);
@@ -825,7 +825,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
 //        "Фильтр%3: Сработка"
         if(1 == swp32.C(ci + 1).isInAlarmFlt3()) {
             setCellText( table, (10 + 4 * ci),1, (QObject::tr("Было[1]")));
-            setCellColor( table, (10 + 4 * ci),1, cellGray);
+            setCellColor( table, (10 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt3()) {
             setCellText( table, (10 + 4 * ci),1, (QObject::tr("Нет[0]")));
             setCellColor( table, (10 + 4 * ci),1, cellGray);
@@ -859,18 +859,6 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
         }
     }
 
-
-    for(int ci = 0, n = 4; ci < n; ci++) {
-        //"Пороги"
-        if(-1.0 != swp34.C(ci).thresholdFlt1()) {
-            if(1.0 > swp34.C(ci).thresholdFlt1())
-                setCellText( table, 10,1, (QString::number(swp34.C(ci).thresholdFlt1())));
-            else
-                setCellText( table, 10,1, (QString::number(swp34.C(ci).thresholdFlt1())));
-            setCellColor( table, 10,1, cellGray);
-        }
-    }
-//    swp.
     // fill <--
 }
 
