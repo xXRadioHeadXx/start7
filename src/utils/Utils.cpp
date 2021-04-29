@@ -12,6 +12,8 @@
 #include <SWPIUBLIP.h>
 #include "SWPTGType0x32.h"
 #include "SWPTGSubType0x32.h"
+#include "SWPTGType0x34.h"
+#include "SWPTGSubType0x34.h"
 
 
 Utils::Utils()
@@ -734,97 +736,138 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
     // prepare <--
 
     // fill -->
-    auto swp = selUN->swpTGType0x32();
+    auto swp32 = selUN->swpTGType0x32();
 
     for(int i = 1, n = 5; i < n; i++) {
 //        setCellText( table, i,0, (QObject::tr("Сработка ЧЭ%1").arg(i)));
         //"Cработка ЧЭ%1"
-        if(1 == swp.C(i).isInAlarm()) {
+        if(1 == swp32.C(i).isInAlarm()) {
             setCellText( table, i,1, (QObject::tr("Было[1]")));
             setCellColor( table, i,1, cellGray);
-        } else if(0 == swp.C(i).isInAlarm()) {
+        } else if(0 == swp32.C(i).isInAlarm()) {
             setCellText( table, i,1, (QObject::tr("Нет[0]")));
             setCellColor( table, i,1, cellGray);
         }
 //        setCellText( table, i,2, (QObject::tr("Выход \"Тревога ЧЭ%1\"").arg(i)));
         //Выход "Тревога ЧЭ%1"
-        if(1 == swp.C(i).isOutAlarm()) {
+        if(1 == swp32.C(i).isOutAlarm()) {
             setCellText( table, i,3, (QObject::tr("Было[1]")));
             setCellColor( table, i,3, cellGray);
-        } else if(0 == swp.C(i).isOutAlarm()) {
+        } else if(0 == swp32.C(i).isOutAlarm()) {
             setCellText( table, i,3, (QObject::tr("Нет[0]")));
             setCellColor( table, i,3, cellGray);
         }
 //        setCellText( table, i,4, (QObject::tr("Сработка со стороны ЧЭ%1").arg(i)));
         //"Сработка со стороны ЧЭ%1"
-        if(1 == swp.C(i).isSideAlarm()) {
+        if(1 == swp32.C(i).isSideAlarm()) {
             setCellText( table, i,5, (QObject::tr("Было[1]")));
             setCellColor( table, i,5, cellGray);
-        } else if(0 == swp.C(i).isSideAlarm()) {
+        } else if(0 == swp32.C(i).isSideAlarm()) {
             setCellText( table, i,5, (QObject::tr("Нет[0]")));
             setCellColor( table, i,5, cellGray);
         }
     }
 
 //    "ДК"
-    if(1 == swp.isWasDK()) {
+    if(1 == swp32.isWasDK()) {
         setCellText( table, 5,1, (QObject::tr("Было[1]")));
         setCellColor( table, 5,1, cellYellow);
-    } else if(0 == swp.isWasDK()) {
+    } else if(0 == swp32.isWasDK()) {
         setCellText( table, 5,1, (QObject::tr("Нет[0]")));
         setCellColor( table, 5,1, cellGreen);
     }
 //    "Выход \"ДК\""
-    if(1 == swp.isExistDK()) {
+    if(1 == swp32.isExistDK()) {
         setCellText( table, 5,3, (QObject::tr("Есть[1]")));
         setCellColor( table, 5,3, cellYellow);
-    } else if(0 == swp.isExistDK()) {
+    } else if(0 == swp32.isExistDK()) {
         setCellText( table, 5,3, (QObject::tr("Нет[0]")));
         setCellColor( table, 5,3, cellGreen);
     }
 //    "Вскрытие"
-    if(1 == swp.isWasOpened()) {
+    if(1 == swp32.isWasOpened()) {
         setCellText( table, 6,1, (QObject::tr("Было[1]")));
         setCellColor( table, 6,1, cellRed);
-    } else if(0 == swp.isWasOpened()) {
+    } else if(0 == swp32.isWasOpened()) {
         setCellText( table, 6,1, (QObject::tr("Нет[0]")));
         setCellColor( table, 6,1, cellGreen);
     }
 //    "Выход \"Вскрытие\""
-    if(1 == swp.isInOpened()) {
+    if(1 == swp32.isInOpened()) {
         setCellText( table, 6,3, (QObject::tr("Есть[1]")));
         setCellColor( table, 6,3, cellRed);
-    } else if(0 == swp.isInOpened()) {
+    } else if(0 == swp32.isInOpened()) {
         setCellText( table, 6,3, (QObject::tr("Нет[0]")));
         setCellColor( table, 6,3, cellGreen);
     }
 
+    auto swp34 = selUN->swpTGType0x34();
+
     for(int ci = 0, n = 4; ci < n; ci++) {
 //        "Фильтр%1: Сработка"
-        if(1 == swp.C(ci + 1).isInAlarmFlt1()) {
+        if(1 == swp32.C(ci + 1).isInAlarmFlt1()) {
             setCellText( table, (8 + 4 * ci),1, (QObject::tr("Было[1]")));
             setCellColor( table, (8 + 4 * ci),1, cellGray);
-        } else if(0 == swp.C(ci + 1).isInAlarmFlt1()) {
+        } else if(0 == swp32.C(ci + 1).isInAlarmFlt1()) {
             setCellText( table, (8 + 4 * ci),1, (QObject::tr("Нет[0]")));
             setCellColor( table, (8 + 4 * ci),1, cellGray);
         }
 
 //        "Фильтр%2: Сработка"
-        if(1 == swp.C(ci + 1).isInAlarmFlt2()) {
+        if(1 == swp32.C(ci + 1).isInAlarmFlt2()) {
             setCellText( table, (9 + 4 * ci),1, (QObject::tr("Было[1]")));
             setCellColor( table, (9 + 4 * ci),1, cellGray);
-        } else if(0 == swp.C(ci + 1).isInAlarmFlt2()) {
+        } else if(0 == swp32.C(ci + 1).isInAlarmFlt2()) {
             setCellText( table, (9 + 4 * ci),1, (QObject::tr("Нет[0]")));
             setCellColor( table, (9 + 4 * ci),1, cellGray);
         }
 
 //        "Фильтр%3: Сработка"
-        if(1 == swp.C(ci + 1).isInAlarmFlt3()) {
+        if(1 == swp32.C(ci + 1).isInAlarmFlt3()) {
             setCellText( table, (10 + 4 * ci),1, (QObject::tr("Было[1]")));
             setCellColor( table, (10 + 4 * ci),1, cellGray);
-        } else if(0 == swp.C(ci + 1).isInAlarmFlt3()) {
+        } else if(0 == swp32.C(ci + 1).isInAlarmFlt3()) {
             setCellText( table, (10 + 4 * ci),1, (QObject::tr("Нет[0]")));
             setCellColor( table, (10 + 4 * ci),1, cellGray);
+        }
+
+        //"Фильтр%1: Пороги"
+        if(-1.0 != swp34.C(ci).thresholdFlt1()) {
+            if(1.0 > swp34.C(ci).thresholdFlt1())
+                setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt1())));
+            else
+                setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt1())));
+            setCellColor( table, (8 + 4 * ci),5, cellGray);
+        }
+
+        //"Фильтр%2: Пороги"
+        if(-1.0 != swp34.C(ci).thresholdFlt2()) {
+            if(1.0 > swp34.C(ci).thresholdFlt2())
+                setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt2())));
+            else
+                setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt2())));
+            setCellColor( table, (9 + 4 * ci),5, cellGray);
+        }
+
+        //"Фильтр%3: Пороги"
+        if(-1.0 != swp34.C(ci).thresholdFlt3()) {
+            if(1.0 > swp34.C(ci).thresholdFlt3())
+                setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt3())));
+            else
+                setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt3())));
+            setCellColor( table, (10 + 4 * ci),5, cellGray);
+        }
+    }
+
+
+    for(int ci = 0, n = 4; ci < n; ci++) {
+        //"Пороги"
+        if(-1.0 != swp34.C(ci).thresholdFlt1()) {
+            if(1.0 > swp34.C(ci).thresholdFlt1())
+                setCellText( table, 10,1, (QString::number(swp34.C(ci).thresholdFlt1())));
+            else
+                setCellText( table, 10,1, (QString::number(swp34.C(ci).thresholdFlt1())));
+            setCellColor( table, 10,1, cellGray);
         }
     }
 //    swp.
