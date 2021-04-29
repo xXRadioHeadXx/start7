@@ -832,29 +832,29 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
         }
 
         //"Фильтр%1: Пороги"
-        if(-1.0 != swp34.C(ci).thresholdFlt1()) {
-            if(1.0 > swp34.C(ci).thresholdFlt1())
-                setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt1())));
+        if(-1.0 != swp34.C(ci + 1).thresholdFlt1()) {
+            if(1.0 > swp34.C(ci + 1).thresholdFlt1())
+                setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt1())));
             else
-                setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt1())));
+                setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt1())));
             setCellColor( table, (8 + 4 * ci),5, cellGray);
         }
 
         //"Фильтр%2: Пороги"
-        if(-1.0 != swp34.C(ci).thresholdFlt2()) {
-            if(1.0 > swp34.C(ci).thresholdFlt2())
-                setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt2())));
+        if(-1.0 != swp34.C(ci + 1).thresholdFlt2()) {
+            if(1.0 > swp34.C(ci + 1).thresholdFlt2())
+                setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt2())));
             else
-                setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt2())));
+                setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt2())));
             setCellColor( table, (9 + 4 * ci),5, cellGray);
         }
 
         //"Фильтр%3: Пороги"
-        if(-1.0 != swp34.C(ci).thresholdFlt3()) {
-            if(1.0 > swp34.C(ci).thresholdFlt3())
-                setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt3())));
+        if(-1.0 != swp34.C(ci + 1).thresholdFlt3()) {
+            if(1.0 > swp34.C(ci + 1).thresholdFlt3())
+                setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt3())));
             else
-                setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci).thresholdFlt3())));
+                setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt3())));
             setCellColor( table, (10 + 4 * ci),5, cellGray);
         }
     }
