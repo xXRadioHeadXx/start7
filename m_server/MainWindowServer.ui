@@ -115,7 +115,7 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <widget class="QGroupBox" name="groupBox">
+       <widget class="QGroupBox" name="groupBox_Tree">
         <property name="title">
          <string>Дерево объектов</string>
         </property>
@@ -567,7 +567,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>502</width>
+                  <width>330</width>
                   <height>630</height>
                  </rect>
                 </property>
@@ -1279,7 +1279,7 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <widget class="QGroupBox" name="groupBox_2">
+       <widget class="QGroupBox" name="groupBox_Jour">
         <property name="title">
          <string>Журнал событий</string>
         </property>
@@ -1321,7 +1321,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_3">
+          <widget class="QGroupBox" name="groupBox_ReasonMeasures">
            <property name="title">
             <string>Причины и принятые меры</string>
            </property>
@@ -1397,7 +1397,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QGroupBox" name="groupBox_4">
+       <widget class="QGroupBox" name="groupBox_Diagnostics">
         <property name="baseSize">
          <size>
           <width>0</width>
