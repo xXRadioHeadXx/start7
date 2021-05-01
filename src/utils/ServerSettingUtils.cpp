@@ -146,6 +146,14 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 if(!tmpUN->getDoubles().isEmpty()) {
                     tmpUN->setParentUN(tmpUN->getDoubles().values().first()->getParentUN());
                 } else if(tmpUN->getDoubles().isEmpty() &&
+                          (TypeUnitNode::RLM_C == tmpUN->getType() ||
+                           TypeUnitNode::RLM_KRL == tmpUN->getType())) {
+
+//                    tmpUN->addChild(tmpUN);
+                    tmpUN->setParentUN(tmpUN);
+                    getSetMetaRealUnitNodes().insert(tmpUN);
+
+                } else if(tmpUN->getDoubles().isEmpty() &&
                         (TypeUnitNode::SD_BL_IP == tmpUN->getType() ||
                         TypeUnitNode::IU_BL_IP == tmpUN->getType() ||
                         TypeUnitNode::RLM_C == tmpUN->getType() ||

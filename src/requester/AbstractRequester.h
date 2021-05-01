@@ -83,9 +83,9 @@ public:
 
         result = result && (nullptr != getPtrPort());
 //        //qDebug() << "AbstractRequester::isValid(" << this << ") -- getPtrPort " << result;
-        result = result && (nullptr != getUnTarget());
+        result = result && (!getUnTarget().isNull());
 //        //qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnTarget " << result;
-        result = result && (nullptr != getUnReciver());
+        result = result && (!getUnReciver().isNull());
 //        //qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnReciver " << result;
         if(BeatStatus::Start != getBeatStatus()) {
             result = result && getFirstMsg().isValid();

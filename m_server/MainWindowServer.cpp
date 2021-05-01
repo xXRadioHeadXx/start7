@@ -224,10 +224,9 @@ void MainWindowServer::tuneDefaultNeededStateWordTypeSelectedlUN() const {
             }
         }
         selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
+        selUN->leftoversCounter.counter = 0;
+        selUN->leftoversCounter.divider = 1;
     }
-    selUN->leftoversCounter.counter = 0;
-    selUN->leftoversCounter.divider = 1;
-
 }
 
 
@@ -495,7 +494,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionCollapseUNTree);
     }
 
-    if(nullptr == selUN) {
+    if(selUN.isNull()) {
         return;
     } else if(TypeUnitNode::SD_BL_IP == sel->getType()) {
 
@@ -503,6 +502,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionControl);
             menu->addSeparator();
         }
+
         if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOn() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionUNOff);
         } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOff() && 1 != sel->getBazalt()) {
@@ -643,7 +643,7 @@ void MainWindowServer::on_actionRifDKOverall_triggered()
 
 void MainWindowServer::on_actionExpandUNTree_triggered()
 {
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
 
     QModelIndex index = selIndex;
@@ -657,7 +657,7 @@ void MainWindowServer::on_actionExpandUNTree_triggered()
 
 void MainWindowServer::on_actionCollapseUNTree_triggered()
 {
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
 
     QModelIndex index = selIndex;
@@ -671,7 +671,7 @@ void MainWindowServer::on_actionCollapseUNTree_triggered()
 
 void MainWindowServer::on_actionUNOn_triggered()
 {
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
 
     const auto& setUn = Utils::findeSetAutoOnOffUN(selUN);
@@ -683,7 +683,7 @@ void MainWindowServer::on_actionUNOn_triggered()
 
 void MainWindowServer::on_actionUNOff_triggered()
 {
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
     if(TypeUnitNode::RLM_C == selUN->getType() ||
        TypeUnitNode::RLM_KRL == selUN->getType() ||
@@ -702,7 +702,7 @@ void MainWindowServer::on_actionUNOff_triggered()
 
 void MainWindowServer::on_actionControl_triggered()
 {
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
 
 
@@ -783,7 +783,7 @@ void MainWindowServer::initLabelOperator()
 
 void MainWindowServer::on_actionTest_triggered()
 {
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
     Utils::findeSetAutoOnOffUN(selUN);
 }
@@ -930,7 +930,7 @@ void MainWindowServer::on_actionClose_triggered()
 
 void MainWindowServer::lockOpenClose(bool val)
 {
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
     this->m_portManager->lockOpenCloseCommand(false, selUN, val);
 }
@@ -978,7 +978,7 @@ void MainWindowServer::preparePageCustomization(int /*typeUN*/)
     if(!ui->actionCustomization->isChecked())
         return;
 
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
 
     switch (selUN->getType()) {
@@ -1447,7 +1447,7 @@ void MainWindowServer::preparePageSota2(int typeUN)
 
 void MainWindowServer::fillPageRLM()
 {
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
     if(TypeUnitNode::RLM_C != selUN->getType() && TypeUnitNode::RLM_KRL != selUN->getType())
         return;
@@ -1523,7 +1523,7 @@ void MainWindowServer::on_pushButton_ReadCustomization_clicked()
         return;
     if(!ui->actionCustomization->isChecked())
         return;
-    if(nullptr == selUN)
+    if(selUN.isNull())
         return;
 
     switch (selUN->getType()) {
@@ -1556,7 +1556,7 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 //        //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
         return;
     }
-    if(nullptr == selUN) {
+    if(selUN.isNull()) {
 //        //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
         return;
     }

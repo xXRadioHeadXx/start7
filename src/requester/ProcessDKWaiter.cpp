@@ -36,7 +36,7 @@ void ProcessDKWaiter::addLsTrackedUN(QSharedPointer<UnitNode> value)
 
 DataQueueItem ProcessDKWaiter::makeFirstMsg() {
     DataQueueItem result;
-    if(nullptr == getPtrPort() || nullptr == getUnReciver())
+    if(nullptr == getPtrPort() || getUnReciver().isNull())
         return result;
 
     result.setPort(getUnReciver()->getUdpPort());
@@ -53,7 +53,7 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
 
 DataQueueItem ProcessDKWaiter::makeSecondMsg() {
     DataQueueItem result;
-    if(nullptr == getPtrPort() || nullptr == getUnReciver())
+    if(nullptr == getPtrPort() || getUnReciver().isNull())
         return result;
 
     result.setPort(getUnReciver()->getUdpPort());
@@ -74,23 +74,11 @@ DataQueueItem ProcessDKWaiter::makeEndMsg()
 }
 
 void ProcessDKWaiter::init() {
-    if(nullptr != getUnTarget()) {
-        QSharedPointer<UnitNode>  un = getUnTarget();
-        while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType() ||
-               TypeUnitNode::RLM_C == un->getType() ||
-               TypeUnitNode::RLM_KRL == un->getType() ||
-//               TypeUnitNode::TG == un->getType() ||
-               TypeUnitNode::TG_Base == un->getType()
-                    /* или датчик */) {
-                setUnReciver(un);
-                break;
-            }
-            un = un->getParentUN();
-        }
+    if(!getUnTarget().isNull()) {
+        setUnReciver(UnitNode::findReciver(getUnTarget()));
     }
 
-    if(nullptr == getUnTarget() || nullptr == getUnReciver())
+    if(getUnTarget().isNull() || getUnReciver().isNull())
         return;
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));

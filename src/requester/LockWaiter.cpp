@@ -107,19 +107,12 @@ DataQueueItem LockWaiter::makeEndMsg() {
 
 void LockWaiter::init() {
 
-    if(nullptr == getUnTarget())
+    if(getUnTarget().isNull())
         return;
 
     setUnReciverSdBlIp(getUnTarget());
 
-    QSharedPointer<UnitNode>  reciver = getUnTarget();
-    while(nullptr != reciver) {
-        if(TypeUnitNode::BL_IP == reciver->getType()) {
-            break;
-        }
-        reciver = reciver->getParentUN();
-    }
-    setUnReciver(reciver);
+    setUnReciver(UnitNode::findReciver(getUnTarget()));
 
     for(QSharedPointer<UnitNode>  un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes().toList())) {
         if(TypeUnitNode::IU_BL_IP == un->getType() && getUnReciverSdBlIp()->getNum2() == un->getNum2() && getUnReciverSdBlIp()->getUdpPort() == un->getUdpPort() && getUnReciverSdBlIp()->getUdpAdress() == un->getUdpAdress()) {
@@ -128,7 +121,7 @@ void LockWaiter::init() {
         }
     }
 
-    if(nullptr == getUnReciverIuBlIp() && nullptr != getUnReciver()) {
+    if(nullptr == getUnReciverIuBlIp() && !getUnReciver().isNull()) {
         auto newMetaUnIuBlIp = UnitNodeFactory::makeShare(TypeUnitNode::IU_BL_IP, getUnReciver());
         newMetaUnIuBlIp->setNum2(getUnReciverSdBlIp()->getNum2());
         newMetaUnIuBlIp->setUdpPort(getUnReciverSdBlIp()->getUdpPort());
@@ -146,7 +139,7 @@ void LockWaiter::init() {
     }
 
 
-    if(getUnReciverSdBlIp() == reciver || nullptr == reciver || nullptr == getUnReciverIuBlIp())
+    if(getUnReciverSdBlIp() == getUnReciver() || getUnReciver().isNull() || getUnReciverIuBlIp().isNull())
         return;
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
@@ -160,18 +153,11 @@ void LockWaiter::init() {
     }
 
     //
-    if(nullptr != getUnTarget()) {
-        QSharedPointer<UnitNode>  un = getUnTarget();
-        while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType() /* или датчик */) {
-                setUnReciver(un);
-                break;
-            }
-            un = un->getParentUN();
-        }
+    if(!getUnTarget().isNull()) {
+        setUnReciver(UnitNode::findReciver(getUnTarget()));
     }
 
-    if(nullptr == getUnTarget() || nullptr == getUnReciver())
+    if(getUnTarget().isNull() || getUnReciver().isNull())
         return;
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));

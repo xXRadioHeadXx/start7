@@ -16,18 +16,11 @@ ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter()
 
 void ConfirmationAdmissionWaiter::init()
 {
-    if(nullptr != getUnTarget()) {
-        QSharedPointer<UnitNode>  un = getUnTarget();
-        while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType()) {
-                setUnReciver(un);
-                break;
-            }
-            un = un->getParentUN();
-        }
+    if(!getUnTarget().isNull()) {
+        setUnReciver(UnitNode::findReciver(getUnTarget()));
     }
 
-    if(nullptr == getUnTarget() || nullptr == getUnReciver())
+    if(getUnTarget().isNull() || getUnReciver().isNull())
         return;
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));

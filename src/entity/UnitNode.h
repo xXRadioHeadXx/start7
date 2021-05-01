@@ -153,6 +153,13 @@ public:
     int getMaxCountSCRWA() const;
     void setMaxCountSCRWA(int value);
 
+    int getNeededStateWordType() const;
+    void setNeededStateWordType(int value);
+
+    int getDefaultNeededStateWordType() const;
+
+    static QSharedPointer<UnitNode> findReciver(QSharedPointer<UnitNode> reciver);
+
     QByteArray getStateWordType0x31() const;
     void setStateWordType0x31(const QByteArray &value);
 
@@ -161,9 +168,6 @@ public:
 
     QByteArray getStateWordType0x33() const;
     void setStateWordType0x33(const QByteArray &value);
-
-    int getNeededStateWordType() const;
-    void setNeededStateWordType(int value);
 
     QByteArray getStateWordType0x32() const;
     void setStateWordType0x32(const QByteArray &value);
@@ -181,7 +185,6 @@ public:
 public:
     QQueue<DataQueueItem> queueMsg;
 
-    int getDefaultNeededStateWordType() const;
 
 protected :
     void setDefaultNeededStateWordType(int value);

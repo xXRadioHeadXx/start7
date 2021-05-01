@@ -702,75 +702,60 @@ void PortManager::requestOnOffCommand(QSharedPointer<UnitNode> selUN, bool value
 
 void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, bool value)
 {
-    if(!value) {
-        if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
-            QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
-            for(const auto& pt : as_const(m_udpPortsVector)) {
-                if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
-                    for(auto ar : as_const(getLsWaiter())) {
-                        if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN))) {
-                            ar->timerTripleStop();
-                            ar->setBeatStatus(BeatStatus::Unsuccessful);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    QSharedPointer<UnitNode>  reciver = selUN;
     QSharedPointer<UnitNode>  target = selUN;
 
     if(TypeUnitNode::SD_BL_IP != target->getType() &&
        TypeUnitNode::IU_BL_IP != target->getType() &&
        TypeUnitNode::RLM_C != target->getType() &&
        TypeUnitNode::RLM_KRL != target->getType())
-        return;
+        return; // с этим типом устройств не работаем
 
-    if(!ServerSettingUtils::getSetMetaRealUnitNodes().contains(reciver)) {
+    // ищем устройство в списке мета и реальных устройств -->
+    if(!ServerSettingUtils::getSetMetaRealUnitNodes().contains(target)) {
         for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes()))
-            if(un->getDoubles().contains(reciver)) {
-                target = reciver = un;
+            if(un->getDoubles().contains(target)) {
+                target = un;
                 break;
             }
     }
+    // ищем устройство в списке мета и реальных устройств <--
 
-    quint8 D1 = 0x00;
-    if(TypeUnitNode::SD_BL_IP == target->getType() ||
-            TypeUnitNode::IU_BL_IP == target->getType()) {
-        while(!reciver.isNull()) {
-            if(TypeUnitNode::BL_IP == reciver->getType()) {
-                break;
+    // value true - Вкл. Оставляем работать шедулер (реквестер) автовыключения/автовыключения -->
+    if(!value) {
+        if(TypeUnitNode::IU_BL_IP == target->getType()) { // Прерываем работу если это было ИУ
+//            auto reciverIU = UnitNode::findReciver(selUN);
+            for(auto ar : as_const(getLsWaiter())) {
+                if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) &&
+//                   (ar->getUnReciver() == reciverIU) &&
+                   (ar->getUnTarget() == target || ar->getUnTarget()->getDoubles().contains(target))) {
+                    ar->timerTripleStop();
+                    ar->setBeatStatus(BeatStatus::Unsuccessful);
+                }
             }
-            reciver = reciver->getParentUN();
         }
-    } else if(TypeUnitNode::RLM_C == target->getType() || TypeUnitNode::RLM_KRL == target->getType()) {
-        reciver = target;
     }
+    // value true - Вкл. Оставляем работать шедулер (реквестер) автовыключения/автовыключения <--
+
+    QSharedPointer<UnitNode>  reciver = UnitNode::findReciver(target);
 
     if(!reciver.isNull()) {
 
-        if(TypeUnitNode::SD_BL_IP == reciver->getType() || TypeUnitNode::IU_BL_IP == reciver->getType() || TypeUnitNode::BL_IP == reciver->getType()) {
-
+        if(TypeUnitNode::BL_IP == reciver->getType() && !target->getStateWord().isEmpty()) {
+            quint8 D1 = 0x00; // байт для БЛ
+            quint8 mask = 0x00;
             if(TypeUnitNode::SD_BL_IP == target->getType()) {
                 D1 = target->getStateWord().at(3);
+                mask = target->swpSDBLIP().mask();
             } else if(TypeUnitNode::IU_BL_IP == target->getType()) {
                 D1 = target->getStateWord().at(1) & 0x0F;
-            }
-
-            quint8 mask = 0x00;
-            if(TypeUnitNode::SD_BL_IP == target->getType() && !target->swpSDBLIP().isNull())
-                mask = target->swpSDBLIP().mask();
-            else if(TypeUnitNode::IU_BL_IP == target->getType() && !target->swpIUBLIP().isNull())
                 mask = target->swpIUBLIP().mask();
+            }
 
             if(value)
                 D1 = D1 | mask;
             else if(!value)
                 D1 = D1 & ~mask;
-        }
 
-        if(TypeUnitNode::BL_IP == reciver->getType()) {
             auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
             tmpCAW->init();
             DataQueueItem itm = tmpCAW->getFirstMsg();
@@ -787,6 +772,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
             data.append(Utils::getByteSumm(data)); //<CHKS>
             itm.setData(data);
             tmpCAW->setFirstMsg(itm);
+//            tmpCAW->setUnTarget(target);
             appLsWaiter(tmpCAW);
     //        tmpCAW->startFirstRequest();
 
@@ -794,6 +780,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
                   TypeUnitNode::RLM_KRL == reciver->getType()) {
             auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
             tmpCAW->init();
+//            tmpCAW->setUnTarget(target);
             DataQueueItem itm = tmpCAW->getFirstMsg();
             if(value)
                 DataQueueItem::makeOn0x26(itm, reciver);
@@ -803,14 +790,14 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
             appLsWaiter(tmpCAW);
         }
 
-        if(target->getControl()) {
+        if(selUN->getControl()) {
             JourEntity msg;
-            msg.setObject(target->getName());
-            msg.setObjecttype(target->getType());
-            msg.setD1(target->getNum1());
-            msg.setD2(target->getNum2());
-            msg.setD3(target->getNum3());
-            msg.setDirection(target->getUdpAdress());
+            msg.setObject(selUN->getName());
+            msg.setObjecttype(selUN->getType());
+            msg.setD1(selUN->getNum1());
+            msg.setD2(selUN->getNum2());
+            msg.setD3(selUN->getNum3());
+            msg.setDirection(selUN->getUdpAdress());
 
             if(out) {
                 msg.setComment(tr("Удал. ком. ") + (value ? tr("Вкл") : tr("Выкл")));
@@ -820,7 +807,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
                 msg.setType((value ? 130 : 131));
             }
             DataBaseManager::insertJourMsg_wS(msg);
-            GraphTerminal::sendAbonentEventsAndStates(target, msg);
+            GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
         }
     }
 }
@@ -1203,7 +1190,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
 
 
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) && (1 == un->swpSDBLIP().isOn()) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
                     //сохранение Тревога или Норма
                     msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                     msg.setType(20);
@@ -1211,7 +1198,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     //нужен сброс
                     DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) && (1 == un->swpSDBLIP().isNorm()) && (previousCopyUN->swpSDBLIP().isNorm() != un->swpSDBLIP().isNorm())) {
+                } else if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) && (1 == un->swpSDBLIP().isOn()) && (1 == un->swpSDBLIP().isNorm()) && (previousCopyUN->swpSDBLIP().isNorm() != un->swpSDBLIP().isNorm())) {
                     msg.setComment(QObject::tr("Норма"));
                     msg.setType(1);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
@@ -1360,7 +1347,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                             //нужен сброс
     //                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
                         }
-                    } else if(un->getControl() && (1 == un->swpRLM().isNorm()) && (previousCopyUN->swpRLM().isNorm() != un->swpRLM().isNorm())) {
+                    } else if(un->getControl() && (1 == un->swpRLM().isOn()) && (1 == un->swpRLM().isNorm()) && (previousCopyUN->swpRLM().isNorm() != un->swpRLM().isNorm())) {
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
@@ -1387,7 +1374,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                             //нужен сброс
     //                        resultRequest.setData(DataQueueItem::makeAlarmReset0x24(un));
                         }
-                    } else if(un->getControl() && (1 == un->swpRLMC().isNorm()) && (previousCopyUN->swpRLMC().isNorm() != un->swpRLMC().isNorm())) {
+                    } else if(un->getControl() && (1 == un->swpRLMC().isOn()) && (1 == un->swpRLMC().isNorm()) && (previousCopyUN->swpRLMC().isNorm() != un->swpRLMC().isNorm())) {
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
@@ -1486,11 +1473,11 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 
         auto currentSWP = un->swpTGType0x32();
 
-        if((TypeUnitNode::TG == un->getType() && 1 == currentSWP.isAlarm())) {
-            //нужен сброс
-            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-//                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
-        }
+//        if((TypeUnitNode::TG == un->getType() && 1 == currentSWP.isAlarm())) {
+//            //нужен сброс
+//            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
+////                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+//        }
 
         if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
@@ -1563,10 +1550,10 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 
         auto currentSWP = un->swpTGType0x33();
 
-        if(TypeUnitNode::TG == un->getType() && 1 == currentSWP.isAlarm()) {
-            //нужен сброс
-            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-        }
+//        if(TypeUnitNode::TG == un->getType() && 1 == currentSWP.isAlarm()) {
+//            //нужен сброс
+//            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
+//        }
 
         if(!previousCopyUN.isNull() && !un.isNull() && (previousSWP.getStateWord() != currentSWP.getStateWord())) {
             if(un->getDkInvolved()) {

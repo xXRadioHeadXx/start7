@@ -17,18 +17,11 @@ OnOffIUWaiter::~OnOffIUWaiter()
 
 void OnOffIUWaiter::init()
 {
-    if(nullptr != getUnTarget()) {
-        QSharedPointer<UnitNode>  un = getUnTarget();
-        while(nullptr != un) {
-            if(TypeUnitNode::BL_IP == un->getType()) {
-                setUnReciver(un);
-                break;
-            }
-            un = un->getParentUN();
-        }
+    if(!getUnTarget().isNull()) {
+        setUnReciver(UnitNode::findReciver(getUnTarget()));
     }
 
-    if(nullptr == getUnTarget() || nullptr == getUnReciver())
+    if(getUnTarget().isNull() || getUnReciver().isNull())
         return;
 
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
@@ -50,7 +43,7 @@ void OnOffIUWaiter::init()
 DataQueueItem OnOffIUWaiter::makeFirstMsg()
 {
     DataQueueItem result;
-    if(nullptr == getPtrPort() || nullptr == getUnReciver())
+    if(nullptr == getPtrPort() || getUnReciver().isNull())
         return result;
 
     result.setData(DataQueueItem::makeOnOff0x23(getUnTarget(), true, getUnReciver()));
@@ -58,7 +51,7 @@ DataQueueItem OnOffIUWaiter::makeFirstMsg()
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
-    if(nullptr != getUnTarget() && TypeUnitNode::RLM_C == getUnTarget()->getType())
+    if(!getUnTarget().isNull() && TypeUnitNode::RLM_C == getUnTarget()->getType())
         result.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
 
     if(result.isValid())
@@ -69,7 +62,7 @@ DataQueueItem OnOffIUWaiter::makeFirstMsg()
 
 DataQueueItem OnOffIUWaiter::makeSecondMsg() {
     DataQueueItem result;
-    if(nullptr == getPtrPort() || nullptr == getUnReciver())
+    if(nullptr == getPtrPort() || getUnReciver().isNull())
         return result;
 
     result.setData(DataQueueItem::makeOnOff0x23(getUnTarget(), false, getUnReciver()));
@@ -77,7 +70,7 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
-    if(nullptr != getUnTarget() && TypeUnitNode::RLM_C == getUnTarget()->getType())
+    if(!getUnTarget().isNull() && TypeUnitNode::RLM_C == getUnTarget()->getType())
         result.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
 
     if(result.isValid())

@@ -200,7 +200,7 @@ QColor Utils::cellYellow = QColor(0xFF, 0xDD, 0x0E);
 void Utils::fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     try {
-        if(nullptr == selUN || nullptr == table)
+        if(selUN.isNull() || nullptr == table)
             return;
 
 //        table->clear();

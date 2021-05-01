@@ -522,6 +522,20 @@ int UnitNode::getDefaultNeededStateWordType() const
     return defaultNeededStateWordType;
 }
 
+QSharedPointer<UnitNode> UnitNode::findReciver(QSharedPointer<UnitNode> reciver)
+{
+    while(!reciver.isNull()) {
+        if(TypeUnitNode::BL_IP == reciver->getType() ||
+           TypeUnitNode::RLM_KRL == reciver->getType() ||
+           TypeUnitNode::RLM_C == reciver->getType() ||
+           TypeUnitNode::TG_Base == reciver->getType()) {
+            return reciver;
+        }
+        reciver = reciver->getParentUN();
+    }
+    return reciver;
+}
+
 void UnitNode::setDefaultNeededStateWordType(int value)
 {
     defaultNeededStateWordType = value;
