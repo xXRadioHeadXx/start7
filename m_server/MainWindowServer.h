@@ -27,6 +27,8 @@ public:
 
 //    QTranslator *getRuTranslator() const;
 
+    void tuneNeededStateWordTypeSelectedlUN() const;
+    void tuneDefaultNeededStateWordTypeSelectedlUN() const;
 public slots:
     void write();
     void updComboBoxReason();

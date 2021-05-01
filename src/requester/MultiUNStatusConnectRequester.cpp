@@ -197,6 +197,64 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                     DataQueueItem::makeStatusRequest0x2E(result, currentTrackedUN());
                     break;
                 }
+                case 0x2A2E: {
+                    switch (currentTrackedUN()->leftoversCounter.mod()) {
+                        case 0: {
+                            DataQueueItem::makeStatusRequest0x2A(result, currentTrackedUN());
+                            break;
+                        }
+                        case 1: {
+                            DataQueueItem::makeStatusRequest0x2E(result, currentTrackedUN());
+                            break;
+                        }
+                        default: {
+                            DataQueueItem::makeStatusRequest0x22(result, currentTrackedUN());
+                            break;
+                        }
+                    }
+                    currentTrackedUN()->leftoversCounter.increment();
+                    break;
+                }
+                case 0x2C2E: {
+                    switch (currentTrackedUN()->leftoversCounter.mod()) {
+                        case 0: {
+                            DataQueueItem::makeStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 1: {
+                            DataQueueItem::makeStatusRequest0x2E(result, currentTrackedUN());
+                            break;
+                        }
+                        default: {
+                            DataQueueItem::makeStatusRequest0x22(result, currentTrackedUN());
+                            break;
+                        }
+                    }
+                    currentTrackedUN()->leftoversCounter.increment();
+                    break;
+                }
+                case 0x2A2C2E: {
+                    switch (currentTrackedUN()->leftoversCounter.mod()) {
+                        case 0: {
+                            DataQueueItem::makeStatusRequest0x2A(result, currentTrackedUN());
+                            break;
+                        }
+                        case 1: {
+                            DataQueueItem::makeStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 2: {
+                            DataQueueItem::makeStatusRequest0x2E(result, currentTrackedUN());
+                            break;
+                        }
+                        default: {
+                            DataQueueItem::makeStatusRequest0x22(result, currentTrackedUN());
+                            break;
+                        }
+                    }
+                    currentTrackedUN()->leftoversCounter.increment();
+                    break;
+                }
                 default: {
                     DataQueueItem::makeStatusRequest0x22(result, currentTrackedUN());
                     break;

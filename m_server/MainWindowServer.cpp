@@ -212,6 +212,76 @@ void MainWindowServer::updComboBox(QList<QString> lst, QComboBox * cmb) {
     cmb->setCurrentIndex(-1);
 }
 
+void MainWindowServer::tuneDefaultNeededStateWordTypeSelectedlUN() const {
+    if(!selUN.isNull()) {
+        if(TypeUnitNode::TG == selUN->getType() ||
+           TypeUnitNode::SD_BL_IP == selUN->getType() ||
+           TypeUnitNode::IU_BL_IP == selUN->getType()) {
+            if(!selUN->getParentUN().isNull()) {
+                selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                selUN->getParentUN()->leftoversCounter.counter = 0;
+                selUN->getParentUN()->leftoversCounter.divider = 1;
+            }
+        }
+        selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
+    }
+    selUN->leftoversCounter.counter = 0;
+    selUN->leftoversCounter.divider = 1;
+
+}
+
+
+void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
+    if(!selUN.isNull()) {
+        if(TypeUnitNode::TG == selUN->getType() ||
+           TypeUnitNode::SD_BL_IP == selUN->getType() ||
+           TypeUnitNode::IU_BL_IP == selUN->getType()) {
+            if(!selUN->getParentUN().isNull()) {
+                if(TypeUnitNode::TG_Base == selUN->getParentUN()->getType()) {
+                    if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
+                        selUN->getParentUN()->setNeededStateWordType(0x2A2C2E);
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 3;
+                    } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
+                        selUN->getParentUN()->setNeededStateWordType(0x2C2E);
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 2;
+                    } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
+                        selUN->getParentUN()->setNeededStateWordType(0x2A2E);
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 2;
+                    } else if(!ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { //
+                        selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 1;
+                    } else {
+                        selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 1;
+                    }
+
+                } else if(TypeUnitNode::BL_IP == selUN->getParentUN()->getType()) {
+                    selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                    selUN->getParentUN()->leftoversCounter.counter = 0;
+                    selUN->getParentUN()->leftoversCounter.divider = 1;
+                } else {
+                    selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                    selUN->getParentUN()->leftoversCounter.counter = 0;
+                    selUN->getParentUN()->leftoversCounter.divider = 1;
+                }
+            }
+        } else if(TypeUnitNode::RLM_C == selUN->getType() ||
+                  TypeUnitNode::RLM_KRL == selUN->getType()) {
+            selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
+            selUN->leftoversCounter.counter = 0;
+            selUN->leftoversCounter.divider = 1;
+        } else {
+            selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
+            selUN->leftoversCounter.counter = 0;
+            selUN->leftoversCounter.divider = 1;
+        }
+    }
+}
 
 void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 {
@@ -223,12 +293,11 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
         return;
     }
 
-    if(!selUN.isNull() && TypeUnitNode::TG == selUN->getType()) {
-        selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
-    }
-
+    tuneDefaultNeededStateWordTypeSelectedlUN();
     selUN = sel;
     selIndex = index;
+
+    tuneNeededStateWordTypeSelectedlUN();
 
     createDiagnosticTable();
     preparePageCustomization(selUN->getType());
@@ -360,7 +429,6 @@ void MainWindowServer::createDiagnosticTable()
     else if(TypeUnitNode::RLM_C == selUN->getType())
         ui->groupBox_Diagnostics->setTitle(tr("Диагностика: РИФ-РЛМ-С"));
     else if(TypeUnitNode::TG == selUN->getType()) {
-        selUN->getParentUN()->setNeededStateWordType(0x2A);
         ui->groupBox_Diagnostics->setTitle(tr("Диагностика: Точка/Гарда"));
     } else if(TypeUnitNode::DD_SOTA == selUN->getType() || TypeUnitNode::DD_T4K_M == selUN->getType())
         ui->groupBox_Diagnostics->setTitle(tr("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
@@ -723,6 +791,8 @@ void MainWindowServer::on_actionTest_triggered()
 void MainWindowServer::on_actionDiagnostics_triggered()
 {
     createDiagnosticTable();
+
+    tuneNeededStateWordTypeSelectedlUN();
 }
 
 void MainWindowServer::on_actionIncrease_triggered()
@@ -1443,6 +1513,8 @@ void MainWindowServer::on_actionCustomization_triggered()
 {
     ui->actionCustomization->setChecked(ui->actionCustomization->isChecked());
     preparePageCustomization(-1);
+
+    tuneNeededStateWordTypeSelectedlUN();
 }
 
 void MainWindowServer::on_pushButton_ReadCustomization_clicked()

@@ -78,6 +78,14 @@ private:
 
 public:
 
+    struct LeftoversCounter{
+        int counter = 0;
+        int divider = 2;
+        int mod() {return counter % divider;};
+        void increment() {counter++; if(counter >= divider) counter = 0;};
+    };
+    LeftoversCounter leftoversCounter;
+
     explicit UnitNode(const QSharedPointer<UnitNode> parent = QSharedPointer<UnitNode>());
     explicit UnitNode(const UnitNode & parent);
     virtual ~UnitNode();
