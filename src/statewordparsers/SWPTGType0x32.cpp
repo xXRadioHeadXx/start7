@@ -568,3 +568,26 @@ SWPTGSubType0x32 SWPTGType0x32::C4() const
 {
     return C(4);
 }
+
+int SWPTGType0x32::isAlarm() const
+{
+    int result = 0;
+    for(int ci = 1, n = 5; ci < n; ci++) {
+        if(1 == C(ci).isInAlarm() ||
+           1 == C(ci).isOutAlarm() ||
+           1 == C(ci).isInAlarmFlt1() ||
+           1 == C(ci).isInAlarmFlt2() ||
+           1 == C(ci).isInAlarmFlt3()) {
+            return 1;
+        }
+
+        if(0 != C(ci).isInAlarm() ||
+           0 != C(ci).isOutAlarm() ||
+           0 != C(ci).isInAlarmFlt1() ||
+           0 != C(ci).isInAlarmFlt2() ||
+           0 != C(ci).isInAlarmFlt3()) {
+            result = -1;
+        }
+    }
+    return result;
+}

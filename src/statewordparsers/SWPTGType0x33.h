@@ -59,6 +59,7 @@ public:
     SWPTGSubType0x33 C3() const;
     SWPTGSubType0x33 C4() const;
 
+    int isAlarm() const;
 
 };
 

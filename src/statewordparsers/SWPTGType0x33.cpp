@@ -287,3 +287,20 @@ SWPTGSubType0x33 SWPTGType0x33::C4() const
     return C(4);
 }
 
+int SWPTGType0x33::isAlarm() const
+{
+    int result = 0;
+    for(int ci = 1, n = 5; ci < n; ci++) {
+        if(1 == C(ci).isInAlarm() ||
+           1 == C(ci).isOutAlarm()) {
+            return 1;
+        }
+
+        if(0 != C(ci).isInAlarm() ||
+           0 != C(ci).isOutAlarm()) {
+            result = -1;
+        }
+    }
+    return result;
+}
+

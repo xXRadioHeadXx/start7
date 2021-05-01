@@ -116,6 +116,8 @@ public:
     SWPTGSubType0x32 C3() const;
     SWPTGSubType0x32 C4() const;
 
+    int isAlarm() const;
+
 };
 
 #endif // SWPTGTYPE0X32_H

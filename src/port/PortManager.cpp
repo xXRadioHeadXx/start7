@@ -1456,6 +1456,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
            TypeUnitNode::TG_Base == un->getType() &&
            static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
             un->setCountSCRWA(0);
+            un->setStateWordType0x32(newStateWord);
             continue;
         }
         if(TypeUnitNode::TG != un->getType())
@@ -1470,6 +1471,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
             un->setCountSCRWA(0);
         }
 
+        auto previousSWP = un->swpTGType0x32();
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
         if(un.isNull() || previousCopyUN.isNull()) {
@@ -1482,7 +1484,9 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
-        if((TypeUnitNode::TG == un->getType() /* && 3 == un->getNeededStateWordType() */ /* && 1 == un->swpSWPTGType4().isOn() && (1 == un->swpSWPTGType4().isInAlarm() || 1 == un->swpSWPTGType4().isOutAlarm() || 1 == un->swpSWPTGType4().isWasAlarm())*/)) {
+        auto currentSWP = un->swpTGType0x32();
+
+        if((TypeUnitNode::TG == un->getType() && 1 == currentSWP.isAlarm())) {
             //нужен сброс
             DataQueueItem::makeAlarmReset0x24(resultRequest, un);
 //                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
@@ -1529,6 +1533,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
            TypeUnitNode::TG_Base == un->getType() &&
            static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
             un->setCountSCRWA(0);
+            un->setStateWordType0x33(newStateWord);
             continue;
         }
         if(TypeUnitNode::TG != un->getType())
@@ -1543,6 +1548,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
             un->setCountSCRWA(0);
         }
 
+        auto previousSWP = un->swpTGType0x33();
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
         if(un.isNull() || previousCopyUN.isNull()) {
@@ -1555,22 +1561,14 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
-        if(TypeUnitNode::TG == un->getType() && 0 == un->getNum2() &&
-           ((1 == un->swpTGType0x33().C1().isInAlarm() || 1 == un->swpTGType0x33().C1().isOutAlarm() || 1 == un->swpTGType0x33().C1().isSideAlarm()) ||
-            (1 == un->swpTGType0x33().C2().isInAlarm() || 1 == un->swpTGType0x33().C2().isOutAlarm() || 1 == un->swpTGType0x33().C2().isSideAlarm()) ||
-            (1 == un->swpTGType0x33().C3().isInAlarm() || 1 == un->swpTGType0x33().C3().isOutAlarm() || 1 == un->swpTGType0x33().C3().isSideAlarm()) ||
-            (1 == un->swpTGType0x33().C4().isInAlarm() || 1 == un->swpTGType0x33().C4().isOutAlarm() || 1 == un->swpTGType0x33().C4().isSideAlarm()))) {
+        auto currentSWP = un->swpTGType0x33();
+
+        if(TypeUnitNode::TG == un->getType() && 1 == currentSWP.isAlarm()) {
             //нужен сброс
             DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-        } else if(1 <= un->getNum2() && 4 >= un->getNum2() &&
-                (TypeUnitNode::TG == un->getType() &&
-                 (1 == un->swpTGType0x33().C(un->getNum2()).isInAlarm() || 1 == un->swpTGType0x33().C(un->getNum2()).isOutAlarm() || 1 == un->swpTGType0x33().C(un->getNum2()).isSideAlarm()))) {
-            //нужен сброс
-            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-//                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
         }
 
-        if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
+        if(!previousCopyUN.isNull() && !un.isNull() && (previousSWP.getStateWord() != currentSWP.getStateWord())) {
             if(un->getDkInvolved()) {
                 // обработка дк
 //                procDK(un, previousCopyUN);
@@ -1607,21 +1605,20 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 //                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x33 -- continue(3)";
                     continue;
-                } else if(TypeUnitNode::TG == un->getType() && 1 <= un->getNum2() && un->getNum2() <= 4) {
+                } else if(TypeUnitNode::TG == un->getType() && un->getControl() && 1 <= un->getNum2() && un->getNum2() <= 4) {
                     //Сообщения в журнал
-                    if(un->getControl() &&
-                       (1 == un->swpTGType0x33().C(un->getNum2()).isAlarm()) &&
-                       (1 == un->swpTGType0x33().C(un->getNum2()).isOutAlarm()) &&
-                       (previousCopyUN->swpTGType0x33().C(un->getNum2()).isAlarm() != un->swpTGType0x33().C(un->getNum2()).isAlarm() ||
-                        previousCopyUN->swpTGType0x33().C(un->getNum2()).isOutAlarm() != un->swpTGType0x33().C(un->getNum2()).isOutAlarm())) {
+                    if((1 == currentSWP.C(un->getNum2()).isAlarm()) &&
+                       (1 == currentSWP.C(un->getNum2()).isOutAlarm()) &&
+                       (previousSWP.C(un->getNum2()).isAlarm() != currentSWP.C(un->getNum2()).isAlarm() ||
+                        previousSWP.C(un->getNum2()).isOutAlarm() != currentSWP.C(un->getNum2()).isOutAlarm())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                         msg.setType(20);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if(un->getControl() &&
-                              (1 == un->swpTGType0x33().C(un->getNum2()).isNorm()) &&
-                              (previousCopyUN->swpTGType0x33().C(un->getNum2()).isNorm() != un->swpTGType0x33().C(un->getNum2()).isNorm())) {
+                              (1 == currentSWP.C(un->getNum2()).isNorm()) &&
+                              (previousSWP.C(un->getNum2()).isNorm() != currentSWP.C(un->getNum2()).isNorm())) {
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
@@ -1653,6 +1650,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
            TypeUnitNode::TG_Base == un->getType() &&
            static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
             un->setCountSCRWA(0);
+            un->setStateWordType0x34(newStateWord);
             continue;
         }
         if(TypeUnitNode::TG != un->getType())
@@ -1667,6 +1665,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
             un->setCountSCRWA(0);
         }
 
+        auto previousSWP = un->swpTGType0x34();
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
         if(un.isNull() || previousCopyUN.isNull()) {
@@ -1679,13 +1678,9 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
-        if((TypeUnitNode::TG == un->getType() /*&& 1 == un->getNeededStateWordType()*/ /*&& 1 == un->swpSWPTGType2().isOn() && (1 == un->swpSWPTGType2().isInAlarm() || 1 == un->swpSWPTGType2().isOutAlarm() || 1 == un->swpSWPTGType2().isWasAlarm())*/)) {
-            //нужен сброс
-            DataQueueItem::makeAlarmReset0x24(resultRequest, un);
-//                qDebug() << "PortManager::parcingStatusWord0x34 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
-        }
+        auto currentSWP = un->swpTGType0x34();
 
-        if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
+        if(!previousCopyUN.isNull() && !un.isNull() && (previousSWP.getStateWord() != currentSWP.getStateWord())) {
             if(un->getDkInvolved()) {
                 // обработка дк
 //                procDK(un, previousCopyUN);
