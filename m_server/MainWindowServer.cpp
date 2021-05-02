@@ -494,6 +494,7 @@ void MainWindowServer::createDiagnosticTable()
     Utils::fillDiagnosticTable(ui->tableWidget_Diagnostic, this->selUN);
 
     auto contentSize = Utils::getQTableWidgetContentSize(ui->tableWidget_Diagnostic);
+//    ui->tableWidget_Diagnostic->setMinimumSize(contentSize);
     ui->tableWidget_Diagnostic->setMaximumHeight(contentSize.height());
 }
 
