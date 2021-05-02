@@ -29,8 +29,16 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 {
     ui->setupUi(this);
 
+    QString buildPrefix = "";
+
+#ifdef QT_DEBUG
+    buildPrefix = "b";
+#else
+    buildPrefix = "r";
+#endif
+
     QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
-    this->setWindowTitle(tr("Сервер") + " - " + date.toString("dd.MM.yyyy"));
+    this->setWindowTitle(tr("Сервер") + " - " + buildPrefix + date.toString("dd.MM.yyyy"));
 
 //    this->ruTranslator = new QTranslator(this);
 //    this->ruTranslator->load("app_ru");
@@ -494,6 +502,13 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionCollapseUNTree);
     }
 
+    bool isDebug;
+#ifdef QT_DEBUG
+    isDebug = true;
+#else
+    isDebug = false;
+#endif
+
     if(selUN.isNull()) {
         return;
     } else if(TypeUnitNode::SD_BL_IP == sel->getType()) {
@@ -503,90 +518,132 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addSeparator();
         }
 
-        if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOn() && 1 != sel->getBazalt()) {
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+        } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOn() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionUNOff);
         } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOff() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionUNOn);
-        }/* else if(sel->isEditableOnOff()) {
-            menu->addAction(ui->actionUNOn);
-        }*/
-    //        menu->addAction(ui->actionOnOff);
-        if(0 != sel->getBazalt() && (1 == sel->swpSDBLIP().isAlarm())) {
+        }
+
+        if(isDebug) { //! debug
             menu->addAction(ui->actionClose);
+            menu->addAction(ui->actionOpen);
+            menu->addSeparator();
+        } else if(0 != sel->getBazalt() && (1 == sel->swpSDBLIP().isAlarm())) {
+            menu->addAction(ui->actionClose);
+            menu->addSeparator();
         } else if(0 != sel->getBazalt() && (1 == sel->swpSDBLIP().isNorm())) {
             menu->addAction(ui->actionOpen);
+            menu->addSeparator();
         }
-        menu->addSeparator();
-        if(0 == sel->getBazalt() && 0 != sel->getDK())
+
+        if(isDebug) { //! debug
             menu->addAction(ui->actionDK);
+        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
+            menu->addAction(ui->actionDK);
+        }
 
     } else if(TypeUnitNode::IU_BL_IP == sel->getType()) {
 
-        if(sel->isEditableControl())
+        if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
-        menu->addSeparator();
-        if(sel->isEditableOnOff() && (1 == sel->swpIUBLIP().isOn())) {
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
             menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+            menu->addSeparator();
+        } else if(sel->isEditableOnOff() && (1 == sel->swpIUBLIP().isOn())) {
+            menu->addAction(ui->actionUNOff);
+            menu->addSeparator();
         } else if(sel->isEditableOnOff() && (1 == sel->swpIUBLIP().isOff())) {
             menu->addAction(ui->actionUNOn);
-        }/* else if(sel->isEditableOnOff()) {
-            menu->addAction(ui->actionUNOn);
-        }*/
-    //        menu->addAction(ui->actionOnOff);
-        menu->addSeparator();
-        if(0 == sel->getBazalt() && 0 != sel->getDK())
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
             menu->addAction(ui->actionDK);
+        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
+            menu->addAction(ui->actionDK);
+        }
 
     } else if(TypeUnitNode::RLM_C == sel->getType()) {
 
-        if(sel->isEditableControl())
+        if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
-        menu->addSeparator();
-        if(sel->isEditableOnOff() && (1 == sel->swpRLMC().isOn())) {
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
             menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+            menu->addSeparator();
+        } else if(sel->isEditableOnOff() && (1 == sel->swpRLMC().isOn())) {
+            menu->addAction(ui->actionUNOff);
+            menu->addSeparator();
         } else if(sel->isEditableOnOff() && (1 == sel->swpRLMC().isOff())) {
             menu->addAction(ui->actionUNOn);
-        }/* else if(sel->isEditableOnOff()) {
-            menu->addAction(ui->actionUNOn);
-        }*/
-    //        menu->addAction(ui->actionOnOff);
+            menu->addSeparator();
+        }
 
-        menu->addSeparator();
-        if(0 == sel->getBazalt() && 0 != sel->getDK())
+        if(0 == sel->getBazalt() && 0 != sel->getDK()) {
             menu->addAction(ui->actionDK);
+        } else if(isDebug) { //! debug
+            menu->addAction(ui->actionDK);
+        }
 
     } else if(TypeUnitNode::RLM_KRL == sel->getType()) {
 
-        if(sel->isEditableControl())
+        if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
-        menu->addSeparator();
-        if(sel->isEditableOnOff() && (1 == sel->swpRLM().isOn())) {
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
             menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+            menu->addSeparator();
+        } else if(sel->isEditableOnOff() && (1 == sel->swpRLM().isOn())) {
+            menu->addAction(ui->actionUNOff);
+            menu->addSeparator();
         } else if(sel->isEditableOnOff() && (1 == sel->swpRLM().isOff())) {
             menu->addAction(ui->actionUNOn);
-        }/* else if(sel->isEditableOnOff()) {
-            menu->addAction(ui->actionUNOn);
-        }*/
-    //        menu->addAction(ui->actionOnOff);
+            menu->addSeparator();
+        }
 
-        menu->addSeparator();
-        if(0 == sel->getBazalt() && 0 != sel->getDK())
+        if(isDebug) { //! debug
             menu->addAction(ui->actionDK);
+        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
+            menu->addAction(ui->actionDK);
+        }
 
     } else if(TypeUnitNode::TG == sel->getType()) {
 
-        if(sel->isEditableControl())
+        if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
-        menu->addSeparator();
-        if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOn())) {
-            menu->addAction(ui->actionUNOff);
-        } else if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOff())) {
-            menu->addAction(ui->actionUNOn);
+            menu->addSeparator();
         }
 
-        menu->addSeparator();
-        if(0 == sel->getBazalt() && 0 != sel->getDK())
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+            menu->addSeparator();
+        } else if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOn())) {
+            menu->addAction(ui->actionUNOff);
+            menu->addSeparator();
+        } else if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOff())) {
+            menu->addAction(ui->actionUNOn);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
             menu->addAction(ui->actionDK);
+        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
+            menu->addAction(ui->actionDK);
+        }
 
     }
 
