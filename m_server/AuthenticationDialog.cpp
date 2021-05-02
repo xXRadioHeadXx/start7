@@ -15,6 +15,8 @@ AuthenticationDialog::AuthenticationDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setResult(QDialog::Rejected);
     setInitialResult(initialForm());
+    ui->lineEdit->setFocus(Qt::MouseFocusReason);
+    ui->lineEdit->setSelection(0,0);
 }
 
 AuthenticationDialog::~AuthenticationDialog()

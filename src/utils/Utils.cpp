@@ -1,5 +1,6 @@
 #include <Utils.h>
 #include <QTableWidget>
+#include <QHeaderView>
 #include <QHostAddress>
 #include <ServerSettingUtils.h>
 #include <SignalSlotCommutator.h>
@@ -203,8 +204,6 @@ void Utils::fillDiagnosticTable(QTableWidget * const table, const QSharedPointer
         if(selUN.isNull() || nullptr == table)
             return;
 
-//        table->clear();
-
         if(TypeUnitNode::RLM_KRL == selUN->getType())
             Utils::fillDiagnosticTableRLMKRL(table, selUN);
         else if(TypeUnitNode::RLM_C == selUN->getType())
@@ -242,8 +241,6 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
     } else {
         return;
     }
-
-//    table->clear();
 
     table->setRowCount(15);
     table->setColumnCount(3);
@@ -392,8 +389,6 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
 void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedPointer<UnitNode> un)
 {
     // prepare -->
-//    table->clear();
-
     table->setRowCount(9);
     table->setColumnCount(3);
 
@@ -506,8 +501,6 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedP
 void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<UnitNode> un)
 {
     // prepare -->
-//    table->clear();
-
     table->setRowCount(13);
     table->setColumnCount(3);
 
@@ -649,8 +642,6 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
 void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     // prepare -->
-//    table->clear();
-
     table->setRowCount(23);
     table->setColumnCount(6);
 
@@ -831,30 +822,34 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
             setCellColor( table, (10 + 4 * ci),1, cellGray);
         }
 
+//        "Фильтр%3: Уровень"
+        if(-1.0 != swp32.C(ci + 1).isFault()) {
+            setCellText( table, (8 + 4 * ci),3, (QString::number(swp32.C(ci + 1).isFault())));
+            setCellColor( table, (8 + 4 * ci),3, cellGray);
+
+            setCellText( table, (9 + 4 * ci),3, (QString::number(swp32.C(ci + 1).isFault())));
+            setCellColor( table, (9 + 4 * ci),3, cellGray);
+
+            setCellText( table, (10 + 4 * ci),3, (QString::number(swp32.C(ci + 1).isFault())));
+            setCellColor( table, (10 + 4 * ci),3, cellGray);
+        }
+
+
         //"Фильтр%1: Пороги"
         if(-1.0 != swp34.C(ci + 1).thresholdFlt1()) {
-            if(1.0 > swp34.C(ci + 1).thresholdFlt1())
-                setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt1())));
-            else
-                setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt1())));
+            setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt1())));
             setCellColor( table, (8 + 4 * ci),5, cellGray);
         }
 
         //"Фильтр%2: Пороги"
         if(-1.0 != swp34.C(ci + 1).thresholdFlt2()) {
-            if(1.0 > swp34.C(ci + 1).thresholdFlt2())
-                setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt2())));
-            else
-                setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt2())));
+            setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt2())));
             setCellColor( table, (9 + 4 * ci),5, cellGray);
         }
 
         //"Фильтр%3: Пороги"
         if(-1.0 != swp34.C(ci + 1).thresholdFlt3()) {
-            if(1.0 > swp34.C(ci + 1).thresholdFlt3())
-                setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt3())));
-            else
-                setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt3())));
+            setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt3())));
             setCellColor( table, (10 + 4 * ci),5, cellGray);
         }
     }
@@ -864,8 +859,6 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
 
 void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
-//    table->clear();
-
     table->setRowCount(14);
     table->setColumnCount(4);
 
@@ -918,8 +911,6 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
 
 void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
-//    table->clear();
-
     table->setRowCount(14);
     table->setColumnCount(4);
 
@@ -970,8 +961,6 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
 
 void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
-//    table->clear();
-
     table->setRowCount(20);
     table->setColumnCount(53);
 
@@ -1028,8 +1017,6 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
 
 void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
 {
-//    table->clear();
-
     table->setRowCount(22);
     table->setColumnCount(29);
 
@@ -1111,6 +1098,17 @@ QSet<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(QSharedPointer<UnitNo
     }
 //    //qDebug() << "res :" << unSetTmp;
     return unSetTmp;
+}
+
+QSize Utils::getQTableWidgetContentSize(QTableWidget * const table)
+{
+    int w = table->verticalHeader()->width() + 4; // +4 seems to be needed
+    for (int i = 0; i < table->columnCount(); i++)
+       w += table->columnWidth(i); // seems to include gridline (on my machine)
+    int h = table->horizontalHeader()->height() + 4;
+    for (int i = 0; i < table->rowCount(); i++)
+       h += table->rowHeight(i);
+    return QSize(w, h);
 }
 
 

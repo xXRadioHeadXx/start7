@@ -254,7 +254,7 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                         selUN->getParentUN()->leftoversCounter.counter = 0;
                         selUN->getParentUN()->leftoversCounter.divider = 2;
                     } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
-                        selUN->getParentUN()->setNeededStateWordType(0x2A2E);
+                        selUN->getParentUN()->setNeededStateWordType(/*0x2A2E*/0x2A2C2E);
                         selUN->getParentUN()->leftoversCounter.counter = 0;
                         selUN->getParentUN()->leftoversCounter.divider = 2;
                     } else if(!ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { //
@@ -428,8 +428,8 @@ void MainWindowServer::createDiagnosticTable()
         return;
 
 //    ui->tableWidget->clear();
-    ui->tableWidget->verticalHeader()->hide();
-    ui->tableWidget->horizontalHeader()->hide();
+    ui->tableWidget_Diagnostic->verticalHeader()->hide();
+    ui->tableWidget_Diagnostic->horizontalHeader()->hide();
 
     if(TypeUnitNode::RLM_KRL == selUN->getType())
         ui->groupBox_Diagnostics->setTitle(tr("Диагностика: РИФ-РЛМ(КРП),Трасса"));
@@ -446,7 +446,10 @@ void MainWindowServer::createDiagnosticTable()
     else if(TypeUnitNode::SD_BL_IP == selUN->getType() || TypeUnitNode::IU_BL_IP == selUN->getType())
         ui->groupBox_Diagnostics->setTitle(tr("Диагностика: БЛ-IP"));
 
-    Utils::fillDiagnosticTable(ui->tableWidget, this->selUN);
+    Utils::fillDiagnosticTable(ui->tableWidget_Diagnostic, this->selUN);
+
+    auto contentSize = Utils::getQTableWidgetContentSize(ui->tableWidget_Diagnostic);
+    ui->tableWidget_Diagnostic->setMaximumHeight(contentSize.height());
 }
 
 void MainWindowServer::on_pushButtonAlarmReset_clicked()
@@ -631,13 +634,13 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionUNOff);
             menu->addAction(ui->actionUNOn);
             menu->addSeparator();
-        } else if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOn())) {
+        }/* else if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOn())) {
             menu->addAction(ui->actionUNOff);
             menu->addSeparator();
         } else if(sel->isEditableOnOff() && (1 == sel->swpTGType0x31().isOff())) {
             menu->addAction(ui->actionUNOn);
             menu->addSeparator();
-        }
+        }*/
 
         if(isDebug) { //! debug
             menu->addAction(ui->actionDK);

@@ -73,6 +73,8 @@ int SWPTGSubType0x34::thresholdFlt1() const
 {
     if(getStateWord().isEmpty())
         return -1;
+    int result = 0x0000FFFF & ((getStateWord().at(1) << 8) + getStateWord().at(2));
+    return result;
     return getStateWord().mid(1,2).toInt();
 }
 
@@ -80,6 +82,8 @@ int SWPTGSubType0x34::thresholdFlt2() const
 {
     if(getStateWord().isEmpty())
         return -1;
+    int result = 0x0000FFFF & ((getStateWord().at(3) << 8) + getStateWord().at(4));
+    return result;
     return getStateWord().mid(3,2).toInt();
 }
 
@@ -87,5 +91,7 @@ int SWPTGSubType0x34::thresholdFlt3() const
 {
     if(getStateWord().isEmpty())
         return -1;
+    int result = 0x0000FFFF & ((getStateWord().at(5) << 8) + getStateWord().at(6));
+    return result;
     return getStateWord().mid(5,2).toInt();
 }
