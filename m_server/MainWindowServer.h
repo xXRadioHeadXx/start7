@@ -102,7 +102,7 @@ private slots:
     void preparePageSota2(int typeUN);
 
     void fillPageRLM();
-    void fillPagePoint(int typeUN);
+    void fillPageTG();
     void fillPageSota1(int typeUN);
     void fillPageSota2(int typeUN);
 

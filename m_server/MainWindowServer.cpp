@@ -1226,7 +1226,7 @@ void MainWindowServer::preparePagePoint(int /*typeUN*/)
     ui->comboBox_PointInput->setEnabled(false);
     ui->comboBox_PointInput->setEditable(false);
     for(int i = 0, n = 4; i < n; i++) {
-        ui->comboBox_PointInput->addItem(QString::number(i + 1), i);
+        ui->comboBox_PointInput->addItem(QString::number(i + 1), i + 1);
     }
     ui->comboBox_PointInput->setEnabled(true);
 
@@ -1237,23 +1237,25 @@ void MainWindowServer::preparePagePoint(int /*typeUN*/)
     ui->spinBox_PointFlt1Edge->clear();
     ui->spinBox_PointFlt1Edge->setEnabled(false);
     ui->spinBox_PointFlt1Edge->setValue(0);
-    ui->spinBox_PointFlt1Edge->setMaximum(65535);
+    ui->spinBox_PointFlt1Edge->setMaximum(50001);
     ui->spinBox_PointFlt1Edge->setMinimum(0);
     ui->spinBox_PointFlt1Edge->setEnabled(true);
 
     ui->spinBox_PointFlt2Edge->clear();
     ui->spinBox_PointFlt2Edge->setEnabled(false);
     ui->spinBox_PointFlt2Edge->setValue(0);
-    ui->spinBox_PointFlt2Edge->setMaximum(65535);
+    ui->spinBox_PointFlt2Edge->setMaximum(50001);
     ui->spinBox_PointFlt2Edge->setMinimum(0);
     ui->spinBox_PointFlt2Edge->setEnabled(true);
 
     ui->spinBox_PointFlt3Edge->clear();
     ui->spinBox_PointFlt3Edge->setEnabled(false);
     ui->spinBox_PointFlt3Edge->setValue(0);
-    ui->spinBox_PointFlt3Edge->setMaximum(65535);
+    ui->spinBox_PointFlt3Edge->setMaximum(50001);
     ui->spinBox_PointFlt3Edge->setMinimum(0);
     ui->spinBox_PointFlt3Edge->setEnabled(true);
+
+    fillPageTG();
 }
 
 void MainWindowServer::preparePageSota1(int typeUN)
@@ -1554,9 +1556,53 @@ void MainWindowServer::fillPageRLM()
 
 }
 
-void MainWindowServer::fillPagePoint(int /*typeUN*/)
+void MainWindowServer::fillPageTG()
 {
+    if(selUN.isNull())
+        return;
+    if(TypeUnitNode::TG != selUN->getType() && TypeUnitNode::TG_Base != selUN->getType())
+        return;
 
+    int ci = selUN->getNum2();
+    if(1 > ci || 4 < ci)
+        return;
+
+
+    qDebug() << "MainWindowServer::fillPageTG(" << selUN->toString() << ") -->";
+    qDebug() << "StateWord " << selUN->getStateWordType0x34().toHex();
+    qDebug() << "input " << ci;
+
+    auto swp = selUN->swpTGType0x34();
+
+    int tmpIndex = 0;
+    tmpIndex = ui->comboBox_PointInput->findData(ci);
+    ui->comboBox_PointInput->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
+
+    if(1 == swp.C(ci).isOnFlt1()) {
+        ui->checkBox_PointFlt1->setChecked(true);
+    } else if(1 == swp.C(ci).isOffFlt1()) {
+        ui->checkBox_PointFlt1->setChecked(false);
+    }
+
+    if(1 == swp.C(ci).isOnFlt2()) {
+        ui->checkBox_PointFlt2->setChecked(true);
+    } else if(1 == swp.C(ci).isOffFlt2()) {
+        ui->checkBox_PointFlt2->setChecked(false);
+    }
+
+    if(1 == swp.C(ci).isOnFlt3()) {
+        ui->checkBox_PointFlt3->setChecked(true);
+    } else if(1 == swp.C(ci).isOffFlt3()) {
+        ui->checkBox_PointFlt3->setChecked(false);
+    }
+
+    ui->spinBox_PointFlt1Edge->setValue(swp.C(ci).thresholdFlt1());
+
+    ui->spinBox_PointFlt2Edge->setValue(swp.C(ci).thresholdFlt2());
+
+    ui->spinBox_PointFlt3Edge->setValue(swp.C(ci).thresholdFlt3());
+
+    qDebug() << "MainWindowServer::fillPageTG(" << selUN->toString() << ") <--";
 }
 
 void MainWindowServer::fillPageSota1(int /*typeUN*/)
@@ -1592,7 +1638,7 @@ void MainWindowServer::on_pushButton_ReadCustomization_clicked()
         fillPageRLM(); //CurrentIndex(0);
         break;
     case TypeUnitNode::TG:
-        fillPagePoint(selUN->getType()); //setCurrentIndex(3);
+        fillPageTG(); //setCurrentIndex(3);
         break;
     case TypeUnitNode::DD_SOTA:
         fillPageSota1(selUN->getType()); //CurrentIndex(1);
