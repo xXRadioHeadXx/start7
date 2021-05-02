@@ -167,6 +167,51 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     preparePageCustomization(-1);
 
     m_alarmSwitchOffLogger->start();
+
+    {
+        // Now add the line to the splitter handle
+        // Note: index 0 handle is always hidden, index 1 is between the two widgets
+        QSplitterHandle *handle = ui->splitter_TreeVsJour->handle(1);
+        QHBoxLayout *layout = new QHBoxLayout(handle);
+        layout->setSpacing(0);
+        layout->setMargin(0);
+
+        QFrame *line = new QFrame(handle);
+        line->setFrameShape(QFrame::VLine);
+        line->setFrameShadow(QFrame::Sunken);
+        line->setMaximumHeight(50);
+        layout->addWidget(line, 0, Qt::AlignHCenter);
+    }
+
+    {
+        // Now add the line to the splitter handle
+        // Note: index 0 handle is always hidden, index 1 is between the two widgets
+        QSplitterHandle *handle = ui->splitter_TreeVsCustomization->handle(1);
+        QHBoxLayout *layout = new QHBoxLayout(handle);
+        layout->setSpacing(0);
+        layout->setMargin(0);
+
+        QFrame *line = new QFrame(handle);
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        line->setMaximumWidth(50);
+        layout->addWidget(line, 0, Qt::AlignVCenter);
+    }
+
+    {
+        // Now add the line to the splitter handle
+        // Note: index 0 handle is always hidden, index 1 is between the two widgets
+        QSplitterHandle *handle = ui->splitter_JourVsDiagnostics->handle(1);
+        QHBoxLayout *layout = new QHBoxLayout(handle);
+        layout->setSpacing(0);
+        layout->setMargin(0);
+
+        QFrame *line = new QFrame(handle);
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        line->setMaximumWidth(50);
+        layout->addWidget(line, 0, Qt::AlignVCenter);
+    }
 }
 
 MainWindowServer::~MainWindowServer()

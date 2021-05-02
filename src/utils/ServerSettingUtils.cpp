@@ -223,11 +223,12 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                     }
                     if(tmpParentUN.isNull()){
                         tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNode::TG_Base);
-                        *(tmpParentUN.data()) = *(tmpUN.data());
+//                        *(tmpParentUN.data()) = *(tmpUN.data());
 
                         tmpParentUN->setType(TypeUnitNode::TG_Base);
                         tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
                         tmpParentUN->setUdpPort(tmpUN->getUdpPort());
+                        tmpParentUN->setNum1(tmpUN->getNum1());
                         tmpParentUN->setNum2(0);
                         tmpParentUN->setNum3(0);
 
@@ -236,34 +237,35 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
                     }
 
-                    auto li = getSetMetaRealUnitNodes().values();
-                    for (auto rit = li.rbegin(); rit != li.rend(); ++rit) {
-                        auto it = static_cast<QSharedPointer<UnitNode> >(*rit);
-                        if(it->getUdpAdress() == tmpParentUN->getUdpAdress() &&
-                                it->getUdpPort() == tmpParentUN->getUdpPort() &&
-                                it->getNum1() == tmpParentUN->getNum1())
-                        {
-                            if(TypeUnitNode::TG_Base == it->getType()) {
-                                it->addChild(tmpUN);
-                                tmpUN->setParentUN(it);
-                                key = false;
-                                break;
-                            } else if(nullptr != it->getParentUN()) {
-                                if(TypeUnitNode::TG_Base == it->getParentUN()->getType()) {
-                                    it->getParentUN()->addChild(tmpUN);
-                                    tmpUN->setParentUN(it);
-                                    key = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
+//                    auto li = getSetMetaRealUnitNodes().values();
+//                    for (auto rit = li.rbegin(); rit != li.rend(); ++rit) {
+//                        auto it = static_cast<QSharedPointer<UnitNode> >(*rit);
+//                        if(it->getUdpAdress() == tmpParentUN->getUdpAdress() &&
+//                                it->getUdpPort() == tmpParentUN->getUdpPort() &&
+//                                it->getNum1() == tmpParentUN->getNum1())
+//                        {
+//                            if(TypeUnitNode::TG_Base == it->getType()) {
+//                                it->addChild(tmpUN);
+//                                tmpUN->setParentUN(it);
+//                                key = false;
+//                                break;
+//                            } else if(nullptr != it->getParentUN()) {
+//                                if(TypeUnitNode::TG_Base == it->getParentUN()->getType()) {
+//                                    it->getParentUN()->addChild(tmpUN);
+//                                    tmpUN->setParentUN(it);
+//                                    key = false;
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
 
                     if(key) {
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
-                        tmpParentUN->addChild(tmpUN);
-                        tmpUN->setParentUN(tmpParentUN);
                     }
+
+                    tmpParentUN->addChild(tmpUN);
+                    tmpUN->setParentUN(tmpParentUN);
 
                     getSetMetaRealUnitNodes().insert(tmpUN);
                 }

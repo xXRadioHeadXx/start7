@@ -56,6 +56,8 @@ int main(int argc, char *argv[])
 
     app.processEvents();
 
+//    app.setStyleSheet("QSplitter::handle { background-color: lightgray }");
+
     MainWindowServer w;
 //    AppTranslator tr(&app, &w);
 
