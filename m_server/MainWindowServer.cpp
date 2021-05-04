@@ -500,6 +500,10 @@ void MainWindowServer::createDiagnosticTable()
 
 void MainWindowServer::on_pushButtonAlarmReset_clicked()
 {
+
+    if(!checkNecessarilyReadonMeasureFill())
+        return;
+
     this->m_portManager->requestAlarmReset();
     {
         JourEntity msgOn;
@@ -857,6 +861,11 @@ void MainWindowServer::closeEvent(QCloseEvent * event)
                                    QMessageBox::Ok | QMessageBox::Cancel,
                                    QMessageBox::Ok);
 
+    if(!checkNecessarilyReadonMeasureFill()) {
+        event->ignore();
+        return;
+    }
+
     if(QMessageBox::Ok == ret) {
         event->accept();
     } else {
@@ -963,6 +972,20 @@ void MainWindowServer::on_actionReduce_triggered()
     ui->tableView->update();
 }
 
+bool MainWindowServer::checkNecessarilyReadonMeasureFill() {
+    if(0 != ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt() || 0 != ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt()) {
+        QString sql = " select * from jour where flag != 0 ";
+        QList<JourEntity> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
+
+        if(tmpLs.size()) {
+            QMessageBox::warning(this, tr("Ошибка"),
+                                 tr("Не заполнены все обязательные поля в базе данных!"));
+            return false;
+        }
+    }
+    return true;
+}
+
 void MainWindowServer::on_actionNewScheme_triggered()
 {
     int ret = QMessageBox::question(this, tr("Предупреждение"),
@@ -972,17 +995,8 @@ void MainWindowServer::on_actionNewScheme_triggered()
 
     if(QMessageBox::Ok == ret) {
 
-        if(0 != ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt() || 0 != ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt()) {
-            QString sql = " select * from jour where flag != 0 ";
-            QList<JourEntity> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
-
-            if(tmpLs.size()) {
-                QMessageBox::warning(this, tr("Ошибка"),
-                                     tr("Не заполнены все обязательные поля в базе данных!"));
-                return;
-            }
-
-        }
+        if(!checkNecessarilyReadonMeasureFill())
+            return;
 
         AuthenticationDialog ad;
         if(0 != ad.getInitialResult()) {
