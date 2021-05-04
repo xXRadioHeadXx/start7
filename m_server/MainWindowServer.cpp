@@ -1297,21 +1297,21 @@ void MainWindowServer::preparePagePoint(int /*typeUN*/)
     ui->spinBox_PointFlt1Edge->clear();
     ui->spinBox_PointFlt1Edge->setEnabled(false);
     ui->spinBox_PointFlt1Edge->setValue(0);
-    ui->spinBox_PointFlt1Edge->setMaximum(50001);
+    ui->spinBox_PointFlt1Edge->setMaximum(49999);
     ui->spinBox_PointFlt1Edge->setMinimum(0);
     ui->spinBox_PointFlt1Edge->setEnabled(true);
 
     ui->spinBox_PointFlt2Edge->clear();
     ui->spinBox_PointFlt2Edge->setEnabled(false);
     ui->spinBox_PointFlt2Edge->setValue(0);
-    ui->spinBox_PointFlt2Edge->setMaximum(50001);
+    ui->spinBox_PointFlt2Edge->setMaximum(49999);
     ui->spinBox_PointFlt2Edge->setMinimum(0);
     ui->spinBox_PointFlt2Edge->setEnabled(true);
 
     ui->spinBox_PointFlt3Edge->clear();
     ui->spinBox_PointFlt3Edge->setEnabled(false);
     ui->spinBox_PointFlt3Edge->setValue(0);
-    ui->spinBox_PointFlt3Edge->setMaximum(50001);
+    ui->spinBox_PointFlt3Edge->setMaximum(49999);
     ui->spinBox_PointFlt3Edge->setMinimum(0);
     ui->spinBox_PointFlt3Edge->setEnabled(true);
 
