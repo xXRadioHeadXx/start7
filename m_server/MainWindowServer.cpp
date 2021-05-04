@@ -505,14 +505,14 @@ void MainWindowServer::on_pushButtonAlarmReset_clicked()
         return;
 
     this->m_portManager->requestAlarmReset();
-    {
-        JourEntity msgOn;
-        msgOn.setObject(tr("Оператор"));
-        msgOn.setType(135);
-        msgOn.setComment(tr("Послана ком. Сброс тревог"));
-        DataBaseManager::insertJourMsg_wS(msgOn);
-        GraphTerminal::sendAbonentEventsAndStates(msgOn);
-    }
+//    {
+//        JourEntity msgOn;
+//        msgOn.setObject(tr("Оператор"));
+//        msgOn.setType(135);
+//        msgOn.setComment(tr("Послана ком. Сброс тревог"));
+//        DataBaseManager::insertJourMsg_wS(msgOn);
+//        GraphTerminal::sendAbonentEventsAndStates(msgOn);
+//    }
 
     DataBaseManager::resetAllFlags_wS();
 

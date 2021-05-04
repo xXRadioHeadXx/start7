@@ -169,16 +169,16 @@ void GraphTerminal::manageOverallReadQueue()
             continue;
         } else if("AlarmsReset" == type) {
 //            requestAlarmReset();
-            {
-                JourEntity msgOn;
-                msgOn.setObject(tr("Оператор"));
-                msgOn.setType(1903);
-                msgOn.setComment(tr("Удал. ком. Сброс тревог"));
-                msgOn.setDirection(Utils::hostAddressToString(itm.address()));
-                DataBaseManager::insertJourMsg_wS(msgOn);
-                GraphTerminal::sendAbonentEventsAndStates(msgOn);
-                DataBaseManager::resetAllFlags_wS();
-            }
+//            {
+//                JourEntity msgOn;
+//                msgOn.setObject(tr("Оператор"));
+//                msgOn.setType(1903);
+//                msgOn.setComment(tr("Удал. ком. Сброс тревог"));
+//                msgOn.setDirection(Utils::hostAddressToString(itm.address()));
+//                DataBaseManager::insertJourMsg_wS(msgOn);
+//                GraphTerminal::sendAbonentEventsAndStates(msgOn);
+//                DataBaseManager::resetAllFlags_wS();
+//            }
             SignalSlotCommutator::getInstance()->emitAlarmsReset(nullptr);
             {
                 JourEntity msgOn;
