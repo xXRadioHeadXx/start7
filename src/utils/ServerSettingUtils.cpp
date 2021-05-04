@@ -275,12 +275,15 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
     }
 
     for(QSharedPointer<UnitNode> un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes().toList())) {
-        if(TypeUnitNode::SD_BL_IP == un->getType() && nullptr != un->getParentUN() && 1 <= un->getNum1() && 4 >= un->getNum1()) {
+        if(TypeUnitNode::SD_BL_IP == un->getType() &&
+           !un->getParentUN().isNull() &&
+           1 <= un->getNum2() && 4 >= un->getNum2()) {
             QSharedPointer<UnitNode> parent = un->getParentUN();
             bool needAddUI = true;
+
             for(int i = 0, n = parent->childCount(); i < n; i++) {
                 auto unChild = parent->child(i);
-                if(nullptr != unChild &&
+                if(!unChild.isNull() &&
                    TypeUnitNode::IU_BL_IP == unChild->getType() &&
                    un->getNum2() == unChild->getNum2() &&
                    un->getUdpPort() == unChild->getUdpPort() &&

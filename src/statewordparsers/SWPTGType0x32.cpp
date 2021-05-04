@@ -268,7 +268,7 @@ int SWPTGType0x32::thresholdIn1() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    int result = 0x0000FFFF & ((getStateWord().at(3) << 8) + getStateWord().at(4));
+    int result = (0x0000FF00 & (getStateWord().at(3) << 8)) | (0x000000FF &getStateWord().at(4));
     return result;
     return getStateWord().mid(3,2).toInt();
 }
@@ -277,7 +277,7 @@ int SWPTGType0x32::thresholdIn2() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    int result = 0x0000FFFF & ((getStateWord().at(5) << 8) + getStateWord().at(6));
+    int result = (0x0000FF00 & (getStateWord().at(5) << 8)) | (0x000000FF &getStateWord().at(6));
     return result;
     return getStateWord().mid(5,2).toInt();
 }
@@ -286,7 +286,7 @@ int SWPTGType0x32::thresholdIn3() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    int result = 0x0000FFFF & ((getStateWord().at(7) << 8) + getStateWord().at(8));
+    int result = (0x0000FF00 & (getStateWord().at(7) << 8)) | (0x000000FF &getStateWord().at(8));
     return result;
     return getStateWord().mid(7,2).toInt();
 }
@@ -295,7 +295,7 @@ int SWPTGType0x32::thresholdIn4() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    int result = 0x0000FFFF & ((getStateWord().at(9) << 8) + getStateWord().at(10));
+    int result = (0x0000FF00 & (getStateWord().at(9) << 8)) | (0x000000FF &getStateWord().at(10));
     return result;
     return getStateWord().mid(9,2).toInt();
 }

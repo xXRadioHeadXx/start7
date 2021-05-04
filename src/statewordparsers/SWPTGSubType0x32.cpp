@@ -224,22 +224,22 @@ int SWPTGSubType0x32::threshold() const
         return -1;
     switch (getFlang()) {
     case 1: {
-        int result = 0x0000FFFF & ((getStateWord().at(3) << 8) + getStateWord().at(4));
+        int result = (0x0000FF00 & (getStateWord().at(3) << 8)) | (0x000000FF &getStateWord().at(4));
         return result;
         return getStateWord().mid(3,2).toInt();
     }
     case 2: {
-        int result = 0x0000FFFF & ((getStateWord().at(5) << 8) + getStateWord().at(6));
+        int result = (0x0000FF00 & (getStateWord().at(5) << 8)) | (0x000000FF &getStateWord().at(6));
         return result;
         return getStateWord().mid(5,2).toInt();
     }
     case 3: {
-        int result = 0x0000FFFF & ((getStateWord().at(7) << 8) + getStateWord().at(8));
+        int result = (0x0000FF00 & (getStateWord().at(7) << 8)) | (0x000000FF &getStateWord().at(8));
         return result;
         return getStateWord().mid(7,2).toInt();
     }
     case 4: {
-        int result = 0x0000FFFF & ((getStateWord().at(9) << 8) + getStateWord().at(10));
+        int result = (0x0000FF00 & (getStateWord().at(9) << 8)) | (0x000000FF &getStateWord().at(10));
         return result;
         return getStateWord().mid(9,2).toInt();
     }
