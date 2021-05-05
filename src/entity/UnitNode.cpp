@@ -57,17 +57,15 @@ void UnitNode::setBazalt(int value)
 
 void UnitNode::setUdpTimeout(int value)
 {
-    UnitNodeCFG::setUdpTimeout(value);
+    int udpTimeout = qMax(50, value);
 
-    int udpTimeout = 50;
+    UnitNodeCFG::setUdpTimeout(udpTimeout);
 
-    udpTimeout = qMax(udpTimeout, getUdpTimeout());
-
-    int maxBeatCount = 400;
-    if(50 != udpTimeout) {
-        maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
-    }
-    setMaxCountSCRWA(maxBeatCount);
+//    int maxBeatCount = 400;
+//    if(50 != udpTimeout) {
+//        maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
+//    }
+//    setMaxCountStatusConnectRequesterWaitAnswer(maxBeatCount);
 }
 
 QSharedPointer<UnitNode> UnitNode::getParentUN() const
@@ -439,24 +437,40 @@ bool UnitNode::isEditableControl() const
     return editableControl;
 }
 
-int UnitNode::getCountSCRWA() const
+void UnitNode::resetCountStatusConnectRequesterWaitAnswer()
 {
-    return countSCRWA;
+    countStatusConnectRequesterWaitAnswer = 0;
 }
 
-void UnitNode::setCountSCRWA(int value)
+void UnitNode::incrementCountStatusConnectRequesterWaitAnswer()
 {
-    countSCRWA = value;
+    countStatusConnectRequesterWaitAnswer++;
 }
 
-int UnitNode::getMaxCountSCRWA() const
+int UnitNode::getCountStatusConnectRequesterWaitAnswer() const
 {
-    return maxCountSCRWA;
+    return countStatusConnectRequesterWaitAnswer;
 }
 
-void UnitNode::setMaxCountSCRWA(int value)
+void UnitNode::setCountStatusConnectRequesterWaitAnswer(int value)
 {
-    maxCountSCRWA = value;
+//    if(countStatusConnectRequesterWaitAnswer == value)
+//        return;
+    countStatusConnectRequesterWaitAnswer = value;
+//    qDebug() << this->toString() << "::setCountStatusConnectRequesterWaitAnswer(" << countStatusConnectRequesterWaitAnswer << ")";
+}
+
+int UnitNode::getMaxCountStatusConnectRequesterWaitAnswer() const
+{
+    return maxCountStatusConnectRequesterWaitAnswer;
+}
+
+void UnitNode::setMaxCountStatusConnectRequesterWaitAnswer(int value)
+{
+//    if(maxCountStatusConnectRequesterWaitAnswer == value)
+//        return;
+    maxCountStatusConnectRequesterWaitAnswer = value;
+//    qDebug() << this->toString() << "::setMaxCountStatusConnectRequesterWaitAnswer(" << maxCountStatusConnectRequesterWaitAnswer << ") ~ " << maxCountStatusConnectRequesterWaitAnswer * getUdpTimeout() << "ms";
 }
 
 QByteArray UnitNode::getStateWordType0x31() const

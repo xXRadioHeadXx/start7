@@ -61,8 +61,8 @@ private:
     int dkStatus = DKCiclStatus::DKIgnore;
     bool dkInvolved = false;
 
-    int countSCRWA = 0;
-    int maxCountSCRWA = 400;
+    int countStatusConnectRequesterWaitAnswer = 0;
+    int maxCountStatusConnectRequesterWaitAnswer = 400;
 
 private:
 
@@ -147,11 +147,14 @@ public:
 
     bool isNeedsPreamble() const;
 
-    int getCountSCRWA() const;
-    void setCountSCRWA(int value);
+    int getCountStatusConnectRequesterWaitAnswer() const;
+    void setCountStatusConnectRequesterWaitAnswer(int value);
 
-    int getMaxCountSCRWA() const;
-    void setMaxCountSCRWA(int value);
+    int getMaxCountStatusConnectRequesterWaitAnswer() const;
+    void setMaxCountStatusConnectRequesterWaitAnswer(int value);
+
+    void resetCountStatusConnectRequesterWaitAnswer();
+    void incrementCountStatusConnectRequesterWaitAnswer();
 
     int getNeededStateWordType() const;
     void setNeededStateWordType(int value);

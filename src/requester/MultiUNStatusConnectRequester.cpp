@@ -49,7 +49,6 @@ void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  val
     for(auto un : lsTrackedUN) {
         qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN APRUVE " << un->toString();
     }
-    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
 
 
 
@@ -64,9 +63,9 @@ void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  val
     }
 
     for(auto uncld : as_const(getLsTrackedUN())) {
-        uncld->setMaxCountSCRWA(maxBeatCount);
+        uncld->setMaxCountStatusConnectRequesterWaitAnswer(maxBeatCount);
     }
-
+    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
 }
 
 QSharedPointer<UnitNode> MultiUNStatusConnectRequester::previousTrackedUN() const
@@ -155,9 +154,9 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     if(nullptr == getPtrPort() || nullptr == currentTrackedUN())
         return result;
 
-    if(currentTrackedUN()->getMaxCountSCRWA() <= currentTrackedUN()->getCountSCRWA()) {
+    if(currentTrackedUN()->getMaxCountStatusConnectRequesterWaitAnswer() <= currentTrackedUN()->getCountStatusConnectRequesterWaitAnswer()) {
 //        qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg() -- max:" << getUnReciver()->getMaxCountSCRWA() << "<= curr:" << getUnReciver()->getCountSCRWA() << " " << getUnReciver()->toString();
-        currentTrackedUN()->setCountSCRWA(0);
+        currentTrackedUN()->resetCountStatusConnectRequesterWaitAnswer();
         SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
     }
 
@@ -263,17 +262,28 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
         }
     }
 
-    int udpTimeout = qMax(optimalTimeIntervalRequest(currentTrackedUN()) * result.getSpecialSkipTimeCount(), result.getSpecialSkipTimeInterval());
-    setTimeIntervalRequest(udpTimeout);
+    int currentSituationUdpTimeout = qMax(optimalTimeIntervalRequest(currentTrackedUN()) * result.getSpecialSkipTimeCount(), result.getSpecialSkipTimeInterval());
 
-    int maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
-    currentTrackedUN()->setMaxCountSCRWA(maxBeatCount);
+    int summaryUdpTimeout = currentSituationUdpTimeout;
+    for (auto otherUN : as_const(getLsTrackedUN())) {
+        if(otherUN != currentTrackedUN())
+            summaryUdpTimeout += optimalTimeIntervalRequest(otherUN);
+    }
+//    qDebug() << "summaryUdpTimeout(" << summaryUdpTimeout << ")";
+
+    setTimeIntervalRequest(currentSituationUdpTimeout);
+
+    int maxBeatCount = (delayDisconnectStatus / summaryUdpTimeout) + 1;
+    for(auto uncld : as_const(getLsTrackedUN())) {
+        uncld->setMaxCountStatusConnectRequesterWaitAnswer(maxBeatCount);
+    }
+//    currentTrackedUN()->setMaxCountStatusConnectRequesterWaitAnswer(maxBeatCount);
 
     auto un = nextTrackedUN();
     setUnReciver(un); // !!! currentTrackedUN changed !!!
     setUnTarget(un);
 
-    currentTrackedUN()->setCountSCRWA(currentTrackedUN()->getCountSCRWA() + 1);
+    currentTrackedUN()->incrementCountStatusConnectRequesterWaitAnswer();
 
     if(result.isValid())
         return result;
@@ -323,7 +333,7 @@ void MultiUNStatusConnectRequester::init() {
     if(50 != udpTimeout) {
         maxBeatCount = (delayDisconnectStatus / udpTimeout) + 1;
     }
-    currentTrackedUN()->setMaxCountSCRWA(maxBeatCount);
+    currentTrackedUN()->setMaxCountStatusConnectRequesterWaitAnswer(maxBeatCount);
 
     setMaxBeatCount(0);
 

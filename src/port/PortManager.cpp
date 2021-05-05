@@ -894,26 +894,20 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
-        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) && item.port() == un->getUdpPort() && TypeUnitNode::BL_IP == un->getType()) {
-            un->setCountSCRWA(0);
-        }
+//        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) && item.port() == un->getUdpPort() && TypeUnitNode::BL_IP == un->getType()) {
+//            un->setCountStatusConnectRequesterWaitAnswer(0);
+//        }
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
-        {
-            un->setCountSCRWA(0);
+        auto reciver = UnitNode::findReciver(un);
+        if(!reciver.isNull()) {
+            reciver->resetCountStatusConnectRequesterWaitAnswer();
+            reciver->setStateWord(newStateWord);
         }
         QSharedPointer<UnitNode> previousCopyUNLockSdBlIp, previousCopyUNLockIuBlIp;
         QSharedPointer<UnitNode>  unLockSdBlIp, unLockIuBlIp;
         bool isLockPair = false;
         if(1 <= un->getNum2() && 4 >= un->getNum2()) {
-            QSharedPointer<UnitNode>  reciver = un;
-            while(!reciver.isNull()) {
-                if(TypeUnitNode::BL_IP == reciver->getType()) {
-                    reciver->setStateWord(newStateWord);
-                    break;
-                }
-                reciver = reciver->getParentUN();
-            }
             if(!reciver.isNull()) {
                 for(const auto tmpUN : as_const(reciver->getListChilde())) {
                     if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
@@ -1291,13 +1285,13 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
-        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
-           item.port() == un->getUdpPort() &&
-           TypeUnitNode::TG_Base == un->getType() &&
-           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
-            un->setCountSCRWA(0);
-            continue;
-        }
+//        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
+//           item.port() == un->getUdpPort() &&
+//           TypeUnitNode::TG_Base == un->getType() &&
+//           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
+//            un->setCountStatusConnectRequesterWaitAnswer(0);
+//            continue;
+//        }
         if(TypeUnitNode::RLM_C != un->getType() &&
            TypeUnitNode::RLM_KRL != un->getType() &&
            TypeUnitNode::TG != un->getType())
@@ -1308,8 +1302,9 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 //            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(1)";
             continue;
         }
-        {
-            un->setCountSCRWA(0);
+        auto reciver = UnitNode::findReciver(un);
+        if(!reciver.isNull()) {
+            reciver->resetCountStatusConnectRequesterWaitAnswer();
         }
 
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
@@ -1498,14 +1493,14 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
-        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
-           item.port() == un->getUdpPort() &&
-           TypeUnitNode::TG_Base == un->getType() &&
-           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
-            un->setCountSCRWA(0);
-            un->setStateWordType0x32(newStateWord);
-            continue;
-        }
+//        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
+//           item.port() == un->getUdpPort() &&
+//           TypeUnitNode::TG_Base == un->getType() &&
+//           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
+//            un->setCountStatusConnectRequesterWaitAnswer(0);
+//            un->setStateWordType0x32(newStateWord);
+//            continue;
+//        }
         if(TypeUnitNode::TG != un->getType())
             continue;
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
@@ -1514,8 +1509,9 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 //            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(1)";
             continue;
         }
-        {
-            un->setCountSCRWA(0);
+        auto reciver = UnitNode::findReciver(un);
+        if(!reciver.isNull()) {
+            reciver->resetCountStatusConnectRequesterWaitAnswer();
         }
 
         auto previousSWP = un->swpTGType0x32();
@@ -1575,14 +1571,14 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
-        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
-           item.port() == un->getUdpPort() &&
-           TypeUnitNode::TG_Base == un->getType() &&
-           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
-            un->setCountSCRWA(0);
-            un->setStateWordType0x33(newStateWord);
-            continue;
-        }
+//        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
+//           item.port() == un->getUdpPort() &&
+//           TypeUnitNode::TG_Base == un->getType() &&
+//           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
+//            un->setCountStatusConnectRequesterWaitAnswer(0);
+//            un->setStateWordType0x33(newStateWord);
+//            continue;
+//        }
         if(TypeUnitNode::TG != un->getType())
             continue;
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
@@ -1591,8 +1587,9 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 //            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(1)";
             continue;
         }
-        {
-            un->setCountSCRWA(0);
+        auto reciver = UnitNode::findReciver(un);
+        if(!reciver.isNull()) {
+            reciver->resetCountStatusConnectRequesterWaitAnswer();
         }
 
         auto previousSWP = un->swpTGType0x33();
@@ -1692,14 +1689,14 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
-        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
-           item.port() == un->getUdpPort() &&
-           TypeUnitNode::TG_Base == un->getType() &&
-           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
-            un->setCountSCRWA(0);
-            un->setStateWordType0x34(newStateWord);
-            continue;
-        }
+//        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) &&
+//           item.port() == un->getUdpPort() &&
+//           TypeUnitNode::TG_Base == un->getType() &&
+//           static_cast<quint8>(item.data().at(2)) == static_cast<quint8>(un->getNum1())) {
+//            un->setCountStatusConnectRequesterWaitAnswer(0);
+//            un->setStateWordType0x34(newStateWord);
+//            continue;
+//        }
         if(TypeUnitNode::TG != un->getType())
             continue;
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
@@ -1708,8 +1705,9 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
 //            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(1)";
             continue;
         }
-        {
-            un->setCountSCRWA(0);
+        auto reciver = UnitNode::findReciver(un);
+        if(!reciver.isNull()) {
+            reciver->resetCountStatusConnectRequesterWaitAnswer();
         }
 
         auto previousSWP = un->swpTGType0x34();
