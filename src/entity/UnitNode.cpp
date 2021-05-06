@@ -426,7 +426,11 @@ void UnitNode::setStateWord(const QByteArray &value)
 
 int UnitNode::isConnected() const
 {
-    if(getStateWord().isEmpty())
+    if(getStateWord().isEmpty() &&
+       getStateWordType0x31().isEmpty() &&
+       getStateWordType0x32().isEmpty() &&
+       getStateWordType0x33().isEmpty() &&
+       getStateWordType0x34().isEmpty())
         return 0;
     else
         return 1;

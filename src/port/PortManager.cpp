@@ -2186,6 +2186,10 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
 //    //qDebug() << "PortManager::unLostedConnect(" << un << ")";
     if(1 == un->isConnected()) {
         un->setStateWord(QByteArray());
+        un->setStateWordType0x31(QByteArray());
+        un->setStateWordType0x32(QByteArray());
+        un->setStateWordType0x33(QByteArray());
+        un->setStateWordType0x34(QByteArray());
 
         if(un->getControl() && !un->getName().isEmpty()) {
             JourEntity msg;
@@ -2204,9 +2208,7 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
 
 
     for(const auto& uncld : as_const(un->getListChilde())) {
-        if(TypeUnitNode::IU_BL_IP == uncld->getType() || TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */) {
-            unLostedConnect(uncld);
-        }
+        unLostedConnect(uncld);
     }
 
     for(auto scr : as_const(getLsSCR())) {
