@@ -168,6 +168,10 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_ylw();
             } else if(!getControl() && swp.isNull()) {
                 return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swp.isOff() && getControl()) {
+                return Icons::sqr_blk();
+            } else if(1 == swp.isOff() && !getControl()) {
+                return Icons::sqr_blk_crs_gry();
             } else if(1 == swp.lowLevl() && getControl()) {
                 return Icons::sqr_blu();
             } else if(1 == swp.lowLevl() && !getControl()) {
@@ -176,10 +180,6 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_rd();
             } else if((1 == swp.isAlarm() || 1 == swp.isWasAlarm()) && 1 == swp.isOn() && !getControl()) {
                 return Icons::sqr_blk_crs_rd();
-            } else if(1 == swp.isOff() && getControl()) {
-                return Icons::sqr_blk();
-            } else if(1 == swp.isOff() && !getControl()) {
-                return Icons::sqr_blk_crs_gry();
             } else if(1 == swp.isNorm() && getControl()) {
                 return Icons::sqr_grn();
             } else if(1 == swp.isNorm() && !getControl()) {
@@ -195,6 +195,10 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_ylw();
             } else if(!getControl() && swp.isNull()) {
                 return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swp.isOff() && getControl()) {
+                return Icons::sqr_blk();
+            } else if(1 == swp.isOff() && !getControl()) {
+                return Icons::sqr_blk_crs_gry();
             } else if(0 == swp.isOutAlarm() &&
                       1 == swp.isInAlarm() &&
                       1 == swp.isWasAlarm() &&
@@ -211,10 +215,6 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_rd();
             } else if((1 == swp.isAlarm() || 1 == swp.isWasAlarm()) && 1 == swp.isOn() && !getControl()) {
                 return Icons::sqr_blk_crs_rd();
-            } else if(1 == swp.isOff() && getControl()) {
-                return Icons::sqr_blk();
-            } else if(1 == swp.isOff() && !getControl()) {
-                return Icons::sqr_blk_crs_gry();
             } else if(1 == swp.isNorm() && getControl()) {
                 return Icons::sqr_grn();
             } else if(1 == swp.isNorm() && !getControl()) {
