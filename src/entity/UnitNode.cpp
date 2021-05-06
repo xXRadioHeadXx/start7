@@ -253,9 +253,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                     return Icons::sqr_blk_crs_grn();
                 }
             } else if(!swp32.isNull()) {
-                if(1 == swp32.C(getNum2()).isFault() && getControl()) {
+                if(1 == swp32.C(getNum2()).voltage() && getControl()) {
                     return Icons::sqr_blu();
-                } else if(1 == swp32.C(getNum2()).isFault() && !getControl()) {
+                } else if(1 == swp32.C(getNum2()).voltage() && !getControl()) {
                     return Icons::sqr_blk_crs_blu();
                 } else if(1 == swp32.C(getNum2()).isAlarm() && getControl()) {
                     return Icons::sqr_rd();

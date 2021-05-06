@@ -823,14 +823,14 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
         }
 
 //        "Фильтр%3: Уровень"
-        if(-1.0 != swp32.C(ci + 1).isFault()) {
-            setCellText( table, (8 + 4 * ci),3, (QString::number(swp32.C(ci + 1).isFault())));
+        if(-1.0 != swp32.C(ci + 1).voltage()) {
+            setCellText( table, (8 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())));
             setCellColor( table, (8 + 4 * ci),3, cellGray);
 
-            setCellText( table, (9 + 4 * ci),3, (QString::number(swp32.C(ci + 1).isFault())));
+            setCellText( table, (9 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())));
             setCellColor( table, (9 + 4 * ci),3, cellGray);
 
-            setCellText( table, (10 + 4 * ci),3, (QString::number(swp32.C(ci + 1).isFault())));
+            setCellText( table, (10 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())));
             setCellColor( table, (10 + 4 * ci),3, cellGray);
         }
 

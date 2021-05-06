@@ -1651,9 +1651,9 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                     continue;
                 } else if(TypeUnitNode::TG == un->getType() && un->getControl() && 1 <= un->getNum2() && un->getNum2() <= 4) {
                     //Сообщения в журнал
-                    if((1 == currentSWP.C(un->getNum2()).isAlarm()) &&
+                    if((1 == currentSWP.C(un->getNum2()).isInAlarm()) &&
                        (1 == currentSWP.C(un->getNum2()).isOutAlarm()) &&
-                       (previousSWP.C(un->getNum2()).isAlarm() != currentSWP.C(un->getNum2()).isAlarm() ||
+                       (previousSWP.C(un->getNum2()).isInAlarm() != currentSWP.C(un->getNum2()).isInAlarm() ||
                         previousSWP.C(un->getNum2()).isOutAlarm() != currentSWP.C(un->getNum2()).isOutAlarm())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));

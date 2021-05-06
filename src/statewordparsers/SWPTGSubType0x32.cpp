@@ -131,30 +131,38 @@ int SWPTGSubType0x32::isWasOpened() const
         return 0; //Status::Not;
 }
 
-int SWPTGSubType0x32::isFault() const
+int SWPTGSubType0x32::voltage() const
 {
     if(getStateWord().isEmpty())
         return -1;
     switch (getFlang()) {
     case 1: {
+        int result = (0x0000FF00 & (getStateWord().at(3) << 8)) | (0x000000FF &getStateWord().at(4));
+        return result;
         if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
             return 1; //Status::Exist);
         else
             return 0; //Status::Not;
     }
     case 2: {
+        int result = (0x0000FF00 & (getStateWord().at(5) << 8)) | (0x000000FF &getStateWord().at(6));
+        return result;
         if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
             return 1; //Status::Exist);
         else
             return 0; //Status::Not;
     }
     case 3: {
+        int result = (0x0000FF00 & (getStateWord().at(7) << 8)) | (0x000000FF &getStateWord().at(8));
+        return result;
         if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
             return 1; //Status::Exist);
         else
             return 0; //Status::Not;
     }
     case 4: {
+        int result = (0x0000FF00 & (getStateWord().at(9) << 8)) | (0x000000FF &getStateWord().at(10));
+        return result;
         if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
             return 1; //Status::Exist);
         else

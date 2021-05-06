@@ -95,40 +95,48 @@ int SWPTGType0x32::isWasOpened() const
         return 0; //Status::Not;
 }
 
-int SWPTGType0x32::isFaultC1() const
+int SWPTGType0x32::voltageC1() const
 {
     if(getStateWord().isEmpty())
         return -1;
+    int result = (0x0000FF00 & (getStateWord().at(3) << 8)) | (0x000000FF &getStateWord().at(4));
+    return result;
     if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
 }
 
-int SWPTGType0x32::isFaultC2() const
+int SWPTGType0x32::voltageC2() const
 {
     if(getStateWord().isEmpty())
         return -1;
+    int result = (0x0000FF00 & (getStateWord().at(5) << 8)) | (0x000000FF &getStateWord().at(6));
+    return result;
     if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
 }
 
-int SWPTGType0x32::isFaultC3() const
+int SWPTGType0x32::voltageC3() const
 {
     if(getStateWord().isEmpty())
         return -1;
+    int result = (0x0000FF00 & (getStateWord().at(7) << 8)) | (0x000000FF &getStateWord().at(8));
+    return result;
     if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
 }
 
-int SWPTGType0x32::isFaultC4() const
+int SWPTGType0x32::voltageC4() const
 {
     if(getStateWord().isEmpty())
         return -1;
+    int result = (0x0000FF00 & (getStateWord().at(9) << 8)) | (0x000000FF &getStateWord().at(10));
+    return result;
     if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
         return 1; //Status::Exist);
     else

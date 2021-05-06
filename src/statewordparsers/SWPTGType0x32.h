@@ -23,10 +23,10 @@ public:
     int isInOpened() const;
     int isWasOpened() const;
 
-    int isFaultC1() const;
-    int isFaultC2() const;
-    int isFaultC3() const;
-    int isFaultC4() const;
+    int voltageC1() const;
+    int voltageC2() const;
+    int voltageC3() const;
+    int voltageC4() const;
 
     int isInAlarmC3() const;
     int isOutAlarmC3() const;

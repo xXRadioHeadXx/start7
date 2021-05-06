@@ -23,7 +23,7 @@ public:
     int isInOpened() const;
     int isWasOpened() const;
 
-    int isFault() const;
+    int voltage() const;
 
     int isSideAlarm() const;
 
