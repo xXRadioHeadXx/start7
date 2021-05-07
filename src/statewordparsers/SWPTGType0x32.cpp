@@ -95,48 +95,48 @@ int SWPTGType0x32::isWasOpened() const
         return 0; //Status::Not;
 }
 
-int SWPTGType0x32::voltageC1() const
+int SWPTGType0x32::isFaultC1() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    int result = (0x0000FF00 & (getStateWord().at(3) << 8)) | (0x000000FF &getStateWord().at(4));
-    return result;
+//    int result = (0x0000FF00 & (getStateWord().at(3) << 8)) | (0x000000FF &getStateWord().at(4));
+//    return result;
     if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
 }
 
-int SWPTGType0x32::voltageC2() const
+int SWPTGType0x32::isFaultC2() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    int result = (0x0000FF00 & (getStateWord().at(5) << 8)) | (0x000000FF &getStateWord().at(6));
-    return result;
+//    int result = (0x0000FF00 & (getStateWord().at(5) << 8)) | (0x000000FF &getStateWord().at(6));
+//    return result;
     if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
 }
 
-int SWPTGType0x32::voltageC3() const
+int SWPTGType0x32::isFaultC3() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    int result = (0x0000FF00 & (getStateWord().at(7) << 8)) | (0x000000FF &getStateWord().at(8));
-    return result;
+//    int result = (0x0000FF00 & (getStateWord().at(7) << 8)) | (0x000000FF &getStateWord().at(8));
+//    return result;
     if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
 }
 
-int SWPTGType0x32::voltageC4() const
+int SWPTGType0x32::isFaultC4() const
 {
     if(getStateWord().isEmpty())
         return -1;
-    int result = (0x0000FF00 & (getStateWord().at(9) << 8)) | (0x000000FF &getStateWord().at(10));
-    return result;
+//    int result = (0x0000FF00 & (getStateWord().at(9) << 8)) | (0x000000FF &getStateWord().at(10));
+//    return result;
     if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
         return 1; //Status::Exist);
     else
@@ -225,12 +225,12 @@ int SWPTGType0x32::isSideAlarmC4() const
 
 int SWPTGType0x32::isOpened() const
 {
-    return isInOpened();
+    return ((1 == isInOpened() && 1 == isWasOpened()) ? 1 : (-1 == isInOpened() || -1 == isWasOpened()) ? -1 : 0);
 }
 
 int SWPTGType0x32::isAlarmC1() const
 {
-    return isInAlarmC1();
+    return ((1 == isInAlarmC1() && 1 == isOutAlarmC1()) ? 1 : ((-1 == isInAlarmC1() || -1 == isOutAlarmC1()) ? -1 : 0));
 }
 
 int SWPTGType0x32::isNormC1() const
@@ -241,7 +241,7 @@ int SWPTGType0x32::isNormC1() const
 
 int SWPTGType0x32::isAlarmC2() const
 {
-    return isInAlarmC2();
+    return ((1 == isInAlarmC2() && 1 == isOutAlarmC2()) ? 1 : ((-1 == isInAlarmC2() || -1 == isOutAlarmC2()) ? -1 : 0));
 }
 
 int SWPTGType0x32::isNormC2() const
@@ -252,7 +252,7 @@ int SWPTGType0x32::isNormC2() const
 
 int SWPTGType0x32::isAlarmC3() const
 {
-    return isInAlarmC3();
+    return ((1 == isInAlarmC3() && 1 == isOutAlarmC3()) ? 1 : ((-1 == isInAlarmC3() || -1 == isOutAlarmC3()) ? -1 : 0));
 }
 
 int SWPTGType0x32::isNormC3() const
@@ -263,7 +263,7 @@ int SWPTGType0x32::isNormC3() const
 
 int SWPTGType0x32::isAlarmC4() const
 {
-    return isInAlarmC4();
+    return ((1 == isInAlarmC4() && 1 == isOutAlarmC4()) ? 1 : ((-1 == isInAlarmC4() || -1 == isOutAlarmC4()) ? -1 : 0));
 }
 
 int SWPTGType0x32::isNormC4() const
@@ -272,40 +272,40 @@ int SWPTGType0x32::isNormC4() const
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int SWPTGType0x32::thresholdIn1() const
+int SWPTGType0x32::voltageC1() const
 {
     if(getStateWord().isEmpty())
         return -1;
     int result = (0x0000FF00 & (getStateWord().at(3) << 8)) | (0x000000FF &getStateWord().at(4));
     return result;
-    return getStateWord().mid(3,2).toInt();
+//    return getStateWord().mid(3,2).toInt();
 }
 
-int SWPTGType0x32::thresholdIn2() const
+int SWPTGType0x32::voltageC2() const
 {
     if(getStateWord().isEmpty())
         return -1;
     int result = (0x0000FF00 & (getStateWord().at(5) << 8)) | (0x000000FF &getStateWord().at(6));
     return result;
-    return getStateWord().mid(5,2).toInt();
+//    return getStateWord().mid(5,2).toInt();
 }
 
-int SWPTGType0x32::thresholdIn3() const
+int SWPTGType0x32::voltageC3() const
 {
     if(getStateWord().isEmpty())
         return -1;
     int result = (0x0000FF00 & (getStateWord().at(7) << 8)) | (0x000000FF &getStateWord().at(8));
     return result;
-    return getStateWord().mid(7,2).toInt();
+//    return getStateWord().mid(7,2).toInt();
 }
 
-int SWPTGType0x32::thresholdIn4() const
+int SWPTGType0x32::voltageC4() const
 {
     if(getStateWord().isEmpty())
         return -1;
     int result = (0x0000FF00 & (getStateWord().at(9) << 8)) | (0x000000FF &getStateWord().at(10));
     return result;
-    return getStateWord().mid(9,2).toInt();
+//    return getStateWord().mid(9,2).toInt();
 }
 
 int SWPTGType0x32::isInAlarmIn1Flt1() const
@@ -589,19 +589,11 @@ int SWPTGType0x32::isAlarm() const
 {
     int result = 0;
     for(int ci = 1, n = 5; ci < n; ci++) {
-        if(1 == C(ci).isInAlarm() ||
-           1 == C(ci).isOutAlarm() ||
-           1 == C(ci).isInAlarmFlt1() ||
-           1 == C(ci).isInAlarmFlt2() ||
-           1 == C(ci).isInAlarmFlt3()) {
+        if(1 == C(ci).isAlarm()) {
             return 1;
         }
 
-        if(0 != C(ci).isInAlarm() ||
-           0 != C(ci).isOutAlarm() ||
-           0 != C(ci).isInAlarmFlt1() ||
-           0 != C(ci).isInAlarmFlt2() ||
-           0 != C(ci).isInAlarmFlt3()) {
+        if(0 != C(ci).isAlarm()) {
             result = -1;
         }
     }

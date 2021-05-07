@@ -410,7 +410,7 @@ DataQueueItem DataQueueItem::makeStatusRequest0x2A(DataQueueItem &item, const QS
     if(nullptr != un && un->isNeedsPreamble())
         item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     item.setSpecialSkipTimeInterval(300);
-    item.setSpecialSkipTimeCount(3);
+    item.setSpecialSkipTimeCount(2);
     return item;
 }
 
@@ -442,7 +442,7 @@ DataQueueItem DataQueueItem::makeStatusRequest0x2C(DataQueueItem &item, const QS
     if(nullptr != un && un->isNeedsPreamble())
         item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     item.setSpecialSkipTimeInterval(300);
-    item.setSpecialSkipTimeCount(3);
+    item.setSpecialSkipTimeCount(2);
     return item;
 }
 
@@ -474,7 +474,7 @@ DataQueueItem DataQueueItem::makeStatusRequest0x2E(DataQueueItem &item, const QS
     if(nullptr != un && un->isNeedsPreamble())
         item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
     item.setSpecialSkipTimeInterval(300);
-    item.setSpecialSkipTimeCount(3);
+    item.setSpecialSkipTimeCount(2);
     return item;
 }
 

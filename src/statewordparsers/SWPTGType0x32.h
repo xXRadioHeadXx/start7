@@ -23,10 +23,10 @@ public:
     int isInOpened() const;
     int isWasOpened() const;
 
-    int voltageC1() const;
-    int voltageC2() const;
-    int voltageC3() const;
-    int voltageC4() const;
+    int isFaultC1() const;
+    int isFaultC2() const;
+    int isFaultC3() const;
+    int isFaultC4() const;
 
     int isInAlarmC3() const;
     int isOutAlarmC3() const;
@@ -53,10 +53,10 @@ public:
     int isAlarmC4() const;
     int isNormC4() const;
 
-    int thresholdIn1() const;
-    int thresholdIn2() const;
-    int thresholdIn3() const;
-    int thresholdIn4() const;
+    int voltageC1() const;
+    int voltageC2() const;
+    int voltageC3() const;
+    int voltageC4() const;
 
     int isInAlarmIn1Flt1() const;
     int isInAlarmIn1Flt2() const;

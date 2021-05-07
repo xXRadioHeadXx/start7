@@ -145,9 +145,35 @@ int SWPTGSubType0x33::isSideAlarm() const
     }
 }
 
+int SWPTGSubType0x33::isInOpened() const
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x40))
+        return 1; //Status::Exist);
+    else
+        return 0; //Status::Not;
+}
+
+int SWPTGSubType0x33::isWasOpened() const
+{
+    if(getStateWord().isEmpty())
+        return -1;
+    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x80))
+        return 1; //Status::Was);
+    else
+        return 0; //Status::Not;
+}
+
+
+int SWPTGSubType0x33::isOpened() const
+{
+    return ((1 == isInOpened() && 1 == isWasOpened())) ? 1 : ((-1 == isInOpened() || -1 == isWasOpened()) ? -1 : 0);
+}
+
 int SWPTGSubType0x33::isAlarm() const
 {
-    return isInAlarm();
+    return ((1 == isInAlarm() && 1 == isOutAlarm())) ? 1 : ((-1 == isInAlarm() || -1 == isOutAlarm()) ? -1 : 0);
 }
 
 int SWPTGSubType0x33::isNorm() const

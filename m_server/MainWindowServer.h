@@ -36,6 +36,7 @@ public slots:
     void updComboBox(QList<QString> lst, QComboBox *cmb);
     void createDiagnosticTable();
 
+    void fillPageTGAtPointInput(int ci);
 private slots:
     void on_treeView_clicked(const QModelIndex &index);
 

@@ -17,6 +17,11 @@ public:
     int isOutAlarm() const;
     int isFault() const;
     int isSideAlarm() const;
+
+    int isInOpened() const;
+    int isWasOpened() const;
+
+    int isOpened() const;
     int isAlarm() const;
     int isNorm() const;
 

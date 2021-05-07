@@ -32,7 +32,7 @@ int SWPTGType0x31::isOff() const
 
 int SWPTGType0x31::isAlarm() const
 {
-    return isInAlarm();
+    return ((1 == isInAlarm() && 1 == isOutAlarm() && 1 == isWasAlarm()) ? 1 : ((-1 == isInAlarm() || -1 == isOutAlarm() || -1 == isWasAlarm()) ? -1 : 0));
 }
 
 int SWPTGType0x31::isInAlarm() const
@@ -93,7 +93,7 @@ int SWPTGType0x31::isWasDK() const
 
 int SWPTGType0x31::isOpened() const
 {
-    return isInOpened();
+    return ((1 == isInOpened() && 1 == isWasOpened()) ? 1 : (-1 == isInOpened() || -1 == isWasOpened()) ? -1 : 0);
 }
 
 int SWPTGType0x31::isInOpened() const

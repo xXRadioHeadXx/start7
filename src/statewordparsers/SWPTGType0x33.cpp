@@ -218,12 +218,12 @@ int SWPTGType0x33::isSideAlarmC4() const
 
 int SWPTGType0x33::isOpened() const
 {
-    return isInOpened();
+    return ((1 == isInOpened() && 1 == isWasOpened()) ? 1 : (-1 == isInOpened() || -1 == isWasOpened()) ? -1 : 0);
 }
 
 int SWPTGType0x33::isAlarmC1() const
 {
-    return isInAlarmC1();
+    return ((1 == isInAlarmC1() && 1 == isOutAlarmC1()) ? 1 : ((-1 == isInAlarmC1() || -1 == isOutAlarmC1()) ? -1 : 0));
 }
 
 int SWPTGType0x33::isNormC1() const
@@ -234,7 +234,7 @@ int SWPTGType0x33::isNormC1() const
 
 int SWPTGType0x33::isAlarmC2() const
 {
-    return isInAlarmC2();
+    return ((1 == isInAlarmC2() && 1 == isOutAlarmC2()) ? 1 : ((-1 == isInAlarmC2() || -1 == isOutAlarmC2()) ? -1 : 0));
 }
 
 int SWPTGType0x33::isNormC2() const
@@ -245,7 +245,7 @@ int SWPTGType0x33::isNormC2() const
 
 int SWPTGType0x33::isAlarmC3() const
 {
-    return isInAlarmC3();
+    return ((1 == isInAlarmC3() && 1 == isOutAlarmC3()) ? 1 : ((-1 == isInAlarmC3() || -1 == isOutAlarmC3()) ? -1 : 0));
 }
 
 int SWPTGType0x33::isNormC3() const
@@ -256,7 +256,7 @@ int SWPTGType0x33::isNormC3() const
 
 int SWPTGType0x33::isAlarmC4() const
 {
-    return isInAlarmC4();
+    return ((1 == isInAlarmC4() && 1 == isOutAlarmC4()) ? 1 : ((-1 == isInAlarmC4() || -1 == isOutAlarmC4()) ? -1 : 0));
 }
 
 int SWPTGType0x33::isNormC4() const
@@ -291,13 +291,11 @@ int SWPTGType0x33::isAlarm() const
 {
     int result = 0;
     for(int ci = 1, n = 5; ci < n; ci++) {
-        if(1 == C(ci).isInAlarm() ||
-           1 == C(ci).isOutAlarm()) {
+        if(1 == C(ci).isAlarm()) {
             return 1;
         }
 
-        if(0 != C(ci).isInAlarm() ||
-           0 != C(ci).isOutAlarm()) {
+        if(0 != C(ci).isAlarm()) {
             result = -1;
         }
     }

@@ -212,6 +212,8 @@ MainWindowServer::MainWindowServer(QWidget *parent)
         line->setMaximumWidth(50);
         layout->addWidget(line, 0, Qt::AlignVCenter);
     }
+
+    connect(ui->comboBox_PointInput, SIGNAL(currentIndexChanged(int)), this, SLOT(fillPageTGAtPointInput(int)));
 }
 
 MainWindowServer::~MainWindowServer()
@@ -1663,6 +1665,67 @@ void MainWindowServer::fillPageTG()
     ui->spinBox_PointFlt3Edge->setValue(swp.C(ci).thresholdFlt3());
 
     qDebug() << "MainWindowServer::fillPageTG(" << selUN->toString() << ") <--";
+}
+
+void MainWindowServer::fillPageTGAtPointInput(int ci)
+{
+    ci++;
+    if(selUN.isNull())
+        return;
+    if(TypeUnitNode::TG != selUN->getType() && TypeUnitNode::TG_Base != selUN->getType())
+        return;
+    if(1 > ci || 4 < ci)
+        return;
+
+    QSharedPointer<UnitNode> target;
+    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    for(QSharedPointer<UnitNode>  un : tmpSet) {
+        if(TypeUnitNode::TG == un->getType() &&
+           un->getUdpAdress() == selUN->getUdpAdress() &&
+           un->getUdpPort() == selUN->getUdpPort() &&
+           un->getNum1() == selUN->getNum1() &&
+           un->getNum2() == ci) {
+//            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(1)";
+            target = un;
+            break;;
+        }
+    }
+
+    if(target.isNull())
+        return;
+
+
+    qDebug() << "MainWindowServer::fillPageTG(" << target->toString() << ") -->";
+    qDebug() << "StateWord " << target->getStateWordType0x34().toHex();
+    qDebug() << "input " << ci;
+
+    auto swp = target->swpTGType0x34();
+
+    if(1 == swp.C(ci).isOnFlt1()) {
+        ui->checkBox_PointFlt1->setChecked(true);
+    } else if(1 == swp.C(ci).isOffFlt1()) {
+        ui->checkBox_PointFlt1->setChecked(false);
+    }
+
+    if(1 == swp.C(ci).isOnFlt2()) {
+        ui->checkBox_PointFlt2->setChecked(true);
+    } else if(1 == swp.C(ci).isOffFlt2()) {
+        ui->checkBox_PointFlt2->setChecked(false);
+    }
+
+    if(1 == swp.C(ci).isOnFlt3()) {
+        ui->checkBox_PointFlt3->setChecked(true);
+    } else if(1 == swp.C(ci).isOffFlt3()) {
+        ui->checkBox_PointFlt3->setChecked(false);
+    }
+
+    ui->spinBox_PointFlt1Edge->setValue(swp.C(ci).thresholdFlt1());
+
+    ui->spinBox_PointFlt2Edge->setValue(swp.C(ci).thresholdFlt2());
+
+    ui->spinBox_PointFlt3Edge->setValue(swp.C(ci).thresholdFlt3());
+
+    qDebug() << "MainWindowServer::fillPageTG(" << target->toString() << ") <--";
 }
 
 void MainWindowServer::fillPageSota1(int /*typeUN*/)
