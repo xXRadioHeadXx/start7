@@ -1314,8 +1314,8 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
         if((TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
-           (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm())) /*||
-           (TypeUnitNode::TG == un->getType() && 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm()))*/) {
+           (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm())) ||
+           (TypeUnitNode::TG == un->getType() && 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm() || 1 == un->swpTGType0x31().isInOpened() || 1 == un->swpTGType0x31().isWasOpened()))) {
             //нужен сброс
             DataQueueItem::makeAlarmReset0x24(resultRequest, un);
 //                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
@@ -1474,8 +1474,10 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
         auto currentSWP = un->swpTGType0x32();
+        int ci = un->getNum2();
 
-        if(TypeUnitNode::TG == un->getType() && (1 == currentSWP.isAlarm() || 1 == currentSWP.isOpened())) {
+        if(TypeUnitNode::TG == un->getType() && (1 == currentSWP.isAlarm() || 1 == currentSWP.isOpened() ||
+                                                 1 == currentSWP.C(ci).isInAlarm() || 1 == currentSWP.C(ci).isOutAlarm() || 1 == currentSWP.C(ci).isInOpened()  || 1 == currentSWP.C(ci).isWasOpened())) {
             //нужен сброс
             DataQueueItem::makeAlarmReset0x24(resultRequest, un);
 //                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
@@ -1503,7 +1505,6 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                 } else if(un->getControl() && TypeUnitNode::TG == un->getType() && (1 <= un->getNum2() && 4 >= un->getNum2())) {
                     //Сообщения в журнал
 
-                    int ci = un->getNum2();
                     if((1 == currentSWP.C(ci).isFault()) &&
                        (currentSWP.C(ci).isFault() != previousSWP.C(ci).isFault())) {
                         //сохранение неисправность или Норма
@@ -1573,8 +1574,10 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
         auto currentSWP = un->swpTGType0x33();
+        int ci = un->getNum2();
 
-        if(TypeUnitNode::TG == un->getType() && (1 == currentSWP.isAlarm() || 1 == currentSWP.isOpened())) {
+        if(TypeUnitNode::TG == un->getType() && (1 == currentSWP.isAlarm() || 1 == currentSWP.isOpened() ||
+                                                 1 == currentSWP.C(ci).isInAlarm() || 1 == currentSWP.C(ci).isOutAlarm() || 1 == currentSWP.C(ci).isInOpened()  || 1 == currentSWP.C(ci).isWasOpened())) {
             //нужен сброс
             DataQueueItem::makeAlarmReset0x24(resultRequest, un);
         }
@@ -1600,7 +1603,6 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                     continue;
                 } else if(TypeUnitNode::TG == un->getType() && un->getControl() && 1 <= un->getNum2() && un->getNum2() <= 4) {
                     //Сообщения в журнал
-                    int ci = un->getNum2();
                     if((1 == currentSWP.C(ci).isFault()) &&
                        (currentSWP.C(ci).isFault() != previousSWP.C(ci).isFault())) {
                         //сохранение неисправность или Норма

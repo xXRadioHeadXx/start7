@@ -239,9 +239,13 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                     return Icons::sqr_blk();
                 } else if(1 == swp31.isOff() && !getControl()) {
                     return Icons::sqr_blk_crs_gry();
-                } else if((1 == swp31.isAlarm() || 1 == swp31.isOpened()) && getControl()) {
+                } else if((1 == swp31.isAlarm() || 1 == swp31.isOpened() ||
+                           1 == swp31.isInAlarm() || 1 == swp31.isOutAlarm() || 1 == swp31.isWasOpened() || 1 == swp31.isInOpened()) &&
+                          getControl()) {
                     return Icons::sqr_rd();
-                } else if((1 == swp31.isAlarm() || 1 == swp31.isOpened()) && !getControl()) {
+                } else if((1 == swp31.isAlarm() || 1 == swp31.isOpened() ||
+                           1 == swp31.isInAlarm() || 1 == swp31.isOutAlarm() || 1 == swp31.isWasOpened() || 1 == swp31.isInOpened()) &&
+                          !getControl()) {
                     return Icons::sqr_blk_crs_rd();
                 } else if(1 == swp31.isNorm() && getControl()) {
                     return Icons::sqr_grn();
@@ -253,9 +257,13 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                     return Icons::sqr_blu();
                 } else if(1 == swp32.C(getNum2()).isFault() && !getControl()) {
                     return Icons::sqr_blk_crs_blu();
-                } else if((1 == swp32.C(getNum2()).isAlarm() || 1 == swp32.C(getNum2()).isOpened()) && getControl()) {
+                } else if((1 == swp32.C(getNum2()).isAlarm() || 1 == swp32.C(getNum2()).isOpened() ||
+                           1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isOutAlarm() || 1 == swp32.C(getNum2()).isWasOpened() || 1 == swp32.C(getNum2()).isInOpened()) &&
+                          getControl()) {
                     return Icons::sqr_rd();
-                } else if((1 == swp32.C(getNum2()).isAlarm() || 1 == swp32.C(getNum2()).isOpened()) && !getControl()) {
+                } else if((1 == swp32.C(getNum2()).isAlarm() || 1 == swp32.C(getNum2()).isOpened() ||
+                           1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isOutAlarm() || 1 == swp32.C(getNum2()).isWasOpened() || 1 == swp32.C(getNum2()).isInOpened()) &&
+                          !getControl()) {
                     return Icons::sqr_blk_crs_rd();
                 } else if(1 == swp32.C(getNum2()).isNorm() && getControl()) {
                     return Icons::sqr_grn();
@@ -267,9 +275,13 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                     return Icons::sqr_blu();
                 } else if(1 == swp33.C(getNum2()).isFault() && !getControl()) {
                     return Icons::sqr_blk_crs_blu();
-                } else if((1 == swp33.C(getNum2()).isAlarm() || 1 == swp33.C(getNum2()).isOpened()) && getControl()) {
+                } else if((1 == swp33.C(getNum2()).isAlarm() || 1 == swp33.C(getNum2()).isOpened() ||
+                           1 == swp33.C(getNum2()).isInAlarm() || 1 == swp33.C(getNum2()).isOutAlarm() || 1 == swp33.C(getNum2()).isWasOpened() || 1 == swp33.C(getNum2()).isInOpened()) &&
+                          getControl()) {
                     return Icons::sqr_rd();
-                } else if((1 == swp33.C(getNum2()).isAlarm() || 1 == swp33.C(getNum2()).isOpened()) && !getControl()) {
+                } else if((1 == swp33.C(getNum2()).isAlarm() || 1 == swp33.C(getNum2()).isOpened() ||
+                           1 == swp33.C(getNum2()).isInAlarm() || 1 == swp33.C(getNum2()).isOutAlarm() || 1 == swp33.C(getNum2()).isWasOpened() || 1 == swp33.C(getNum2()).isInOpened()) &&
+                          !getControl()) {
                     return Icons::sqr_blk_crs_rd();
                 } else if(1 == swp33.C(getNum2()).isNorm() && getControl()) {
                     return Icons::sqr_grn();

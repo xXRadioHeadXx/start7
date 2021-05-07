@@ -668,7 +668,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
     setCellText( table, 5,0, (QObject::tr("ДК")));
     setCellText( table, 5,2, (QObject::tr("Выход \"ДК\"")));
     setCellText( table, 6,0, (QObject::tr("Вскрытие")));
-    setCellText( table, 6,2, (QObject::tr("Выход \"Вскрытие\"")));
+    setCellText( table, 6,2, (QObject::tr("Вход \"Вскрытие\"")));
 
     setCellText( table, 7,0, (QObject::tr("ЧЭ1")));
 
