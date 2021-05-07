@@ -14,8 +14,8 @@ public:
     int getFlang() const;
 
 
-    int isInAlarm() const;
     int isOutAlarm() const;
+    int isInAlarm() const;
 
     int isExistDK() const;
     int isWasDK() const;

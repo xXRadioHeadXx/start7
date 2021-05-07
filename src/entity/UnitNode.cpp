@@ -258,11 +258,11 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 } else if(1 == swp32.C(getNum2()).isFault() && !getControl()) {
                     return Icons::sqr_blk_crs_blu();
                 } else if((1 == swp32.C(getNum2()).isAlarm() || 1 == swp32.C(getNum2()).isOpened() ||
-                           1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isOutAlarm() || 1 == swp32.C(getNum2()).isWasOpened() || 1 == swp32.C(getNum2()).isInOpened()) &&
+                           1 == swp32.C(getNum2()).isOutAlarm() || 1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isWasOpened() || 1 == swp32.C(getNum2()).isInOpened()) &&
                           getControl()) {
                     return Icons::sqr_rd();
                 } else if((1 == swp32.C(getNum2()).isAlarm() || 1 == swp32.C(getNum2()).isOpened() ||
-                           1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isOutAlarm() || 1 == swp32.C(getNum2()).isWasOpened() || 1 == swp32.C(getNum2()).isInOpened()) &&
+                           1 == swp32.C(getNum2()).isOutAlarm() || 1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isWasOpened() || 1 == swp32.C(getNum2()).isInOpened()) &&
                           !getControl()) {
                     return Icons::sqr_blk_crs_rd();
                 } else if(1 == swp32.C(getNum2()).isNorm() && getControl()) {

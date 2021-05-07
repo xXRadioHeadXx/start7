@@ -21,7 +21,7 @@ int SWPTGSubType0x32::getFlang() const
     return flang;
 }
 
-int SWPTGSubType0x32::isInAlarm() const
+int SWPTGSubType0x32::isOutAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -56,7 +56,7 @@ int SWPTGSubType0x32::isInAlarm() const
     }
 }
 
-int SWPTGSubType0x32::isOutAlarm() const
+int SWPTGSubType0x32::isInAlarm() const
 {
     if(getStateWord().isEmpty())
         return -1;
@@ -216,7 +216,7 @@ int SWPTGSubType0x32::isOpened() const
 
 int SWPTGSubType0x32::isAlarm() const
 {
-    return ((1 == isInAlarm() && 1 == isOutAlarm()) ? 1 : ((-1 == isInAlarm() || -1 == isOutAlarm()) ? -1 : 0));
+    return ((1 == isOutAlarm() && 1 == isInAlarm()) ? 1 : ((-1 == isOutAlarm() || -1 == isInAlarm()) ? -1 : 0));
 }
 
 

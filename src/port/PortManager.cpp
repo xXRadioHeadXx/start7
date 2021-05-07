@@ -1477,7 +1477,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         int ci = un->getNum2();
 
         if(TypeUnitNode::TG == un->getType() && (1 == currentSWP.isAlarm() || 1 == currentSWP.isOpened() ||
-                                                 1 == currentSWP.C(ci).isInAlarm() || 1 == currentSWP.C(ci).isOutAlarm() || 1 == currentSWP.C(ci).isInOpened()  || 1 == currentSWP.C(ci).isWasOpened())) {
+                                                 1 == currentSWP.C(ci).isOutAlarm() || 1 == currentSWP.C(ci).isInAlarm() || 1 == currentSWP.C(ci).isInOpened()  || 1 == currentSWP.C(ci).isWasOpened())) {
             //нужен сброс
             DataQueueItem::makeAlarmReset0x24(resultRequest, un);
 //                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";

@@ -11,11 +11,11 @@ public:
     SWPTGType0x32(const SWPTGType0x32 & parent);
     virtual ~SWPTGType0x32();
 
-    int isInAlarmC1() const;
     int isOutAlarmC1() const;
+    int isInAlarmC1() const;
 
-    int isInAlarmC2() const;
     int isOutAlarmC2() const;
+    int isInAlarmC2() const;
 
     int isExistDK() const;
     int isWasDK() const;
@@ -28,11 +28,11 @@ public:
     int isFaultC3() const;
     int isFaultC4() const;
 
-    int isInAlarmC3() const;
     int isOutAlarmC3() const;
+    int isInAlarmC3() const;
 
-    int isInAlarmC4() const;
     int isOutAlarmC4() const;
+    int isInAlarmC4() const;
 
     int isSideAlarmC1() const;
     int isSideAlarmC2() const;
