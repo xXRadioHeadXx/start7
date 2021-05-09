@@ -20,6 +20,7 @@ public:
     static QColor cellGreen;
     static QColor cellGray;
     static QColor cellYellow;
+    static QColor cellBlue;
 
 public:
     Utils();

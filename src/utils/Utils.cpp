@@ -196,6 +196,7 @@ QColor Utils::cellRed = QColor(0xE3, 0x06, 0x13);
 QColor Utils::cellGreen = QColor(0x00, 0x96, 0x40);
 QColor Utils::cellGray = QColor(0xCF, 0xCF, 0xCF);
 QColor Utils::cellYellow = QColor(0xFF, 0xDD, 0x0E);
+QColor Utils::cellBlue = QColor(0x00, 0x40, 0x96);
 
 
 void Utils::fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
@@ -737,7 +738,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
             setCellColor( table, i,1, cellRed);
         } else if(0 == swp32.C(i).isInAlarm()) {
             setCellText( table, i,1, (QObject::tr("Нет[0]")));
-            setCellColor( table, i,1, cellGray);
+            setCellColor( table, i,1, cellGreen);
         }
 //        setCellText( table, i,2, (QObject::tr("Выход \"Тревога ЧЭ%1\"").arg(i)));
         //Выход "Тревога ЧЭ%1"
@@ -746,7 +747,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
             setCellColor( table, i,3, cellRed);
         } else if(0 == swp32.C(i).isOutAlarm()) {
             setCellText( table, i,3, (QObject::tr("Нет[0]")));
-            setCellColor( table, i,3, cellGray);
+            setCellColor( table, i,3, cellGreen);
         }
 //        setCellText( table, i,4, (QObject::tr("Сработка со стороны ЧЭ%1").arg(i)));
         //"Сработка со стороны ЧЭ%1"
@@ -755,7 +756,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
             setCellColor( table, i,5, cellRed);
         } else if(0 == swp32.C(i).isSideAlarm()) {
             setCellText( table, i,5, (QObject::tr("Нет[0]")));
-            setCellColor( table, i,5, cellGray);
+            setCellColor( table, i,5, cellGreen);
         }
     }
 
@@ -795,13 +796,31 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
     auto swp34 = selUN->swpTGType0x34();
 
     for(int ci = 0, n = 4; ci < n; ci++) {
+
+        if(1 == swp34.C(ci + 1).isOffFlt1() && 1 == swp34.C(ci + 1).isOffFlt2() && 1 == swp34.C(ci + 1).isOffFlt3()) {
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Выкл")));
+            setCellColor( table, (7 + 4 * ci),1, cellGray);
+        } else if(50001 == swp32.C(ci + 1).voltage()) {
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Обрыв кабеля")));
+            setCellColor( table, (7 + 4 * ci),1, cellBlue);
+        } else if(50000 == swp32.C(ci + 1).voltage()) {
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Замыкание кабеля")));
+            setCellColor( table, (7 + 4 * ci),1, cellBlue);
+        } else if(1 == swp32.C(ci + 1).isFault()) {
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Неисправность")));
+            setCellColor( table, (7 + 4 * ci),1, cellBlue);
+        } else {
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Норма")));
+            setCellColor( table, (7 + 4 * ci),1, cellGreen);
+        }
+
 //        "Фильтр%1: Сработка"
         if(1 == swp32.C(ci + 1).isInAlarmFlt1()) {
             setCellText( table, (8 + 4 * ci),1, (QObject::tr("Было[1]")));
             setCellColor( table, (8 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt1()) {
             setCellText( table, (8 + 4 * ci),1, (QObject::tr("Нет[0]")));
-            setCellColor( table, (8 + 4 * ci),1, cellGray);
+            setCellColor( table, (8 + 4 * ci),1, cellGreen);
         }
 
 //        "Фильтр%2: Сработка"
@@ -810,7 +829,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
             setCellColor( table, (9 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt2()) {
             setCellText( table, (9 + 4 * ci),1, (QObject::tr("Нет[0]")));
-            setCellColor( table, (9 + 4 * ci),1, cellGray);
+            setCellColor( table, (9 + 4 * ci),1, cellGreen);
         }
 
 //        "Фильтр%3: Сработка"
@@ -819,7 +838,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
             setCellColor( table, (10 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt3()) {
             setCellText( table, (10 + 4 * ci),1, (QObject::tr("Нет[0]")));
-            setCellColor( table, (10 + 4 * ci),1, cellGray);
+            setCellColor( table, (10 + 4 * ci),1, cellGreen);
         }
 
 //        "Фильтр%3: Уровень"

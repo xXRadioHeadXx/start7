@@ -222,6 +222,7 @@ int SWPTGSubType0x32::isAlarm() const
 
 int SWPTGSubType0x32::isNorm() const
 {
+    return ((1 == isOutAlarm() || 1 == isAlarm() || 1 == isOpened() || 1 == isInOpened() || 1 == isFault()) ? 0 : ((-1 == isAlarm() || -1 == isOpened() || -1 == isFault()) ? -1 : 1));
     int isalarm = isAlarm();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }

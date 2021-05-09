@@ -57,6 +57,7 @@ int SWPTGType0x31::isOutAlarm() const
 
 int SWPTGType0x31::isNorm() const
 {
+    return ((1 == isOutAlarm() || 1 == isAlarm() || 1 == isOpened() || 1 == isInOpened()) ? 0 : ((-1 == isAlarm() || -1 == isOpened()) ? -1 : 1));
     int isalarm = isAlarm();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
