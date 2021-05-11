@@ -459,6 +459,11 @@ void UnitNode::incrementCountStatusConnectRequesterWaitAnswer()
     countStatusConnectRequesterWaitAnswer++;
 }
 
+void UnitNode::decrementCountStatusConnectRequesterWaitAnswer()
+{
+    countStatusConnectRequesterWaitAnswer--;
+}
+
 int UnitNode::getCountStatusConnectRequesterWaitAnswer() const
 {
     return countStatusConnectRequesterWaitAnswer;

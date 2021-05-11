@@ -189,6 +189,7 @@ public:
     QQueue<DataQueueItem> queueMsg;
 
 
+    void decrementCountStatusConnectRequesterWaitAnswer();
 protected :
     void setDefaultNeededStateWordType(int value);
 

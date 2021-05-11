@@ -94,11 +94,11 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::currentTrackedUN() const
 
 QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
 {
-    for(auto un : getLsTrackedUN()) {
-        if(!un->queueMsg.isEmpty() && un != currentTrackedUN()) {
-            return un;
-        }
-    }
+//    for(auto un : getLsTrackedUN()) {
+//        if(!un->queueMsg.isEmpty() && un != currentTrackedUN()) {
+//            return un;
+//        }
+//    }
 
     if(1 < getLsTrackedUN().size())
     {
@@ -174,6 +174,8 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
 
         if(!currentTrackedUN()->queueMsg.isEmpty()) {
             result = currentTrackedUN()->queueMsg.dequeue();
+
+            currentTrackedUN()->decrementCountStatusConnectRequesterWaitAnswer();
 
             setBeatCount(getBeatCount() - 1);
             if(0 > getBeatCount())
@@ -279,11 +281,11 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     }
 //    currentTrackedUN()->setMaxCountStatusConnectRequesterWaitAnswer(maxBeatCount);
 
+    currentTrackedUN()->incrementCountStatusConnectRequesterWaitAnswer();
+
     auto un = nextTrackedUN();
     setUnReciver(un); // !!! currentTrackedUN changed !!!
     setUnTarget(un);
-
-    currentTrackedUN()->incrementCountStatusConnectRequesterWaitAnswer();
 
     if(result.isValid())
         return result;
