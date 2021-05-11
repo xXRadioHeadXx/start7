@@ -16,6 +16,18 @@ MainWindowDB::MainWindowDB(QWidget *parent)
 {
     ui->setupUi(this);
 
+    QString buildPrefix = "";
+
+#ifdef QT_DEBUG
+    buildPrefix = "b";
+#else
+    buildPrefix = "r";
+#endif
+
+    QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
+    this->setWindowTitle(tr("База данных") + " - " + buildPrefix + date.toString("dd.MM.yyyy"));
+
+
     qApp->setFont(qApp->font());
 
     setBlockSignal(true);
