@@ -64,6 +64,8 @@ private:
     int countStatusConnectRequesterWaitAnswer = 0;
     int maxCountStatusConnectRequesterWaitAnswer = 400;
 
+    int publishedState = -1;
+
 private:
 
     bool editableControl = false;
@@ -190,6 +192,9 @@ public:
 
 
     void decrementCountStatusConnectRequesterWaitAnswer();
+    int getPublishedState() const;
+    void setPublishedState(int newPublishedState);
+
 protected :
     void setDefaultNeededStateWordType(int value);
 

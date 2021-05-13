@@ -564,6 +564,16 @@ void UnitNode::setDefaultNeededStateWordType(int value)
     defaultNeededStateWordType = value;
 }
 
+int UnitNode::getPublishedState() const
+{
+    return publishedState;
+}
+
+void UnitNode::setPublishedState(int newPublishedState)
+{
+    publishedState = newPublishedState;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
