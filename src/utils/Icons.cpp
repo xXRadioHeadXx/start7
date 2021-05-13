@@ -37,6 +37,10 @@ QPixmap Icons::sqr_grn_opn() { return QPixmap(":icons/square_green_open_20_20.pn
 QPixmap Icons::sqr_rd_opn() { return QPixmap(":icons/square_red_open_20_20.png"); }
 QPixmap Icons::sqr_ylw_opn() { return QPixmap(":icons/square_yellow_open_20_20.png"); }
 
+QPixmap Icons::accept_reason_measure_cv() { return QPixmap(":icons/AcceptReasonMeasure_Cv_20_20.png"); }
+QPixmap Icons::accept_reason_measure_v() { return QPixmap(":icons/AcceptReasonMeasure_v_20_20.png"); }
+QPixmap Icons::accept_reason_measure_vv() { return QPixmap(":icons/AcceptReasonMeasure_vv_20_20.png"); }
+
 Icons::Icons()
 {
 
