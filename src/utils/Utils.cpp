@@ -600,10 +600,10 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
         setCellColor( table, 7,1, cellGray);
     }
     //"Низкий ровень"
-    if(1 == un->swpRLMC().lowLevl()) {
+    if(1 == un->swpRLMC().isFault()) {
         setCellText( table, 8,1, (QObject::tr("Да<1>")));
         setCellColor( table, 8,1, cellRed);
-    } else if(0 == un->swpRLMC().lowLevl()) {
+    } else if(0 == un->swpRLMC().isFault()) {
         setCellText( table, 8,1, (QObject::tr("Нет[0]")));
         setCellColor( table, 8,1, cellGreen);
     }

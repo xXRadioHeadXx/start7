@@ -27,6 +27,7 @@ public:
     int isOpened() const;
     int isInOpened() const;
     int isWasOpened() const;
+    int isFault() const;
 };
 
 #endif // SWPRLM_H

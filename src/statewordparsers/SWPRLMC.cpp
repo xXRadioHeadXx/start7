@@ -161,7 +161,7 @@ int SWPRLMC::modeProcessing() const
     return static_cast<quint8>(getStateWord().at(3)) & static_cast<quint8>(0x03);
 }
 
-int SWPRLMC::lowLevl() const
+int SWPRLMC::isFault() const
 {
     if(getStateWord().isEmpty())
         return -1;

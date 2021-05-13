@@ -26,7 +26,7 @@ public:
     float threshold() const;
     int clockPeriod() const;
     int modeProcessing() const;
-    int lowLevl() const;
+    int isFault() const;
 };
 
 #endif // SWPRLMC_H

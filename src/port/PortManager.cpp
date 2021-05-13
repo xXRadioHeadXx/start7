@@ -1374,7 +1374,15 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
 
-                    if((1 == un->swpRLM().isOn()) &&
+                    if((1 == un->swpRLM().isFault()) &&
+                       (un->swpRLM().isFault() != previousCopyUN->swpRLM().isFault())) {
+                        //сохранение неисправность или Норма
+                        msg.setComment(QObject::tr("Неисправность"));
+                        msg.setType(12);
+                        un->setPublishedState(12);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    } else if((1 == un->swpRLM().isOn()) &&
                        (1 == un->swpRLM().isOpened() && 1 == un->swpRLM().isWasOpened()) &&
                        (previousCopyUN->swpRLM().isOpened() != un->swpRLM().isOpened() || previousCopyUN->swpRLM().isWasOpened() != un->swpRLM().isWasOpened())) {
                         //сохранение Тревога или Норма
@@ -1418,7 +1426,15 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
 
-                    if((1 == un->swpRLMC().isOn()) &&
+                    if((1 == un->swpRLMC().isFault()) &&
+                       (un->swpRLMC().isFault() != previousCopyUN->swpRLMC().isFault())) {
+                        //сохранение неисправность или Норма
+                        msg.setComment(QObject::tr("Неисправность"));
+                        msg.setType(12);
+                        un->setPublishedState(12);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    } else if((1 == un->swpRLMC().isOn()) &&
                        (1 == un->swpRLMC().isAlarm() && 1 == un->swpRLMC().isWasAlarm()) &&
                        (previousCopyUN->swpRLMC().isAlarm() != un->swpRLMC().isAlarm() || previousCopyUN->swpRLMC().isWasAlarm() != un->swpRLMC().isWasAlarm())) {
                         //сохранение Тревога или Норма

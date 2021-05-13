@@ -177,3 +177,23 @@ int SWPRLM::isWasOpened() const
     else
         return 0; //Status::Not;
 }
+
+int SWPRLM::isFault() const
+{
+    if(1 == isOn() &&
+       0 == isOutAlarm() &&
+       1 == isInAlarm() &&
+       1 == isWasAlarm() &&
+       0 == isWasDK() &&
+       0 == isWasOpened()) {
+        return 1;
+    } else if (-1 == isOn() ||
+               -1 == isOutAlarm() ||
+               -1 == isInAlarm() ||
+               -1 == isWasAlarm() ||
+               -1 == isWasDK() ||
+               -1 == isWasOpened()) {
+        return -1;
+    }
+    return 0;
+}
