@@ -16,7 +16,7 @@ void ShedulerNewDuty::regularRun() const
     JourEntity msg;
     msg.setObject(tr("Оператор"));
     msg.setType(902);
-    msg.setComment(tr("Начата новая смена"));
+    msg.setComment(tr("Начата новая смена (Авто)"));
     msg.setType(902);
     msg.setFlag(0);
 
