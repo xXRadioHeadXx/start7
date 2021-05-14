@@ -976,7 +976,7 @@ void MainWindowServer::on_actionReduce_triggered()
 
 bool MainWindowServer::checkNecessarilyReadonMeasureFill() {
     if(0 != ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt() || 0 != ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt()) {
-        QString sql = " select * from jour where flag != 0 and type in (901,902, 20,21,22,23.25,905,1007, 200,10, 904, 12,13,17,18, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007,1133,1136,1137,1902, 11,13 ) ";
+        QString sql = " select * from jour where flag != 0 and type in (901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007,1133,1136,1137,1902, 11,13 ) ";
         QList<JourEntity> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
 
         if(tmpLs.size()) {

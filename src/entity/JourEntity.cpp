@@ -102,6 +102,11 @@ int JourEntity::getType() const
 void JourEntity::setType(int value)
 {
     type = value;
+    QSet<int> setType = {901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007,1133,1136,1137,1902, 11,13};
+    if(setType.contains(value))
+        flag = 1;
+    else
+        flag = 0;
 }
 
 int JourEntity::getObjecttype() const

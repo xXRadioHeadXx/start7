@@ -4,6 +4,7 @@
 #include <Operator.h>
 #include <QTextCodec>
 #include <SimpleIni.h>
+#include <ServerSettingUtils.h>
 
 qint64 DataBaseManager::idStartLastDuty = -1;
 
@@ -257,16 +258,31 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     return 0;
 }
 
-int DataBaseManager::updateJourMsg_wS(const JourEntity &msg) {
+int DataBaseManager::updateJourMsg_wS(JourEntity &msg) {
     int lastUpdateId = updateJourMsg(msg);
+
     if(0 != lastUpdateId)
         SignalSlotCommutator::getInstance()->emitUpdJourMSG(lastUpdateId);
 //        emit this->updateMSG(lastUpdateId);
     return lastUpdateId;
 }
 
-int DataBaseManager::updateJourMsg(const JourEntity &msg)
+int DataBaseManager::updateJourMsg(JourEntity &msg)
 {
+    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
+    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+
+    if(1 == msg.getFlag()) {
+        if(0 != needReason && 0 != needMeasure && !msg.getReason().isEmpty() && !msg.getMeasures().isEmpty()) {
+            msg.setFlag(0);
+        } else if(0 != needReason && 0 == needMeasure && !msg.getReason().isEmpty()) {
+            msg.setFlag(0);
+        } else if(0 == needReason && 0 != needMeasure && !msg.getMeasures().isEmpty()) {
+            msg.setFlag(0);
+        } else if(0 == needReason && 0 == needMeasure && (!msg.getReason().isEmpty() || !msg.getMeasures().isEmpty())) {
+            msg.setFlag(0);
+        }
+    }
 
     QString sql;
     sql =  " UPDATE public.jour \
