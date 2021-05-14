@@ -257,7 +257,7 @@
                   <x>0</x>
                   <y>0</y>
                   <width>250</width>
-                  <height>120</height>
+                  <height>108</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_9">
@@ -370,8 +370,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>303</width>
-                  <height>290</height>
+                  <width>229</width>
+                  <height>243</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_12">
@@ -585,8 +585,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>330</width>
-                  <height>630</height>
+                  <width>249</width>
+                  <height>606</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_13">
@@ -1144,8 +1144,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>534</width>
-                  <height>235</height>
+                  <width>495</width>
+                  <height>226</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_14">
@@ -1350,7 +1350,7 @@
          <item>
           <widget class="QGroupBox" name="groupBox_ReasonMeasures">
            <property name="title">
-            <string>Причины и принятые меры</string>
+            <string/>
            </property>
            <layout class="QGridLayout" name="gridLayout">
             <property name="leftMargin">
@@ -1400,6 +1400,16 @@
               <property name="text">
                <string>...</string>
               </property>
+              <property name="icon">
+               <iconset resource="resource.qrc">
+                <normaloff>:/icons/AcceptReasonMeasure_vv_20_20.png</normaloff>:/icons/AcceptReasonMeasure_vv_20_20.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
              </widget>
             </item>
             <item row="1" column="2">
@@ -1416,6 +1426,16 @@
              <widget class="QToolButton" name="toolButtonTakenMeasures">
               <property name="text">
                <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resource.qrc">
+                <normaloff>:/icons/AcceptReasonMeasure_vv_20_20.png</normaloff>:/icons/AcceptReasonMeasure_vv_20_20.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
               </property>
              </widget>
             </item>
@@ -1488,7 +1508,7 @@
      <x>0</x>
      <y>0</y>
      <width>998</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="defaultUp">

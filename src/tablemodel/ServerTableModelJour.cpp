@@ -4,6 +4,7 @@
 #include <DataBaseManager.h>
 #include <SignalSlotCommutator.h>
 #include <Icons.h>
+#include <ServerSettingUtils.h>
 
 QList<JourEntity> ServerTableModelJour::m_listJour = QList<JourEntity>();
 
@@ -107,6 +108,9 @@ int ServerTableModelJour::rowCount(const QModelIndex &index) const
 // устанавливаем количество столбцов.
 int ServerTableModelJour::columnCount(const QModelIndex &index) const
 {
+#ifdef QT_DEBUG
+    return 9;
+#endif
     if(index.isValid())
     {
         return 7;
@@ -121,13 +125,6 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
     QVariant result;
 
 
-    // закрасим строчку по io признаку
-    if (role == Qt::BackgroundRole)
-    {
-        QColor resultColor(Qt::white);
-        result = resultColor;
-        return result;
-    }
 
     int row(index.row());
     if(row + 1 > m_listJour.size())
@@ -135,6 +132,27 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
         return result;
     }
     const JourEntity msgRecord = m_listJour.at(row);
+
+    // закрасим строчку по io признаку
+    if (role == Qt::BackgroundRole && (4 == index.column() || 5 == index.column()))
+    {
+        QColor resultColor(Qt::white);
+
+        int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
+        int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+        if(0 != needReason || 0 != needMeasure) {
+            QSet<int> setType = {901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007,1133,1136,1137,1902, 11,13};
+
+            if(0 != needReason && 4 == index.column() && 1 == msgRecord.getFlag() && setType.contains(msgRecord.getType())) {
+                resultColor.setRgb(0xF0E68C);
+            } else if (0 != needMeasure && 5 == index.column() && 1 == msgRecord.getFlag() && setType.contains(msgRecord.getType())) {
+                resultColor.setRgb(0xF0E68C);
+            }
+        }
+
+        result = resultColor;
+        return result;
+    }
 
     if(Qt::FontRole == role) {
         QFont font = getFont();
@@ -176,7 +194,17 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
     if ((role == Qt::DisplayRole || role == Qt::EditRole))
     {
         // устанавливаем соответствие между номером столбца и полем записи
-        return msgRecord.data(index.column());
+        #ifdef QT_DEBUG
+            if(7 == index.column()) {
+                return msgRecord.getFlag();
+            } else if(8 == index.column()) {
+                return msgRecord.getType();
+            } else {
+                return msgRecord.data(index.column());
+            }
+        #else
+            return msgRecord.data(index.column());
+        #endif
     }
 
     return result;

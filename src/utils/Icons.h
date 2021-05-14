@@ -50,6 +50,10 @@ public:
     static QPixmap sqr_rd_opn();
     static QPixmap sqr_ylw_opn();
 
+    static QPixmap accept_reason_measure_cv();
+    static QPixmap accept_reason_measure_v();
+    static QPixmap accept_reason_measure_vv();
+
 
 
 };
