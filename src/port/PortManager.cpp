@@ -2189,6 +2189,7 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
             msg.setD3(un->getNum3());
             msg.setDirection(un->getUdpAdress());
             msg.setComment(tr("Нет связи"));
+            un->setPublishedState(-1);
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
         }
