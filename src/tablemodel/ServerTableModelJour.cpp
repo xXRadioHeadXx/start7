@@ -143,9 +143,9 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
         if(0 != needReason || 0 != needMeasure) {
             QSet<int> setType = {901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007,1133,1136,1137,1902, 11,13};
 
-            if(0 != needReason && 4 == index.column() && 1 == msgRecord.getFlag() && setType.contains(msgRecord.getType())) {
+            if(0 != needReason && 4 == index.column() && 1 == msgRecord.getFlag() && setType.contains(msgRecord.getType()) && msgRecord.data(index.column()).toString().isEmpty()) {
                 resultColor.setRgb(0xF0E68C);
-            } else if (0 != needMeasure && 5 == index.column() && 1 == msgRecord.getFlag() && setType.contains(msgRecord.getType())) {
+            } else if (0 != needMeasure && 5 == index.column() && 1 == msgRecord.getFlag() && setType.contains(msgRecord.getType()) && msgRecord.data(index.column()).toString().isEmpty()) {
                 resultColor.setRgb(0xF0E68C);
             }
         }

@@ -382,27 +382,16 @@ QSharedPointer<UnitNode> ServerSettingUtils::getMetaRealUnitNodes(UnitNode* targ
     return QSharedPointer<UnitNode>();
 }
 
-QVariant ServerSettingUtils::getValueSettings(const QString key, const QString group, const QString fileName)
-{
-    QVariant result;
+QVariant ServerSettingUtils::getValueSettings(const QString key, const QString group, const QString fileName) {
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
 
-    QSettings settings(fileName, QSettings::IniFormat);
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
+    CSimpleIniA ini;
+    ini.LoadFile(fileName.toStdString().c_str());
 
-    if(!settings.childGroups().contains(group))
-        return result;
-
-    settings.beginGroup(group);
-    if(!settings.childKeys().contains(key))
-        return result;
-    result = settings.value( key, -1 );
-    settings.endGroup();
-
-    return result;
+    if(0 != ini.GetSection(group.toStdString().c_str())) {
+        return codec->toUnicode(ini.GetValue(group.toStdString().c_str(), key.toStdString().c_str()));
+    }
+    return QVariant();
 }
 
 bool ServerSettingUtils::loadTreeUnitNodes(UnitNode*/*root*/, UnitNode*/*unit*/)
