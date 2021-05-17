@@ -1185,10 +1185,10 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             un->setPublishedState(112);
                         }
 
-                        if(msg.getType() != un->getPublishedState()) {
+//                        if(msg.getType() != un->getPublishedState()) {
                             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                        }
+//                        }
                     }
 
                 } else if(un->getControl()) {
