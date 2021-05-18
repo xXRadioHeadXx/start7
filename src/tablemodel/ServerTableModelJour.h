@@ -64,6 +64,9 @@ signals:
     void needScrollToBottom();
     void selectedMsg(QList<JourEntity> listUN);
     void selectedMsg(JourEntity msg);
+    void dataChangedReason(JourEntity msg);
+    void dataChangedMeasures(JourEntity msg);
+
 
 public slots:
     //обновление выборки

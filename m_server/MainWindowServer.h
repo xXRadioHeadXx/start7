@@ -123,6 +123,8 @@ private slots:
 
     void initLabelOperator();
 
+    void updateLabelCount();
+
 protected:
     void closeEvent(QCloseEvent * event);
 

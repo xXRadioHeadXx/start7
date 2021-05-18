@@ -214,6 +214,44 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     }
 
     connect(ui->comboBox_PointInput, SIGNAL(currentIndexChanged(int)), this, SLOT(fillPageTGAtPointInput(int)));
+
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(insNewJourMSG(const quint32)),
+            this,
+            SLOT(updateLabelCount()));
+
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(insNewJourMSG()),
+            this,
+            SLOT(updateLabelCount()));
+
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(updJourMSG(const quint32)),
+            this,
+            SLOT(updateLabelCount()));
+
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(updJourMSG()),
+            this,
+            SLOT(updateLabelCount()));
+
+    connect(SignalSlotCommutator::getInstance(),
+            SIGNAL(updAllJourMSG()),
+            this,
+            SLOT(updateLabelCount()));
+
+    connect(modelJour.data(),
+            SIGNAL(dataChangedReason(JourEntity)),
+            this,
+            SLOT(updateLabelCount()));
+
+    connect(modelJour.data(),
+            SIGNAL(dataChangedMeasures(JourEntity)),
+            this,
+            SLOT(updateLabelCount()));
+
+
+    updateLabelCount();
 }
 
 MainWindowServer::~MainWindowServer()
@@ -896,6 +934,54 @@ void MainWindowServer::initLabelOperator()
         ui->labelOperator->setVisible(true);
         ui->labelOperator->setText(tr("Оператор") + ": " + Operator::getApprovedOperator().getOperatorLableText());
     }
+}
+
+void MainWindowServer::updateLabelCount()
+{
+    if(modelJour.isNull())
+        return;
+
+    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
+    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+    if(0 != needReason || 0 != needMeasure) {
+
+        int countReason = 0;
+        int countMeasure = 0;
+
+        auto listJour = modelJour->getListJour();
+        QSet<int> setType = {901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007,1133,1136,1137,1902, 11,13};
+        for(auto ji : as_const(listJour)) {
+            if(0 != needReason && 1 == ji.getFlag() && setType.contains(ji.getType()) && ji.data(4).toString().isEmpty()) {
+                countReason++;
+            }
+            if (0 != needMeasure && 1 == ji.getFlag() && setType.contains(ji.getType()) && ji.data(5).toString().isEmpty()) {
+                countMeasure++;
+            }
+        }
+
+        if (0 != needReason) {
+            ui->labelCountReason->setText(QString::number(countReason));
+            ui->labelCountReason->setVisible(true);
+        } else {
+            ui->labelCountReason->setText("");
+            ui->labelCountReason->setVisible(false);
+        }
+
+        if (0 != needMeasure) {
+            ui->labelCountTakenMeasures->setText(QString::number(countMeasure));
+            ui->labelCountTakenMeasures->setVisible(true);
+        } else {
+            ui->labelCountTakenMeasures->setText("");
+            ui->labelCountTakenMeasures->setVisible(false);
+        }
+
+    } else {
+        ui->labelCountReason->setText("");
+        ui->labelCountTakenMeasures->setText("");
+        ui->labelCountReason->setVisible(false);
+        ui->labelCountTakenMeasures->setVisible(false);
+    }
+
 }
 
 void MainWindowServer::on_actionTest_triggered()

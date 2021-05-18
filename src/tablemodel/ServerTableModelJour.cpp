@@ -225,6 +225,12 @@ bool ServerTableModelJour::setData(const QModelIndex &index, const QVariant &val
 
         DataBaseManager::updateJourMsg(m_listJour[index.row()]);
         emit dataChanged(index, index, QVector<int>() << Qt::DisplayRole << Qt::EditRole);
+
+        if (index.column() == 4)
+                emit dataChangedReason(m_listJour.at(index.row()));
+        else if (index.column() == 5)
+                emit dataChangedMeasures(m_listJour.at(index.row()));
+
         return true;
     }
     return false;
