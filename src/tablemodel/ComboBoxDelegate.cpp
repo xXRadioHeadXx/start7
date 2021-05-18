@@ -1,8 +1,8 @@
 #include "ComboBoxDelegate.h"
 
-#include <DataBaseManager.h>
 #include <JourEntity.h>
 #include <QComboBox>
+#include <ServerSettingUtils.h>
 #include <ServerTableModelJour.h>
 
 ComboBoxDelegate::ComboBoxDelegate(QString field, QObject *parent) : QItemDelegate(parent), field(field) { }
@@ -16,9 +16,9 @@ QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
     QList<QString> items;
 
     if("reason" == field)
-        items = DataBaseManager::getReasonGroup();
+        items = ServerSettingUtils::getReasonTemplate();
     else if("measures" == field)
-        items = DataBaseManager::getMeasuresGroup();
+        items = ServerSettingUtils::getMeasureTemplate();
 
     int currentIndex = 0;
 

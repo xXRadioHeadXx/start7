@@ -5,6 +5,7 @@
 
 class QSettings;
 class UnitNode;
+class QStringList;
 class ServerSettingUtils
 {
 private:
@@ -24,6 +25,15 @@ public:
     static QVariant getValueSettings(const QString key, const QString group, const QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
     static bool loadTreeUnitNodes(UnitNode* root, UnitNode*unit);
+
+    static QSet<int>  priorityJoutTyper;
+
+    static QStringList reasonTemplate;
+    static QStringList measureTemplate;
+
+    static const QStringList &getReasonTemplate();
+    static const QStringList &getMeasureTemplate();
+    static const QSet<int> &getPriorityJoutTyper();
 };
 
 #endif // SERVERSETTINGUTILS_H

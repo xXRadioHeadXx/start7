@@ -8,6 +8,8 @@
 #include <QTextCodec>
 #include <TreeItem.h>
 #include <SimpleIni.h>
+#include <QStringList>
+#include <QFile>
 
 ServerSettingUtils::ServerSettingUtils()
 {
@@ -399,3 +401,59 @@ bool ServerSettingUtils::loadTreeUnitNodes(UnitNode*/*root*/, UnitNode*/*unit*/)
 //    //qDebug()<<"SettingUtils::loadTreeUnitNodes";
     return true;
 }
+
+QSet<int>  ServerSettingUtils::priorityJoutTyper = {901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 110,111,112,113, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007,1133,1136,1137,1902, 11,13};
+
+const QSet<int> &ServerSettingUtils::getPriorityJoutTyper()
+{
+    return priorityJoutTyper;
+}
+
+QStringList ServerSettingUtils::reasonTemplate([](){
+    QString nameFile("comment.lst");
+    if(!QFile::exists(nameFile))//(QCoreApplication::applicationDirPath() + "/" + nameFile))
+        return QStringList();
+
+    QFile file(nameFile);//(QCoreApplication::applicationDirPath() + "/" + nameFile);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return QStringList();
+
+    QStringList result;
+
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    while (!file.atEnd()) {
+        result.append(codec->toUnicode(file.readLine()).remove(QChar(0x0B)).remove(QChar(0x0A)));
+    }
+
+    return result;
+}());
+
+QStringList ServerSettingUtils::measureTemplate([](){
+    QString nameFile("comment2.lst");
+    if(!QFile::exists(nameFile))//QCoreApplication::applicationDirPath() + "/" + nameFile))
+        return QStringList();
+
+    QFile file(nameFile);//(QCoreApplication::applicationDirPath() + "/" + nameFile);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return QStringList();
+
+    QStringList result;
+
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+    while (!file.atEnd()) {
+        result.append(codec->toUnicode(file.readLine()).remove(QChar(0x0B)).remove(QChar(0x0A)));
+    }
+
+    return result;
+}());
+
+const QStringList &ServerSettingUtils::getMeasureTemplate()
+{
+    return measureTemplate;
+}
+
+const QStringList &ServerSettingUtils::getReasonTemplate()
+{
+    return reasonTemplate;
+}
+
