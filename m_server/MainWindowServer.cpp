@@ -502,13 +502,11 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 {
 
     for(auto j : as_const(listSelMsg)) {
-        j.setMeasures(ui->comboBoxReason->currentText());
+        j.setMeasures(ui->comboBoxTakenMeasures->currentText());
         DataBaseManager::updateJourMsg_wS(j);
-
     }
 
-    updComboBoxReason();
-
+    updComboBoxTakenMeasures();
 }
 
 //QTranslator *MainWindowServer::getRuTranslator() const
