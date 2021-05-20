@@ -225,9 +225,9 @@ bool ServerTableModelJour::setData(const QModelIndex &index, const QVariant &val
         emit dataChanged(index, index, QVector<int>() << Qt::DisplayRole << Qt::EditRole);
 
         if (index.column() == 4)
-                emit dataChangedReason(m_listJour.at(index.row()));
+                emit dataChangedReason(indexToJour(index));
         else if (index.column() == 5)
-                emit dataChangedMeasures(m_listJour.at(index.row()));
+                emit dataChangedMeasures(indexToJour(index));
 
         return true;
     }
@@ -403,18 +403,42 @@ void ServerTableModelJour::updateListRecordsMSG()
     this->endResetModel();
 }
 
-JourEntity ServerTableModelJour::clickedMsg(const QModelIndex &index)
-{
+QList<JourEntity> ServerTableModelJour::listIndexsToListJours(const QModelIndexList &listIndex) const {
+    QList<JourEntity> list;
+    for(const auto index : listIndex) {
+        list.append(indexToJour(index));
+    }
+
+    return list;
+}
+
+JourEntity ServerTableModelJour::indexToJour(const QModelIndex &index) const {
     if (!index.isValid())
         return nullptr;
 
     const JourEntity item = m_listJour.at(index.row());
 
-//    JourEntity item = static_cast<JourEntity>(index.internalPointer());
-    if(0 != item.getId())
+    return item;
+}
+
+
+JourEntity ServerTableModelJour::clickedMsg(const QModelIndex &index)
+{
+    if (!index.isValid())
+        return JourEntity();
+
+    const JourEntity item = indexToJour(index);
+
+    selectOnedMsg(item);
+
+    return item;
+}
+
+JourEntity ServerTableModelJour::selectOnedMsg(const JourEntity &msg)
+{
+    if(0 != msg.getId())
     {
-        emit selectedMsg(item);
-        return item;
+        emit selectedMsg(msg);
     }
-    return nullptr;
+    return msg;
 }

@@ -60,6 +60,8 @@ public:
 
     bool getNeedScroll() const;
 
+    JourEntity indexToJour(const QModelIndex &index) const;
+    QList<JourEntity> listIndexsToListJours(const QModelIndexList &listIndex) const;
 signals:
     void needScrollToBottom();
     void selectedMsg(QList<JourEntity> listUN);
@@ -79,6 +81,7 @@ public slots:
     void emitNeedScrollToBottom();
     void needResetModel();
     JourEntity clickedMsg(const QModelIndex &index);
+    JourEntity selectOnedMsg(const JourEntity &msg);
 
 };
 

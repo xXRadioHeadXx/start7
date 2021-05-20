@@ -252,6 +252,12 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
 
     updateLabelCount();
+
+    connect(
+      ui->tableView->selectionModel(),
+      SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+      SLOT(on_tableView_selectionChanged(const QItemSelection &, const QItemSelection &))
+     );
 }
 
 MainWindowServer::~MainWindowServer()
@@ -414,53 +420,95 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
 }
 
-void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
-{
-    JourEntity sel = this->modelJour->clickedMsg(index);
+void MainWindowServer::on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
+    QModelIndexList selectedRows = ui->tableView->selectionModel()->selectedRows();
 
-    if(0 == sel.getId()) {
-        ui->comboBoxReason->setCurrentIndex(-1);
-        ui->comboBoxTakenMeasures->setCurrentIndex(-1);
+    auto listJour = modelJour->listIndexsToListJours(selectedRows);
+
+    if(1 == listJour.size()) {
+        selMsg = listJour.first();
+        listSelMsg = listJour;
+
+        modelJour->selectOnedMsg(selMsg);
+
+        if(selMsg.getReason().isEmpty() ) {
+            ui->comboBoxReason->setCurrentIndex(-1);
+        } else {
+            ui->comboBoxReason->setEditText(selMsg.getReason());
+        }
+
+        if(selMsg.getMeasures().isEmpty()) {
+            ui->comboBoxTakenMeasures->setCurrentIndex(-1);
+        } else {
+            ui->comboBoxTakenMeasures->setEditText(selMsg.getMeasures());
+        }
+
+        GraphTerminal::sendAbonentEventBook(selMsg);
+
         return;
-    }
 
-    selMsg = sel;
-
-    if(sel.getReason().isEmpty() ) {
-        ui->comboBoxReason->setCurrentIndex(-1);
+    } else if(1 < listJour.size()) {
+        selMsg = JourEntity();
+        listSelMsg = listJour;
     } else {
-        ui->comboBoxReason->setEditText(sel.getReason());
+        selMsg = JourEntity();
+        listSelMsg.clear();
     }
 
-    if(sel.getMeasures().isEmpty()) {
-        ui->comboBoxTakenMeasures->setCurrentIndex(-1);
-    } else {
-        ui->comboBoxTakenMeasures->setEditText(sel.getMeasures());
-    }
-
-    GraphTerminal::sendAbonentEventBook(sel);
+    ui->comboBoxReason->setCurrentIndex(-1);
+    ui->comboBoxTakenMeasures->setCurrentIndex(-1);
 }
+
+
+//void MainWindowServer::on_tableView_clicked(const QModelIndex &index)
+//{
+//    JourEntity sel = this->modelJour->clickedMsg(index);
+
+//    if(0 == sel.getId()) {
+//        ui->comboBoxReason->setCurrentIndex(-1);
+//        ui->comboBoxTakenMeasures->setCurrentIndex(-1);
+//        return;
+//    }
+
+//    selMsg = sel;
+
+//    if(sel.getReason().isEmpty() ) {
+//        ui->comboBoxReason->setCurrentIndex(-1);
+//    } else {
+//        ui->comboBoxReason->setEditText(sel.getReason());
+//    }
+
+//    if(sel.getMeasures().isEmpty()) {
+//        ui->comboBoxTakenMeasures->setCurrentIndex(-1);
+//    } else {
+//        ui->comboBoxTakenMeasures->setEditText(sel.getMeasures());
+//    }
+
+//    GraphTerminal::sendAbonentEventBook(sel);
+//}
 
 void MainWindowServer::on_toolButtonReason_clicked()
 {
-    if(0 == selMsg.getId()) {
-        return;
+    for(auto j : as_const(listSelMsg)) {
+        j.setReason(ui->comboBoxReason->currentText());
+        DataBaseManager::updateJourMsg_wS(j);
+
     }
 
-    selMsg.setReason(ui->comboBoxReason->currentText());
-    DataBaseManager::updateJourMsg_wS(selMsg);
     updComboBoxReason();
 }
 
 void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 {
-    if(0 == selMsg.getId()) {
-        return;
+
+    for(auto j : as_const(listSelMsg)) {
+        j.setMeasures(ui->comboBoxReason->currentText());
+        DataBaseManager::updateJourMsg_wS(j);
+
     }
 
-    selMsg.setMeasures(ui->comboBoxTakenMeasures->currentText());
-    DataBaseManager::updateJourMsg_wS(selMsg);
-    updComboBoxTakenMeasures();
+    updComboBoxReason();
+
 }
 
 //QTranslator *MainWindowServer::getRuTranslator() const

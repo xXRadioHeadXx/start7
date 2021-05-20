@@ -40,7 +40,7 @@ public slots:
 private slots:
     void on_treeView_clicked(const QModelIndex &index);
 
-    void on_tableView_clicked(const QModelIndex &index);
+//    void on_tableView_clicked(const QModelIndex &index);
 
     void on_toolButtonReason_clicked();
 
@@ -125,6 +125,7 @@ private slots:
 
     void updateLabelCount();
 
+    void on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 protected:
     void closeEvent(QCloseEvent * event);
 
@@ -142,7 +143,8 @@ private:
 
     QSharedPointer<UnitNode> selUN;
     QModelIndex selIndex;
-    JourEntity selMsg = nullptr;
+    JourEntity selMsg;
+    QList<JourEntity> listSelMsg;
 //    QTranslator *ruTranslator;
 
     QTimer quasiProgressBeat;
