@@ -48,6 +48,7 @@ QHash<QTcpSocket *, QByteArray *> TcpServer::getBuffers() const
 
 QTcpSocket * TcpServer::connectToHost(QString host)
 {
+    qDebug() << "TcpServer::connectToHost(" << "host" << ")";
     QTcpSocket * socket = new QTcpSocket;
     socket->connectToHost(host, nPort);
     connect(socket, SIGNAL(readyRead()), SLOT(readyRead()));
@@ -67,8 +68,9 @@ bool TcpServer::writeData(QTcpSocket *socket, QByteArray data)
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
 //        //qDebug() << "TcpServer::writeData(" << QString::fromLocal8Bit(data) << ")";
-        socket->write(data); //write the data itself
-        return socket->waitForBytesWritten();
+        if(-1 == socket->write(data))
+            return false;; //write the data itself
+        return socket->waitForBytesWritten(500);
     }
     else
         return false;
