@@ -24,16 +24,10 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
     connect(m_tcpServer.data(), SIGNAL(dataReceived(DataQueueItem)), this, SLOT(manageOverallReadQueue()));
 
     try {
-        QSettings settings(QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ), QSettings::IniFormat);
-    #if (defined (_WIN32) || defined (_WIN64))
-        settings.setIniCodec( "Windows-1251" );
-    #else
-        settings.setIniCodec( "UTF-8" );
-    #endif
 
-        settings.beginGroup("INTEGRATION");
-        QString nHost = settings.value( "Host", "127.0.0.1" ).toString();
-        settings.endGroup();
+        QString nHost = ServerSettingUtils::getValueSettings("Host", "INTEGRATION").toString();
+        QString nPort = ServerSettingUtils::getValueSettings("Port", "INTEGRATION").toString();
+        QString nPort2 = ServerSettingUtils::getValueSettings("Port2", "INTEGRATION").toString();
 
         m_tcpServer->writeData(nHost, "Hello!");
 
@@ -938,14 +932,8 @@ QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, Q
     bool isLockPair = false;
     QSharedPointer<UnitNode>  unLockSdBlIp = nullptr, unLockIuBlIp = nullptr;
     if(1 >= un->getNum2() && 4 >= un->getNum2()) {
-        QSharedPointer<UnitNode>  reciver = un;
-        while(nullptr != reciver) {
-            if(TypeUnitNode::BL_IP == reciver->getType()) {
-                break;
-            }
-            reciver = reciver->getParentUN();
-        }
-        if(nullptr != reciver) {
+
+        if(QSharedPointer<UnitNode>  reciver = UnitNode::findReciver(un);nullptr != reciver) {
             for(const auto& tmpUN : as_const(reciver->getListChilde())) {
                 if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
                     unLockIuBlIp = tmpUN;
