@@ -32,7 +32,7 @@ TcpServer::~TcpServer() {
 
 bool TcpServer::writeData(QString host, QByteArray data)
 {
-    for(QTcpSocket * socket : as_const(buffers.keys())) {
+    for(QTcpSocket * socket : as_const(abonents.keys())) {
         if(host == Utils::hostAddressToString(socket->peerAddress())) {
             return writeData(socket, data);
         }
@@ -41,9 +41,9 @@ bool TcpServer::writeData(QString host, QByteArray data)
     return writeData(connectToHost(host), data);
 }
 
-QHash<QTcpSocket *, QByteArray *> TcpServer::getBuffers() const
+QHash<QTcpSocket *, QByteArray *> TcpServer::getAbonents() const
 {
-    return buffers;
+    return abonents;
 }
 
 QTcpSocket * TcpServer::connectToHost(QString host)
@@ -54,7 +54,7 @@ QTcpSocket * TcpServer::connectToHost(QString host)
     connect(socket, SIGNAL(readyRead()), SLOT(readyRead()));
     connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
     QByteArray *buffer = new QByteArray();
-    buffers.insert(socket, buffer);
+    abonents.insert(socket, buffer);
     if(socket->waitForConnected())
         return socket;
     return nullptr;
@@ -78,21 +78,23 @@ bool TcpServer::writeData(QTcpSocket *socket, QByteArray data)
 
 void TcpServer::newConnection()
 {
-    while (m_ptrTcpServer->hasPendingConnections())
-    {
-        QTcpSocket *socket = m_ptrTcpServer->nextPendingConnection();
-        connect(socket, SIGNAL(readyRead()), SLOT(readyRead()));
-        connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
-        QByteArray *buffer = new QByteArray();
-        buffers.insert(socket, buffer);
-    }
+    auto server = static_cast<QTcpServer*>(sender());
+
+    auto socket = server->nextPendingConnection();
+
+    QByteArray *buffer = new QByteArray();
+    abonents.insert(socket, buffer);
+
+    connect(socket, SIGNAL(readyRead()), SLOT(readyRead()));
+    connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
+
 }
 
 void TcpServer::disconnected()
 {
     QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
-    QByteArray *buffer = buffers.value(socket);
-    buffers.remove(socket);
+    QByteArray *buffer = abonents.value(socket);
+    abonents.remove(socket);
     socket->deleteLater();
     delete buffer;
 }
@@ -100,7 +102,7 @@ void TcpServer::disconnected()
 void TcpServer::readyRead()
 {
     QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
-    QByteArray *buffer = buffers.value(socket);
+    QByteArray *buffer = abonents.value(socket);
     while (socket->bytesAvailable() > 0)
     {
 //        //qDebug() << "socket->bytesAvailable(" << socket->bytesAvailable() << ")";

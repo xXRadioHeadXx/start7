@@ -19,21 +19,23 @@ QHash<QTcpSocket*, QByteArray*> GraphTerminal::abonents = QHash<QTcpSocket*, QBy
 
 GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 {
-    m_tcpServer = QSharedPointer<TcpServer>::create(nPort, this);
-    connect(m_tcpServer.data(), SIGNAL(dataReceived(DataQueueItem)), this, SLOT(pushOverallReadQueue(DataQueueItem)));
-    connect(m_tcpServer.data(), SIGNAL(dataReceived(DataQueueItem)), this, SLOT(manageOverallReadQueue()));
-
     try {
 
+        QString sPort = ServerSettingUtils::getValueSettings("Port", "INTEGRATION").toString();
+
+        m_tcpServer = QSharedPointer<TcpServer>::create(sPort.toInt(), this);
+        connect(m_tcpServer.data(), SIGNAL(dataReceived(DataQueueItem)), this, SLOT(pushOverallReadQueue(DataQueueItem)));
+        connect(m_tcpServer.data(), SIGNAL(dataReceived(DataQueueItem)), this, SLOT(manageOverallReadQueue()));
+
+
         QString nHost = ServerSettingUtils::getValueSettings("Host", "INTEGRATION").toString();
-        QString nPort = ServerSettingUtils::getValueSettings("Port", "INTEGRATION").toString();
         QString nPort2 = ServerSettingUtils::getValueSettings("Port2", "INTEGRATION").toString();
 
-        m_tcpServer->writeData(nHost, "Hello!");
+//        m_tcpServer->writeData(nHost, "Hello!");
 
-        QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
-        for(QTcpSocket * socket : as_const(buffers.keys())) {
-            abonents.insert(socket, buffers.value(socket));
+        auto buffers = m_tcpServer->getAbonents();
+        abonents.unite(buffers);
+        for(auto socket : as_const(abonents.keys())) {
             connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
         }
 
@@ -233,7 +235,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
             } else if("10000" == idCommand.nodeValue()) {
 //                dataAnswer = makeEventsAndStates("EventsAndStates answer command 10000").toByteArray();
 
-                QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
+                QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getAbonents();
                 for(QTcpSocket * socket : as_const(buffers.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.insert(socket, buffers.value(socket));
@@ -614,7 +616,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 DataQueueItem itmAnswer = itm;
                 itmAnswer.setData(dataAnswer);
 
-                QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
+                QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getAbonents();
                 for(const auto& socket : as_const(buffers.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         QByteArray buf;
@@ -709,7 +711,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                         DataQueueItem itmAnswer = itm;
                         itmAnswer.setData(docAnswer.toByteArray());
 
-                        QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getBuffers();
+                        QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getAbonents();
                         for(const auto& socket : as_const(buffers.keys())) {
                             if(socket->peerAddress() == itm.address()) {
                                 QByteArray buf;
@@ -932,8 +934,7 @@ QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, Q
     bool isLockPair = false;
     QSharedPointer<UnitNode>  unLockSdBlIp = nullptr, unLockIuBlIp = nullptr;
     if(1 >= un->getNum2() && 4 >= un->getNum2()) {
-
-        if(QSharedPointer<UnitNode>  reciver = UnitNode::findReciver(un);nullptr != reciver) {
+        if(auto reciver = UnitNode::findReciver(un); nullptr != reciver) {
             for(const auto& tmpUN : as_const(reciver->getListChilde())) {
                 if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
                     unLockIuBlIp = tmpUN;

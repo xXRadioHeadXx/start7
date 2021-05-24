@@ -11,7 +11,7 @@ class TcpServer : public QObject
 private:
     int nPort = -1;
     QSharedPointer<QTcpServer> m_ptrTcpServer;
-    QHash<QTcpSocket*, QByteArray*> buffers; //We need a buffer to store data until block has completely received
+    QHash<QTcpSocket*, QByteArray*> abonents; //We need a buffer to store data until block has completely received
 
     QTcpSocket *connectToHost(QString host);
 
@@ -21,6 +21,8 @@ public:
 
 
     QHash<QTcpSocket *, QByteArray *> getBuffers() const;
+
+    QHash<QTcpSocket *, QByteArray *> getAbonents() const;
 
 public slots:
     bool writeData(QString host, QByteArray data);
