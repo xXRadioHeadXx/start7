@@ -109,6 +109,7 @@ int ServerTableModelJour::rowCount(const QModelIndex &index) const
 int ServerTableModelJour::columnCount(const QModelIndex &index) const
 {
 #ifdef QT_DEBUG
+    Q_UNUSED(index)
     return 9;
 #endif
     if(index.isValid())
@@ -228,7 +229,7 @@ bool ServerTableModelJour::setData(const QModelIndex &index, const QVariant &val
                 emit dataChangedReason(indexToJour(index));
         else if (index.column() == 5)
                 emit dataChangedMeasures(indexToJour(index));
-
+        emit recalcSelectedMsg();
         return true;
     }
     return false;
@@ -375,7 +376,12 @@ void ServerTableModelJour::updateRecord(const quint32 idMSG)
         JourEntity target = m_listJour.at(i);
         if(target.getId() == updRecord.first().getId()) {
             m_listJour[i] = updRecord.first();
+#ifdef QT_DEBUG
+            emit this->dataChanged(this->index(i, 0, QModelIndex()), this->index(i, 8, QModelIndex()));
+#else
             emit this->dataChanged(this->index(i, 0, QModelIndex()), this->index(i, 6, QModelIndex()));
+#endif
+
             break;
         }
     }

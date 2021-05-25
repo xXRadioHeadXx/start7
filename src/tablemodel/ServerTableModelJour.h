@@ -68,6 +68,8 @@ signals:
     void selectedMsg(JourEntity msg);
     void dataChangedReason(JourEntity msg);
     void dataChangedMeasures(JourEntity msg);
+    void recalcSelectedMsg();
+
 
 
 public slots:

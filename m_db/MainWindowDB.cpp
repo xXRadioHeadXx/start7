@@ -298,7 +298,7 @@ QString MainWindowDB::createDateFilter() {
 }
 
 QString MainWindowDB::createCompositFilter() {
-    QString sqlFlt = "SELECT * FROM jour ";
+    QString sqlFlt = "SELECT * FROM public.jour ";
 
     if(0 == ui->comboBox->currentIndex()) {
         sqlFlt += " WHERE type = 902 ORDER BY id ";
@@ -493,7 +493,7 @@ void MainWindowDB::on_tableView_doubleClicked(const QModelIndex &index)
 
     setBlockSignal(true);
 
-    QString sqlFlt = "SELECT * FROM jour WHERE id >= %1";
+    QString sqlFlt = "SELECT * FROM public.jour WHERE id >= %1";
 
     sqlFlt = sqlFlt.arg(selMsg.getId());
 
@@ -514,7 +514,7 @@ void MainWindowDB::on_tableView_doubleClicked(const QModelIndex &index)
             sqlFlt = sqlFlt.arg(nextMsg.getId());
         } else {
             ui->comboBox->setCurrentIndex(0);
-            sqlFlt = " SELECT * FROM jour WHERE type = 902 ";
+            sqlFlt = " SELECT * FROM public.jour WHERE type = 902 ";
         }
     }
 

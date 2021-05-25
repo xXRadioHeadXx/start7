@@ -257,7 +257,23 @@ MainWindowServer::MainWindowServer(QWidget *parent)
       ui->tableView->selectionModel(),
       SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
       SLOT(on_tableView_selectionChanged(const QItemSelection &, const QItemSelection &))
+     );    
+    connect(
+      modelJour.data(),
+      SIGNAL(recalcSelectedMsg()),
+      SLOT(on_tableView_selectionChanged())
      );
+//    connect(
+//      SignalSlotCommutator::getInstance(),
+//      SIGNAL(updJourMSG(const quint32)),
+//      SLOT(on_tableView_selectionChanged())
+//     );
+//    connect(
+//      SignalSlotCommutator::getInstance(),
+//      SIGNAL(updJourMSG()),
+//      SLOT(on_tableView_selectionChanged())
+//     );
+
 }
 
 MainWindowServer::~MainWindowServer()
@@ -421,6 +437,17 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 }
 
 void MainWindowServer::on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
+    Q_UNUSED(selected)
+    Q_UNUSED(deselected)
+    on_tableView_selectionChanged();
+}
+
+void MainWindowServer::on_tableView_selectionChanged()
+{
+    qDebug() << "MainWindowServer::on_tableView_selectionChanged() -->";
+    selMsg = JourEntity();
+    listSelMsg.clear();
+
     QModelIndexList selectedRows = ui->tableView->selectionModel()->selectedRows();
 
     auto listJour = modelJour->listIndexsToListJours(selectedRows);
@@ -431,32 +458,39 @@ void MainWindowServer::on_tableView_selectionChanged(const QItemSelection &selec
 
         modelJour->selectOnedMsg(selMsg);
 
-        if(selMsg.getReason().isEmpty() ) {
-            ui->comboBoxReason->setCurrentIndex(-1);
-        } else {
+//        if(selMsg.getReason().isEmpty() ) {
+//            ui->comboBoxReason->setCurrentIndex(-1);
+//        } else {
+        ui->comboBoxReason->setCurrentIndex(-1);
+        ui->comboBoxReason->setEditable(true);
             ui->comboBoxReason->setEditText(selMsg.getReason());
-        }
+//        }
 
-        if(selMsg.getMeasures().isEmpty()) {
+//        if(selMsg.getMeasures().isEmpty()) {
+//            ui->comboBoxTakenMeasures->setCurrentIndex(-1);
+//        } else {
             ui->comboBoxTakenMeasures->setCurrentIndex(-1);
-        } else {
+            ui->comboBoxTakenMeasures->setEditable(true);
             ui->comboBoxTakenMeasures->setEditText(selMsg.getMeasures());
-        }
+//        }
 
         GraphTerminal::sendAbonentEventBook(selMsg);
-
+        qDebug() << "MainWindowServer::on_tableView_selectionChanged() <--";
         return;
 
     } else if(1 < listJour.size()) {
         selMsg = JourEntity();
         listSelMsg = listJour;
+        ui->comboBoxReason->setEditText("");
+        ui->comboBoxTakenMeasures->setEditText("");
     } else {
         selMsg = JourEntity();
         listSelMsg.clear();
+        ui->comboBoxReason->setEditText("");
+        ui->comboBoxTakenMeasures->setEditText("");
     }
+    qDebug() << "MainWindowServer::on_tableView_selectionChanged() <--";
 
-    ui->comboBoxReason->setCurrentIndex(-1);
-    ui->comboBoxTakenMeasures->setCurrentIndex(-1);
 }
 
 
@@ -489,24 +523,30 @@ void MainWindowServer::on_tableView_selectionChanged(const QItemSelection &selec
 
 void MainWindowServer::on_toolButtonReason_clicked()
 {
-    for(auto j : as_const(listSelMsg)) {
-        j.setReason(ui->comboBoxReason->currentText());
-        DataBaseManager::updateJourMsg_wS(j);
-
+    QSet<int> setId;
+    for(const auto &j : as_const(listSelMsg)) {
+        setId.insert(j.getId());
     }
-
-    updComboBoxReason();
+    DataBaseManager::updateJourMsgFieldById("reason", ui->comboBoxReason->currentText(), setId);
+    for(const auto &id : as_const(setId)) {
+        SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
+    }
+    on_tableView_selectionChanged();
+//    updComboBoxReason();
 }
 
 void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 {
-
-    for(auto j : as_const(listSelMsg)) {
-        j.setMeasures(ui->comboBoxTakenMeasures->currentText());
-        DataBaseManager::updateJourMsg_wS(j);
+    QSet<int> setId;
+    for(const auto &j : as_const(listSelMsg)) {
+        setId.insert(j.getId());
     }
-
-    updComboBoxTakenMeasures();
+    DataBaseManager::updateJourMsgFieldById("measures", ui->comboBoxTakenMeasures->currentText(), setId);
+    for(const auto &id : as_const(setId)) {
+        SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
+    }
+    on_tableView_selectionChanged();
+//    updComboBoxTakenMeasures();
 }
 
 //QTranslator *MainWindowServer::getRuTranslator() const

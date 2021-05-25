@@ -12,6 +12,75 @@ QSqlDatabase DataBaseManager::db = QSqlDatabase();
 
 QSharedPointer<ShedulerNewDuty> DataBaseManager::shedulerNewDuty;
 
+QStringList DataBaseManager::fields = {
+//    "id",
+    "cdate",
+    "mdate",
+    "objectid",
+    "object",
+    "comment",
+    "reason",
+    "measures",
+    "operator",
+    "operatorid",
+    "status",
+    "direction",
+    "type",
+    "flag",
+    "d1",
+    "d2",
+    "d3",
+    "d4",
+    "objecttype"};
+
+uint constexpr qConstHash(const char *string)
+{
+    uint h = 0;
+
+    while (*string != 0)
+    {
+        h = (h << 4) + *string++;
+        h ^= (h & 0xf0000000) >> 23;
+        h &= 0x0fffffff;
+    }
+    return h;
+}
+
+QMetaType::Type DataBaseManager::fieldType(QString field) {
+
+    switch (qHash(field)) {
+    case qConstHash("id") :
+    case qConstHash("objectid") :
+    case qConstHash("type") :
+    case qConstHash("flag") :
+    case qConstHash("d1") :
+    case qConstHash("d2") :
+    case qConstHash("d3") :
+    case qConstHash("d4") :
+    case qConstHash("objecttype") : {
+        return QMetaType::Int;
+    }
+    case qConstHash("object") :
+    case qConstHash("comment") :
+    case qConstHash("reason") :
+    case qConstHash("measures") :
+    case qConstHash("operator") :
+    case qConstHash("operatorid") :
+    case qConstHash("status") :
+    case qConstHash("direction") : {
+        return QMetaType::QString;
+    }
+    case qConstHash("cdate") :
+    case qConstHash("mdate") : {
+        return QMetaType::QDateTime;
+    }
+    default : {
+        return QMetaType::UnknownType;
+    }
+    }
+    return QMetaType::UnknownType;
+
+}
 
 QString DataBaseManager::HostName = QString();
 QString DataBaseManager::DatabaseName = QString();
@@ -31,7 +100,7 @@ void DataBaseManager::setIdStartLastDuty(qint64 value)
 
 void DataBaseManager::setIdStartLastDuty()
 {
-    QList<JourEntity> newRecords(DataBaseManager::getQueryMSGRecord("SELECT j1.* FROM jour j1 WHERE j1.id in (SELECT max(j2.id) FROM jour j2 WHERE j2.type = 902)"));
+    QList<JourEntity> newRecords(DataBaseManager::getQueryMSGRecord("SELECT j1.* FROM public.jour j1 WHERE j1.id in (SELECT max(j2.id) FROM public.jour j2 WHERE j2.type = 902)"));
 
     if(newRecords.isEmpty())
         setIdStartLastDuty(-1);
@@ -269,20 +338,20 @@ int DataBaseManager::updateJourMsg_wS(JourEntity &msg) {
 
 int DataBaseManager::updateJourMsg(JourEntity &msg)
 {
-    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
-    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+//    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
+//    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
 
-    if(1 == msg.getFlag()) {
-        if(0 != needReason && 0 != needMeasure && !msg.getReason().isEmpty() && !msg.getMeasures().isEmpty()) {
-            msg.setFlag(0);
-        } else if(0 != needReason && 0 == needMeasure && !msg.getReason().isEmpty()) {
-            msg.setFlag(0);
-        } else if(0 == needReason && 0 != needMeasure && !msg.getMeasures().isEmpty()) {
-            msg.setFlag(0);
-        } else if(0 == needReason && 0 == needMeasure && (!msg.getReason().isEmpty() || !msg.getMeasures().isEmpty())) {
-            msg.setFlag(0);
-        }
-    }
+//    if(1 == msg.getFlag()) {
+//        if(0 != needReason && 0 != needMeasure && !msg.getReason().isEmpty() && !msg.getMeasures().isEmpty()) {
+//            msg.setFlag(0);
+//        } else if(0 != needReason && 0 == needMeasure && !msg.getReason().isEmpty()) {
+//            msg.setFlag(0);
+//        } else if(0 == needReason && 0 != needMeasure && !msg.getMeasures().isEmpty()) {
+//            msg.setFlag(0);
+//        } else if(0 == needReason && 0 == needMeasure && (!msg.getReason().isEmpty() || !msg.getMeasures().isEmpty())) {
+//            msg.setFlag(0);
+//        }
+//    }
 
     QString sql;
     sql =  " UPDATE public.jour \
@@ -340,6 +409,75 @@ int DataBaseManager::updateJourMsg(JourEntity &msg)
         qDebug() << query.boundValues();
         return 0;
     }
+}
+
+int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant value, const QSet<int> setId)
+{
+    if(!fields.contains(field) || value.isNull() || setId.isEmpty())
+        return 0;
+
+    QString sql;
+
+    switch(fieldType(field)) {
+    case QMetaType::QDateTime: {
+        sql =  " UPDATE public.jour \
+                 SET %1=to_timestamp(:value, 'YYYY-MM-DD HH24:MI:SS.MS'), \
+                     mdate = to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS') \
+                 WHERE id in %2";
+
+        break;
+    }
+    default : {
+        sql =  " UPDATE public.jour \
+                 SET %1=:value, \
+                     mdate = to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS') \
+                 WHERE id in %2 ";
+        break;
+    }
+    }
+
+
+    QString sqlId;
+    const QList<int> listId = setId.values();
+    sqlId.append(":vId0");
+    for(int i = 1, n = listId.size(); i < n; i++) {
+        sqlId.append(", :vId" + QString::number(i));
+    }
+    sqlId = "(" + sqlId + ")";
+
+
+    sql = sql.arg(field).arg(sqlId);
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    switch(fieldType(field)) {
+    case QMetaType::QDateTime: {
+        query.bindValue(":value", value.toDateTime().toString("yyyy-MM-dd hh:mm:ss.z"));
+        break;
+    }
+    default : {
+        query.bindValue(":value", value);
+        break;
+    }
+    }
+
+    query.bindValue(":vMdate", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.z"));
+
+    for(int i = 0, n = listId.size(); i < n; i++) {
+        query.bindValue(":vId" + QString::number(i), listId.at(i));
+    }
+
+    if(query.exec())
+    {
+//        //qDebug() << "DataBaseManager::updateJourMsgFieldById ";
+        return listId.size();
+    }
+
+    qDebug() << "DataBaseManager::updateJourMsgFieldById Error :" << query.lastError().text();
+    qDebug() << query.lastQuery();
+    qDebug() << query.boundValues();
+    return 0;
 }
 
 void DataBaseManager::resetAllFlags_wS()
@@ -453,7 +591,7 @@ QList<JourEntity> DataBaseManager::getOneMSGRecord(const int &id) //const
 QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
     QList<JourEntity> result;
     QString sql;
-    sql = "SELECT * FROM jour ";
+    sql = "SELECT * FROM public.jour ";
     if(id > 0 || !flt.isEmpty()) {
         sql += " WHERE ";
         if(id > 0)
@@ -490,7 +628,7 @@ QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const
 QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const int &id) {
     QList<JourEntity> result;
     QString sql;
-    sql = "SELECT * FROM jour ";
+    sql = "SELECT * FROM public.jour ";
     if(id > 0 || !flt.isEmpty() || -1 != DataBaseManager::getIdStartLastDuty()) {
         sql += " WHERE ";
         if(id > 0)
@@ -517,6 +655,7 @@ QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const i
     }
 
     result = DataBaseManager::getQueryMSGRecord(query);
+    qDebug() << "DataBaseManager::getFltOneMSGRecord" << query.lastQuery() << id << DataBaseManager::getIdStartLastDuty();
 //    //qDebug() << "DataBaseManager::getFltOneMSGRecord(" << flt << ", " << id << ")";
 
     return result;

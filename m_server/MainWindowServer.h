@@ -126,6 +126,7 @@ private slots:
     void updateLabelCount();
 
     void on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void on_tableView_selectionChanged();
 protected:
     void closeEvent(QCloseEvent * event);
 

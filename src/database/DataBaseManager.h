@@ -15,6 +15,8 @@ class DataBaseManager : public QObject
     static QSqlDatabase db;
 
     static QSharedPointer<ShedulerNewDuty> shedulerNewDuty;
+    static QStringList fields;
+    static QMetaType::Type fieldType(QString field);
 
 public:
     explicit DataBaseManager(QObject *parent = nullptr) noexcept;
@@ -28,6 +30,7 @@ public:
     static int insertJourMsg(const JourEntity &msg);
     static int updateJourMsg_wS(JourEntity &msg);
     static int updateJourMsg(JourEntity &msg);
+    static int updateJourMsgFieldById(const QString field, const QVariant value, const QSet<int> setId);
     static void resetAllFlags_wS();
     static void resetAllFlags();
     static QList<JourEntity> getMSGRecordAfter(const int &id = 0);
