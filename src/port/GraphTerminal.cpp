@@ -946,7 +946,8 @@ QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, Q
     bool isLockPair = false;
     QSharedPointer<UnitNode>  unLockSdBlIp = nullptr, unLockIuBlIp = nullptr;
     if(1 >= un->getNum2() && 4 >= un->getNum2()) {
-        if(auto reciver = UnitNode::findReciver(un); nullptr != reciver) {
+        auto reciver = UnitNode::findReciver(un);
+        if( nullptr != reciver) {
             for(const auto& tmpUN : as_const(reciver->getListChilde())) {
                 if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
                     unLockIuBlIp = tmpUN;
