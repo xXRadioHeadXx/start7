@@ -743,8 +743,9 @@ void GraphTerminal::procDbStart(DataQueueItem /*itm*/) {
     SignalSlotCommutator::getInstance()->emitForcedNewDuty(false);
 }
 
-QDomDocument GraphTerminal::makeInitialStatus(QString /*docType*/)
+QDomDocument GraphTerminal::makeInitialStatus(QString docType)
 {
+    Q_UNUSED(docType)
     QDomDocument doc;//(docType);
 
     QDomElement  RIFPlusPacketElement  =  doc.createElement("RIFPlusPacket");
@@ -754,8 +755,9 @@ QDomDocument GraphTerminal::makeInitialStatus(QString /*docType*/)
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
 
-    for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
+    for(const auto &un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
         // <device id="1" level="1" type="33" num1="1" num2="1" num3="1" name="Устройство 1" lat=”55.761248” lon: “37.608074” description=”Текстовое
+        //
         // описание длиной не более 50 символов” dk=”1” option=”0”>
 
         if(un->getMetaNames().isEmpty())
@@ -777,6 +779,16 @@ QDomDocument GraphTerminal::makeInitialStatus(QString /*docType*/)
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
         deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
         deviceElement.setAttribute("option", 0);
+
+        QString ip;
+        if(!un->getUdpAdress().isEmpty() && -1 < un->getUdpPort()) {
+            ip = QString("%1:%2").arg(un->getUdpAdress()).arg(un->getUdpPort());
+        }
+        deviceElement.setAttribute("ip", ip);
+
+        deviceElement.setAttribute("ip2", ip);
+        deviceElement.setAttribute("login", ip);
+        deviceElement.setAttribute("password", ip);
 
         devicesElement.appendChild(deviceElement);
 
