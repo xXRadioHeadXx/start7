@@ -536,6 +536,7 @@ void MainWindowServer::on_toolButtonReason_clicked()
         }
     }
     on_tableView_selectionChanged();
+    updateLabelCount();
 //    updComboBoxReason();
 }
 
@@ -554,6 +555,7 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
         }
     }
     on_tableView_selectionChanged();
+    updateLabelCount();
 //    updComboBoxTakenMeasures();
 }
 
