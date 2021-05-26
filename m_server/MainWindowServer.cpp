@@ -528,8 +528,12 @@ void MainWindowServer::on_toolButtonReason_clicked()
         setId.insert(j.getId());
     }
     DataBaseManager::updateJourMsgFieldById("reason", ui->comboBoxReason->currentText(), setId);
-    for(const auto &id : as_const(setId)) {
-        SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
+    if(1 < setId.size()) {
+        modelJour->updateAllRecords();
+    } else {
+        for(const auto &id : as_const(setId)) {
+            SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
+        }
     }
     on_tableView_selectionChanged();
 //    updComboBoxReason();
@@ -542,8 +546,12 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
         setId.insert(j.getId());
     }
     DataBaseManager::updateJourMsgFieldById("measures", ui->comboBoxTakenMeasures->currentText(), setId);
-    for(const auto &id : as_const(setId)) {
-        SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
+    if(1 < setId.size()) {
+        modelJour->updateAllRecords();
+    } else {
+        for(const auto &id : as_const(setId)) {
+            SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
+        }
     }
     on_tableView_selectionChanged();
 //    updComboBoxTakenMeasures();
@@ -627,8 +635,11 @@ void MainWindowServer::createDiagnosticTable()
 void MainWindowServer::on_pushButtonAlarmReset_clicked()
 {
 
-    if(!checkNecessarilyReadonMeasureFill())
+    if(0 != DataBaseManager::checkNecessarilyReasonMeasureFill()) {
+        QMessageBox::warning(this, tr("Ошибка"),
+                             tr("Не заполнены все обязательные поля в базе данных!"));
         return;
+    }
 
     this->m_portManager->requestAlarmReset();
 //    {
@@ -987,7 +998,9 @@ void MainWindowServer::closeEvent(QCloseEvent * event)
                                    QMessageBox::Ok | QMessageBox::Cancel,
                                    QMessageBox::Ok);
 
-    if(!checkNecessarilyReadonMeasureFill()) {
+    if(0 != DataBaseManager::checkNecessarilyReasonMeasureFill()) {
+        QMessageBox::warning(this, tr("Ошибка"),
+                             tr("Не заполнены все обязательные поля в базе данных!"));
         event->ignore();
         return;
     }
@@ -1036,10 +1049,10 @@ void MainWindowServer::updateLabelCount()
 
         auto listJour = modelJour->getListJour();
         for(auto ji : as_const(listJour)) {
-            if(0 != needReason && 1 == ji.getFlag() && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.data(4).toString().isEmpty()) {
+            if(0 != needReason && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getReason().isEmpty()) {
                 countReason++;
             }
-            if (0 != needMeasure && 1 == ji.getFlag() && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.data(5).toString().isEmpty()) {
+            if (0 != needMeasure && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getMeasures().isEmpty()) {
                 countMeasure++;
             }
         }
@@ -1145,17 +1158,35 @@ void MainWindowServer::on_actionReduce_triggered()
     ui->tableView->update();
 }
 
-bool MainWindowServer::checkNecessarilyReadonMeasureFill() {
-    if(0 != ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt() || 0 != ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt()) {
-        QString sql = " select * from jour where flag != 0 and type in (901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007,1133,1136,1137,1902, 11,13 ) ";
-        QList<JourEntity> tmpLs = DataBaseManager::getQueryMSGRecord(sql);
+bool MainWindowServer::checkNecessarilyReasonMeasureFill() {
+    if(modelJour.isNull())
+        return false;
 
-        if(tmpLs.size()) {
+    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
+    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+    if(0 != needReason || 0 != needMeasure) {
+
+        int countReason = 0;
+        int countMeasure = 0;
+
+        auto listJour = modelJour->getListJour();
+        for(const auto &ji : as_const(listJour)) {
+            if(0 != needReason && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getReason().isEmpty()) {
+                countReason++;
+            }
+            if (0 != needMeasure && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getMeasures().isEmpty()) {
+                countMeasure++;
+            }
+        }
+
+        if ((0 != needReason && 0 != countReason) || (0 != needMeasure && 0 != countMeasure)) {
             QMessageBox::warning(this, tr("Ошибка"),
                                  tr("Не заполнены все обязательные поля в базе данных!"));
             return false;
         }
+
     }
+
     return true;
 }
 
@@ -1168,8 +1199,11 @@ void MainWindowServer::on_actionNewScheme_triggered()
 
     if(QMessageBox::Ok == ret) {
 
-        if(!checkNecessarilyReadonMeasureFill())
+        if(0 != checkNecessarilyReasonMeasureFill()) {
+            QMessageBox::warning(this, tr("Ошибка"),
+                                 tr("Не заполнены все обязательные поля в базе данных!"));
             return;
+        }
 
         AuthenticationDialog ad;
         if(0 != ad.getInitialResult()) {

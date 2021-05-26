@@ -480,6 +480,78 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
     return 0;
 }
 
+int DataBaseManager::checkNecessarilyReasonMeasureFill() {
+    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
+    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+
+    if(0 == needReason && 0 == needMeasure)
+        return 0;
+
+    QString sql;
+    sql = "SELECT COUNT(*) as COUNTNECESSARILY FROM public.jour  WHERE ";
+
+    QString flt;
+    if(-1 != DataBaseManager::getIdStartLastDuty()) {
+        flt += " id >= :vIdMin ";
+    }
+
+    const QList<int> listType = ServerSettingUtils::getPriorityJoutTyper().values();
+    if(!listType.isEmpty()) {
+        QString sqlType;
+        sqlType.append(":vType0");
+        for(int i = 1, n = listType.size(); i < n; i++) {
+            sqlType.append(", :vType" + QString::number(i));
+        }
+        sqlType = "type in (" + sqlType + ")";
+
+        flt += QString(flt.isEmpty() ? "" : " AND ") + sqlType;
+    }
+
+    QString sqlReasonMeasure;
+    if(0 != needReason) {
+        QString sqlReason("(reason is null OR reason = '')");
+        sqlReasonMeasure += sqlReason;
+    }
+
+    if(0 != needMeasure) {
+        QString sqlMeasure("(measures is null OR measures = '')");
+        sqlReasonMeasure += (sqlReasonMeasure.isEmpty() ? "" : " OR ") + sqlMeasure;
+    }
+
+    if(!sqlReasonMeasure.isEmpty())
+        flt += QString(flt.isEmpty() ? "" : " AND ") + QString("(") + sqlReasonMeasure + QString(")");
+    \
+    if(flt.isEmpty())
+        return 0;
+
+    sql += flt;
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    query.bindValue(":vIdMin", DataBaseManager::getIdStartLastDuty());
+    if(!listType.isEmpty()) {
+        for(int i = 0, n = listType.size(); i < n; i++) {
+            query.bindValue(":vType" + QString::number(i), listType.at(i));
+        }
+    }
+
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            QSqlRecord rec = query.record();
+//            qDebug() << "DataBaseManager::checkNecessarilyReasonMeasureFill";
+            return rec.value("COUNTNECESSARILY").toInt();
+        }
+    }
+
+    qDebug() << "DataBaseManager::checkNecessarilyReasonMeasureFill Error :" << query.lastError().text();
+    qDebug() << query.lastQuery();
+    qDebug() << query.boundValues();
+    return 0;
+}
+
 void DataBaseManager::resetAllFlags_wS()
 {
     resetAllFlags();

@@ -77,6 +77,8 @@ public:
     static QString getPort();
     static void setPort(const QString &value);
 
+    static int checkNecessarilyReasonMeasureFill();
+
 private:
     static QString HostName;//("127.0.0.1");
     static QString DatabaseName;//("postgres");

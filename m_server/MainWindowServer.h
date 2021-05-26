@@ -159,7 +159,7 @@ private:
     QString getUnSqlSelect() const;
     void setUnSqlSelect(const QString &value);
 
-    bool checkNecessarilyReadonMeasureFill();
+    bool checkNecessarilyReasonMeasureFill();
 signals:
 //    void setTranslator(QTranslator *ts);
 //    void resetTranslator(QTranslator *ts);
