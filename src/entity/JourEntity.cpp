@@ -106,7 +106,7 @@ void JourEntity::setType(int value)
     if(ServerSettingUtils::getPriorityJoutTyper().contains(value))
         flag = 1;
     else
-        flag = 0;
+        flag = -1;
 }
 
 int JourEntity::getObjecttype() const

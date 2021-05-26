@@ -142,9 +142,9 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
         int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
         int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
         if(0 != needReason || 0 != needMeasure) {
-            if(0 != needReason && 4 == index.column() && 1 == msgRecord.getFlag() && ServerSettingUtils::getPriorityJoutTyper().contains(msgRecord.getType()) && msgRecord.data(index.column()).toString().isEmpty()) {
+            if(0 != needReason && 4 == index.column() && ServerSettingUtils::getPriorityJoutTyper().contains(msgRecord.getType()) && msgRecord.getReason().isEmpty()) {
                 resultColor.setRgb(0xF0E68C);
-            } else if (0 != needMeasure && 5 == index.column() && 1 == msgRecord.getFlag() && ServerSettingUtils::getPriorityJoutTyper().contains(msgRecord.getType()) && msgRecord.data(index.column()).toString().isEmpty()) {
+            } else if (0 != needMeasure && 5 == index.column() && ServerSettingUtils::getPriorityJoutTyper().contains(msgRecord.getType()) && msgRecord.getMeasures().isEmpty()) {
                 resultColor.setRgb(0xF0E68C);
             }
         }

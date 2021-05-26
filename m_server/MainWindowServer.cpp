@@ -637,7 +637,7 @@ void MainWindowServer::createDiagnosticTable()
 void MainWindowServer::on_pushButtonAlarmReset_clicked()
 {
 
-    if(0 != DataBaseManager::checkNecessarilyReasonMeasureFill()) {
+    if(0 != checkNecessarilyReasonMeasureFill()) {
         QMessageBox::warning(this, tr("Ошибка"),
                              tr("Не заполнены все обязательные поля в базе данных!"));
         return;
@@ -1000,7 +1000,7 @@ void MainWindowServer::closeEvent(QCloseEvent * event)
                                    QMessageBox::Ok | QMessageBox::Cancel,
                                    QMessageBox::Ok);
 
-    if(0 != DataBaseManager::checkNecessarilyReasonMeasureFill()) {
+    if(0 != checkNecessarilyReasonMeasureFill()) {
         QMessageBox::warning(this, tr("Ошибка"),
                              tr("Не заполнены все обязательные поля в базе данных!"));
         event->ignore();
@@ -1160,9 +1160,9 @@ void MainWindowServer::on_actionReduce_triggered()
     ui->tableView->update();
 }
 
-bool MainWindowServer::checkNecessarilyReasonMeasureFill() {
+int MainWindowServer::checkNecessarilyReasonMeasureFill() {
     if(modelJour.isNull())
-        return false;
+        return -1;
 
     int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
     int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
@@ -1184,12 +1184,12 @@ bool MainWindowServer::checkNecessarilyReasonMeasureFill() {
         if ((0 != needReason && 0 != countReason) || (0 != needMeasure && 0 != countMeasure)) {
             QMessageBox::warning(this, tr("Ошибка"),
                                  tr("Не заполнены все обязательные поля в базе данных!"));
-            return false;
+            return countReason + countMeasure;
         }
 
     }
 
-    return true;
+    return 0;
 }
 
 void MainWindowServer::on_actionNewScheme_triggered()
