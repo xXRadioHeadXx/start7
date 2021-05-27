@@ -442,6 +442,17 @@ void MainWindowServer::on_tableView_selectionChanged(const QItemSelection &selec
     on_tableView_selectionChanged();
 }
 
+void MainWindowServer::on_tableView_repairSelection()
+{
+//    auto selectionModel = ui->tableView->selectionModel();
+//    auto selectedItems = selectionModel->selection();
+//    selectionModel->clearSelection();
+//    for(auto index : previousSelectedRows) {
+//        selectionModel->setCurrentIndex(index, QItemSelectionModel::Select | QItemSelectionModel::Rows | QItemSelectionModel::SelectCurrent);
+//        selectedItems.merge(selectionModel->selection(), QItemSelectionModel::Select);
+//    }
+}
+
 void MainWindowServer::on_tableView_selectionChanged()
 {
     qDebug() << "MainWindowServer::on_tableView_selectionChanged() -->";
@@ -523,6 +534,7 @@ void MainWindowServer::on_tableView_selectionChanged()
 
 void MainWindowServer::on_toolButtonReason_clicked()
 {
+    previousSelectedRows = ui->tableView->selectionModel()->selectedRows();
     QSet<int> setId;
     for(const auto &j : as_const(listSelMsg)) {
         setId.insert(j.getId());
@@ -535,6 +547,7 @@ void MainWindowServer::on_toolButtonReason_clicked()
             SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
         }
     }
+    on_tableView_repairSelection();
     on_tableView_selectionChanged();
     updateLabelCount();
 //    updComboBoxReason();
@@ -542,6 +555,7 @@ void MainWindowServer::on_toolButtonReason_clicked()
 
 void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 {
+    previousSelectedRows = ui->tableView->selectionModel()->selectedRows();
     QSet<int> setId;
     for(const auto &j : as_const(listSelMsg)) {
         setId.insert(j.getId());
@@ -554,6 +568,7 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
             SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
         }
     }
+    on_tableView_repairSelection();
     on_tableView_selectionChanged();
     updateLabelCount();
 //    updComboBoxTakenMeasures();
@@ -1182,8 +1197,8 @@ int MainWindowServer::checkNecessarilyReasonMeasureFill() {
         }
 
         if ((0 != needReason && 0 != countReason) || (0 != needMeasure && 0 != countMeasure)) {
-            QMessageBox::warning(this, tr("Ошибка"),
-                                 tr("Не заполнены все обязательные поля в базе данных!"));
+//            QMessageBox::warning(this, tr("Ошибка"),
+//                                 tr("Не заполнены все обязательные поля в базе данных!"));
             return countReason + countMeasure;
         }
 

@@ -126,6 +126,7 @@ private slots:
     void updateLabelCount();
 
     void on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void on_tableView_repairSelection();
     void on_tableView_selectionChanged();
 protected:
     void closeEvent(QCloseEvent * event);
@@ -155,6 +156,7 @@ private:
     QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
 
     QString unSqlSelect;
+    QModelIndexList previousSelectedRows;
 
     QString getUnSqlSelect() const;
     void setUnSqlSelect(const QString &value);
