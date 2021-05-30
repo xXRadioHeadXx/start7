@@ -447,7 +447,7 @@ void MainWindowServer::on_tableView_saveSelection()
     beginSelectRow = 2147483647;
     endSelectRow = -1;
 
-    if(nullptr != ui || nullptr != ui->tableView || nullptr != ui->tableView->selectionModel())
+    if(nullptr == ui || nullptr == ui->tableView || nullptr == ui->tableView->selectionModel())
         return;
 
     for(auto index : ui->tableView->selectionModel()->selectedRows()) {
