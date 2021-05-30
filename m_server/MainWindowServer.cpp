@@ -450,7 +450,7 @@ void MainWindowServer::on_tableView_saveSelection()
     if(nullptr == ui || nullptr == ui->tableView || nullptr == ui->tableView->selectionModel())
         return;
 
-    for(auto index : ui->tableView->selectionModel()->selectedRows()) {
+    for(auto index : as_const(ui->tableView->selectionModel()->selectedRows())) {
         endSelectRow = qMax(endSelectRow, index.row());
         beginSelectRow = qMin(beginSelectRow, index.row());
     }
