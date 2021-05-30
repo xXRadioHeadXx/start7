@@ -108,14 +108,10 @@ int ServerTableModelJour::rowCount(const QModelIndex &index) const
 // устанавливаем количество столбцов.
 int ServerTableModelJour::columnCount(const QModelIndex &index) const
 {
-#ifdef QT_DEBUG
     Q_UNUSED(index)
+#ifdef QT_DEBUG
     return 9;
 #endif
-    if(index.isValid())
-    {
-        return 7;
-    }
     return 7;
 }
 
