@@ -125,9 +125,9 @@ private slots:
 
     void updateLabelCount();
 
-    void on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void on_tableView_repairSelection();
-    void on_tableView_selectionChanged();
+    void tableView_repairSelection();
+    void tableView_selectionChanged();
+    void tableView_saveSelection();
 protected:
     void closeEvent(QCloseEvent * event);
 
@@ -162,7 +162,6 @@ private:
     void setUnSqlSelect(const QString &value);
 
     int checkNecessarilyReasonMeasureFill();
-    void on_tableView_saveSelection();
 signals:
 //    void setTranslator(QTranslator *ts);
 //    void resetTranslator(QTranslator *ts);

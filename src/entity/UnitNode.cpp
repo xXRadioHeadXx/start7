@@ -832,21 +832,50 @@ int UnitNode_SD_BL_IP::calcDKStatus() const {
 
 
 int UnitNode_TG::calcDKStatus() const {
-     SWPTGType0x31 swp = swpTGType0x31();
-    if(1 == swp.isWasAlarm() && 1 == swp.isAlarm()) {
-        return DKCiclStatus::DKWasAlarn;
-    } else if(1 == swp.isNorm() && 1 == swp.isWasAlarm()) {
-        return DKCiclStatus::DKWas;
+//    const SWPTGType0x31 swp31 = swpTGType0x31();
+    const SWPTGType0x32 swp32 = swpTGType0x32();
+    const SWPTGType0x33 swp33 = swpTGType0x33();
+//    const SWPTGType0x34 swp34 = swpTGType0x34();
+
+/*    if(!swp31.isNull()) {
+        //
+        if(1 == swp31.isWasAlarm() && 1 == swp31.isAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == swp31.isNorm() && 1 == swp31.isWasAlarm()) {
+            return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-    } else if(1 == swp.isAlarm()) {
-        return DKCiclStatus::DKWrong;
+        } else if(1 == swp31.isAlarm()) {
+            return DKCiclStatus::DKWrong;
 //            return DKCiclStatus::DKWasAlarn;
-    } else if(1 == swp.isOff()) {
+        } else if(1 == swp31.isOff()) {
+            return DKCiclStatus::DKWrong;
+        } else if(1 == swp31.isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
         return DKCiclStatus::DKWrong;
-    } else if(1 == swp.isNorm()) {
-        return DKCiclStatus::DKNorm;
-    }
-    return DKCiclStatus::DKWrong;
+        //
+    } else */if(!swp32.isNull()) {
+        //
+        if(1 == swp32.C(getNum2()).isInAlarm() && 1 == swp32.C(getNum2()).isOutAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(0 == swp32.C(getNum2()).isInAlarm() && 0 == swp32.C(getNum2()).isOutAlarm()) {
+            return DKCiclStatus::DKNorm;
+        }
+        return DKCiclStatus::DKWas;
+       //
+    } else if(!swp33.isNull()) {
+        //
+        if(1 == swp33.C(getNum2()).isInAlarm() && 1 == swp33.C(getNum2()).isOutAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(0 == swp33.C(getNum2()).isInAlarm() && 0 == swp33.C(getNum2()).isOutAlarm()) {
+            return DKCiclStatus::DKNorm;
+        }
+        return DKCiclStatus::DKWas;
+       //
+    }/* else if(!swp34.isNull()) {
+        return DKCiclStatus::DKWrong;
+    }*/
+    return DKCiclStatus::DKWas;
 }
 
 int UnitNode_RLM_KRL::calcDKStatus() const {

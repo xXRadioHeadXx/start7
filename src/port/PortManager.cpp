@@ -340,9 +340,9 @@ void PortManager::startStatusRequest(){
         }
     }
 
-    for(QSharedPointer<UnitNode> un : as_const(tmpSet)) {
-        qDebug() << "tmpSet -- " << un->toString();
-    }
+//    for(const QSharedPointer<UnitNode> &un : as_const(tmpSet)) {
+//        qDebug() << "tmpSet -- " << un->toString();
+//    }
 
     for(const auto& un : as_const(tmpSet)) {
         if(TypeUnitNode::BL_IP == un->getType() ||
@@ -393,7 +393,7 @@ void PortManager::startStatusRequest(){
 void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
     if(selUN.isNull()) {
         QSet<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
-        for(QSharedPointer<UnitNode>  un : lsTmp) {
+        for(const QSharedPointer<UnitNode>  &un : lsTmp) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
@@ -458,7 +458,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
     QList<QSharedPointer<UnitNode> > lsTrgtUN;
     if(selUN.isNull()) {
         QSet<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
-        for(QSharedPointer<UnitNode>  un : lsTmp)
+        for(const QSharedPointer<UnitNode>  &un : lsTmp)
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
@@ -467,17 +467,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                 lsTrgtUN.append(un);
     } else if(!selUN.isNull()) {
         QSharedPointer<UnitNode>  un = selUN;
-        while(!un.isNull()) {
-            if(TypeUnitNode::BL_IP == un->getType() ||
-               TypeUnitNode::RLM_C == un->getType() ||
-               TypeUnitNode::RLM_KRL == un->getType() ||
-               TypeUnitNode::TG_Base == un->getType()
-                    /* или датчик */) {
-                lsTrgtUN.append(un);
-                break;
-            }
-            un = un->getParentUN();
-        }
+        lsTrgtUN.append(UnitNode::findReciver(un));
     }
 
     if(lsTrgtUN.isEmpty())
@@ -1343,6 +1333,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
         if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
+                qDebug() << "PortManager::parcingStatusWord0x31 -- procDK";
                 procDK(un, previousCopyUN);
             } else if(!un->getDkInvolved()) {
 
@@ -1515,6 +1506,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         }
 
         auto previousSWP = un->swpTGType0x32();
+        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
         un->setStateWordType0x32(newStateWord);
         un->updDoubl();
@@ -1536,7 +1528,8 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         if(!un.isNull() && (currentSWP.getStateWord() != previousSWP.getStateWord())) {
             if(un->getDkInvolved()) {
                 // обработка дк
-//                procDK(un, previousCopyUN);
+                qDebug() << "PortManager::parcingStatusWord0x32 -- procDK";
+                procDK(un, previousCopyUN);
             } else if(!un->getDkInvolved()) {
 
                 // Первое сообщение о включении
@@ -1623,6 +1616,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
         }
 
         auto previousSWP = un->swpTGType0x33();
+        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
         un->setStateWordType0x33(newStateWord);
         un->updDoubl();
@@ -1643,7 +1637,8 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
         if(!un.isNull() && (previousSWP.getStateWord() != currentSWP.getStateWord())) {
             if(un->getDkInvolved()) {
                 // обработка дк
-//                procDK(un, previousCopyUN);
+                qDebug() << "PortManager::parcingStatusWord0x33 -- procDK";
+                procDK(un, previousCopyUN);
             } else if(!un->getDkInvolved()) {
 
                 // Первое сообщение о включении
@@ -1729,6 +1724,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
         }
 
         auto previousSWP = un->swpTGType0x34();
+//        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
         un->setStateWordType0x34(newStateWord);
         un->updDoubl();
@@ -1740,6 +1736,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
 }
 
 void PortManager::procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous) {
+    qDebug() << "DkStatus --> " << current->toString();
     if(current.isNull() || previous.isNull())
         return;
     if(0 != current->getDK() &&
@@ -1747,10 +1744,9 @@ void PortManager::procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitN
        DKCiclStatus::DKWrong != previous->getDkStatus() &&
        DKCiclStatus::DKDone != previous->getDkStatus() &&
        current->getDkInvolved()) {
-//            //qDebug() << "DkStatus --> " << current->toString();
         int unCalcDkStatus = current->calcDKStatus();
-//            //qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
-//            //qDebug() << "DkStatus -- unDkStatus " << current->getDkStatus();
+        qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
+        qDebug() << "DkStatus -- unDkStatus " << current->getDkStatus();
         if(DKCiclStatus::DKReady == previous->getDkStatus() &&
                 DKCiclStatus::DKNorm == unCalcDkStatus)
             current->setDkStatus(DKCiclStatus::DKNorm);
@@ -1771,8 +1767,8 @@ void PortManager::procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitN
         else
             current->setDkStatus(DKCiclStatus::DKWrong);
         current->updDoubl();
-//            //qDebug() << "DkStatus -- unNewDkStatus " << current->getDkStatus();
-//            //qDebug() << "DkStatus <--";
+        qDebug() << "DkStatus -- unNewDkStatus " << current->getDkStatus();
+        qDebug() << "DkStatus <--";
     }
 }
 

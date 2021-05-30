@@ -32,6 +32,7 @@ void ProcessDKWaiter::setLsTrackedUN(const QList<QSharedPointer<UnitNode> > &val
 void ProcessDKWaiter::addLsTrackedUN(QSharedPointer<UnitNode> value)
 {
     lsTrackedUN.append(value);
+//    qDebug() << "ProcessDKWaiter::addLsTrackedUN(" << value->toString() << ")";
 }
 
 DataQueueItem ProcessDKWaiter::makeFirstMsg() {
@@ -97,7 +98,7 @@ void ProcessDKWaiter::init() {
                 uncld->setDkInvolved(true);
                 uncld->setDkStatus(DKCiclStatus::DKReady);
                 uncld->updDoubl();
-                this->lsTrackedUN.append(uncld);
+                addLsTrackedUN(uncld);
             }
         }
         getUnReciver()->setDkInvolved(true);
@@ -107,7 +108,7 @@ void ProcessDKWaiter::init() {
                 uncld->setDkInvolved(true);
                 uncld->setDkStatus(DKCiclStatus::DKReady);
                 uncld->updDoubl();
-                this->lsTrackedUN.append(uncld);
+                addLsTrackedUN(uncld);
             }
         }
         getUnReciver()->setDkInvolved(true);
@@ -116,7 +117,7 @@ void ProcessDKWaiter::init() {
         getUnReciver()->setDkInvolved(true);
         getUnReciver()->setDkStatus(DKCiclStatus::DKReady);
         getUnReciver()->updDoubl();
-        this->lsTrackedUN.append(getUnReciver());
+        addLsTrackedUN(getUnReciver());
     }
 
     setTimeIntervalWaiteFirst(11000);

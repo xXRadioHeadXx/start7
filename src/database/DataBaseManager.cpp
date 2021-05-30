@@ -727,7 +727,7 @@ QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const i
     }
 
     result = DataBaseManager::getQueryMSGRecord(query);
-    qDebug() << "DataBaseManager::getFltOneMSGRecord" << query.lastQuery() << id << DataBaseManager::getIdStartLastDuty();
+//    qDebug() << "DataBaseManager::getFltOneMSGRecord" << query.lastQuery() << id << DataBaseManager::getIdStartLastDuty();
 //    //qDebug() << "DataBaseManager::getFltOneMSGRecord(" << flt << ", " << id << ")";
 
     return result;

@@ -29,26 +29,26 @@ void MultiUNStatusConnectRequester::setLsTrackedUN(const QList<QSharedPointer<Un
 
 void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  value)
 {
-    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN -->";
+//    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN -->";
     for(auto un : lsTrackedUN) {
         if(un->getType() == value->getType() &&
            un->getNum1() == value->getNum1() &&
            un->getUdpPort() == value->getUdpPort() &&
            un->getUdpAdress() == value->getUdpAdress()) {
 
-            qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN REJECT " << value->toString();
+//            qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN REJECT " << value->toString();
 
 
-            qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
+//            qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
             return;
         }
     }
 
     lsTrackedUN.append(value);
 
-    for(auto un : lsTrackedUN) {
-        qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN APRUVE " << un->toString();
-    }
+//    for(auto un : lsTrackedUN) {
+//        qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN APRUVE " << un->toString();
+//    }
 
 
 
@@ -65,7 +65,7 @@ void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  val
     for(auto uncld : as_const(getLsTrackedUN())) {
         uncld->setMaxCountStatusConnectRequesterWaitAnswer(maxBeatCount);
     }
-    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
+//    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
 }
 
 QSharedPointer<UnitNode> MultiUNStatusConnectRequester::previousTrackedUN() const

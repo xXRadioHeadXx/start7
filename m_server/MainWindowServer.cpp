@@ -256,12 +256,12 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     connect(
       ui->tableView->selectionModel(),
       SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-      SLOT(on_tableView_selectionChanged(const QItemSelection &, const QItemSelection &))
+      SLOT(tableView_selectionChanged())
      );    
     connect(
       modelJour.data(),
       SIGNAL(recalcSelectedMsg()),
-      SLOT(on_tableView_selectionChanged())
+      SLOT(tableView_selectionChanged())
      );
 //    connect(
 //      SignalSlotCommutator::getInstance(),
@@ -436,13 +436,7 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
 
 }
 
-void MainWindowServer::on_tableView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
-    Q_UNUSED(selected)
-    Q_UNUSED(deselected)
-    on_tableView_selectionChanged();
-}
-
-void MainWindowServer::on_tableView_saveSelection()
+void MainWindowServer::tableView_saveSelection()
 {
     beginSelectRow = 2147483647;
     endSelectRow = -1;
@@ -456,7 +450,7 @@ void MainWindowServer::on_tableView_saveSelection()
     }
 }
 
-void MainWindowServer::on_tableView_repairSelection()
+void MainWindowServer::tableView_repairSelection()
 {
     if(modelJour.isNull() || -1 == beginSelectRow || 2147483647 == endSelectRow)
         return;
@@ -469,7 +463,7 @@ void MainWindowServer::on_tableView_repairSelection()
     selectionModel->select(selection, QItemSelectionModel::Select | QItemSelectionModel::Rows);
 }
 
-void MainWindowServer::on_tableView_selectionChanged()
+void MainWindowServer::tableView_selectionChanged()
 {
     selMsg = JourEntity();
     listSelMsg.clear();
@@ -510,7 +504,7 @@ void MainWindowServer::on_tableView_selectionChanged()
 
 void MainWindowServer::on_toolButtonReason_clicked()
 {
-    on_tableView_saveSelection();
+    tableView_saveSelection();
 
     QSet<int> setId;
     for(const auto &j : as_const(listSelMsg)) {
@@ -524,15 +518,15 @@ void MainWindowServer::on_toolButtonReason_clicked()
             SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
         }
     }
-    on_tableView_selectionChanged();
+    tableView_selectionChanged();
     updateLabelCount();
 
-    on_tableView_repairSelection();
+    tableView_repairSelection();
 }
 
 void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 {
-    on_tableView_saveSelection();
+    tableView_saveSelection();
 
     QSet<int> setId;
     for(const auto &j : as_const(listSelMsg)) {
@@ -546,10 +540,10 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
             SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
         }
     }
-    on_tableView_selectionChanged();
+    tableView_selectionChanged();
     updateLabelCount();
 
-    on_tableView_repairSelection();
+    tableView_repairSelection();
 }
 
 //QTranslator *MainWindowServer::getRuTranslator() const
