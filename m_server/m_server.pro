@@ -5,7 +5,7 @@ TEMPLATE = app
 
 #greaterThan(QT_MAJOR_VERSION, 4): QT +=
 
-CONFIG += c++17
+CONFIG += c++14 -std=gnu++14 -std=c++14
 #CONFIG += console
 
 #Application version

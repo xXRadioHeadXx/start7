@@ -1,5 +1,5 @@
 QT += core 
-CONFIG += c++17
+CONFIG += c++14 -std=gnu++14 -std=c++14
 
 INCLUDEPATH += $$PWD/
 
