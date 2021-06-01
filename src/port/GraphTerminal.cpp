@@ -14,7 +14,7 @@
 #include "global.h"
 
 QSharedPointer<TcpServer> GraphTerminal::m_tcpServer = QSharedPointer<TcpServer>();
-QHash<QTcpSocket*, QByteArray*> GraphTerminal::abonents = QHash<QTcpSocket*, QByteArray*>();
+QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > GraphTerminal::abonents = QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> >();
 
 
 GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
@@ -30,14 +30,16 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 
 
         QString nHost = ServerSettingUtils::getValueSettings("Host", "INTEGRATION").toString();
+        Q_UNUSED(nHost)
         QString nPort2 = ServerSettingUtils::getValueSettings("Port2", "INTEGRATION").toString();
+        Q_UNUSED(nPort2)
 
 //        m_tcpServer->writeData(nHost, "Hello!");
 
         const auto buffers = m_tcpServer->getAbonents();
         abonents.unite(buffers);
         for(auto socket : as_const(abonents.keys())) {
-            connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
+            connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
         }
 
     }  catch (...) {
@@ -201,7 +203,12 @@ void GraphTerminal::manageOverallReadQueue()
 void GraphTerminal::disconnected()
 {
     QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
-    abonents.remove(socket);
+    for(const auto &key : abonents.keys()) {
+        if(key.data() == socket) {
+            abonents.remove(key);
+            return;
+        }
+    }
 }
 
 void GraphTerminal::procCommands(DataQueueItem itm) {
@@ -236,11 +243,11 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
             } else if("10000" == idCommand.nodeValue()) {
 //                dataAnswer = makeEventsAndStates("EventsAndStates answer command 10000").toByteArray();
 
-                QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getAbonents();
-                for(QTcpSocket * socket : as_const(buffers.keys())) {
+                const auto buffers = m_tcpServer->getAbonents();
+                for(const auto &socket : as_const(buffers.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.insert(socket, buffers.value(socket));
-                        connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));
+                        connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
                     }
                 }
                 //
@@ -641,7 +648,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 DataQueueItem itmAnswer = itm;
                 itmAnswer.setData(dataAnswer);
 
-                QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getAbonents();
+                const auto buffers = m_tcpServer->getAbonents();
                 for(const auto& socket : as_const(buffers.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         QByteArray buf;
@@ -736,7 +743,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                         DataQueueItem itmAnswer = itm;
                         itmAnswer.setData(docAnswer.toByteArray());
 
-                        QHash<QTcpSocket*, QByteArray*> buffers = m_tcpServer->getAbonents();
+                        const auto buffers = m_tcpServer->getAbonents();
                         for(const auto& socket : as_const(buffers.keys())) {
                             if(socket->peerAddress() == itm.address()) {
                                 QByteArray buf;

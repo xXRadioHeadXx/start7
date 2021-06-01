@@ -11,22 +11,22 @@ class TcpServer : public QObject
 private:
     int nPort = -1;
     QSharedPointer<QTcpServer> m_ptrTcpServer;
-    QHash<QTcpSocket*, QByteArray*> abonents; //We need a buffer to store data until block has completely received
+    QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > abonents; //We need a buffer to store data until block has completely received
 
-    QTcpSocket *connectToHost(QString host);
+    QSharedPointer<QTcpSocket> connectToHost(QString host);
 
 public:
     explicit TcpServer(int nPort, QObject *parent = nullptr);
     virtual ~TcpServer();
 
 
-    QHash<QTcpSocket *, QByteArray *> getBuffers() const;
+    const QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > getBuffers() const;
 
-    QHash<QTcpSocket *, QByteArray *> getAbonents() const;
+    const QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > getAbonents() const;
 
 public slots:
     bool writeData(QString host, QByteArray data);
-    bool writeData(QTcpSocket * socket, QByteArray data);
+    bool writeData(QSharedPointer<QTcpSocket> socket, QByteArray data);
 
 
 private slots:
