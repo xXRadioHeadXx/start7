@@ -630,6 +630,44 @@ QList<JourEntity> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
     return result;
 }
 
+QList<JourEntity> DataBaseManager::getJourRecordAfter(const int &id, const int &limit)
+{
+    QList<JourEntity> result;
+    QString sql;
+    sql = "SELECT * FROM public.jour ";
+    QString sqlFlt = "id >= " + QString::number(id);
+    if(!sqlFlt.isEmpty())
+        sql += " WHERE (" + sqlFlt + ") ORDER BY id ";
+    if(-1 != limit)
+        sql += " LIMIT " + QString::number(limit);
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    result = DataBaseManager::getQueryMSGRecord(query);
+
+    return result;
+}
+
+QList<JourEntity> DataBaseManager::getJourRecordAfter(const QDateTime &from, const int &limit)
+{
+    QList<JourEntity> result;
+    QString sql;
+    sql = "SELECT * FROM public.jour ";
+    QString sqlFlt = "cdate >= to_timestamp('" + from.toString("yyyy-MM-dd hh:mm:ss.00") + "', 'YYYY-MM-DD HH24:MI:SS.MS')";
+    if(!sqlFlt.isEmpty())
+        sql += " WHERE (" + sqlFlt + ") ORDER BY id ";
+    if(-1 != limit)
+        sql += " LIMIT " + QString::number(limit);
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    result = DataBaseManager::getQueryMSGRecord(query);
+
+    return result;
+}
+
 int DataBaseManager::executeQuery(QString sql)
 {
     int result;

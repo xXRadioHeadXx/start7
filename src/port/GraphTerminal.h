@@ -36,6 +36,9 @@ private:
     static QDomElement makeActualStateElement(QSharedPointer<UnitNode>  un, QDomElement &stateElement);
     static QDomDocument makeEventBook(JourEntity jour);
 
+    static QDomElement makeJourRecord(const JourEntity &jour, QDomElement &joursDom);
+    static QDomDocument makeListJourRecord(const QList<JourEntity> &jourList);
+
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
 

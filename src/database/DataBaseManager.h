@@ -41,6 +41,8 @@ public:
 //    static QList<JourEntity> getFltMSGRecords(const QString flt = "");
     static QList<JourEntity> getQueryMSGRecord(QString sql);
     static QList<JourEntity> getQueryMSGRecord(QSqlQuery query);
+    static QList<JourEntity> getJourRecordAfter(const int &id, const int &limit = -1);
+    static QList<JourEntity> getJourRecordAfter(const QDateTime &from = QDateTime(QDate::currentDate()), const int &limit = -1);
 
     static int executeQuery(QString sql);
     static int executeQuery(QSqlQuery query);

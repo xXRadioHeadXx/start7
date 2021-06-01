@@ -608,6 +608,30 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 //
             } else if("146" == idCommand.nodeValue()) {
                 //
+            } else if("10010" == idCommand.nodeValue()) {
+//                4.16 Получение архива событий
+//                Формат <RIFPlusPacket type="Commands"><Commands><Command id="10010" name="Получить архив событий" start=”1000”
+//                length=”100”/></Commands></RIFPlusPacket>
+//                или <RIFPlusPacket type="Commands"><Commands><Command id="10010" name="Получить архив событий" from=”2021-05-14 16:20:00”
+//                length=”100”/></Commands></RIFPlusPacket>
+//                В ответ сервер пришлёт список не более length событий из БД, начиная с ID >= start или с временем >= from
+                QDomNode start = nodeCommand.attributes().namedItem("start");
+                QDomNode from = nodeCommand.attributes().namedItem("from");
+                QDomNode length = nodeCommand.attributes().namedItem("length");
+
+                if((start.nodeValue().isEmpty() && from.nodeValue().isEmpty()) || length.nodeValue().isEmpty())
+                    continue;
+
+                QList<JourEntity> jours;
+
+                if(start.nodeValue().isEmpty() && !from.nodeValue().isEmpty())
+                    jours = DataBaseManager::getJourRecordAfter(start.nodeValue().toInt(), length.nodeValue().toInt());
+                else if(!start.nodeValue().isEmpty() && from.nodeValue().isEmpty())
+                    jours = DataBaseManager::getJourRecordAfter(QDateTime::fromString(from.nodeValue(), "yyyy-MM-dd hh:mm:ss"), length.nodeValue().toInt());
+
+                dataAnswer = makeListJourRecord(jours.mid(0, length.nodeValue().toInt())).toByteArray();
+                //
+
             } else {
                 //
             }
@@ -1075,7 +1099,7 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
     RIFPlusPacketElement.appendChild(devicesElement);
 
     QSharedPointer<UnitNode>  un = nullptr;
-    for(QSharedPointer<UnitNode>  unTmp : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
+    for(const auto &unTmp : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
         if(unTmp->getName() == jour.getObject() &&
            unTmp->getNum1() == jour.getD1() &&
            unTmp->getNum2() == jour.getD2() &&
@@ -1125,6 +1149,48 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
     stateElement.setAttribute("name", jour.getComment());
     statesElement.appendChild(stateElement);
 //    qDebug() << "GraphTerminal::makeEventBook()" << doc.toString();
+
+    return doc;
+}
+
+QDomElement GraphTerminal::makeJourRecord(const JourEntity &jour, QDomElement &joursDom)
+{
+    joursDom.setAttribute("id",         jour.getId());                                    //"№/#";
+    joursDom.setAttribute("datetime",   jour.getCdate().toString("yyyy-MM-dd hh:mm:ss")); //"Дата"
+    joursDom.setAttribute("comment",    jour.getComment());                               //"Сообщение"
+    joursDom.setAttribute("object",     jour.getObject());                                //"Объект"
+    joursDom.setAttribute("reason",     jour.getReason());                                //"Причина"
+    joursDom.setAttribute("measures",   jour.getMeasures());                              //"Принятые меры"
+    joursDom.setAttribute("operatorid", jour.getOperatorid());                            //"Оператор"
+
+    joursDom.setAttribute("type", jour.getType());
+
+    joursDom.setAttribute("objecttype", jour.getObjecttype());
+    joursDom.setAttribute("d1", jour.getD1());
+    joursDom.setAttribute("d2", jour.getD2());
+    joursDom.setAttribute("d3", jour.getD3());
+    joursDom.setAttribute("d4", jour.getD4());
+
+    joursDom.setAttribute("direction", jour.getDirection());
+    return joursDom;
+}
+
+QDomDocument GraphTerminal::makeListJourRecord(const QList<JourEntity> &jourList)
+{
+    QDomDocument doc;//(docType);
+
+    QDomElement  RIFPlusPacketElement  =  doc.createElement("RIFPlusPacket");
+    RIFPlusPacketElement.setAttribute("type", "ListJourRecord");
+    doc.appendChild(RIFPlusPacketElement);
+
+    QDomElement  joursElement  =  doc.createElement("jours");
+    RIFPlusPacketElement.appendChild(joursElement);
+
+    for(const auto &jour : jourList) {
+        QDomElement  jourElement  =  doc.createElement("jour");
+        joursElement.appendChild(jourElement);
+        makeJourRecord(jour, jourElement);
+    }
 
     return doc;
 }
