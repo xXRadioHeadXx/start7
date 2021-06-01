@@ -2,7 +2,7 @@
 #define SERVERTREEMODELUNITNODE_H
 
 #include <QAbstractItemModel>
-#include <UnitNode.h>
+#include "UnitNode.h"
 #include <QCoreApplication>
 
 class UnitNode;

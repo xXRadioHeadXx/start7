@@ -1,8 +1,8 @@
 #ifndef SERVERUNITNODETREEITEM_H
 #define SERVERUNITNODETREEITEM_H
 
-#include <TreeItem.h>
-#include <UnitNodeCFG.h>
+#include "TreeItem.h"
+#include "UnitNodeCFG.h"
 
 class ServerUnitNodeTreeItem : public TreeItem, public UnitNodeCFG
 {

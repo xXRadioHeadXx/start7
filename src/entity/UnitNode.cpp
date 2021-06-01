@@ -1,23 +1,23 @@
 #include <QDebug>
 
-#include <UnitNode.h>
-#include <ServerSettingUtils.h>
-#include <Icons.h>
-#include <Icons_cfg.h>
-#include <SignalSlotCommutator.h>
-#include <global.h>
-#include <SWPBLIP.h>
-#include <SWPRLM.h>
-#include <SWPRLMC.h>
-#include <SWPSDBLIP.h>
-#include <SWPIUBLIP.h>
-#include <SWPTGType0x31.h>
-#include <SWPTGType0x34.h>
-#include <SWPTGType0x33.h>
-#include <SWPTGType0x32.h>
-#include <SWPTGSubType0x32.h>
-#include <SWPTGSubType0x33.h>
-#include <DataQueueItem.h>
+#include "UnitNode.h"
+#include "ServerSettingUtils.h"
+#include "Icons.h"
+#include "Icons_cfg.h"
+#include "SignalSlotCommutator.h"
+#include "global.h"
+#include "SWPBLIP.h"
+#include "SWPRLM.h"
+#include "SWPRLMC.h"
+#include "SWPSDBLIP.h"
+#include "SWPIUBLIP.h"
+#include "SWPTGType0x31.h"
+#include "SWPTGType0x34.h"
+#include "SWPTGType0x33.h"
+#include "SWPTGType0x32.h"
+#include "SWPTGSubType0x32.h"
+#include "SWPTGSubType0x33.h"
+#include "DataQueueItem.h"
 
 QSet<QString> UnitNode::getMetaNames() const
 {

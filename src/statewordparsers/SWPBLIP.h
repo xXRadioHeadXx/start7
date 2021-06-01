@@ -1,9 +1,9 @@
 #ifndef SWPBLIP_H
 #define SWPBLIP_H
 
-#include <SWP.h>
-#include <SWPIUBLIP.h>
-#include <SWPSDBLIP.h>
+#include "SWP.h"
+#include "SWPIUBLIP.h"
+#include "SWPSDBLIP.h"
 
 class SWPBLIP : public SWP
 {

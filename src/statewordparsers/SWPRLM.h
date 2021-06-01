@@ -1,7 +1,7 @@
 #ifndef SWPRLM_H
 #define SWPRLM_H
 
-#include <SWP.h>
+#include "SWP.h"
 
 class SWPRLM : public SWP
 {

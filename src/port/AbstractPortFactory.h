@@ -2,7 +2,7 @@
 #define ABSTRACTPORTFACTORY_H
 
 #include <QObject>
-#include <AbstractPort.h>
+#include "AbstractPort.h"
 
 class AbstractPortFactory
 {

@@ -3,12 +3,11 @@
 
 #include <QObject>
 #include <QQueue>
-#include <Port.h>
-#include <GraphTerminal.h>
+#include "Port.h"
+#include "GraphTerminal.h"
 
 class UnitNode;
 class DataBaseManager;
-class QSettings;
 class GraphTerminal;
 class AbstractRequester;
 class DataQueueItem;
@@ -50,9 +49,6 @@ public:
     virtual ~PortManager();
 //    Port* createPort(AbstractPort::Protocol protocol, QObject *parent, const int index);
     void retranslate();
-    void loadConfig(QSettings *config, const int index);
-    void saveConfig(QSettings *config, const int index);
-    void loadSettings(QSettings *config, const int index);
     void loadSettings();
     bool open(const int index);
     void close(const int index);

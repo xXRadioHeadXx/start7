@@ -3,8 +3,6 @@
 
 #include <QObject>
 
-class QSettings;
-
 class AbstractPort : public QObject
 {
     Q_OBJECT

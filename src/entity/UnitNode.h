@@ -4,10 +4,9 @@
 #include <QObject>
 #include <QSet>
 #include <QVariant>
-#include <DataQueueItem.h>
 #include <QQueue>
-#include <UnitNodeCFG.h>
-#include <ServerUnitNodeTreeItem.h>
+#include "UnitNodeCFG.h"
+#include "ServerUnitNodeTreeItem.h"
 
 enum SubTypeApp {
     any = 0x00,

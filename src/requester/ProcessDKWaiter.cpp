@@ -1,9 +1,9 @@
 #include "ProcessDKWaiter.h"
 #include "SignalSlotCommutator.h"
 
-#include <PortManager.h>
-#include <Utils.h>
-#include <global.h>
+#include "PortManager.h"
+#include "Utils.h"
+#include "global.h"
 
 ProcessDKWaiter::ProcessDKWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

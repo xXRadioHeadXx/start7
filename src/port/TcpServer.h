@@ -1,7 +1,7 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
 
-#include <DataQueueItem.h>
+#include "DataQueueItem.h"
 #include <QObject>
 #include <QTcpServer>
 

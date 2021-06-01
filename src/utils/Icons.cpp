@@ -1,4 +1,4 @@
-#include <Icons.h>
+#include "Icons.h"
 
 QPixmap Icons::fldr() { return QPixmap(":icons/folder_20_20.png"); }
 QPixmap Icons::fldr_empt() { return QPixmap(":icons/folder_empty_20_20.png"); }

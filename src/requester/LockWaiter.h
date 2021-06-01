@@ -1,7 +1,7 @@
 #ifndef LOCKWAITER_H
 #define LOCKWAITER_H
 
-#include <AbstractRequester.h>
+#include "AbstractRequester.h"
 
 class LockWaiter final : public AbstractRequester
 {

@@ -1,42 +1,41 @@
 #include <QVector>
-#include <QSettings>
 #include <QDebug>
-#include <SignalSlotCommutator.h>
+#include "SignalSlotCommutator.h"
 
-#include <PortFactory.h>
-#include <PortManager.h>
-#include <Port.h>
-#include <DataQueueItem.h>
-#include <Utils.h>
-#include <ServerSettingUtils.h>
-#include <StatusConnectRequester.h>
-#include <LockWaiter.h>
-#include <global.h>
+#include "PortFactory.h"
+#include "PortManager.h"
+#include "Port.h"
+#include "DataQueueItem.h"
+#include "Utils.h"
+#include "ServerSettingUtils.h"
+#include "StatusConnectRequester.h"
+#include "LockWaiter.h"
+#include "global.h"
 #include <QMessageBox>
-#include <MultiUNStatusConnectRequester.h>
+#include "MultiUNStatusConnectRequester.h"
 #include <QQueue>
-#include <ProcessDKWaiter.h>
-#include <UnitNodeFactory.h>
+#include "ProcessDKWaiter.h"
+#include "UnitNodeFactory.h"
 
-#include <DataBaseManager.h>
-#include <UnitNode.h>
-#include <Port.h>
-#include <DataQueueItem.h>
-#include <ConfirmationAdmissionWaiter.h>
-#include <OnOffIUWaiter.h>
-#include <GraphTerminal.h>
+#include "DataBaseManager.h"
+#include "UnitNode.h"
+#include "Port.h"
+#include "DataQueueItem.h"
+#include "ConfirmationAdmissionWaiter.h"
+#include "OnOffIUWaiter.h"
+#include "GraphTerminal.h"
 
-#include <SWPBLIP.h>
-#include <SWPRLM.h>
-#include <SWPRLMC.h>
-#include <SWPSDBLIP.h>
-#include <SWPIUBLIP.h>
-#include <SWPTGType0x31.h>
-#include <SWPTGType0x34.h>
-#include <SWPTGType0x33.h>
-#include <SWPTGSubType0x33.h>
-#include <SWPTGType0x32.h>
-#include <SWPTGSubType0x32.h>
+#include "SWPBLIP.h"
+#include "SWPRLM.h"
+#include "SWPRLMC.h"
+#include "SWPSDBLIP.h"
+#include "SWPIUBLIP.h"
+#include "SWPTGType0x31.h"
+#include "SWPTGType0x34.h"
+#include "SWPTGType0x33.h"
+#include "SWPTGSubType0x33.h"
+#include "SWPTGType0x32.h"
+#include "SWPTGSubType0x32.h"
 
 PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {
@@ -79,8 +78,6 @@ PortManager::~PortManager()
     }
     m_udpPortsVector.clear();
 }
-
-void PortManager::loadSettings(QSettings */*config*/, const int /*index*/) {}
 
 void PortManager::loadSettings() {
     m_udpPortsVector.clear();
@@ -804,17 +801,8 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
 }
 
 GraphTerminal * PortManager::loadPortsTcpGraphTerminal(QString fileName) {
-
-    QSettings settings(fileName, QSettings::IniFormat);
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
-
-    settings.beginGroup("INTEGRATION");
-    int nPort = settings.value( "Port", -1 ).toInt();
-    settings.endGroup();
+    Q_UNUSED(fileName)
+    int nPort = ServerSettingUtils::getValueSettings("Port", "INTEGRATION", fileName).toInt();
 
     if(-1 != nPort)
         return new GraphTerminal(nPort);
@@ -825,21 +813,11 @@ GraphTerminal * PortManager::loadPortsTcpGraphTerminal(QString fileName) {
 QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     QList<AbstractPort *> result;
 
-    QSettings settings(fileName, QSettings::IniFormat);
-
-    settings.beginGroup("TREE");
-    int cntTrItm = settings.value( "Count", -1 ).toInt();
-    settings.endGroup();
+    int cntTrItm = ServerSettingUtils::getValueSettings("Count", "TREE", fileName).toInt();
 
     //qDebug() << "cntTrItm" << cntTrItm;
     if(0 >= cntTrItm)
         return result;
-
-#if (defined (_WIN32) || defined (_WIN64))
-    settings.setIniCodec( "Windows-1251" );
-#else
-    settings.setIniCodec( "UTF-8" );
-#endif
 
     QSet<QPair<QString, QString> > stIpPort;
     QSet<QString> stPort;
@@ -848,19 +826,14 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     {
         QString strGroup("Obj_%1");
         strGroup = strGroup.arg(index + 1);
-        if(settings.childGroups().contains(strGroup))
-        {
-            settings.beginGroup(strGroup);
-            int udpUse = settings.value( "UdpUse" , -1 ).toInt();
-            QString udpAdress = settings.value( "UdpAdress" , -1 ).toString();
-            QString updPort = settings.value( "UpdPort" , -1 ).toString();
-            settings.endGroup();
 
-            if (1 == udpUse && !udpAdress.isEmpty() && !updPort.isEmpty()){
-                QPair<QString, QString> tmp(udpAdress, updPort);
-                stIpPort.insert(tmp);
-                stPort.insert(updPort);
-            }
+        int udpUse = ServerSettingUtils::getValueSettings("UdpUse", strGroup, fileName).toInt();
+        QString udpAdress =ServerSettingUtils::getValueSettings("UdpAdress", strGroup, fileName).toString();
+        QString updPort = ServerSettingUtils::getValueSettings("UpdPort", strGroup, fileName).toString();
+        if (1 == udpUse && !udpAdress.isEmpty() && !updPort.isEmpty()){
+            QPair<QString, QString> tmp(udpAdress, updPort);
+            stIpPort.insert(tmp);
+            stPort.insert(updPort);
         }
     }
 

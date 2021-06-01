@@ -1,7 +1,7 @@
 #include "ServerUnitNodeTreeItem.h"
 
 #include <QVariant>
-#include <ServerSettingUtils.h>
+#include "ServerSettingUtils.h"
 #include <QSharedPointer>
 
 int ServerUnitNodeTreeItem::treeColumnCount() const

@@ -2,7 +2,7 @@
 #define TABLEMODELARCHIVEMSG_H
 
 #include <QAbstractItemModel>
-#include <JourEntity.h>
+#include "JourEntity.h"
 #include <QFont>
 
 class TableModelMSG : public QAbstractTableModel

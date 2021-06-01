@@ -2,9 +2,9 @@
 
 #include "SignalSlotCommutator.h"
 
-#include <PortManager.h>
-#include <Utils.h>
-#include <global.h>
+#include "PortManager.h"
+#include "Utils.h"
+#include "global.h"
 
 MultiUNStatusConnectRequester::MultiUNStatusConnectRequester(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

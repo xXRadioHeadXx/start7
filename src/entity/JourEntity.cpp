@@ -1,8 +1,8 @@
-#include <JourEntity.h>
+#include "JourEntity.h"
 
-#include <Icons.h>
-#include <ServerSettingUtils.h>
-#include <Utils.h>
+#include "Icons.h"
+#include "ServerSettingUtils.h"
+#include "Utils.h"
 
 QMap<int, QString> JourEntity::mapTypeObject = {{TypeObject::oAllObject, tr("Все")},
                                                 {TypeObject::oSD, tr("СД")},

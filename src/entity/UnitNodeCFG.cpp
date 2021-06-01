@@ -1,6 +1,6 @@
 #include <QDebug>
 
-#include <UnitNodeCFG.h>
+#include "UnitNodeCFG.h"
 
 int UnitNodeCFG::getType() const
 {

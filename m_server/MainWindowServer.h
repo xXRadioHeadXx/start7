@@ -2,15 +2,15 @@
 #define MAINWINDOWSERVER_H
 
 #include <QMainWindow>
-#include <AlarmSwitchOffLogger.h>
+#include "AlarmSwitchOffLogger.h"
 #include <QDebug>
 #include <QTableWidget>
 
-#include <ServerTreeModelUnitNode.h>
-#include <PortManager.h>
-#include <DataBaseManager.h>
-#include <ServerTableModelJour.h>
-#include <AuthenticationDialog.h>
+#include "ServerTreeModelUnitNode.h"
+#include "PortManager.h"
+#include "DataBaseManager.h"
+#include "ServerTableModelJour.h"
+#include "AuthenticationDialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowServer; }

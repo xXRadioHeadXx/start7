@@ -1,24 +1,24 @@
 #include "MainWindowServer.h"
 #include "ui_MainWindowServer.h"
 
-#include <ComboBoxDelegate.h>
+#include "ComboBoxDelegate.h"
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QNetworkDatagram>
 #include <QTimer>
 
-#include <Port.h>
-#include <SignalSlotCommutator.h>
-#include <Utils.h>
-#include <ServerSettingUtils.h>
-#include <global.h>
+#include "Port.h"
+#include "SignalSlotCommutator.h"
+#include "Utils.h"
+#include "ServerSettingUtils.h"
+#include "global.h"
 
-#include <SWPRLM.h>
-#include <SWPRLMC.h>
-#include <SWPSDBLIP.h>
-#include <SWPIUBLIP.h>
-#include <SWPTGType0x31.h>
-#include <ServerTableModelJour.h>
+#include "SWPRLM.h"
+#include "SWPRLMC.h"
+#include "SWPSDBLIP.h"
+#include "SWPIUBLIP.h"
+#include "SWPTGType0x31.h"
+#include "ServerTableModelJour.h"
 #include <QScrollBar>
 #include "SWPTGSubType0x34.h"
 #include "SWPTGType0x34.h"

@@ -1,13 +1,13 @@
 #include "LockWaiter.h"
 #include "SignalSlotCommutator.h"
 
-#include <PortManager.h>
-#include <UnitNodeFactory.h>
-#include <ServerSettingUtils.h>
-#include <Utils.h>
-#include <global.h>
-#include <SWPSDBLIP.h>
-#include <SWPIUBLIP.h>
+#include "PortManager.h"
+#include "UnitNodeFactory.h"
+#include "ServerSettingUtils.h"
+#include "Utils.h"
+#include "global.h"
+#include "SWPSDBLIP.h"
+#include "SWPIUBLIP.h"
 
 LockWaiter::LockWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

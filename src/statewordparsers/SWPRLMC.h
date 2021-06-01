@@ -1,7 +1,7 @@
 #ifndef SWPRLMC_H
 #define SWPRLMC_H
 
-#include <SWP.h>
+#include "SWP.h"
 
 class SWPRLMC : public SWP
 {

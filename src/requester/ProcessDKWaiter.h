@@ -1,7 +1,7 @@
 #ifndef PROCESSDKWAITER_H
 #define PROCESSDKWAITER_H
 
-#include <AbstractRequester.h>
+#include "AbstractRequester.h"
 
 class ProcessDKWaiter final : public AbstractRequester
 {

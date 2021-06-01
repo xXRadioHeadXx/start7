@@ -1,4 +1,4 @@
-#include <SignalSlotCommutator.h>
+#include "SignalSlotCommutator.h"
 #include <QDebug>
 
 SignalSlotCommutator * SignalSlotCommutator::instance = nullptr;

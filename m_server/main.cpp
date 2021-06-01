@@ -1,11 +1,11 @@
 
 #include <QApplication>
 
-#include <AppTranslator.h>
-#include <MainWindowServer.h>
+#include "AppTranslator.h"
+#include "MainWindowServer.h"
 #include <QMessageBox>
 #include <QSplashScreen>
-#include <RunGuard.h>
+#include "RunGuard.h"
 
 int main(int argc, char *argv[])
 {

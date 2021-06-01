@@ -1,11 +1,11 @@
 #ifndef MAINWINDOWDB_H
 #define MAINWINDOWDB_H
 
-#include <DataBaseManager.h>
+#include "DataBaseManager.h"
 #include <QMainWindow>
-#include <ServerTableModelJour.h>
+#include "ServerTableModelJour.h"
 
-#include <GraphTerminal.h>
+#include "GraphTerminal.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowDB; }

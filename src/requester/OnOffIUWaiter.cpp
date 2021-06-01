@@ -1,9 +1,9 @@
 #include "OnOffIUWaiter.h"
 #include "SignalSlotCommutator.h"
 
-#include <PortManager.h>
-#include <Utils.h>
-#include <global.h>
+#include "PortManager.h"
+#include "Utils.h"
+#include "global.h"
 
 OnOffIUWaiter::OnOffIUWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

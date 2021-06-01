@@ -1,8 +1,8 @@
-#include <DataQueueItem.h>
-#include <global.h>
-#include <UnitNode.h>
-#include <SWPSDBLIP.h>
-#include <SWPIUBLIP.h>
+#include "DataQueueItem.h"
+#include "global.h"
+#include "UnitNode.h"
+#include "SWPSDBLIP.h"
+#include "SWPIUBLIP.h"
 
 QByteArray DataQueueItem::preamble() const
 {

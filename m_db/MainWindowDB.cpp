@@ -1,12 +1,12 @@
 #include "MainWindowDB.h"
 #include "ui_MainWindowDB.h"
 
-#include <ComboBoxDelegate.h>
-#include <TablePrint.h>
-#include <global.h>
-#include <UnitNodeFactory.h>
-#include <ServerSettingUtils.h>
-#include <ServerTableModelJour.h>
+#include "ComboBoxDelegate.h"
+#include "TablePrint.h"
+#include "global.h"
+#include "UnitNodeFactory.h"
+#include "ServerSettingUtils.h"
+#include "ServerTableModelJour.h"
 
 QSharedPointer<GraphTerminal> MainWindowDB::graphTerminal = QSharedPointer<GraphTerminal>();
 

@@ -1,8 +1,8 @@
 #ifndef SWPTGTYPE0X34_H
 #define SWPTGTYPE0X34_H
 
-#include <SWP.h>
-#include <SWPTGSubType0x34.h>
+#include "SWP.h"
+#include "SWPTGSubType0x34.h"
 
 class SWPTGType0x34 : public SWP
 {

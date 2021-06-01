@@ -1,10 +1,10 @@
 #include <QByteArray>
 
-#include <ServerTableModelJour.h>
-#include <DataBaseManager.h>
-#include <SignalSlotCommutator.h>
-#include <Icons.h>
-#include <ServerSettingUtils.h>
+#include "ServerTableModelJour.h"
+#include "DataBaseManager.h"
+#include "SignalSlotCommutator.h"
+#include "Icons.h"
+#include "ServerSettingUtils.h"
 
 QList<JourEntity> ServerTableModelJour::m_listJour = QList<JourEntity>();
 

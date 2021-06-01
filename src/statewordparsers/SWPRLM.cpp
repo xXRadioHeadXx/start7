@@ -1,7 +1,7 @@
 #include "SWPRLM.h"
 
-#include <Utils.h>
-#include <global.h>
+#include "Utils.h"
+#include "global.h"
 
 SWPRLM::SWPRLM(const QByteArray &stateWord) :
     SWP(stateWord)

@@ -4,8 +4,8 @@
 #include <QTcpSocket>
 #include <QTime>
 #include <QDomDocument>
-#include <Utils.h>
-#include <global.h>
+#include "Utils.h"
+#include "global.h"
 
 TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
  {

@@ -3,7 +3,6 @@
 
 #include <QCoreApplication>
 
-class QSettings;
 class UnitNode;
 class QStringList;
 class ServerSettingUtils

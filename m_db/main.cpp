@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <QString>
-#include <RunGuard.h>
+#include "RunGuard.h"
 
 int main(int argc, char *argv[])
 {

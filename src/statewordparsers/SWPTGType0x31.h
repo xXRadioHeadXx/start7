@@ -1,7 +1,7 @@
 #ifndef SWPTGTYPE0X31_H
 #define SWPTGTYPE0X31_H
 
-#include <SWP.h>
+#include "SWP.h"
 
 class SWPTGType0x31 : public SWP
 {

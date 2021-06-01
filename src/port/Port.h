@@ -2,12 +2,12 @@
 #define PORT_H
 
 #include <QByteArray>
-#include <QSettings>
 #include <QUdpSocket>
 
-#include <AbstractPort.h>
-#include <DataBaseManager.h>
-#include <DataQueueItem.h>
+#include "AbstractPort.h"
+#include "DataBaseManager.h"
+
+#include "DataQueueItem.h"
 
 class Port :
         public AbstractPort

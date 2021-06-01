@@ -1,17 +1,17 @@
 #include "GraphTerminal.h"
 
-#include <SWPSDBLIP.h>
-#include <SWPIUBLIP.h>
-#include <TcpServer.h>
+#include "SWPSDBLIP.h"
+#include "SWPIUBLIP.h"
+#include "TcpServer.h"
 #include <QTcpSocket>
 #include <qdom.h>
-#include <UnitNode.h>
-#include <DataBaseManager.h>
-#include <JourEntity.h>
+#include "UnitNode.h"
+#include "DataBaseManager.h"
+#include "JourEntity.h"
 #include <QDomDocument>
-#include <ServerSettingUtils.h>
-#include <SignalSlotCommutator.h>
-#include <global.h>
+#include "ServerSettingUtils.h"
+#include "SignalSlotCommutator.h"
+#include "global.h"
 
 QSharedPointer<TcpServer> GraphTerminal::m_tcpServer = QSharedPointer<TcpServer>();
 QHash<QTcpSocket*, QByteArray*> GraphTerminal::abonents = QHash<QTcpSocket*, QByteArray*>();

@@ -3,7 +3,7 @@
 #include <QCoreApplication>
 #include <QFile>
 #include <QDateTime>
-#include <DataBaseManager.h>
+#include "DataBaseManager.h"
 
 bool AlarmSwitchOffLogger::isRuning() const
 {

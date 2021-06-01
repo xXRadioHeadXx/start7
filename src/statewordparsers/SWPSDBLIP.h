@@ -1,7 +1,7 @@
 #ifndef SWPSDBLIP_H
 #define SWPSDBLIP_H
 
-#include <SWP.h>
+#include "SWP.h"
 
 class SWPSDBLIP : public SWP
 {

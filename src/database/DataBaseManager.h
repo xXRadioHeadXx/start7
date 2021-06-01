@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QtSql>
-#include <ShedulerNewDuty.h>
+#include "ShedulerNewDuty.h"
 
-#include <JourEntity.h>
+#include "JourEntity.h"
 
 class DataBaseManager : public QObject
 {
@@ -42,7 +42,7 @@ public:
     static QList<JourEntity> getQueryMSGRecord(QString sql);
     static QList<JourEntity> getQueryMSGRecord(QSqlQuery query);
     static QList<JourEntity> getJourRecordAfter(const int &id, const int &limit = -1);
-    static QList<JourEntity> getJourRecordAfter(const QDateTime &from = QDateTime(QDate::currentDate()), const int &limit = -1);
+    static QList<JourEntity> getJourRecordAfter(const QDateTime &from, const int &limit = -1);
 
     static int executeQuery(QString sql);
     static int executeQuery(QSqlQuery query);
