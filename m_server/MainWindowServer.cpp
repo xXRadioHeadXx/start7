@@ -768,11 +768,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addSeparator();
         }
 
-        if(0 == sel->getBazalt() && 0 != sel->getDK()) {
-            menu->addAction(ui->actionDK);
-        } else if(isDebug) { //! debug
-            menu->addAction(ui->actionDK);
-        }
+        menu->addAction(ui->actionDK);
 
     } else if(TypeUnitNode::RLM_KRL == sel->getType()) {
 
@@ -793,11 +789,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addSeparator();
         }
 
-        if(isDebug) { //! debug
-            menu->addAction(ui->actionDK);
-        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
-            menu->addAction(ui->actionDK);
-        }
+        menu->addAction(ui->actionDK);
 
     } else if(TypeUnitNode::TG == sel->getType()) {
 
@@ -818,11 +810,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addSeparator();
         }*/
 
-        if(isDebug) { //! debug
-            menu->addAction(ui->actionDK);
-        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
-            menu->addAction(ui->actionDK);
-        }
+        menu->addAction(ui->actionDK);
 
     }
 

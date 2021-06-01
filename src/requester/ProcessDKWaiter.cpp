@@ -104,7 +104,7 @@ void ProcessDKWaiter::init() {
         getUnReciver()->setDkInvolved(true);
     } else if(TypeUnitNode::TG_Base == getUnReciver()->getType()) {
         for(QSharedPointer<UnitNode>  uncld : as_const(getUnReciver()->getListChilde())) {
-            if(0 != uncld->getDK() && (TypeUnitNode::TG == uncld->getType() /* или датчик */)) {
+            if(TypeUnitNode::TG == uncld->getType() /* или датчик */) {
                 uncld->setDkInvolved(true);
                 uncld->setDkStatus(DKCiclStatus::DKReady);
                 uncld->updDoubl();

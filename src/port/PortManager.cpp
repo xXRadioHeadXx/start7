@@ -1743,8 +1743,7 @@ void PortManager::procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitN
     qDebug() << "DkStatus --> " << current->toString();
     if(current.isNull() || previous.isNull())
         return;
-    if(0 != current->getDK() &&
-       DKCiclStatus::DKIgnore != previous->getDkStatus() &&
+    if(DKCiclStatus::DKIgnore != previous->getDkStatus() &&
        DKCiclStatus::DKWrong != previous->getDkStatus() &&
        DKCiclStatus::DKDone != previous->getDkStatus() &&
        current->getDkInvolved()) {
