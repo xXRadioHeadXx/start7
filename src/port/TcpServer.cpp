@@ -25,7 +25,7 @@ TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
 }
 
 TcpServer::~TcpServer() {
-    if(nullptr != m_ptrTcpServer) {
+    if(!m_ptrTcpServer.isNull()) {
         m_ptrTcpServer->close();
     }
 }
@@ -49,27 +49,34 @@ const QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > TcpServer::
 QSharedPointer<QTcpSocket> TcpServer::connectToHost(QString host)
 {
     qDebug() << "TcpServer::connectToHost(" << "host" << ")";
+    for(const auto &socket : abonents.keys()) {
+        if(host == Utils::hostAddressToString(socket->peerAddress())) {
+            return socket;
+        }
+    }
+
     auto socket = QSharedPointer<QTcpSocket>::create();
     socket->connectToHost(host, nPort);
+    abonents.insert(socket, QSharedPointer<QByteArray>::create());
     connect(socket.data(), SIGNAL(readyRead()), SLOT(readyRead()));
     connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
-    auto buffer = QSharedPointer<QByteArray>::create();
-    abonents.insert(socket, buffer);
+    qDebug() << "GraphTerminal::connectToHost()" << abonents;
     if(socket->waitForConnected())
         return socket;
-    return nullptr;
+
+    return QSharedPointer<QTcpSocket>();
 }
 
 bool TcpServer::writeData(QSharedPointer<QTcpSocket> socket, QByteArray data)
 {
-    if(nullptr == socket)
+    if(socket.isNull())
         return false;
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
 //        //qDebug() << "TcpServer::writeData(" << QString::fromLocal8Bit(data) << ")";
         if(-1 == socket->write(data))
-            return false;; //write the data itself
+            return false; //write the data itself
         return socket->waitForBytesWritten(500);
     }
     else
@@ -80,14 +87,14 @@ void TcpServer::newConnection()
 {
     auto server = static_cast<QTcpServer*>(sender());
 
-    auto socket = QSharedPointer<QTcpSocket>::create(server->nextPendingConnection());
+    auto socket = QSharedPointer<QTcpSocket>(server->nextPendingConnection());
 
-    auto buffer = QSharedPointer<QByteArray>::create();
-    abonents.insert(socket, buffer);
+    abonents.insert(socket,  QSharedPointer<QByteArray>::create());
 
     connect(socket.data(), SIGNAL(readyRead()), SLOT(readyRead()));
     connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
 
+    qDebug() << "TcpServer::newConnection()" << abonents;
 }
 
 void TcpServer::disconnected()
@@ -97,6 +104,7 @@ void TcpServer::disconnected()
     for(const auto &key : abonents.keys()) {
         if(key.data() == socket) {
             abonents.remove(key);
+            qDebug() << "GraphTerminal::disconnected()" << abonents;
             return;
         }
     }

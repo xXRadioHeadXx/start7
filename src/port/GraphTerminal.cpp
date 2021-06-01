@@ -206,6 +206,7 @@ void GraphTerminal::disconnected()
     for(const auto &key : abonents.keys()) {
         if(key.data() == socket) {
             abonents.remove(key);
+            qDebug() << "GraphTerminal::disconnected()" << abonents;
             return;
         }
     }
@@ -248,6 +249,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.insert(socket, buffers.value(socket));
                         connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
+                        qDebug() << "GraphTerminal::procCommands(10000)" << abonents;
                     }
                 }
                 //
@@ -256,6 +258,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& socket : as_const(abonents.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.remove(socket);
+                       qDebug() << "GraphTerminal::procCommands(10001)" << abonents;
                     }
                 }
                 //
