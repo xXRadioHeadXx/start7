@@ -1149,6 +1149,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             msg.setComment(QObject::tr("Открыто"));
                             msg.setType(111);
                             un->setPublishedState(111);
+                            unLockIuBlIp->setPublishedState(100);
                         } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
                                   1 == unLockIuBlIp->swpIUBLIP().isOn() &&
                                   (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
@@ -1157,6 +1158,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             msg.setComment(QObject::tr("Закрыто"));
                             msg.setType(110);
                             un->setPublishedState(110);
+                            unLockIuBlIp->setPublishedState(101);
                         } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
                                   1 == unLockIuBlIp->swpIUBLIP().isOn() &&
                                   (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
@@ -1165,6 +1167,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             msg.setComment(QObject::tr("Открыто ключом"));
                             msg.setType(113);
                             un->setPublishedState(113);
+                            unLockIuBlIp->setPublishedState(101);
                         } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
                                   1 == unLockIuBlIp->swpIUBLIP().isOff() &&
                                   (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
@@ -1173,6 +1176,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             msg.setComment(QObject::tr("Закрыто ключом"));
                             msg.setType(112);
                             un->setPublishedState(112);
+                            unLockIuBlIp->setPublishedState(100);
                         }
 
 //                        if(msg.getType() != un->getPublishedState()) {
@@ -1232,18 +1236,18 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                     if((TypeUnitNode::IU_BL_IP == un->getType()) &&
                        (1 == un->swpIUBLIP().isOff()) &&
-                       (previousCopyUN->swpIUBLIP().isOff() != un->swpIUBLIP().isOff()) &&
-                       100 != un->getPublishedState()) {
+                       (previousCopyUN->swpIUBLIP().isOff() != un->swpIUBLIP().isOff())) {
                         msg.setComment(QObject::tr("Выкл"));
                         msg.setType(100);
+                        un->setPublishedState(100);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((TypeUnitNode::IU_BL_IP == un->getType()) &&
                               (1 == un->swpIUBLIP().isOn()) &&
-                              (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn()) &&
-                              101 != un->getPublishedState()) {
+                              (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn())) {
                         msg.setComment(QObject::tr("Вкл"));
                         msg.setType(101);
+                        un->setPublishedState(101);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
@@ -2185,7 +2189,7 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
             msg.setD3(un->getNum3());
             msg.setDirection(un->getUdpAdress());
             msg.setComment(tr("Нет связи"));
-            un->setPublishedState(-1);
+            un->setPublishedState(10);
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
         }
