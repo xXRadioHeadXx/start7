@@ -19,6 +19,7 @@ QHash<QTcpSocket*, QByteArray*> GraphTerminal::abonents = QHash<QTcpSocket*, QBy
 
 GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 {
+    Q_UNUSED(nPort)
     try {
 
         QString sPort = ServerSettingUtils::getValueSettings("Port", "INTEGRATION").toString();
@@ -33,7 +34,7 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 
 //        m_tcpServer->writeData(nHost, "Hello!");
 
-        auto buffers = m_tcpServer->getAbonents();
+        const auto buffers = m_tcpServer->getAbonents();
         abonents.unite(buffers);
         for(auto socket : as_const(abonents.keys())) {
             connect(socket, SIGNAL(disconnected()), SLOT(disconnected()));

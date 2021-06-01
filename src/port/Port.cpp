@@ -151,8 +151,8 @@ bool Port::openUdpScoket(QString port)
         return false; // Returns false when the IP address or port number is wrong.
     }
 
-    for(const auto& tmp : as_const(getStIpPort()))
-        //qDebug() << QHostAddress(tmp.first)<< "port " << tmp.second;
+//    for(const auto& tmp : as_const(getStIpPort()))
+//        //qDebug() << QHostAddress(tmp.first)<< "port " << tmp.second;
 
     if(nullptr == m_ptrSocket)
         m_ptrSocket = QSharedPointer<QUdpSocket>::create();

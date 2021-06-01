@@ -33,6 +33,9 @@ public:
     DataQueueItem() noexcept;
     DataQueueItem(const QByteArray data, QHostAddress address, int port, const int index) noexcept;
 
+    DataQueueItem(const DataQueueItem&);
+    DataQueueItem(DataQueueItem&&);
+
     virtual ~DataQueueItem();
 
     QByteArray data() const;
@@ -44,6 +47,7 @@ public:
     int port() const;
     bool isValid();
     DataQueueItem & operator=(const DataQueueItem&);
+    DataQueueItem& operator=(DataQueueItem&&);
 
     bool operator==(const DataQueueItem &right) const;
     void setPort(int port);

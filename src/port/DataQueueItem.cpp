@@ -38,6 +38,22 @@ DataQueueItem::DataQueueItem() noexcept : m_port(0), m_data(QByteArray()), m_por
 
 DataQueueItem::DataQueueItem(const QByteArray data, QHostAddress address, int port, const int index) noexcept : m_port(port), m_address(address), m_data(data), m_portIndex(index) {}
 
+DataQueueItem::DataQueueItem(const DataQueueItem & parent)
+{
+    m_data = parent.data();
+    m_portIndex = parent.portIndex();
+    m_address = parent.address();
+    m_port = parent.port();
+}
+
+DataQueueItem::DataQueueItem(DataQueueItem && parent)
+{
+    m_data = parent.data();
+    m_portIndex = parent.portIndex();
+    m_address = parent.address();
+    m_port = parent.port();
+}
+
 DataQueueItem::~DataQueueItem() {}
 
 
@@ -66,6 +82,16 @@ DataQueueItem& DataQueueItem::operator=(const DataQueueItem& right) {
 
     return *this;
 }
+
+DataQueueItem& DataQueueItem::operator=(DataQueueItem&& right) {
+    m_data = right.data();
+    m_portIndex = right.portIndex();
+    m_address = right.address();
+    m_port = right.port();
+
+    return *this;
+}
+
 
 bool DataQueueItem::operator==(const DataQueueItem &right) const
 {

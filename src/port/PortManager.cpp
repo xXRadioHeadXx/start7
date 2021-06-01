@@ -873,7 +873,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
         bool isLockPair = false;
         if(1 <= un->getNum2() && 4 >= un->getNum2()) {
             if(!reciver.isNull()) {
-                for(const auto tmpUN : as_const(reciver->getListChilde())) {
+                for(const auto &tmpUN : as_const(reciver->getListChilde())) {
                     if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
                         previousCopyUNLockIuBlIp = UnitNodeFactory::makeShare(*tmpUN);
                         unLockIuBlIp = tmpUN;
@@ -1769,15 +1769,15 @@ void PortManager::manageOverallReadQueue()
                 DataQueueItem request;
                 parcingStatusWord0x41(itm, request);
 
-                QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
-                bool dkWait = false;
-                for(auto ar : as_const(getLsWaiter())) {
-                    if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
-                        ar->getIpPort() == tmpPair) {
-                        dkWait = true;
-                        break;
-                    }
-                }
+//                QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
+//                bool dkWait = false;
+//                for(auto ar : as_const(getLsWaiter())) {
+//                    if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
+//                        ar->getIpPort() == tmpPair) {
+//                        dkWait = true;
+//                        break;
+//                    }
+//                }
 
 //                if(request.isValid() && !dkWait) {
 //                    QSharedPointer<UnitNode>  reciver;
