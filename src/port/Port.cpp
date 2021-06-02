@@ -198,15 +198,18 @@ bool Port::openTcpScoket(QString host, QString port)
 
 void Port::readUdpDatagrams()
 {
+    auto socket = m_ptrSocket.objectCast<QUdpSocket>();
     QByteArray datagram;
 
     do {
-        int dataSize = ((QUdpSocket *)m_ptrSocket.data())->pendingDatagramSize();
+        if(socket.isNull())
+            return;
+        int dataSize = socket->pendingDatagramSize();
         datagram.resize(dataSize);
         QHostAddress ip6Address;
         bool conversionOK = false;
         quint16 port;
-        ((QUdpSocket *)m_ptrSocket.data())->readDatagram(datagram.data(), datagram.size(), &ip6Address, &port);
+        socket->readDatagram(datagram.data(), datagram.size(), &ip6Address, &port);
 //        //qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
         QHostAddress ip4Address(ip6Address.toIPv4Address(&conversionOK));
         if (conversionOK && getStHostAddress().contains(ip4Address) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
@@ -221,7 +224,7 @@ void Port::readUdpDatagrams()
 //            }
 //            // временно <--
         }
-    } while (((QUdpSocket *)m_ptrSocket.data())->hasPendingDatagrams());
+    } while (socket->hasPendingDatagrams());
 
     emit readyRead(getPortIndex());
 }

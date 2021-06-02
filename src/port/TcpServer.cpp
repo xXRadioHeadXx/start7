@@ -55,11 +55,13 @@ QSharedPointer<QTcpSocket> TcpServer::connectToHost(QString host)
         }
     }
 
-    auto socket = QSharedPointer<QTcpSocket>::create();
+    auto ptrSocket = new QTcpSocket();
+    auto socket = QSharedPointer<QTcpSocket>(ptrSocket, &QTcpSocket::deleteLater);
     socket->connectToHost(host, nPort);
     abonents.insert(socket, QSharedPointer<QByteArray>::create());
     connect(socket.data(), SIGNAL(readyRead()), SLOT(readyRead()));
     connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
+    connect(socket.data(), SIGNAL(()), SLOT(disconnected()));
     qDebug() << "GraphTerminal::connectToHost()" << abonents;
     if(socket->waitForConnected())
         return socket;
@@ -87,7 +89,8 @@ void TcpServer::newConnection()
 {
     auto server = static_cast<QTcpServer*>(sender());
 
-    auto socket = QSharedPointer<QTcpSocket>(server->nextPendingConnection());
+    auto ptrSocket = server->nextPendingConnection();
+    auto socket = QSharedPointer<QTcpSocket>(ptrSocket, &QTcpSocket::deleteLater);
 
     abonents.insert(socket,  QSharedPointer<QByteArray>::create());
 
@@ -104,7 +107,7 @@ void TcpServer::disconnected()
     for(const auto &key : abonents.keys()) {
         if(key.data() == socket) {
             abonents.remove(key);
-            qDebug() << "GraphTerminal::disconnected()" << abonents;
+            qDebug() << "TcpServer::disconnected()" << abonents;
             return;
         }
     }
