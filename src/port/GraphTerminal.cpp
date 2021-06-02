@@ -635,9 +635,9 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 QList<JourEntity> jours;
 
-                if(start.nodeValue().isEmpty() && !from.nodeValue().isEmpty())
+                if(!start.nodeValue().isEmpty() && from.nodeValue().isEmpty())
                     jours = DataBaseManager::getJourRecordAfter(start.nodeValue().toInt(), length.nodeValue().toInt());
-                else if(!start.nodeValue().isEmpty() && from.nodeValue().isEmpty())
+                else if(start.nodeValue().isEmpty() && !from.nodeValue().isEmpty())
                     jours = DataBaseManager::getJourRecordAfter(QDateTime::fromString(from.nodeValue(), "yyyy-MM-dd hh:mm:ss"), length.nodeValue().toInt());
 
                 dataAnswer = makeListJourRecord(jours.mid(0, length.nodeValue().toInt())).toByteArray();
