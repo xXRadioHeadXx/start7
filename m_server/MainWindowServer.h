@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "AlarmSwitchOffLogger.h"
-#include <QDebug>
+//#include <QDebug>
 #include <QTableWidget>
 
 #include "ServerTreeModelUnitNode.h"
@@ -16,6 +16,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowServer; }
 QT_END_NAMESPACE
 
+class QLabel;
 class MainWindowServer : public QMainWindow
 {
     Q_OBJECT
@@ -128,6 +129,8 @@ private slots:
     void tableView_repairSelection();
     void tableView_selectionChanged();
     void tableView_saveSelection();
+
+    void changLabelClientCounter(int);
 protected:
     void closeEvent(QCloseEvent * event);
 
@@ -136,6 +139,8 @@ protected:
 
 private:
     Ui::MainWindowServer *ui;
+
+    QSharedPointer<QLabel> m_labelClientCounter;
 
     QSharedPointer<PortManager> m_portManager;
     QSharedPointer<DataBaseManager> m_dbManager;

@@ -1,5 +1,5 @@
 #include <QVector>
-#include <QDebug>
+//#include <QDebug>
 #include "SignalSlotCommutator.h"
 
 #include "PortFactory.h"

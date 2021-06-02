@@ -1,5 +1,5 @@
 #include <QHostInfo>
-#include <QDebug>
+//#include <QDebug>
 #include <QNetworkDatagram>
 #include <QTcpServer>
 #include <QTcpSocket>

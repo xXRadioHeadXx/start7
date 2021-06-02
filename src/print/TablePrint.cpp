@@ -1,7 +1,7 @@
 #include "TablePrint.h"
 
 #include <QCoreApplication>
-#include <QDebug>
+//#include <QDebug>
 #include <QFile>
 #include <QFileDialog>
 #include <QTextBrowser>
@@ -12,6 +12,7 @@
 #include <QFileInfo>
 #include <QTableView>
 #include <QTextDocument>
+#include <QTextStream>
 
 
 TablePrint::TablePrint(QObject *parent) : QObject(parent)

@@ -42,6 +42,7 @@ public slots:
      void emitForcedNewDuty(bool out) const;
      void emitAlarmsReset(QSharedPointer<UnitNode>  un) const;
      void emitUpdateLabelOperator() const;
+     void emitChangeCountIntegrationAbonent(int) const;
 
 signals:
      void insNewCommandMSG(const quint32 id) const;
@@ -70,6 +71,7 @@ signals:
      void forcedNewDuty(bool out) const;
      void alarmsReset(QSharedPointer<UnitNode>  un) const;
      void updateLabelOperator() const;
+     void changeCountIntegrationAbonent(int) const;
 
 };
 

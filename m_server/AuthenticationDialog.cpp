@@ -1,7 +1,7 @@
 #include "AuthenticationDialog.h"
 #include "ui_AuthenticationDialog.h"
 
-#include <QDebug>
+//#include <QDebug>
 #include "Utils.h"
 #include <QTextCodec>
 #include "Utils.h"

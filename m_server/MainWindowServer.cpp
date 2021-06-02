@@ -263,16 +263,10 @@ MainWindowServer::MainWindowServer(QWidget *parent)
       SIGNAL(recalcSelectedMsg()),
       SLOT(tableView_selectionChanged())
      );
-//    connect(
-//      SignalSlotCommutator::getInstance(),
-//      SIGNAL(updJourMSG(const quint32)),
-//      SLOT(on_tableView_selectionChanged())
-//     );
-//    connect(
-//      SignalSlotCommutator::getInstance(),
-//      SIGNAL(updJourMSG()),
-//      SLOT(on_tableView_selectionChanged())
-//     );
+
+    m_labelClientCounter = QSharedPointer<QLabel>::create(statusBar());
+    statusBar()->addWidget(m_labelClientCounter.data());
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(changeCountIntegrationAbonent(int)), this, SLOT(changLabelClientCounter(int)));
 
 }
 
@@ -448,6 +442,17 @@ void MainWindowServer::tableView_saveSelection()
         endSelectRow = qMax(endSelectRow, index.row());
         beginSelectRow = qMin(beginSelectRow, index.row());
     }
+}
+
+void MainWindowServer::changLabelClientCounter(int value)
+{
+    if(0 >= value) {
+        m_labelClientCounter->setText("");
+        m_labelClientCounter->setVisible(false);
+        return;
+    }
+    m_labelClientCounter->setVisible(true);
+    m_labelClientCounter->setText(tr("Клиентов: ") + QString::number(value));
 }
 
 void MainWindowServer::tableView_repairSelection()

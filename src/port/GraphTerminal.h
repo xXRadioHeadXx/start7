@@ -72,7 +72,7 @@ public:
     static void sendAbonent(QByteArray ba);
 
 signals:
-
+    void changeCountAbonent(int);
 };
 
 #endif // GRAPHTERMINAL_H

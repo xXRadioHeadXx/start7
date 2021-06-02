@@ -1,5 +1,6 @@
 #include "SignalSlotCommutator.h"
-#include <QDebug>
+#include <QSharedPointer>
+//#include <QDebug>
 
 SignalSlotCommutator * SignalSlotCommutator::instance = nullptr;
 
@@ -150,4 +151,9 @@ void SignalSlotCommutator::emitAlarmsReset(QSharedPointer<UnitNode> un) const
 void SignalSlotCommutator::emitUpdateLabelOperator() const
 {
     emit this->updateLabelOperator();
+}
+
+void SignalSlotCommutator::emitChangeCountIntegrationAbonent(int value) const
+{
+    emit this->changeCountIntegrationAbonent(value);
 }

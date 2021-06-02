@@ -5,7 +5,7 @@
 #include "Port.h"
 #include "DataQueueItem.h"
 #include <QTimer>
-#include <QDebug>
+//#include <QDebug>
 #include "UnitNode.h"
 
 

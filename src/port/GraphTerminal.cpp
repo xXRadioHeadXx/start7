@@ -41,6 +41,8 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
         for(auto socket : as_const(abonents.keys())) {
             connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
         }
+        SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
+
 
     }  catch (...) {
       //qDebug() << "GraphTerminal::GraphTerminal -- some exception";
@@ -206,6 +208,8 @@ void GraphTerminal::disconnected()
     for(const auto &key : abonents.keys()) {
         if(key.data() == socket) {
             abonents.remove(key);
+            SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
+
             qDebug() << "GraphTerminal::disconnected()" << abonents;
             return;
         }
@@ -249,6 +253,8 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.insert(socket, buffers.value(socket));
                         connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
+                        SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
+
                         qDebug() << "GraphTerminal::procCommands(10000)" << abonents;
                     }
                 }
@@ -258,7 +264,10 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& socket : as_const(abonents.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.remove(socket);
-                       qDebug() << "GraphTerminal::procCommands(10001)" << abonents;
+                        SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
+
+                        qDebug() << "GraphTerminal::procCommands(10001)" << abonents;
+                        break;
                     }
                 }
                 //
