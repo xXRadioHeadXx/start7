@@ -832,36 +832,16 @@ int UnitNode_SD_BL_IP::calcDKStatus() const {
 
 
 int UnitNode_TG::calcDKStatus() const {
-//    const SWPTGType0x31 swp31 = swpTGType0x31();
-    const SWPTGType0x32 swp32 = swpTGType0x32();
-    const SWPTGType0x33 swp33 = swpTGType0x33();
-//    const SWPTGType0x34 swp34 = swpTGType0x34();
+    const auto swp32 = swpTGType0x32();
+    const auto swp33 = swpTGType0x33();
 
-/*    if(!swp31.isNull()) {
-        //
-        if(1 == swp31.isWasAlarm() && 1 == swp31.isAlarm()) {
-            return DKCiclStatus::DKWasAlarn;
-        } else if(1 == swp31.isNorm() && 1 == swp31.isWasAlarm()) {
-            return DKCiclStatus::DKWas;
-//            return DKCiclStatus::DKWrong;
-        } else if(1 == swp31.isAlarm()) {
-            return DKCiclStatus::DKWrong;
-//            return DKCiclStatus::DKWasAlarn;
-        } else if(1 == swp31.isOff()) {
-            return DKCiclStatus::DKWrong;
-        } else if(1 == swp31.isNorm()) {
-            return DKCiclStatus::DKNorm;
-        }
-        return DKCiclStatus::DKWrong;
-        //
-    } else */if(!swp32.isNull()) {
+    if(!swp32.isNull()) {
         //
         if(1 == swp32.C(getNum2()).isInAlarm() && 1 == swp32.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(0 == swp32.C(getNum2()).isInAlarm() && 0 == swp32.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKNorm;
         }
-        return DKCiclStatus::DKWas;
        //
     } else if(!swp33.isNull()) {
         //
@@ -870,44 +850,33 @@ int UnitNode_TG::calcDKStatus() const {
         } else if(0 == swp33.C(getNum2()).isInAlarm() && 0 == swp33.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKNorm;
         }
-        return DKCiclStatus::DKWas;
        //
-    }/* else if(!swp34.isNull()) {
-        return DKCiclStatus::DKWrong;
-    }*/
+    }
     return DKCiclStatus::DKWas;
 }
 
 int UnitNode_RLM_KRL::calcDKStatus() const {
-    if(1 == swpRLM().isWasAlarm() && 1 == swpRLM().isAlarm()) {
-        return DKCiclStatus::DKWasAlarn;
-    } else if(1 == swpRLM().isNorm() && 1 == swpRLM().isWasAlarm()) {
-        return DKCiclStatus::DKWas;
-//            return DKCiclStatus::DKWrong;
-    } else if(1 == swpRLM().isAlarm()) {
-        return DKCiclStatus::DKWrong;
-//            return DKCiclStatus::DKWasAlarn;
-    } else if(1 == swpRLM().isOff()) {
-        return DKCiclStatus::DKWrong;
-    } else if(1 == swpRLM().isNorm()) {
-        return DKCiclStatus::DKNorm;
+    const auto swp = swpRLM();
+
+    if(!swp.isNull()) {
+        if(1 == swp.isAlarm() && 1 == swp.isWasAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == swp.isOn() && 1 == swp.isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
     }
-    return DKCiclStatus::DKWrong;
+    return DKCiclStatus::DKWas;
 }
 
 int UnitNode_RLM_C::calcDKStatus() const {
-    if(1 == swpRLMC().isWasAlarm() && 1 == swpRLMC().isAlarm()) {
-        return DKCiclStatus::DKWasAlarn;
-    } else if(1 == swpRLMC().isNorm() && 1 == swpRLMC().isWasAlarm()) {
-        return DKCiclStatus::DKWas;
-//            return DKCiclStatus::DKWrong;
-    } else if(1 == swpRLMC().isAlarm()) {
-        return DKCiclStatus::DKWrong;
-//            return DKCiclStatus::DKWasAlarn;
-    } else if(1 == swpRLMC().isOff()) {
-        return DKCiclStatus::DKWrong;
-    } else if(1 == swpRLMC().isNorm()) {
-        return DKCiclStatus::DKNorm;
+    const auto swp = swpRLMC();
+
+    if(!swp.isNull()) {
+        if(1 == swp.isAlarm() && 1 == swp.isWasAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(1 == swp.isOn() && 1 == swp.isNorm()) {
+            return DKCiclStatus::DKNorm;
+        }
     }
-    return DKCiclStatus::DKWrong;
+    return DKCiclStatus::DKWas;
 }

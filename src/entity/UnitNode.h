@@ -226,7 +226,7 @@ public:
     explicit UnitNode_SD_BL_IP(const QSharedPointer<UnitNode> parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_SD_BL_IP(const UnitNode & parent) : UnitNode(parent) {}
     virtual ~UnitNode_SD_BL_IP() {}
-    virtual int calcDKStatus() const;
+    virtual int calcDKStatus() const override;
 };
 class UnitNode_IU_BL_IP : public UnitNode {
 public:
@@ -245,21 +245,21 @@ public:
         setNeededStateWordType(getDefaultNeededStateWordType());
     }
     virtual ~UnitNode_TG() {}
-    virtual int calcDKStatus() const;
+    virtual int calcDKStatus() const override;
 };
 class UnitNode_RLM_KRL : public UnitNode {
 public:
     explicit UnitNode_RLM_KRL(const QSharedPointer<UnitNode> parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_KRL(const UnitNode & parent) : UnitNode(parent) {}
     virtual ~UnitNode_RLM_KRL() {}
-    virtual int calcDKStatus() const;
+    virtual int calcDKStatus() const override;
 };
 class UnitNode_RLM_C : public UnitNode {
 public:
     explicit UnitNode_RLM_C(const QSharedPointer<UnitNode> parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_RLM_C(const UnitNode & parent) : UnitNode(parent) {}
     virtual ~UnitNode_RLM_C() {}
-    virtual int calcDKStatus() const;
+    virtual int calcDKStatus() const override;
 
 };
 class UnitNode_BOD_T4K_M : public UnitNode {
