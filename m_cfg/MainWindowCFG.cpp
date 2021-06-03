@@ -3202,7 +3202,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
     else
     {
 
-        string1.append(m_SD_BL_IP_OutType.value(0));
+   //     string1.append(m_SD_BL_IP_OutType.value(0));
     }
 this->ui->textEdit->append(string1);
 

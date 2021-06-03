@@ -761,8 +761,20 @@ QPixmap UnitNode::getPxm(SubTypeApp type, int column)
              if(column==1)
              {
                  if(DK==1)
-                 return Icons_cfg::DK();
-                 else
+                 {
+                     if(this->getType()==TypeUnitNode::SD_BL_IP)
+                     return Icons_cfg::DK();
+
+                     if(this->getType()==TypeUnitNode::SSOI_SD)
+                     return Icons_cfg::DK();
+
+                 }
+
+
+
+
+
+
                  return Icons_cfg::empty();
 
              }
