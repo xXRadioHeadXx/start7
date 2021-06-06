@@ -2123,17 +2123,19 @@ void PortManager::manageOverallReadQueue()
                                     if(DKCiclStatus::DKDone == un->getDkStatus()) {
                                         msg.setComment(tr("Ком. ДК выполнена"));
                                         msg.setType(3);
+                                        if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
+                                            DataBaseManager::insertJourMsg_wS(msg);
+                                            GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                                        }
                                     } else {
                                         msg.setComment(tr("Ком. ДК не выполнена"));
                                         msg.setType(11);
+                                        DataBaseManager::insertJourMsg_wS(msg);
+                                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                     }
                                     un->setDkInvolved(false);
                                     un->setDkStatus(DKCiclStatus::DKIgnore);
                                     un->updDoubl();
-                                    if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
-                                        DataBaseManager::insertJourMsg_wS(msg);
-                                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                                    }
                                 }
                             } else if(RequesterType::LockRequester == ar->getRequesterType()){
 
