@@ -8,7 +8,6 @@
 //#include <QDebug>
 #include "UnitNode.h"
 
-
 enum BeatStatus {
     Start = 0,
     Request = 1,

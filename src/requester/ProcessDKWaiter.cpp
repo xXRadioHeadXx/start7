@@ -32,13 +32,28 @@ void ProcessDKWaiter::setLsTrackedUN(const QList<QSharedPointer<UnitNode> > &val
 void ProcessDKWaiter::addLsTrackedUN(QSharedPointer<UnitNode> value)
 {
     lsTrackedUN.append(value);
-//    qDebug() << "ProcessDKWaiter::addLsTrackedUN(" << value->toString() << ")";
+    //    qDebug() << "ProcessDKWaiter::addLsTrackedUN(" << value->toString() << ")";
+}
+
+bool ProcessDKWaiter::removeLsTrackedUN(const QSharedPointer<UnitNode> value)
+{
+    return 0 != lsTrackedUN.removeAll(value);
+    //    qDebug() << "ProcessDKWaiter::addLsTrackedUN(" << value->toString() << ")";
+}
+
+
+const QList<QSharedPointer<UnitNode> > &ProcessDKWaiter::getLsTrackedUN()
+{
+    return lsTrackedUN;
 }
 
 DataQueueItem ProcessDKWaiter::makeFirstMsg() {
+    qDebug() << "DataQueueItem ProcessDKWaiter::makeFirstMsg() -->";
     DataQueueItem result;
-    if(nullptr == getPtrPort() || getUnReciver().isNull())
+    if(nullptr == getPtrPort() || getUnReciver().isNull()) {
+        qDebug() << "DataQueueItem ProcessDKWaiter::makeFirstMsg() <--";
         return result;
+    }
 
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
@@ -46,16 +61,22 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
 
     DataQueueItem::makeDK0x21(result, getUnReciver());
 
-    if(result.isValid())
+    if(result.isValid()) {
+        qDebug() << "DataQueueItem ProcessDKWaiter::makeFirstMsg() <--";
         return result;
+    }
 
+    qDebug() << "DataQueueItem ProcessDKWaiter::makeFirstMsg() <--";
     return DataQueueItem();
 }
 
 DataQueueItem ProcessDKWaiter::makeSecondMsg() {
+    qDebug() << "DataQueueItem ProcessDKWaiter::makeSecondMsg() -->";
     DataQueueItem result;
-    if(nullptr == getPtrPort() || getUnReciver().isNull())
+    if(nullptr == getPtrPort() || getUnReciver().isNull()) {
+        qDebug() << "DataQueueItem ProcessDKWaiter::makeSecondMsg() <--";
         return result;
+    }
 
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
@@ -63,9 +84,12 @@ DataQueueItem ProcessDKWaiter::makeSecondMsg() {
 
     DataQueueItem::makeAlarmReset0x24(result, getUnReciver());
 
-    if(result.isValid())
+    if(result.isValid()) {
+        qDebug() << "DataQueueItem ProcessDKWaiter::makeSecondMsg() <--";
         return result;
+    }
 
+    qDebug() << "DataQueueItem ProcessDKWaiter::makeSecondMsg() <--";
     return DataQueueItem();
 }
 

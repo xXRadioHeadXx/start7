@@ -97,7 +97,7 @@ void TcpServer::newConnection()
     connect(socket.data(), SIGNAL(readyRead()), SLOT(readyRead()));
     connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
 
-    qDebug() << "TcpServer::newConnection()" << abonents;
+//    qDebug() << "TcpServer::newConnection()" << abonents;
 }
 
 void TcpServer::disconnected()

@@ -255,7 +255,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                         connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
                         SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
 
-                        qDebug() << "GraphTerminal::procCommands(10000)" << abonents;
+//                        qDebug() << "GraphTerminal::procCommands(10000)" << abonents;
                     }
                 }
                 //
@@ -266,7 +266,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                         abonents.remove(socket);
                         SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
 
-                        qDebug() << "GraphTerminal::procCommands(10001)" << abonents;
+//                        qDebug() << "GraphTerminal::procCommands(10001)" << abonents;
                         break;
                     }
                 }

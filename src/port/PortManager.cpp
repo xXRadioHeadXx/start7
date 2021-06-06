@@ -1277,7 +1277,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
            item.port() != un->getUdpPort() ||
            static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
-//            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(1)";
+            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(1)";
             continue;
         }
         auto reciver = UnitNode::findReciver(un);
@@ -1289,7 +1289,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
         if(un.isNull() || previousCopyUN.isNull()) {
 //            previousCopyUN.clear();
-//            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(2)";
+            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(2)";
             continue;
         }
 
@@ -1297,21 +1297,63 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
-        if((TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
+        if(!un->getDkInvolved() && (
+           (TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
            (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm())) ||
-           (TypeUnitNode::TG == un->getType() && 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm() || 1 == un->swpTGType0x31().isInOpened() || 1 == un->swpTGType0x31().isWasOpened()))) {
+           (TypeUnitNode::TG == un->getType() && 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm() || 1 == un->swpTGType0x31().isInOpened() || 1 == un->swpTGType0x31().isWasOpened())))) {
             //нужен сброс
             auto alarmReset0x24 = resultRequest;
             DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
-            if(!reciver.isNull())
+            if(!reciver.isNull()) {
                 reciver->queueMsg.enqueue(alarmReset0x24);
-//                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+                qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+            }
         }
 
         if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) {
             if(un->getDkInvolved()) {
-                qDebug() << "PortManager::parcingStatusWord0x31 -- procDK";
-                procDK(un, previousCopyUN);
+                if(DKCiclStatus::DKDone != un->getDkStatus()) {
+                    qDebug() << "PortManager::parcingStatusWord0x31 -- procDK";
+                    procDK(un, previousCopyUN);
+                    if(DKCiclStatus::DKDone == un->getDkStatus()) {
+                        for(auto ar : as_const(getLsWaiter())) {
+                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
+                                 auto dwWaiter = ar.dynamicCast<ProcessDKWaiter>();
+                                 if(dwWaiter->removeLsTrackedUN(un)) {
+                                     if(0 == dwWaiter->getLsTrackedUN().size()) {
+                                         removeLsWaiter(dwWaiter);
+                                         SignalSlotCommutator::getInstance()->emitStopDKWait();
+                                     }
+                                     qDebug() << "PortManager::removeLsTrackedUN(" << un->toString() << ")";
+                                     break;
+                                 }
+                             }
+                        }
+                        JourEntity msg;
+                        msg.setObject(un->getName());
+                        msg.setObjecttype(un->getType());
+                        msg.setD1(un->getNum1());
+                        msg.setD2(un->getNum2());
+                        msg.setD3(un->getNum3());
+                        msg.setDirection(un->getUdpAdress());
+                        msg.setComment(tr("Ком. ДК выполнена"));
+                        msg.setType(3);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    }
+                }
+                if(/*!un->getDkInvolved() &&*/ (
+                   (TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
+                   (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm())) ||
+                   (TypeUnitNode::TG == un->getType() && 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm() || 1 == un->swpTGType0x31().isInOpened() || 1 == un->swpTGType0x31().isWasOpened())))) {
+                    //нужен сброс
+                    auto alarmReset0x24 = resultRequest;
+                    DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
+                    if(!reciver.isNull()) {
+                        reciver->queueMsg.enqueue(alarmReset0x24);
+                        qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+                    }
+                }
             } else if(!un->getDkInvolved()) {
 
                 JourEntity msg;
@@ -1324,7 +1366,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
                 if(TypeUnitNode::RLM_C != un->getType() && TypeUnitNode::RLM_KRL != un->getType() && TypeUnitNode::TG != un->getType()) {
 //                    previousCopyUN.clear();
-//                    qDebug() << "PortManager::parcingStatusWord0x31 -- continue(3)";
+                    qDebug() << "PortManager::parcingStatusWord0x31 -- continue(3)";
                     continue;
                 } else if(un->getControl() && TypeUnitNode::RLM_KRL == un->getType()) {
 
@@ -2088,7 +2130,7 @@ void PortManager::manageOverallReadQueue()
                                     un->setDkInvolved(false);
                                     un->setDkStatus(DKCiclStatus::DKIgnore);
                                     un->updDoubl();
-                                    if(un->getControl()) {
+                                    if(un->getControl() && (TypeUnitNode::SD_BL_IP == un->getType() || TypeUnitNode::IU_BL_IP == un->getType())) {
                                         DataBaseManager::insertJourMsg_wS(msg);
                                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                     }

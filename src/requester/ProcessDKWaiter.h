@@ -22,6 +22,8 @@ public:
     QList<QSharedPointer<UnitNode> > getLsTrackedUN() const;
     void setLsTrackedUN(const QList<QSharedPointer<UnitNode> > &value);
     void addLsTrackedUN(QSharedPointer<UnitNode> value);
+    bool removeLsTrackedUN(const QSharedPointer<UnitNode> value);
+    const QList<QSharedPointer<UnitNode> > & getLsTrackedUN();
 };
 
 #endif // PROCESSDKWAITER_H
