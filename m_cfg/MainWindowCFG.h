@@ -382,6 +382,7 @@ private:
 
     QModelIndex current_index;
 
+    int radiochanel_delay;
 
     QString str_system;
     QString str_system_RIF=          "РИФ+";
@@ -683,5 +684,6 @@ private slots:
    void on_uType_combobox_currentTextChanged(const QString &arg1);
    void on_SSOI_SD_Num3_currentTextChanged(const QString &arg1);
    void on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &arg1);
+   void on_Radiochanel_delay_valueChanged(double arg1);
 };
 #endif // MAINWINDOWCFG_H
