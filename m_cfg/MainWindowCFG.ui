@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>7</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2810,8 +2810,8 @@
                  </item>
                 </widget>
                </item>
-               <item row="4" column="1" colspan="2">
-                <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox">
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_57">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -2820,42 +2820,36 @@
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>0</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>400</width>
-                   <height>388</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_60">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>200</width>
+                   <width>121</width>
                    <height>30</height>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Радиоканал: +xx мс</string>
+                  <string>Период автоДК</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1" colspan="2">
-                <widget class="QDoubleSpinBox" name="Radiochanel_delay">
+               <item row="0" column="2">
+                <widget class="QLabel" name="label_58">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>401</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Таймаут для определения направления (Точка-Т(С),c</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2" colspan="3">
+                <widget class="QDoubleSpinBox" name="RIF_TochkaDirectionInterval_doubleSpinBox">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>

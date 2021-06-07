@@ -3943,8 +3943,6 @@ void MainWindowCFG::default_PARAMS()
 
 void MainWindowCFG::default_options()
 {
-    this->ui->Radiochanel_delay->setValue(10);
-
     last_ini_patch="";
     //qDebug()<<"[Create]";
     this->modelTreeUN->makeEmptyTree();
@@ -7101,9 +7099,3 @@ this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
     }
 }
 
-
-void MainWindowCFG::on_Radiochanel_delay_valueChanged(double arg1)
-{
-    radiochanel_delay=this->ui->Radiochanel_delay->value();
-    qDebug()<<radiochanel_delay;
-}
