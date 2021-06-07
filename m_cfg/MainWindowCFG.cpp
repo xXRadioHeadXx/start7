@@ -4315,6 +4315,16 @@ void MainWindowCFG::get_SQL(QString filename)
                 if(settings.value("AutoDbStart",-1).toInt()==0)
                  this->ui->SQL_AutoDbStart_checkBox->setChecked(false);
 
+
+                if(settings.value("allow_fix_data",-1).toInt()==1)
+                 this->ui->SQL_allow_fix_data->setChecked(true);
+
+                if(settings.value("allow_fix_data",-1).toInt()==0)
+                 this->ui->SQL_allow_fix_data->setChecked(false);
+
+
+
+
               this->ui->SQL_AutoDbStartHour_doubleSpinBox->setValue(settings.value("AutoDbStartHour",-1).toDouble());
               this->ui->SQL_AutoDbStartMinute_doubleSpinBox->setValue(settings.value("AutoDbStartMinute",-1).toDouble());
 
@@ -4387,6 +4397,10 @@ int res=0;
       settings.setValue("AutoDbStart", 0);
 
 
+
+
+
+
       settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
       settings.setValue("AutoDbStartMinute",this->ui->SQL_AutoDbStartMinute_doubleSpinBox->value() );
 
@@ -4416,11 +4430,11 @@ this->ui->SQL_type_comboBox->setCurrentText("Выкл");
     this->ui->SQL_password_lineEdit->setText("");
     this->ui->SQL_database_lineEdit->setText("");
 
+    this->ui->SQL_allow_fix_data->setChecked(false);
 
-       this->ui->SQL_P1_checkBox->setChecked(false);
+    this->ui->SQL_P1_checkBox->setChecked(false);
 
-
-       this->ui->SQL_P2_checkBox->setChecked(false);
+    this->ui->SQL_P2_checkBox->setChecked(false);
 
 
        this->ui->SQL_AutoDbStart_checkBox->setChecked(false);
@@ -5715,6 +5729,12 @@ int res=0;
       settings.setValue("AutoDbStart", 1);
       else
       settings.setValue("AutoDbStart", 0);
+
+      if(this->ui->SQL_allow_fix_data->isChecked())
+      settings.setValue("allow_fix_data", 1);
+      else
+      settings.setValue("allow_fix_data", 0);
+
 
 
       settings.setValue("AutoDbStartHour",this->ui->SQL_AutoDbStartHour_doubleSpinBox->value() );
