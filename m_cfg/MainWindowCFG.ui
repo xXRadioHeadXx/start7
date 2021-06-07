@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>7</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -633,7 +633,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -852,7 +852,7 @@
                <rect>
                 <x>10</x>
                 <y>5</y>
-                <width>111</width>
+                <width>231</width>
                 <height>16</height>
                </rect>
               </property>
