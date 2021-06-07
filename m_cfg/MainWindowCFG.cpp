@@ -2069,16 +2069,20 @@ void MainWindowCFG::object_menu_change(int type)
     this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(50);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
     coordinate_menu(true,false,0,0,"");
     break;
 
     case TypeUnitNode::IU_BL_IP:
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(50);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
+
     this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
     break;
 
@@ -2086,8 +2090,9 @@ void MainWindowCFG::object_menu_change(int type)
     this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(75);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
     coordinate_menu(true,false,0,0,"");
     break;
 
@@ -2095,8 +2100,9 @@ void MainWindowCFG::object_menu_change(int type)
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(50);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
     coordinate_menu(true,false,0,0,"");
 
     break;
@@ -2105,8 +2111,9 @@ void MainWindowCFG::object_menu_change(int type)
     this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(50);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
     coordinate_menu(true,false,0,0,"");
     break;
 
@@ -2114,8 +2121,9 @@ void MainWindowCFG::object_menu_change(int type)
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(200);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
     coordinate_menu(true,false,0,0,"");
     break;
 
@@ -2132,8 +2140,9 @@ void MainWindowCFG::object_menu_change(int type)
     this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(300);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
     coordinate_menu(true,false,0,0,"");
     break;
 
@@ -2150,8 +2159,9 @@ void MainWindowCFG::object_menu_change(int type)
     this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(50);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
     coordinate_menu(true,false,0,0,"");
     break;
 
@@ -2184,8 +2194,9 @@ void MainWindowCFG::object_menu_change(int type)
     this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
     this->ui->UDP_RS485_Widget->setVisible(true);
     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-    this->ui->timeout_doubleSpinBox->setValue(50);
+    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
+    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
     coordinate_menu(true,false,0,0,"");
     break;
 
@@ -2229,7 +2240,7 @@ case TypeUnitNode::SD_BL_IP:
 
 
 this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
-this->RS485_UDP_set_default_with_timeout(50);
+this->RS485_UDP_set_default_with_timeout(timeouts.value(type));
 this->ui->SD_BL_IP_num_combobox->setCurrentIndex(0);
 this->ui->SD_BL_IP_OutType->setCurrentText(m_SD_BL_IP_OutType.value(0));
 
@@ -2237,32 +2248,32 @@ coordinate_menu(true,false,0,0,"");
 break;
 
 case TypeUnitNode::IU_BL_IP:
-RS485_UDP_set_default_with_timeout(50);
+RS485_UDP_set_default_with_timeout(timeouts.value(type));
 this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
 break;
 
 case TypeUnitNode::TG:
 this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
-RS485_UDP_set_default_with_timeout(75);
+RS485_UDP_set_default_with_timeout(timeouts.value(type));
 coordinate_menu(true,false,0,0,"");
 break;
 
 case TypeUnitNode::RLM_KRL:
 this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
-RS485_UDP_set_default_with_timeout(50);
+RS485_UDP_set_default_with_timeout(timeouts.value(type));
 coordinate_menu(true,false,0,0,"");
 
 break;
 
 case TypeUnitNode::RLM_C:
 this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
-RS485_UDP_set_default_with_timeout(50);
+RS485_UDP_set_default_with_timeout(timeouts.value(type));
 coordinate_menu(true,false,0,0,"");
 break;
 
 case TypeUnitNode::BOD_T4K_M:
 this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
-RS485_UDP_set_default_with_timeout(200);
+RS485_UDP_set_default_with_timeout(timeouts.value(type));
 coordinate_menu(true,false,0,0,"");
 break;
 
@@ -2277,7 +2288,7 @@ break;
 case TypeUnitNode::BOD_SOTA:
 
 this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-RS485_UDP_set_default_with_timeout(300);
+RS485_UDP_set_default_with_timeout(timeouts.value(type));
 coordinate_menu(true,false,0,0,"");
 break;
 
@@ -2292,7 +2303,7 @@ break;
 
 case TypeUnitNode::KL:
 this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
-RS485_UDP_set_default_with_timeout(50);
+RS485_UDP_set_default_with_timeout(timeouts.value(type));
 coordinate_menu(true,false,0,0,"");
 break;
 
@@ -2329,7 +2340,7 @@ break;
 
 case TypeUnitNode::TOROS:
 this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
-RS485_UDP_set_default_with_timeout(50);
+RS485_UDP_set_default_with_timeout(timeouts.value(type));
 coordinate_menu(true,false,0,0,"");
 break;
 
@@ -2796,12 +2807,13 @@ void MainWindowCFG::RS485_UDP_set_default_with_timeout(int timeout)
 {
 //qDebug()<<"[RS485_UDP_set_default_with_timeout(int timeout)]";
 this->ui->UDP_RS485_Widget->setVisible(true);
-this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
-this->ui->ipadress_combobox->clear();
+this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->UDP);
+this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+//this->ui->ipadress_combobox->clear();
 this->ui->ipadress_combobox->setCurrentText("");
 this->ui->port_combobox->setCurrentIndex(0);
 this->ui->UdpPort_doubleSpinBox->setValue(4001);
+this->ui->timeout_doubleSpinBox->setMinimum(timeout);
 this->ui->timeout_doubleSpinBox->setValue(timeout);
 }
 
@@ -3934,7 +3946,7 @@ void MainWindowCFG::default_options()
     last_ini_patch="";
     //qDebug()<<"[Create]";
     this->modelTreeUN->makeEmptyTree();
-
+//    this->ui->ipadress_combobox->clear();
     default_PARAMS();
     default_OPERATORS();
     default_RIF();

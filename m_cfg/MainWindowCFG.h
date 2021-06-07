@@ -496,6 +496,9 @@ private:
 
     };
 
+
+
+
     QMap <int,QString> m_TypeUnitNode{
 {TypeUnitNode::GROUP, str_GROUP},
 {TypeUnitNode::KL ,str_KL },

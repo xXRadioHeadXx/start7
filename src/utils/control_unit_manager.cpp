@@ -208,7 +208,23 @@ qDebug()<<"СД БЛ-IP";
 
 //Не должен повторяться в дереве
     return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-                         {return ((un->getNum2()==unit->getNum2()));});
+    {
+
+
+
+if(un->getType()==unit->getType())
+//if(un->getUdpUse()==unit->getUdpUse())
+
+if(un->getNum2()==unit->getNum2())
+{
+//      m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
+
+ return true;
+}
+
+
+return false;
+});
 
 
 

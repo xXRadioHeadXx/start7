@@ -61,6 +61,36 @@ enum TypeUnitNode {
     INFO_TABLO = 71 //информационное табло
 };
 
+static QMap <int,int> timeouts{
+{TypeUnitNode::GROUP, 0},
+{TypeUnitNode::KL ,70 },
+{TypeUnitNode::SD_BL_IP ,10 },
+{TypeUnitNode::IU_BL_IP ,10 },
+{TypeUnitNode::TG ,100 },
+{TypeUnitNode::RLM_KRL ,70 },
+{TypeUnitNode::RLM_C ,70 },
+{TypeUnitNode::STRAZH_IP ,0 },
+{TypeUnitNode::ONVIF ,0 },
+{TypeUnitNode::BOD_T4K_M ,220 },
+{TypeUnitNode::Y4_T4K_M ,0 },
+{TypeUnitNode::DD_T4K_M ,0 },
+{TypeUnitNode::BOD_SOTA ,320 },
+{TypeUnitNode::Y4_SOTA ,0 },
+{TypeUnitNode::DD_SOTA ,0 },
+{TypeUnitNode::NET_DEV ,0 },
+
+{TypeUnitNode::SSOI_SD ,0 },
+{TypeUnitNode::SSOI_IU ,0 },
+{TypeUnitNode::ADAM ,0 },
+{TypeUnitNode::TOROS ,70 },
+{TypeUnitNode::DEVLINE ,0 },
+{TypeUnitNode::RASTRMTV ,0 },
+{TypeUnitNode::INFO_TABLO ,0 },
+
+};
+
+
+
 enum DKCiclStatus {
     DKIgnore = 0,
     DKReady = 1,
