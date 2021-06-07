@@ -666,7 +666,10 @@ bool Control_Unit_Manager::pass_to_add_TG(UnitNode *unit, UnitNode* parrent,Tree
 
      }
    //только к группе
-    if(parrent->getType()!=TypeUnitNode::GROUP)
+    if((parrent->getType()!=TypeUnitNode::GROUP)&&
+       (parrent->getType()!=TypeUnitNode::SYSTEM)
+
+            )
     {
         QMessageBox::critical(0,"Ошибка","устройство Точка/Гарда может быть добавлено только к группе !");
         return false;
@@ -681,19 +684,20 @@ bool Control_Unit_Manager::pass_to_add_TG(UnitNode *unit, UnitNode* parrent,Tree
                  if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
                   {
                 //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                     return false;
+
+                     return true;
                   }
                  if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
                   {
                      if(un->getNum2()==unit->getNum2())
                      {
                     //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                         QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                         return false;
+
+                         return true;
                      }
                   }
              }
+             return false;
                      });
 
 
