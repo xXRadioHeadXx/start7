@@ -633,7 +633,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>17</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -825,9 +825,6 @@
               <property name="inputMask" stdset="0">
                <string/>
               </property>
-              <property name="text" stdset="0">
-               <string>...</string>
-              </property>
               <property name="clearButtonEnabled" stdset="0">
                <bool>true</bool>
               </property>
@@ -919,7 +916,7 @@
                </rect>
               </property>
               <property name="text">
-               <string>IP-адрес поворотной камеры</string>
+               <string>IP-адрес поворотной платформы</string>
               </property>
              </widget>
              <widget class="My_lineEdit" name="STRAZH_IP_lineEdit__IPaddres_rotary_device" native="true">
