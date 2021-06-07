@@ -45,7 +45,8 @@ int main(int argc, char *argv[])
 
 //First change
 
-
+#if (defined (_WIN32) || defined (_WIN64))
+    {
     HANDLE hMutex_Mcfg =  CreateMutexA(NULL, false, "RIFx_Mcfg_by_Start7");
      if (GetLastError() == ERROR_ALREADY_EXISTS)
         {
@@ -74,8 +75,8 @@ int main(int argc, char *argv[])
         }
     CloseHandle(hMutex_Mclient);
 
-
-
+}
+#endif
 
     MainWindowCFG w;
     w.setWindowIcon(QIcon::fromTheme(":icons/exec.ico"));

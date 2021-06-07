@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>7</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -3242,7 +3242,7 @@
              </rect>
             </property>
             <property name="text">
-             <string>Редактирование причин и принятых мер</string>
+             <string>Запрет редактирования причин и принятых мер</string>
             </property>
            </widget>
           </widget>
@@ -3619,7 +3619,7 @@
      <x>0</x>
      <y>0</y>
      <width>1043</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
