@@ -41,8 +41,8 @@ void My_treeView::keyPressEvent(QKeyEvent *event)
 void My_treeView::paintEvent(QPaintEvent *event)
 {
     this->setColumnWidth(1,40);
-    this->setColumnWidth(2,65);
-    this->setColumnWidth(3,60);
+    this->setColumnWidth(2,80);
+    this->setColumnWidth(3,80);
  //   qDebug()<<this->width();
     if((this->columnWidth(0)+this->columnWidth(1)+this->columnWidth(2)+this->columnWidth(3))>this->width())
     {
