@@ -1158,7 +1158,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 //                        }
                     }
 
-                } else if(un->getControl()) {
+                } else /*if(un->getControl())*/ {
                     if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                        (1 == un->swpSDBLIP().isOn()) &&
                        (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm())) {
@@ -1185,7 +1185,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
 
-                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                    if((un->getControl()) &&
+                       (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                        (1 == un->swpSDBLIP().isOn()) &&
                        (1 == un->swpSDBLIP().isAlarm() && 1 == un->swpSDBLIP().isWasAlarm()) &&
                        (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
@@ -1195,7 +1196,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         un->setPublishedState(20);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                    } else if((un->getControl()) &&
+                              (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                               (1 == un->swpSDBLIP().isOn()) &&
                               (1 == un->swpSDBLIP().isNorm()) &&
                               (un->swpSDBLIP().isNorm() != previousCopyUN->swpSDBLIP().isNorm()) &&
@@ -1225,7 +1227,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
 
-                } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                }/* else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                           (1 == un->swpSDBLIP().isOn()) &&
                           (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm())) {
                     //нужен сброс
@@ -1233,7 +1235,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
                     if(!reciver.isNull())
                         reciver->queueMsg.enqueue(alarmReset0x24);
-                }
+                }*/
             }
 
             if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
