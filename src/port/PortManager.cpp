@@ -1279,7 +1279,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
            item.port() != un->getUdpPort() ||
            static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
-            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(1)";
+//            qDebug() << "PortManager::parcingStatusWord0x31 -- continue(1)";
             continue;
         }
         auto reciver = UnitNode::findReciver(un);
