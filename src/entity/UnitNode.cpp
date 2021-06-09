@@ -768,6 +768,8 @@ QPixmap UnitNode::getPxm(SubTypeApp type, int column)
                      if(this->getType()==TypeUnitNode::SSOI_SD)
                      return Icons_cfg::DK();
 
+                     if(this->getType()==TypeUnitNode::KL)
+                     return Icons_cfg::DK();
                  }
 
 

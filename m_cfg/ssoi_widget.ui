@@ -57,7 +57,7 @@
        <x>0</x>
        <y>0</y>
        <width>338</width>
-       <height>81</height>
+       <height>85</height>
       </rect>
      </property>
      <property name="title">
@@ -69,7 +69,7 @@
         <x>0</x>
         <y>15</y>
         <width>330</width>
-        <height>56</height>
+        <height>65</height>
        </rect>
       </property>
      </widget>
@@ -78,9 +78,9 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>88</y>
+       <y>85</y>
        <width>338</width>
-       <height>81</height>
+       <height>85</height>
       </rect>
      </property>
      <property name="title">
@@ -92,7 +92,7 @@
         <x>0</x>
         <y>15</y>
         <width>330</width>
-        <height>56</height>
+        <height>65</height>
        </rect>
       </property>
      </widget>
@@ -101,9 +101,9 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>176</y>
+       <y>170</y>
        <width>338</width>
-       <height>81</height>
+       <height>85</height>
       </rect>
      </property>
      <property name="title">
@@ -115,7 +115,7 @@
         <x>0</x>
         <y>15</y>
         <width>330</width>
-        <height>56</height>
+        <height>65</height>
        </rect>
       </property>
      </widget>
@@ -124,9 +124,9 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>265</y>
+       <y>258</y>
        <width>338</width>
-       <height>80</height>
+       <height>85</height>
       </rect>
      </property>
      <property name="title">
@@ -138,7 +138,7 @@
         <x>0</x>
         <y>15</y>
         <width>330</width>
-        <height>56</height>
+        <height>65</height>
        </rect>
       </property>
      </widget>
@@ -254,9 +254,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>155</y>
+     <y>159</y>
      <width>190</width>
-     <height>110</height>
+     <height>106</height>
     </rect>
    </property>
    <property name="title">
@@ -266,7 +266,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>16</y>
       <width>171</width>
       <height>85</height>
      </rect>
@@ -279,7 +279,7 @@
      <x>0</x>
      <y>265</y>
      <width>191</width>
-     <height>80</height>
+     <height>77</height>
     </rect>
    </property>
    <property name="title">

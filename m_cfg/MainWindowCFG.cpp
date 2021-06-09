@@ -6193,8 +6193,6 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 
 
 
-
-
                menu->addAction(action_setAlarmMsgOn);
 
                   if(un->getAlarmMsgOn()==0)
@@ -6207,6 +6205,22 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                       //qDebug()<<"[1]";
                   }
              //  menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
+
+            break;
+
+            case TypeUnitNode::KL:
+                menu->addAction(action_setDK);
+                if(un->getDK()==0)
+                {
+                    //qDebug()<<"[0]";
+                    action_setDK->setChecked(false);
+                }
+                else
+                {
+                    //qDebug()<<"[1]";
+                   action_setDK->setChecked(true);
+                }
+
 
             break;
 
