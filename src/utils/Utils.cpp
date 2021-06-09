@@ -302,9 +302,16 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
     setCellText( table, 14,1, ("?"));
     setCellText( table, 14,2, (""));
 
+    auto &fillColor = cellGray;
+    if(10 == selUN->getPublishedState())
+        fillColor = cellYellow;
+
     for(int i = 0, n = 3; i < n; i++)
         for(int j = 0, m = 15; j < m; j++)
-            setCellColor( table, j, i, cellGray);
+            setCellColor( table, j, i, fillColor);
+
+    if(10 == selUN->getPublishedState())
+        return;;
 
     if(TypeUnitNode::BL_IP == parent->getType()) {
         int row = 10;
@@ -397,10 +404,14 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedP
 //    table->setColumnWidth(1, 150);
 //    table->setColumnWidth(2, 150);
 
+    auto &fillColor = cellGray;
+    if(10 == un->getPublishedState())
+        fillColor = cellYellow;
+
     for(int i = 0, n = table->rowCount(); i < n; i++) {
         for(int j = 0, m = table->columnCount(); j < m; j++) {
             setCellText( table, i, j, "");
-            setCellColor( table, i, j, cellGray);
+            setCellColor( table, i, j, fillColor);
         }
     }
 
@@ -424,6 +435,9 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedP
     setCellText( table, 6,0, (QObject::tr("ДК")));
     setCellText( table, 7,0, (QObject::tr("Вскрытие")));
     setCellText( table, 8,0, (QObject::tr("Уровень")));
+
+    if(10 == un->getPublishedState())
+        return;
     // prepare <--
 
     // fill -->
@@ -509,10 +523,14 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
 //    table->setColumnWidth(1, 150);
 //    table->setColumnWidth(2, 150);
 
+    auto &fillColor = cellGray;
+    if(10 == un->getPublishedState())
+        fillColor = cellYellow;
+
     for(int i = 0, n = table->rowCount(); i < n; i++) {
         for(int j = 0, m = table->columnCount(); j < m; j++) {
             setCellText( table, i, j, "");
-            setCellColor( table, i, j, cellGray);
+            setCellColor( table, i, j, fillColor);
         }
     }
 
@@ -540,6 +558,9 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
     setCellText( table, 10,0, (QObject::tr("Пороги")));
     setCellText( table, 11,0, (QObject::tr("Период тактирования")));
     setCellText( table, 12,0, (QObject::tr("Режим обработки")));
+
+    if(10 == un->getPublishedState())
+        return;
     // prepare <--
 
     // fill -->
@@ -716,15 +737,21 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
     setCellText( table, 15,4, (""));
     setCellText( table, 19,4, (""));
 
+    auto &fillColor = cellGray;
+    if(10 == selUN->getPublishedState())
+        fillColor = cellYellow;
 
     for(int i = 0, n = table->rowCount(); i < n; i++) {
         for(int j = 0, m = table->columnCount(); j < m; j++) {
             if(0 != i && 0 != j && 2 != j && 4 != j) {
                 setCellText( table, i,j, "");
             }
-            setCellColor( table, i,j, cellGray);
+            setCellColor( table, i,j, fillColor);
         }
     }
+
+    if(10 == selUN->getPublishedState())
+        return;
     // prepare <--
 
     // fill -->
@@ -876,7 +903,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
     // fill <--
 }
 
-void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
+void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     table->setRowCount(14);
     table->setColumnCount(4);
@@ -918,17 +945,24 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
     setCellText( table, 12,2, (QObject::tr("Уровень Сигнала ЧЭ1")));
     setCellText( table, 13,2, (QObject::tr("Уровень Сигнала ЧЭ2")));
 
+    auto &fillColor = cellGray;
+    if(10 == selUN->getPublishedState())
+        fillColor = cellYellow;
+
     for(int i = 0, n = 14; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
             if(0 != i && 0 != j && 2 != j)
                 setCellText( table, i, j, "?");
 
-            setCellColor( table, i, j, cellGray);
+            setCellColor( table, i, j, fillColor);
         }
     }
+
+    if(10 == selUN->getPublishedState())
+        return;
 }
 
-void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
+void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     table->setRowCount(14);
     table->setColumnCount(4);
@@ -969,16 +1003,23 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
         setCellText( table, 10 + i,2, (QObject::tr("")));
     }
 
+    auto &fillColor = cellGray;
+    if(10 == selUN->getPublishedState())
+        fillColor = cellYellow;
+
     for(int i = 0, n = 14; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
             if(0 != i && 0 != j && 2 != j)
                 setCellText( table, i, j, "?");
-            setCellColor( table, i, j, cellGray);
+            setCellColor( table, i, j, fillColor);
         }
     }
+
+    if(10 == selUN->getPublishedState())
+        return;
 }
 
-void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
+void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     table->setRowCount(20);
     table->setColumnCount(53);
@@ -1023,18 +1064,25 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
         setCellText( table, dec[3],3 + i, (QString("%1").arg(i + 1 + 50, 2, 10, QLatin1Char('0'))));
     }
 
+    auto &fillColor = cellGray;
+    if(10 == selUN->getPublishedState())
+        fillColor = cellYellow;
+
     for(int i = 0, n = 20; i < n; i++) {
         for(int j = 0, m = 53; j < m; j++) {
             if(nullptr == table->item(i, j)) {
                 setCellText( table, i, j, "");
             }
 
-            setCellColor( table, i, j, cellGray);
+            setCellColor( table, i, j, fillColor);
         }
     }
+
+    if(10 == selUN->getPublishedState())
+        return;
 }
 
-void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
+void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     table->setRowCount(22);
     table->setColumnCount(29);
@@ -1082,6 +1130,10 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
         setCellText( table, dec[1],3 + i, (QString("%1").arg(i + 1, 2, 10, QLatin1Char('0'))));
     }
 
+    auto &fillColor = cellGray;
+    if(10 == selUN->getPublishedState())
+        fillColor = cellYellow;
+
     for(int i = 0, n = 22; i < n; i++) {
         for(int j = 0, m = 29; j < m; j++) {
             QTableWidgetItem * item = table->item(i, j);
@@ -1092,6 +1144,9 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
             setCellColor(table, i, j, cellGray);
         }
     }
+
+    if(10 == selUN->getPublishedState())
+        return;
 }
 
 QSet<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(QSharedPointer<UnitNode> un)
