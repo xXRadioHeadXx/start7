@@ -1152,10 +1152,10 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             unLockIuBlIp->setPublishedState(100);
                         }
 
-//                        if(msg.getType() != un->getPublishedState()) {
+                        if(1 != un->getMetaEntity()) {
                             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
-//                        }
+                        }
                     }
 
                 } else /*if(un->getControl())*/ {
@@ -1169,14 +1169,16 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             reciver->queueMsg.enqueue(alarmReset0x24);
                     }
 
-                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                    if((1 != un->getMetaEntity()) &&
+                       (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                        (1 == un->swpSDBLIP().isOff()) &&
                        (0 == previousCopyUN->swpSDBLIP().isOff())) {
                         msg.setComment(QObject::tr("Выкл"));
                         msg.setType(100);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                    } else if((1 != un->getMetaEntity()) &&
+                              (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                               (1 == un->swpSDBLIP().isOn()) &&
                               (0 == previousCopyUN->swpSDBLIP().isOn())) {
                         msg.setComment(QObject::tr("Вкл"));
@@ -1185,7 +1187,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
 
-                    if((un->getControl()) &&
+                    if((1 != un->getMetaEntity()) &&
+                       (un->getControl()) &&
                        (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                        (1 == un->swpSDBLIP().isOn()) &&
                        (1 == un->swpSDBLIP().isAlarm() && 1 == un->swpSDBLIP().isWasAlarm()) &&
@@ -1196,7 +1199,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         un->setPublishedState(20);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if((un->getControl()) &&
+                    } else if((1 != un->getMetaEntity()) &&
+                              (un->getControl()) &&
                               (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                               (1 == un->swpSDBLIP().isOn()) &&
                               (1 == un->swpSDBLIP().isNorm()) &&
@@ -1209,7 +1213,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
 
-                    if((TypeUnitNode::IU_BL_IP == un->getType()) &&
+                    if((1 != un->getMetaEntity()) &&
+                       (TypeUnitNode::IU_BL_IP == un->getType()) &&
                        (1 == un->swpIUBLIP().isOff()) &&
                        (previousCopyUN->swpIUBLIP().isOff() != un->swpIUBLIP().isOff())) {
                         msg.setComment(QObject::tr("Выкл"));
@@ -1217,7 +1222,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         un->setPublishedState(100);
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if((TypeUnitNode::IU_BL_IP == un->getType()) &&
+                    } else if((1 != un->getMetaEntity()) &&
+                              (TypeUnitNode::IU_BL_IP == un->getType()) &&
                               (1 == un->swpIUBLIP().isOn()) &&
                               (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn())) {
                         msg.setComment(QObject::tr("Вкл"));

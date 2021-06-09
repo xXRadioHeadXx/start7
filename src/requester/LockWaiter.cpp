@@ -131,6 +131,7 @@ void LockWaiter::init() {
         newMetaUnIuBlIp->setStateWord(getUnReciverSdBlIp()->getStateWord());
 
         newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
+        newMetaUnIuBlIp->setMetaEntity(1);
 
         ServerSettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
         getUnReciver()->addChild(newMetaUnIuBlIp);

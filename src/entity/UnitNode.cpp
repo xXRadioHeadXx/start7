@@ -566,6 +566,16 @@ void UnitNode::setPublishedState(int newPublishedState)
     publishedState = newPublishedState;
 }
 
+int UnitNode::getMetaEntity() const
+{
+    return metaEntity;
+}
+
+void UnitNode::setMetaEntity(int newMetaEntity)
+{
+    metaEntity = newMetaEntity;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&

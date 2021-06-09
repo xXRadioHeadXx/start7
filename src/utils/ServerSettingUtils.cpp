@@ -234,6 +234,8 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         tmpParentUN->setNum3(0);
 
                         tmpParentUN->setName("MetaTG_" + QString::number(tmpParentUN->getNum1()));
+                        tmpParentUN->setControl(false);
+                        tmpParentUN->setMetaEntity(1);
 
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
                     }
@@ -305,6 +307,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
 
                 newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
                 newMetaUnIuBlIp->setControl(false);
+                newMetaUnIuBlIp->setMetaEntity(1);
 
                 ServerSettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
                 parent->addChild(newMetaUnIuBlIp);

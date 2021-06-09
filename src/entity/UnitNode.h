@@ -65,6 +65,8 @@ private:
 
     int publishedState = -1;
 
+    int metaEntity = 0;
+
 private:
 
     bool editableControl = false;
@@ -193,6 +195,9 @@ public:
     void decrementCountStatusConnectRequesterWaitAnswer();
     int getPublishedState() const;
     void setPublishedState(int newPublishedState);
+
+    int getMetaEntity() const;
+    void setMetaEntity(int newMetaEntity);
 
 protected :
     void setDefaultNeededStateWordType(int value);
