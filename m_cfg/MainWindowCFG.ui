@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1043</width>
-    <height>570</height>
+    <height>590</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -50,8 +50,8 @@
      <height>0</height>
     </size>
    </property>
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -629,11 +629,11 @@
               <x>0</x>
               <y>150</y>
               <width>561</width>
-              <height>111</height>
+              <height>105</height>
              </rect>
             </property>
             <property name="currentIndex">
-             <number>13</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -2020,7 +2020,7 @@
               <string>IP-Адрес</string>
              </property>
             </widget>
-            <widget class="QComboBox" name="ipadress_combobox">
+            <widget class="my_combobox" name="ipadress_combobox">
              <property name="geometry">
               <rect>
                <x>90</x>
@@ -2043,7 +2043,7 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>265</y>
+              <y>260</y>
               <width>561</width>
               <height>81</height>
              </rect>
@@ -3609,6 +3609,19 @@
         </layout>
        </widget>
       </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_filepath">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
      </widget>
     </item>
    </layout>

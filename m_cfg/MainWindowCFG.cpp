@@ -1399,6 +1399,7 @@ void MainWindowCFG::on_actionOpen_triggered()
       qDebug()<<"patch = "<<patch;
       if(patch!="")
       {
+          this->ui->label_filepath->setText(patch);
           last_ini_patch=patch;
           this->modelTreeUN->rootItemUN->deleteAll();
           this->modelTreeUN->loadSettings(patch);
@@ -1415,7 +1416,7 @@ void MainWindowCFG::on_actionOpen_triggered()
            this->load_other_options_from_ini_file(patch);
 
 
-
+            open_device_tree();
       }
 
  //    this->modelTreeUN->updateUNStructure();
