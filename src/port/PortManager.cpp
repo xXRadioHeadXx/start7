@@ -496,7 +496,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                 break;
             }
         }
-        if(selUN.isNull() && !un->getName().isEmpty() && un->getControl()) {
+        if(selUN.isNull() && !un->getName().isEmpty()/* && un->getControl()*/) {
             JourEntity msg;
             if(out) {
                 msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
@@ -515,7 +515,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
             GraphTerminal::sendAbonentEventsAndStates(msg);
         }
     }
-    if(!selUN.isNull() && selUN->getControl()) {
+    if(!selUN.isNull()/* && selUN->getControl()*/) {
         JourEntity msg;
         msg.setObjecttype(selUN->getType());
         msg.setD1(selUN->getNum1());
@@ -778,25 +778,23 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
             appLsWaiter(tmpCAW);
         }
 
-        if(selUN->getControl()) {
-            JourEntity msg;
-            msg.setObject(selUN->getName());
-            msg.setObjecttype(selUN->getType());
-            msg.setD1(selUN->getNum1());
-            msg.setD2(selUN->getNum2());
-            msg.setD3(selUN->getNum3());
-            msg.setDirection(selUN->getUdpAdress());
+        JourEntity msg;
+        msg.setObject(selUN->getName());
+        msg.setObjecttype(selUN->getType());
+        msg.setD1(selUN->getNum1());
+        msg.setD2(selUN->getNum2());
+        msg.setD3(selUN->getNum3());
+        msg.setDirection(selUN->getUdpAdress());
 
-            if(out) {
-                msg.setComment(tr("Удал. ком. ") + (value ? tr("Вкл") : tr("Выкл")));
-                msg.setType((value ? 1000 : 1001));
-            } else {
-                msg.setComment(tr("Послана ком. ") + (value ? tr("Вкл") : tr("Выкл")));
-                msg.setType((value ? 130 : 131));
-            }
-            DataBaseManager::insertJourMsg_wS(msg);
-            GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
+        if(out) {
+            msg.setComment(tr("Удал. ком. ") + (value ? tr("Вкл") : tr("Выкл")));
+            msg.setType((value ? 1000 : 1001));
+        } else {
+            msg.setComment(tr("Послана ком. ") + (value ? tr("Вкл") : tr("Выкл")));
+            msg.setType((value ? 130 : 131));
         }
+        DataBaseManager::insertJourMsg_wS(msg);
+        GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
     }
 }
 
