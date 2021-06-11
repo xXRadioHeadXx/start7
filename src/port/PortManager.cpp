@@ -988,23 +988,15 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                 if(un->getDkInvolved()) {
 //                    //qDebug() << "DkInvolved continue " << un->toString();
-//                    previousCopyUNLockIuBlIp.clear();
-//                    previousCopyUNLockSdBlIp.clear();
-//                    unLockIuBlIp.clear();
-//                    unLockSdBlIp.clear();
                     continue;
                 } else if(!un->getParentUN().isNull() && un->getParentUN()->getDkInvolved()) {
 //                    //qDebug() << "DkInvolved continue " << un->toString();
-//                    previousCopyUNLockIuBlIp.clear();
-//                    previousCopyUNLockSdBlIp.clear();
-//                    unLockIuBlIp.clear();
-//                    unLockSdBlIp.clear();
                     continue;
-                } else if(isLockPair) {
+                } else if(isLockPair) { // запись сообщения УЗ
                     if(unLockSdBlIp->swpSDBLIP().isAlarm() == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
                        unLockIuBlIp->swpIUBLIP().isOff() == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() &&
                        unLockSdBlIp->swpSDBLIP().isNorm() == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
-                       unLockIuBlIp->swpIUBLIP().isOn() == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) {
+                       unLockIuBlIp->swpIUBLIP().isOn() == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) { // состояние не зменилось - пропускаем
                         continue;
                     } else if(
                             (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
@@ -1016,18 +1008,13 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() && //Закрыто
                              1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
                              1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
-                    {
+                    { // запрещённая обработка перехода (Открыто -> Открыто ключом, Закрыто -> Закрыто ключом)
                         //qDebug() << "isLockPair continue " << un->toString();
-//                        previousCopyUNLockIuBlIp.clear();
-//                        previousCopyUNLockSdBlIp.clear();
-//                        unLockIuBlIp.clear();
-//                        unLockSdBlIp.clear();
-//                        previousCopyUN.clear();
                         continue;
                     }
 
+                    // переводим на другой шаг обработчик открытия и закрытия этого УЗ
                     QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
-
                     for(auto ar : as_const(getLsWaiter())) {
                         if(ar->getIpPort() == tmpPair &&
                            RequesterType::LockRequester == ar->getRequesterType() &&
@@ -1106,7 +1093,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                       1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() && //Закрыто
                       1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
                       1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
-                    {
+                    { // запрещённая запись перехода (Открыто <-> Открыто ключом, Закрыто <-> Закрыто ключом)
                         qDebug() << "isLockPair not jour " << un->toString();
                     } else {
                         msg.setObject(unLockSdBlIp->getName());
@@ -1156,10 +1143,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         }
                     }
 
-                } else /*if(un->getControl())*/ {
+                } else { // запись сообщения СД или ИУ
+
                     if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                        (1 == un->swpSDBLIP().isOn()) &&
-                       (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm())) {
+                       (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm())) { // сброс тревоги
                         //нужен сброс
                         auto alarmReset0x24 = resultRequest;
                         DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
@@ -1167,27 +1155,28 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             reciver->queueMsg.enqueue(alarmReset0x24);
                     }
 
-                    if((1 != un->getMetaEntity()) &&
-                       (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                    // запись вкл/выкл СД
+                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                        (1 == un->swpSDBLIP().isOff()) &&
                        (0 == previousCopyUN->swpSDBLIP().isOff())) {
                         msg.setComment(QObject::tr("Выкл"));
                         msg.setType(100);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if((1 != un->getMetaEntity()) &&
-                              (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                        reciver->setPublishedState(100);
+                    } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                               (1 == un->swpSDBLIP().isOn()) &&
                               (0 == previousCopyUN->swpSDBLIP().isOn())) {
                         msg.setComment(QObject::tr("Вкл"));
                         msg.setType(101);
+                        reciver->setPublishedState(101);
+                    }                    
+                    if(1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
 
-                    if((1 != un->getMetaEntity()) &&
-                       (un->getControl()) &&
-                       (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                    // запись тревог и нормы СД
+                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                        (1 == un->swpSDBLIP().isOn()) &&
                        (1 == un->swpSDBLIP().isAlarm() && 1 == un->swpSDBLIP().isWasAlarm()) &&
                        (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
@@ -1195,11 +1184,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                         msg.setType(20);
                         un->setPublishedState(20);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if((1 != un->getMetaEntity()) &&
-                              (un->getControl()) &&
-                              (TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+                        reciver->setPublishedState(20);
+                    } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                               (1 == un->swpSDBLIP().isOn()) &&
                               (1 == un->swpSDBLIP().isNorm()) &&
                               (un->swpSDBLIP().isNorm() != previousCopyUN->swpSDBLIP().isNorm()) &&
@@ -1207,29 +1193,33 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         un->setPublishedState(1);
+                        reciver->setPublishedState(1);
+                    }
+                    if(un->getControl() && 1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
 
-                    if((1 != un->getMetaEntity()) &&
-                       (TypeUnitNode::IU_BL_IP == un->getType()) &&
-                       (1 == un->swpIUBLIP().isOff()) &&
-                       (previousCopyUN->swpIUBLIP().isOff() != un->swpIUBLIP().isOff())) {
+                    // запись вкл/выкл ИУ
+                    if((TypeUnitNode::IU_BL_IP == un->getType()) &&
+                        (1 == un->swpIUBLIP().isOff()) &&
+                        (previousCopyUN->swpIUBLIP().isOff() != un->swpIUBLIP().isOff())) {
                         msg.setComment(QObject::tr("Выкл"));
                         msg.setType(100);
                         un->setPublishedState(100);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if((1 != un->getMetaEntity()) &&
-                              (TypeUnitNode::IU_BL_IP == un->getType()) &&
+                    } else if((TypeUnitNode::IU_BL_IP == un->getType()) &&
                               (1 == un->swpIUBLIP().isOn()) &&
                               (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn())) {
                         msg.setComment(QObject::tr("Вкл"));
                         msg.setType(101);
                         un->setPublishedState(101);
+                    }
+                    if(1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
 
                 }/* else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                           (1 == un->swpSDBLIP().isOn()) &&
@@ -1257,11 +1247,6 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             }
         }
 
-//        previousCopyUNLockIuBlIp.clear();
-//        previousCopyUNLockSdBlIp.clear();
-//        unLockIuBlIp.clear();
-//        unLockSdBlIp.clear();
-//        previousCopyUN.clear();
     }
 //    //qDebug() << "Utils::parcingStatusWord0x41 <--";
     return resultRequest;
@@ -1376,6 +1361,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     continue;
                 } else if(/*un->getControl() && */TypeUnitNode::RLM_KRL == un->getType()) {
 
+                    // запись вкл/выкл РЛМ
                     if((1 == un->swpRLM().isOff()) &&
                        (0 == previousCopyUN->swpRLM().isOff())) {
                         msg.setComment(QObject::tr("Выкл"));
@@ -1389,82 +1375,79 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    if(1 != un->getMetaEntity() && 0 != msg.getType()) {
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    }
+                    msg.setType(0);
 
-                    if(un->getControl() &&
-                       (1 == un->swpRLM().isFault()) &&
+                    // запись тревога/норма РЛМ
+                    if((1 == un->swpRLM().isFault()) &&
                        (un->swpRLM().isFault() != previousCopyUN->swpRLM().isFault())) {
                         //сохранение неисправность или Норма
                         msg.setComment(QObject::tr("Неисправность"));
                         msg.setType(12);
                         un->setPublishedState(12);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if(un->getControl() &&
-                              (1 == un->swpRLM().isOn()) &&
+                    } else if((1 == un->swpRLM().isOn()) &&
                               (1 == un->swpRLM().isOpened() && 1 == un->swpRLM().isWasOpened()) &&
                               (previousCopyUN->swpRLM().isOpened() != un->swpRLM().isOpened() || previousCopyUN->swpRLM().isWasOpened() != un->swpRLM().isWasOpened())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-ВСКРЫТИЕ"));
                         msg.setType(21);
                         un->setPublishedState(21);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if(un->getControl() &&
-                              (1 == un->swpRLM().isOn()) &&
+                    } else if((1 == un->swpRLM().isOn()) &&
                               (1 == un->swpRLM().isAlarm() && 1 == un->swpRLM().isWasAlarm()) &&
                               (previousCopyUN->swpRLM().isAlarm() != un->swpRLM().isAlarm() || previousCopyUN->swpRLM().isWasAlarm() != un->swpRLM().isWasAlarm())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                         msg.setType(20);
                         un->setPublishedState(20);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if(un->getControl() &&
-                              (1 == un->swpRLM().isOn()) &&
+                    } else if((1 == un->swpRLM().isOn()) &&
                               (1 == un->swpRLM().isNorm()) &&
                               (previousCopyUN->swpRLM().isNorm() != un->swpRLM().isNorm()) &&
                               1 != un->getPublishedState()) {
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         un->setPublishedState(1);
+                    }
+                    if(1 != un->getMetaEntity() && un->getControl() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
 
-                } else if(/*un->getControl() && */TypeUnitNode::RLM_C == un->getType()) {
+                } else if(TypeUnitNode::RLM_C == un->getType()) {
+
+                    // запись тревога/норма РЛМ-С
                     if((1 == un->swpRLMC().isOff()) &&
                        (0 == previousCopyUN->swpRLMC().isOff())) {
                         msg.setComment(QObject::tr("Выкл"));
                         msg.setType(100);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((1 == un->swpRLMC().isOn()) &&
                               ( 0== previousCopyUN->swpRLMC().isOn())) {
                         msg.setComment(QObject::tr("Вкл"));
                         msg.setType(101);
+                    }
+                    if(1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
 
-                    if(un->getControl() &&
-                       (1 == un->swpRLMC().isFault()) &&
+                    // запись тревога/норма РЛМ-С
+                    if((1 == un->swpRLMC().isFault()) &&
                        (un->swpRLMC().isFault() != previousCopyUN->swpRLMC().isFault())) {
                         //сохранение неисправность или Норма
                         msg.setComment(QObject::tr("Неисправность"));
                         msg.setType(12);
                         un->setPublishedState(12);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    } else if(un->getControl() &&
-                              (1 == un->swpRLMC().isOn()) &&
+                    } else if((1 == un->swpRLMC().isOn()) &&
                               (1 == un->swpRLMC().isAlarm() && 1 == un->swpRLMC().isWasAlarm()) &&
                               (previousCopyUN->swpRLMC().isAlarm() != un->swpRLMC().isAlarm() || previousCopyUN->swpRLMC().isWasAlarm() != un->swpRLMC().isWasAlarm())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                         msg.setType(20);
                         un->setPublishedState(20);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((1 == un->swpRLMC().isOn()) &&
                               (1 == un->swpRLMC().isNorm()) &&
                               (previousCopyUN->swpRLMC().isNorm() != un->swpRLMC().isNorm()) &&
@@ -1472,11 +1455,16 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         un->setPublishedState(1);
+                    }
+                    if(un->getControl() && 1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
 
                 } else if(/*un->getControl() && */TypeUnitNode::TG == un->getType()) {
+
+                    // запись тревога/норма ТГ
                     if(un->getControl() &&
                        (1 == un->swpTGType0x31().isOn() && 1 == un->swpTGType0x31().isOpened()) &&
                        (previousCopyUN->swpTGType0x31().isOpened() != un->swpTGType0x31().isOpened())) {
@@ -1484,8 +1472,6 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Тревога-ВСКРЫТИЕ"));
                         msg.setType(21);
                         un->setPublishedState(21);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if(un->getControl() &&
                               (1 == un->swpTGType0x31().isOn() && 1 == un->swpTGType0x31().isAlarm()) &&
                               (previousCopyUN->swpTGType0x31().isAlarm() != un->swpTGType0x31().isAlarm())) {
@@ -1493,8 +1479,6 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                         msg.setType(20);
                         un->setPublishedState(20);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if(un->getControl() &&
                               (1 == un->swpTGType0x31().isNorm()) &&
                               (previousCopyUN->swpTGType0x31().isNorm() != un->swpTGType0x31().isNorm()) &&
@@ -1502,9 +1486,12 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         un->setPublishedState(1);
+                    }
+                    if(un->getControl() && 1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
                 }
             }
         }
@@ -1579,7 +1566,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 //                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x32 -- continue(3)";
                     continue;
-                } else if(un->getControl() && TypeUnitNode::TG == un->getType() && (1 <= un->getNum2() && 4 >= un->getNum2())) {
+                } else if(TypeUnitNode::TG == un->getType() && (1 <= un->getNum2() && 4 >= un->getNum2())) {
                     //Сообщения в журнал
 
                     if((1 == currentSWP.C(ci).isFault()) &&
@@ -1588,33 +1575,30 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Неисправность"));
                         msg.setType(12);
                         un->setPublishedState(12);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((1 == currentSWP.C(ci).isOpened()) &&
                         (currentSWP.C(ci).isOpened() != previousSWP.C(ci).isOpened())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-ВСКРЫТИЕ"));
                         msg.setType(21);
                         un->setPublishedState(21);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((1 == currentSWP.C(ci).isAlarm()) &&
                        (previousSWP.C(ci).isAlarm() != currentSWP.C(ci).isAlarm())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                         msg.setType(20);
                         un->setPublishedState(20);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((1 == currentSWP.C(ci).isNorm()) &&
                               (previousSWP.C(ci).isNorm() != currentSWP.C(ci).isNorm()) &&
                               1 != un->getPublishedState()) {
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         un->setPublishedState(1);
+                    }
+                    if(un->getControl() && 1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
                 }
             }
         }
@@ -1688,7 +1672,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 //                    previousCopyUN.clear();
 //                    qDebug() << "PortManager::parcingStatusWord0x33 -- continue(3)";
                     continue;
-                } else if(TypeUnitNode::TG == un->getType() && un->getControl() && 1 <= un->getNum2() && un->getNum2() <= 4) {
+                } else if(TypeUnitNode::TG == un->getType() && 1 <= un->getNum2() && un->getNum2() <= 4) {
                     //Сообщения в журнал
                     if((1 == currentSWP.C(ci).isFault()) &&
                        (currentSWP.C(ci).isFault() != previousSWP.C(ci).isFault())) {
@@ -1696,33 +1680,30 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Неисправность"));
                         msg.setType(12);
                         un->setPublishedState(12);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((1 == currentSWP.C(ci).isOpened()) &&
                         (currentSWP.C(ci).isOpened() != previousSWP.C(ci).isOpened())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-ВСКРЫТИЕ"));
                         msg.setType(21);
                         un->setPublishedState(21);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((1 == currentSWP.C(ci).isAlarm()) &&
                               (currentSWP.C(ci).isAlarm() != previousSWP.C(ci).isAlarm())) {
                         //сохранение Тревога или Норма
                         msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                         msg.setType(20);
                         un->setPublishedState(20);
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     } else if((1 == currentSWP.C(ci).isNorm()) &&
                               (previousSWP.C(ci).isNorm() != currentSWP.C(ci).isNorm()) &&
                               1 != un->getPublishedState()) {
                         msg.setComment(QObject::tr("Норма"));
                         msg.setType(1);
                         un->setPublishedState(1);
+                    }
+                    if(un->getControl() && 1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
+                    msg.setType(0);
                 }
             }
         }
