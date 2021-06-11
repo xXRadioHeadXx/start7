@@ -333,15 +333,16 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
             continue;
         }
 
-        if(10 == un->getPublishedState()) {
+        if (10 == un->getPublishedState()) {
             for(int i = 1, n = 3; i < n; i++) {
                 for(int j = 1, m = 15; j < m; j++) {
-                    if(9 == j)
+                    if(9 == j) {
                         continue;
-                    else if(2 == i && 10 < j)
+                    } else if(2 == i && 10 < j) {
                         continue;
+                    }
                     setCellColor( table, j, i, cellYellow);
-                    setCellText( table, j, i, "?");
+                    setCellText( table, j, i, "Нет связи!");
                 }
             }
             return;
