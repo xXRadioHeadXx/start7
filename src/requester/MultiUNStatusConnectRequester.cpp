@@ -94,26 +94,23 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::currentTrackedUN() const
 
 QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
 {
-//    for(auto un : getLsTrackedUN()) {
-//        if(!un->queueMsg.isEmpty() && un != currentTrackedUN()) {
-//            return un;
-//        }
-//    }
-
+//    qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() -->";
     if(1 < getLsTrackedUN().size())
     {
         auto index = getLsTrackedUN().indexOf(currentTrackedUN());
 
         if(getLsTrackedUN().size() <= index + 1) {
+//            qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() first <--" << QString((getLsTrackedUN().first()->getDkInvolved() ? "DK! " : "")) << getLsTrackedUN().first()->toString();
             return getLsTrackedUN().first();
         }
-
+//        qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() at(" << (index + 1) << ") <--" << QString((getLsTrackedUN().at(index + 1)->getDkInvolved() ? "DK! " : "")) << getLsTrackedUN().at(index + 1)->toString();
         return getLsTrackedUN().at(index + 1);
 
     } else if(1 == getLsTrackedUN().size()) {
+//        qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() first <--" << QString((getLsTrackedUN().first()->getDkInvolved() ? "DK! " : "")) << getLsTrackedUN().first()->toString();
         return getLsTrackedUN().first();
     }
-
+//    qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() null <--";
     return QSharedPointer<UnitNode>::create();
 }
 

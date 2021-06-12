@@ -25,6 +25,9 @@ enum DKCiclStatus {
     DKWrong = -1
 };
 
+
+
+
 class SWPBLIP;
 class SWPRLM;
 class SWPRLMC;

@@ -1661,8 +1661,48 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
         if(!un.isNull() && (previousSWP.getStateWord() != currentSWP.getStateWord())) {
             if(un->getDkInvolved()) {
                 // обработка дк
-                qDebug() << "PortManager::parcingStatusWord0x33 -- procDK";
-                procDK(un, previousCopyUN);
+                if(DKCiclStatus::DKDone != un->getDkStatus()) {
+                    qDebug() << "PortManager::parcingStatusWord0x33 -- procDK";
+                    procDK(un, previousCopyUN);
+                    if(DKCiclStatus::DKDone == un->getDkStatus()) {
+                        for(const auto &ar : as_const(getLsWaiter())) {
+                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
+                                 auto dwWaiter = ar.dynamicCast<ProcessDKWaiter>();
+                                 if(dwWaiter->removeLsTrackedUN(un)) {
+                                     if(0 == dwWaiter->getLsTrackedUN().size()) {
+                                         removeLsWaiter(dwWaiter);
+                                         SignalSlotCommutator::getInstance()->emitStopDKWait();
+                                     }
+                                     qDebug() << "PortManager::removeLsTrackedUN(" << un->toString() << ")";
+                                     break;
+                                 }
+                             }
+                        }
+                        JourEntity msg;
+                        msg.setObject(un->getName());
+                        msg.setObjecttype(un->getType());
+                        msg.setD1(un->getNum1());
+                        msg.setD2(un->getNum2());
+                        msg.setD3(un->getNum3());
+                        msg.setDirection(un->getUdpAdress());
+                        msg.setComment(tr("Ком. ДК выполнена"));
+                        msg.setType(3);
+                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                    }
+                }
+                if(/*!un->getDkInvolved() &&*/ (
+                   (TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
+                   (TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLM().isOn() && (1 == un->swpRLM().isInAlarm() || 1 == un->swpRLM().isOutAlarm() || 1 == un->swpRLM().isWasAlarm())) ||
+                   (TypeUnitNode::TG == un->getType() && 1 == un->swpTGType0x31().isOn() && (1 == un->swpTGType0x31().isInAlarm() || 1 == un->swpTGType0x31().isOutAlarm() || 1 == un->swpTGType0x31().isWasAlarm() || 1 == un->swpTGType0x31().isInOpened() || 1 == un->swpTGType0x31().isWasOpened())))) {
+                    //нужен сброс
+                    auto alarmReset0x24 = resultRequest;
+                    DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
+                    if(!reciver.isNull()) {
+                        reciver->queueMsg.enqueue(alarmReset0x24);
+                        qDebug() << "PortManager::parcingStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+                    }
+                }
             } else if(!un->getDkInvolved()) {
 
                 // Первое сообщение о включении
@@ -1760,13 +1800,24 @@ void PortManager::procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitN
     qDebug() << "DkStatus --> " << current->toString();
     if(current.isNull() || previous.isNull())
         return;
+
+    QMap<int, QString> mapDKCiclStatus = {
+        {0,"DKIgnore"},
+        {1,"DKReady"},
+        {2,"DKNorm"},
+        {3,"DKWasAlarn"},
+        {4,"DKWas"},
+        {5,"DKDone"},
+        {-1,"DKWrong"}
+    };
+
     if(DKCiclStatus::DKIgnore != previous->getDkStatus() &&
        DKCiclStatus::DKWrong != previous->getDkStatus() &&
        DKCiclStatus::DKDone != previous->getDkStatus() &&
        current->getDkInvolved()) {
         int unCalcDkStatus = current->calcDKStatus();
-        qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
-        qDebug() << "DkStatus -- unDkStatus " << current->getDkStatus();
+        qDebug() << "DkStatus -- unCalcDkStatus " << mapDKCiclStatus.value(unCalcDkStatus);
+        qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
         if(DKCiclStatus::DKReady == previous->getDkStatus() &&
                 DKCiclStatus::DKNorm == unCalcDkStatus)
             current->setDkStatus(DKCiclStatus::DKNorm);
@@ -1787,7 +1838,7 @@ void PortManager::procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitN
         else
             current->setDkStatus(DKCiclStatus::DKWrong);
         current->updDoubl();
-        qDebug() << "DkStatus -- unNewDkStatus " << current->getDkStatus();
+        qDebug() << "DkStatus -- unNewDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
         qDebug() << "DkStatus <--";
     }
 }
