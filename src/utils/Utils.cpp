@@ -444,13 +444,35 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedP
     // prepare <--
 
     // fill -->
+
+    if(10 == un->getPublishedState()) {
+        for(int i = 1, n = 3; i < n; i++) {
+            for(int j = 1, m = 9; j < m; j++) {
+                if(1 == j && 1 == i) {
+                    continue;
+                } else if(2 == j && 2 == i) {
+                    continue;
+                } else if(3 == j) {
+                    continue;
+                } else if(5 == j) {
+                    continue;
+                } else if(8 == j && 2 == i) {
+                    continue;
+                }
+                setCellColor( table, j, i, cellYellow);
+                setCellText( table, j, i, "Нет связи!");
+            }
+        }
+        return;
+    }
+
     //"Датчик"
     if(1 == un->swpRLM().isOn()) {
         setCellText( table, 1,2, (QObject::tr("Вкл[1]")));
-        setCellColor( table, 1,2, cellGray);
+        setCellColor( table, 1,2, cellGreen);
     } else if(1 == un->swpRLM().isOff()) {
         setCellText( table, 1,2, (QObject::tr("Выкл[0]")));
-        setCellColor( table, 1,2, cellGray);
+        setCellColor( table, 1,2, cellRed);
     }
     //"Срабатывание"
     if(1 == un->swpRLM().isOutAlarm()) {
@@ -560,6 +582,29 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
     // prepare <--
 
     // fill -->
+    if(10 == un->getPublishedState()) {
+        for(int i = 1, n = 3; i < n; i++) {
+            for(int j = 1, m = 13; j < m; j++) {
+                if(1 == j && 1 == i) {
+                    continue;
+                } else if(2 == j && 2 == i) {
+                    continue;
+                } else if(3 == j) {
+                    continue;
+                } else if(5 == j) {
+                    continue;
+                } else if(7 == j) {
+                    continue;
+                } else if(7 < j && 2 == i) {
+                    continue;
+                }
+                setCellColor( table, j, i, cellYellow);
+                setCellText( table, j, i, "Нет связи!");
+            }
+        }
+        return;
+    }
+
     //"Датчик"
     if(1 == un->swpRLMC().isOn()) {
         setCellText( table, 1,2, (QObject::tr("Вкл[1]")));
@@ -745,6 +790,21 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
     // prepare <--
 
     // fill -->
+    if(10 == selUN->getPublishedState()) {
+        for(int i = 1, n = table->columnCount(); i < n; i+=2) {
+            for(int j = 1, m = table->rowCount(); j < m; j++) {
+                if((5 == j || 6 == j) && 5 == i) {
+                    continue;
+                } else if((7 == j || 11 == j || 15 == j || 19 == j) && 1 != i) {
+                    continue;
+                }
+                setCellColor( table, j, i, cellYellow);
+                setCellText( table, j, i, "Нет связи!");
+            }
+        }
+        return;
+    }
+
     auto swp32 = selUN->swpTGType0x32();
 
     for(int i = 1, n = 5; i < n; i++) {

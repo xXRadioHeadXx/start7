@@ -1208,18 +1208,24 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         msg.setComment(QObject::tr("Выкл"));
                         msg.setType(100);
                         un->setPublishedState(100);
+                        reciver->setPublishedState(100);
                     } else if((TypeUnitNode::IU_BL_IP == un->getType()) &&
                               (1 == un->swpIUBLIP().isOn()) &&
                               (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn())) {
                         msg.setComment(QObject::tr("Вкл"));
                         msg.setType(101);
                         un->setPublishedState(101);
+                        reciver->setPublishedState(101);
                     }
                     if(1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     }
                     msg.setType(0);
+
+                    if(10 == un->getPublishedState()) {
+                        un->setPublishedState(-1);
+                    }
 
                 }/* else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
                           (1 == un->swpSDBLIP().isOn()) &&
