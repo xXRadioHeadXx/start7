@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>9</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -633,7 +633,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>13</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1690,12 +1690,12 @@
                <rect>
                 <x>80</x>
                 <y>0</y>
-                <width>47</width>
+                <width>191</width>
                 <height>16</height>
                </rect>
               </property>
               <property name="text">
-               <string>Тип</string>
+               <string>Датчик</string>
               </property>
              </widget>
             </widget>
@@ -1999,12 +1999,12 @@
               <rect>
                <x>5</x>
                <y>4</y>
-               <width>31</width>
+               <width>71</width>
                <height>16</height>
               </rect>
              </property>
              <property name="text">
-              <string>Тип</string>
+              <string>Опрос</string>
              </property>
             </widget>
             <widget class="QLabel" name="label_83">
