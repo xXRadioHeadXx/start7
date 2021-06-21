@@ -112,6 +112,8 @@ private:
     void RS485_UDP_set_from_unit(UnitNode *unit);
     void RS485_UDP_set_enabled_for_edit(bool enable);
 
+    void Name_update();
+
     QString get_dd(UnitNode* unit);
     QString get_y4(UnitNode* unit);
 //    QList<udev_device*> listDevices();
@@ -689,5 +691,6 @@ private slots:
    void on_findButton_reset_clicked();
    void on_findButton_prev_clicked();
    void on_pushButton_next_clicked();
+   void on_IU_BL_IP_num_combobox_currentIndexChanged(int index);
 };
 #endif // MAINWINDOWCFG_H

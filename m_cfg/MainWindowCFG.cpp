@@ -2844,6 +2844,127 @@ else
 }
 }
 
+void MainWindowCFG::Name_update()
+{
+    if(this->ui->checkBox->isChecked())
+    {
+    QString Name;
+    Name.clear();
+    int type=m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
+//    Name.append(this->ui->uType_combobox->currentText());
+    switch(type)
+    {
+
+    case TypeUnitNode::GROUP:
+Name.append("Группа ");
+    break;
+
+    case TypeUnitNode::SD_BL_IP:
+Name.append(this->ui->uType_combobox->currentText());
+Name.append(" ");
+Name.append(this->ui->SD_BL_IP_num_combobox->currentText());
+
+
+    break;
+
+    case TypeUnitNode::IU_BL_IP:
+Name.append(this->ui->uType_combobox->currentText());
+Name.append(" ");
+Name.append(this->ui->IU_BL_IP_num_combobox->currentText());
+
+    break;
+
+    case TypeUnitNode::TG:
+Name.append("ТГ ");
+    break;
+
+    case TypeUnitNode::RLM_KRL:
+Name.append("РЛМ-КРЛ ");
+    break;
+
+    case TypeUnitNode::RLM_C:
+Name.append("РЛМ-С ");
+    break;
+
+    case TypeUnitNode::BOD_T4K_M:
+Name.append(this->ui->uType_combobox->currentText());
+    break;
+
+    case TypeUnitNode::Y4_T4K_M:
+Name.append("Уч ");
+    break;
+
+    case TypeUnitNode::DD_T4K_M:
+Name.append("ДД ");
+    break;
+
+    case TypeUnitNode::BOD_SOTA:
+Name.append(this->ui->uType_combobox->currentText());
+    break;
+
+    case TypeUnitNode::Y4_SOTA:
+Name.append("Уч ");
+    break;
+
+    case TypeUnitNode::DD_SOTA:
+Name.append("ДД ");
+    break;
+
+    case TypeUnitNode::ONVIF:
+Name.append("ONVIF ");
+    break;
+
+    case TypeUnitNode::NET_DEV:
+Name.append("Сетевое ");
+    break;
+
+    case TypeUnitNode::STRAZH_IP:
+Name.append("Страж-IP ");
+    break;
+
+    case TypeUnitNode::BL_IP:
+
+    break;
+
+    case TypeUnitNode::SSOI_SD:
+Name.append("СД ");
+    break;
+
+    case TypeUnitNode::SSOI_IU:
+Name.append("ИУ ");
+    break;
+
+    case TypeUnitNode::ADAM:
+Name.append("Адам ");
+    break;
+
+    case TypeUnitNode::TOROS:
+Name.append("Торос ");
+    break;
+
+    case TypeUnitNode::DEVLINE:
+Name.append("DEVLINE ");
+    break;
+
+    case TypeUnitNode::RASTRMTV:
+Name.append("РАСТР-М ТВ ");
+    break;
+
+    case TypeUnitNode::INFO_TABLO:
+Name.append("Инф. табло ");
+    break;
+
+    case TypeUnitNode::KL:
+Name.append("КЛ ");
+    break;
+
+    }
+
+
+    this->ui->uName_combobox->setCurrentText(Name);
+    }
+}
+
 QString MainWindowCFG::get_dd(UnitNode* unit)
 {
     QModelIndex ind = modelTreeUN->findeIndexUN(unit);
@@ -4750,6 +4871,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
     setUdpTimeout_for_BL_IP(unit);
 
 
+
     qDebug()<<"Name: "<<unit->getName()
             <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
             <<" Num2:"<<QString::number(unit->getNum2())
@@ -4758,6 +4880,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
             <<" connectblock:"<<QString::number(unit->getConnectBlock())
             <<" UdpUse:"<<QString::number(unit->getUdpUse())
             <<" UdpAdress:"<<unit->getUdpAdress();
+
 
 }
 
@@ -6902,6 +7025,8 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     this->object_menu_set_settings_default(type);
     this->object_menu_set_enabled_for_edit(false);
 
+    Name_update();
+
 }
 
 void MainWindowCFG::on_SQL_type_comboBox_currentTextChanged(const QString &arg1)
@@ -7080,6 +7205,8 @@ this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
     break;
 
     }
+
+    Name_update();
 }
 
 
@@ -7260,4 +7387,9 @@ void MainWindowCFG::on_pushButton_next_clicked()
     }
 //    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
 
+}
+
+void MainWindowCFG::on_IU_BL_IP_num_combobox_currentIndexChanged(int index)
+{
+    Name_update();
 }

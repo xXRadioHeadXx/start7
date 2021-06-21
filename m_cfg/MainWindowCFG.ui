@@ -633,7 +633,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>13</number>
+             <number>15</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1862,7 +1862,7 @@
               </rect>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="UDP">
               <widget class="QLabel" name="label_80">
@@ -2712,6 +2712,19 @@
              <bool>true</bool>
             </property>
            </widget>
+           <widget class="QCheckBox" name="checkBox">
+            <property name="geometry">
+             <rect>
+              <x>548</x>
+              <y>20</y>
+              <width>70</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
            <zorder>label_3</zorder>
            <zorder>uType_combobox</zorder>
            <zorder>label_4</zorder>
@@ -2720,6 +2733,7 @@
            <zorder>stackedWidget_2</zorder>
            <zorder>widget1</zorder>
            <zorder>uName_combobox</zorder>
+           <zorder>checkBox</zorder>
           </widget>
          </item>
         </layout>
