@@ -13,7 +13,7 @@ class TreeModelUnitNode : public QAbstractItemModel
 public:
     explicit TreeModelUnitNode(QObject *parent = nullptr);
 
-
+    QList<QModelIndex> listEquals;
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
     UnitNode *rootItemUN;

@@ -1233,3 +1233,165 @@ bool Control_Unit_Manager::no_equal_unit_from_one_parent(TreeModelUnitNode *mode
     }
     return true;
 }
+
+
+bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
+{
+    qDebug()<<"тип: "<<unit->getType();
+    switch(un->getType())
+    {
+    case TypeUnitNode::GROUP:
+
+    break;
+
+    case TypeUnitNode::SD_BL_IP:
+    return ((un->getNum2()==unit->getNum2()));
+    break;
+
+    case TypeUnitNode::IU_BL_IP:
+        if(un->getType()==unit->getType())
+        if(un->getUdpUse()==unit->getUdpUse())
+        if(un->getNum2()==unit->getNum2())
+        {
+            return true;
+        }
+        return false;
+    break;
+
+    case TypeUnitNode::TG:
+        if((un->getNum1()==unit->getNum1()))
+        {
+            if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
+             {
+           //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
+                QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+                return false;
+             }
+            if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
+             {
+                if(un->getNum2()==unit->getNum2())
+                {
+               //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
+                    QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+                    return false;
+                }
+             }
+        }
+        return true;
+    break;
+
+    case TypeUnitNode::RLM_KRL:
+    return ((un->getNum1()==unit->getNum1()));
+    break;
+
+    case TypeUnitNode::RLM_C:
+    return ((un->getNum1()==unit->getNum1()));
+    break;
+
+    case TypeUnitNode::BOD_T4K_M:
+        if(unit->getUdpUse()==0)//нельзя добавлять больше одного БОДа на RS 485
+        {
+            if(un->getType()==TypeUnitNode::BOD_SOTA)
+                return true;
+            if(un->getType()==TypeUnitNode::BOD_T4K_M)
+                return true;
+        }
+        return (un->getNum1()==unit->getNum1());
+    break;
+
+    case TypeUnitNode::Y4_T4K_M:
+
+    break;
+
+    case TypeUnitNode::DD_T4K_M:
+
+    break;
+
+    case TypeUnitNode::BOD_SOTA:
+        if(unit->getUdpUse()==0)//нельзя добавлять больше одного БОДа на RS 485
+        {
+            if(un->getType()==TypeUnitNode::BOD_SOTA)
+                return true;
+            if(un->getType()==TypeUnitNode::BOD_T4K_M)
+                return true;
+
+        }
+    break;
+
+    case TypeUnitNode::Y4_SOTA:
+
+    break;
+
+    case TypeUnitNode::DD_SOTA:
+
+    break;
+
+    case TypeUnitNode::ONVIF:
+    return(un->getIcon1Path()==unit->getIcon1Path());
+    break;
+
+    case TypeUnitNode::NET_DEV:
+
+    break;
+
+    case TypeUnitNode::STRAZH_IP:
+        return((un->getIcon1Path()==unit->getIcon1Path())||
+        (un->getIcon4Path()==unit->getIcon4Path()));
+    break;
+
+    case TypeUnitNode::BL_IP:
+
+    break;
+
+    case TypeUnitNode::SSOI_SD:
+        return((un->getNum1()==unit->getNum1())
+        ||(un->getNum2()==unit->getNum2())
+        ||(un->getNum3()==unit->getNum3()));
+    break;
+
+    case TypeUnitNode::SSOI_IU:
+
+    break;
+
+    case TypeUnitNode::ADAM:
+
+    break;
+
+    case TypeUnitNode::TOROS:
+    return ((un->getNum1()==unit->getNum1()));
+    break;
+
+    case TypeUnitNode::DEVLINE:
+    return((un->getNum1()==unit->getNum1())&&(un->getOutType()==unit->getOutType()));
+    break;
+
+    case TypeUnitNode::RASTRMTV:
+
+    break;
+
+    case TypeUnitNode::INFO_TABLO:
+    return ((un->getNum2()==unit->getNum2()));
+    break;
+
+    case TypeUnitNode::KL:
+        if((un->getNum1()==unit->getNum1()))
+        {
+            if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
+            {
+               return true;
+            }
+            if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
+            {
+                if(un->getNum2()==unit->getNum2())
+                {
+                return true;
+                }
+            }
+        }
+        return false;
+    break;
+
+    }
+
+}
+

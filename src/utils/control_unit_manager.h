@@ -43,6 +43,7 @@ public:
 
             bool correct_UDP_parametres(UnitNode *unit);
 
+            static bool compare(UnitNode *origin, UnitNode *current);// return true if equal
 
            QModelIndex double_unit_index;
     //проверка на отсутствие двойников во всем дереве

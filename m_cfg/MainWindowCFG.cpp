@@ -534,7 +534,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 
     ui->treeView->setModel(this->modelTreeUN);
 
-    Delegate* dlgt = new Delegate(this);
+    dlgt = new Delegate(this);
     this->ui->treeView->setItemDelegate(dlgt);
 
  //   ui->treeView->setColumnWidth(0,220);
@@ -7114,3 +7114,118 @@ this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
     }
 }
 
+
+void MainWindowCFG::on_pushButton_3_clicked()
+{
+
+    if(modelTreeUN->listEquals.count()==0)
+    {
+//---------
+    UnitNode *unit=new UnitNode();
+    unit->setType(0);
+    unit->setNum1(255);
+    unit->setNum2(0);
+    unit->setNum3(0);
+    unit->setLevel(0);
+    unit->setName("");
+    unit->setIconVisible(0);
+    unit->setX(0);
+    unit->setY(0);
+    unit->setDK(0);
+    unit->setBazalt(0);
+    unit->setMetka(0);
+    unit->setRazriv(0);
+    unit->setAdamOff(0);
+    unit->setAlarmMsgOn(0);
+    unit->setConnectBlock(0);
+    unit->setOutType(0);
+    unit->setAsoosd_kk(0);
+    unit->setAsoosd_nn(0);
+    unit->setDescription("");
+    unit->setLan(0);
+    unit->setLon(0);
+    unit->setUdpUse(0);
+    unit->setUdpAdress("");
+    unit->setUdpPort(0);
+    unit->setUdpTimeout(0);
+    unit->setMetka1Time_0(0);
+    unit->setMetka1Time_1(0);
+    unit->setMetka2Time_0(0);
+    unit->setMetka2Time_1(0);
+    unit->setMetka3Time_0(0);
+    unit->setMetka3Time_1(0);
+    unit->setMetka4Time_0(0);
+    unit->setMetka4Time_1(0);
+    unit->setMetkaDopuskTime_0(0);
+    unit->setMetkaDopuskTime_1(0);
+    unit->setTimeIntervalStatusRequest(0);
+
+
+    unit->setType(this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText()));
+
+
+    if(this->ui->stackedWidget_2->currentWidget()==this->ui->coordinates_for_all)
+    {
+
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+    }
+ UnitNode *parrent=new UnitNode();
+set_option(unit,parrent);
+
+
+//---------
+
+
+    QList<UnitNode *> List1;
+    QList<QModelIndex> Equals;
+    Equals.clear();
+    modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+
+    qDebug()<<"-- Ищу устрйоство ---";
+    qDebug()<<"тип: "<< m_TypeUnitNode.value( unit->getType());
+    qDebug()<<"Актуальные параметры:";
+
+    modelTreeUN->listEquals.clear();
+
+    qDebug()<<"---------------------------------------";
+    foreach(UnitNode *un, List1 )
+    {
+    //    qDebug()<<"------";
+    //    qDebug()<<unit->getName();
+    //    qDebug()<<un->getName();
+
+        bool res=m_ctrl->compare(unit,un);
+        qDebug()<<res;
+        if(res==true)
+        {
+
+        Equals.append(modelTreeUN->findeIndexUN(un));
+        modelTreeUN->listEquals.append(modelTreeUN->findeIndexUN(un));
+
+
+        }
+
+    }
+
+
+    qDebug()<<"Найдены:";
+    foreach(QModelIndex ind, modelTreeUN->listEquals )
+    {
+    this->ui->treeView->update(ind);
+        UnitNode *un = static_cast<UnitNode*>(ind.internalPointer());
+        qDebug()<<un->getName();
+    }
+
+    }
+    else
+    {
+        modelTreeUN->listEquals.clear();
+        modelTreeUN->updateUNs();
+    }
+
+
+
+}

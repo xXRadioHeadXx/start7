@@ -49,6 +49,8 @@ private:
 
   bool eventFilter(QObject *obj, QEvent *event);
 
+    Delegate* dlgt;
+
     int cfg_type;
 
     QString last_ini_patch;
@@ -683,5 +685,6 @@ private slots:
    void on_uType_combobox_currentTextChanged(const QString &arg1);
    void on_SSOI_SD_Num3_currentTextChanged(const QString &arg1);
    void on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &arg1);
+   void on_pushButton_3_clicked();
 };
 #endif // MAINWINDOWCFG_H

@@ -100,6 +100,20 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
      if(role == Qt::DisplayRole)
          return item->data(index.column());
 
+
+
+     if(role == Qt::BackgroundRole)
+     {
+         foreach(QModelIndex ind, listEquals)
+         {
+         if(ind==index)
+              return QVariant(QColor(Qt::green));
+         }
+         return QVariant(QColor(Qt::white));
+
+
+     }
+
      return QVariant();
  }
 
