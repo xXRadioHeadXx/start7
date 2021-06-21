@@ -7120,6 +7120,7 @@ void MainWindowCFG::on_pushButton_3_clicked()
 
     if(modelTreeUN->listEquals.count()==0)
     {
+        this->ui->stackedWidget_3->setCurrentIndex(1);
 //---------
     UnitNode *unit=new UnitNode();
     unit->setType(0);
@@ -7219,13 +7220,76 @@ set_option(unit,parrent);
         qDebug()<<un->getName();
     }
 
+  this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(0));
+
     }
+    /*
     else
     {
         modelTreeUN->listEquals.clear();
         modelTreeUN->updateUNs();
+        this->ui->stackedWidget_3->setCurrentIndex(0);
+    }
+*/
+
+
+}
+
+void MainWindowCFG::on_findButton_reset_clicked()
+{
+    modelTreeUN->listEquals.clear();
+    modelTreeUN->updateUNs();
+    this->ui->stackedWidget_3->setCurrentIndex(0);
+}
+
+void MainWindowCFG::on_findButton_prev_clicked()
+{
+QListIterator<QModelIndex> i(modelTreeUN->listEquals);
+
+for(int i=0;i<(modelTreeUN->listEquals.count());i++)
+{
+    QModelIndex ind=modelTreeUN->listEquals.at(i);
+    if(this->ui->treeView->currentIndex()==ind){
+      if(i>0)
+       this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(i-1));
+
+        else
+      this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(modelTreeUN->listEquals.count()-1));
+       break;
     }
 
+}
 
+
+
+
+
+//    modelTreeUN->listEquals.
+//    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+
+}
+
+void MainWindowCFG::on_pushButton_next_clicked()
+{
+    for(int i=0;i<(modelTreeUN->listEquals.count());i++)
+    {
+        QModelIndex ind=modelTreeUN->listEquals.at(i);
+        if(this->ui->treeView->currentIndex()==ind){
+            qDebug()<<i;
+            if(i<(modelTreeUN->listEquals.count()-1))
+            {
+             qDebug()<<"[1]";
+           this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(i+1));
+            }
+            else
+            {
+             qDebug()<<"[2]";
+           this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(0));
+            }
+           break;
+        }
+
+    }
+//    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
 
 }

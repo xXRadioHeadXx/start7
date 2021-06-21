@@ -423,6 +423,7 @@ bool TreeModelUnitNode::moveUNUp(QModelIndex index)
         this->endMoveRows();
         return true;
     }
+
     return false;
  //  this->beginMoveRows()
  //   //    parent->move_up(index.row());

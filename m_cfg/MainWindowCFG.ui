@@ -2536,37 +2536,6 @@
               <string>Вверх</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_3">
-             <property name="geometry">
-              <rect>
-               <x>9</x>
-               <y>31</y>
-               <width>130</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>108</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>999</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Найти</string>
-             </property>
-            </widget>
             <widget class="QPushButton" name="pushButton_4">
              <property name="geometry">
               <rect>
@@ -2641,6 +2610,93 @@
              <property name="text">
               <string>Добавить</string>
              </property>
+            </widget>
+            <widget class="QStackedWidget" name="stackedWidget_3">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>130</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="find_button_page_0">
+              <widget class="QPushButton" name="pushButton_3">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>130</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>108</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>999</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Найти</string>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QWidget" name="page2">
+              <widget class="QPushButton" name="findButton_reset">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>30</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>X</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="findButton_prev">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>0</y>
+                 <width>50</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>&lt;</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="pushButton_next">
+               <property name="geometry">
+                <rect>
+                 <x>79</x>
+                 <y>0</y>
+                 <width>51</width>
+                 <height>30</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>&gt;</string>
+               </property>
+              </widget>
+             </widget>
             </widget>
            </widget>
            <widget class="my_combobox" name="uName_combobox">

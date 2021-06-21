@@ -686,5 +686,8 @@ private slots:
    void on_SSOI_SD_Num3_currentTextChanged(const QString &arg1);
    void on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &arg1);
    void on_pushButton_3_clicked();
+   void on_findButton_reset_clicked();
+   void on_findButton_prev_clicked();
+   void on_pushButton_next_clicked();
 };
 #endif // MAINWINDOWCFG_H
