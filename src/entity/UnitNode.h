@@ -104,7 +104,13 @@ enum DKCiclStatus {
 class UnitNode : public QObject
 {
     Q_OBJECT
+
+
+
 private:
+
+
+
     int neededStateWordType = 0;
     QByteArray stateWord;
     QByteArray stateWordType0x31;
@@ -186,6 +192,8 @@ private:
 
 
 public:
+
+     void show();
 
     explicit UnitNode(UnitNode *parent = nullptr);
     explicit UnitNode(const UnitNode & parent);

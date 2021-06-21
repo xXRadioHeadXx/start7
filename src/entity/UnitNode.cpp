@@ -1185,6 +1185,43 @@ void UnitNode::setStateWordType0x32(const QByteArray &value)
     stateWordType0x32 = value;
 }
 
+void UnitNode::show()
+{
+    qDebug()
+    <<"; Name "<< this->getName()
+    <<"; Type "<<this->getType()
+    <<"; Num1 "<<this->getNum1()
+    //<<"; Num1 "<<QString::number(this->getNum1())
+    <<"; Num2 "<<QString::number(this->getNum2())
+    <<"; Num3 "<<QString::number(this->getNum3())
+    <<"; Level "<<QString::number(this->getLevel())
+    //<<"IconVisible "<<this->getIconVisible()
+    <<"; X "<<QString::number(this->getX())
+    <<"; Y "<<QString::number(this->getY())
+    <<"; DK "<<QString::number(this->getDK())
+    <<"; Bazalt "<<QString::number(this->getBazalt())
+    <<"; Metka "<<QString::number(this->getMetka())
+    <<"; Razriv "<<QString::number(this->getRazriv())
+    <<"; AdamOff "<<QString::number(this->getAdamOff())
+    <<"; AlarmMsgOn "<<QString::number(this->getAlarmMsgOn())
+    <<"; ConnectBlock "<<QString::number(this->getConnectBlock())
+    <<"; OutType "<<QString::number(this->getOutType())
+    <<"; asoosd_kk "<<QString::number(this->getAsoosd_kk())
+    <<"; asoosd_nn "<<QString::number(this->getAsoosd_nn())
+    <<"; Description "<<this->getDescription()
+    <<"; lan "<<QString::number(this->getLan())
+    <<"; lon "<<QString::number(this->getLon())
+    <<"; UdpUse "<<QString::number(this->getUdpUse())
+    <<"; UdpAdress "<<this->getUdpAdress()
+    <<"; UdpPort "<<this->getUdpPort()
+    <<"; UdpTimeout "<<this->getUdpTimeout()
+    <<"; Icon1Path "<<this->getIcon1Path()
+    <<"; Icon2Path "<<this->getIcon2Path()
+    <<"; Icon3Path "<<this->getIcon3Path()
+    <<"; Icon4Path "<<this->getIcon4Path();
+    ;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&

@@ -825,39 +825,7 @@ void MainWindowCFG::get_option(UnitNode* unit)
 {
    this->ui->textEdit->clear();
     //qDebug()<<"get option";
-qDebug()
-<<"; Name "<< unit->getName()
-<<"; Type "<<unit->getType()
-<<"; Num1 "<<unit->getNum1()
-//<<"; Num1 "<<QString::number(unit->getNum1())
-<<"; Num2 "<<QString::number(unit->getNum2())
-<<"; Num3 "<<QString::number(unit->getNum3())
-<<"; Level "<<QString::number(unit->getLevel())
-//<<"IconVisible "<<unit->getIconVisible()
-<<"; X "<<QString::number(unit->getX())
-<<"; Y "<<QString::number(unit->getY())
-<<"; DK "<<QString::number(unit->getDK())
-<<"; Bazalt "<<QString::number(unit->getBazalt())
-<<"; Metka "<<QString::number(unit->getMetka())
-<<"; Razriv "<<QString::number(unit->getRazriv())
-<<"; AdamOff "<<QString::number(unit->getAdamOff())
-<<"; AlarmMsgOn "<<QString::number(unit->getAlarmMsgOn())
-<<"; ConnectBlock "<<QString::number(unit->getConnectBlock())
-<<"; OutType "<<QString::number(unit->getOutType())
-<<"; asoosd_kk "<<QString::number(unit->getAsoosd_kk())
-<<"; asoosd_nn "<<QString::number(unit->getAsoosd_nn())
-<<"; Description "<<unit->getDescription()
-<<"; lan "<<QString::number(unit->getLan())
-<<"; lon "<<QString::number(unit->getLon())
-<<"; UdpUse "<<QString::number(unit->getUdpUse())
-<<"; UdpAdress "<<unit->getUdpAdress()
-<<"; UdpPort "<<unit->getUdpPort()
-<<"; UdpTimeout "<<unit->getUdpTimeout()
-<<"; Icon1Path "<<unit->getIcon1Path()
-<<"; Icon2Path "<<unit->getIcon2Path()
-<<"; Icon3Path "<<unit->getIcon3Path()
-<<"; Icon4Path "<<unit->getIcon4Path();
-;
+unit->show();
     selected_type=unit->getType();
 
 //       this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);

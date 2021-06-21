@@ -112,6 +112,17 @@ if(false==pass_to_add_KL(unit,parrent,modelTreeUN))
     qDebug()<<"[false]";
     return false;
 }
+
+}
+
+if(unit->getType()==TypeUnitNode::ADAM)
+{
+if(false==pass_to_add_ADAM(unit,parrent,modelTreeUN))
+{
+    qDebug()<<"[false]";
+    return false;
+}
+
 }
 
 if(unit->getType()==TypeUnitNode::NET_DEV)
@@ -207,24 +218,7 @@ qDebug()<<"СД БЛ-IP";
         return false;
 
 //Не должен повторяться в дереве
-    return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-    {
-
-
-
-if(un->getType()==unit->getType())
-//if(un->getUdpUse()==unit->getUdpUse())
-
-if(un->getNum2()==unit->getNum2())
-{
-//      m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-
- return true;
-}
-
-
-return false;
-});
+    return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN);
 
 
 
@@ -246,7 +240,8 @@ bool Control_Unit_Manager::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parent
        (parent->getType()==TypeUnitNode::RASTRMTV)||
        (parent->getType()==TypeUnitNode::INFO_TABLO)||
        (parent->getType()==TypeUnitNode::SSOI_IU) ||
-       (parent->getType()==TypeUnitNode::IU_BL_IP))
+       (parent->getType()==TypeUnitNode::IU_BL_IP)||
+        (parent->getType()==TypeUnitNode::ADAM))
     {
 
         return false;
@@ -260,57 +255,22 @@ bool Control_Unit_Manager::pass_to_add_IU_BL_IP(UnitNode *unit, UnitNode *parent
 
              return false;
 //Может повторяться в дереве. Не должен повторяться у одного предка.
-         return no_equal_unit_from_one_parent(modelTreeUN,unit,parent,[](UnitNode *unit, UnitNode *un)->bool
-                              {
-
-
-
-                       if(un->getType()==unit->getType())
-                       if(un->getUdpUse()==unit->getUdpUse())
-
-                       if(un->getNum2()==unit->getNum2())
-                       {
-                     //      m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-
-                           return true;
-                       }
-
-
-        return false;
-                    });
+         return no_equal_unit_from_one_parent(modelTreeUN,unit,parent);
 }
 
 bool Control_Unit_Manager::pass_to_add_BOD_SOTA(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
 {
-    //БОД может быть добавлен только к группе
-        if((parrent->getType()!=TypeUnitNode::GROUP)&&
-           (parrent->getType()!=TypeUnitNode::SYSTEM)
-                )
+ //БОД может быть добавлен только к группе
+ if((parrent->getType()!=TypeUnitNode::GROUP)&&
+    (parrent->getType()!=TypeUnitNode::SYSTEM)
+   )
         {
             QMessageBox::critical(0,"Ошибка","БОД может быть добавлен только к группе");
-
             return false;
-
         }
-
     //    Если связь по RS485 - контроль по RS485 порту
     //    Если связь по UDP - контроль по IP адресу
-
-     //     //qDebug()<<"[BOD_SOTA]";
-
-
-       return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-       {
-
-               if(un->getType()==TypeUnitNode::BOD_SOTA)
-                   return true;
-               if(un->getType()==TypeUnitNode::BOD_T4K_M)
-                   return true;
-
-
-           return ((un->getNum1()==unit->getNum1()));
-
-       });
+       return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN);
 
 
 
@@ -356,10 +316,11 @@ bool Control_Unit_Manager::pass_to_add_Y4_SOTA(UnitNode *unit, UnitNode *parrent
 
     foreach(UnitNode *un, List )
     {
-     //qDebug()<<"Name: "<<un->getName();
+     qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
      if(un->getNum2()==unit->getNum2())
      {
       //   this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
          QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
          return false;
      }
@@ -453,6 +414,7 @@ bool Control_Unit_Manager::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent
 
 
                 //    this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+                    qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
 
                     return false;
@@ -470,6 +432,7 @@ bool Control_Unit_Manager::pass_to_add_DD_SOTA(UnitNode *unit, UnitNode* parrent
 
 
                 //    this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+                    qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                     return false;
                 }
@@ -499,19 +462,7 @@ bool Control_Unit_Manager::pass_to_add_BOD_T4K_M(UnitNode *unit, UnitNode* parre
     //    Если связь по UDP - контроль по IP адресу
 
 
-    return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-                {
-
-                    if(un->getType()==TypeUnitNode::BOD_SOTA)
-                        return true;
-                    if(un->getType()==TypeUnitNode::BOD_T4K_M)
-                        return true;
-
-
-                return (un->getNum1()==unit->getNum1());
-
-
-                ;});
+    return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN);
 
 
 }
@@ -555,6 +506,7 @@ bool Control_Unit_Manager::pass_to_add_Y4_T4K_M(UnitNode *unit, UnitNode* parren
      if(un->getNum2()==unit->getNum2())
      {
     //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+         qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
          QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
 
          return false;
@@ -645,6 +597,7 @@ bool Control_Unit_Manager::pass_to_add_DD_T4K_M(UnitNode *unit, UnitNode* parren
 
 
            //         this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+                    qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                     return false;
                 }
@@ -692,29 +645,7 @@ bool Control_Unit_Manager::pass_to_add_TG(UnitNode *unit, UnitNode* parrent,Tree
 
     }
 
-    return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-                         {
-
-             if((un->getNum1()==unit->getNum1()))
-             {
-                 if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
-                  {
-                //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-
-                     return true;
-                  }
-                 if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
-                  {
-                     if(un->getNum2()==unit->getNum2())
-                     {
-                    //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-
-                         return true;
-                     }
-                  }
-             }
-             return false;
-                     });
+    return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN);
 
 
 }
@@ -735,8 +666,7 @@ bool Control_Unit_Manager::pass_to_add_RLM_KRL(UnitNode *unit, UnitNode* parrent
 
 
 
-        return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-                             {return ((un->getNum1()==unit->getNum1()));});
+        return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN);
 
 }
 
@@ -754,8 +684,7 @@ bool Control_Unit_Manager::pass_to_add_RLM_C(UnitNode *unit, UnitNode* parrent,T
 //    Если связь по UDP - контроль по IP адресу
 
 
-    return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-                         {return ((un->getNum1()==unit->getNum1()));});
+    return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN);
 }
 
 bool Control_Unit_Manager::pass_to_add_KL(UnitNode *unit, UnitNode* parrent,TreeModelUnitNode *modelTreeUN)
@@ -778,34 +707,7 @@ bool Control_Unit_Manager::pass_to_add_KL(UnitNode *unit, UnitNode* parrent,Tree
             return false;
         }
 
-        return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-                             {
-                 if((un->getNum1()==unit->getNum1()))
-                 {
-                       qDebug()<<"[2]";
-                     if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
-                      {
-                           qDebug()<<"[3]";
-
-                       //  m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                                                return true;
-                      }
-                     if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
-                      {
-                           qDebug()<<"[4]";
-                         if(un->getNum2()==unit->getNum2())
-                         {
-                               qDebug()<<"[5]";
-                        //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                               return true;
-
-                         }
-
-                      }
-
-                 }
-                 return false;
-});
+        return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN);
 }
 
 bool Control_Unit_Manager::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parent,TreeModelUnitNode *modelTreeUN)
@@ -830,9 +732,7 @@ bool Control_Unit_Manager::pass_to_add_ONVIF(UnitNode *unit, UnitNode *parent,Tr
 
 
 
-return no_equal_unit_from_one_parent(modelTreeUN,unit,parent,[](UnitNode *unit, UnitNode *un)->bool{
-             return(un->getIcon1Path()==unit->getIcon1Path());}
-);
+return no_equal_unit_from_one_parent(modelTreeUN,unit,parent);
 /*
      if(un->getParentUN()==unit->getParentUN())
      if(un->getType()==unit->getType())
@@ -888,6 +788,7 @@ bool Control_Unit_Manager::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode* parre
              (un->getIcon4Path()==unit->getIcon4Path()))
          {
          //    this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+             qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
                  QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
 
              return false;
@@ -971,6 +872,7 @@ bool Control_Unit_Manager::pass_to_add_SSOI_SD(UnitNode *unit, UnitNode *parrent
             {
                 double_unit_index=modelTreeUN->findeIndexUN(un);
             //    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+                qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
                 QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
                 return false;
             }
@@ -991,7 +893,8 @@ bool Control_Unit_Manager::pass_to_add_SSOI_IU(UnitNode *unit, UnitNode *parent,
        (parent->getType()==TypeUnitNode::RASTRMTV)||
        (parent->getType()==TypeUnitNode::INFO_TABLO)||
        (parent->getType()==TypeUnitNode::SSOI_IU) ||
-       (parent->getType()==TypeUnitNode::IU_BL_IP))
+       (parent->getType()==TypeUnitNode::IU_BL_IP)||
+            (parent->getType()==TypeUnitNode::ADAM))
 
     {
 
@@ -1002,6 +905,26 @@ bool Control_Unit_Manager::pass_to_add_SSOI_IU(UnitNode *unit, UnitNode *parent,
     return true;
 
     //
+}
+
+bool Control_Unit_Manager::pass_to_add_ADAM(UnitNode *unit, UnitNode *parent, TreeModelUnitNode *modelTreeUN)
+{
+
+    //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
+    if((parent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parent->getType()==TypeUnitNode::ONVIF)||
+       (parent->getType()==TypeUnitNode::DEVLINE)||
+       (parent->getType()==TypeUnitNode::RASTRMTV)||
+       (parent->getType()==TypeUnitNode::INFO_TABLO)||
+       (parent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parent->getType()==TypeUnitNode::IU_BL_IP)||
+       (parent->getType()==TypeUnitNode::ADAM))
+    {
+
+        return false;
+
+    }
+         return no_equal_unit_from_one_parent(modelTreeUN,unit,parent);
 }
 
 bool Control_Unit_Manager::pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
@@ -1015,8 +938,7 @@ bool Control_Unit_Manager::pass_to_add_TOROS(UnitNode *unit, UnitNode *parrent,T
 
         }
 
-        return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN,[](UnitNode *unit, UnitNode *un)->bool
-                             {return ((un->getNum1()==unit->getNum1()));});
+        return no_equal_unit(modelTreeUN,unit,modelTreeUN->rootItemUN);
 
 
 
@@ -1041,10 +963,7 @@ bool Control_Unit_Manager::pass_to_add_DEVLINE(UnitNode *unit, UnitNode *parent,
     }
 
 //не должен повторяться у одного родителя
-    return no_equal_unit_from_one_parent(modelTreeUN,unit,parent,[](UnitNode *unit, UnitNode *un)->bool{
-        //сравнение провожу по актуальным для того типа устройства параметрам
-        return((un->getNum1()==unit->getNum1())&&(un->getOutType()==unit->getOutType()));}
-);
+    return no_equal_unit_from_one_parent(modelTreeUN,unit,parent);
 
 }
 
@@ -1096,6 +1015,7 @@ bool Control_Unit_Manager::pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parr
      {
 
        //  this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+         qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
          QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
          return false;
      }
@@ -1138,10 +1058,9 @@ QModelIndex Control_Unit_Manager::getDouble_unit_index() const
 // сравнивает юниты по параметрам
 // определенным образом в зависимости от типа
 //
-bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode *unit,UnitNode *supreme, bool (*is_equal)(UnitNode *unit, UnitNode *un))
+bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode *unit,UnitNode *supreme)
 {
-    //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
-    if(unit->getUdpUse()==0)
+
     {
  qDebug()<<"---------------------";
         QList<UnitNode *> List1;
@@ -1152,12 +1071,28 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
             qDebug()<<unit->getName();
             qDebug()<<un->getName();
 
+            bool res=false;
+            //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
+
+         if(unit->getUdpUse()==0)
+         if((un->getUdpUse()==unit->getUdpUse()))
          if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
-         if(is_equal(unit,un))//проверяем не идентичны ли они
+            res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+            if(unit->getUdpUse()==1)
+         if((un->getUdpUse()==unit->getUdpUse()))
+         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+         if((un->getUdpPort()==unit->getUdpPort()))
+            res=true;
+
+             if(res==true)
+         if(compare(unit,un))//проверяем не идентичны ли они
          {
             double_unit_index=modelTreeUN->findeIndexUN(un);
 
              //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+            qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
              QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
              emit double_unit_signal(un);
              return false;
@@ -1168,28 +1103,8 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
 
 
     }
-    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
 
-    if(unit->getUdpUse()==1)
-    {
 
-        QList<UnitNode *> List1;
-        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
-        foreach(UnitNode *un, List1 )
-        {
-
-         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
-         if((un->getUdpPort()==unit->getUdpPort()))
-         if(is_equal(unit,un))//проверяем не идентичны ли они
-          {
-            double_unit_index=modelTreeUN->findeIndexUN(un);
-
-             QMessageBox::critical(0,"Ошибка","Объект с такими параметрами уже существует");
-              emit double_unit_signal(un);
-             return false;
-          }
-        }
-    }
     return true;
 }
 
@@ -1200,15 +1115,17 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
 // определенным образом в зависимости от типа
 //
 //Для тех юнитов которые можно несколько раз размещать в дереве, но не нет смысла более одного раза указаывать у одного родителя
-bool Control_Unit_Manager::no_equal_unit_from_one_parent(TreeModelUnitNode *modelTreeUN,UnitNode *unit, UnitNode *parent, bool (*is_equal)(UnitNode *, UnitNode *))
+bool Control_Unit_Manager::no_equal_unit_from_one_parent(TreeModelUnitNode *modelTreeUN,UnitNode *unit, UnitNode *parent)
 {
     //Если общий родитель
+    int cnt=0;
+    qDebug()<<"["<<cnt<<"]";cnt++;
     QModelIndex ind = modelTreeUN->findeIndexUN(parent);
 
-
+qDebug()<<"["<<cnt<<"]";cnt++;
     QList<UnitNode *> List1;
     modelTreeUN->getListFromModel(List1,parent);
-
+qDebug()<<"["<<cnt<<"]";cnt++;
     foreach(UnitNode *un, List1 )
     {
 
@@ -1218,12 +1135,13 @@ bool Control_Unit_Manager::no_equal_unit_from_one_parent(TreeModelUnitNode *mode
 
      if(ind==un_parent_index) //ищем юнитов с тем же родителем
       {
-         //qDebug()<<"[+]";
+         qDebug()<<"[+]";
          if(un->getType()==unit->getType())
-         if(is_equal(unit,un))//проверяем не идентичны ли они
+         if(compare(unit,un))//проверяем не идентичны ли они
          {
             double_unit_index=modelTreeUN->findeIndexUN(un);
         //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+            qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
              QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
             emit double_unit_signal(un);
              return false;
@@ -1237,7 +1155,9 @@ bool Control_Unit_Manager::no_equal_unit_from_one_parent(TreeModelUnitNode *mode
 
 bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
 {
+
     qDebug()<<"тип: "<<unit->getType();
+    bool res=false;
     switch(un->getType())
     {
     case TypeUnitNode::GROUP:
@@ -1245,40 +1165,83 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::SD_BL_IP:
-    return ((un->getNum2()==unit->getNum2()));
+
+        if(unit->getUdpUse()==0)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+        res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+        if(unit->getUdpUse()==1)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+        if((un->getUdpPort()==unit->getUdpPort()))
+        res=true;
+
+        if(res==true)
+        if(un->getType()==unit->getType())
+        if(un->getNum2()==unit->getNum2())
+        return true;
+
+
+        return false;
+
     break;
+
+
 
     case TypeUnitNode::IU_BL_IP:
-        if(un->getType()==unit->getType())
-        if(un->getUdpUse()==unit->getUdpUse())
-        if(un->getNum2()==unit->getNum2())
-        {
-            return true;
-        }
-        return false;
+
+
+
+    //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==0)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+    res=true;
+                //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==1)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+    if((un->getUdpPort()==unit->getUdpPort()))
+    res=true;
+
+    if(res==true)
+    if(un->getType()==unit->getType())
+    if(un->getNum2()==unit->getNum2())
+    return true;
+
+
+    return false;
+
     break;
 
+
+
     case TypeUnitNode::TG:
+
         if((un->getNum1()==unit->getNum1()))
         {
             if(un->getType()!=unit->getType())//если другое устройство (не ЧЭ) на этом адресе этого порта
              {
-           //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                return false;
+             return true;
              }
             if(un->getType()==unit->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
              {
                 if(un->getNum2()==unit->getNum2())
                 {
-               //     m_cfg->ui->treeView->setCurrentIndex(m_cfg->modelTreeUN->findeIndexUN(un));
-                    QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-                    return false;
+                return true;
                 }
              }
         }
-        return true;
+        return false;
+
     break;
+
+
+
 
     case TypeUnitNode::RLM_KRL:
     return ((un->getNum1()==unit->getNum1()));
@@ -1289,14 +1252,13 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::BOD_T4K_M:
-        if(unit->getUdpUse()==0)//нельзя добавлять больше одного БОДа на RS 485
-        {
-            if(un->getType()==TypeUnitNode::BOD_SOTA)
-                return true;
-            if(un->getType()==TypeUnitNode::BOD_T4K_M)
-                return true;
-        }
-        return (un->getNum1()==unit->getNum1());
+
+    if(un->getType()==TypeUnitNode::BOD_SOTA)
+    return true;
+    if(un->getType()==TypeUnitNode::BOD_T4K_M)
+    return true;
+    return ((un->getNum1()==unit->getNum1()));
+
     break;
 
     case TypeUnitNode::Y4_T4K_M:
@@ -1308,14 +1270,13 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::BOD_SOTA:
-        if(unit->getUdpUse()==0)//нельзя добавлять больше одного БОДа на RS 485
-        {
-            if(un->getType()==TypeUnitNode::BOD_SOTA)
-                return true;
-            if(un->getType()==TypeUnitNode::BOD_T4K_M)
-                return true;
 
-        }
+    if(un->getType()==TypeUnitNode::BOD_SOTA)
+    return true;
+    if(un->getType()==TypeUnitNode::BOD_T4K_M)
+    return true;
+    return ((un->getNum1()==unit->getNum1()));
+
     break;
 
     case TypeUnitNode::Y4_SOTA:
@@ -1335,8 +1296,7 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::STRAZH_IP:
-        return((un->getIcon1Path()==unit->getIcon1Path())||
-        (un->getIcon4Path()==unit->getIcon4Path()));
+
     break;
 
     case TypeUnitNode::BL_IP:
@@ -1344,9 +1304,7 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::SSOI_SD:
-        return((un->getNum1()==unit->getNum1())
-        ||(un->getNum2()==unit->getNum2())
-        ||(un->getNum3()==unit->getNum3()));
+
     break;
 
     case TypeUnitNode::SSOI_IU:
@@ -1354,7 +1312,15 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::ADAM:
-
+            qDebug()<<"[ADAM]";
+        if(un->getType()==unit->getType())
+        if(un->getNum1()==unit->getNum1())
+        if(un->getNum2()==unit->getNum2())
+        {
+            qDebug()<<"[равны]";
+        return true;
+        }
+        return false;
     break;
 
     case TypeUnitNode::TOROS:
@@ -1362,7 +1328,7 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::DEVLINE:
-    return((un->getNum1()==unit->getNum1())&&(un->getOutType()==unit->getOutType()));
+return((un->getNum1()==unit->getNum1())&&(un->getOutType()==unit->getOutType()));
     break;
 
     case TypeUnitNode::RASTRMTV:
@@ -1370,23 +1336,23 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::INFO_TABLO:
-    return ((un->getNum2()==unit->getNum2()));
+
     break;
 
     case TypeUnitNode::KL:
         if((un->getNum1()==unit->getNum1()))
         {
             if(un->getType()!=unit->getType())//если другое устройство  на этом адресе этого порта
-            {
-               return true;
-            }
+             {
+             return true;
+             }
             if(un->getType()==unit->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
-            {
+             {
                 if(un->getNum2()==unit->getNum2())
                 {
                 return true;
                 }
-            }
+             }
         }
         return false;
     break;
