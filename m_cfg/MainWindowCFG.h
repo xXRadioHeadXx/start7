@@ -694,5 +694,6 @@ private slots:
    void on_IU_BL_IP_num_combobox_currentIndexChanged(int index);
    void on_ADAM_Num1_currentIndexChanged(const QString &arg1);
    void on_ADAM_Num2_currentIndexChanged(const QString &arg1);
+   void on_TABLO_Num2_currentIndexChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H

@@ -2954,7 +2954,8 @@ Name.append("РАСТР-М ТВ ");
     break;
 
     case TypeUnitNode::INFO_TABLO:
-Name.append("Инф. табло ");
+        Name.append("Участок: ");
+        Name.append(this->ui->TABLO_Num2->currentText());
     break;
 
     case TypeUnitNode::KL:
@@ -5499,8 +5500,6 @@ void MainWindowCFG::set_option_INFO_TABLO(UnitNode *unit)
     QString name;
     name.clear();
     name.append("Участок: ");
-    name.append(this->ui->TABLO_Num2->currentText());
-    unit->setName(name);
 }
 
 bool MainWindowCFG::setUdpTimeout_for_BL_IP(UnitNode *unit)
@@ -7403,6 +7402,11 @@ void MainWindowCFG::on_ADAM_Num1_currentIndexChanged(const QString &arg1)
 }
 
 void MainWindowCFG::on_ADAM_Num2_currentIndexChanged(const QString &arg1)
+{
+    Name_update();
+}
+
+void MainWindowCFG::on_TABLO_Num2_currentIndexChanged(const QString &arg1)
 {
     Name_update();
 }
