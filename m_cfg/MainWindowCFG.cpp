@@ -2936,6 +2936,9 @@ Name.append("ИУ ");
 
     case TypeUnitNode::ADAM:
 Name.append("Адам ");
+Name.append(this->ui->ADAM_Num1->currentText());
+Name.append("-");
+Name.append(this->ui->ADAM_Num2->currentText());
     break;
 
     case TypeUnitNode::TOROS:
@@ -7390,6 +7393,16 @@ void MainWindowCFG::on_pushButton_next_clicked()
 }
 
 void MainWindowCFG::on_IU_BL_IP_num_combobox_currentIndexChanged(int index)
+{
+    Name_update();
+}
+
+void MainWindowCFG::on_ADAM_Num1_currentIndexChanged(const QString &arg1)
+{
+    Name_update();
+}
+
+void MainWindowCFG::on_ADAM_Num2_currentIndexChanged(const QString &arg1)
 {
     Name_update();
 }
