@@ -59,5 +59,6 @@
         <file>icons/Alarm.png</file>
         <file>icons/DK.png</file>
         <file>icons/empty.png</file>
+        <file>icons/info_tablo.png</file>
     </qresource>
 </RCC>

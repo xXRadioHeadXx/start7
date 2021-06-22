@@ -749,7 +749,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type, int column)
              else if(TypeUnitNode::TOROS   == getType()) {return Icons_cfg::default_square_gray();     }
              else if(TypeUnitNode::DEVLINE   == getType()) {return Icons_cfg::ONVIF();       }
              else if(TypeUnitNode::RASTRMTV   == getType()) {return Icons_cfg::ONVIF();       }
-             else if(TypeUnitNode::INFO_TABLO   == getType()) {return Icons_cfg::default_square_gray();     }
+             else if(TypeUnitNode::INFO_TABLO   == getType()) {return Icons_cfg::INFO_TABLO();     }
 
 
 

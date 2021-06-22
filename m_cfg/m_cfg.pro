@@ -126,3 +126,6 @@ RESOURCES += \
     my_cfg_resources.qrc
 
 #LIBS += -lusb-1.0
+
+DISTFILES += \
+    icons/info_tablo.png

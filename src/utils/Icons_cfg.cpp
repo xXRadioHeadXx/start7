@@ -31,6 +31,8 @@ QPixmap Icons_cfg::NET_DEV(){return QPixmap(":icons/сетевое_устрой�
 
 QPixmap Icons_cfg::ONVIF(){return QPixmap(":icons/onvif.png");}
 
+QPixmap Icons_cfg::INFO_TABLO(){return QPixmap(":icons/info_tablo.png");}
+
 QPixmap Icons_cfg::default_square_gray(){return QPixmap(":icons/square_gray_20_20.png");}
 
 QPixmap Icons_cfg::empty(){return QPixmap(":icons/empty.png");}

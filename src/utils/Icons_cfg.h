@@ -22,6 +22,7 @@ public:
     static QPixmap KL();
     static QPixmap NET_DEV();
     static QPixmap ONVIF();
+    static QPixmap INFO_TABLO();   
     static QPixmap default_square_gray();
 
     static QPixmap empty();
