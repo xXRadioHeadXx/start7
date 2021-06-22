@@ -713,5 +713,12 @@ private slots:
    void on_DEVLINE_Num1_valueChanged(double arg1);
    void on_DEVLINE_OutType_currentIndexChanged(const QString &arg1);
    void on_ONVIF_IPaddr_combobox_currentTextChanged(const QString &arg1);
+   void on_STRAZH_IP__IPaddr_combobox_currentTextChanged(const QString &arg1);
+   void on_TOROS_Num1_currentIndexChanged(int index);
+   void on_BOD_T4K_M_adress_combobox_currentIndexChanged(int index);
+   void on_Y4_T4K_M_combobox_currentIndexChanged(int index);
+   void on_DD_T4K_M_combobox_currentIndexChanged(int index);
+   void on_TG_adress_combobox_currentIndexChanged(int index);
+   void on_TG_U4_4A_combobox_currentIndexChanged(int index);
 };
 #endif // MAINWINDOWCFG_H

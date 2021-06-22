@@ -2466,7 +2466,7 @@ break;
 
 case TypeUnitNode::STRAZH_IP:
     this->ui->stackedWidget->setCurrentWidget(this->ui->STRAZH_IP_groupbox);
-    this->ui->STRAZH_IP_lineEdit__IPaddr->setText(unit->getIcon1Path());
+    this->ui->STRAZH_IP__IPaddr_combobox->setCurrentText(unit->getIcon1Path());
     this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->setText(unit->getIcon4Path());
     this->ui->STRAZH_IP_lineEdit__login->setText(unit->getIcon2Path());
     this->ui->STRAZH_IP_lineEdit__password->setText(unit->getIcon3Path());
@@ -2611,7 +2611,7 @@ if(enable==true)
     //break;
 
     //case TypeUnitNode::STRAZH_IP:
-    this->ui->STRAZH_IP_lineEdit__IPaddr->setDisabled(true);
+    this->ui->STRAZH_IP__IPaddr_combobox->setDisabled(true);
     this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->setDisabled(true);
     this->ui->STRAZH_IP_lineEdit__login->setDisabled(true);
     this->ui->STRAZH_IP_lineEdit__password->setDisabled(true);
@@ -2723,7 +2723,7 @@ this->ui->IU_BL_IP_num_combobox->setEnabled(true);
     //break;
 
     //case TypeUnitNode::STRAZH_IP:
-    this->ui->STRAZH_IP_lineEdit__IPaddr->setEnabled(true);
+    this->ui->STRAZH_IP__IPaddr_combobox->setEnabled(true);
     this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->setEnabled(true);
     this->ui->STRAZH_IP_lineEdit__login->setEnabled(true);
     this->ui->STRAZH_IP_lineEdit__password->setEnabled(true);
@@ -2876,6 +2876,9 @@ Name.append(this->ui->IU_BL_IP_num_combobox->currentText());
 
     case TypeUnitNode::TG:
 Name.append("ТГ ");
+Name.append(this->ui->TG_adress_combobox->currentText());
+Name.append(" ЧЭ ");
+Name.append(this->ui->TG_U4_4A_combobox->currentText());
     break;
 
     case TypeUnitNode::RLM_KRL:
@@ -2890,15 +2893,18 @@ Name.append(this->ui->RLM_C_adress_combobox->currentText());
 
     case TypeUnitNode::BOD_T4K_M:
 Name.append(this->ui->uType_combobox->currentText());
+Name.append(" ");
+Name.append(this->ui->BOD_T4K_M_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::Y4_T4K_M:
-Name.append("Уч ");
-
+        Name.append("Уч ");
+        Name.append(this->ui->Y4_T4K_M_combobox->currentText());
     break;
 
     case TypeUnitNode::DD_T4K_M:
 Name.append("ДД ");
+Name.append(this->ui->DD_T4K_M_combobox->currentText());
     break;
 
     case TypeUnitNode::BOD_SOTA:
@@ -2931,6 +2937,7 @@ Name.append(this->ui->NET_DEV_IP_combobox->currentText());
 
     case TypeUnitNode::STRAZH_IP:
 Name.append("Страж-IP ");
+Name.append(this->ui->STRAZH_IP__IPaddr_combobox->currentText());
     break;
 
     case TypeUnitNode::BL_IP:
@@ -2972,6 +2979,7 @@ Name.append(this->ui->ADAM_Num2->currentText());
 
     case TypeUnitNode::TOROS:
 Name.append("Торос ");
+Name.append(this->ui->TOROS_Num1->currentText());
     break;
 
     case TypeUnitNode::DEVLINE:
@@ -5183,7 +5191,7 @@ void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
 
 void MainWindowCFG::set_option_STRAZH_IP(UnitNode *unit)
 {
-    unit->setIcon1Path(this->ui->STRAZH_IP_lineEdit__IPaddr->text());
+    unit->setIcon1Path(this->ui->STRAZH_IP__IPaddr_combobox->currentText());
     unit->setIcon2Path(this->ui->STRAZH_IP_lineEdit__login->text());
     unit->setIcon3Path(this->ui->STRAZH_IP_lineEdit__password->text());
     unit->setIcon4Path(this->ui->STRAZH_IP_lineEdit__IPaddres_rotary_device->text());
@@ -7535,6 +7543,41 @@ void MainWindowCFG::on_DEVLINE_OutType_currentIndexChanged(const QString &arg1)
 }
 
 void MainWindowCFG::on_ONVIF_IPaddr_combobox_currentTextChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_STRAZH_IP__IPaddr_combobox_currentTextChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_TOROS_Num1_currentIndexChanged(int index)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_BOD_T4K_M_adress_combobox_currentIndexChanged(int index)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_Y4_T4K_M_combobox_currentIndexChanged(int index)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_DD_T4K_M_combobox_currentIndexChanged(int index)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_TG_adress_combobox_currentIndexChanged(int index)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_TG_U4_4A_combobox_currentIndexChanged(int index)
 {
    Name_update();
 }
