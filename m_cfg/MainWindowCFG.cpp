@@ -775,8 +775,9 @@ void MainWindowCFG::show_equals(UnitNode *unit)
         }
    }
     if(modelTreeUN->list_Equals.count()>0)
-    {
+    {   if(modelTreeUN->list_Equals.count()>1)
          this->ui->stackedWidget_3->setCurrentIndex(1);
+
         qDebug()<<"Найдены:";
         foreach(QModelIndex ind, modelTreeUN->list_Equals_for_chanell )
         {
@@ -7428,6 +7429,7 @@ set_option(unit,parrent);
 }
     if(modelTreeUN->list_Equals_for_chanell.count()>0)
     {
+        if(modelTreeUN->list_Equals_for_chanell.count()>1)
          this->ui->stackedWidget_3->setCurrentIndex(1);
         qDebug()<<"Найдены:";
         foreach(QModelIndex ind, modelTreeUN->list_Equals_for_chanell )
