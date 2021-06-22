@@ -5631,7 +5631,7 @@ bool MainWindowCFG::setUdpTimeout_for_BL_IP(UnitNode *unit)
         modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
         foreach(UnitNode *un, List1 )
         {
-            qDebug()<<"------";
+      //      qDebug()<<"------";
       //    qDebug()<<unit->getName();
 
 
@@ -5710,9 +5710,9 @@ bool MainWindowCFG::setUdpTimeout_for_TG(UnitNode *unit)
         modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
         foreach(UnitNode *un, List1 )
         {
-            qDebug()<<"------";
+      //      qDebug()<<"------";
       //    qDebug()<<unit->getName();
-            qDebug()<<un->getName();
+      //      qDebug()<<un->getName();
 
          if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
          if(is_equal(unit,un))//проверяем не идентичны ли они

@@ -764,13 +764,16 @@ bool Control_Unit_Manager::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode* parre
 
     }
 
+    return no_equal_unit_from_one_parent(modelTreeUN,unit,parrent);
 
-
+/*
     QModelIndex ind = modelTreeUN->findeIndexUN(parrent);
 
 
     QList<UnitNode *> List1;
     modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
+
+
 
     foreach(UnitNode *un, List1 )
     {
@@ -796,6 +799,7 @@ bool Control_Unit_Manager::pass_to_add_STRAZH_IP(UnitNode *unit, UnitNode* parre
          }
       }
     }
+    */
 
  /*
     foreach(UnitNode *un, List1 )
@@ -902,7 +906,7 @@ bool Control_Unit_Manager::pass_to_add_SSOI_IU(UnitNode *unit, UnitNode *parent,
 
     }
 
-    return true;
+return no_equal_unit_from_one_parent(modelTreeUN,unit,parent);
 
     //
 }
@@ -1067,9 +1071,9 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
         modelTreeUN->getListFromModel(List1,supreme);//modelTreeUN->rootItemUN
         foreach(UnitNode *un, List1 )
         {
-            qDebug()<<"------";
-            qDebug()<<unit->getName();
-            qDebug()<<un->getName();
+        //    qDebug()<<"------";
+       //     qDebug()<<unit->getName();
+       //     qDebug()<<un->getName();
 
             bool res=false;
             //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
@@ -1259,11 +1263,47 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
 
 
     case TypeUnitNode::RLM_KRL:
+        res=false;
+        if(unit->getUdpUse()==0)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+        res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+        if(unit->getUdpUse()==1)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+        if((un->getUdpPort()==unit->getUdpPort()))
+        res=true;
+
+        if(res==true)
+        {
+                if(un->getType()==unit->getType())
     return ((un->getNum1()==unit->getNum1()));
+        }
+        return false;
     break;
 
     case TypeUnitNode::RLM_C:
+        res=false;
+        if(unit->getUdpUse()==0)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+        res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+        if(unit->getUdpUse()==1)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+        if((un->getUdpPort()==unit->getUdpPort()))
+        res=true;
+
+        if(res==true)
+        {
+                if(un->getType()==unit->getType())
     return ((un->getNum1()==unit->getNum1()));
+        }
+        return false;
     break;
 
     case TypeUnitNode::BOD_T4K_M:
@@ -1409,11 +1449,53 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::Y4_SOTA:
+        res=false;
+        if(unit->getUdpUse()==0)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+        res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
 
+        if(unit->getUdpUse()==1)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+        if((un->getUdpPort()==unit->getUdpPort()))
+        res=true;
+
+        if(res==true)
+        {
+               if(un->getType()==unit->getType())
+               if(un->getNum1()==unit->getNum1())
+               if(un->getNum2()==unit->getNum2())
+               if(un->getNum3()==unit->getNum3())
+                   return true;
+        }
+        return false;
     break;
 
     case TypeUnitNode::DD_SOTA:
+        res=false;
+        if(unit->getUdpUse()==0)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+        res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
 
+        if(unit->getUdpUse()==1)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+        if((un->getUdpPort()==unit->getUdpPort()))
+        res=true;
+
+        if(res==true)
+        {
+               if(un->getType()==unit->getType())
+               if(un->getNum1()==unit->getNum1())
+               if(un->getNum2()==unit->getNum2())
+               if(un->getNum3()==unit->getNum3())
+                   return true;
+        }
+        return false;
     break;
 
     case TypeUnitNode::ONVIF:
@@ -1429,7 +1511,11 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::STRAZH_IP:
-
+        if(un->getType()==unit->getType())
+        if(un->getIcon1Path()==unit->getIcon1Path())
+        if(un->getIcon4Path()==unit->getIcon4Path())
+        return true;
+        return false;
     break;
 
     case TypeUnitNode::BL_IP:
@@ -1437,11 +1523,19 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::SSOI_SD:
-
+        if(un->getType()==unit->getType())
+        if(un->getNum1()==unit->getNum1())
+        if(un->getNum2()==unit->getNum2())
+        if(un->getNum3()==unit->getNum3())
+            return true;
+            return false;
     break;
 
     case TypeUnitNode::SSOI_IU:
-
+        if(un->getType()==unit->getType())
+        if(un->getNum2()==unit->getNum1())
+        if(un->getNum2()==unit->getNum2())
+        if(un->getNum2()==unit->getNum3())
     break;
 
     case TypeUnitNode::ADAM:
