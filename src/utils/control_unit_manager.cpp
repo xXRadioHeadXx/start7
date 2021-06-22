@@ -1373,6 +1373,10 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::NET_DEV:
+    if(un->getType()==unit->getType())
+    if(un->getIcon1Path()==unit->getIcon1Path())
+    return true;
+    return false;
 
     break;
 
@@ -1409,7 +1413,11 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::DEVLINE:
-return((un->getNum1()==unit->getNum1())&&(un->getOutType()==unit->getOutType()));
+    if(un->getType()==unit->getType())
+    if(un->getNum1()==unit->getNum1())
+    if(un->getOutType()==unit->getOutType())
+    return  true;
+    return false;
     break;
 
     case TypeUnitNode::RASTRMTV:
