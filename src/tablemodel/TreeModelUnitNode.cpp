@@ -104,7 +104,7 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
 
      if(role == Qt::BackgroundRole)
      {
-         foreach(QModelIndex ind, listEquals)
+         foreach(QModelIndex ind, list_Equals_for_chanell)
          {
          if(ind==index)
               return QVariant(QColor(Qt::green));

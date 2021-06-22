@@ -798,6 +798,9 @@ void MainWindowCFG::set_x_y(QString Name, int x, int y)
 
 void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
+    modelTreeUN->list_Equals_for_chanell.clear();
+    modelTreeUN->updateUNs();
+ this->ui->stackedWidget_3->setCurrentIndex(0);
 
 this->ui->pushButton_4->setDisabled(true);
     current_index=index;
@@ -7260,11 +7263,13 @@ this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
 void MainWindowCFG::on_pushButton_3_clicked()
 {
 
-    if(modelTreeUN->listEquals.count()==0)
+    if(modelTreeUN->list_Equals_for_chanell.count()==0)
     {
-        this->ui->stackedWidget_3->setCurrentIndex(1);
+  //  QModelIndex index = this->ui->treeView->currentIndex();
 //---------
-    UnitNode *unit=new UnitNode();
+  //  UnitNode *unit =  static_cast<UnitNode*>(index.internalPointer());
+
+    /*
     unit->setType(0);
     unit->setNum1(255);
     unit->setNum2(0);
@@ -7315,23 +7320,33 @@ void MainWindowCFG::on_pushButton_3_clicked()
         unit->setDescription(ui->Dop_info_description_lineedit->text());
 
     }
+
  UnitNode *parrent=new UnitNode();
 set_option(unit,parrent);
-
+*/
 
 //---------
+        int UdpUse,UdpPort,RS485_port;
+        QString UdpAdress;
+        if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
+            UdpUse=1;
+        else
+            UdpUse=0;
 
+        UdpPort=this->ui->UdpPort_doubleSpinBox->text().toInt();
+        UdpAdress=this->ui->ipadress_combobox->currentText();
+       RS485_port=this->ui->port_combobox->currentText().toInt();
 
     QList<UnitNode *> List1;
-    QList<QModelIndex> Equals;
-    Equals.clear();
+
+
     modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
 
     qDebug()<<"-- Ищу устрйоство ---";
-    qDebug()<<"тип: "<< m_TypeUnitNode.value( unit->getType());
+//    qDebug()<<"тип: "<< m_TypeUnitNode.value( unit->getType());
     qDebug()<<"Актуальные параметры:";
 
-    modelTreeUN->listEquals.clear();
+    modelTreeUN->list_Equals_for_chanell.clear();
 
     qDebug()<<"---------------------------------------";
     foreach(UnitNode *un, List1 )
@@ -7340,63 +7355,68 @@ set_option(unit,parrent);
     //    qDebug()<<unit->getName();
     //    qDebug()<<un->getName();
 
-        bool res=m_ctrl->compare(unit,un);
-        qDebug()<<res;
+        bool res=false;
+        if(UdpUse==0)
+        if(un->getUdpUse()==UdpUse)
+        if(un->getNum3()==RS485_port) //ищем юниты котрые всият на одном порте с нашим
+        res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+        if(UdpUse==1)
+        if(un->getUdpUse()==UdpUse)
+        if(un->getUdpAdress()==UdpAdress)//ищем юниты котрые всият на одном адресе с нашим
+        if(un->getUdpPort()==UdpPort)
+        res=true;
+
         if(res==true)
         {
 
-        Equals.append(modelTreeUN->findeIndexUN(un));
-        modelTreeUN->listEquals.append(modelTreeUN->findeIndexUN(un));
-
-
+        qDebug()<<res;
+        modelTreeUN->list_Equals_for_chanell.append(modelTreeUN->findeIndexUN(un));
         }
 
-    }
-
-
-    qDebug()<<"Найдены:";
-    foreach(QModelIndex ind, modelTreeUN->listEquals )
+    if(modelTreeUN->list_Equals_for_chanell.count()>0)
     {
-    this->ui->treeView->update(ind);
-        UnitNode *un = static_cast<UnitNode*>(ind.internalPointer());
-        qDebug()<<un->getName();
+         this->ui->stackedWidget_3->setCurrentIndex(1);
+        qDebug()<<"Найдены:";
+        foreach(QModelIndex ind, modelTreeUN->list_Equals_for_chanell )
+        {
+        this->ui->treeView->update(ind);
+            UnitNode *un = static_cast<UnitNode*>(ind.internalPointer());
+            qDebug()<<un->getName();
+        }
+
+
+      this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+
+        }
     }
 
-  this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(0));
 
-    }
-    /*
-    else
-    {
-        modelTreeUN->listEquals.clear();
-        modelTreeUN->updateUNs();
-        this->ui->stackedWidget_3->setCurrentIndex(0);
-    }
-*/
 
 
 }
-
+}
 void MainWindowCFG::on_findButton_reset_clicked()
 {
-    modelTreeUN->listEquals.clear();
+    modelTreeUN->list_Equals_for_chanell.clear();
     modelTreeUN->updateUNs();
     this->ui->stackedWidget_3->setCurrentIndex(0);
 }
 
 void MainWindowCFG::on_findButton_prev_clicked()
 {
-QListIterator<QModelIndex> i(modelTreeUN->listEquals);
+QListIterator<QModelIndex> i(modelTreeUN->list_Equals_for_chanell);
 
-for(int i=0;i<(modelTreeUN->listEquals.count());i++)
+for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
 {
-    QModelIndex ind=modelTreeUN->listEquals.at(i);
+    QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
     if(this->ui->treeView->currentIndex()==ind){
       if(i>0)
-       this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(i-1));
+       this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i-1));
 
         else
-      this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(modelTreeUN->listEquals.count()-1));
+      this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(modelTreeUN->list_Equals_for_chanell.count()-1));
        break;
     }
 
@@ -7406,27 +7426,27 @@ for(int i=0;i<(modelTreeUN->listEquals.count());i++)
 
 
 
-//    modelTreeUN->listEquals.
+//    modelTreeUN->list_Equals_for_chanell.
 //    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
 
 }
 
 void MainWindowCFG::on_pushButton_next_clicked()
 {
-    for(int i=0;i<(modelTreeUN->listEquals.count());i++)
+    for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
     {
-        QModelIndex ind=modelTreeUN->listEquals.at(i);
+        QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
         if(this->ui->treeView->currentIndex()==ind){
             qDebug()<<i;
-            if(i<(modelTreeUN->listEquals.count()-1))
+            if(i<(modelTreeUN->list_Equals_for_chanell.count()-1))
             {
              qDebug()<<"[1]";
-           this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(i+1));
+           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i+1));
             }
             else
             {
              qDebug()<<"[2]";
-           this->ui->treeView->setCurrentIndex(modelTreeUN->listEquals.at(0));
+           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
             }
            break;
         }
