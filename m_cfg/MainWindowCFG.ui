@@ -2715,14 +2715,14 @@
            <widget class="QCheckBox" name="checkBox">
             <property name="geometry">
              <rect>
-              <x>548</x>
+              <x>380</x>
               <y>20</y>
-              <width>70</width>
-              <height>17</height>
+              <width>181</width>
+              <height>21</height>
              </rect>
             </property>
             <property name="text">
-             <string/>
+             <string>Автоввод</string>
             </property>
             <property name="checked">
              <bool>true</bool>
