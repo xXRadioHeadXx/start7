@@ -584,7 +584,7 @@ public:
 
     bool load(QString patch);
 
-
+ void show_equals(UnitNode* un);
 
     operator_form op_f;
     DBform* db_f;

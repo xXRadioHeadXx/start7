@@ -14,6 +14,7 @@ public:
     explicit TreeModelUnitNode(QObject *parent = nullptr);
 
     QList<QModelIndex> list_Equals_for_chanell;
+    QList<QModelIndex> list_Equals;
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
     UnitNode *rootItemUN;

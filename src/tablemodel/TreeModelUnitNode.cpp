@@ -109,6 +109,15 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
          if(ind==index)
               return QVariant(QColor(Qt::green));
          }
+
+         foreach(QModelIndex ind, list_Equals)
+         {
+         if(ind==index)
+              return QVariant(QColor(204, 255, 255, 255));
+         }
+
+
+
          return QVariant(QColor(Qt::white));
 
 

@@ -745,6 +745,53 @@ bool MainWindowCFG::load(QString /*patch*/)
     return res;
 }
 
+void MainWindowCFG::show_equals(UnitNode *unit)
+{
+    QList<UnitNode *> List1;
+
+
+    modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+
+    qDebug()<<"-- Ищу устрйоство ---";
+//    qDebug()<<"тип: "<< m_TypeUnitNode.value( unit->getType());
+    qDebug()<<"Актуальные параметры:";
+
+    modelTreeUN->list_Equals.clear();
+
+    qDebug()<<"---------------------------------------";
+    foreach(UnitNode *un, List1 )
+    {
+    //    qDebug()<<"------";
+    //    qDebug()<<unit->getName();
+    //    qDebug()<<un->getName();
+
+        bool res=m_ctrl->compare(unit,un);
+
+        if(res==true)
+        {
+
+        qDebug()<<res;
+        modelTreeUN->list_Equals.append(modelTreeUN->findeIndexUN(un));
+        }
+   }
+    if(modelTreeUN->list_Equals.count()>0)
+    {
+         this->ui->stackedWidget_3->setCurrentIndex(1);
+        qDebug()<<"Найдены:";
+        foreach(QModelIndex ind, modelTreeUN->list_Equals_for_chanell )
+        {
+        this->ui->treeView->update(ind);
+            UnitNode *un = static_cast<UnitNode*>(ind.internalPointer());
+            qDebug()<<un->getName();
+        }
+
+
+      this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
+
+        }
+
+}
+
 void MainWindowCFG::double_unit_slot(UnitNode *un)
 {
     qDebug()<<"[double_unit_slot]";
@@ -814,6 +861,10 @@ this->ui->pushButton_4->setDisabled(true);
   //  this->object_menu_change(unit->getType());
     this->object_menu_set_enabled_for_edit(false);
 this->get_option(unit);
+
+show_equals(unit);
+
+
     }
     else
     {
@@ -7374,7 +7425,7 @@ set_option(unit,parrent);
         qDebug()<<res;
         modelTreeUN->list_Equals_for_chanell.append(modelTreeUN->findeIndexUN(un));
         }
-
+}
     if(modelTreeUN->list_Equals_for_chanell.count()>0)
     {
          this->ui->stackedWidget_3->setCurrentIndex(1);
@@ -7390,7 +7441,7 @@ set_option(unit,parrent);
       this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
 
         }
-    }
+
 
 
 
@@ -7406,8 +7457,9 @@ void MainWindowCFG::on_findButton_reset_clicked()
 
 void MainWindowCFG::on_findButton_prev_clicked()
 {
-QListIterator<QModelIndex> i(modelTreeUN->list_Equals_for_chanell);
 
+if(modelTreeUN->list_Equals_for_chanell.count()>0)
+{
 for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
 {
     QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
@@ -7421,7 +7473,24 @@ for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
     }
 
 }
+}
+else
+    if(modelTreeUN->list_Equals.count()>0)
+    {
+    for(int i=0;i<(modelTreeUN->list_Equals.count());i++)
+    {
+        QModelIndex ind=modelTreeUN->list_Equals.at(i);
+        if(this->ui->treeView->currentIndex()==ind){
+          if(i>0)
+           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(i-1));
 
+            else
+          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(modelTreeUN->list_Equals.count()-1));
+           break;
+        }
+
+    }
+    }
 
 
 
@@ -7433,25 +7502,54 @@ for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
 
 void MainWindowCFG::on_pushButton_next_clicked()
 {
-    for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
+    if(modelTreeUN->list_Equals_for_chanell.count()>0)
     {
-        QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
-        if(this->ui->treeView->currentIndex()==ind){
-            qDebug()<<i;
-            if(i<(modelTreeUN->list_Equals_for_chanell.count()-1))
-            {
-             qDebug()<<"[1]";
-           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i+1));
+        for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
+        {
+            QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
+            if(this->ui->treeView->currentIndex()==ind){
+                qDebug()<<i;
+                if(i<(modelTreeUN->list_Equals_for_chanell.count()-1))
+                {
+                 qDebug()<<"[1]";
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i+1));
+                }
+                else
+                {
+                 qDebug()<<"[2]";
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+                }
+               break;
             }
-            else
-            {
-             qDebug()<<"[2]";
-           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
-            }
-           break;
+
         }
 
     }
+    else
+    if(modelTreeUN->list_Equals.count()>0)
+    {
+        for(int i=0;i<(modelTreeUN->list_Equals.count());i++)
+        {
+            QModelIndex ind=modelTreeUN->list_Equals.at(i);
+            if(this->ui->treeView->currentIndex()==ind){
+                qDebug()<<i;
+                if(i<(modelTreeUN->list_Equals.count()-1))
+                {
+                 qDebug()<<"[1]";
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(i+1));
+                }
+                else
+                {
+                 qDebug()<<"[2]";
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
+                }
+               break;
+            }
+
+        }
+
+    }
+
 //    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
 
 }
