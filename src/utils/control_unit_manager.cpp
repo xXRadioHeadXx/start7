@@ -1156,7 +1156,7 @@ qDebug()<<"["<<cnt<<"]";cnt++;
 bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
 {
 
-    qDebug()<<"тип: "<<unit->getType();
+ //   qDebug()<<"тип: "<<unit->getType();
     bool res=false;
     switch(un->getType())
     {
@@ -1283,16 +1283,30 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
 
         if(res==true)
         {
-            if(un->getType()==TypeUnitNode::BOD_SOTA)
-            return true;
-            if(un->getType()==TypeUnitNode::BOD_T4K_M)
-            return true;
+            if(unit->getType()==TypeUnitNode::BOD_SOTA)
+            {
+
+            qDebug()<<"[01] "<<unit->getName();
+             return true;
+            }
+
+            if(unit->getType()==TypeUnitNode::BOD_T4K_M)
+            {
+            qDebug()<<"[02]"<<unit->getName();
+             return true;
+            }
+
+            if(un->getType()==unit->getType())
+            if(un->getNum1()==unit->getNum1())
+            {
+                  qDebug()<<"[2]";
+              return true;
+            }
 
 
-            return ((un->getNum1()==unit->getNum1()));
         }
+        qDebug()<<"[3]";
         return false;
-
 
 
     break;
@@ -1352,11 +1366,45 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
 
     case TypeUnitNode::BOD_SOTA:
 
-    if(un->getType()==TypeUnitNode::BOD_SOTA)
-    return true;
-    if(un->getType()==TypeUnitNode::BOD_T4K_M)
-    return true;
-    return ((un->getNum1()==unit->getNum1()));
+        res=false;
+        if(unit->getUdpUse()==0)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+        res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+        if(unit->getUdpUse()==1)
+        if((un->getUdpUse()==unit->getUdpUse()))
+        if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+        if((un->getUdpPort()==unit->getUdpPort()))
+        res=true;
+
+        if(res==true)
+        {
+            if(unit->getType()==TypeUnitNode::BOD_SOTA)
+            {
+
+            qDebug()<<"[01] "<<unit->getName();
+             return true;
+            }
+
+            if(unit->getType()==TypeUnitNode::BOD_T4K_M)
+            {
+            qDebug()<<"[02]"<<unit->getName();
+             return true;
+            }
+
+            if(un->getType()==unit->getType())
+            if(un->getNum1()==unit->getNum1())
+            {
+                  qDebug()<<"[2]";
+              return true;
+            }
+
+
+        }
+        qDebug()<<"[3]";
+        return false;
 
     break;
 
