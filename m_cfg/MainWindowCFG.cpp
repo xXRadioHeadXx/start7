@@ -2880,10 +2880,12 @@ Name.append("ТГ ");
 
     case TypeUnitNode::RLM_KRL:
 Name.append("РЛМ-КРЛ ");
+Name.append(this->ui->RLM_KRL_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::RLM_C:
 Name.append("РЛМ-С ");
+Name.append(this->ui->RLM_C_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::BOD_T4K_M:
@@ -2960,6 +2962,10 @@ Name.append("РАСТР-М ТВ ");
 
     case TypeUnitNode::KL:
 Name.append("КЛ ");
+Name.append(this->ui->KL_adress_combobox->currentText());
+Name.append(" СД ");
+Name.append(this->ui->KL_CD_combobox->currentText());
+
     break;
 
     }
@@ -7409,4 +7415,24 @@ void MainWindowCFG::on_ADAM_Num2_currentIndexChanged(const QString &arg1)
 void MainWindowCFG::on_TABLO_Num2_currentIndexChanged(const QString &arg1)
 {
     Name_update();
+}
+
+void MainWindowCFG::on_KL_adress_combobox_currentIndexChanged(const QString &arg1)
+{
+    Name_update();
+}
+
+void MainWindowCFG::on_KL_CD_combobox_currentIndexChanged(const QString &arg1)
+{
+    Name_update();
+}
+
+void MainWindowCFG::on_RLM_C_adress_combobox_currentIndexChanged(const QString &arg1)
+{
+    Name_update();
+}
+
+void MainWindowCFG::on_RLM_KRL_adress_combobox_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
 }

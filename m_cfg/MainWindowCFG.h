@@ -695,5 +695,9 @@ private slots:
    void on_ADAM_Num1_currentIndexChanged(const QString &arg1);
    void on_ADAM_Num2_currentIndexChanged(const QString &arg1);
    void on_TABLO_Num2_currentIndexChanged(const QString &arg1);
+   void on_KL_adress_combobox_currentIndexChanged(const QString &arg1);
+   void on_KL_CD_combobox_currentIndexChanged(const QString &arg1);
+   void on_RLM_C_adress_combobox_currentIndexChanged(const QString &arg1);
+   void on_RLM_KRL_adress_combobox_currentIndexChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
