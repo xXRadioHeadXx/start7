@@ -23,7 +23,7 @@ if(unit->getName()=="")
     return false;
 
 }
-if(unit->getName().count()>40)
+if(unit->getName().count()>60)
 {
     QMessageBox::critical(0,"Ошибка","Слишком длинное имя");
 

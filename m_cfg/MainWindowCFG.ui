@@ -633,7 +633,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>18</number>
+             <number>5</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1342,16 +1342,6 @@
              </widget>
             </widget>
             <widget class="QWidget" name="NET_DEV_groupbox">
-             <widget class="My_lineEdit" name="NET_DEV_IP_lineEdit" native="true">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>20</y>
-                <width>261</width>
-                <height>30</height>
-               </rect>
-              </property>
-             </widget>
              <widget class="QLabel" name="label_48">
               <property name="geometry">
                <rect>
@@ -1363,6 +1353,19 @@
               </property>
               <property name="text">
                <string>IP-адрес или сетевое имя</string>
+              </property>
+             </widget>
+             <widget class="my_combobox" name="NET_DEV_IP_combobox">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>261</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="editable">
+               <bool>true</bool>
               </property>
              </widget>
             </widget>

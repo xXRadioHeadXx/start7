@@ -2474,7 +2474,7 @@ break;
 
 case TypeUnitNode::NET_DEV:
     this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
-    this->ui->NET_DEV_IP_lineEdit->setText(unit->getIcon1Path());
+    this->ui->NET_DEV_IP_combobox->setCurrentText(unit->getIcon1Path());
 break;
 
 case TypeUnitNode::SSOI_SD:
@@ -2618,7 +2618,7 @@ if(enable==true)
     //break;
 
     //case TypeUnitNode::NET_DEV:
-    this->ui->NET_DEV_IP_lineEdit->setDisabled(true);
+    this->ui->NET_DEV_IP_combobox->setDisabled(true);
     //break;
 
     //case TypeUnitNode::SSOI_SD:
@@ -2730,7 +2730,7 @@ this->ui->IU_BL_IP_num_combobox->setEnabled(true);
     //break;
 
     //case TypeUnitNode::NET_DEV:
-    this->ui->NET_DEV_IP_lineEdit->setEnabled(true);
+    this->ui->NET_DEV_IP_combobox->setEnabled(true);
     //break;
 
     //case TypeUnitNode::SSOI_SD:
@@ -2894,6 +2894,7 @@ Name.append(this->ui->uType_combobox->currentText());
 
     case TypeUnitNode::Y4_T4K_M:
 Name.append("Уч ");
+
     break;
 
     case TypeUnitNode::DD_T4K_M:
@@ -2902,14 +2903,18 @@ Name.append("ДД ");
 
     case TypeUnitNode::BOD_SOTA:
 Name.append(this->ui->uType_combobox->currentText());
+Name.append(" ");
+Name.append(this->ui->BOD_SOTA_M_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::Y4_SOTA:
 Name.append("Уч ");
+Name.append(this->ui->U4_Sota_M_combobox->currentText());
     break;
 
     case TypeUnitNode::DD_SOTA:
 Name.append("ДД ");
+Name.append(this->ui->DD_Sota_M_combobox->currentText());
     break;
 
     case TypeUnitNode::ONVIF:
@@ -2918,6 +2923,7 @@ Name.append("ONVIF ");
 
     case TypeUnitNode::NET_DEV:
 Name.append("Сетевое ");
+Name.append(this->ui->NET_DEV_IP_combobox->currentText());
     break;
 
     case TypeUnitNode::STRAZH_IP:
@@ -2929,11 +2935,29 @@ Name.append("Страж-IP ");
     break;
 
     case TypeUnitNode::SSOI_SD:
-Name.append("СД ");
+//Name.append(" СД ");
+Name.append(this->ui->uType_combobox->currentText());
+Name.append(" канал ");
+Name.append(this->ui->SSOI_SD_Num1->currentText());
+Name.append(" БЛ ");
+Name.append(this->ui->SSOI_SD_Num2->currentText());
+Name.append(" СД ");
+Name.append(this->ui->SSOI_SD_Num3->currentText());
+if(this->ui->SSOI_SD_OutType->currentIndex()>0)
+{
+Name.append(" тип:");
+Name.append(this->ui->SSOI_SD_OutType->currentText());
+}
     break;
 
     case TypeUnitNode::SSOI_IU:
-Name.append("ИУ ");
+Name.append(this->ui->uType_combobox->currentText());
+Name.append("канал ");
+Name.append(this->ui->SSOI_IU_Num1->currentText());
+Name.append(" БЛ ");
+Name.append(this->ui->SSOI_IU_Num2->currentText());
+Name.append(" ");
+Name.append(this->ui->SSOI_IU_Num3->currentText());
     break;
 
     case TypeUnitNode::ADAM:
@@ -5160,7 +5184,7 @@ void MainWindowCFG::set_option_STRAZH_IP(UnitNode *unit)
 
 void MainWindowCFG::set_option_NET_DEV(UnitNode *unit)
 {
-        unit->setIcon1Path(this->ui->NET_DEV_IP_lineEdit->text());
+        unit->setIcon1Path(this->ui->NET_DEV_IP_combobox->currentText());
 }
 
 void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
@@ -7433,6 +7457,62 @@ void MainWindowCFG::on_RLM_C_adress_combobox_currentIndexChanged(const QString &
 }
 
 void MainWindowCFG::on_RLM_KRL_adress_combobox_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+
+void MainWindowCFG::on_NET_DEV_IP_combobox_currentTextChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_BOD_SOTA_M_adress_combobox_currentIndexChanged(int index)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_U4_Sota_M_combobox_currentIndexChanged(int index)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_DD_Sota_M_combobox_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_SSOI_IU_Num1_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_SSOI_IU_Num2_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_SSOI_IU_Num3_currentTextChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_SSOI_SD_Num1_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_SSOI_SD_Num2_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_SSOI_SD_Num3_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_SSOI_SD_OutType_currentIndexChanged(const QString &arg1)
 {
    Name_update();
 }

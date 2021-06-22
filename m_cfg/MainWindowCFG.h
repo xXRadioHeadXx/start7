@@ -699,5 +699,16 @@ private slots:
    void on_KL_CD_combobox_currentIndexChanged(const QString &arg1);
    void on_RLM_C_adress_combobox_currentIndexChanged(const QString &arg1);
    void on_RLM_KRL_adress_combobox_currentIndexChanged(const QString &arg1);
+   void on_NET_DEV_IP_combobox_currentTextChanged(const QString &arg1);
+   void on_BOD_SOTA_M_adress_combobox_currentIndexChanged(int index);
+   void on_U4_Sota_M_combobox_currentIndexChanged(int index);
+   void on_DD_Sota_M_combobox_currentIndexChanged(const QString &arg1);
+   void on_SSOI_IU_Num1_currentIndexChanged(const QString &arg1);
+   void on_SSOI_IU_Num2_currentIndexChanged(const QString &arg1);
+   void on_SSOI_IU_Num3_currentTextChanged(const QString &arg1);
+   void on_SSOI_SD_Num1_currentIndexChanged(const QString &arg1);
+   void on_SSOI_SD_Num2_currentIndexChanged(const QString &arg1);
+   void on_SSOI_SD_Num3_currentIndexChanged(const QString &arg1);
+   void on_SSOI_SD_OutType_currentIndexChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
