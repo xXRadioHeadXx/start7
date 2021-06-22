@@ -2049,7 +2049,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="coordinates_for_all">
              <widget class="QGroupBox" name="groupBox_4">
@@ -2099,6 +2099,12 @@
                <property name="contextMenuPolicy">
                 <enum>Qt::NoContextMenu</enum>
                </property>
+               <property name="decimals">
+                <number>6</number>
+               </property>
+               <property name="minimum">
+                <double>-9999.989999999999782</double>
+               </property>
                <property name="maximum">
                 <double>9999.989999999999782</double>
                </property>
@@ -2114,6 +2120,12 @@
                </property>
                <property name="contextMenuPolicy">
                 <enum>Qt::NoContextMenu</enum>
+               </property>
+               <property name="decimals">
+                <number>6</number>
+               </property>
+               <property name="minimum">
+                <double>-9999.989999999999782</double>
                </property>
                <property name="maximum">
                 <double>9999.989999999999782</double>
