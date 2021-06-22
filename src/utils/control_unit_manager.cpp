@@ -1567,7 +1567,8 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     case TypeUnitNode::INFO_TABLO:
-
+        if(un->getType()==unit->getType())
+        if(un->getNum2()==unit->getNum2())
     break;
 
     case TypeUnitNode::KL:
