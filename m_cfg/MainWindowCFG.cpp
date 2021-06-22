@@ -7314,7 +7314,7 @@ this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
 
 void MainWindowCFG::on_pushButton_3_clicked()
 {
-
+    if(this->ui->CD_UdpAdress_lineEdit->isVisible())
     if(modelTreeUN->list_Equals_for_chanell.count()==0)
     {
   //  QModelIndex index = this->ui->treeView->currentIndex();
