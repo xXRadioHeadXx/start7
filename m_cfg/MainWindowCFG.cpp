@@ -2459,7 +2459,7 @@ break;
 
 case TypeUnitNode::ONVIF:
     this->ui->stackedWidget->setCurrentWidget(this->ui->ONVIF_groupbox);
-    this->ui->ONVIF_lineEdit__IPaddr->setText(unit->getIcon1Path());
+    this->ui->ONVIF_IPaddr_combobox->setCurrentText(unit->getIcon1Path());
     this->ui->ONVIF_lineEdit__login->setText(unit->getIcon2Path());
     this->ui->ONVIF_lineEdit__password->setText(unit->getIcon3Path());
 break;
@@ -2605,7 +2605,7 @@ if(enable==true)
     //break;
 
     //case TypeUnitNode::ONVIF:
-    this->ui->ONVIF_lineEdit__IPaddr->setDisabled(true);
+    this->ui->ONVIF_IPaddr_combobox->setDisabled(true);
     this->ui->ONVIF_lineEdit__login->setDisabled(true);
     this->ui->ONVIF_lineEdit__password->setDisabled(true);
     //break;
@@ -2717,7 +2717,7 @@ this->ui->IU_BL_IP_num_combobox->setEnabled(true);
     //break;
 
     //case TypeUnitNode::ONVIF:
-    this->ui->ONVIF_lineEdit__IPaddr->setEnabled(true);
+    this->ui->ONVIF_IPaddr_combobox->setEnabled(true);
     this->ui->ONVIF_lineEdit__login->setEnabled(true);
     this->ui->ONVIF_lineEdit__password->setEnabled(true);
     //break;
@@ -2918,7 +2918,10 @@ Name.append(this->ui->DD_Sota_M_combobox->currentText());
     break;
 
     case TypeUnitNode::ONVIF:
-Name.append("ONVIF ");
+Name.append(this->ui->uType_combobox->currentText());
+Name.append(" ");
+Name.append(this->ui->ONVIF_IPaddr_combobox->currentText());
+
     break;
 
     case TypeUnitNode::NET_DEV:
@@ -2972,7 +2975,11 @@ Name.append("Торос ");
     break;
 
     case TypeUnitNode::DEVLINE:
-Name.append("DEVLINE ");
+Name.append("ТВ-Камера ");
+Name.append(QString::number(this->ui->DEVLINE_Num1->value()));
+Name.append(" (Поток ");
+Name.append(this->ui->DEVLINE_OutType->currentText());
+Name.append(")");
     break;
 
     case TypeUnitNode::RASTRMTV:
@@ -5168,7 +5175,7 @@ void MainWindowCFG::set_option_KL(UnitNode *unit)
 
 void MainWindowCFG::set_option_ONVIF(UnitNode *unit)
 {
-    unit->setIcon1Path(this->ui->ONVIF_lineEdit__IPaddr->text());
+    unit->setIcon1Path(this->ui->ONVIF_IPaddr_combobox->currentText());
     unit->setIcon2Path(this->ui->ONVIF_lineEdit__login->text());
     unit->setIcon3Path(this->ui->ONVIF_lineEdit__password->text());
 
@@ -5456,14 +5463,14 @@ void MainWindowCFG::get_option_DEVLINE(UnitNode *unit)
 
 void MainWindowCFG::set_option_DEVLINE(UnitNode *unit)
 {
-    QString str;
-    str.clear();
-    str.append("ТВ-Камера ");
-    str.append(QString::number(this->ui->DEVLINE_Num1->value()));
-    str.append("(Поток");
-    str.append(this->ui->DEVLINE_OutType->currentText());
-    str.append(")");
-    unit->setName(str);
+//    QString str;
+//    str.clear();
+ //   str.append("ТВ-Камера ");
+//    str.append(QString::number(this->ui->DEVLINE_Num1->value()));
+//    str.append("(Поток");
+//    str.append(this->ui->DEVLINE_OutType->currentText());
+//    str.append(")");
+//    unit->setName(str);
     unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
     unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
     unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());
@@ -7513,6 +7520,21 @@ void MainWindowCFG::on_SSOI_SD_Num3_currentIndexChanged(const QString &arg1)
 }
 
 void MainWindowCFG::on_SSOI_SD_OutType_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_DEVLINE_Num1_valueChanged(double arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_DEVLINE_OutType_currentIndexChanged(const QString &arg1)
+{
+   Name_update();
+}
+
+void MainWindowCFG::on_ONVIF_IPaddr_combobox_currentTextChanged(const QString &arg1)
 {
    Name_update();
 }

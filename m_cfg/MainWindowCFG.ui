@@ -633,7 +633,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>5</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -813,7 +813,7 @@
                </rect>
               </property>
              </widget>
-             <widget class="My_lineEdit" name="ONVIF_lineEdit__IPaddr" native="true">
+             <widget class="my_combobox" name="ONVIF_IPaddr_combobox">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -822,10 +822,7 @@
                 <height>30</height>
                </rect>
               </property>
-              <property name="inputMask" stdset="0">
-               <string/>
-              </property>
-              <property name="clearButtonEnabled" stdset="0">
+              <property name="editable">
                <bool>true</bool>
               </property>
              </widget>
@@ -1218,8 +1215,11 @@
                 <height>30</height>
                </rect>
               </property>
+              <property name="decimals">
+               <number>0</number>
+              </property>
               <property name="maximum">
-               <double>9999.989999999999782</double>
+               <double>10000.000000000000000</double>
               </property>
              </widget>
              <widget class="QComboBox" name="DEVLINE_OutType">
