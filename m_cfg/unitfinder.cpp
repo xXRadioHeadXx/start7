@@ -11,8 +11,13 @@ UnitFinder::UnitFinder(QWidget *parent) :
     qDebug()<<"rows: "<<model->rowCount();
     qDebug()<<"columns: "<<model->columnCount();
 
-    this->ui->tableView->setModel(model);
 
+    this->ui->tableView->setModel(model);
+ //   delegate=new unit_finder_delegate();
+//    this->ui->tableView->setItemDelegate(delegate);
+
+    delegate_1=new rif_widget_delegate();
+    this->ui->tableView->setItemDelegate(delegate_1);
 }
 
 UnitFinder::~UnitFinder()

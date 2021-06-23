@@ -65,6 +65,7 @@ SOURCES += \
     ssoi_port_widget.cpp \
     ssoi_widget.cpp \
     tablo_widget.cpp \
+    unit_finder_delegate.cpp \
     unit_parametr.cpp \
     unitfinder.cpp
 
@@ -81,6 +82,7 @@ HEADERS += \
     comport.h \
     dbform.h \
     delegate.h \
+    delegate_unit_finder.h \
     edit_unit_widget.h \
     first_dialog.h \
     group.h \
@@ -103,6 +105,7 @@ HEADERS += \
     ssoi_port_widget.h \
     ssoi_widget.h \
     tablo_widget.h \
+    unit_finder_delegate.h \
     unit_parametr.h \
     unitfinder.h
 

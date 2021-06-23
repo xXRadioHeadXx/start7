@@ -58,5 +58,23 @@ QVariant Model_Unit_Params::data(const QModelIndex &index, int role) const
 
     }
 
-return QVariant();
+    return QVariant();
+}
+
+bool Model_Unit_Params::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+   return false;
+}
+
+QVariant Model_Unit_Params::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    return QVariant();
+}
+
+Qt::ItemFlags Model_Unit_Params::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags result = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    if(index.column()>0)
+     result |= Qt::ItemIsEditable;
+        return result;
 }

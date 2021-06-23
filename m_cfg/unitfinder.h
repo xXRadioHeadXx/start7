@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "model_unit_params.h"
+#include <unit_finder_delegate.h>
+#include "rif_widget_delegate.h"
 
 namespace Ui {
 class UnitFinder;
@@ -17,6 +19,8 @@ public:
     ~UnitFinder();
 
 private:
+    unit_finder_delegate* delegate;
+    rif_widget_delegate* delegate_1;
     Model_Unit_Params* model;
     Ui::UnitFinder *ui;
 };
