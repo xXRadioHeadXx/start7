@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1043</width>
+    <width>1063</width>
     <height>590</height>
    </rect>
   </property>
@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -2664,7 +2664,7 @@
                 </size>
                </property>
                <property name="text">
-                <string>Найти</string>
+                <string>Проверить</string>
                </property>
               </widget>
              </widget>
@@ -2749,6 +2749,44 @@
            <zorder>widget1</zorder>
            <zorder>uName_combobox</zorder>
            <zorder>checkBox</zorder>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="title">
+         <string>Поиск</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="0">
+          <widget class="QGroupBox" name="groupBox_13">
+           <property name="minimumSize">
+            <size>
+             <width>500</width>
+             <height>400</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>572</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Поиск объекта по параметрам</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="UnitFinder" name="widget_2" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>100</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -3716,7 +3754,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1043</width>
+     <width>1063</width>
      <height>21</height>
     </rect>
    </property>
@@ -3827,6 +3865,12 @@
    <class>my_combobox</class>
    <extends>QComboBox</extends>
    <header>my_combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>UnitFinder</class>
+   <extends>QWidget</extends>
+   <header location="global">unitfinder.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

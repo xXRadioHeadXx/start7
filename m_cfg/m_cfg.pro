@@ -63,7 +63,8 @@ SOURCES += \
     sqlunit.cpp \
     ssoi_port_widget.cpp \
     ssoi_widget.cpp \
-    tablo_widget.cpp
+    tablo_widget.cpp \
+    unitfinder.cpp
 
 
 
@@ -98,7 +99,8 @@ HEADERS += \
     sqlunit.h \
     ssoi_port_widget.h \
     ssoi_widget.h \
-    tablo_widget.h
+    tablo_widget.h \
+    unitfinder.h
 
 
 
@@ -115,7 +117,8 @@ FORMS += \
     sql_user_dlg.ui \
     ssoi_port_widget.ui \
     ssoi_widget.ui \
-    tablo_widget.ui
+    tablo_widget.ui \
+    unitfinder.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
