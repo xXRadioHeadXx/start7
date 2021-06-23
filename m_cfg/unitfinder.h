@@ -2,6 +2,7 @@
 #define UNITFINDER_H
 
 #include <QWidget>
+#include "model_unit_params.h"
 
 namespace Ui {
 class UnitFinder;
@@ -16,6 +17,7 @@ public:
     ~UnitFinder();
 
 private:
+    Model_Unit_Params* model;
     Ui::UnitFinder *ui;
 };
 

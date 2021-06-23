@@ -46,6 +46,7 @@ SOURCES += \
     first_dialog.cpp \
     group.cpp \
     main.cpp \
+    model_unit_params.cpp \
     my_combobox.cpp \
     my_doublespinbox.cpp \
     my_lineedit.cpp \
@@ -64,6 +65,7 @@ SOURCES += \
     ssoi_port_widget.cpp \
     ssoi_widget.cpp \
     tablo_widget.cpp \
+    unit_parametr.cpp \
     unitfinder.cpp
 
 
@@ -83,6 +85,7 @@ HEADERS += \
     first_dialog.h \
     group.h \
     adm_aud_combobox.h \
+    model_unit_params.h \
     my_combobox.h \
     my_doublespinbox.h \
     my_lineedit.h \
@@ -100,6 +103,7 @@ HEADERS += \
     ssoi_port_widget.h \
     ssoi_widget.h \
     tablo_widget.h \
+    unit_parametr.h \
     unitfinder.h
 
 

@@ -1031,7 +1031,7 @@ void MainWindowCFG::update_rif_comport_table()
 {
 /*
 
-    ui->tableWidget_2->setRowCount(0);
+    ui->_2->setRowCount(0);
   //qDebug()<<"количество операторов "<<comports.count();
   int cnt;
 
