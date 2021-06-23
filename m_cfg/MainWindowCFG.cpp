@@ -787,7 +787,7 @@ void MainWindowCFG::show_equals(UnitNode *unit)
         }
 
 
-      this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
+    //  this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
 
         }
 
@@ -7314,14 +7314,12 @@ this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
 
 void MainWindowCFG::on_pushButton_3_clicked()
 {
-    if(this->ui->CD_UdpAdress_lineEdit->isVisible())
-    if(modelTreeUN->list_Equals_for_chanell.count()==0)
-    {
-  //  QModelIndex index = this->ui->treeView->currentIndex();
-//---------
-  //  UnitNode *unit =  static_cast<UnitNode*>(index.internalPointer());
 
-    /*
+//    QModelIndex index = this->ui->treeView->currentIndex();
+//---------
+//   UnitNode *unit =  static_cast<UnitNode*>(index.internalPointer());
+    UnitNode *unit=new UnitNode();
+
     unit->setType(0);
     unit->setNum1(255);
     unit->setNum2(0);
@@ -7375,11 +7373,12 @@ void MainWindowCFG::on_pushButton_3_clicked()
 
  UnitNode *parrent=new UnitNode();
 set_option(unit,parrent);
-*/
+
 
 //---------
         int UdpUse,UdpPort,RS485_port;
         QString UdpAdress;
+
         if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
             UdpUse=1;
         else
@@ -7408,6 +7407,10 @@ set_option(unit,parrent);
     //    qDebug()<<un->getName();
 
         bool res=false;
+
+
+        res=m_ctrl->compare(unit,un);
+        /*
         if(UdpUse==0)
         if(un->getUdpUse()==UdpUse)
         if(un->getNum3()==RS485_port) //ищем юниты котрые всият на одном порте с нашим
@@ -7419,6 +7422,7 @@ set_option(unit,parrent);
         if(un->getUdpAdress()==UdpAdress)//ищем юниты котрые всият на одном адресе с нашим
         if(un->getUdpPort()==UdpPort)
         res=true;
+        */
 
         if(res==true)
         {
@@ -7449,7 +7453,7 @@ set_option(unit,parrent);
 
 
 }
-}
+
 void MainWindowCFG::on_findButton_reset_clicked()
 {
     modelTreeUN->list_Equals_for_chanell.clear();

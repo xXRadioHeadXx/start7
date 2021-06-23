@@ -43,8 +43,8 @@ public:
 
             bool correct_UDP_parametres(UnitNode *unit);
 
-            static bool compare(UnitNode *origin, UnitNode *current);// return true if equal
-
+            static bool compare(UnitNode *origin, UnitNode *current);// идентичны ли юниты - сравнение идет по опрееленным типом параметрам
+            static bool can_be_together(UnitNode *origin, UnitNode *current);// можно ли добавить юнитorigin origin туда где уже есть current
            QModelIndex double_unit_index;
     //проверка на отсутствие двойников во всем дереве
             bool no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode *unit,UnitNode *supreme);

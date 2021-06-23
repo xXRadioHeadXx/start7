@@ -1052,6 +1052,8 @@ bool Control_Unit_Manager::correct_UDP_parametres(UnitNode *unit)
     return true;
 }
 
+
+
 QModelIndex Control_Unit_Manager::getDouble_unit_index() const
 {
     return double_unit_index;
@@ -1091,7 +1093,7 @@ bool Control_Unit_Manager::no_equal_unit(TreeModelUnitNode *modelTreeUN,UnitNode
             res=true;
 
              if(res==true)
-         if(compare(unit,un))//проверяем не идентичны ли они
+         if(can_be_together(unit,un))
          {
             double_unit_index=modelTreeUN->findeIndexUN(un);
 
@@ -1141,7 +1143,7 @@ qDebug()<<"["<<cnt<<"]";cnt++;
       {
          qDebug()<<"[+]";
          if(un->getType()==unit->getType())
-         if(compare(unit,un))//проверяем не идентичны ли они
+         if(can_be_together(unit,un))//проверяем не идентичны ли они
          {
             double_unit_index=modelTreeUN->findeIndexUN(un);
         //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
@@ -1157,7 +1159,7 @@ qDebug()<<"["<<cnt<<"]";cnt++;
 }
 
 
-bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
+bool Control_Unit_Manager::can_be_together(UnitNode *un, UnitNode *unit)
 {
 
  //   qDebug()<<"тип: "<<unit->getType();
@@ -1590,6 +1592,396 @@ bool Control_Unit_Manager::compare(UnitNode *un, UnitNode *unit)
     break;
 
     }
+
+}
+
+bool Control_Unit_Manager::compare(UnitNode *origin, UnitNode *current)
+{
+    //   qDebug()<<"тип: "<<current->getType();
+       bool res=false;
+       switch(origin->getType())
+       {
+       case TypeUnitNode::GROUP:
+
+       break;
+
+       case TypeUnitNode::SD_BL_IP:
+
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           if(origin->getType()==current->getType())
+           if(origin->getNum2()==current->getNum2())
+           return true;
+
+
+           return false;
+
+       break;
+
+
+
+       case TypeUnitNode::IU_BL_IP:
+
+
+
+       //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
+
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+       if(origin->getType()==current->getType())
+       if(origin->getNum2()==current->getNum2())
+       return true;
+
+
+       return false;
+
+       break;
+
+
+
+       case TypeUnitNode::TG:
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           if((origin->getNum1()==current->getNum1()))
+           {
+               if(origin->getType()==current->getType()) //если на этом адресе этого порта есть ЧЭ - проверить на номер ЧЭ
+                {
+                   if(origin->getNum2()==current->getNum2())
+                   {
+                   return true;
+                   }
+                }
+           }
+           return false;
+
+       break;
+
+
+
+
+       case TypeUnitNode::RLM_KRL:
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           {
+                   if(origin->getType()==current->getType())
+                   if(origin->getNum1()==current->getNum1())
+                   return true;
+           }
+           return false;
+       break;
+
+       case TypeUnitNode::RLM_C:
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           {
+           if(origin->getType()==current->getType())
+           if(origin->getNum1()==current->getNum1())
+           return true;
+           }
+           return false;
+       break;
+
+       case TypeUnitNode::BOD_T4K_M:
+
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           {
+               if(origin->getType()==current->getType())
+               if(origin->getNum1()==current->getNum1())
+               return true;
+           }
+           return false;
+
+
+       break;
+
+       case TypeUnitNode::Y4_T4K_M:
+
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           {
+                  if(origin->getType()==current->getType())
+                  if(origin->getNum1()==current->getNum1())
+                  if(origin->getNum2()==current->getNum2())
+                  if(origin->getNum3()==current->getNum3())
+                      return true;
+           }
+           return false;
+
+
+       break;
+
+       case TypeUnitNode::DD_T4K_M:
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           {
+                  if(origin->getType()==current->getType())
+                  if(origin->getNum1()==current->getNum1())
+                  if(origin->getNum2()==current->getNum2())
+                  if(origin->getNum3()==current->getNum3())
+                      return true;
+           }
+           return false;
+       break;
+
+       case TypeUnitNode::BOD_SOTA:
+
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           {
+               if(origin->getType()==current->getType())
+               if(origin->getNum1()==current->getNum1())
+               {
+                 return true;
+               }
+           }
+
+           return false;
+
+       break;
+
+       case TypeUnitNode::Y4_SOTA:
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           {
+                  if(origin->getType()==current->getType())
+                  if(origin->getNum1()==current->getNum1())
+                  if(origin->getNum2()==current->getNum2())
+                  if(origin->getNum3()==current->getNum3())
+                      return true;
+           }
+           return false;
+       break;
+
+       case TypeUnitNode::DD_SOTA:
+           res=false;
+           if(current->getUdpUse()==0)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+           res=true;
+                       //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(current->getUdpUse()==1)
+           if((origin->getUdpUse()==current->getUdpUse()))
+           if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+           if((origin->getUdpPort()==current->getUdpPort()))
+           res=true;
+
+           if(res==true)
+           {
+                  if(origin->getType()==current->getType())
+                  if(origin->getNum1()==current->getNum1())
+                  if(origin->getNum2()==current->getNum2())
+                  if(origin->getNum3()==current->getNum3())
+                      return true;
+           }
+           return false;
+       break;
+
+       case TypeUnitNode::ONVIF:
+       return(origin->getIcon1Path()==current->getIcon1Path());
+       break;
+
+       case TypeUnitNode::NET_DEV:
+       if(origin->getType()==current->getType())
+       if(origin->getIcon1Path()==current->getIcon1Path())
+       return true;
+       return false;
+
+       break;
+
+       case TypeUnitNode::STRAZH_IP:
+           if(origin->getType()==current->getType())
+           if(origin->getIcon1Path()==current->getIcon1Path())
+           if(origin->getIcon4Path()==current->getIcon4Path())
+           return true;
+           return false;
+       break;
+
+       case TypeUnitNode::BL_IP:
+
+       break;
+
+       case TypeUnitNode::SSOI_SD:
+           if(origin->getType()==current->getType())
+           if(origin->getNum1()==current->getNum1())
+           if(origin->getNum2()==current->getNum2())
+           if(origin->getNum3()==current->getNum3())
+               return true;
+               return false;
+       break;
+
+       case TypeUnitNode::SSOI_IU:
+           if(origin->getType()==current->getType())
+           if(origin->getNum2()==current->getNum1())
+           if(origin->getNum2()==current->getNum2())
+           if(origin->getNum2()==current->getNum3())
+       break;
+
+       case TypeUnitNode::ADAM:
+               qDebug()<<"[ADAM]";
+           if(origin->getType()==current->getType())
+           if(origin->getNum1()==current->getNum1())
+           if(origin->getNum2()==current->getNum2())
+           return true;
+           return false;
+       break;
+
+       case TypeUnitNode::TOROS:
+       return ((origin->getNum1()==current->getNum1()));
+       break;
+
+       case TypeUnitNode::DEVLINE:
+       if(origin->getType()==current->getType())
+       if(origin->getNum1()==current->getNum1())
+       if(origin->getOutType()==current->getOutType())
+       return  true;
+       return false;
+       break;
+
+       case TypeUnitNode::RASTRMTV:
+
+       break;
+
+       case TypeUnitNode::INFO_TABLO:
+           if(origin->getType()==current->getType())
+           if(origin->getNum2()==current->getNum2())
+       break;
+
+       case TypeUnitNode::KL:
+           if(origin->getType()==current->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
+           if(origin->getNum1()==current->getNum1())
+           if(origin->getNum2()==current->getNum2())
+           return true;
+           return false;
+       break;
+
+       default:
+       return false;
+       break;
+
+
+       }
 
 }
 
