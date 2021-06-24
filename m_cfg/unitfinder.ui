@@ -25,6 +25,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
        <property name="text">
         <string>Найти</string>
        </property>
@@ -32,6 +38,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="prev_button">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
        <property name="text">
         <string>&lt;</string>
        </property>
@@ -39,6 +51,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="next_button">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
        <property name="text">
         <string>&gt;</string>
        </property>
@@ -46,6 +64,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_4">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
        <property name="text">
         <string>X</string>
        </property>

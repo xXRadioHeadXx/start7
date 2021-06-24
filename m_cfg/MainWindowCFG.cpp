@@ -906,7 +906,7 @@ void MainWindowCFG::find_from_options(QList<QString> list)
     qDebug()<<"find_from_options";
     foreach(QString name,list)
     {
-        qDebug()<<name<<": "<<this->ui->unitFinder->get_value(name);
+    //    qDebug()<<name<<": "<<this->ui->unitFinder->get_value(name);
     }
 
     QList<UnitNode *> List1;
@@ -914,13 +914,13 @@ void MainWindowCFG::find_from_options(QList<QString> list)
 
     modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
 
-    qDebug()<<"-- Ищу устрйоство ---";
+  //  qDebug()<<"-- Ищу устрйоство ---";
 //    qDebug()<<"тип: "<< m_TypeUnitNode.value( unit->getType());
-    qDebug()<<"Актуальные параметры:";
+ //   qDebug()<<"Актуальные параметры:";
 
     modelTreeUN->list_Equals_for_chanell.clear();
 
-    qDebug()<<"---------------------------------------";
+ //   qDebug()<<"---------------------------------------";
     foreach(UnitNode *un, List1 )
     {
     //    qDebug()<<"------";
@@ -928,7 +928,7 @@ void MainWindowCFG::find_from_options(QList<QString> list)
     //    qDebug()<<un->getName();
 
         bool res=true;
-
+qDebug()<<"[1]";
 foreach(QString name,list)
  {
     QString value = this->ui->unitFinder->get_value(name);
@@ -1053,7 +1053,7 @@ foreach(QString name,list)
                 res=false;
         }
  }
-
+qDebug()<<"[2]";
         /*
         if(UdpUse==0)
         if(un->getUdpUse()==UdpUse)
@@ -1075,6 +1075,23 @@ foreach(QString name,list)
         modelTreeUN->list_Equals_for_chanell.append(modelTreeUN->findeIndexUN(un));
         }
 }
+    if(modelTreeUN->list_Equals_for_chanell.count()>0)
+    {
+        if(modelTreeUN->list_Equals_for_chanell.count()>1)
+         this->ui->stackedWidget_3->setCurrentIndex(1);
+        qDebug()<<"Найдены:";
+        foreach(QModelIndex ind, modelTreeUN->list_Equals_for_chanell )
+        {
+        this->ui->treeView->update(ind);
+            UnitNode *un = static_cast<UnitNode*>(ind.internalPointer());
+            qDebug()<<un->getName();
+        }
+
+
+      this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+
+        }
+
 
 }
 

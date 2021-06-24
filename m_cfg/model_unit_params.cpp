@@ -101,7 +101,7 @@ bool Model_Unit_Params::setData(const QModelIndex &index, const QVariant &value,
 
         else if (index.column() == 2)
         {
-            qDebug()<<"set needed: "<<value.toBool();
+        //    qDebug()<<"set needed: "<<value.toBool();
             Unit_Parametr*parameter=parametres.at(index.row());
                   parameter->setNeeded(value.toBool());
         }
