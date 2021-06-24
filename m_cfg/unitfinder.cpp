@@ -29,7 +29,11 @@ UnitFinder::UnitFinder(QWidget *parent) :
         // this is a QWidget, not a QCheckbox, so setCheckState not available
     }
 
+     this->ui->tableView->openPersistentEditor(model->index(0,1,QModelIndex()));
 
+   this->ui->tableView->setColumnWidth(0,100);
+  this->ui->tableView->setColumnWidth(1,350);
+  this->ui->tableView->setColumnWidth(2,510-100-350);
 
 }
 
@@ -84,4 +88,17 @@ void UnitFinder::on_prev_button_clicked()
 void UnitFinder::on_next_button_clicked()
 {
     emit next();
+}
+
+void UnitFinder::on_pushButton_4_clicked()
+{
+    for(int row = 0; row < model->rowCount(); row++) {
+
+
+      model->setData(model->index(row,2,QModelIndex()),false,Qt::EditRole);
+        //ui->tableView->setIndexWidget(idx2, new QPushButton);
+        // set state to match data model value
+        //ui->tableView->indexWidget(idx2);
+        // this is a QWidget, not a QCheckbox, so setCheckState not available
+    }
 }

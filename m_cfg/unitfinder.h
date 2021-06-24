@@ -39,6 +39,7 @@ private slots:
 
     void on_prev_button_clicked();
     void on_next_button_clicked();
+    void on_pushButton_4_clicked();
 };
 
 #endif // UNITFINDER_H
