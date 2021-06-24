@@ -24,7 +24,7 @@
 #include <QInputDialog>
 #include <QDate>
 
-#include <control.h>
+//#include <control.h>
 
 
 

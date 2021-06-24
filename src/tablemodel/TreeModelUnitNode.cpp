@@ -1,7 +1,7 @@
 ﻿#include <TreeModelUnitNode.h>
 #include <SettingUtils.h>
 #include <SignalSlotCommutator.h>
-#include <control.h>
+//#include <control.h>
 
 SubTypeApp TreeModelUnitNode::getTypeApp() const
 {
