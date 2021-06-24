@@ -1,4 +1,6 @@
 #include "model_unit_params.h"
+#include <QColor>
+#include <QDebug>
 
 Model_Unit_Params::Model_Unit_Params(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -55,6 +57,28 @@ QVariant Model_Unit_Params::data(const QModelIndex &index, int role) const
     }
     break;
 
+    case Qt::BackgroundRole:
+         switch(index.column() % 3)
+         {
+
+         case 2:
+         {
+         Unit_Parametr* parameter=parametres.at(index.row());
+         if(parameter->getNeeded())
+
+         return QVariant(QColor(Qt::green));
+
+
+
+         }
+         break;
+
+
+         default://only to disable warning
+             return QVariant(QColor(Qt::white));
+         break;
+         }
+        break;
 
     }
 
@@ -63,7 +87,33 @@ QVariant Model_Unit_Params::data(const QModelIndex &index, int role) const
 
 bool Model_Unit_Params::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-   return false;
+    if(!index.isValid())
+        return false;
+    if (role == Qt::EditRole) {
+        if (index.column() == 1)
+        {
+         Unit_Parametr* parameter=parametres.at(index.row());
+               parameter->setValue(value.toString());
+
+        }
+
+        else if (index.column() == 2)
+        {
+            qDebug()<<"set needed: "<<value.toBool();
+            Unit_Parametr*parameter=parametres.at(index.row());
+                  parameter->setNeeded(value.toBool());
+        }
+
+        else
+            return false;
+
+    //    m_listMSG.replace(index.row(), item);
+
+
+        emit dataChanged(index, index, QVector<int>() << Qt::DisplayRole << Qt::EditRole);
+        return true;
+    }
+    return false;
 }
 
 QVariant Model_Unit_Params::headerData(int section, Qt::Orientation orientation, int role) const

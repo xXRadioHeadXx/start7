@@ -716,7 +716,7 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 
         connect(this->m_ctrl, SIGNAL(double_unit_signal(UnitNode *un)) , this,SLOT (double_unit_slot(UnitNode* un)));
 
-
+        connect(this->ui->unitFinder,SIGNAL(options_to_find(QList<QString>)),this,SLOT(find_from_options(QList<QString>)));
 
         timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
             timer->setInterval(10); // Задаем интервал таймера
@@ -790,6 +790,16 @@ void MainWindowCFG::show_equals(UnitNode *unit)
     //  this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
 
         }
+
+}
+
+void MainWindowCFG::find_from_options(QList<QString> list)
+{
+    qDebug()<<"find_from_options";
+    foreach(QString name,list)
+    {
+        qDebug()<<name<<": "<<this->ui->unitFinder->get_value(name);
+    }
 
 }
 

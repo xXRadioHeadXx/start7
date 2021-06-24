@@ -18,11 +18,23 @@ public:
     explicit UnitFinder(QWidget *parent = nullptr);
     ~UnitFinder();
 
+    QString get_value(QString Name);
+
 private:
     unit_finder_delegate* delegate;
     rif_widget_delegate* delegate_1;
     Model_Unit_Params* model;
     Ui::UnitFinder *ui;
+
+    QMap<QString,QString> result;
+
+
+
+signals:
+    void options_to_find(QList<QString>);
+
+private slots:
+    void on_pushButton_clicked();
 };
 
 #endif // UNITFINDER_H

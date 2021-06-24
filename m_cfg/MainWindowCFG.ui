@@ -2777,7 +2777,7 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="0" column="0">
-             <widget class="UnitFinder" name="widget_2" native="true">
+             <widget class="UnitFinder" name="unitFinder" native="true">
               <property name="minimumSize">
                <size>
                 <width>100</width>

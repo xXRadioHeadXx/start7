@@ -597,6 +597,8 @@ public:
 
 private slots:
 
+    void find_from_options(QList<QString>);
+
     void double_unit_slot(UnitNode* un);
 
     void slot_to_get_options(QModelIndex index);
