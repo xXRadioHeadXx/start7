@@ -33,7 +33,7 @@ UnitFinder::UnitFinder(QWidget *parent) :
 
    this->ui->tableView->setColumnWidth(0,100);
   this->ui->tableView->setColumnWidth(1,350);
-  this->ui->tableView->setColumnWidth(2,510-100-350);
+  this->ui->tableView->setColumnWidth(2,512-100-350);
 
 }
 
@@ -61,8 +61,8 @@ void UnitFinder::on_pushButton_clicked()
      if(model->data(model->index(i,2,QModelIndex()),Qt::DisplayRole).toBool())
      {
     //     qDebug()<<"активен: "<<model->data(model->index(i,0,QModelIndex()),Qt::DisplayRole).toString();
-        qDebug()<<"активен: "<< model->data(model->index(i,0,QModelIndex()),Qt::DisplayRole).toString();
-        qDebug()<<"активен: "<< model->data(model->index(i,1,QModelIndex()),Qt::DisplayRole).toString();
+    //    qDebug()<<"активен: "<< model->data(model->index(i,0,QModelIndex()),Qt::DisplayRole).toString();
+    //    qDebug()<<"активен: "<< model->data(model->index(i,1,QModelIndex()),Qt::DisplayRole).toString();
      result.append(model->data(model->index(i,0,QModelIndex()),Qt::DisplayRole).toString());
 
      }
