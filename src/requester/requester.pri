@@ -5,6 +5,7 @@ CONFIG += c++14 -std=gnu++14 -std=c++14
 INCLUDEPATH += $$PWD/
 
 SOURCES += \
+    $$PWD/AbstractRequester.cpp \
     $$PWD/MultiUNStatusConnectRequester.cpp \
     $$PWD/ProcessDKWaiter.cpp \
     $$PWD/ConfirmationAdmissionWaiter.cpp \

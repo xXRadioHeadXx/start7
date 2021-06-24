@@ -52,391 +52,139 @@ private:
 
 public:
 
-    void timerTripleStop() {
-        timerFirstStop();
-        timerSecondStop();
-        timerEndStop();
-    }
+    void timerTripleStop();
 
-    AbstractRequester(QSharedPointer<UnitNode> target, RequesterType requesterType = RequesterType::ConfirmWaiter) : QObject(target.data()) {
-//        //qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -->";
-        setUnTarget(target);
-        setRequesterType(requesterType);
-//        //qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -- getRequesterType( " << getRequesterType() << " )";
-        setBeatStatus(BeatStatus::Start);
-//        //qDebug() << "AbstractRequester::AbstractRequester(" << this << ") <--";
-    }
+    AbstractRequester(QSharedPointer<UnitNode> target, RequesterType requesterType = RequesterType::ConfirmWaiter);
 
-    virtual ~AbstractRequester() {
-//        //qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") -->";
-        timerTripleStop();
-        ptrPort = nullptr;
-//        //qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") <--";
-    }
+    virtual ~AbstractRequester();
 
     virtual void init() = 0;
 
-    bool isValid() {
-//        //qDebug() << "AbstractRequester::isValid(" << this << ") -->";
-        bool result = true;
+    bool isValid();
 
-        result = result && (nullptr != getPtrPort());
-//        //qDebug() << "AbstractRequester::isValid(" << this << ") -- getPtrPort " << result;
-        result = result && (!getUnTarget().isNull());
-//        //qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnTarget " << result;
-        result = result && (!getUnReciver().isNull());
-//        //qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnReciver " << result;
-        if(BeatStatus::Start != getBeatStatus()) {
-            result = result && getFirstMsg().isValid();
-//            //qDebug() << "AbstractRequester::isValid(" << this << ") -- getFirstMsg " << result;
-            result = result && (0 == getTimeIntervalWaiteFirst() || getSecondMsg().isValid());
-//            //qDebug() << "AbstractRequester::isValid(" << this << ") -- getSecondMsg " << result;
-        }
-//        //qDebug() << "AbstractRequester::isValid(" << this << ") -- result " << result;
-//    //qDebug() << "AbstractRequester::isValid(" << this << ") <--";
-        return result;
-    }
-
-    BeatStatus getBeatStatus() const {return beatStatus;}
-    void setBeatStatus(const BeatStatus value) {beatStatus = value;}
+    BeatStatus getBeatStatus() const;
+    void setBeatStatus(const BeatStatus value);
 
     //Step#1 -->
 private:
     QSharedPointer<QTimer> timerFirst;
 protected:
-    void timerFirstStart(int interval = 1000) {
-        if(timerFirst.isNull()) {
-            timerFirst = QSharedPointer<QTimer>::create();
-        }
-        timerFirst->setInterval(interval);
-        timerFirst->setSingleShot(true);
-        timerFirst->connect(timerFirst.data(), SIGNAL(timeout()), this, SLOT(beatRepeatFirstRequest()));
-        timerFirst->start();
-    }
-    void timerFirstStop() {
-        if(!timerFirst.isNull()) {
-            timerFirst->stop();
-            timerFirst.clear();
-        }
-    }
+    void timerFirstStart(int interval = 1000);
+    void timerFirstStop();
     virtual DataQueueItem makeFirstMsg() = 0;
 public slots:
-    void startFirstRequest(int delay = 0) {
-//        //qDebug() << "AbstractRequester::startFirstRequest(" << this << ") -->";
-        timerTripleStop();
-        resetBeatCount();
-        setBeatStatus(BeatStatus::RequestStep1);
-        if(delay){
-            if(!timerFirst.isNull()) {
-                timerFirst.clear();
-            }
-            if(timerFirst.isNull()) {
-                timerFirst = QSharedPointer<QTimer>::create();
-            }
-            timerFirst->setInterval(delay);            
-            timerFirst->setSingleShot(true);
-            timerFirst->singleShot(delay, this, SLOT(beatRepeatFirstRequest()));
-
-        } else {
-            beatRepeatFirstRequest();
-        }
-//        //qDebug() << "AbstractRequester::startFirstRequest(" << this << ") <--";
-    }
+    void startFirstRequest(int delay = 0);
     void beatRepeatFirstRequest() {
-//        //qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") -->";
-        timerTripleStop();
-        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
-            timerTripleStop();
-            setBeatStatus(BeatStatus::Unsuccessful);
-            emit importantBeatStatus();
-            emit unsuccessful();
-//            //qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <-- Unsuccessful";
-            return;
-        }
-
-//        qDebug() << "beatRepeatFirstRequest("<<this<<") -- makeFirstMsg " << getUnReciver()->toString();
-        setFirstMsg(makeFirstMsg());
-
-        if(!getFirstMsg().isValid()) {
-            timerTripleStop();
-            setBeatStatus(BeatStatus::Unsuccessful);
-            emit importantBeatStatus();
-            emit unsuccessful();
-//            //qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <-- Unsuccessful";
-            return;
-        }
-
-//        qDebug() << "beatRepeatFirstRequest("<<this<<") -- write " << QTime::currentTime().toString("hh:mm:ss.zzz") << getFirstMsg().data().toHex();
-        if(DKWaiter == getRequesterType() ||
-           AutoOnOffWaiter == getRequesterType() ||
-           ConfirmWaiter == getRequesterType() ||
-           LockRequester == getRequesterType()) {
-            getUnReciver()->queueMsg.enqueue(getFirstMsg());
-        } else {
-            Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
-        }
-//        Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
-        setBeatCount(getBeatCount() + 1);
-        timerFirstStart(getTimeIntervalRequest());
-//        //qDebug() << "AbstractRequester::beatRepeatFirstRequest(" << this << ") <--";
+        aspectBeforeFirstRequest();
+        firstRequest();
+        aspectAfterFirstRequest();
     }
+
+public:
+    virtual void aspectBeforeFirstRequest() {};
+private:
+    void firstRequest();
+public:
+    virtual void aspectAfterFirstRequest() {};
     //Step#1 <--
 
     //Step#1->#2 -->
 public slots:
-    void startWaiteSecondRequest() {
-//        //qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") -->";
-        timerTripleStop();
-
-        if(0 == getTimeIntervalWaiteFirst()) {
-            timerTripleStop();
-            setBeatStatus(BeatStatus::Successful);
-            emit importantBeatStatus();
-            emit successful();
-//            //qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") <-- Unsuccessful";
-            return;
-        }
-
-        setBeatStatus(BeatStatus::Waite);
-        resetBeatCount();
-
-        timerSecondStart(getTimeIntervalWaiteFirst());
-//        //qDebug() << "AbstractRequester::startWaiteSecondRequest(" << this << ") <--";
-    }
+    void startWaiteSecondRequest();
     //Step#1->#2 <--
 
     //Step#2 -->
 private:
     QSharedPointer<QTimer> timerSecond;;
 protected:
-    void timerSecondStart(int interval = 1000) {
-        if(timerSecond.isNull()) {
-            timerSecond = QSharedPointer<QTimer>::create();
-        }
-        timerSecond->setInterval(interval);
-        timerSecond->setSingleShot(true);
-        timerSecond->connect(timerSecond.data(), SIGNAL(timeout()), this, SLOT(startSecondRequest()));
-        timerSecond->start();
-    }
-    void timerSecondStop() {
-        if(!timerSecond.isNull()) {
-            timerSecond->stop();
-            timerSecond.clear();
-        }
-    }
+    void timerSecondStart(int interval = 1000);
+    void timerSecondStop();
     virtual DataQueueItem makeSecondMsg() = 0;
 public slots:
-    void startSecondRequest(int delay = 0) {
-//        //qDebug() << "AbstractRequester::startSecondRequest(" << this << ") -->";
-        timerTripleStop();
-        resetBeatCount();
-        setBeatStatus(BeatStatus::RequestStep2);
-        if(delay){
-            if(!timerSecond.isNull()) {
-                timerSecond.clear();
-            }
-            if(timerSecond.isNull()) {
-                timerSecond = QSharedPointer<QTimer>::create();
-            }
-            timerSecond->setInterval(delay);
-            timerSecond->setSingleShot(true);
-            timerSecond->singleShot(delay, this, SLOT(beatRepeatSecondRequest()));
-
-        } else {
-            beatRepeatSecondRequest();
-        }
-//        //qDebug() << "AbstractRequester::startSecondRequest(" << this << ") <--";
-    }
+    void startSecondRequest(int delay = 0);
     void beatRepeatSecondRequest() {
-//        //qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") -->";
-        timerTripleStop();
-
-        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
-            timerTripleStop();
-            setBeatStatus(BeatStatus::Unsuccessful);
-            emit importantBeatStatus();
-            emit unsuccessful();
-//            //qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
-            return;
-        }
-
-        setSecondMsg(makeSecondMsg());
-
-        if(!getSecondMsg().isValid()) {
-            timerTripleStop();
-            setBeatStatus(BeatStatus::Unsuccessful);
-            emit importantBeatStatus();
-            emit unsuccessful();
-//            //qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
-            return;
-        }
-
-        if(DKWaiter == getRequesterType() ||
-           AutoOnOffWaiter == getRequesterType() ||
-           ConfirmWaiter == getRequesterType() ||
-           LockRequester == getRequesterType()) {
-            getUnReciver()->queueMsg.enqueue(getSecondMsg());
-        } else {
-            Port::typeDefPort(getPtrPort())->write(getSecondMsg(), false);
-        }
-//        Port::typeDefPort(ptrPort)->write(getSecondMsg(), false);
-        setBeatCount(getBeatCount() + 1);
-        timerSecondStart(getTimeIntervalRequest());
-//        //qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <--";
+        aspectBeforeSecondRequest();
+        secondRequest();
+        aspectAfterSecondRequest();
     }
+public:
+    virtual void aspectBeforeSecondRequest() {};
+private:
+    void secondRequest();
+public:
+    virtual void aspectAfterSecondRequest() {};
     //Step#2 <--
 
     //Step#2->#end -->
 public slots:
-    void startWaiteEndSecondWaite() {
-//        //qDebug() << "AbstractRequester::startWaiteEndSecondWaite(" << this << ") -->";
-        timerTripleStop();
-
-        if(0 == getTimeIntervalWaiteSecond()) {
-            timerTripleStop();
-            setBeatStatus(BeatStatus::Successful);
-            emit importantBeatStatus();
-            emit successful();
-//            //qDebug() << "AbstractRequester::startWaiteEndSecondWaite(" << this << ") <-- Unsuccessful";
-            return;
-        }
-
-        setBeatStatus(BeatStatus::WaiteEnd);
-        resetBeatCount();
-
-        timerEndStart(getTimeIntervalWaiteSecond());
-//        //qDebug() << "AbstractRequester::startWaiteEndSecondWaite(" << this << ") <--";
-    }
+    void startWaiteEndSecondWaite();
     //Step#2->#end <--
 
     //Step#end -->
 private:
     QSharedPointer<QTimer> timerEnd;
 protected:
-    void timerEndStart(int interval = 1000) {
-        if(timerEnd.isNull()) {
-            timerEnd = QSharedPointer<QTimer>::create();
-        }
-        timerEnd->setInterval(interval);
-        timerEnd->setSingleShot(true);
-        timerEnd->connect(timerEnd.data(), SIGNAL(timeout()), this, SLOT(startEnd()));
-        timerEnd->start();
-    }
-    void timerEndStop() {
-        if(!timerEnd.isNull()) {
-            timerEnd->stop();
-            timerEnd.clear();
-        }
-    }
+    void timerEndStart(int interval = 1000);
+    void timerEndStop();
     virtual DataQueueItem makeEndMsg() = 0;
 public slots:
-    void startEnd(int delay = 0) {
-//        //qDebug() << "AbstractRequester::startSecondRequest(" << this << ") -->";
-        timerTripleStop();
-        resetBeatCount();
-        setBeatStatus(BeatStatus::End);
-        if(delay){
-            if(!timerEnd.isNull()) {
-                timerEnd.clear();
-            }
-            if(timerEnd.isNull()) {
-                timerEnd = QSharedPointer<QTimer>::create();
-            }
-            timerEnd->setInterval(delay);
-            timerEnd->setSingleShot(true);
-            timerEnd->singleShot(delay, this, SLOT(beatRepeatEnd()));
-
-        } else {
-            beatRepeatEnd();
-        }
-//        //qDebug() << "AbstractRequester::startSecondRequest(" << this << ") <--";
-    }
+    void startEnd(int delay = 0);
     void beatRepeatEnd() {
-//        //qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") -->";
-        timerTripleStop();
-
-        if(0 != getMaxBeatCount() && getMaxBeatCount() <= getBeatCount()) {
-            timerTripleStop();
-            setBeatStatus(BeatStatus::Unsuccessful);
-            emit importantBeatStatus();
-            emit unsuccessful();
-//            //qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <-- Unsuccessful";
-            return;
-        }
-
-        setEndMsg(makeEndMsg());
-
-        if(!getEndMsg().isValid()) {
-            timerTripleStop();
-            setBeatStatus(BeatStatus::Unsuccessful);
-            emit importantBeatStatus();
-            emit unsuccessful();
-//            //qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <-- Unsuccessful";
-            return;
-        }
-
-        if(DKWaiter == getRequesterType() ||
-           AutoOnOffWaiter == getRequesterType() ||
-           ConfirmWaiter == getRequesterType() ||
-           LockRequester == getRequesterType()) {
-            getUnReciver()->queueMsg.enqueue(getEndMsg());
-        } else {
-            Port::typeDefPort(getPtrPort())->write(getEndMsg(), false);
-        }
-//        Port::typeDefPort(ptrPort)->write(getEndMsg(), false);
-        setBeatCount(getBeatCount() + 1);
-        timerEndStart(getTimeIntervalRequest());
-//        //qDebug() << "AbstractRequester::beatRepeatEnd(" << this << ") <--";
+        aspectBeforeEndRequest();
+        endRequest();
+        aspectAfterEndRequest();
     }
+public:
+    virtual void aspectBeforeEndRequest() {};
+private:
+    void endRequest();
+public:
+    virtual void aspectAfterEndRequest() {};
     //Step#end <--
 
 public:
-    QSharedPointer<UnitNode> getUnTarget() const { return unTarget; }
-    void setUnTarget(QSharedPointer<UnitNode> value) { unTarget = value; }
+    QSharedPointer<UnitNode> getUnTarget() const;
+    void setUnTarget(QSharedPointer<UnitNode> value);
 
-    QSharedPointer<UnitNode> getUnReciver() const  { return unReciver; }
-    void setUnReciver(QSharedPointer<UnitNode> value) { unReciver = value; }
+    QSharedPointer<UnitNode> getUnReciver() const;
+    void setUnReciver(QSharedPointer<UnitNode> value);
 
-    DataQueueItem getFirstMsg() const { return firstMsg; }
-    void setFirstMsg(const DataQueueItem &value) {firstMsg = value;}
+    DataQueueItem getFirstMsg() const;
+    void setFirstMsg(const DataQueueItem &value);
 
-    DataQueueItem getSecondMsg() const { return secondMsg; }
-    void setSecondMsg(const DataQueueItem &value) { secondMsg = value; }
+    DataQueueItem getSecondMsg() const;
+    void setSecondMsg(const DataQueueItem &value);
 
-    DataQueueItem getEndMsg() const { return endMsg; }
-    void setEndMsg(const DataQueueItem &value) { endMsg = value; }
+    DataQueueItem getEndMsg() const;
+    void setEndMsg(const DataQueueItem &value);
 
-    QPair<QString, QString> getIpPort() const { return ipPort; }
-    void setIpPort(const QPair<QString, QString> &value) { ipPort = value; }
+    QPair<QString, QString> getIpPort() const;
+    void setIpPort(const QPair<QString, QString> &value);
 
-    int getPortIndex() const { return portIndex; }
-    void setPortIndex(int value) { portIndex = value; }
+    int getPortIndex() const;
+    void setPortIndex(int value);
 
-    int getTimeIntervalRequest() const { return timeIntervalRequest; }
-    void setTimeIntervalRequest(int value) { timeIntervalRequest = value; }
+    int getTimeIntervalRequest() const;
+    void setTimeIntervalRequest(int value);
 
-    int getTimeIntervalWaiteFirst() const { return timeIntervalWaiteFirst; }
-    void setTimeIntervalWaiteFirst(int value) { timeIntervalWaiteFirst = value; }
+    int getTimeIntervalWaiteFirst() const;
+    void setTimeIntervalWaiteFirst(int value);
 
-    AbstractPort *getPtrPort() const { return ptrPort; }
-    void setPtrPort(AbstractPort *value) { ptrPort = value; }
+    AbstractPort *getPtrPort() const;
+    void setPtrPort(AbstractPort *value);
 
-    int getBeatCount() const { return beatCount; }
-    void setBeatCount(int value) { beatCount = value; }
-    void resetBeatCount() { setBeatCount(0); }
+    int getBeatCount() const;
+    void setBeatCount(int value);
+    void resetBeatCount();
 
-    int getMaxBeatCount() const { return maxBeatCount; }
-    void setMaxBeatCount(int value) { maxBeatCount = value; }
+    int getMaxBeatCount() const;
+    void setMaxBeatCount(int value);
 
-    RequesterType getRequesterType() const {
-        return requesterType;
-    }
+    RequesterType getRequesterType() const;
 
-    void setRequesterType(const RequesterType &value) {
-        requesterType = value;
-    }
-    int getTimeIntervalWaiteSecond() const { return timeIntervalWaiteSecond; }
-    void setTimeIntervalWaiteSecond(int value) { timeIntervalWaiteSecond = value; }
+    void setRequesterType(const RequesterType &value);
+    int getTimeIntervalWaiteSecond() const;
+    void setTimeIntervalWaiteSecond(int value);
 
 
 signals:
@@ -446,7 +194,7 @@ signals:
 
 
 private slots:
-    virtual void specialReserveSlot() const {return;};
+    virtual void specialReserveSlot() const;
 };
 
 #endif // ABSTRACTREQUESTER_H

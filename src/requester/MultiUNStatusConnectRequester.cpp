@@ -170,6 +170,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
        TypeUnitNode::TG_Base == currentTrackedUN()->getType()) {
 
         if(!currentTrackedUN()->queueMsg.isEmpty()) {
+            qDebug() << "currentTrackedUN(" << currentTrackedUN()->toString() << ")->queueMsg(" << currentTrackedUN()->queueMsg.size() << ")";
             result = currentTrackedUN()->queueMsg.dequeue();
 
             currentTrackedUN()->decrementCountStatusConnectRequesterWaitAnswer();
@@ -264,7 +265,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     int currentSituationUdpTimeout = qMax(optimalTimeIntervalRequest(currentTrackedUN()) * result.getSpecialSkipTimeCount(), result.getSpecialSkipTimeInterval());
 
     int summaryUdpTimeout = currentSituationUdpTimeout;
-    for (auto otherUN : as_const(getLsTrackedUN())) {
+    for (const auto &otherUN : as_const(getLsTrackedUN())) {
         if(otherUN != currentTrackedUN())
             summaryUdpTimeout += optimalTimeIntervalRequest(otherUN);
     }
@@ -282,6 +283,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
 
     auto un = nextTrackedUN();
     setUnReciver(un); // !!! currentTrackedUN changed !!!
+    qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg(!!! currentTrackedUN changed !!!)" << getUnReciver()->toString();
     setUnTarget(un);
 
     if(result.isValid())
