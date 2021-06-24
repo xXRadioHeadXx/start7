@@ -763,6 +763,7 @@ void MainWindowCFG::show_equals(UnitNode *unit)
     qDebug()<<"Актуальные параметры:";
 
     modelTreeUN->list_Equals.clear();
+    modelTreeUN->updateUNs();
 
     qDebug()<<"---------------------------------------";
     foreach(UnitNode *un, List1 )
@@ -913,7 +914,14 @@ void MainWindowCFG::next()
 
 void MainWindowCFG::find_from_options(QList<QString> list)
 {
+
+
     qDebug()<<"find_from_options";
+
+    modelTreeUN->list_Equals.clear();
+    modelTreeUN->updateUNs();
+
+
     foreach(QString name,list)
     {
     //    qDebug()<<name<<": "<<this->ui->unitFinder->get_value(name);
