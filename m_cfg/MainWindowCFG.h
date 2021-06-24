@@ -425,7 +425,7 @@ private:
     QString str_INFO_TABLO =    " информационное табло";
 
     QList<QString> l_Unittype_rif={
-        str_NOTHING,
+
         str_GROUP,
         str_SD_BL_IP,
         str_IU_BL_IP,
@@ -455,7 +455,7 @@ private:
 
     QList<QString> l_Unittype_ssoi={
 
-        str_NOTHING,
+
         str_GROUP,
         str_INFO_TABLO,
         str_SSOI_SD,

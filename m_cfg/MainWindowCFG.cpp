@@ -1075,12 +1075,13 @@ qDebug()<<"[2]";
         modelTreeUN->list_Equals_for_chanell.append(modelTreeUN->findeIndexUN(un));
         }
 }
+
     if(modelTreeUN->list_Equals_for_chanell.count()>0)
     {
         if(modelTreeUN->list_Equals_for_chanell.count()>1)
          this->ui->stackedWidget_3->setCurrentIndex(1);
         qDebug()<<"Найдены:";
-        foreach(QModelIndex ind, modelTreeUN->list_Equals_for_chanell )
+        foreach(QModelIndex ind, modelTreeUN->list_Equals_for_chanell)
         {
         this->ui->treeView->update(ind);
             UnitNode *un = static_cast<UnitNode*>(ind.internalPointer());

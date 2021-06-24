@@ -73,6 +73,7 @@ void UnitFinder::on_pushButton_clicked()
        qDebug()<<value;
    }
 
+   if(result.count()>0)
    emit options_to_find(result);
 
 
