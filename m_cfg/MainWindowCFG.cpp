@@ -718,6 +718,9 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 
         connect(this->ui->unitFinder,SIGNAL(options_to_find(QList<QString>)),this,SLOT(find_from_options(QList<QString>)));
 
+        connect(this->ui->unitFinder,SIGNAL(next()),this,SLOT(next()));
+        connect(this->ui->unitFinder,SIGNAL(prev()),this,SLOT(prev()));
+
         timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
             timer->setInterval(10); // Задаем интервал таймера
             connect(timer, SIGNAL(timeout()), this, SLOT(update())); // Подключаем сигнал таймера к нашему слоту
@@ -793,6 +796,111 @@ void MainWindowCFG::show_equals(UnitNode *unit)
 
 }
 
+void MainWindowCFG::prev()
+{
+    if(modelTreeUN->list_Equals_for_chanell.count()>0)
+    {
+                bool res=false;
+    for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
+    {
+        QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
+        if(this->ui->treeView->currentIndex()==ind){
+          if(i>0)
+           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i-1));
+
+            else
+          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(modelTreeUN->list_Equals_for_chanell.count()-1));
+           break;
+        }
+
+    }
+    if(res==false)
+          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+    }
+    else
+        if(modelTreeUN->list_Equals.count()>0)
+        {
+        for(int i=0;i<(modelTreeUN->list_Equals.count());i++)
+        {
+            QModelIndex ind=modelTreeUN->list_Equals.at(i);
+            if(this->ui->treeView->currentIndex()==ind){
+              if(i>0)
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(i-1));
+
+                else
+              this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(modelTreeUN->list_Equals.count()-1));
+               break;
+            }
+
+        }
+        }
+
+
+
+
+    //    modelTreeUN->list_Equals_for_chanell.
+    //    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+    UnitNode *unit = static_cast<UnitNode*>(this->ui->treeView->currentIndex().internalPointer());
+    this->get_option(unit);
+}
+
+void MainWindowCFG::next()
+{
+    if(modelTreeUN->list_Equals_for_chanell.count()>0)
+    {
+        bool res=false;
+        for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
+        {
+            QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
+            if(this->ui->treeView->currentIndex()==ind){
+                res=true;
+                qDebug()<<i;
+                if(i<(modelTreeUN->list_Equals_for_chanell.count()-1))
+                {
+                 qDebug()<<"[1]";
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i+1));
+                }
+                else
+                {
+                 qDebug()<<"[2]";
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+                }
+               break;
+            }
+
+        }
+        if(res==false)
+          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+
+    }
+    else
+    if(modelTreeUN->list_Equals.count()>0)
+    {
+        for(int i=0;i<(modelTreeUN->list_Equals.count());i++)
+        {
+            QModelIndex ind=modelTreeUN->list_Equals.at(i);
+            if(this->ui->treeView->currentIndex()==ind){
+                qDebug()<<i;
+                if(i<(modelTreeUN->list_Equals.count()-1))
+                {
+                 qDebug()<<"[1]";
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(i+1));
+                }
+                else
+                {
+                 qDebug()<<"[2]";
+               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
+                }
+               break;
+            }
+
+        }
+
+    }
+    UnitNode *unit = static_cast<UnitNode*>(this->ui->treeView->currentIndex().internalPointer());
+    this->get_option(unit);
+}
+
 void MainWindowCFG::find_from_options(QList<QString> list)
 {
     qDebug()<<"find_from_options";
@@ -800,6 +908,173 @@ void MainWindowCFG::find_from_options(QList<QString> list)
     {
         qDebug()<<name<<": "<<this->ui->unitFinder->get_value(name);
     }
+
+    QList<UnitNode *> List1;
+
+
+    modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+
+    qDebug()<<"-- Ищу устрйоство ---";
+//    qDebug()<<"тип: "<< m_TypeUnitNode.value( unit->getType());
+    qDebug()<<"Актуальные параметры:";
+
+    modelTreeUN->list_Equals_for_chanell.clear();
+
+    qDebug()<<"---------------------------------------";
+    foreach(UnitNode *un, List1 )
+    {
+    //    qDebug()<<"------";
+    //    qDebug()<<unit->getName();
+    //    qDebug()<<un->getName();
+
+        bool res=true;
+
+foreach(QString name,list)
+ {
+    QString value = this->ui->unitFinder->get_value(name);
+
+        if(name=="Type")
+        {
+         if(un->getType()!=value.toInt())
+             res=false;
+        }
+
+        if(name=="Num1")
+        {
+            if(un->getNum1()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="Num2")
+        {
+            if(un->getNum2()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="Num3")
+        {
+            if(un->getNum3()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="DK")
+        {
+            if(un->getDK()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="Bazalt")
+        {
+            if(un->getBazalt()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="Metka")
+        {
+            if(un->getMetka()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="Razriv")
+        {
+            if(un->getRazriv()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="AdamOff")
+        {
+            if(un->getAdamOff()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="AlarmMsgOn")
+        {
+            if(un->getAlarmMsgOn()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="ConnectBlock")
+        {
+            if(un->getConnectBlock()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="OutType")
+        {
+            if(un->getOutType()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="UdpUse")
+        {
+            if(un->getUdpUse()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="UdpAdress")
+        {
+            if(un->getUdpAdress()!=value)
+                res=false;
+        }
+
+        if(name=="UdpPort")
+        {
+            if(un->getUdpPort()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="UdpTimeout")
+        {
+            if(un->getUdpTimeout()!=value.toInt())
+                res=false;
+        }
+
+        if(name=="Icon1Path")
+        {
+            if(un->getIcon1Path()!=value)
+                res=false;
+        }
+
+        if(name=="Icon2Path")
+        {
+            if(un->getIcon2Path()!=value)
+                res=false;
+        }
+
+        if(name=="Icon3Path")
+        {
+            if(un->getIcon3Path()!=value)
+                res=false;
+        }
+
+        if(name=="Icon4Path")
+        {
+            if(un->getIcon4Path()!=value)
+                res=false;
+        }
+ }
+
+        /*
+        if(UdpUse==0)
+        if(un->getUdpUse()==UdpUse)
+        if(un->getNum3()==RS485_port) //ищем юниты котрые всият на одном порте с нашим
+        res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+        if(UdpUse==1)
+        if(un->getUdpUse()==UdpUse)
+        if(un->getUdpAdress()==UdpAdress)//ищем юниты котрые всият на одном адресе с нашим
+        if(un->getUdpPort()==UdpPort)
+        res=true;
+        */
+
+        if(res==true)
+        {
+
+        qDebug()<<res;
+        modelTreeUN->list_Equals_for_chanell.append(modelTreeUN->findeIndexUN(un));
+        }
+}
 
 }
 
@@ -7473,101 +7748,13 @@ void MainWindowCFG::on_findButton_reset_clicked()
 
 void MainWindowCFG::on_findButton_prev_clicked()
 {
-
-if(modelTreeUN->list_Equals_for_chanell.count()>0)
-{
-for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
-{
-    QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
-    if(this->ui->treeView->currentIndex()==ind){
-      if(i>0)
-       this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i-1));
-
-        else
-      this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(modelTreeUN->list_Equals_for_chanell.count()-1));
-       break;
-    }
-
-}
-}
-else
-    if(modelTreeUN->list_Equals.count()>0)
-    {
-    for(int i=0;i<(modelTreeUN->list_Equals.count());i++)
-    {
-        QModelIndex ind=modelTreeUN->list_Equals.at(i);
-        if(this->ui->treeView->currentIndex()==ind){
-          if(i>0)
-           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(i-1));
-
-            else
-          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(modelTreeUN->list_Equals.count()-1));
-           break;
-        }
-
-    }
-    }
-
-
-
-
-//    modelTreeUN->list_Equals_for_chanell.
-//    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+prev();
 
 }
 
 void MainWindowCFG::on_pushButton_next_clicked()
 {
-    if(modelTreeUN->list_Equals_for_chanell.count()>0)
-    {
-        for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
-        {
-            QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
-            if(this->ui->treeView->currentIndex()==ind){
-                qDebug()<<i;
-                if(i<(modelTreeUN->list_Equals_for_chanell.count()-1))
-                {
-                 qDebug()<<"[1]";
-               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i+1));
-                }
-                else
-                {
-                 qDebug()<<"[2]";
-               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
-                }
-               break;
-            }
-
-        }
-
-    }
-    else
-    if(modelTreeUN->list_Equals.count()>0)
-    {
-        for(int i=0;i<(modelTreeUN->list_Equals.count());i++)
-        {
-            QModelIndex ind=modelTreeUN->list_Equals.at(i);
-            if(this->ui->treeView->currentIndex()==ind){
-                qDebug()<<i;
-                if(i<(modelTreeUN->list_Equals.count()-1))
-                {
-                 qDebug()<<"[1]";
-               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(i+1));
-                }
-                else
-                {
-                 qDebug()<<"[2]";
-               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
-                }
-               break;
-            }
-
-        }
-
-    }
-
-//    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-
+next();
 }
 
 void MainWindowCFG::on_IU_BL_IP_num_combobox_currentIndexChanged(int index)

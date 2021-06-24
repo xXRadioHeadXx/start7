@@ -73,3 +73,15 @@ void UnitFinder::on_pushButton_clicked()
 
 
 }
+
+
+
+void UnitFinder::on_prev_button_clicked()
+{
+    emit prev();
+}
+
+void UnitFinder::on_next_button_clicked()
+{
+    emit next();
+}

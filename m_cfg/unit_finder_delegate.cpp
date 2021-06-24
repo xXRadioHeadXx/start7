@@ -26,7 +26,7 @@ QWidget *unit_finder_delegate::createEditor(QWidget *parent, const QStyleOptionV
     {
     QComboBox* editor = new QComboBox(parent);
     editor->addItem(" ");
-    editor->addItem("используется");
+    editor->addItem("искать");
     return editor;
     }
     break;
@@ -49,7 +49,7 @@ void unit_finder_delegate::setEditorData(QWidget *editor, const QModelIndex &ind
     {
          QComboBox* combobox = static_cast < QComboBox*>(editor);
          if(index.model()->data(index,Qt::DisplayRole).toBool())
-         combobox->setCurrentText("используется");
+         combobox->setCurrentText("искать");
          else
          combobox->setCurrentText(" ");
 
@@ -75,7 +75,7 @@ void unit_finder_delegate::setModelData(QWidget *editor, QAbstractItemModel *mod
     {
 
        QComboBox* combobox = static_cast < QComboBox*>(editor);
-       if(combobox->currentText()=="используется")
+       if(combobox->currentText()=="искать")
        model->setData(index,true);
        else
        model->setData(index,false);

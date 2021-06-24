@@ -7,6 +7,7 @@ Model_Unit_Params::Model_Unit_Params(QObject *parent) : QAbstractTableModel(pare
     for(int i(0), n(this->l_params.count()); i < n; i++)
     {
       Unit_Parametr* parametr=new Unit_Parametr(this->l_params.at(i));
+
     parametres.append(parametr);
 
     }
@@ -60,8 +61,9 @@ QVariant Model_Unit_Params::data(const QModelIndex &index, int role) const
     case Qt::BackgroundRole:
          switch(index.column() % 3)
          {
-
-         case 2:
+         /*
+         case 0:
+         case 1:
          {
          Unit_Parametr* parameter=parametres.at(index.row());
          if(parameter->getNeeded())
@@ -72,7 +74,7 @@ QVariant Model_Unit_Params::data(const QModelIndex &index, int role) const
 
          }
          break;
-
+*/
 
          default://only to disable warning
              return QVariant(QColor(Qt::white));

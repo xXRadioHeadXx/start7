@@ -32,9 +32,13 @@ private:
 
 signals:
     void options_to_find(QList<QString>);
-
+    void prev();
+    void next();
 private slots:
     void on_pushButton_clicked();
+
+    void on_prev_button_clicked();
+    void on_next_button_clicked();
 };
 
 #endif // UNITFINDER_H

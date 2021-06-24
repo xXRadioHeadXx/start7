@@ -597,6 +597,10 @@ public:
 
 private slots:
 
+    void next();
+
+    void prev();
+
     void find_from_options(QList<QString>);
 
     void double_unit_slot(UnitNode* un);

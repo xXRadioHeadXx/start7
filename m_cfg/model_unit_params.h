@@ -39,9 +39,35 @@ private:
     QList<Unit_Parametr*> parametres;
 
     QList<QString> l_params={
-        "Parametr_1",
-        "Parametr_2",
-        "Parametr_3"
+        "Type",
+        "Num1",
+        "Num2",
+        "Num3",
+
+        "DK",
+        "Bazalt",
+        "Metka",
+        "Razriv",
+        "AdamOff",
+        "AlarmMsgOn",
+        "ConnectBlock",
+        "OutType",
+
+
+
+
+        "UdpUse",
+        "UdpAdress",
+        "UdpPort",
+        "UdpTimeout",
+
+
+
+
+        "Icon1Path",
+        "Icon2Path",
+        "Icon3Path",
+        "Icon4Path"
     };
 
 

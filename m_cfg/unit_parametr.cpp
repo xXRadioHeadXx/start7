@@ -4,7 +4,7 @@ Unit_Parametr::Unit_Parametr(QString Name)
 {
 name=Name;
 value="";
-needed=true;
+needed=false;
 }
 
 QString Unit_Parametr::getName() const
