@@ -597,6 +597,8 @@ public:
 
 private slots:
 
+    void  clear_list_equals();
+
     void next();
 
     void prev();

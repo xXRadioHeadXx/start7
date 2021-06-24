@@ -721,6 +721,9 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect(this->ui->unitFinder,SIGNAL(next()),this,SLOT(next()));
         connect(this->ui->unitFinder,SIGNAL(prev()),this,SLOT(prev()));
 
+        connect(this->ui->unitFinder,SIGNAL(clear_list_equals()),this,SLOT(clear_list_equals()));
+
+
         timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
             timer->setInterval(10); // Задаем интервал таймера
             connect(timer, SIGNAL(timeout()), this, SLOT(update())); // Подключаем сигнал таймера к нашему слоту
@@ -794,6 +797,13 @@ void MainWindowCFG::show_equals(UnitNode *unit)
 
         }
 
+}
+
+void MainWindowCFG::clear_list_equals()
+{
+//    qDebug()<<"PROFIT";
+    modelTreeUN->list_Equals_for_chanell.clear();
+       modelTreeUN->updateUNs();
 }
 
 void MainWindowCFG::prev()
@@ -1149,8 +1159,7 @@ void MainWindowCFG::set_x_y(QString Name, int x, int y)
 
 void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
-    modelTreeUN->list_Equals_for_chanell.clear();
-    modelTreeUN->updateUNs();
+
  this->ui->stackedWidget_3->setCurrentIndex(0);
 
 this->ui->pushButton_4->setDisabled(true);

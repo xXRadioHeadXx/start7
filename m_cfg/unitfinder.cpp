@@ -102,4 +102,5 @@ void UnitFinder::on_pushButton_4_clicked()
         //ui->tableView->indexWidget(idx2);
         // this is a QWidget, not a QCheckbox, so setCheckState not available
     }
+    emit clear_list_equals();
 }

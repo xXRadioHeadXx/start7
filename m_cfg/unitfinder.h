@@ -34,6 +34,7 @@ signals:
     void options_to_find(QList<QString>);
     void prev();
     void next();
+    void clear_list_equals();
 private slots:
     void on_pushButton_clicked();
 
