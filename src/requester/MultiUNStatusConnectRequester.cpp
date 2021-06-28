@@ -142,8 +142,10 @@ void MultiUNStatusConnectRequester::specialReserveSlot() const
 {
 //    qDebug () << "MultiUNStatusConnectRequester::specialReserveSlot(" << getUnReciver()->toString() << ")";
 
-//    SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
+    //    SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
 }
+
+
 
 
 DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
@@ -281,15 +283,18 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
 
     currentTrackedUN()->incrementCountStatusConnectRequesterWaitAnswer();
 
-    auto un = nextTrackedUN();
-    setUnReciver(un); // !!! currentTrackedUN changed !!!
-    qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg(!!! currentTrackedUN changed !!!)" << getUnReciver()->toString();
-    setUnTarget(un);
-
     if(result.isValid())
         return result;
 
     return DataQueueItem();
+}
+
+void MultiUNStatusConnectRequester::aspectAfterFirstRequest()
+{
+    auto un = nextTrackedUN();
+    setUnReciver(un); // !!! currentTrackedUN changed !!!
+    qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg(!!! currentTrackedUN changed !!!)" << getUnReciver()->toString();
+    setUnTarget(un);
 }
 
 DataQueueItem MultiUNStatusConnectRequester::makeSecondMsg() {

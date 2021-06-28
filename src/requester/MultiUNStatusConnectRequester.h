@@ -31,7 +31,8 @@ public:
 
 private slots:
     virtual void specialReserveSlot() const override;
-
+public slots:
+    virtual void aspectAfterFirstRequest() override;
 };
 
 #endif // MULTIUNSTATUSCONNECTREQUESTER_H
