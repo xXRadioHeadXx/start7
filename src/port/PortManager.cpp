@@ -2184,13 +2184,16 @@ void PortManager::manageOverallReadQueue()
             }
             case static_cast<quint8>(0x30): {
 
+                qDebug() << "case static_cast<quint8>(0x30)";
                 for(auto ar : as_const(getLsWaiter())) {
                     if(ar->getIpPort() == tmpPair ) {
 
                         if(BeatStatus::RequestStep1 == ar->getBeatStatus()) { // переводим в первое ожидание
 
-                            if(!ar->getUnReciver().isNull() && RequesterType::DKWaiter == ar->getRequesterType() && static_cast<quint8>(ar->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
-                                for(QSharedPointer<UnitNode>  un : as_const(((ProcessDKWaiter *)ar.data())->getLsTrackedUN())) {
+                            if(!ar->getUnReciver().isNull() &&
+                               RequesterType::DKWaiter == ar->getRequesterType() &&
+                               static_cast<quint8>(ar->getUnReciver()->getNum1()) == static_cast<quint8>(itm.data().at(2))) {
+                                for(auto  un : ar.dynamicCast<ProcessDKWaiter>()->getLsTrackedUN()) {
                                     un->setDkInvolved(true);
                                     un->setDkStatus(DKCiclStatus::DKReady);
                                     un->updDoubl();
@@ -2208,7 +2211,7 @@ void PortManager::manageOverallReadQueue()
                         } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) { // удаляем завершившихся и переводим во второе ожидание другие
 
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                for(QSharedPointer<UnitNode>  un : as_const(((ProcessDKWaiter *)ar.data())->getLsTrackedUN())) {
+                                for(QSharedPointer<UnitNode>  un : ar.dynamicCast<ProcessDKWaiter>()->getLsTrackedUN()) {
                                     JourEntity msg;
                                     msg.setObject(un->getName());
                                     msg.setObjecttype(un->getType());

@@ -1,17 +1,25 @@
 #ifndef SWP_H
 #define SWP_H
 
+#include <QDateTime>
 #include <QObject>
+
+struct StateWord {
+    QByteArray stateWord;
+    QDateTime cdate = QDateTime::currentDateTime();
+    StateWord(const QByteArray &stateWord) : stateWord(stateWord) {}
+};
 
 class SWP
 {
-    QByteArray stateWord;
+    StateWord stateWord;
 public:
-    SWP(const QByteArray &stateWord);
+//    SWP(const QByteArray &stateWord);
+    SWP(const StateWord &stateWord);
     SWP(const SWP & parent);
     virtual ~SWP();
-    const QByteArray & getStateWord() const;
-    void setStateWord(const QByteArray &value);
+    const StateWord & getStateWord() const;
+    void setStateWord(const StateWord &value);
 
     SWP & operator=(const SWP& c);
 

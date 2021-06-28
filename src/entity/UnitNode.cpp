@@ -635,6 +635,36 @@ const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getSta
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWordType0x33());}
 const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWordType0x32());}
 
+template <class CC>
+auto UnitNode::swpDefault() const {
+    if(TypeUnitNode::SD_BL_IP == this->getType()) {
+        return CC{} = swpSDBLIP();
+    } else if(TypeUnitNode::IU_BL_IP == this->getType()) {
+        return CC{} = swpIUBLIP();
+    } else if(TypeUnitNode::BL_IP == this->getType()) {
+        return CC{} = swpBLIP();
+    } else if(TypeUnitNode::RLM_KRL == this->getType()) {
+        return CC{} = swpRLM();
+    } else if(TypeUnitNode::RLM_C == this->getType()) {
+        return CC{} = swpRLM();
+    } else if(TypeUnitNode::TG == this->getType()) {
+        return SWPBLIP(getStateWord());
+    } else if(TypeUnitNode::BL_IP == this->getType()) {
+        return SWPBLIP(getStateWord());
+    } else if(TypeUnitNode::BL_IP == this->getType()) {
+        return SWPBLIP(getStateWord());
+    } else if(TypeUnitNode::BL_IP == this->getType()) {
+        return SWPBLIP(getStateWord());
+    } else if(TypeUnitNode::BL_IP == this->getType()) {
+        return SWPBLIP(getStateWord());
+    } else if(TypeUnitNode::BL_IP == this->getType()) {
+        return SWPBLIP(getStateWord());
+    } else */
+
+    return SWPTGType0x32(getStateWordType0x32());
+}
+
+
 
 
 UnitNode::UnitNode(const UnitNode & parent) :

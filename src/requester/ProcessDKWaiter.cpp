@@ -55,6 +55,10 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
         return result;
     }
 
+    if(getUnReciver()->swpRLM())
+    qDebug() << "DataQueueItem ProcessDKWaiter::makeFirstMsg() <--";
+    return DataQueueItem();
+
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());

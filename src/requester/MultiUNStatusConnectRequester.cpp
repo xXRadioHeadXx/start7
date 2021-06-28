@@ -182,23 +182,23 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                 resetBeatCount();
         } else {
             switch (currentTrackedUN()->getNeededStateWordType()) {
-                case 0x22: {
+                case 0x22: { // 41 | 31
                     DataQueueItem::makeStatusRequest0x22(result, currentTrackedUN());
                     break;
                 }
-                case 0x2A: {
+                case 0x2A: { // 32
                     DataQueueItem::makeStatusRequest0x2A(result, currentTrackedUN());
                     break;
                 }
-                case 0x2C: {
+                case 0x2C: { // 34
                     DataQueueItem::makeStatusRequest0x2C(result, currentTrackedUN());
                     break;
                 }
-                case 0x2E: {
+                case 0x2E: { // 33
                     DataQueueItem::makeStatusRequest0x2E(result, currentTrackedUN());
                     break;
                 }
-                case 0x2A2E: {
+                case 0x2A2E: { // 32 & 33
                     switch (currentTrackedUN()->leftoversCounter.mod()) {
                         case 0: {
                             DataQueueItem::makeStatusRequest0x2A(result, currentTrackedUN());
@@ -216,7 +216,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                     currentTrackedUN()->leftoversCounter.increment();
                     break;
                 }
-                case 0x2C2E: {
+                case 0x2C2E: { // 34 & 33
                     switch (currentTrackedUN()->leftoversCounter.mod()) {
                         case 0: {
                             DataQueueItem::makeStatusRequest0x2C(result, currentTrackedUN());
@@ -234,7 +234,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                     currentTrackedUN()->leftoversCounter.increment();
                     break;
                 }
-                case 0x2A2C2E: {
+                case 0x2A2C2E: { // 32 & 34 & 33
                     switch (currentTrackedUN()->leftoversCounter.mod()) {
                         case 0: {
                             DataQueueItem::makeStatusRequest0x2A(result, currentTrackedUN());
@@ -293,7 +293,7 @@ void MultiUNStatusConnectRequester::aspectAfterFirstRequest()
 {
     auto un = nextTrackedUN();
     setUnReciver(un); // !!! currentTrackedUN changed !!!
-    qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg(!!! currentTrackedUN changed !!!)" << getUnReciver()->toString();
+    qDebug() << "MultiUNStatusConnectRequester::aspectAfterFirstRequest (!!! currentTrackedUN changed !!!)" << getUnReciver()->toString();
     setUnTarget(un);
 }
 
