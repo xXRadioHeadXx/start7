@@ -192,9 +192,6 @@ public:
     const SWPTGType0x33 swpTGType0x33() const; // {return SWPTGType0x33(getStateWordType0x33());}
     const SWPTGType0x32 swpTGType0x32() const; // {return SWPTGType0x32(getStateWordType0x32());}
 
-    template <class CC>
-    auto swpDefault() const;
-
 public:
     QQueue<DataQueueItem> queueMsg;
 

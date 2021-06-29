@@ -635,38 +635,6 @@ const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getSta
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWordType0x33());}
 const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWordType0x32());}
 
-template <class CC>
-auto UnitNode::swpDefault() const {
-    if(TypeUnitNode::SD_BL_IP == this->getType()) {
-        return CC{} = swpSDBLIP();
-    } else if(TypeUnitNode::IU_BL_IP == this->getType()) {
-        return CC{} = swpIUBLIP();
-    } else if(TypeUnitNode::BL_IP == this->getType()) {
-        return CC{} = swpBLIP();
-    } else if(TypeUnitNode::RLM_KRL == this->getType()) {
-        return CC{} = swpRLM();
-    } else if(TypeUnitNode::RLM_C == this->getType()) {
-        return CC{} = swpRLM();
-    } /*else if(TypeUnitNode::TG == this->getType()) {
-        return SWPBLIP(getStateWord());
-    } else if(TypeUnitNode::BL_IP == this->getType()) {
-        return SWPBLIP(getStateWord());
-    } else if(TypeUnitNode::BL_IP == this->getType()) {
-        return SWPBLIP(getStateWord());
-    } else if(TypeUnitNode::BL_IP == this->getType()) {
-        return SWPBLIP(getStateWord());
-    } else if(TypeUnitNode::BL_IP == this->getType()) {
-        return SWPBLIP(getStateWord());
-    } else if(TypeUnitNode::BL_IP == this->getType()) {
-        return SWPBLIP(getStateWord());
-    } else */
-
-    return SWPTGType0x32(getStateWordType0x32());
-}
-
-
-
-
 UnitNode::UnitNode(const UnitNode & parent) :
 //    UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
     ServerUnitNodeTreeItem(),
@@ -679,7 +647,8 @@ UnitNode::UnitNode(const UnitNode & parent) :
     dkStatus(parent.dkStatus),
     dkInvolved(parent.dkInvolved)
 {
-    operator=(parent);
+    UnitNodeCFG::operator=(parent);
+    TreeItem::operator=(parent);
     setStateWord(parent.getStateWord());
     setStateWordType0x31(parent.getStateWordType0x31());
     setStateWordType0x34(parent.getStateWordType0x34());
@@ -875,7 +844,7 @@ int UnitNode_TG::calcDKStatus() const {
     const auto swp32 = swpTGType0x32();
     const auto swp33 = swpTGType0x33();
 
-    if(!swp32.isNull()) {
+    if(!swp32.isNull() && !swp33.isNull() && (swp32.cdate() >= swp33.cdate())) {
         //
         if(1 == swp32.C(getNum2()).isInAlarm() && 1 == swp32.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKWasAlarn;
@@ -888,6 +857,14 @@ int UnitNode_TG::calcDKStatus() const {
         if(1 == swp33.C(getNum2()).isInAlarm() && 1 == swp33.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKWasAlarn;
         } else if(0 == swp33.C(getNum2()).isInAlarm() && 0 == swp33.C(getNum2()).isOutAlarm()) {
+            return DKCiclStatus::DKNorm;
+        }
+       //
+    } else if(!swp32.isNull()) {
+        //
+        if(1 == swp32.C(getNum2()).isInAlarm() && 1 == swp32.C(getNum2()).isOutAlarm()) {
+            return DKCiclStatus::DKWasAlarn;
+        } else if(0 == swp32.C(getNum2()).isInAlarm() && 0 == swp32.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKNorm;
         }
        //

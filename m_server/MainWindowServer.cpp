@@ -347,15 +347,15 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
             if(!selUN->getParentUN().isNull()) {
                 if(TypeUnitNode::TG_Base == selUN->getParentUN()->getType()) {
                     if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
-                        selUN->getParentUN()->setNeededStateWordType(0x2A2C2E);
+                        selUN->getParentUN()->setNeededStateWordType(0x2A2C2E); // 32 & 34 & 33
                         selUN->getParentUN()->leftoversCounter.counter = 0;
                         selUN->getParentUN()->leftoversCounter.divider = 3;
                     } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
-                        selUN->getParentUN()->setNeededStateWordType(0x2C2E);
+                        selUN->getParentUN()->setNeededStateWordType(0x2C2E); // 34 & 33
                         selUN->getParentUN()->leftoversCounter.counter = 0;
                         selUN->getParentUN()->leftoversCounter.divider = 2;
                     } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
-                        selUN->getParentUN()->setNeededStateWordType(/*0x2A2E*/0x2A2C2E);
+                        selUN->getParentUN()->setNeededStateWordType(/*0x2A2E*/0x2A2C2E); // 32 & 34 & 33
                         selUN->getParentUN()->leftoversCounter.counter = 0;
                         selUN->getParentUN()->leftoversCounter.divider = 2;
                     } else if(!ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { //

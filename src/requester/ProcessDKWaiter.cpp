@@ -5,6 +5,14 @@
 #include "Utils.h"
 #include "global.h"
 
+#include "SWPBLIP.h"
+#include "SWPSDBLIP.h"
+#include "SWPIUBLIP.h"
+#include "SWPRLM.h"
+#include "SWPRLMC.h"
+#include "SWPTGType0x32.h"
+#include "SWPTGType0x33.h"
+
 ProcessDKWaiter::ProcessDKWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
     //qDebug() << "ProcessDKWaiter::ProcessDKWaiter(" << this << ") -->";
@@ -55,9 +63,36 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
         return result;
     }
 
-//    if(getUnReciver()->swpRLM())
-//    qDebug() << "DataQueueItem ProcessDKWaiter::makeFirstMsg() <--";
-//    return DataQueueItem();
+    int isWasDK = -1, isExistDK = -1;
+    if(TypeUnitNode::SD_BL_IP == getUnReciver()->getType() ||
+       TypeUnitNode::IU_BL_IP == getUnReciver()->getType() ||
+       TypeUnitNode::BL_IP == getUnReciver()->getType()) {
+        isWasDK = getUnReciver()->swpBLIP().isWasDK();
+        isExistDK = getUnReciver()->swpBLIP().isExistDK();
+    } else if(TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
+        isWasDK = getUnReciver()->swpRLM().isWasDK();
+        isExistDK = getUnReciver()->swpRLM().isExistDK();
+    } else if(TypeUnitNode::RLM_C == getUnReciver()->getType()) {
+        isWasDK = getUnReciver()->swpRLMC().isWasDK();
+        isExistDK = getUnReciver()->swpRLMC().isExistDK();
+    } else if(TypeUnitNode::TG == getUnReciver()->getType()) {
+        const auto swp32 = getUnReciver()->swpTGType0x32();
+        const auto swp33 = getUnReciver()->swpTGType0x33();
+        if(!swp32.isNull() && !swp32.isNull() && (swp32.cdate() >= swp33.cdate())) {
+            isWasDK = swp32.isWasDK();
+            isExistDK = swp32.isExistDK();
+        } else if(!swp33.isNull()) {
+            isWasDK = swp33.isWasDK();
+            isExistDK = swp33.isExistDK();
+        } else if(!swp32.isNull()) {
+            isWasDK = swp32.isWasDK();
+            isExistDK = swp32.isExistDK();
+        }
+    }
+    if(1 == isExistDK) {
+        qDebug() << "DataQueueItem ProcessDKWaiter::makeFirstMsg() <--";
+        return DataQueueItem();
+    }
 
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
