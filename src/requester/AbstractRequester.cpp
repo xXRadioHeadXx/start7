@@ -124,7 +124,10 @@ void AbstractRequester::firstRequest() {
        AutoOnOffWaiter == getRequesterType() ||
        ConfirmWaiter == getRequesterType() ||
        LockRequester == getRequesterType()) {
-        getUnReciver()->queueMsg.enqueue(getFirstMsg());
+        if(!getUnReciver()->queueMsg.isEmpty() && getUnReciver()->queueMsg.constLast().data() != getFirstMsg().data())
+            getUnReciver()->queueMsg.enqueue(getFirstMsg());
+        else if(getUnReciver()->queueMsg.isEmpty())
+            getUnReciver()->queueMsg.enqueue(getFirstMsg());
     } else {
         Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
     }

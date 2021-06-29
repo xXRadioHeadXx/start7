@@ -1551,7 +1551,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
             DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
             if(!reciver.isNull())
                 reciver->queueMsg.enqueue(alarmReset0x24);
-//                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
         }
 
         if(un->getDkInvolved()) {
@@ -1979,7 +1979,7 @@ void PortManager::manageOverallReadQueue()
                     tmpCAW->setFirstMsg(request);
                     prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
-                } else */if(dkWait) {
+                } else if(dkWait) {
                     QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
@@ -1999,7 +1999,7 @@ void PortManager::manageOverallReadQueue()
                         }
 
                     }
-                }
+                } */
                 break;
             }
             case static_cast<quint8>(0x32): {
@@ -2039,7 +2039,7 @@ void PortManager::manageOverallReadQueue()
                     tmpCAW->setFirstMsg(request);
                     prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
-                } else */if(dkWait) {
+                } else if(dkWait) {
                     QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
@@ -2059,7 +2059,7 @@ void PortManager::manageOverallReadQueue()
                         }
 
                     }
-                }
+                }*/
                 break;
             }
             case static_cast<quint8>(0x33): {
@@ -2099,7 +2099,7 @@ void PortManager::manageOverallReadQueue()
                     tmpCAW->setFirstMsg(request);
                     prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
-                } else */if(dkWait) {
+                } else if(dkWait) {
                     QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
@@ -2119,7 +2119,7 @@ void PortManager::manageOverallReadQueue()
                         }
 
                     }
-                }
+                }*/
                 break;
             }
             case static_cast<quint8>(0x34): {
@@ -2159,7 +2159,7 @@ void PortManager::manageOverallReadQueue()
                     tmpCAW->setFirstMsg(request);
                     prependLsWaiter(tmpCAW);
 //                    tmpCAW->startFirstRequest();
-                } else */if(dkWait) {
+                } else if(dkWait) {
                     QSharedPointer<UnitNode>  reciver;
                     for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
                         reciver = un;
@@ -2179,7 +2179,7 @@ void PortManager::manageOverallReadQueue()
                         }
 
                     }
-                }
+                }*/
                 break;
             }
             case static_cast<quint8>(0x30): {
@@ -2237,6 +2237,8 @@ void PortManager::manageOverallReadQueue()
                                     un->setDkStatus(DKCiclStatus::DKIgnore);
                                     un->updDoubl();
                                 }
+//                                SignalSlotCommutator::getInstance()->emitStopDKWait();
+//                                removeLsWaiter(ar);
                             } else if(RequesterType::LockRequester == ar->getRequesterType()){
 
                                 if(RequesterType::LockRequester == ar->getRequesterType()) {

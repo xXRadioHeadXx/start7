@@ -117,6 +117,11 @@ DataQueueItem ProcessDKWaiter::makeSecondMsg() {
         return result;
     }
 
+    if(TypeUnitNode::RLM_C == getUnReciver()->getType() || TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
+        qDebug() << "DataQueueItem ProcessDKWaiter::makeSecondMsg() <--";
+        return result;
+    }
+
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
