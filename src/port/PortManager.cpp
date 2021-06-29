@@ -595,7 +595,7 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> un, QByteArray stat
 {
     if(un.isNull() || stateWord.isEmpty()) {
         return;
-    } else if(un->getStateWord().size() > stateWord.size()) {
+    } else if(un->getStateWord().getByteWord().size() > stateWord.size()) {
         return;
     }
 
@@ -728,14 +728,14 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
 
     if(!reciver.isNull()) {
 
-        if(TypeUnitNode::BL_IP == reciver->getType() && !target->getStateWord().isEmpty()) {
+        if(TypeUnitNode::BL_IP == reciver->getType() && !target->getStateWord().getByteWord().isEmpty()) {
             quint8 D1 = 0x00; // байт для БЛ
             quint8 mask = 0x00;
             if(TypeUnitNode::SD_BL_IP == target->getType()) {
-                D1 = target->getStateWord().at(3);
+                D1 = target->getStateWord().getByteWord().at(3);
                 mask = target->swpSDBLIP().mask();
             } else if(TypeUnitNode::IU_BL_IP == target->getType()) {
-                D1 = target->getStateWord().at(1) & 0x0F;
+                D1 = target->getStateWord().getByteWord().at(1) & 0x0F;
                 mask = target->swpIUBLIP().mask();
             }
 
@@ -850,7 +850,7 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
 DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest)
 {
 //    //qDebug() << "Utils::parcingStatusWord0x41 -->";
-    QByteArray newStateWord = item.data().mid(5, 4);
+    const StateWord newStateWord(item.data().mid(5, 4));
     resultRequest = item;
     resultRequest.setData();
 
@@ -949,9 +949,9 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 //            //qDebug() << "DkStatus <--";
         }
 
-        if((!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord())) ||
-           (!previousCopyUNLockSdBlIp.isNull() && !unLockSdBlIp.isNull() && (previousCopyUNLockSdBlIp->getStateWord() != unLockSdBlIp->getStateWord())) ||
-           (!previousCopyUNLockIuBlIp.isNull() && !unLockIuBlIp.isNull() && (previousCopyUNLockIuBlIp->getStateWord() != unLockIuBlIp->getStateWord()))) {
+        if((!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord().getByteWord() != un->getStateWord().getByteWord())) ||
+           (!previousCopyUNLockSdBlIp.isNull() && !unLockSdBlIp.isNull() && (previousCopyUNLockSdBlIp->getStateWord().getByteWord() != unLockSdBlIp->getStateWord().getByteWord())) ||
+           (!previousCopyUNLockIuBlIp.isNull() && !unLockIuBlIp.isNull() && (previousCopyUNLockIuBlIp->getStateWord().getByteWord() != unLockIuBlIp->getStateWord().getByteWord()))) {
             un->setStateWord(newStateWord);
             if(!unLockIuBlIp.isNull() && !unLockSdBlIp.isNull() && isLockPair) {
                 unLockSdBlIp->setStateWord(newStateWord);
@@ -1263,7 +1263,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueItem &resultRequest)
 {
 //    qDebug() << "PortManager::parcingStatusWord0x31 --> " << item.address() << static_cast<quint8>(item.data().at(2));
-    QByteArray newStateWord = item.data().mid(5, item.data().at(3));
+    StateWord newStateWord(item.data().mid(5, item.data().at(3)));
     resultRequest = item;
     resultRequest.setData();
 
@@ -1354,7 +1354,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             }
         }
 
-        if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord() != un->getStateWord()) && !un->getDkInvolved()) {
+        if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord().getByteWord() != un->getStateWord().getByteWord()) && !un->getDkInvolved()) {
 
             JourEntity msg;
             msg.setObject(un->getName());
@@ -1515,7 +1515,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueItem &resultRequest)
 {
 //    qDebug() << "PortManager::parcingStatusWord0x32 -->";
-    QByteArray newStateWord = item.data().mid(5, item.data().at(3));
+    StateWord newStateWord(item.data().mid(5, item.data().at(3)));
     resultRequest = item;
     resultRequest.setData();
 
@@ -1599,7 +1599,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                 }
             }
         }
-        if(!un.isNull() && (currentSWP.getStateWord() != previousSWP.getStateWord()) && !un->getDkInvolved()) {
+        if(!un.isNull() && (currentSWP.getStateWord().getByteWord() != previousSWP.getStateWord().getByteWord()) && !un->getDkInvolved()) {
 
             // Первое сообщение о включении
             JourEntity msg;
@@ -1661,7 +1661,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueItem &resultRequest)
 {
 //    qDebug() << "PortManager::parcingStatusWord0x33 -->";
-    QByteArray newStateWord = item.data().mid(5, item.data().at(3));
+    StateWord newStateWord(item.data().mid(5, item.data().at(3)));
     resultRequest = item;
     resultRequest.setData();
 
@@ -1748,7 +1748,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
             }
         }
 
-        if(!un.isNull() && (previousSWP.getStateWord() != currentSWP.getStateWord()) && !un->getDkInvolved()) {
+        if(!un.isNull() && (previousSWP.getStateWord().getByteWord() != currentSWP.getStateWord().getByteWord()) && !un->getDkInvolved()) {
 
             // Первое сообщение о включении
             JourEntity msg;
@@ -1809,7 +1809,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueItem &resultRequest)
 {
 //    qDebug() << "PortManager::parcingStatusWord0x34 -->";
-    QByteArray newStateWord = item.data().mid(5, item.data().at(3));
+    StateWord newStateWord(item.data().mid(5, item.data().at(3)));
     resultRequest = item;
     resultRequest.setData();
 

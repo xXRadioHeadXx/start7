@@ -10,8 +10,13 @@ const SWPIUBLIP SWPBLIP::iu(int numIU) const
     return SWPIUBLIP(getStateWord(), numIU);
 }
 
-SWPBLIP::SWPBLIP(const QByteArray &stateWord) :
+SWPBLIP::SWPBLIP(const StateWord &stateWord) :
     SWP(stateWord)
+{
+}
+
+SWPBLIP::SWPBLIP(const QByteArray &byteWord) :
+    SWP(byteWord)
 {
 }
 
@@ -26,9 +31,9 @@ SWPBLIP::~SWPBLIP() {
 
 int SWPBLIP::isExistDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & 0x80)
+    if(static_cast<quint8>(byteWord().at(1)) & 0x80)
         return 1; // Status::Exists);
     else
         return 0; // Status::Not);
@@ -36,9 +41,9 @@ int SWPBLIP::isExistDK() const
 
 int SWPBLIP::isWasDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & 0x40)
+    if(static_cast<quint8>(byteWord().at(1)) & 0x40)
         return 1; //Status::Was);
     else
         return 0; //Status::Not);

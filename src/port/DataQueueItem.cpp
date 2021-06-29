@@ -143,11 +143,11 @@ QByteArray DataQueueItem::makeOnOff0x20(const QSharedPointer<UnitNode> un)
         } else if(TypeUnitNode::RLM_C == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
             out[2] = static_cast<quint8>(0x02);        //<NBB> 0x02
-            out.append(un->getStateWord().right(2));
+            out.append(un->getStateWord().getByteWord().right(2));
         } else if(TypeUnitNode::RLM_KRL == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());
             out[2] = static_cast<quint8>(0x01);        //<NBB> 0x01
-            out.append(un->getStateWord().left(1));
+            out.append(un->getStateWord().getByteWord().left(1));
         } else if(TypeUnitNode::TG_Base == un->getType() ||
                   TypeUnitNode::TG == un->getType()) {
             out[1] = static_cast<quint8>(un->getNum1());

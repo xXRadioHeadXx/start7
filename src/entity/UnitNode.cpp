@@ -414,23 +414,23 @@ void UnitNode::updDoubl()
 //    this->listTreeChilde.clear();
 //}
 
-QByteArray UnitNode::getStateWord() const
+StateWord UnitNode::getStateWord() const
 {
     return stateWord;
 }
 
-void UnitNode::setStateWord(const QByteArray &value)
+void UnitNode::setStateWord(const StateWord &value)
 {
     stateWord = value;
 }
 
 int UnitNode::isConnected() const
 {
-    if(getStateWord().isEmpty() &&
-       getStateWordType0x31().isEmpty() &&
-       getStateWordType0x32().isEmpty() &&
-       getStateWordType0x33().isEmpty() &&
-       getStateWordType0x34().isEmpty())
+    if(getStateWord().getByteWord().isEmpty() &&
+       getStateWordType0x31().getByteWord().isEmpty() &&
+       getStateWordType0x32().getByteWord().isEmpty() &&
+       getStateWordType0x33().getByteWord().isEmpty() &&
+       getStateWordType0x34().getByteWord().isEmpty())
         return 0;
     else
         return 1;
@@ -482,32 +482,32 @@ void UnitNode::setMaxCountStatusConnectRequesterWaitAnswer(int value)
 //    qDebug() << this->toString() << "::setMaxCountStatusConnectRequesterWaitAnswer(" << maxCountStatusConnectRequesterWaitAnswer << ") ~ " << maxCountStatusConnectRequesterWaitAnswer * getUdpTimeout() << "ms";
 }
 
-QByteArray UnitNode::getStateWordType0x31() const
+StateWord UnitNode::getStateWordType0x31() const
 {
     return stateWordType0x31;
 }
 
-void UnitNode::setStateWordType0x31(const QByteArray &value)
+void UnitNode::setStateWordType0x31(const StateWord &value)
 {
     stateWordType0x31 = value;
 }
 
-QByteArray UnitNode::getStateWordType0x34() const
+StateWord UnitNode::getStateWordType0x34() const
 {
     return stateWordType0x34;
 }
 
-void UnitNode::setStateWordType0x34(const QByteArray &value)
+void UnitNode::setStateWordType0x34(const StateWord &value)
 {
     stateWordType0x34 = value;
 }
 
-QByteArray UnitNode::getStateWordType0x33() const
+StateWord UnitNode::getStateWordType0x33() const
 {
     return stateWordType0x33;
 }
 
-void UnitNode::setStateWordType0x33(const QByteArray &value)
+void UnitNode::setStateWordType0x33(const StateWord &value)
 {
     stateWordType0x33 = value;
 }
@@ -522,12 +522,12 @@ void UnitNode::setNeededStateWordType(int value)
     neededStateWordType = value;
 }
 
-QByteArray UnitNode::getStateWordType0x32() const
+StateWord UnitNode::getStateWordType0x32() const
 {
     return stateWordType0x32;
 }
 
-void UnitNode::setStateWordType0x32(const QByteArray &value)
+void UnitNode::setStateWordType0x32(const StateWord &value)
 {
     stateWordType0x32 = value;
 }
@@ -647,7 +647,7 @@ auto UnitNode::swpDefault() const {
         return CC{} = swpRLM();
     } else if(TypeUnitNode::RLM_C == this->getType()) {
         return CC{} = swpRLM();
-    } else if(TypeUnitNode::TG == this->getType()) {
+    } /*else if(TypeUnitNode::TG == this->getType()) {
         return SWPBLIP(getStateWord());
     } else if(TypeUnitNode::BL_IP == this->getType()) {
         return SWPBLIP(getStateWord());
@@ -835,9 +835,9 @@ int UnitNode::childCount() const noexcept
 
 int UnitNode_BL_IP::isExistDK() const
 {
-    if(getStateWord().isEmpty())
+    if(getStateWord().getByteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & 0x80)
+    if(static_cast<quint8>(getStateWord().getByteWord().at(1)) & 0x80)
         return 1; // Status::Exists);
     else
         return 0; // Status::Not);
@@ -845,9 +845,9 @@ int UnitNode_BL_IP::isExistDK() const
 
 int UnitNode_BL_IP::isWasAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(getStateWord().getByteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & 0x40)
+    if(static_cast<quint8>(getStateWord().getByteWord().at(1)) & 0x40)
         return 1; //Status::Was);
     else
         return 0; //Status::Not);

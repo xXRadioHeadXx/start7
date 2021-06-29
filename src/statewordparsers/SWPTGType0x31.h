@@ -6,7 +6,8 @@
 class SWPTGType0x31 : public SWP
 {
 public:
-    SWPTGType0x31(const QByteArray &stateWord);
+    SWPTGType0x31(const StateWord &stateWord);
+    SWPTGType0x31(const QByteArray byteWord);
     SWPTGType0x31(const SWPTGType0x31 & parent);
     virtual ~SWPTGType0x31();
 

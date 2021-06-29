@@ -2,8 +2,13 @@
 
 #include <QtMath>
 
-SWPRLMC::SWPRLMC(const QByteArray &stateWord) :
+SWPRLMC::SWPRLMC(const StateWord &stateWord) :
     SWP(stateWord)
+{
+}
+
+SWPRLMC::SWPRLMC(const QByteArray &byteWord) :
+    SWP(byteWord)
 {
 }
 
@@ -24,9 +29,9 @@ int SWPRLMC::isAlarm() const
 
 int SWPRLMC::isInAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x04))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -34,9 +39,9 @@ int SWPRLMC::isInAlarm() const
 
 int SWPRLMC::isOutAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x02))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -50,9 +55,9 @@ int SWPRLMC::isNorm() const
 
 int SWPRLMC::isWasDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x20))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x20))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -60,9 +65,9 @@ int SWPRLMC::isWasDK() const
 
 int SWPRLMC::isExistDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x10))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x10))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -70,9 +75,9 @@ int SWPRLMC::isExistDK() const
 
 int SWPRLMC::isWasAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x08))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -80,9 +85,9 @@ int SWPRLMC::isWasAlarm() const
 
 int SWPRLMC::isOn() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x01))
         return 1; //Status::On);
     else
         return 0; //Status::Off;
@@ -96,16 +101,16 @@ int SWPRLMC::isOff() const
 
 double SWPRLMC::voltage() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1.0;
-    return 5.0 - 5.0 * ((double)(0x00FF&getStateWord().at(0)) / 255.0);
+    return 5.0 - 5.0 * ((double)(0x00FF&byteWord().at(0)) / 255.0);
 }
 
 int SWPRLMC::synchronization() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x40))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x40))
         return 1; //External);
     else
         return 0; //Internal;
@@ -124,9 +129,9 @@ int SWPRLMC::isInternalSynchronization() const
 
 float SWPRLMC::threshold() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1.0;
-    switch (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x0F)) {
+    switch (static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x0F)) {
     case static_cast<quint8>(0):  return 10.0;
     case static_cast<quint8>(1):  return 09.0;
     case static_cast<quint8>(2):  return 08.0;
@@ -149,23 +154,23 @@ float SWPRLMC::threshold() const
 
 int SWPRLMC::clockPeriod() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    return (static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x70)) >> 4;
+    return (static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x70)) >> 4;
 }
 
 int SWPRLMC::modeProcessing() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    return static_cast<quint8>(getStateWord().at(3)) & static_cast<quint8>(0x03);
+    return static_cast<quint8>(byteWord().at(3)) & static_cast<quint8>(0x03);
 }
 
 int SWPRLMC::isFault() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x80))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x80))
         return 1; //Status::Error);
     else
         return 0; //Status::Not;

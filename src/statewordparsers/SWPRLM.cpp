@@ -3,8 +3,13 @@
 #include "Utils.h"
 #include "global.h"
 
-SWPRLM::SWPRLM(const QByteArray &stateWord) :
+SWPRLM::SWPRLM(const StateWord &stateWord) :
     SWP(stateWord)
+{
+}
+
+SWPRLM::SWPRLM(const QByteArray &byteWord) :
+    SWP(byteWord)
 {
 }
 
@@ -20,9 +25,9 @@ SWPRLM::~SWPRLM() {
 
 float SWPRLM::threshold() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1.0;
-    switch (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x0F)) {
+    switch (static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x0F)) {
     case static_cast<quint8>(0):  return 10.0;
     case static_cast<quint8>(1):  return 09.0;
     case static_cast<quint8>(2):  return 08.0;
@@ -45,37 +50,37 @@ float SWPRLM::threshold() const
 
 int SWPRLM::modeProcessing() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x10)) >> 4;
+    return (static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x10)) >> 4;
 }
 
 int SWPRLM::clockPeriod() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
 
-    quint8 cp = (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
+    quint8 cp = (static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
     cp = Utils::reverseBits(cp);
     cp = cp >> 6;
     return cp;
 
-    return (static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
+    return (static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
 }
 
 double SWPRLM::voltage() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1.0;
 
-    return 5.0 - 5.0 * ((double)(0x00FF&getStateWord().at(1)) / 255.0);
+    return 5.0 - 5.0 * ((double)(0x00FF&byteWord().at(1)) / 255.0);
 }
 
 int SWPRLM::isOn() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x01))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x01))
         return 1; //Status::On);
     else
         return 0; //Status::Off;
@@ -94,9 +99,9 @@ int SWPRLM::isAlarm() const
 
 int SWPRLM::isInAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x04))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -104,9 +109,9 @@ int SWPRLM::isInAlarm() const
 
 int SWPRLM::isOutAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x02))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -120,9 +125,9 @@ int SWPRLM::isNorm() const
 
 int SWPRLM::isWasAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x08))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x08))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -130,9 +135,9 @@ int SWPRLM::isWasAlarm() const
 
 int SWPRLM::isExistDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x10))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x10))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -145,9 +150,9 @@ int SWPRLM::synchronization() const
 
 int SWPRLM::isWasDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x20))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x20))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -160,9 +165,9 @@ int SWPRLM::isOpened() const
 
 int SWPRLM::isInOpened() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x40))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x40))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -170,9 +175,9 @@ int SWPRLM::isInOpened() const
 
 int SWPRLM::isWasOpened() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x80))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x80))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;

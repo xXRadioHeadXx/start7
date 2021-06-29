@@ -2,8 +2,14 @@
 
 #include "SWPTGSubType0x33.h"
 
-SWPTGType0x33::SWPTGType0x33(const QByteArray &stateWord) :
+SWPTGType0x33::SWPTGType0x33(const StateWord &stateWord) :
     SWP(stateWord)
+{
+
+}
+
+SWPTGType0x33::SWPTGType0x33(const QByteArray &byteWord) :
+    SWP(byteWord)
 {
 }
 
@@ -18,9 +24,9 @@ SWPTGType0x33::~SWPTGType0x33() {
 
 int SWPTGType0x33::isInAlarmC1() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x01))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x01))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -28,9 +34,9 @@ int SWPTGType0x33::isInAlarmC1() const
 
 int SWPTGType0x33::isOutAlarmC1() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x02))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x02))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -38,9 +44,9 @@ int SWPTGType0x33::isOutAlarmC1() const
 
 int SWPTGType0x33::isInAlarmC2() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x04))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x04))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -48,9 +54,9 @@ int SWPTGType0x33::isInAlarmC2() const
 
 int SWPTGType0x33::isOutAlarmC2() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x08))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x08))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -58,9 +64,9 @@ int SWPTGType0x33::isOutAlarmC2() const
 
 int SWPTGType0x33::isExistDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x10))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x10))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -68,9 +74,9 @@ int SWPTGType0x33::isExistDK() const
 
 int SWPTGType0x33::isWasDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x20))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x20))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -78,9 +84,9 @@ int SWPTGType0x33::isWasDK() const
 
 int SWPTGType0x33::isInOpened() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x40))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x40))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -88,9 +94,9 @@ int SWPTGType0x33::isInOpened() const
 
 int SWPTGType0x33::isWasOpened() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x80))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x80))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -98,9 +104,9 @@ int SWPTGType0x33::isWasOpened() const
 
 int SWPTGType0x33::isFaultC1() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x01))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -108,9 +114,9 @@ int SWPTGType0x33::isFaultC1() const
 
 int SWPTGType0x33::isFaultC2() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x02))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -118,9 +124,9 @@ int SWPTGType0x33::isFaultC2() const
 
 int SWPTGType0x33::isFaultC3() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x04))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -128,9 +134,9 @@ int SWPTGType0x33::isFaultC3() const
 
 int SWPTGType0x33::isFaultC4() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x08))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -138,9 +144,9 @@ int SWPTGType0x33::isFaultC4() const
 
 int SWPTGType0x33::isInAlarmC3() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x10))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x10))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -148,9 +154,9 @@ int SWPTGType0x33::isInAlarmC3() const
 
 int SWPTGType0x33::isOutAlarmC3() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x20))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x20))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -158,9 +164,9 @@ int SWPTGType0x33::isOutAlarmC3() const
 
 int SWPTGType0x33::isInAlarmC4() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x40))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x40))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -168,9 +174,9 @@ int SWPTGType0x33::isInAlarmC4() const
 
 int SWPTGType0x33::isOutAlarmC4() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x80))
+    if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x80))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -178,9 +184,9 @@ int SWPTGType0x33::isOutAlarmC4() const
 
 int SWPTGType0x33::isSideAlarmC1() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x01))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x01))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -188,9 +194,9 @@ int SWPTGType0x33::isSideAlarmC1() const
 
 int SWPTGType0x33::isSideAlarmC2() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x02))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -198,9 +204,9 @@ int SWPTGType0x33::isSideAlarmC2() const
 
 int SWPTGType0x33::isSideAlarmC3() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x04))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -208,9 +214,9 @@ int SWPTGType0x33::isSideAlarmC3() const
 
 int SWPTGType0x33::isSideAlarmC4() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x08))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x08))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;

@@ -1,7 +1,13 @@
 #include "SWPTGType0x31.h"
 
-SWPTGType0x31::SWPTGType0x31(const QByteArray &stateWord) :
+SWPTGType0x31::SWPTGType0x31(const StateWord &stateWord) :
     SWP(stateWord)
+{
+}
+
+
+SWPTGType0x31::SWPTGType0x31(const QByteArray byteWord) :
+    SWP(byteWord)
 {
 }
 
@@ -16,9 +22,9 @@ SWPTGType0x31::~SWPTGType0x31() {
 
 int SWPTGType0x31::isOn() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x01))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x01))
         return 1; //Status::On);
     else
         return 0; //Status::Off;
@@ -37,9 +43,9 @@ int SWPTGType0x31::isAlarm() const
 
 int SWPTGType0x31::isInAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x04))
         return 1; //Status::Alarm);
     else
         return 0; //Status::Not;
@@ -47,9 +53,9 @@ int SWPTGType0x31::isInAlarm() const
 
 int SWPTGType0x31::isOutAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x02))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -64,9 +70,9 @@ int SWPTGType0x31::isNorm() const
 
 int SWPTGType0x31::isWasAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x08))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x08))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -74,9 +80,9 @@ int SWPTGType0x31::isWasAlarm() const
 
 int SWPTGType0x31::isExistDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x10))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x10))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -84,9 +90,9 @@ int SWPTGType0x31::isExistDK() const
 
 int SWPTGType0x31::isWasDK() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x20))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x20))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -99,9 +105,9 @@ int SWPTGType0x31::isOpened() const
 
 int SWPTGType0x31::isInOpened() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x40))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x40))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -109,9 +115,9 @@ int SWPTGType0x31::isInOpened() const
 
 int SWPTGType0x31::isWasOpened() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x80))
+    if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x80))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;

@@ -7,7 +7,8 @@ class SWPIUBLIP : public SWP
 {
     quint8 _mask = 0x00;
 public:
-    SWPIUBLIP(const QByteArray &stateWord, int numIU);
+    SWPIUBLIP(const StateWord &stateWord, int numIU);
+    SWPIUBLIP(const QByteArray &byteWord, int numIU);
     SWPIUBLIP(const SWPIUBLIP & parent);
     virtual ~SWPIUBLIP();
 

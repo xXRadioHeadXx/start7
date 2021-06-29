@@ -350,7 +350,7 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
 
         int row = -1;
 
-        if(un->getStateWord().isEmpty()) {
+        if(un->getStateWord().getByteWord().isEmpty()) {
             if(TypeUnitNode::SD_BL_IP == un->getType()) {
                 row = un->getNum2();
             } else if(TypeUnitNode::IU_BL_IP == un->getType()) {

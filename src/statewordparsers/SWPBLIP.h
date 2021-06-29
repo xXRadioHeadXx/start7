@@ -8,6 +8,7 @@
 class SWPBLIP : public SWP
 {
 public:
+    SWPBLIP(const StateWord &stateWord);
     SWPBLIP(const QByteArray &stateWord);
     SWPBLIP(const SWPBLIP & parent);
     virtual ~SWPBLIP();

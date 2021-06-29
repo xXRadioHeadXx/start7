@@ -8,7 +8,8 @@ class SWPTGSubType0x33 : public SWP
 private:
     const int flang;
 public:
-    SWPTGSubType0x33(const QByteArray stateWord, const int flang);
+    SWPTGSubType0x33(const StateWord stateWord, const int flang);
+    SWPTGSubType0x33(const QByteArray byteWord, const int flang);
     SWPTGSubType0x33(const SWPTGSubType0x33 & parent);
     virtual ~SWPTGSubType0x33();
     int getFlang() const;

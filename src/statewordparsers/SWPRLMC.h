@@ -6,7 +6,8 @@
 class SWPRLMC : public SWP
 {
 public:
-    SWPRLMC(const QByteArray &stateWord);
+    SWPRLMC(const StateWord &stateWord);
+    SWPRLMC(const QByteArray &bytrWord);
     SWPRLMC(const SWPRLMC & parent);
     virtual ~SWPRLMC();
 

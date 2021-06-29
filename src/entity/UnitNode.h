@@ -7,6 +7,7 @@
 #include <QQueue>
 #include "UnitNodeCFG.h"
 #include "ServerUnitNodeTreeItem.h"
+#include "SWP.h"
 
 enum SubTypeApp {
     any = 0x00,
@@ -47,11 +48,11 @@ class UnitNode :
 private:
     int defaultNeededStateWordType = 0x22;
     int neededStateWordType = 0x22;
-    QByteArray stateWord;
-    QByteArray stateWordType0x31;
-    QByteArray stateWordType0x32;
-    QByteArray stateWordType0x33;
-    QByteArray stateWordType0x34;
+    StateWord stateWord;
+    StateWord stateWordType0x31;
+    StateWord stateWordType0x32;
+    StateWord stateWordType0x33;
+    StateWord stateWordType0x34;
     QSet<QSharedPointer<UnitNode> > doubles; //[Obj_1]
     QSet<QString> metaNames; //[Obj_1]
 
@@ -141,8 +142,8 @@ public:
 
 
 
-    QByteArray getStateWord() const;
-    void setStateWord(const QByteArray &value);
+    StateWord getStateWord() const;
+    void setStateWord(const StateWord &value);
 
     virtual int isConnected() const;
     virtual int calcDKStatus() const {return DKCiclStatus::DKIgnore;}
@@ -169,17 +170,17 @@ public:
 
     static QSharedPointer<UnitNode> findReciver(QSharedPointer<UnitNode> reciver);
 
-    QByteArray getStateWordType0x31() const;
-    void setStateWordType0x31(const QByteArray &value);
+    StateWord getStateWordType0x31() const;
+    void setStateWordType0x31(const StateWord &value);
 
-    QByteArray getStateWordType0x34() const;
-    void setStateWordType0x34(const QByteArray &value);
+    StateWord getStateWordType0x34() const;
+    void setStateWordType0x34(const StateWord &value);
 
-    QByteArray getStateWordType0x33() const;
-    void setStateWordType0x33(const QByteArray &value);
+    StateWord getStateWordType0x33() const;
+    void setStateWordType0x33(const StateWord &value);
 
-    QByteArray getStateWordType0x32() const;
-    void setStateWordType0x32(const QByteArray &value);
+    StateWord getStateWordType0x32() const;
+    void setStateWordType0x32(const StateWord &value);
 
     const SWPSDBLIP swpSDBLIP() const; // {return SWPSDBLIP(getStateWord(), getNum2());}
     const SWPIUBLIP swpIUBLIP() const; // {return SWPIUBLIP(getStateWord(), getNum2());}

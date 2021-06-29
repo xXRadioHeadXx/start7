@@ -7,29 +7,29 @@ int SWPTGSubType0x33::getFlang() const
 
 int SWPTGSubType0x33::isInAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
     switch (getFlang()) {
     case 1: {
-        if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x01))
+        if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x01))
             return 1; //Status::Alarm);
         else
             return 0; //Status::Not;
     }
     case 2: {
-        if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x04))
+        if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x04))
             return 1; //Status::Alarm);
         else
             return 0; //Status::Not;
     }
     case 3: {
-        if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x10))
+        if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x10))
             return 1; //Status::Alarm);
         else
             return 0; //Status::Not;
     }
     case 4: {
-        if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x40))
+        if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x40))
             return 1; //Status::Alarm);
         else
             return 0; //Status::Not;
@@ -42,29 +42,29 @@ int SWPTGSubType0x33::isInAlarm() const
 
 int SWPTGSubType0x33::isOutAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
     switch (getFlang()) {
     case 1: {
-        if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x02))
+        if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x02))
             return 1; //Status::Was);
         else
             return 0; //Status::Not;
     }
     case 2: {
-        if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x08))
+        if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x08))
             return 1; //Status::Was);
         else
             return 0; //Status::Not;
     }
     case 3: {
-        if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x20))
+        if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x20))
             return 1; //Status::Was);
         else
             return 0; //Status::Not;
     }
     case 4: {
-        if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x80))
+        if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x80))
             return 1; //Status::Was);
         else
             return 0; //Status::Not;
@@ -77,29 +77,29 @@ int SWPTGSubType0x33::isOutAlarm() const
 
 int SWPTGSubType0x33::isFault() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
     switch (getFlang()) {
     case 1: {
-        if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x01))
+        if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x01))
             return 1; //Status::Exist);
         else
             return 0; //Status::Not;
     }
     case 2: {
-        if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x02))
+        if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x02))
             return 1; //Status::Exist);
         else
             return 0; //Status::Not;
     }
     case 3: {
-        if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x04))
+        if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x04))
             return 1; //Status::Exist);
         else
             return 0; //Status::Not;
     }
     case 4: {
-        if(static_cast<quint8>(getStateWord().at(1)) & static_cast<quint8>(0x08))
+        if(static_cast<quint8>(byteWord().at(1)) & static_cast<quint8>(0x08))
             return 1; //Status::Exist);
         else
             return 0; //Status::Not;
@@ -112,29 +112,29 @@ int SWPTGSubType0x33::isFault() const
 
 int SWPTGSubType0x33::isSideAlarm() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
     switch (getFlang()) {
     case 1: {
-        if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x01))
+        if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x01))
             return 1; //Status::Was);
         else
             return 0; //Status::Not;
     }
     case 2: {
-        if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x02))
+        if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x02))
             return 1; //Status::Was);
         else
             return 0; //Status::Not;
     }
     case 3: {
-        if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x04))
+        if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x04))
             return 1; //Status::Was);
         else
             return 0; //Status::Not;
     }
     case 4: {
-        if(static_cast<quint8>(getStateWord().at(2)) & static_cast<quint8>(0x08))
+        if(static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x08))
             return 1; //Status::Was);
         else
             return 0; //Status::Not;
@@ -147,9 +147,9 @@ int SWPTGSubType0x33::isSideAlarm() const
 
 int SWPTGSubType0x33::isInOpened() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x40))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x40))
         return 1; //Status::Exist);
     else
         return 0; //Status::Not;
@@ -157,9 +157,9 @@ int SWPTGSubType0x33::isInOpened() const
 
 int SWPTGSubType0x33::isWasOpened() const
 {
-    if(getStateWord().isEmpty())
+    if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().at(0)) & static_cast<quint8>(0x80))
+    if(static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x80))
         return 1; //Status::Was);
     else
         return 0; //Status::Not;
@@ -183,8 +183,15 @@ int SWPTGSubType0x33::isNorm() const
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-SWPTGSubType0x33::SWPTGSubType0x33(const QByteArray stateWord, const int flang) :
+SWPTGSubType0x33::SWPTGSubType0x33(const StateWord stateWord, const int flang) :
     SWP(stateWord),
+    flang(flang)
+{
+
+}
+
+SWPTGSubType0x33::SWPTGSubType0x33(const QByteArray byteWord, const int flang) :
+    SWP(byteWord),
     flang(flang)
 {
 
