@@ -1907,35 +1907,6 @@ void PortManager::manageOverallReadQueue()
                 }
                 DataQueueItem request;
                 parcingStatusWord0x41(itm, request);
-
-//                QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
-//                bool dkWait = false;
-//                for(auto ar : as_const(getLsWaiter())) {
-//                    if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
-//                        ar->getIpPort() == tmpPair) {
-//                        dkWait = true;
-//                        break;
-//                    }
-//                }
-
-//                if(request.isValid() && !dkWait) {
-//                    QSharedPointer<UnitNode>  reciver;
-//                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-//                        reciver = un;
-//                        if(TypeUnitNode::BL_IP == reciver->getType() &&
-//                           reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-//                           reciver->getUdpPort() == request.port())
-//                            break;
-
-//                    }
-
-//                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-//                    tmpCAW->init();
-//                    tmpCAW->setUnReciver(reciver);
-//                    tmpCAW->setFirstMsg(request);
-//                    prependLsWaiter(tmpCAW);
-////                    tmpCAW->startFirstRequest();
-//                }
                 break;
             }
             case static_cast<quint8>(0x31): {
@@ -1961,45 +1932,6 @@ void PortManager::manageOverallReadQueue()
                         break;
                     }
                 }
-
-                /*if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver;
-                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                        reciver = un;
-                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port())
-                            break;
-
-                    }
-
-                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-                    tmpCAW->init();
-                    tmpCAW->setUnReciver(reciver);
-                    tmpCAW->setFirstMsg(request);
-                    prependLsWaiter(tmpCAW);
-//                    tmpCAW->startFirstRequest();
-                } else if(dkWait) {
-                    QSharedPointer<UnitNode>  reciver;
-                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                        reciver = un;
-                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port()) {
-
-                            if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
-                                auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-                                tmpCAW->init();
-                                tmpCAW->setUnReciver(reciver);
-                                DataQueueItem request24 = itm;
-                                DataQueueItem::makeAlarmReset0x24(request24, reciver);
-                                tmpCAW->setFirstMsg(request24);
-                                prependLsWaiter(tmpCAW);
-                            }
-                        }
-
-                    }
-                } */
                 break;
             }
             case static_cast<quint8>(0x32): {
@@ -2021,45 +1953,6 @@ void PortManager::manageOverallReadQueue()
                         break;
                     }
                 }
-
-                /*if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver;
-                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                        reciver = un;
-                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port())
-                            break;
-
-                    }
-
-                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-                    tmpCAW->init();
-                    tmpCAW->setUnReciver(reciver);
-                    tmpCAW->setFirstMsg(request);
-                    prependLsWaiter(tmpCAW);
-//                    tmpCAW->startFirstRequest();
-                } else if(dkWait) {
-                    QSharedPointer<UnitNode>  reciver;
-                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                        reciver = un;
-                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port()) {
-
-                            if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
-                                auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-                                tmpCAW->init();
-                                tmpCAW->setUnReciver(reciver);
-                                DataQueueItem request24 = itm;
-                                DataQueueItem::makeAlarmReset0x24(request24, reciver);
-                                tmpCAW->setFirstMsg(request24);
-                                prependLsWaiter(tmpCAW);
-                            }
-                        }
-
-                    }
-                }*/
                 break;
             }
             case static_cast<quint8>(0x33): {
@@ -2081,45 +1974,6 @@ void PortManager::manageOverallReadQueue()
                         break;
                     }
                 }
-
-                /*if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver;
-                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                        reciver = un;
-                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port())
-                            break;
-
-                    }
-
-                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-                    tmpCAW->init();
-                    tmpCAW->setUnReciver(reciver);
-                    tmpCAW->setFirstMsg(request);
-                    prependLsWaiter(tmpCAW);
-//                    tmpCAW->startFirstRequest();
-                } else if(dkWait) {
-                    QSharedPointer<UnitNode>  reciver;
-                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                        reciver = un;
-                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port()) {
-
-                            if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
-                                auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-                                tmpCAW->init();
-                                tmpCAW->setUnReciver(reciver);
-                                DataQueueItem request24 = itm;
-                                DataQueueItem::makeAlarmReset0x24(request24, reciver);
-                                tmpCAW->setFirstMsg(request24);
-                                prependLsWaiter(tmpCAW);
-                            }
-                        }
-
-                    }
-                }*/
                 break;
             }
             case static_cast<quint8>(0x34): {
@@ -2141,45 +1995,6 @@ void PortManager::manageOverallReadQueue()
                         break;
                     }
                 }
-
-                /*if(request.isValid() && !dkWait) {
-                    QSharedPointer<UnitNode>  reciver;
-                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                        reciver = un;
-                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port())
-                            break;
-
-                    }
-
-                    auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-                    tmpCAW->init();
-                    tmpCAW->setUnReciver(reciver);
-                    tmpCAW->setFirstMsg(request);
-                    prependLsWaiter(tmpCAW);
-//                    tmpCAW->startFirstRequest();
-                } else if(dkWait) {
-                    QSharedPointer<UnitNode>  reciver;
-                    for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                        reciver = un;
-                        if((TypeUnitNode::RLM_C == reciver->getType() || TypeUnitNode::RLM_KRL == reciver->getType()) &&
-                                reciver->getUdpAdress() == Utils::hostAddressToString(request.address()) &&
-                                reciver->getUdpPort() == request.port()) {
-
-                            if(reciver->getDkInvolved() && DKCiclStatus::DKWasAlarn == reciver->getDkStatus()) {
-                                auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
-                                tmpCAW->init();
-                                tmpCAW->setUnReciver(reciver);
-                                DataQueueItem request24 = itm;
-                                DataQueueItem::makeAlarmReset0x24(request24, reciver);
-                                tmpCAW->setFirstMsg(request24);
-                                prependLsWaiter(tmpCAW);
-                            }
-                        }
-
-                    }
-                }*/
                 break;
             }
             case static_cast<quint8>(0x30): {
