@@ -9,7 +9,7 @@ private:
     const int flang;
 public:
     SWPTGSubType0x32(const StateWord &stateWord, const int flang);
-    SWPTGSubType0x32(const QByteArray &byteWord, const int flang);
+//    SWPTGSubType0x32(const QByteArray &byteWord, const int flang);
     SWPTGSubType0x32(const SWPTGSubType0x32 & parent);
     virtual ~SWPTGSubType0x32();
     int getFlang() const;

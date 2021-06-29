@@ -8,7 +8,7 @@ class SWPTGType0x34 : public SWP
 {
 public:
     SWPTGType0x34(const StateWord &stateWord);
-    SWPTGType0x34(const QByteArray &byteWord);
+//    SWPTGType0x34(const QByteArray &byteWord);
     SWPTGType0x34(const SWPTGType0x34 & parent);
     virtual ~SWPTGType0x34();
 

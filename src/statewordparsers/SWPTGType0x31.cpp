@@ -6,10 +6,10 @@ SWPTGType0x31::SWPTGType0x31(const StateWord &stateWord) :
 }
 
 
-SWPTGType0x31::SWPTGType0x31(const QByteArray byteWord) :
-    SWP(byteWord)
-{
-}
+//SWPTGType0x31::SWPTGType0x31(const QByteArray byteWord) :
+//    SWP(byteWord)
+//{
+//}
 
 SWPTGType0x31::SWPTGType0x31(const SWPTGType0x31 &parent) :
     SWP(parent)

@@ -8,7 +8,7 @@ class SWPSDBLIP : public SWP
     quint8 _mask = 0x00;
 public:
     SWPSDBLIP(const StateWord &stateWord, int numSD);
-    SWPSDBLIP(const QByteArray &stateWord, int numSD);
+//    SWPSDBLIP(const QByteArray &stateWord, int numSD);
     SWPSDBLIP(const SWPSDBLIP & parent);
     virtual ~SWPSDBLIP();
 

@@ -1,9 +1,15 @@
 #include "SWPTGSubType0x34.h"
 
-SWPTGSubType0x34::SWPTGSubType0x34(const QByteArray &stateWord) :
+SWPTGSubType0x34::SWPTGSubType0x34(const StateWord &stateWord) :
     SWP(stateWord)
 {
+
 }
+
+//SWPTGSubType0x34::SWPTGSubType0x34(const QByteArray &stateWord) :
+//    SWP(stateWord)
+//{
+//}
 
 SWPTGSubType0x34::SWPTGSubType0x34(const SWPTGSubType0x34 &parent) :
     SWP(parent)

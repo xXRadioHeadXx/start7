@@ -8,10 +8,10 @@ SWPTGType0x33::SWPTGType0x33(const StateWord &stateWord) :
 
 }
 
-SWPTGType0x33::SWPTGType0x33(const QByteArray &byteWord) :
-    SWP(byteWord)
-{
-}
+//SWPTGType0x33::SWPTGType0x33(const QByteArray &byteWord) :
+//    SWP(byteWord)
+//{
+//}
 
 SWPTGType0x33::SWPTGType0x33(const SWPTGType0x33 &parent) :
     SWP(parent)

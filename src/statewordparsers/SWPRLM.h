@@ -7,7 +7,7 @@ class SWPRLM : public SWP
 {
 public:
     SWPRLM(const StateWord &byteWord);
-    SWPRLM(const QByteArray &byteWord);
+//    SWPRLM(const QByteArray &byteWord);
     SWPRLM(const SWPRLM & parent);
     virtual ~SWPRLM();
 

@@ -23,7 +23,7 @@ class SWP
 private:
     StateWord stateWord;
 public:
-    SWP(const QByteArray &byteWord);
+//    SWP(const QByteArray &byteWord);
     SWP(const StateWord &stateWord);
     SWP(const SWP & parent);
     virtual ~SWP();

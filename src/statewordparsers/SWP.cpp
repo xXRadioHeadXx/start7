@@ -31,10 +31,10 @@ bool SWP::isNull() const
     return getStateWord().getByteWord().isEmpty();
 }
 
-SWP::SWP(const QByteArray &byteWord) :
-    stateWord(StateWord(byteWord))
-{
-}
+//SWP::SWP(const QByteArray &byteWord) :
+//    stateWord(StateWord(byteWord))
+//{
+//}
 
 SWP::SWP(const StateWord &stateWord) :
     stateWord(stateWord)

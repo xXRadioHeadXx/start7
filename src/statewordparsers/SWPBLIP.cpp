@@ -15,10 +15,10 @@ SWPBLIP::SWPBLIP(const StateWord &stateWord) :
 {
 }
 
-SWPBLIP::SWPBLIP(const QByteArray &byteWord) :
-    SWP(byteWord)
-{
-}
+//SWPBLIP::SWPBLIP(const QByteArray &byteWord) :
+//    SWP(byteWord)
+//{
+//}
 
 SWPBLIP::SWPBLIP(const SWPBLIP &parent) :
     SWP(parent)

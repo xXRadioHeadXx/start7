@@ -39,39 +39,39 @@ SWPSDBLIP::SWPSDBLIP(const StateWord &stateWord, int numSD) :
     }
 }
 
-SWPSDBLIP::SWPSDBLIP(const QByteArray &byteWord, int numSD) :
-    SWP(byteWord)
-{
-    switch (numSD) {
-    case 1:
-        _mask = 0x01;
-        break;
-    case 2:
-        _mask = 0x02;
-        break;
-    case 3:
-        _mask = 0x04;
-        break;
-    case 4:
-        _mask = 0x08;
-        break;
-    case 5:
-        _mask = 0x10;
-        break;
-    case 6:
-        _mask = 0x20;
-        break;
-    case 7:
-        _mask = 0x40;
-        break;
-    case 8:
-        _mask = 0x80;
-        break;
-    default:
-        _mask = 0x00;
-        break;
-    }
-}
+//SWPSDBLIP::SWPSDBLIP(const QByteArray &byteWord, int numSD) :
+//    SWP(byteWord)
+//{
+//    switch (numSD) {
+//    case 1:
+//        _mask = 0x01;
+//        break;
+//    case 2:
+//        _mask = 0x02;
+//        break;
+//    case 3:
+//        _mask = 0x04;
+//        break;
+//    case 4:
+//        _mask = 0x08;
+//        break;
+//    case 5:
+//        _mask = 0x10;
+//        break;
+//    case 6:
+//        _mask = 0x20;
+//        break;
+//    case 7:
+//        _mask = 0x40;
+//        break;
+//    case 8:
+//        _mask = 0x80;
+//        break;
+//    default:
+//        _mask = 0x00;
+//        break;
+//    }
+//}
 
 SWPSDBLIP::SWPSDBLIP(const SWPSDBLIP &parent) :
     SWP(parent),

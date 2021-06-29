@@ -7,10 +7,10 @@ SWPRLMC::SWPRLMC(const StateWord &stateWord) :
 {
 }
 
-SWPRLMC::SWPRLMC(const QByteArray &byteWord) :
-    SWP(byteWord)
-{
-}
+//SWPRLMC::SWPRLMC(const QByteArray &byteWord) :
+//    SWP(byteWord)
+//{
+//}
 
 SWPRLMC::SWPRLMC(const SWPRLMC &parent) :
     SWP(parent)

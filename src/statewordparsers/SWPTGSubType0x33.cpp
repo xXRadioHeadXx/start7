@@ -183,19 +183,19 @@ int SWPTGSubType0x33::isNorm() const
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-SWPTGSubType0x33::SWPTGSubType0x33(const StateWord stateWord, const int flang) :
+SWPTGSubType0x33::SWPTGSubType0x33(const StateWord &stateWord, const int flang) :
     SWP(stateWord),
     flang(flang)
 {
 
 }
 
-SWPTGSubType0x33::SWPTGSubType0x33(const QByteArray byteWord, const int flang) :
-    SWP(byteWord),
-    flang(flang)
-{
+//SWPTGSubType0x33::SWPTGSubType0x33(const QByteArray byteWord, const int flang) :
+//    SWP(byteWord),
+//    flang(flang)
+//{
 
-}
+//}
 
 SWPTGSubType0x33::SWPTGSubType0x33(const SWPTGSubType0x33 &parent) :
        SWP(parent),

@@ -8,10 +8,10 @@ SWPRLM::SWPRLM(const StateWord &stateWord) :
 {
 }
 
-SWPRLM::SWPRLM(const QByteArray &byteWord) :
-    SWP(byteWord)
-{
-}
+//SWPRLM::SWPRLM(const QByteArray &byteWord) :
+//    SWP(byteWord)
+//{
+//}
 
 SWPRLM::SWPRLM(const SWPRLM &parent) :
     SWP(parent)
