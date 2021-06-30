@@ -196,7 +196,7 @@ QColor Utils::cellRed = QColor(0xE3, 0x06, 0x13);
 QColor Utils::cellGreen = QColor(0x00, 0x96, 0x40);
 QColor Utils::cellGray = QColor(0xCF, 0xCF, 0xCF);
 QColor Utils::cellYellow = QColor(0xFF, 0xDD, 0x0E);
-QColor Utils::cellBlue = QColor(0x00, 0x40, 0x96);
+QColor Utils::cellBlue = QColor(0x80, 0x9F, 0xFF);
 
 
 void Utils::fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
