@@ -293,7 +293,7 @@ void MultiUNStatusConnectRequester::aspectAfterFirstRequest()
 {
     auto un = nextTrackedUN();
     setUnReciver(un); // !!! currentTrackedUN changed !!!
-    qDebug() << "MultiUNStatusConnectRequester::aspectAfterFirstRequest (!!! currentTrackedUN changed !!!)" << getUnReciver()->toString();
+//    qDebug() << "MultiUNStatusConnectRequester::aspectAfterFirstRequest (!!! currentTrackedUN changed !!!)" << getUnReciver()->toString();
     setUnTarget(un);
 }
 

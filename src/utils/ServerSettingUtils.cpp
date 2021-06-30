@@ -175,6 +175,8 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         tmpParentUN->setType(TypeUnitNode::BL_IP);
                         tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
                         tmpParentUN->setUdpPort(tmpUN->getUdpPort());
+                        tmpParentUN->setName("MetaBLIP");
+                        tmpParentUN->setMetaEntity(1);
                         \
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
                     }

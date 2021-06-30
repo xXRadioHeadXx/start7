@@ -117,7 +117,7 @@ void AbstractRequester::firstRequest() {
 
 //        qDebug() << "beatRepeatFirstRequest("<<this<<") -- write " << QTime::currentTime().toString("hh:mm:ss.zzz") << getFirstMsg().data().toHex();
     if(ConnectRequester == getRequesterType()) {
-        qDebug() << "ConnectRequester firstRequest() " << getFirstMsg().data().toHex();
+//        qDebug() << "ConnectRequester firstRequest() " << getFirstMsg().data().toHex();
     }
 
     if(DKWaiter == getRequesterType() ||

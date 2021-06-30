@@ -455,13 +455,16 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
     QList<QSharedPointer<UnitNode> > lsTrgtUN;
     if(selUN.isNull()) {
         QSet<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
-        for(const QSharedPointer<UnitNode>  &un : lsTmp)
+        for(const QSharedPointer<UnitNode>  &un : lsTmp) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
                TypeUnitNode::RLM_KRL == un->getType() ||
                TypeUnitNode::TG_Base == un->getType()
-                    /* или датчик */)
+                    /* или датчик */) {
                 lsTrgtUN.append(un);
+                qDebug() << lsTrgtUN.constLast()->toString();
+            }
+        }
     } else if(!selUN.isNull()) {
         QSharedPointer<UnitNode>  un = selUN;
         lsTrgtUN.append(UnitNode::findReciver(un));
@@ -516,12 +519,12 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                     msg.setComment(tr("Послана ком. ДК"));
                     msg.setType(133);
                 }
-                msg.setObject(un->getName());
-                msg.setObjecttype(un->getType());
-                msg.setD1(un->getNum1());
-                msg.setD2(un->getNum2());
-                msg.setD3(un->getNum3());
-                msg.setDirection(un->getUdpAdress());
+                msg.setObject(tmpUN->getName());
+                msg.setObjecttype(tmpUN->getType());
+                msg.setD1(tmpUN->getNum1());
+                msg.setD2(tmpUN->getNum2());
+                msg.setD3(tmpUN->getNum3());
+                msg.setDirection(tmpUN->getUdpAdress());
                 DataBaseManager::insertJourMsg_wS(msg);
                 GraphTerminal::sendAbonentEventsAndStates(msg);
             }
@@ -1322,7 +1325,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         }
 
         if(un->getDkInvolved()) {
-            qDebug() << "PortManager::parcingStatusWord0x31 -- procDK " << un->toString();
+//            qDebug() << "PortManager::parcingStatusWord0x31 -- procDK " << un->toString();
             if(DKCiclStatus::DKDone != un->getDkStatus()) {
                 procDK(un, previousCopyUN);
                 if(DKCiclStatus::DKDone == un->getDkStatus()) {
@@ -1569,7 +1572,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         if(un->getDkInvolved()) {
             // обработка дк
             if(DKCiclStatus::DKDone != un->getDkStatus()) {
-                qDebug() << "PortManager::parcingStatusWord0x32 -- procDK";
+//                qDebug() << "PortManager::parcingStatusWord0x32 -- procDK";
                 procDK(un, previousCopyUN);
                 if(DKCiclStatus::DKDone == un->getDkStatus()) {
                     for(const auto &ar : as_const(getLsWaiter())) {
@@ -1717,7 +1720,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
         if(un->getDkInvolved()) {
             // обработка дк
             if(DKCiclStatus::DKDone != un->getDkStatus()) {
-                qDebug() << "PortManager::parcingStatusWord0x33 -- procDK";
+//                qDebug() << "PortManager::parcingStatusWord0x33 -- procDK";
                 procDK(un, previousCopyUN);
                 if(DKCiclStatus::DKDone == un->getDkStatus()) {
                     for(const auto &ar : as_const(getLsWaiter())) {
@@ -2011,7 +2014,7 @@ void PortManager::manageOverallReadQueue()
             }
             case static_cast<quint8>(0x30): {
 
-                qDebug() << "case static_cast<quint8>(0x30)";
+//                qDebug() << "case static_cast<quint8>(0x30)";
                 for(auto ar : as_const(getLsWaiter())) {
                     if(ar->getIpPort() == tmpPair ) {
 
