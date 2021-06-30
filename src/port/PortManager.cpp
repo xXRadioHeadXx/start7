@@ -497,22 +497,34 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
             }
         }
         if(selUN.isNull() && !un->getName().isEmpty()/* && un->getControl()*/) {
-            JourEntity msg;
-            if(out) {
-                msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
-                msg.setType(1133);
-            } else {
-                msg.setComment(tr("Послана ком. ДК"));
-                msg.setType(133);
+            auto tmpUN = un;
+            if(1 == tmpUN->getMetaEntity()) {
+                for(const auto &chld : as_const(tmpUN->getListChilde())) {
+                    if(1 != chld->getMetaEntity()) {
+                        tmpUN = chld;
+                        break;
+                    }
+                }
+
             }
-            msg.setObject(un->getName());
-            msg.setObjecttype(un->getType());
-            msg.setD1(un->getNum1());
-            msg.setD2(un->getNum2());
-            msg.setD3(un->getNum3());
-            msg.setDirection(un->getUdpAdress());
-            DataBaseManager::insertJourMsg_wS(msg);
-            GraphTerminal::sendAbonentEventsAndStates(msg);
+            if(1 != tmpUN->getMetaEntity()) {
+                JourEntity msg;
+                if(out) {
+                    msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
+                    msg.setType(1133);
+                } else {
+                    msg.setComment(tr("Послана ком. ДК"));
+                    msg.setType(133);
+                }
+                msg.setObject(un->getName());
+                msg.setObjecttype(un->getType());
+                msg.setD1(un->getNum1());
+                msg.setD2(un->getNum2());
+                msg.setD3(un->getNum3());
+                msg.setDirection(un->getUdpAdress());
+                DataBaseManager::insertJourMsg_wS(msg);
+                GraphTerminal::sendAbonentEventsAndStates(msg);
+            }
         }
     }
     if(!selUN.isNull()/* && selUN->getControl()*/) {

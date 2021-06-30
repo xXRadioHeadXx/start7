@@ -243,6 +243,11 @@ void UnitNodeCFG::setUdpAdress(const QString &value)
     UdpAdress = value;
 }
 
+QString UnitNodeCFG::getDirection() const
+{
+    return getUdpAdress() + ":" + QString::number(getUdpPort());
+}
+
 int UnitNodeCFG::getUdpPort() const
 {
     return UdpPort;

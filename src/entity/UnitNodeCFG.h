@@ -162,6 +162,9 @@ public:
     virtual QString getUdpAdress() const final;
     virtual void setUdpAdress(const QString &value) final;
 
+    virtual QString getDirection() const final;
+
+
     virtual int getUdpPort() const final;
     virtual void setUdpPort(int value) final;
 
