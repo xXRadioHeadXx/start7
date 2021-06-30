@@ -804,7 +804,7 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         //
         // описание длиной не более 50 символов” dk=”1” option=”0”>
 
-        if(un->getMetaNames().isEmpty())
+        if(1 == un->getMetaEntity() || un->getMetaNames().isEmpty())
             continue;
 
         QDomElement  deviceElement  =  doc.createElement("device");
@@ -843,8 +843,10 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         deviceElement.appendChild(statesElement);
 
         QDomElement  stateElement  =  doc.createElement("state");
-        makeActualStateElement(un, stateElement);
-        statesElement.appendChild(stateElement);
+        if(1 != un->getMetaEntity()) {
+            makeActualStateElement(un, stateElement);
+            statesElement.appendChild(stateElement);
+        }
     }
 
 //    //qDebug() << "GraphTerminal::makeInitialStatus()" << doc.toString();
@@ -867,7 +869,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
         // <device id="0" level="0" type="33" num1="1" num2="1" num3="1" name="1" lat=”55.761248” lon: “37.608074” description=”Текстовое описание длиной
         // не более 50 символов”>
 
-        if(un->getMetaNames().isEmpty())
+        if(1 == un->getMetaEntity() || un->getMetaNames().isEmpty())
             continue;
 
         QDomElement  deviceElement  =  doc.createElement("device");
@@ -896,8 +898,10 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
         QDomElement  statesElement  =  doc.createElement("states");
         deviceElement.appendChild(statesElement);
         QDomElement  stateElement  =  doc.createElement("state");
-        makeActualStateElement(un, stateElement);
-        statesElement.appendChild(stateElement);
+        if(1 != un->getMetaEntity()) {
+            makeActualStateElement(un, stateElement);
+            statesElement.appendChild(stateElement);
+        }
     }
 
 //    //qDebug() << "GraphTerminal::makeEventsAndStates()" << doc.toString();
@@ -977,7 +981,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
         stateElement1.setAttribute("name", jour.getComment());
         statesElement.appendChild(stateElement1);
     }
-    if(0 == jour.getType() || jour.getComment().isEmpty()/* || 136 == jour.getType() || 137 == jour.getType()*/){
+    if(1 != un->getMetaEntity() && (0 == jour.getType() || jour.getComment().isEmpty()/* || 136 == jour.getType() || 137 == jour.getType()*/)){
         makeActualStateElement(un, stateElement);
         statesElement.appendChild(stateElement);
     }
