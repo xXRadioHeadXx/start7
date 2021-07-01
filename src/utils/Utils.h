@@ -10,6 +10,7 @@ class UnitNode;
 class QTableWidget;
 class QHostAddress;
 class QColor;
+class QTableWidgetItem;
 //class QSharedPointer;
 //class UnitNode;
 class Utils
@@ -49,7 +50,8 @@ public:
     static bool isSavedMsg(const QByteArray ba);
     template <typename T>
     static QList<T> reversed( const QList<T> & in );
-    static void setCellText(QTableWidget * const table, const int row, const int column, const QString text);
+    static QTableWidgetItem *setCellText(QTableWidget * const table, const int row, const int column, const QString &text);
+    static QTableWidgetItem *setCellText(QTableWidget * const table, const int row, const int column, const QString &text, const QBrush &foreground);
     static void setCellColor(QTableWidget * const table, const int row, const int column, const QColor color);
     static void fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);

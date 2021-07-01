@@ -157,16 +157,25 @@ bool Utils::isSavedMsg(const QByteArray ba) {
     return true;
 }
 
-void Utils::setCellText(QTableWidget * const table, const int row, const int column, const QString text)
+QTableWidgetItem * Utils::setCellText(QTableWidget * const table, const int row, const int column, const QString &text)
 {
     if(row >= table->rowCount() || column >= table->columnCount())
-        return;
+        return nullptr;
     QTableWidgetItem * item = table->item(row, column);
     if(nullptr == item) {
         table->setItem(row, column, new QTableWidgetItem(text));
     } else {
         item->setText(text);
     }
+    return table->item(row, column);;
+}
+
+QTableWidgetItem *Utils::setCellText(QTableWidget * const table, const int row, const int column, const QString &text, const QBrush &foreground)
+{
+    auto item = setCellText(table, row, column, text);
+    if(nullptr != item)
+        item->setForeground(foreground);
+    return item;
 }
 
 void Utils::setCellColor(QTableWidget * const table, const int row, const int column, const QColor color)
@@ -281,7 +290,7 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
                 continue;
             else if(2 == i && 10 < j)
                 continue;
-            setCellText( table, j, i, "?");
+            setCellText( table, j, i, "?", QBrush(QColor(0xFF, 0xFF, 0xFF)));
         }
     }
 
@@ -310,18 +319,18 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
         int row = 10;
 
         if(1 == parent->swpBLIP().isWasDK()) {
-            setCellText( table, row, 2, (QObject::tr("Было"))); // "Тревога"
+            setCellText( table, row, 2, (QObject::tr("Было")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Тревога"
             setCellColor( table, row, 2, cellRed);
         } else {//if(status2 & Status::Not) {
-            setCellText( table, row, 2, (QObject::tr("Нет"))); // "Норма"
+            setCellText( table, row, 2, (QObject::tr("Нет")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Норма"
             setCellColor( table, row, 2, cellGreen);
         }
 
         if(1 == parent->swpBLIP().isExistDK()) {
-            setCellText( table, row, 1, (QObject::tr("Есть"))); // "Было"
+            setCellText( table, row, 1, (QObject::tr("Есть")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Было"
             setCellColor( table, row, 1, cellRed);
         } else if(0 == parent->swpBLIP().isExistDK()) {
-            setCellText( table, row, 1, (QObject::tr("Нет"))); // "Нет"
+            setCellText( table, row, 1, (QObject::tr("Нет")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Нет"
             setCellColor( table, row, 1, cellGreen);
         }
     }
@@ -342,7 +351,7 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
                         continue;
                     }
                     setCellColor( table, j, i, cellYellow);
-                    setCellText( table, j, i, "Нет связи!");
+                    setCellText( table, j, i, QObject::tr("Нет связи!"), QBrush(QColor(0xFF, 0xFF, 0xFF)));
                 }
             }
             return;
@@ -356,44 +365,44 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
             } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
                 row = 10 + un->getNum2();
             }
-            setCellText( table, row, 1, (QObject::tr("Нет связи"))); // "Норма"
+            setCellText( table, row, 1, (QObject::tr("Нет связи")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Норма"
             setCellColor( table, row, 1, cellYellow);
         } else if(TypeUnitNode::SD_BL_IP == un->getType()) {
             row = un->getNum2();
             if(1 == un->swpSDBLIP().isAlarm()) {
-                setCellText( table, row, 1, (QObject::tr("Тревога"))); // "Тревога"
+                setCellText( table, row, 1, (QObject::tr("Тревога")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Тревога"
                 setCellColor( table, row, 1, cellRed);
             }
             else if(1 == un->swpSDBLIP().isNorm()) {
-                setCellText( table, row, 1, (QObject::tr("Норма"))); // "Норма"
+                setCellText( table, row, 1, (QObject::tr("Норма")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Норма"
                 setCellColor( table, row, 1, cellGreen);
             }
 
             if(1 == un->swpSDBLIP().isWasAlarm()) {
-                setCellText( table, row, 2, (QObject::tr("Было"))); // "Было"
+                setCellText( table, row, 2, (QObject::tr("Было")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Было"
                 setCellColor( table, row, 2, cellRed);
             } else if(0 == un->swpSDBLIP().isWasAlarm()) {
-                setCellText( table, row, 2, (QObject::tr("Нет"))); // "Нет"
+                setCellText( table, row, 2, (QObject::tr("Нет")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Нет"
                 setCellColor( table, row, 2, cellGreen);
             }
 
             if(1 == un->swpSDBLIP().isOff())
             {
-                 setCellText( table, row, 1, ("-"));
+                 setCellText( table, row, 1, ("-"), QBrush(QColor(0xFF, 0xFF, 0xFF)));
                  setCellColor( table, row, 1, cellGray);
-                 setCellText( table, row, 2, (QObject::tr("Выкл"))); // "Выкл"
+                 setCellText( table, row, 2, (QObject::tr("Выкл")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Выкл"
                  setCellColor( table, row, 2, cellGray);
             }
 
         } else if(TypeUnitNode::IU_BL_IP == un->getType()) {
             row = 10 + un->getNum2();
             if(1 == un->swpIUBLIP().isOn()) {
-                setCellText( table, row, 1, (QObject::tr("Вкл"))); // "Вкл"
+                setCellText( table, row, 1, (QObject::tr("Вкл")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Вкл"
                 setCellColor( table, row, 1, cellRed);
                 setCellText( table, row, 2, (""));
                 setCellColor( table, row, 2, cellGray);
             } else if(1 == un->swpIUBLIP().isOff()) {
-                setCellText( table, row, 1, (QObject::tr("Выкл"))); // "Выкл"
+                setCellText( table, row, 1, (QObject::tr("Выкл")), QBrush(QColor(0xFF, 0xFF, 0xFF))); // "Выкл"
                 setCellColor( table, row, 1, cellGreen);
                 setCellText( table, row, 2, (""));
                 setCellColor( table, row, 2, cellGray);
@@ -460,7 +469,7 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedP
                     continue;
                 }
                 setCellColor( table, j, i, cellYellow);
-                setCellText( table, j, i, "Нет связи!");
+                setCellText( table, j, i, QObject::tr("Нет связи!"), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             }
         }
         return;
@@ -468,71 +477,71 @@ void Utils::fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedP
 
     //"Датчик"
     if(1 == un->swpRLM().isOn()) {
-        setCellText( table, 1,2, (QObject::tr("Вкл[1]")));
+        setCellText( table, 1,2, (QObject::tr("Вкл[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 1,2, cellGreen);
     } else if(1 == un->swpRLM().isOff()) {
-        setCellText( table, 1,2, (QObject::tr("Выкл[0]")));
+        setCellText( table, 1,2, (QObject::tr("Выкл[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 1,2, cellRed);
     }
     //"Срабатывание"
     if(1 == un->swpRLM().isOutAlarm()) {
-        setCellText( table, 2,1, (QObject::tr("Было[1]")));
+        setCellText( table, 2,1, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 2,1, cellRed);
     } else if(0 == un->swpRLM().isOutAlarm()) {
-        setCellText( table, 2,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 2,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 2,1, cellGreen);
     }
     //"Выход \"Тревога\""
     if(1 == un->swpRLM().isInAlarm()) {
-        setCellText( table, 4,1, (QObject::tr("Да[1]")));
+        setCellText( table, 4,1, (QObject::tr("Да[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 4,1, cellRed);
     } else if(0 == un->swpRLM().isInAlarm()) {
-        setCellText( table, 4,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 4,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 4,1, cellGreen);
     }
     //"Статус \"Тревога\""
     if(1 == un->swpRLM().isWasAlarm()) {
-        setCellText( table, 4,2, (QObject::tr("Было[1]")));
+        setCellText( table, 4,2, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 4,2, cellRed);
     } else if(0 == un->swpRLM().isWasAlarm()) {
-        setCellText( table, 4,2, (QObject::tr("Нет[0]")));
+        setCellText( table, 4,2, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 4,2, cellGreen);
     }
     //"Вход \"ДК\""
     if(1 == un->swpRLM().isExistDK()) {
-        setCellText( table, 6,1, (QObject::tr("Есть[1]")));
+        setCellText( table, 6,1, (QObject::tr("Есть[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,1, cellYellow);
     } else if(0 == un->swpRLM().isExistDK()) {
-        setCellText( table, 6,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 6,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,1, cellGreen);
     }
     //"Статус \"ДК\""
     if(1 == un->swpRLM().isWasDK()) {
-        setCellText( table, 6,2, (QObject::tr("Было[1]")));
+        setCellText( table, 6,2, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,2, cellYellow);
     } else if(0 == un->swpRLM().isWasDK()) {
-        setCellText( table, 6,2, (QObject::tr("Нет[0]")));
+        setCellText( table, 6,2, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,2, cellGreen);
     }
     //"Вход \"Вскрытие\""
     if(1 == un->swpRLM().isInOpened()) {
-        setCellText( table, 7,1, (QObject::tr("Есть[1]")));
+        setCellText( table, 7,1, (QObject::tr("Есть[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 7,1, cellRed);
     } else if(0 == un->swpRLM().isInOpened()) {
-        setCellText( table, 7,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 7,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 7,1, cellGreen);
     }
     //"Статус \"Вскрытие\""
     if(1 == un->swpRLM().isWasOpened()) {
-        setCellText( table, 7,2, (QObject::tr("Было[1]")));
+        setCellText( table, 7,2, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 7,2, cellRed);
     } else if(0 == un->swpRLM().isWasOpened()) {
-        setCellText( table, 7,2, (QObject::tr("Нет[0]")));
+        setCellText( table, 7,2, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 7,2, cellGreen);
     }
     //"Уровень"
     if(-1.0 != un->swpRLM().voltage()) {
-        setCellText( table, 8,1, (QString::number(un->swpRLM().voltage(), 'f', 2)));
+        setCellText( table, 8,1, (QString::number(un->swpRLM().voltage(), 'f', 2)), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 8,1, cellGray);
     }
     // fill <--
@@ -599,7 +608,7 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
                     continue;
                 }
                 setCellColor( table, j, i, cellYellow);
-                setCellText( table, j, i, "Нет связи!");
+                setCellText( table, j, i, QObject::tr("Нет связи!"), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             }
         }
         return;
@@ -607,84 +616,84 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
 
     //"Датчик"
     if(1 == un->swpRLMC().isOn()) {
-        setCellText( table, 1,2, (QObject::tr("Вкл[1]")));
+        setCellText( table, 1,2, (QObject::tr("Вкл[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 1,2, cellGreen);
     } else if(1 == un->swpRLMC().isOff()) {
-        setCellText( table, 1,2, (QObject::tr("Выкл[0]")));
+        setCellText( table, 1,2, (QObject::tr("Выкл[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 1,2, cellGray);
     }
     //"Срабатывание"
     if(1 == un->swpRLMC().isOutAlarm()) {
-        setCellText( table, 2,1, (QObject::tr("Было[1]")));
+        setCellText( table, 2,1, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 2,1, cellRed);
     } else if(0 == un->swpRLMC().isOutAlarm()) {
-        setCellText( table, 2,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 2,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 2,1, cellGreen);
     }
     //"Выход \"Тревога\""
     if(1 == un->swpRLMC().isInAlarm()) {
-        setCellText( table, 4,1, (QObject::tr("Да[1]")));
+        setCellText( table, 4,1, (QObject::tr("Да[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 4,1, cellRed);
     } else if(0 == un->swpRLMC().isInAlarm()) {
-        setCellText( table, 4,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 4,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 4,1, cellGreen);
     }
     //"Статус \"Тревога\""
     if(1 == un->swpRLMC().isWasAlarm()) {
-        setCellText( table, 4,2, (QObject::tr("Было[1]")));
+        setCellText( table, 4,2, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 4,2, cellRed);
     } else if(0 == un->swpRLMC().isWasAlarm()) {
-        setCellText( table, 4,2, (QObject::tr("Нет[0]")));
+        setCellText( table, 4,2, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 4,2, cellGreen);
     }
     //"Вход \"ДК\""
     if(1 == un->swpRLMC().isExistDK()) {
-        setCellText( table, 6,1, (QObject::tr("Есть[1]")));
+        setCellText( table, 6,1, (QObject::tr("Есть[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,1, cellYellow);
     } else if(0 == un->swpRLMC().isExistDK()) {
-        setCellText( table, 6,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 6,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,1, cellGreen);
     }
     //"Статус \"ДК\""
     if(1 == un->swpRLMC().isWasDK()) {
-        setCellText( table, 6,2, (QObject::tr("Было[1]")));
+        setCellText( table, 6,2, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,2, cellYellow);
     } else if(0 == un->swpRLMC().isWasDK()) {
-        setCellText( table, 6,2, (QObject::tr("Нет[0]")));
+        setCellText( table, 6,2, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,2, cellGreen);
     }
     //"Синхронизация"
     if(1 == un->swpRLMC().isExternalSynchronization()) {
-        setCellText( table, 7,1, (QObject::tr("Внешняя")));
+        setCellText( table, 7,1, (QObject::tr("Внешняя")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 7,1, cellGray);
     } else if(0 == un->swpRLMC().isExternalSynchronization()) {
-        setCellText( table, 7,1, (QObject::tr("Внутренняя")));
+        setCellText( table, 7,1, (QObject::tr("Внутренняя")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 7,1, cellGray);
     }
     //"Низкий ровень"
     if(1 == un->swpRLMC().isFault()) {
-        setCellText( table, 8,1, (QObject::tr("Да<1>")));
+        setCellText( table, 8,1, (QObject::tr("Да<1>")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 8,1, cellRed);
     } else if(0 == un->swpRLMC().isFault()) {
-        setCellText( table, 8,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 8,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 8,1, cellGreen);
     }
     //"Уровень"
     if(-1.0 != un->swpRLMC().voltage()) {
-        setCellText( table, 9,1, (QString::number(un->swpRLMC().voltage(), 'f', 2)));
+        setCellText( table, 9,1, (QString::number(un->swpRLMC().voltage(), 'f', 2)), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 9,1, cellGray);
     }
     //"Пороги"
     if(-1.0 != un->swpRLMC().threshold()) {
         if(1.0 > un->swpRLMC().threshold())
-            setCellText( table, 10,1, (QString::number(un->swpRLMC().threshold(), 'f', 1)));
+            setCellText( table, 10,1, (QString::number(un->swpRLMC().threshold(), 'f', 1)), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         else
-            setCellText( table, 10,1, (QString::number(un->swpRLMC().threshold(), 'f', 0)));
+            setCellText( table, 10,1, (QString::number(un->swpRLMC().threshold(), 'f', 0)), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 10,1, cellGray);
     }
     //"Период тактирования"
     if(-1 != un->swpRLMC().clockPeriod()) {
-        setCellText( table, 11,1, (QObject::tr("Такт ") + QString::number(un->swpRLMC().clockPeriod() + 1)));
+        setCellText( table, 11,1, (QObject::tr("Такт ") + QString::number(un->swpRLMC().clockPeriod() + 1)), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 11,1, cellGray);
     }
     //"Режим обработки"
@@ -696,7 +705,7 @@ void Utils::fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<U
         case 2: str = QObject::tr("Ползущий (Плз)"); break;
         case 3: str = QObject::tr("2-й ярус (2Яр)"); break;
         }
-        setCellText( table, 12,1, (str));
+        setCellText( table, 12,1, (str), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 12,1, cellGray);
     }
     // fill <--
@@ -799,7 +808,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
                     continue;
                 }
                 setCellColor( table, j, i, cellYellow);
-                setCellText( table, j, i, "Нет связи!");
+                setCellText( table, j, i, QObject::tr("Нет связи!"), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             }
         }
         return;
@@ -811,62 +820,62 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
 //        setCellText( table, i,0, (QObject::tr("Сработка ЧЭ%1").arg(i)));
         //"Cработка ЧЭ%1"
         if(1 == swp32.C(i).isInAlarm()) {
-            setCellText( table, i,1, (QObject::tr("Было[1]")));
+            setCellText( table, i,1, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, i,1, cellRed);
         } else if(0 == swp32.C(i).isInAlarm()) {
-            setCellText( table, i,1, (QObject::tr("Нет[0]")));
+            setCellText( table, i,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, i,1, cellGreen);
         }
 //        setCellText( table, i,2, (QObject::tr("Выход \"Тревога ЧЭ%1\"").arg(i)));
         //Выход "Тревога ЧЭ%1"
         if(1 == swp32.C(i).isOutAlarm()) {
-            setCellText( table, i,3, (QObject::tr("Было[1]")));
+            setCellText( table, i,3, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, i,3, cellRed);
         } else if(0 == swp32.C(i).isOutAlarm()) {
-            setCellText( table, i,3, (QObject::tr("Нет[0]")));
+            setCellText( table, i,3, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, i,3, cellGreen);
         }
 //        setCellText( table, i,4, (QObject::tr("Сработка со стороны ЧЭ%1").arg(i)));
         //"Сработка со стороны ЧЭ%1"
         if(1 == swp32.C(i).isSideAlarm()) {
-            setCellText( table, i,5, (QObject::tr("Было[1]")));
+            setCellText( table, i,5, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, i,5, cellRed);
         } else if(0 == swp32.C(i).isSideAlarm()) {
-            setCellText( table, i,5, (QObject::tr("Нет[0]")));
+            setCellText( table, i,5, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, i,5, cellGreen);
         }
     }
 
 //    "ДК"
     if(1 == swp32.isWasDK()) {
-        setCellText( table, 5,1, (QObject::tr("Было[1]")));
+        setCellText( table, 5,1, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 5,1, cellYellow);
     } else if(0 == swp32.isWasDK()) {
-        setCellText( table, 5,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 5,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 5,1, cellGreen);
     }
 //    "Выход \"ДК\""
     if(1 == swp32.isExistDK()) {
-        setCellText( table, 5,3, (QObject::tr("Есть[1]")));
+        setCellText( table, 5,3, (QObject::tr("Есть[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 5,3, cellYellow);
     } else if(0 == swp32.isExistDK()) {
-        setCellText( table, 5,3, (QObject::tr("Нет[0]")));
+        setCellText( table, 5,3, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 5,3, cellGreen);
     }
 //    "Вскрытие"
     if(1 == swp32.isWasOpened()) {
-        setCellText( table, 6,1, (QObject::tr("Было[1]")));
+        setCellText( table, 6,1, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,1, cellRed);
     } else if(0 == swp32.isWasOpened()) {
-        setCellText( table, 6,1, (QObject::tr("Нет[0]")));
+        setCellText( table, 6,1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,1, cellGreen);
     }
 //    "Выход \"Вскрытие\""
     if(1 == swp32.isInOpened()) {
-        setCellText( table, 6,3, (QObject::tr("Есть[1]")));
+        setCellText( table, 6,3, (QObject::tr("Есть[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,3, cellRed);
     } else if(0 == swp32.isInOpened()) {
-        setCellText( table, 6,3, (QObject::tr("Нет[0]")));
+        setCellText( table, 6,3, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
         setCellColor( table, 6,3, cellGreen);
     }
 
@@ -875,77 +884,77 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
     for(int ci = 0, n = 4; ci < n; ci++) {
 
         if(1 == swp34.C(ci + 1).isOffFlt1() && 1 == swp34.C(ci + 1).isOffFlt2() && 1 == swp34.C(ci + 1).isOffFlt3()) {
-            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Выкл")));
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Выкл")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (7 + 4 * ci),1, cellGray);
         } else if(50001 == swp32.C(ci + 1).voltage()) {
-            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Обрыв кабеля")));
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Обрыв кабеля")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (7 + 4 * ci),1, cellBlue);
         } else if(50000 == swp32.C(ci + 1).voltage()) {
-            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Замыкание кабеля")));
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Замыкание кабеля")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (7 + 4 * ci),1, cellBlue);
         } else if(1 == swp32.C(ci + 1).isFault()) {
-            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Неисправность")));
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Неисправность")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (7 + 4 * ci),1, cellBlue);
         } else {
-            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Норма")));
+            setCellText( table, (7 + 4 * ci),1, (QObject::tr("Норма")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (7 + 4 * ci),1, cellGreen);
         }
 
 //        "Фильтр%1: Сработка"
         if(1 == swp32.C(ci + 1).isInAlarmFlt1()) {
-            setCellText( table, (8 + 4 * ci),1, (QObject::tr("Было[1]")));
+            setCellText( table, (8 + 4 * ci),1, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (8 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt1()) {
-            setCellText( table, (8 + 4 * ci),1, (QObject::tr("Нет[0]")));
+            setCellText( table, (8 + 4 * ci),1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (8 + 4 * ci),1, cellGreen);
         }
 
 //        "Фильтр%2: Сработка"
         if(1 == swp32.C(ci + 1).isInAlarmFlt2()) {
-            setCellText( table, (9 + 4 * ci),1, (QObject::tr("Было[1]")));
+            setCellText( table, (9 + 4 * ci),1, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (9 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt2()) {
-            setCellText( table, (9 + 4 * ci),1, (QObject::tr("Нет[0]")));
+            setCellText( table, (9 + 4 * ci),1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (9 + 4 * ci),1, cellGreen);
         }
 
 //        "Фильтр%3: Сработка"
         if(1 == swp32.C(ci + 1).isInAlarmFlt3()) {
-            setCellText( table, (10 + 4 * ci),1, (QObject::tr("Было[1]")));
+            setCellText( table, (10 + 4 * ci),1, (QObject::tr("Было[1]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (10 + 4 * ci),1, cellRed);
         } else if(0 == swp32.C(ci + 1).isInAlarmFlt3()) {
-            setCellText( table, (10 + 4 * ci),1, (QObject::tr("Нет[0]")));
+            setCellText( table, (10 + 4 * ci),1, (QObject::tr("Нет[0]")), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (10 + 4 * ci),1, cellGreen);
         }
 
 //        "Фильтр%3: Уровень"
         if(-1.0 != swp32.C(ci + 1).voltage()) {
-            setCellText( table, (8 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())));
+            setCellText( table, (8 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (8 + 4 * ci),3, cellGray);
 
-            setCellText( table, (9 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())));
+            setCellText( table, (9 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (9 + 4 * ci),3, cellGray);
 
-            setCellText( table, (10 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())));
+            setCellText( table, (10 + 4 * ci),3, (QString::number(swp32.C(ci + 1).voltage())), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (10 + 4 * ci),3, cellGray);
         }
 
 
         //"Фильтр%1: Пороги"
         if(-1.0 != swp34.C(ci + 1).thresholdFlt1()) {
-            setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt1())));
+            setCellText( table, (8 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt1())), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (8 + 4 * ci),5, cellGray);
         }
 
         //"Фильтр%2: Пороги"
         if(-1.0 != swp34.C(ci + 1).thresholdFlt2()) {
-            setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt2())));
+            setCellText( table, (9 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt2())), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (9 + 4 * ci),5, cellGray);
         }
 
         //"Фильтр%3: Пороги"
         if(-1.0 != swp34.C(ci + 1).thresholdFlt3()) {
-            setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt3())));
+            setCellText( table, (10 + 4 * ci),5, (QString::number(swp34.C(ci + 1).thresholdFlt3())), QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, (10 + 4 * ci),5, cellGray);
         }
     }
@@ -999,7 +1008,7 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
     for(int i = 0, n = 14; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
             if(0 != i && 0 != j && 2 != j)
-                setCellText( table, i, j, "?");
+                setCellText( table, i, j, "?", QBrush(QColor(0xFF, 0xFF, 0xFF)));
 
             setCellColor( table, i, j, cellGray);
         }
@@ -1054,7 +1063,7 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
     for(int i = 0, n = 14; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
             if(0 != i && 0 != j && 2 != j)
-                setCellText( table, i, j, "?");
+                setCellText( table, i, j, "?", QBrush(QColor(0xFF, 0xFF, 0xFF)));
             setCellColor( table, i, j, cellGray);
         }
     }
