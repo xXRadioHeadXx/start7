@@ -406,7 +406,7 @@ bool ServerSettingUtils::loadTreeUnitNodes(UnitNode*/*root*/, UnitNode*/*unit*/)
     return true;
 }
 
-QSet<int>  ServerSettingUtils::priorityJoutTyper = {901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 110,111,112/*,113*/, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007/*,1133*/,1136,1137,1902, 11,13};
+QSet<int>  ServerSettingUtils::priorityJoutTyper = {901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 110,111,112/*,113*/,11, 130,131,133,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007/*,1133*/,1136,1137,1902, 11,13};
 
 const QSet<int> &ServerSettingUtils::getPriorityJoutTyper()
 {
