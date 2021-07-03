@@ -3,6 +3,8 @@
 
 #include <QByteArray>
 #include <QtMath>
+#include <QBrush>
+
 #include "UnitNode.h"
 
 
@@ -10,6 +12,7 @@ class UnitNode;
 class QTableWidget;
 class QHostAddress;
 class QColor;
+class QBrush;
 class QTableWidgetItem;
 //class QSharedPointer;
 //class UnitNode;
@@ -51,7 +54,7 @@ public:
     template <typename T>
     static QList<T> reversed( const QList<T> & in );
     static QTableWidgetItem *setCellText(QTableWidget * const table, const int row, const int column, const QString &text);
-    static QTableWidgetItem *setCellText(QTableWidget * const table, const int row, const int column, const QString &text, const QBrush &foreground);
+    static QTableWidgetItem *setCellTextWithForeground(QTableWidget * const table, const int row, const int column, const QString &text, const QBrush &foreground = QBrush(QColor(0x00, 0x00, 0x00)));
     static void setCellColor(QTableWidget * const table, const int row, const int column, const QColor color);
     static void fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
