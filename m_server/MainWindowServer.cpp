@@ -23,6 +23,8 @@
 #include "SWPTGSubType0x34.h"
 #include "SWPTGType0x34.h"
 
+#include "SoundAdjuster.h"
+
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowServer)
@@ -267,6 +269,8 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     m_labelClientCounter = QSharedPointer<QLabel>::create(statusBar());
     statusBar()->addWidget(m_labelClientCounter.data());
     connect(SignalSlotCommutator::getInstance(), SIGNAL(changeCountIntegrationAbonent(int)), this, SLOT(changLabelClientCounter(int)));
+
+    SoundAdjuster::instance().init();
 
 }
 
@@ -2204,3 +2208,9 @@ void MainWindowServer::verticalScrollBarJourValueChanged(int value)
 //    //qDebug() << "itemData --> " << ui->comboBox_RLMTactPeriod->itemData(index);
 //    //qDebug() << "MainWindowServer::on_comboBox_RLMTactPeriod_currentIndexChanged(" << index << ") <--";
 //}
+
+void MainWindowServer::on_pushButtonSoundAlarm_clicked()
+{
+    SoundAdjuster::instance().playAlarm();
+}
+

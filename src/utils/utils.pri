@@ -1,4 +1,4 @@
-QT += core
+QT += core multimedia
 
 CONFIG += c++14 -std=gnu++14 -std=c++14
 
@@ -17,6 +17,7 @@ SOURCES += \
 #    $$PWD/SettingUtils.cpp \
     $$PWD/Sheduler.cpp \
     $$PWD/ShedulerNewDuty.cpp \
+    $$PWD/SoundAdjuster.cpp \
     $$PWD/Utils.cpp \
 #    $$PWD/ConfirmationAdmissionWaiter.cpp \
 #    $$PWD/StatusRequester.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     $$PWD/Sheduler.h \
     $$PWD/ShedulerNewDuty.h \
     $$PWD/SimpleIni.h \
+    $$PWD/SoundAdjuster.h \
     $$PWD/Utils.h \
 #    $$PWD/ConfirmationAdmissionWaiter.h \
 #    $$PWD/StatusRequester.h \

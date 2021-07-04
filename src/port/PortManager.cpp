@@ -1320,7 +1320,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
             if(!reciver.isNull()) {
                 reciver->queueMsg.enqueue(alarmReset0x24);
-                qDebug() << "PortManager::parcingStatusWord0x31 (1) -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+//                qDebug() << "PortManager::parcingStatusWord0x31 (1) -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
             }
         }
 

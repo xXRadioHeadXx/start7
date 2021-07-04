@@ -131,6 +131,8 @@ private slots:
     void tableView_saveSelection();
 
     void changLabelClientCounter(int);
+    void on_pushButtonSoundAlarm_clicked();
+
 protected:
     void closeEvent(QCloseEvent * event);
 

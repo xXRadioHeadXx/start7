@@ -47,5 +47,6 @@
         <file>icons/exit_20_20.png</file>
         <file>icons/square_black_20_20.png</file>
         <file>icons/AcceptReasonMeasure_vv_20_20.png</file>
+        <file>sound/alarm.wav</file>
     </qresource>
 </RCC>
