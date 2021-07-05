@@ -55,7 +55,10 @@ public:
     static QList<T> reversed( const QList<T> & in );
     static QTableWidgetItem *setCellText(QTableWidget * const table, const int row, const int column, const QString &text);
     static QTableWidgetItem *setCellTextWithForeground(QTableWidget * const table, const int row, const int column, const QString &text, const QBrush &foreground = QBrush(QColor(0x00, 0x00, 0x00)));
-    static void setCellColor(QTableWidget * const table, const int row, const int column, const QColor color);
+    static QTableWidgetItem *setCellForeground(QTableWidget * const table, const int row, const int column, const QBrush &foreground = QBrush(QColor(0x00, 0x00, 0x00)));
+    static QTableWidgetItem *setCellBold(QTableWidget * const table, const int row, const int column, const bool bold = false);
+    static QTableWidgetItem *setCellTextBackgroundColorForegroundBold(QTableWidget * const table, const int row, const int column, const QString &text, const QColor &background, const QBrush &foreground, const bool bold);
+    static void setCellColor(QTableWidget * const table, const int row, const int column, const QColor color = cellGray);
     static void fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedPointer<UnitNode> un);
