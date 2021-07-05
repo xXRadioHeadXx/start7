@@ -822,7 +822,7 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
         deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
-        deviceElement.setAttribute("option", 0);
+        deviceElement.setAttribute("option", ((TypeUnitNode::SD_BL_IP == un->getType() && 1 == un->getBazalt()) ? 1 : 0));
 
         if(TypeUnitNode::ONVIF == un->getType()) {
             deviceElement.setAttribute("ip", un->getIcon1Path());
@@ -891,7 +891,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
         deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
-        deviceElement.setAttribute("option", 0);
+        deviceElement.setAttribute("option", ((TypeUnitNode::SD_BL_IP == un->getType() && 1 == un->getBazalt()) ? 1 : 0));
 
         devicesElement.appendChild(deviceElement);
 
@@ -964,7 +964,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
         deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
-        deviceElement.setAttribute("option", 0);
+        deviceElement.setAttribute("option", ((TypeUnitNode::SD_BL_IP == un->getType() && 1 == un->getBazalt()) ? 1 : 0));
     }
 
     devicesElement.appendChild(deviceElement);
@@ -1213,7 +1213,7 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
         deviceElement.setAttribute("lon", (0 == un->getLon() ? "0.00000000" : QString::number(un->getLon())));
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
         deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
-        deviceElement.setAttribute("option", 0);
+        deviceElement.setAttribute("option", ((TypeUnitNode::SD_BL_IP == un->getType() && 1 == un->getBazalt()) ? 1 : 0));
     }
 
     devicesElement.appendChild(deviceElement);
