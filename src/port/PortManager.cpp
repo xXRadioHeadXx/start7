@@ -2127,7 +2127,7 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
         un->setStateWordType0x33(QByteArray());
         un->setStateWordType0x34(QByteArray());
 
-        if(un->getControl() && !un->getName().isEmpty()) {
+        if(un->getControl() && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
             JourEntity msg;
             msg.setObject(un->getName());
             msg.setType(10);
