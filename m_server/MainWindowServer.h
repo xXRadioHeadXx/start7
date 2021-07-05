@@ -133,6 +133,8 @@ private slots:
     void changLabelClientCounter(int);
     void on_pushButtonSoundAlarm_clicked();
 
+    void on_pushButtonSoundReset_clicked();
+
 protected:
     void closeEvent(QCloseEvent * event);
 

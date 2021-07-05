@@ -48,5 +48,8 @@
         <file>icons/square_black_20_20.png</file>
         <file>icons/AcceptReasonMeasure_vv_20_20.png</file>
         <file>sound/alarm.wav</file>
+        <file>sound/alarm2.wav</file>
+        <file>sound/ringin.wav</file>
+        <file>sound/ringout.wav</file>
     </qresource>
 </RCC>

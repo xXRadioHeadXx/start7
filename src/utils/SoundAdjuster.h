@@ -17,8 +17,14 @@ public:
     void init();
 
 public slots:
-    void playAlarm();
+    void playAlarm(int loops = QSound::Infinite);
     void playAlarmOneTime();
+    void playAlarm2(int loops = QSound::Infinite);
+    void playAlarm2OneTime();
+    void playRingin(int loops = QSound::Infinite);
+    void playRinginOneTime();
+    void playRingout(int loops = QSound::Infinite);
+    void playRingoutOneTime();
     void stop();
 signals:
 

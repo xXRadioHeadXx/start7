@@ -2214,3 +2214,9 @@ void MainWindowServer::on_pushButtonSoundAlarm_clicked()
     SoundAdjuster::instance().playAlarm();
 }
 
+
+void MainWindowServer::on_pushButtonSoundReset_clicked()
+{
+    SoundAdjuster::instance().stop();
+}
+
