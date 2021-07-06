@@ -8,7 +8,10 @@
 class SoundAdjuster : public QObject, public SingletonTemplate<SoundAdjuster>
 {
     Q_OBJECT
-    static QSound sound;
+    static QSound soundAlarm;
+    static QSound soundAlarm2;
+    static QSound soundRingin;
+    static QSound soundRingout;
 protected:
 //    explicit SoundAdjuster() {}
 public:
@@ -17,13 +20,13 @@ public:
     void init();
 
 public slots:
-    void playAlarm(int loops = QSound::Infinite);
+    void playAlarm(const int loops = QSound::Infinite);
     void playAlarmOneTime();
-    void playAlarm2(int loops = QSound::Infinite);
+    void playAlarm2(const int loops = QSound::Infinite);
     void playAlarm2OneTime();
-    void playRingin(int loops = QSound::Infinite);
+    void playRingin(const int loops = QSound::Infinite);
     void playRinginOneTime();
-    void playRingout(int loops = QSound::Infinite);
+    void playRingout(const int loops = QSound::Infinite);
     void playRingoutOneTime();
     void stop();
 signals:
