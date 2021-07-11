@@ -15,24 +15,6 @@ ServerSettingUtils::ServerSettingUtils()
 
 }
 
-int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> un)
-{
-    for(QSharedPointer<UnitNode> dblUN : as_const(getListTreeUnitNodes())) {
-        if(dblUN->getType() == un->getType() &&
-                dblUN->getUdpAdress() == un->getUdpAdress() &&
-                dblUN->getUdpPort() == un->getUdpPort() &&
-                dblUN->getNum3() == un->getNum3() &&
-                dblUN->getNum2() == un->getNum2() &&
-                dblUN->getNum1() == un->getNum1() &&
-                dblUN != un) {
-            un->setDoubles(dblUN->getDoubles());
-            un->setDoubles(dblUN);
-            dblUN->setDoubles(un->getDoubles());
-            dblUN->setDoubles(un);
-        }
-    }
-}
-
 QList<QSharedPointer<UnitNode> > ServerSettingUtils::listTreeUnitNodes;
 QSet<QSharedPointer<UnitNode> > ServerSettingUtils::listMetaRealUnitNodes;
 
@@ -142,7 +124,24 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 }
 
                 //Double
-                ServerSettingUtils::linkDoubles(tmpUN);
+                for(QSharedPointer<UnitNode> un : as_const(getListTreeUnitNodes())) {
+                    if(un->getType() == tmpUN->getType() &&
+                            un->getUdpAdress() == tmpUN->getUdpAdress() &&
+                            un->getUdpPort() == tmpUN->getUdpPort() &&
+                            un->getNum3() == tmpUN->getNum3() &&
+                            un->getNum2() == tmpUN->getNum2() &&
+                            un->getNum1() == tmpUN->getNum1() &&
+                            un != tmpUN) {
+//                        tmpUN->setMetaNames(un->getMetaNames());
+//                        un->setMetaNames(tmpUN->getMetaNames());
+
+                        tmpUN->setDoubles(un->getDoubles());
+                        tmpUN->setDoubles(un);
+                        un->setDoubles(tmpUN->getDoubles());
+                        un->setDoubles(tmpUN);
+                    }
+                }
+
 
 
                 if(!tmpUN->getDoubles().isEmpty()) {
@@ -180,7 +179,6 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         tmpParentUN->setMetaEntity(1);
                         \
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
-                        ServerSettingUtils::linkDoubles(tmpParentUN);
                     }
 
                     auto li = getSetMetaRealUnitNodes().values();
@@ -225,7 +223,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                             tmpParentUN = parentUN;
                             break;
                         }
-                    } //2
+                    }
                     if(tmpParentUN.isNull()){
                         tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNode::TG_Base);
 //                        *(tmpParentUN.data()) = *(tmpUN.data());
@@ -242,7 +240,6 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         tmpParentUN->setMetaEntity(1);
 
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
-                        ServerSettingUtils::linkDoubles(tmpParentUN);
                     }
 
 //                    auto li = getSetMetaRealUnitNodes().values();
@@ -317,7 +314,6 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 ServerSettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
                 parent->addChild(newMetaUnIuBlIp);
                 newMetaUnIuBlIp->setParentUN(parent);
-                ServerSettingUtils::linkDoubles(newMetaUnIuBlIp);
             }
         }
     }

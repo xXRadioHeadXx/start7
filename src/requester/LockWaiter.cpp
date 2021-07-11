@@ -137,7 +137,6 @@ void LockWaiter::init() {
         getUnReciver()->addChild(newMetaUnIuBlIp);
 
         setUnReciverIuBlIp(newMetaUnIuBlIp);
-        ServerSettingUtils::linkDoubles(newMetaUnIuBlIp);
     }
 
 
@@ -209,5 +208,5 @@ void LockWaiter::init() {
 
     setMaxBeatCount(5);
 
-    connect(thisServerSettingUtils::linkDoubles(newMetaUnIuBlIp);, SIGNAL(importantBeatStatus()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockWait()));
+    connect(this, SIGNAL(importantBeatStatus()), SignalSlotCommutator::getInstance(), SLOT(emitEndLockWait()));
 }
