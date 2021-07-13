@@ -893,6 +893,19 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
         deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
         deviceElement.setAttribute("option", ((TypeUnitNode::SD_BL_IP == un->getType() && 1 == un->getBazalt()) ? 1 : 0));
 
+        if(TypeUnitNode::ONVIF == un->getType()) {
+            deviceElement.setAttribute("ip", un->getIcon1Path());
+            deviceElement.setAttribute("login", un->getIcon2Path());
+            deviceElement.setAttribute("password", un->getIcon3Path());
+        } else if(TypeUnitNode::STRAZH_IP == un->getType()) {
+            deviceElement.setAttribute("ip", un->getIcon1Path());
+            deviceElement.setAttribute("ip2", un->getIcon4Path());
+            deviceElement.setAttribute("login", un->getIcon2Path());
+            deviceElement.setAttribute("password", un->getIcon3Path());
+        } else if(!un->getUdpAdress().isEmpty() && -1 < un->getUdpPort()) {
+            deviceElement.setAttribute("ip", QString("%1:%2").arg(un->getUdpAdress()).arg(un->getUdpPort()));
+        }
+
         devicesElement.appendChild(deviceElement);
 
         QDomElement  statesElement  =  doc.createElement("states");
@@ -965,6 +978,19 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
         deviceElement.setAttribute("description", (un->getDescription().isEmpty() ? "(null)" : un->getDescription()));
         deviceElement.setAttribute("dk", (0 != un->getDK() ? 1 : 0));
         deviceElement.setAttribute("option", ((TypeUnitNode::SD_BL_IP == un->getType() && 1 == un->getBazalt()) ? 1 : 0));
+
+        if(TypeUnitNode::ONVIF == un->getType()) {
+            deviceElement.setAttribute("ip", un->getIcon1Path());
+            deviceElement.setAttribute("login", un->getIcon2Path());
+            deviceElement.setAttribute("password", un->getIcon3Path());
+        } else if(TypeUnitNode::STRAZH_IP == un->getType()) {
+            deviceElement.setAttribute("ip", un->getIcon1Path());
+            deviceElement.setAttribute("ip2", un->getIcon4Path());
+            deviceElement.setAttribute("login", un->getIcon2Path());
+            deviceElement.setAttribute("password", un->getIcon3Path());
+        } else if(!un->getUdpAdress().isEmpty() && -1 < un->getUdpPort()) {
+            deviceElement.setAttribute("ip", QString("%1:%2").arg(un->getUdpAdress()).arg(un->getUdpPort()));
+        }
     }
 
     devicesElement.appendChild(deviceElement);
