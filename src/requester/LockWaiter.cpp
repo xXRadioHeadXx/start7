@@ -137,6 +137,7 @@ void LockWaiter::init() {
         getUnReciver()->addChild(newMetaUnIuBlIp);
 
         setUnReciverIuBlIp(newMetaUnIuBlIp);
+        ServerSettingUtils::linkDoubles(newMetaUnIuBlIp);
     }
 
 

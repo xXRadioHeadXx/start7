@@ -399,6 +399,8 @@ void UnitNode::updDoubl()
         c->setControl(this->getControl());
         c->setX(this->getX());
         c->setY(this->getY());
+        c->setDkInvolved(this->getDkInvolved());
+        c->setPublishedState(this->getPublishedState());
     }
 }
 

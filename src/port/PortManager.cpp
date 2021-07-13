@@ -915,21 +915,21 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
         }
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
         un->setStateWord(newStateWord);
-        un->updDoubl();
+//        un->updDoubl();
 
         if(isLockPair && (!unLockSdBlIp.isNull() || !unLockIuBlIp.isNull())) {
             unLockSdBlIp->setStateWord(newStateWord);
             unLockIuBlIp->setStateWord(newStateWord);
         }
 
-        if(TypeUnitNode::BL_IP == un->getType() && !un->swpBLIP().isNull() && !previousCopyUN->swpBLIP().isNull()) {
-            if((un->swpBLIP().isWasDK() != previousCopyUN->swpBLIP().isWasDK()) ||
-               (un->swpBLIP().isExistDK() != previousCopyUN->swpBLIP().isExistDK())) {
-                un->setStateWord(newStateWord);
-                un->updDoubl();
-                SignalSlotCommutator::getInstance()->emitUpdUN();
-            }
-        }
+//        if(TypeUnitNode::BL_IP == un->getType() && !un->swpBLIP().isNull() && !previousCopyUN->swpBLIP().isNull()) {
+//            if((un->swpBLIP().isWasDK() != previousCopyUN->swpBLIP().isWasDK()) ||
+//               (un->swpBLIP().isExistDK() != previousCopyUN->swpBLIP().isExistDK())) {
+////                un->setStateWord(newStateWord);
+////                un->updDoubl();
+////                SignalSlotCommutator::getInstance()->emitUpdUN();
+//            }
+//        }
 
         if(0 != un->getDK() &&
            DKCiclStatus::DKIgnore != previousCopyUN->getDkStatus() &&
@@ -959,7 +959,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 un->setDkStatus(previousCopyUN->getDkStatus());
             else
                 un->setDkStatus(DKCiclStatus::DKWrong);
-            un->updDoubl();
+//            un->updDoubl();
 //            //qDebug() << "DkStatus -- unNewDkStatus " << un->getDkStatus();
 //            //qDebug() << "DkStatus <--";
         }
@@ -973,8 +973,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 unLockIuBlIp->setStateWord(newStateWord);
             }
 
-            un->updDoubl();
-            SignalSlotCommutator::getInstance()->emitUpdUN();
+//            un->updDoubl();
+//            SignalSlotCommutator::getInstance()->emitUpdUN();
 
             if(!un->getDkInvolved()) {
 
@@ -1003,15 +1003,21 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                 if(un->getDkInvolved()) {
 //                    //qDebug() << "DkInvolved continue " << un->toString();
+                    un->updDoubl();
+                    SignalSlotCommutator::getInstance()->emitUpdUN();
                     continue;
                 } else if(!un->getParentUN().isNull() && un->getParentUN()->getDkInvolved()) {
 //                    //qDebug() << "DkInvolved continue " << un->toString();
+                    un->updDoubl();
+                    SignalSlotCommutator::getInstance()->emitUpdUN();
                     continue;
                 } else if(isLockPair) { // запись сообщения УЗ
                     if(unLockSdBlIp->swpSDBLIP().isAlarm() == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
                        unLockIuBlIp->swpIUBLIP().isOff() == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() &&
                        unLockSdBlIp->swpSDBLIP().isNorm() == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
                        unLockIuBlIp->swpIUBLIP().isOn() == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) { // состояние не зменилось - пропускаем
+                        un->updDoubl();
+                        SignalSlotCommutator::getInstance()->emitUpdUN();
                         continue;
                     } else if(
                             (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
@@ -1025,6 +1031,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                              1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
                     { // запрещённая обработка перехода (Открыто -> Открыто ключом, Закрыто -> Закрыто ключом)
                         //qDebug() << "isLockPair continue " << un->toString();
+                        un->updDoubl();
+                        SignalSlotCommutator::getInstance()->emitUpdUN();
                         continue;
                     }
 
@@ -1244,16 +1252,11 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         un->setPublishedState(-1);
                     }
 
-                }/* else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
-                          (1 == un->swpSDBLIP().isOn()) &&
-                          (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm())) {
-                    //нужен сброс
-                    auto alarmReset0x24 = resultRequest;
-                    DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
-                    if(!reciver.isNull())
-                        reciver->queueMsg.enqueue(alarmReset0x24);
-                }*/
+                }
             }
+
+            un->updDoubl();
+            SignalSlotCommutator::getInstance()->emitUpdUN();
 
             if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
                 //сохранение Тревога или Норма

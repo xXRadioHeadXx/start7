@@ -18,6 +18,25 @@ ServerSettingUtils::ServerSettingUtils()
 QList<QSharedPointer<UnitNode> > ServerSettingUtils::listTreeUnitNodes;
 QSet<QSharedPointer<UnitNode> > ServerSettingUtils::listMetaRealUnitNodes;
 
+
+int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> un)
+{
+    for(QSharedPointer<UnitNode> dblUN : as_const(getListTreeUnitNodes())) {
+        if(dblUN->getType() == un->getType() &&
+                dblUN->getUdpAdress() == un->getUdpAdress() &&
+                dblUN->getUdpPort() == un->getUdpPort() &&
+                dblUN->getNum3() == un->getNum3() &&
+                dblUN->getNum2() == un->getNum2() &&
+                dblUN->getNum1() == un->getNum1() &&
+                dblUN != un) {
+            un->setDoubles(dblUN->getDoubles());
+            un->setDoubles(dblUN);
+            dblUN->setDoubles(un->getDoubles());
+            dblUN->setDoubles(un);
+        }
+    }
+}
+
 QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName) {
     if(!getListTreeUnitNodes().isEmpty()) {
         getListTreeUnitNodes().clear();
@@ -124,25 +143,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 }
 
                 //Double
-                for(QSharedPointer<UnitNode> un : as_const(getListTreeUnitNodes())) {
-                    if(un->getType() == tmpUN->getType() &&
-                            un->getUdpAdress() == tmpUN->getUdpAdress() &&
-                            un->getUdpPort() == tmpUN->getUdpPort() &&
-                            un->getNum3() == tmpUN->getNum3() &&
-                            un->getNum2() == tmpUN->getNum2() &&
-                            un->getNum1() == tmpUN->getNum1() &&
-                            un != tmpUN) {
-//                        tmpUN->setMetaNames(un->getMetaNames());
-//                        un->setMetaNames(tmpUN->getMetaNames());
-
-                        tmpUN->setDoubles(un->getDoubles());
-                        tmpUN->setDoubles(un);
-                        un->setDoubles(tmpUN->getDoubles());
-                        un->setDoubles(tmpUN);
-                    }
-                }
-
-
+                ServerSettingUtils::linkDoubles(tmpUN);
 
                 if(!tmpUN->getDoubles().isEmpty()) {
                     tmpUN->setParentUN(tmpUN->getDoubles().values().first()->getParentUN());
@@ -179,6 +180,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         tmpParentUN->setMetaEntity(1);
                         \
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
+                        ServerSettingUtils::linkDoubles(tmpParentUN);
                     }
 
                     auto li = getSetMetaRealUnitNodes().values();
@@ -240,30 +242,8 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         tmpParentUN->setMetaEntity(1);
 
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
+                        ServerSettingUtils::linkDoubles(tmpParentUN);
                     }
-
-//                    auto li = getSetMetaRealUnitNodes().values();
-//                    for (auto rit = li.rbegin(); rit != li.rend(); ++rit) {
-//                        auto it = static_cast<QSharedPointer<UnitNode> >(*rit);
-//                        if(it->getUdpAdress() == tmpParentUN->getUdpAdress() &&
-//                                it->getUdpPort() == tmpParentUN->getUdpPort() &&
-//                                it->getNum1() == tmpParentUN->getNum1())
-//                        {
-//                            if(TypeUnitNode::TG_Base == it->getType()) {
-//                                it->addChild(tmpUN);
-//                                tmpUN->setParentUN(it);
-//                                key = false;
-//                                break;
-//                            } else if(nullptr != it->getParentUN()) {
-//                                if(TypeUnitNode::TG_Base == it->getParentUN()->getType()) {
-//                                    it->getParentUN()->addChild(tmpUN);
-//                                    tmpUN->setParentUN(it);
-//                                    key = false;
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
 
                     if(key) {
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
@@ -314,6 +294,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 ServerSettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
                 parent->addChild(newMetaUnIuBlIp);
                 newMetaUnIuBlIp->setParentUN(parent);
+                ServerSettingUtils::linkDoubles(newMetaUnIuBlIp);
             }
         }
     }
