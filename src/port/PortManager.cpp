@@ -1161,6 +1161,13 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         }
 
                         if(1 != un->getMetaEntity()) {
+
+                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
+                            qDebug() << un->toString();
+                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
+                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
+                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
+
                             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
                         }
