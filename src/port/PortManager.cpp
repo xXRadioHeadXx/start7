@@ -922,14 +922,14 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             unLockIuBlIp->setStateWord(newStateWord);
         }
 
-//        if(TypeUnitNode::BL_IP == un->getType() && !un->swpBLIP().isNull() && !previousCopyUN->swpBLIP().isNull()) {
-//            if((un->swpBLIP().isWasDK() != previousCopyUN->swpBLIP().isWasDK()) ||
-//               (un->swpBLIP().isExistDK() != previousCopyUN->swpBLIP().isExistDK())) {
-////                un->setStateWord(newStateWord);
-////                un->updDoubl();
-////                SignalSlotCommutator::getInstance()->emitUpdUN();
-//            }
-//        }
+        if(TypeUnitNode::BL_IP == un->getType() && !un->swpBLIP().isNull() && !previousCopyUN->swpBLIP().isNull()) {
+            if((un->swpBLIP().isWasDK() != previousCopyUN->swpBLIP().isWasDK()) ||
+               (un->swpBLIP().isExistDK() != previousCopyUN->swpBLIP().isExistDK())) {
+                un->setStateWord(newStateWord);
+                un->updDoubl();
+                SignalSlotCommutator::getInstance()->emitUpdUN();
+            }
+        }
 
         if(0 != un->getDK() &&
            DKCiclStatus::DKIgnore != previousCopyUN->getDkStatus() &&
@@ -1311,8 +1311,8 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         }
 
         un->setStateWord(newStateWord);
-        un->updDoubl();
-        SignalSlotCommutator::getInstance()->emitUpdUN();
+//        un->updDoubl();
+//        SignalSlotCommutator::getInstance()->emitUpdUN();
 
         if(!un->getDkInvolved() && (
            (TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMC().isOn() && (1 == un->swpRLMC().isInAlarm() || 1 == un->swpRLMC().isOutAlarm() || 1 == un->swpRLMC().isWasAlarm())) ||
@@ -1522,6 +1522,9 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             }
         }
 
+        un->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
+
 //        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x31 -- break(1)";
 //        break;
@@ -1556,8 +1559,8 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
         un->setStateWordType0x32(newStateWord);
-        un->updDoubl();
-        SignalSlotCommutator::getInstance()->emitUpdUN();
+//        un->updDoubl();
+//        SignalSlotCommutator::getInstance()->emitUpdUN();
 
         auto currentSWP = un->swpTGType0x32();
         int ci = un->getNum2();
@@ -1667,6 +1670,9 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                 msg.setType(0);
             }
         }
+
+        un->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
     }
 
 //        previousCopyUN.clear();
@@ -1702,8 +1708,8 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
         QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
         un->setStateWordType0x33(newStateWord);
-        un->updDoubl();
-        SignalSlotCommutator::getInstance()->emitUpdUN();
+//        un->updDoubl();
+//        SignalSlotCommutator::getInstance()->emitUpdUN();
 
         auto currentSWP = un->swpTGType0x33();
         int ci = un->getNum2();
@@ -1815,6 +1821,9 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                 msg.setType(0);
             }
         }
+
+        un->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
 
 //        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x33 -- break(1)";
