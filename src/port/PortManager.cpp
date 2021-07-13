@@ -1415,6 +1415,10 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                 }
                 msg.setType(0);
 
+                if(10 == un->getPublishedState()) {
+                    un->setPublishedState(-1);
+                }
+
                 // запись тревога/норма РЛМ
                 if((1 == un->swpRLM().isFault()) &&
                    (un->swpRLM().isFault() != previousCopyUN->swpRLM().isFault())) {
@@ -1452,7 +1456,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
             } else if(TypeUnitNode::RLM_C == un->getType()) {
 
-                // запись тревога/норма РЛМ-С
+                // запись вкл/выкл РЛМ-С
                 if((1 == un->swpRLMC().isOff()) &&
                    (0 == previousCopyUN->swpRLMC().isOff())) {
                     msg.setComment(QObject::tr("Выкл"));
@@ -1467,6 +1471,10 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 }
                 msg.setType(0);
+
+                if(10 == un->getPublishedState()) {
+                    un->setPublishedState(-1);
+                }
 
                 // запись тревога/норма РЛМ-С
                 if((1 == un->swpRLMC().isFault()) &&
@@ -1497,6 +1505,10 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                 msg.setType(0);
 
             } else if(/*un->getControl() && */TypeUnitNode::TG == un->getType()) {
+
+                if(10 == un->getPublishedState()) {
+                    un->setPublishedState(-1);
+                }
 
                 // запись тревога/норма ТГ
                 if(un->getControl() &&
@@ -1644,6 +1656,10 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                 continue;
             } else if(TypeUnitNode::TG == un->getType() && (1 <= un->getNum2() && 4 >= un->getNum2())) {
                 //Сообщения в журнал
+
+                if(10 == un->getPublishedState()) {
+                    un->setPublishedState(-1);
+                }
 
                 if((1 == currentSWP.C(ci).isFault()) &&
                    (currentSWP.C(ci).isFault() != previousSWP.C(ci).isFault())) {
@@ -1796,6 +1812,11 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                 continue;
             } else if(TypeUnitNode::TG == un->getType() && 1 <= un->getNum2() && un->getNum2() <= 4) {
                 //Сообщения в журнал
+
+                if(10 == un->getPublishedState()) {
+                    un->setPublishedState(-1);
+                }
+
                 if((1 == currentSWP.C(ci).isFault()) &&
                    (currentSWP.C(ci).isFault() != previousSWP.C(ci).isFault())) {
                     //сохранение неисправность или Норма
