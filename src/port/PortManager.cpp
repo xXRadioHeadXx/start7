@@ -1265,17 +1265,14 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
             un->updDoubl();
             SignalSlotCommutator::getInstance()->emitUpdUN();
 
-            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) && (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm()) && (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
+            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) &&
+               (1 == un->swpSDBLIP().isOn()) &&
+               (1 == un->swpSDBLIP().isAlarm() && 1 == un->swpSDBLIP().isWasAlarm()) &&
+               (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
                 //сохранение Тревога или Норма
-                if(0 != un->treeChildCount()) {
-                    for(const auto& iuun : as_const(un->listTreeChilds())) {
-                        if(TypeUnitNode::IU_BL_IP == qSharedPointerCast<UnitNode>(iuun)->getType()) {
-                            //qDebug() << "Utils::parcingStatusWord0x41 emitAutoOnOffIU";
-                            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
-                        }
-                    }
+                for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(un))) {
+                    SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
                 }
-
                 //нужен сброс
             }
         }
@@ -1379,6 +1376,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
             }
         }
 
+        bool wasDetectedNew20 = false;
         if(!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord().getByteWord() != un->getStateWord().getByteWord()) && !un->getDkInvolved()) {
 
             JourEntity msg;
@@ -1440,6 +1438,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     un->setPublishedState(20);
+                    wasDetectedNew20 = true;
                 } else if((1 == un->swpRLM().isOn()) &&
                           (1 == un->swpRLM().isNorm()) &&
                           (previousCopyUN->swpRLM().isNorm() != un->swpRLM().isNorm()) &&
@@ -1490,6 +1489,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     un->setPublishedState(20);
+                    wasDetectedNew20 = true;
                 } else if((1 == un->swpRLMC().isOn()) &&
                           (1 == un->swpRLMC().isNorm()) &&
                           (previousCopyUN->swpRLMC().isNorm() != un->swpRLMC().isNorm()) &&
@@ -1525,6 +1525,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     un->setPublishedState(20);
+                    wasDetectedNew20 = true;
                 } else if(un->getControl() &&
                           (1 == un->swpTGType0x31().isNorm()) &&
                           (previousCopyUN->swpTGType0x31().isNorm() != un->swpTGType0x31().isNorm()) &&
@@ -1543,6 +1544,14 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
 
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        if(!un->getDkInvolved() && wasDetectedNew20) {
+            //сохранение Тревога или Норма
+            for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(un))) {
+                SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            }
+            //нужен сброс
+        }
 
 //        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x31 -- break(1)";
@@ -1639,6 +1648,9 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                 }
             }
         }
+
+        bool wasDetectedNew20 = false;
+
         if(!un.isNull() && (currentSWP.getStateWord().getByteWord() != previousSWP.getStateWord().getByteWord()) && !un->getDkInvolved()) {
 
             // Первое сообщение о включении
@@ -1679,6 +1691,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                     msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     un->setPublishedState(20);
+                    wasDetectedNew20 = true;
                 } else if((1 == currentSWP.C(ci).isNorm()) &&
                           (previousSWP.C(ci).isNorm() != currentSWP.C(ci).isNorm()) &&
                           1 != un->getPublishedState()) {
@@ -1696,6 +1709,14 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
 
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        if(!un->getDkInvolved() && wasDetectedNew20) {
+            //сохранение Тревога или Норма
+            for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(un))) {
+                SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            }
+            //нужен сброс
+        }
     }
 
 //        previousCopyUN.clear();
@@ -1795,6 +1816,8 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
             }
         }
 
+        bool wasDetectedNew20 = false;
+
         if(!un.isNull() && (previousSWP.getStateWord().getByteWord() != currentSWP.getStateWord().getByteWord()) && !un->getDkInvolved()) {
 
             // Первое сообщение о включении
@@ -1835,6 +1858,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                     msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
                     msg.setType(20);
                     un->setPublishedState(20);
+                    wasDetectedNew20 = true;
                 } else if((1 == currentSWP.C(ci).isNorm()) &&
                           (previousSWP.C(ci).isNorm() != currentSWP.C(ci).isNorm()) &&
                           1 != un->getPublishedState()) {
@@ -1852,6 +1876,14 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
 
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        if(!un->getDkInvolved() && wasDetectedNew20) {
+            //сохранение Тревога или Норма
+            for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(un))) {
+                SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            }
+            //нужен сброс
+        }
 
 //        previousCopyUN.clear();
 //        qDebug() << "PortManager::parcingStatusWord0x33 -- break(1)";

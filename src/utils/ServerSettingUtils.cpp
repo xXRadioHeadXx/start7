@@ -18,9 +18,33 @@ ServerSettingUtils::ServerSettingUtils()
 QList<QSharedPointer<UnitNode> > ServerSettingUtils::listTreeUnitNodes;
 QSet<QSharedPointer<UnitNode> > ServerSettingUtils::listMetaRealUnitNodes;
 
+QList<QSharedPointer<UnitNode> > ServerSettingUtils::getLinkedUI(QSharedPointer<UnitNode> un)
+{
+    QList<QSharedPointer<UnitNode> > result;
+
+    auto setMasterUN = un->getDoubles();
+    setMasterUN.insert(un);
+
+    QSet<QSharedPointer<UnitNode> > setSlaveUN;
+    for(const auto &m : as_const(setMasterUN)) {
+        for(const auto &c : as_const(m->listTreeChilds())) {
+            auto cun = c.dynamicCast<UnitNode>();
+            if(TypeUnitNode::IU_BL_IP == cun->getType()) {
+                setSlaveUN.insert(cun);
+            }
+        }
+    }
+
+    setSlaveUN.intersect(ServerSettingUtils::getSetMetaRealUnitNodes());
+
+    result = setSlaveUN.toList();
+
+    return result;
+}
 
 int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> un)
 {
+    int result = 0;
     for(QSharedPointer<UnitNode> dblUN : as_const(getListTreeUnitNodes())) {
         if(dblUN->getType() == un->getType() &&
                 dblUN->getUdpAdress() == un->getUdpAdress() &&
@@ -33,8 +57,10 @@ int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> un)
             un->setDoubles(dblUN);
             dblUN->setDoubles(un->getDoubles());
             dblUN->setDoubles(un);
+            result++;
         }
     }
+    return result;
 }
 
 QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName) {
