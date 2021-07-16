@@ -2211,7 +2211,7 @@ void MainWindowServer::verticalScrollBarJourValueChanged(int value)
 
 void MainWindowServer::on_pushButtonSoundAlarm_clicked()
 {
-    SoundAdjuster::instance().playAlarm2();
+    SoundAdjuster::instance().playAlarm();
 }
 
 

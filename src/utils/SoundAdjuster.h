@@ -2,16 +2,17 @@
 #define SOUNDADJUSTER_H
 
 #include <QObject>
+#include <QSharedPointer>
 #include "template/SingletonTemplate.h"
 #include "QSound"
 
 class SoundAdjuster : public QObject, public SingletonTemplate<SoundAdjuster>
 {
     Q_OBJECT
-    static QSound soundAlarm;
-    static QSound soundAlarm2;
-    static QSound soundRingin;
-    static QSound soundRingout;
+    QSharedPointer<QSound> soundAlarm;
+    QSharedPointer<QSound> soundAlarm2;
+    QSharedPointer<QSound> soundRingin;
+    QSharedPointer<QSound> soundRingout;
 protected:
 //    explicit SoundAdjuster() {}
 public:
