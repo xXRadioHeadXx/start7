@@ -1170,6 +1170,39 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                        } else if(1 != unLockSdBlIp->getMetaEntity()) {
+                            msg.setObject(unLockSdBlIp->getName());
+                            msg.setObjecttype(unLockSdBlIp->getType());
+                            msg.setD1(unLockSdBlIp->getNum1());
+                            msg.setD2(unLockSdBlIp->getNum2());
+                            msg.setD3(unLockSdBlIp->getNum3());
+                            msg.setDirection(unLockSdBlIp->getUdpAdress());
+
+                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
+                            qDebug() << un->toString();
+                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
+                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
+                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
+
+                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                            GraphTerminal::sendAbonentEventsAndStates(unLockSdBlIp, msg);
+
+                        } else if(1 != unLockIuBlIp->getMetaEntity()) {
+                            msg.setObject(unLockIuBlIp->getName());
+                            msg.setObjecttype(unLockIuBlIp->getType());
+                            msg.setD1(unLockIuBlIp->getNum1());
+                            msg.setD2(unLockIuBlIp->getNum2());
+                            msg.setD3(unLockIuBlIp->getNum3());
+                            msg.setDirection(unLockIuBlIp->getUdpAdress());
+
+                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
+                            qDebug() << un->toString();
+                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
+                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
+                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
+
+                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                            GraphTerminal::sendAbonentEventsAndStates(unLockIuBlIp, msg);
                         }
                     }
 
@@ -1373,7 +1406,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                 DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
                 if(!reciver.isNull()) {
                     reciver->queueMsg.enqueue(alarmReset0x24);
-                    qDebug() << "PortManager::parcingStatusWord0x31 (2) -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+//                    qDebug() << "PortManager::parcingStatusWord0x31 (2) -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
                 }
             }
         }
@@ -1602,7 +1635,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
             DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
             if(!reciver.isNull())
                 reciver->queueMsg.enqueue(alarmReset0x24);
-                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+//                qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
         }
 
         if(un->getDkInvolved()) {
@@ -1646,7 +1679,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                 DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
                 if(!reciver.isNull()) {
                     reciver->queueMsg.enqueue(alarmReset0x24);
-                    qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+//                    qDebug() << "PortManager::parcingStatusWord0x32 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
                 }
             }
         }
@@ -1767,7 +1800,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
             DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
             if(!reciver.isNull()) {
                 reciver->queueMsg.enqueue(alarmReset0x24);
-                qDebug() << "PortManager::parcingStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+//                qDebug() << "PortManager::parcingStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
 
             }
         }
@@ -1813,7 +1846,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                 DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
                 if(!reciver.isNull()) {
                     reciver->queueMsg.enqueue(alarmReset0x24);
-                    qDebug() << "PortManager::parcingStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+//                    qDebug() << "PortManager::parcingStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
                 }
             }
         }
