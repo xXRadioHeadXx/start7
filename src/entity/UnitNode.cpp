@@ -152,10 +152,8 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
 
         } else if(TypeUnitNode::IU_BL_IP == getType()) {
             const SWPIUBLIP swp = swpIUBLIP();
-            if(getControl() && swp.isNull()) {
+            if(swp.isNull()) {
                 return Icons::sqr_ylw();
-            } else if(!getControl() && swp.isNull()) {
-                return Icons::sqr_blk_crs_ylw();
             } else if(1 == swp.isOn()) {
                 return Icons::sqr_grn_crs2_rd();
             } else if(1 == swp.isOff()) {

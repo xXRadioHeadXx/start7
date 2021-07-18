@@ -1262,8 +1262,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 }
             }
 
-            un->updDoubl();
-            SignalSlotCommutator::getInstance()->emitUpdUN();
+//            un->updDoubl();
+//            SignalSlotCommutator::getInstance()->emitUpdUN();
 
             if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) &&
                (1 == un->swpSDBLIP().isOn()) &&
@@ -1276,6 +1276,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 //нужен сброс
             }
         }
+        un->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
 
     }
 //    //qDebug() << "Utils::parcingStatusWord0x41 <--";
@@ -2199,7 +2201,7 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
         un->setStateWordType0x33(QByteArray());
         un->setStateWordType0x34(QByteArray());
 
-        if(un->getControl() && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
+        if((un->getControl() || TypeUnitNode::IU_BL_IP == un->getType()) && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
             JourEntity msg;
             msg.setObject(un->getName());
             msg.setType(10);
@@ -2213,6 +2215,8 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
         }
+
+        un->updDoubl();
     }
 
 
