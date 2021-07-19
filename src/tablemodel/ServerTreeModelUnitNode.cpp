@@ -33,7 +33,8 @@ ServerTreeModelUnitNode::~ServerTreeModelUnitNode()
 }
 
 int ServerTreeModelUnitNode::columnCount(const QModelIndex &parent) const
- {
+{
+    Q_UNUSED(parent)
     return 1;
 }
 
@@ -445,7 +446,7 @@ void ServerTreeModelUnitNode::sortingListItemUN()
             {
                 if(listItemUN[j]->getName().compare(listItemUN[j + 1]->getName()) > 0)
                 {
-                    listItemUN.swap(j, j + 1);
+                    listItemUN.swapItemsAt(j, j + 1);
 //                    UnitNode*temp = listItemUN[j]; //change for elements
 //                    listItemUN[j] = listItemUN[j + 1];
 //                    listItemUN[j + 1] = temp;
@@ -455,7 +456,7 @@ void ServerTreeModelUnitNode::sortingListItemUN()
             {
                 if(listItemUN[j]->getName().compare(listItemUN[j + 1]->getName()) < 0)
                 {
-                    listItemUN.swap(j, j + 1);
+                    listItemUN.swapItemsAt(j, j + 1);
 //                    UnitNode*temp = listItemUN[j]; //change for elements
 //                    listItemUN[j] = listItemUN[j + 1];
 //                    listItemUN[j + 1] = temp;

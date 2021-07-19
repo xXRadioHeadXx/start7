@@ -37,7 +37,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::getLinkedUI(QSharedPointer<
 
     setSlaveUN.intersect(ServerSettingUtils::getSetMetaRealUnitNodes());
 
-    result = setSlaveUN.toList();
+    result = setSlaveUN.values();
 
     return result;
 }
@@ -71,7 +71,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
 
     CSimpleIniA ini;
-    QString filePath = QCoreApplication::applicationDirPath() + "/rifx.ini";
+    QString filePath = (fileName.isEmpty() ? QCoreApplication::applicationDirPath() + "/rifx.ini" : fileName);
     ini.LoadFile(filePath.toStdString().c_str());
 
     int cntTrItm = codec->toUnicode(ini.GetValue("TREE", "Count")).toInt();
@@ -189,7 +189,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                     key = true;
 
                     QSharedPointer<UnitNode> tmpParentUN;// = UnitNodeFactory::make(TypeUnitNode::BL_IP);
-                    for(QSharedPointer<UnitNode> parentUN : as_const(getSetMetaRealUnitNodes().toList())) {
+                    for(QSharedPointer<UnitNode> parentUN : as_const(getSetMetaRealUnitNodes().values())) {
                         if(parentUN->getType() == TypeUnitNode::BL_IP &&
                            parentUN->getUdpAdress() == tmpUN->getUdpAdress() &&
                            parentUN->getUdpPort() == tmpUN->getUdpPort()) {
@@ -243,7 +243,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                     key = true;
 
                     QSharedPointer<UnitNode> tmpParentUN;// = UnitNodeFactory::make(TypeUnitNode::BL_IP);
-                    for(QSharedPointer<UnitNode> parentUN : as_const(getSetMetaRealUnitNodes().toList())) {
+                    for(QSharedPointer<UnitNode> parentUN : as_const(getSetMetaRealUnitNodes().values())) {
                         if(parentUN->getType() == TypeUnitNode::TG_Base &&
                            parentUN->getUdpAdress() == tmpUN->getUdpAdress() &&
                            parentUN->getUdpPort() == tmpUN->getUdpPort() &&
@@ -285,7 +285,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         }
     }
 
-    for(QSharedPointer<UnitNode> un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes().toList())) {
+    for(QSharedPointer<UnitNode> un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes().values())) {
         if(TypeUnitNode::SD_BL_IP == un->getType() &&
            !un->getParentUN().isNull() &&
            1 <= un->getNum2() && 4 >= un->getNum2()) {
@@ -387,7 +387,7 @@ QSet<QSharedPointer<UnitNode> > & ServerSettingUtils::getSetMetaRealUnitNodes() 
 
 QSharedPointer<UnitNode> ServerSettingUtils::getMetaRealUnitNodes(UnitNode* target)
 {
-    for(QSharedPointer<UnitNode> & un : getSetMetaRealUnitNodes().toList()) {
+    for(QSharedPointer<UnitNode> & un : getSetMetaRealUnitNodes().values()) {
         if(target == un.data()) {
             return un;
         }

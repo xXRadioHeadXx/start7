@@ -19,7 +19,7 @@ private:
     QList<DataQueueItem> overallWriteQueue;
 
 //    static QHash<QTcpSocket*, QByteArray*> abonents;
-    static QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > abonents;
+    static QMultiHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > abonents;
 
     void procCommands(DataQueueItem itm);
     void procKeepAlive(QDomElement root);

@@ -1,10 +1,18 @@
 #include "Operator.h"
 
-Operator Operator::approvedOperator = Operator();
+Operator Operator::approvedOperator/* = Operator()*/;
 
 Operator::Operator()
 {
 
+}
+
+Operator::Operator(const Operator &o)
+{
+    this->setFN(o.getFN());
+    this->setN1(o.getN1());
+    this->setN2(o.getN2());
+    this->setPW(o.getPW());
 }
 
 bool Operator::isNull() const {
@@ -76,7 +84,7 @@ void Operator::setPW(const QString &value)
     PW = value;
 }
 
-Operator Operator::getApprovedOperator()
+Operator & Operator::getApprovedOperator()
 {
     return approvedOperator;
 }

@@ -175,7 +175,7 @@ QTableWidgetItem *Utils::setCellTextWithForeground(QTableWidget * const table, c
 {
     auto item = setCellText(table, row, column, text);
     if(nullptr != item) {
-        if(item->backgroundColor() != cellGray && foreground.color() != QColor(0x00, 0x00, 0x00)) {
+        if(item->background().color() != cellGray && foreground.color() != QColor(0x00, 0x00, 0x00)) {
             item->setForeground(foreground);
         } else {
             item->setForeground(QBrush(QColor(0x00, 0x00, 0x00)));

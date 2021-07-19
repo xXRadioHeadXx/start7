@@ -14,7 +14,7 @@
 #include "global.h"
 
 QSharedPointer<TcpServer> GraphTerminal::m_tcpServer = QSharedPointer<TcpServer>();
-QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > GraphTerminal::abonents = QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> >();
+QMultiHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > GraphTerminal::abonents = QMultiHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> >();
 
 
 GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)

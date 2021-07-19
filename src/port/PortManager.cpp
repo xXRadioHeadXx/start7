@@ -2046,11 +2046,11 @@ void PortManager::manageOverallReadQueue()
                 parcingStatusWord0x31(itm, request);
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
-                bool dkWait = false;
+//                bool dkWait = false;
                 for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
-                        dkWait = true;
+//                        dkWait = true;
                         break;
                     }
                 }
@@ -2067,11 +2067,11 @@ void PortManager::manageOverallReadQueue()
                 parcingStatusWord0x32(itm, request);
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
-                bool dkWait = false;
+//                bool dkWait = false;
                 for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
-                        dkWait = true;
+//                        dkWait = true;
                         break;
                     }
                 }
@@ -2088,11 +2088,11 @@ void PortManager::manageOverallReadQueue()
                 parcingStatusWord0x33(itm, request);
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
-                bool dkWait = false;
+//                bool dkWait = false;
                 for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
-                        dkWait = true;
+//                        dkWait = true;
                         break;
                     }
                 }
@@ -2109,11 +2109,11 @@ void PortManager::manageOverallReadQueue()
                 parcingStatusWord0x34(itm, request);
 
                 QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
-                bool dkWait = false;
+//                bool dkWait = false;
                 for(auto ar : as_const(getLsWaiter())) {
                     if((RequesterType::DKWaiter == ar->getRequesterType()) && //(ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN)))
                         ar->getIpPort() == tmpPair) {
-                        dkWait = true;
+//                        dkWait = true;
                         break;
                     }
                 }
