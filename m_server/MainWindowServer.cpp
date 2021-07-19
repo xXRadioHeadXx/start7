@@ -2125,7 +2125,7 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 
         auto ci = static_cast<quint8>(ui->comboBox_PointInput->currentText().toInt() - 1);
 
-        if(0 > ci || 3 < ci)
+        if(0 <= ci && 3 >= ci)
             ci = 0x00;
 
         auto newStateWord = selUN->swpTGType0x34().C(ci + 1).byteWord();

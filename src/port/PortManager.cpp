@@ -1,4 +1,5 @@
 #include <QVector>
+#include "ShedulerDK.h"
 //#include <QDebug>
 #include "SignalSlotCommutator.h"
 
@@ -24,6 +25,7 @@
 #include "ConfirmationAdmissionWaiter.h"
 #include "OnOffIUWaiter.h"
 #include "GraphTerminal.h"
+#include "SimpleIni.h"
 
 #include "SWPBLIP.h"
 #include "SWPRLM.h"
@@ -36,6 +38,8 @@
 #include "SWPTGSubType0x33.h"
 #include "SWPTGType0x32.h"
 #include "SWPTGSubType0x32.h"
+
+QSharedPointer<ShedulerDK> PortManager::shedulerDK;
 
 PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
 {
@@ -50,6 +54,23 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
     connect(SignalSlotCommutator::getInstance(), SIGNAL(autoOnOffIU(bool, QSharedPointer<UnitNode> )), this, SLOT(requestAutoOnOffIUCommand(bool, QSharedPointer<UnitNode> )));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, QSharedPointer<UnitNode> )), this, SLOT(requestDK(bool, QSharedPointer<UnitNode> )));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(alarmsReset(QSharedPointer<UnitNode> )), this, SLOT(requestAlarmReset(QSharedPointer<UnitNode> )));
+
+    {
+        CSimpleIniA ini;
+        QString filePath = QCoreApplication::applicationDirPath() + "/rifx.ini";
+        ini.LoadFile(filePath.toStdString().c_str());
+
+        QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+
+        auto autoDK = codec->toUnicode(ini.GetValue("RIF", "AutoDK"));
+
+        if(0 != autoDK.toInt()) {
+            shedulerDK = QSharedPointer<ShedulerDK>::create(QTime(autoDK.toInt(), 0));
+            connect(shedulerDK.data(), SIGNAL(activated()), this, SLOT(requestDK()));
+            shedulerDK->start();
+        }
+    }
+
 }
 
 QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();

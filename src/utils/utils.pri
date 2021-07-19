@@ -11,11 +11,13 @@ SOURCES += \
     $$PWD/Icons.cpp \
 #    $$PWD/ProcessDKWaiter.cpp \
     $$PWD/Icons_cfg.cpp \
+    $$PWD/IntervalSheduler.cpp \
     $$PWD/RunGuard.cpp \
 #    $$PWD/TablePrint.cpp \
     $$PWD/ServerSettingUtils.cpp \
 #    $$PWD/SettingUtils.cpp \
     $$PWD/Sheduler.cpp \
+    $$PWD/ShedulerDK.cpp \
     $$PWD/ShedulerNewDuty.cpp \
     $$PWD/SoundAdjuster.cpp \
     $$PWD/Utils.cpp \
@@ -32,11 +34,13 @@ HEADERS += \
     $$PWD/Icons.h \
 #    $$PWD/ProcessDKWaiter.h \
     $$PWD/Icons_cfg.h \
+    $$PWD/IntervalSheduler.h \
     $$PWD/RunGuard.h \
 #    $$PWD/TablePrint.h \
     $$PWD/ServerSettingUtils.h \
 #    $$PWD/SettingUtils.h \
     $$PWD/Sheduler.h \
+    $$PWD/ShedulerDK.h \
     $$PWD/ShedulerNewDuty.h \
     $$PWD/SimpleIni.h \
     $$PWD/SoundAdjuster.h \

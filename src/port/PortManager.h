@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QQueue>
+#include "ShedulerDK.h"
 #include "Port.h"
 #include "GraphTerminal.h"
 
@@ -42,6 +43,7 @@ private:
     static DataQueueItem parcingStatusWord0x34(DataQueueItem &item, DataQueueItem & resultRequest);
     static void procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous);
 
+    static QSharedPointer<ShedulerDK> shedulerDK;
 
 public:
     explicit PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent = nullptr);
