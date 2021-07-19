@@ -7,8 +7,6 @@ class Operator
 {
 public:
     Operator();
-    explicit Operator(const Operator& o);
-
 
     bool isNull() const;
 
@@ -34,7 +32,7 @@ public:
 //    static QByteArray XOR_Crypt(const QByteArray in, const QByteArray key);
 //    static QString XOR_Crypt(const QString in, const QString key);
 
-    static Operator &getApprovedOperator();
+    static Operator getApprovedOperator();
     static void setApprovedOperator(const Operator &value);
 
 
