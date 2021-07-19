@@ -2,8 +2,7 @@
 
 IntervalSheduler::IntervalSheduler(const QTime time) :
     QObject(nullptr),
-//    runInterval(time.hour() * 60 * 60)
-  runInterval(60)
+    runInterval(time.hour() * 60 * 60)
 {
 
 }
