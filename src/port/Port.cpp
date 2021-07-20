@@ -237,6 +237,9 @@ void Port::readTcpDatagrams()
 
 void Port::readMessage()
 {
+    if(readPass)
+        return;
+
     switch (getProtocol()) {
     case AbstractPort::UDP:
         readUdpDatagrams();

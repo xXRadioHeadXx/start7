@@ -532,7 +532,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                 }
 
             }
-            if(1 != tmpUN->getMetaEntity()) {
+            if(!tmpUN->getName().isEmpty() && 1 != tmpUN->getMetaEntity()) {
                 JourEntity msg;
                 if(out) {
                     msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
@@ -547,10 +547,9 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                 msg.setD2(tmpUN->getNum2());
                 msg.setD3(tmpUN->getNum3());
                 msg.setDirection(tmpUN->getDirection());
-                if((tmpUN->getControl() || TypeUnitNode::IU_BL_IP == tmpUN->getType()) && !tmpUN->getName().isEmpty() && 1 != tmpUN->getMetaEntity()) {
-                    DataBaseManager::insertJourMsg_wS(msg);
-                    GraphTerminal::sendAbonentEventsAndStates(msg);
-                }
+
+                DataBaseManager::insertJourMsg_wS(msg);
+                GraphTerminal::sendAbonentEventsAndStates(msg);
             }
         }
     }
@@ -570,7 +569,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
             msg.setType(133);
         }
         msg.setObject(selUN->getName());
-        if((selUN->getControl() || TypeUnitNode::IU_BL_IP == selUN->getType()) && !selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+        if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
         }
@@ -617,7 +616,7 @@ void PortManager::requestAutoOnOffIUCommand(bool out, QSharedPointer<UnitNode> s
                         msg.setComment(tr("Удал. ком. Вкл"));
                     else
                         msg.setComment(tr("Послана ком. Вкл"));
-                    if((selUN->getControl() || TypeUnitNode::IU_BL_IP == selUN->getType()) && !selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+                    if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
                         DataBaseManager::insertJourMsg_wS(msg);
                         GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
                     }
@@ -723,7 +722,7 @@ void PortManager::lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN,
         msg.setType((value ? 150 : 151));
         msg.setComment(tr("Послана ком. ") + (value ? tr("Открыть") : tr("Закрыть")));
     }
-    if((selUN->getControl() || TypeUnitNode::IU_BL_IP == selUN->getType()) && !selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+    if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
         DataBaseManager::insertJourMsg_wS(msg);
         GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
     }
@@ -841,7 +840,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
             msg.setComment(tr("Послана ком. ") + (value ? tr("Вкл") : tr("Выкл")));
             msg.setType((value ? 130 : 131));
         }
-        if((selUN->getControl() || TypeUnitNode::IU_BL_IP == selUN->getType()) && !selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+        if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
         }
@@ -1021,8 +1020,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 msg.setD3(un->getNum3());
                 msg.setDirection(un->getDirection());
 
-                if(/*(TypeUnitNode::SD_BL_IP = un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpSDBLIP().isOn() && 1 == un->swpSDBLIP().isOn()) ||*/
-                  (TypeUnitNode::IU_BL_IP == un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpIUBLIP().isOn() && 1 == un->swpIUBLIP().isOn())) {
+                if(TypeUnitNode::IU_BL_IP == un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpIUBLIP().isOn() && 1 == un->swpIUBLIP().isOn()) {
                     JourEntity msgOn;
                     msgOn.setObject(un->getName());
                     msgOn.setObjecttype(un->getType());
@@ -1032,7 +1030,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                     msgOn.setType(101);
                     msgOn.setDirection(un->getDirection());
                     msgOn.setComment(QObject::tr("Вкл"));
-                    if((un->getControl() || TypeUnitNode::IU_BL_IP == un->getType()) && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
+                    if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                         DataBaseManager::insertJourMsg_wS(msgOn);
                         GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
                     }
@@ -2227,14 +2225,14 @@ void PortManager::manageOverallReadQueue()
                                     if(DKCiclStatus::DKDone == un->getDkStatus()) {
                                         msg.setComment(tr("Ком. ДК выполнена"));
                                         msg.setType(3);
-                                        if((un->getControl() || TypeUnitNode::IU_BL_IP == un->getType()) && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
+                                        if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                                             DataBaseManager::insertJourMsg_wS(msg);
                                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                         }
                                     } else {
                                         msg.setComment(tr("Ком. ДК не выполнена"));
                                         msg.setType(11);
-                                        if((un->getControl() || TypeUnitNode::IU_BL_IP == un->getType()) && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
+                                        if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                                             DataBaseManager::insertJourMsg_wS(msg);
                                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                         }
