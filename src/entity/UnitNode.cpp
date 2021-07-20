@@ -689,6 +689,37 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     return *this;
 }
 
+bool &UnitNode::operator>(const UnitNode & un)
+{
+    bool result = true;
+
+    if(0 >this->getUdpAdress().compare(un.getUdpAdress(), Qt::CaseInsensitive)) {
+        return result &= false;
+    }
+
+    if(this->getUdpPort() < un.getUdpPort()) {
+        return result &= false;
+    }
+
+    if(this->getType() < un.getType()) {
+        return result &= false;
+    }
+
+    if(this->getNum1() < un.getNum1()) {
+        return result &= false;
+    }
+
+    if(this->getNum2() < un.getNum2()) {
+        return result &= false;
+    }
+
+    if(this->getNum2() < un.getNum2()) {
+        return result &= false;
+    }
+
+    return result;
+}
+
 QVariant UnitNode::dataTreeColumn(int column) const
 {
     switch(column)

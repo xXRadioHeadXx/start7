@@ -104,6 +104,7 @@ public:
     QVariant dataTreeColumn(int column) const;
 
     virtual UnitNode & operator=(const UnitNode& );
+    virtual bool &operator>(const UnitNode& );
 
     void addChild(QSharedPointer<UnitNode> tc) noexcept;
     QSharedPointer<UnitNode>  child(int num) noexcept;
