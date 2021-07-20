@@ -2303,6 +2303,7 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
         un->setStateWordType0x33(QByteArray());
         un->setStateWordType0x34(QByteArray());
 
+        un->setPublishedState(10);
         if((un->getControl() || TypeUnitNode::IU_BL_IP == un->getType()) && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
             JourEntity msg;
             msg.setObject(un->getName());
@@ -2313,7 +2314,6 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
             msg.setD3(un->getNum3());
             msg.setDirection(un->getDirection());
             msg.setComment(tr("Нет связи"));
-            un->setPublishedState(10);
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
 
