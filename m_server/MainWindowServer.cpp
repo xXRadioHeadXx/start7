@@ -962,11 +962,13 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setD1(selUN->getNum1());
         msgOn.setD2(selUN->getNum2());
         msgOn.setD3(selUN->getNum3());
-        msgOn.setDirection(selUN->getUdpAdress());
+        msgOn.setDirection(selUN->getDirection());
         msgOn.setType((selUN->getControl() ? 137 : 136));
         msgOn.setComment(tr("Контроль ") + (selUN->getControl() ? tr("Вкл") : tr("Выкл")));
-        DataBaseManager::insertJourMsg_wS(msgOn);
-        GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
+        if((selUN->getControl() || TypeUnitNode::IU_BL_IP == selUN->getType()) && !selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+            DataBaseManager::insertJourMsg_wS(msgOn);
+            GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
+        }
 
 //        if(selUN->getControl()) {
 //            selUN->setStatus1(Status::Uncnown);

@@ -222,6 +222,7 @@ public:
     virtual void setIcon4Path(const QString &value) final;
 
     virtual QString toString() const final;
+
 };
 
 #endif // UNITNODECFG_H
