@@ -134,6 +134,7 @@ void LockWaiter::init() {
         newMetaUnIuBlIp->setMetaEntity(1);
 
         ServerSettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
+        qDebug() << "LockWaiter::init() add " << newMetaUnIuBlIp->toString();
         getUnReciver()->addChild(newMetaUnIuBlIp);
 
         setUnReciverIuBlIp(newMetaUnIuBlIp);

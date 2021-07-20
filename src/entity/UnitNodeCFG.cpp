@@ -643,6 +643,6 @@ QString UnitNodeCFG::toString() const
     case BL_IP: result.append("БЛ-IP").append(getUdpAdress()).append(":").append(QString::number(getUdpPort())); break; // 0xFF,БЛ IP
     default: result.append("UNKNOWEN"); break; //
     }
-    result = result.append(" [" + getName() + "]").append(")");
+    result = result.append(" [" + getName() + "]").append(")").append(getDirection());
     return result;
 }

@@ -959,7 +959,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
         if(TypeUnitNode::BL_IP == un->getType() && !un->swpBLIP().isNull() && !previousCopyUN->swpBLIP().isNull()) {
             if((un->swpBLIP().isWasDK() != previousCopyUN->swpBLIP().isWasDK()) ||
                (un->swpBLIP().isExistDK() != previousCopyUN->swpBLIP().isExistDK())) {
-                un->setStateWord(newStateWord);
+                un->setStateWord(newStateWord);if(10 == un->getPublishedState()) {un->setPublishedState(-1); }
                 un->updDoubl();
                 SignalSlotCommutator::getInstance()->emitUpdUN();
             }
@@ -1019,22 +1019,6 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                 msg.setD2(un->getNum2());
                 msg.setD3(un->getNum3());
                 msg.setDirection(un->getDirection());
-
-                if(TypeUnitNode::IU_BL_IP == un->getType() && un->getControl() && !isLockPair && 1 != previousCopyUN->isConnected() && 1 != previousCopyUN->swpIUBLIP().isOn() && 1 == un->swpIUBLIP().isOn()) {
-                    JourEntity msgOn;
-                    msgOn.setObject(un->getName());
-                    msgOn.setObjecttype(un->getType());
-                    msgOn.setD1(un->getNum1());
-                    msgOn.setD2(un->getNum2());
-                    msgOn.setD3(un->getNum3());
-                    msgOn.setType(101);
-                    msgOn.setDirection(un->getDirection());
-                    msgOn.setComment(QObject::tr("Вкл"));
-                    if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
-                        DataBaseManager::insertJourMsg_wS(msgOn);
-                        GraphTerminal::sendAbonentEventsAndStates(un, msgOn);
-                    }
-                }
 
                 if(un->getDkInvolved()) {
 //                    //qDebug() << "DkInvolved continue " << un->toString();
@@ -1348,6 +1332,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         msg.setType(100);
                         un->setPublishedState(100);
                         reciver->setPublishedState(100);
+                        qDebug() << un << "!!! OFF !!!" << un->toString() << un->getDoubles();
                     } else if((TypeUnitNode::IU_BL_IP == un->getType()) &&
                               (1 == un->swpIUBLIP().isOn()) &&
                               (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn())) {
@@ -1355,6 +1340,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                         msg.setType(101);
                         un->setPublishedState(101);
                         reciver->setPublishedState(101);
+                        qDebug() << un << "!!! ON !!!" << un->toString() << un->getDoubles();
                     }
                     if(1 != un->getMetaEntity() && 0 != msg.getType()) {
                         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
