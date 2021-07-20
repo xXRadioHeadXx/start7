@@ -1051,7 +1051,18 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                        unLockIuBlIp->swpIUBLIP().isOff() == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() &&
                        unLockSdBlIp->swpSDBLIP().isNorm() == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
                        unLockIuBlIp->swpIUBLIP().isOn() == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) { // состояние не зменилось - пропускаем
-                        un->updDoubl();
+                        if(10 == unLockSdBlIp->getPublishedState()) {
+                            unLockSdBlIp->setPublishedState(-1);
+                        }
+                        if(10 == unLockIuBlIp->getPublishedState()) {
+                            unLockIuBlIp->setPublishedState(-1);
+                        }
+                        if(10 == reciver->getPublishedState()) {
+                            reciver->setPublishedState(-1);
+                        }
+
+                        unLockSdBlIp->updDoubl();
+                        unLockIuBlIp->updDoubl();
                         SignalSlotCommutator::getInstance()->emitUpdUN();
                         continue;
                     } else if(
@@ -1066,10 +1077,32 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                              1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
                     { // запрещённая обработка перехода (Открыто -> Открыто ключом, Закрыто -> Закрыто ключом)
                         //qDebug() << "isLockPair continue " << un->toString();
-                        un->updDoubl();
+                        if(10 == unLockSdBlIp->getPublishedState()) {
+                            unLockSdBlIp->setPublishedState(-1);
+                        }
+                        if(10 == unLockIuBlIp->getPublishedState()) {
+                            unLockIuBlIp->setPublishedState(-1);
+                        }
+                        if(10 == reciver->getPublishedState()) {
+                            reciver->setPublishedState(-1);
+                        }
+                        unLockSdBlIp->updDoubl();
+                        unLockIuBlIp->updDoubl();
                         SignalSlotCommutator::getInstance()->emitUpdUN();
                         continue;
                     }
+
+                    if(10 == unLockSdBlIp->getPublishedState()) {
+                        unLockSdBlIp->setPublishedState(-1);
+                    }
+                    if(10 == unLockIuBlIp->getPublishedState()) {
+                        unLockIuBlIp->setPublishedState(-1);
+                    }
+                    if(10 == reciver->getPublishedState()) {
+                        reciver->setPublishedState(-1);
+                    }
+                    unLockSdBlIp->updDoubl();
+                    unLockIuBlIp->updDoubl();
 
                     // переводим на другой шаг обработчик открытия и закрытия этого УЗ
                     QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
@@ -1153,7 +1186,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                       1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
                     { // запрещённая запись перехода (Открыто <-> Открыто ключом, Закрыто <-> Закрыто ключом)
                         qDebug() << "isLockPair not jour " << un->toString();
-                    } else {
+                    } else {                        
                         msg.setObject(unLockSdBlIp->getName());
 
     //                    qDebug() << "isLockPair " << un->getName();
@@ -1239,6 +1272,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
                             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                             GraphTerminal::sendAbonentEventsAndStates(unLockIuBlIp, msg);
                         }
+
                     }
 
                 } else { // запись сообщения СД или ИУ
@@ -1330,6 +1364,9 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                     if(10 == un->getPublishedState()) {
                         un->setPublishedState(-1);
+                    }
+                    if(10 == reciver->getPublishedState()) {
+                        reciver->setPublishedState(-1);
                     }
 
                 }
