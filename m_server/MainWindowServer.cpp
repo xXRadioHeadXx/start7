@@ -31,6 +31,19 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 {
     ui->setupUi(this);
 
+#ifdef QT_DEBUG
+    auto action = new QPushButton("Read Pass", this);
+    action->setCheckable(true);
+    action->setChecked(false);
+    connect(action, &QPushButton::clicked, this,  [](auto ch){
+        qDebug() << "Port::readPass = " << Port::readPass << " ch = " << ch;
+        Port::readPass = ch;
+        qDebug() << "Port::readPass = " << Port::readPass << " ch = " << ch;
+    });
+    ui->horizontalLayout->addWidget(action);
+#endif
+
+
     QString buildPrefix = "";
 
 #ifdef QT_DEBUG

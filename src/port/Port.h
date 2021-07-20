@@ -31,8 +31,8 @@ private:
     QTimer timerBeatProcDK;
     bool procDK = false;
 
-    bool readPass = false;
 public:
+    static bool readPass;
 
     explicit Port(const AbstractPort::Protocol &protocol = AbstractPort::UDP, QObject *parent = nullptr, const int index = 0, DataBaseManager *dbm = nullptr);
     virtual ~Port();

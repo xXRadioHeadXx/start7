@@ -38,6 +38,8 @@ void Port::beatProcDK_wTW()
     timerBeatProcDK.stop();
 }
 
+bool Port::readPass = false;
+
 Port::Port(const AbstractPort::Protocol &protocol, QObject *parent, const int index, DataBaseManager *dbm) : AbstractPort(protocol, parent), portIndex(index), m_dbm(dbm) {}
 
 Port::~Port() {
@@ -214,6 +216,8 @@ void Port::readUdpDatagrams()
         QHostAddress ip4Address(ip6Address.toIPv4Address(&conversionOK));
         if (conversionOK && getStHostAddress().contains(ip4Address) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
         {
+            if(readPass)
+                continue;
             pushLocalReadQueue(DataQueueItem(datagram, ip4Address, port, getPortIndex()));
 //            // временно -->
 //            if(Utils::isSavedMsg(datagram)) {
@@ -237,9 +241,6 @@ void Port::readTcpDatagrams()
 
 void Port::readMessage()
 {
-    if(readPass)
-        return;
-
     switch (getProtocol()) {
     case AbstractPort::UDP:
         readUdpDatagrams();
