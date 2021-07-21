@@ -2227,6 +2227,13 @@ void MainWindowServer::verticalScrollBarJourValueChanged(int value)
 void MainWindowServer::on_pushButtonSoundAlarm_clicked()
 {
     SoundAdjuster::instance().playAlarm();
+
+
+    JourEntity msg;
+    msg.setObject(tr("Оператор"));
+    msg.setType(905);
+    msg.setComment(tr("Включен режим Тревога"));
+    DataBaseManager::insertJourMsg_wS(msg);
 }
 
 
