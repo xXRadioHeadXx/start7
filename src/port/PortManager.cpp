@@ -2268,6 +2268,8 @@ void PortManager::manageOverallReadQueue()
                                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
 
                                             un->setPublishedState(-1);
+
+                                            SoundAdjuster::instance().playAlarm2();
                                         }
                                     }
                                     un->setDkInvolved(false);
