@@ -1222,6 +1222,10 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
+                            if(113 == msg.getType()) {
+                                SoundAdjuster::instance().playAlarm();
+                            }
+
                         } else if(1 != unLockSdBlIp->getMetaEntity()) {
                             msg.setObject(unLockSdBlIp->getName());
                             msg.setObjecttype(unLockSdBlIp->getType());
@@ -1238,6 +1242,9 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                             GraphTerminal::sendAbonentEventsAndStates(unLockSdBlIp, msg);
+                            if(113 == msg.getType()) {
+                                SoundAdjuster::instance().playAlarm();
+                            }
 
                         } else if(1 != unLockIuBlIp->getMetaEntity()) {
                             msg.setObject(unLockIuBlIp->getName());
@@ -1255,6 +1262,9 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
                             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                             GraphTerminal::sendAbonentEventsAndStates(unLockIuBlIp, msg);
+                            if(113 == msg.getType()) {
+                                SoundAdjuster::instance().playAlarm();
+                            }
                         }
 
                     }

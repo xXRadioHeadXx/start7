@@ -150,7 +150,6 @@ QPixmap JourEntity::getPxm() const
        case 130:
        case 131:
        case 132:
-       case 133:
        case 134:
        case 135:
        case 136:
@@ -191,6 +190,7 @@ QPixmap JourEntity::getPxm() const
        case  25:
        case  26:
        case  27:
+       case 133:
        case 904:
         return Icons::crcl_rd();
        case  30:
@@ -219,7 +219,6 @@ QColor JourEntity::getColor() const
        case 130:
        case 131:
        case 132:
-       case 133:
        case 134:
        case 135:
        case 136:
@@ -263,6 +262,7 @@ QColor JourEntity::getColor() const
        case  25:
        case  26:
        case  27:
+       case 133:
        case 904:
         return QColor(227, 6, 19);
 //        return Icons::crcl_rd();
