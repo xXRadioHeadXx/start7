@@ -1458,6 +1458,8 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
                     msg.setType(3);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
+
+                    un->setPublishedState(-1);
                 }
             }
             if(/*!un->getDkInvolved() &&*/ (
@@ -1746,6 +1748,8 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
                     msg.setType(3);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
+
+                    un->setPublishedState(-1);
                 }
             }
             if(/*!un->getDkInvolved() &&*/ (
@@ -1918,6 +1922,8 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
                     msg.setType(3);
                     SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
+
+                    un->setPublishedState(-1);
                 }
             }
             if(/*!un->getDkInvolved() &&*/ (
@@ -2251,6 +2257,8 @@ void PortManager::manageOverallReadQueue()
                                         if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                                             DataBaseManager::insertJourMsg_wS(msg);
                                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
+
+                                            un->setPublishedState(-1);
                                         }
                                     } else {
                                         msg.setComment(tr("Ком. ДК не выполнена"));
@@ -2258,6 +2266,8 @@ void PortManager::manageOverallReadQueue()
                                         if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                                             DataBaseManager::insertJourMsg_wS(msg);
                                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
+
+                                            un->setPublishedState(-1);
                                         }
                                     }
                                     un->setDkInvolved(false);
