@@ -893,501 +893,1120 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
         }
     }
 
+
     return result;
+}
+
+bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+{
+    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -->";
+    if((TypeUnitNode::SD_BL_IP != currentUN->getType() && TypeUnitNode::IU_BL_IP != currentUN->getType()) ||
+       1 > currentUN->getNum2() ||
+       4 < currentUN->getNum2()) {
+        qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(1) <--";
+        return false;
+    }
+
+
+    auto reciver = UnitNode::findReciver(currentUN);
+    if(!reciver.isNull()) {
+        reciver->resetCountStatusConnectRequesterWaitAnswer();
+        reciver->setStateWord(stateWord);
+    } else {
+        qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(2) <--";
+        return false;
+    }
+
+    QSharedPointer<UnitNode> previousCopyUNLockSdBlIp, previousCopyUNLockIuBlIp;
+    QSharedPointer<UnitNode>  unLockSdBlIp, unLockIuBlIp;
+    for(const auto &tmpUN : as_const(reciver->getListChilde())) {
+        if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == currentUN->getNum2()) {
+            previousCopyUNLockIuBlIp = UnitNodeFactory::makeShare(*tmpUN);
+            unLockIuBlIp = tmpUN;
+            break;
+        }
+    }
+
+    for(const auto& tmpUN : as_const(reciver->getListChilde())) {
+        if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == currentUN->getNum2() && 0 != tmpUN->getBazalt()) {
+            previousCopyUNLockSdBlIp = UnitNodeFactory::makeShare(*tmpUN);
+            unLockSdBlIp = tmpUN;
+            break;
+        }
+    }
+
+    if(unLockSdBlIp.isNull() || unLockIuBlIp.isNull()) {
+        qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(3) <--";
+        return false;
+    } else if(0 == unLockSdBlIp->getBazalt()) {
+        qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(4) <--";
+        return false;
+    }
+
+    unLockSdBlIp->setStateWord(stateWord);
+    unLockIuBlIp->setStateWord(stateWord);
+
+    const auto &swpCurrentSD = unLockSdBlIp->swpSDBLIP(),
+               &swpPreviousSD = previousCopyUNLockSdBlIp->swpSDBLIP();
+    const auto &swpCurrentIU = unLockIuBlIp->swpIUBLIP(),
+               &swpPreviousIU = previousCopyUNLockIuBlIp->swpIUBLIP();
+
+    auto isChangedStatus = false;
+    if(swpCurrentSD.isAlarm() != swpPreviousSD.isAlarm() ||
+       swpCurrentIU.isOff() != swpPreviousIU.isOff() ||
+       swpCurrentSD.isNorm() != swpPreviousSD.isNorm() ||
+       swpCurrentIU.isOn() != swpPreviousIU.isOn()) {
+        // состояние не зменилось - что-то пропускаем
+        isChangedStatus = true;
+    }
+
+    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
+
+    // проверка на запрещённые переходы состояний -->
+    auto isForbiddenTransferStatusForReaction = false;
+    if(
+            (1 == swpPreviousSD.isAlarm() &&
+             1 == swpPreviousIU.isOff() && //Открыто
+             1 == swpCurrentSD.isAlarm() &&
+             1 == swpCurrentIU.isOn()) || //Открыто ключом
+
+            (1 == swpPreviousSD.isNorm() &&
+             1 == swpPreviousIU.isOn() && //Закрыто
+             1 == swpCurrentSD.isNorm() &&
+             1 == swpCurrentIU.isOff())) //Закрыто ключом
+    { // запрещённая обработка перехода
+      // (Открыто -> Открыто ключом, Закрыто -> Закрыто ключом)
+        isForbiddenTransferStatusForReaction = true;
+    }
+    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isForbiddenTransferStatusForReaction " << isForbiddenTransferStatusForReaction;
+
+    // переводим на другой шаг обработчик открытия и закрытия этого УЗ -->
+    if(!isForbiddenTransferStatusForReaction && isChangedStatus) {
+        QPair<QString, QString> tmpPair(reciver->getUdpAdress(), QString::number(reciver->getUdpPort()));
+        for(auto ar : as_const(getLsWaiter())) {
+            if(ar->getIpPort() == tmpPair &&
+               RequesterType::LockRequester == ar->getRequesterType() &&
+               ar->getUnTarget() == unLockSdBlIp) {
+                SignalSlotCommutator::getInstance()->emitEndLockWait();
+                if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
+//                                ar->startSecondRequest();
+                    continue;
+                } else if(BeatStatus::Waite == ar->getBeatStatus()) {
+                    ar->startSecondRequest(3000);
+                } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) {
+//                                ar->startEnd();
+                    continue;
+                } else if(BeatStatus::WaiteEnd == ar->getBeatStatus()) {
+                      ar->startEnd();
+                }
+            }
+        }
+    }
+    // переводим на другой шаг обработчик открытия и закрытия этого УЗ <--
+
+    auto isForbiddenTransferStatusForJour = false;
+    if(
+            isForbiddenTransferStatusForReaction
+            ||
+            (1 == swpPreviousSD.isAlarm() &&
+             1 == swpPreviousIU.isOn() &&  //Открыто ключом
+             1 == swpCurrentSD.isAlarm() &&
+             1 == swpCurrentIU.isOff()) //Открыто
+            ||
+            (1 == swpPreviousSD.isNorm() &&
+             1 == swpPreviousIU.isOff() && //Закрыто ключом
+             1 == swpCurrentSD.isNorm() &&
+             1 == swpCurrentIU.isOn())  //Закрыто
+//            ||
+//            (1 == swpPreviousSD.isAlarm() &&
+//             1 == swpPreviousIU.isOff() && //Открыто
+//             1 == swpCurrentSD.isAlarm() &&
+//             1 == swpCurrentIU.isOn())  //Открыто ключом
+//            ||
+//             (1 == swpPreviousSD.isNorm() &&
+//              1 == swpPreviousIU.isOn() && //Закрыто
+//              1 == swpCurrentSD.isNorm() &&
+//              1 == swpCurrentIU.isOff()) //Закрыто ключом
+      )
+    { // запрещённая запись перехода (Открыто <-> Открыто ключом, Закрыто <-> Закрыто ключом)
+        isForbiddenTransferStatusForJour = true;
+    }
+    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isForbiddenTransferStatusForJour " << isForbiddenTransferStatusForJour;
+    // проверка на запрещённые переходы состояний <--
+
+    auto isFirstWakeUp = false;
+    // устройство очнулось (после потери связи например)
+    if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
+        isFirstWakeUp = true;
+    }
+    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
+
+    auto isWakeUp = false;
+    // устройство очнулось (после потери связи например)
+    if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
+        isWakeUp = true;
+    }
+    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
+
+    int typeMsg = -1;
+    QString commentMsg;
+
+    if(1 == swpCurrentSD.isAlarm() &&
+       1 == swpCurrentIU.isOff() &&
+       (swpCurrentSD.isAlarm() != swpPreviousSD.isAlarm() ||
+        swpCurrentIU.isOff() != swpPreviousIU.isOff())) {
+        //Открыто
+        commentMsg = QObject::tr("Открыто");
+        typeMsg = 111;
+        unLockSdBlIp->setPublishedState(111);
+        unLockIuBlIp->setPublishedState(100);
+    } else if(1 == swpCurrentSD.isNorm() &&
+              1 == swpCurrentIU.isOn() &&
+              (swpCurrentSD.isNorm() != swpPreviousSD.isNorm() ||
+               swpCurrentIU.isOn() != swpPreviousIU.isOn())) {
+        //Закрыто
+        commentMsg = QObject::tr("Закрыто");
+        typeMsg = 110;
+        unLockSdBlIp->setPublishedState(110);
+        unLockIuBlIp->setPublishedState(101);
+    } else if(1 == swpCurrentSD.isAlarm() &&
+              1 == swpCurrentIU.isOn() &&
+              (swpCurrentSD.isAlarm() != swpPreviousSD.isAlarm() ||
+               swpCurrentIU.isOn() != swpPreviousIU.isOn())) {
+        //Открыто ключом
+        commentMsg = QObject::tr("Открыто ключом");
+        typeMsg = 113;
+        unLockSdBlIp->setPublishedState(113);
+        unLockIuBlIp->setPublishedState(101);
+    } else if(1 == swpCurrentSD.isNorm() &&
+              1 == swpCurrentIU.isOff() &&
+              (swpCurrentSD.isNorm() != swpPreviousSD.isNorm() ||
+               swpCurrentIU.isOff() != swpPreviousIU.isOff())) {
+        //Закрыто ключом
+        commentMsg = QObject::tr("Закрыто ключом");
+        typeMsg = 112;
+        unLockSdBlIp->setPublishedState(112);
+        unLockIuBlIp->setPublishedState(100);
+    }
+
+    qDebug() << "состояние УЗО -->" << commentMsg;
+    qDebug() << "pSD: " << previousCopyUNLockSdBlIp->toString() << swpPreviousSD.byteWord().toHex();
+    qDebug() << "cSD: " << unLockSdBlIp->toString() << swpCurrentSD.byteWord().toHex();
+    qDebug() << "pIU: " << previousCopyUNLockIuBlIp->toString() << swpPreviousIU.byteWord().toHex();
+    qDebug() << "cIU: " << unLockIuBlIp->toString() << swpCurrentIU.byteWord().toHex();
+    qDebug() << "состояние УЗО <--";
+
+    if((isWakeUp || isFirstWakeUp || !isForbiddenTransferStatusForJour) && isChangedStatus && -1 != typeMsg) {
+        // следует записать сообщение
+        JourEntity msg;
+
+        // заполняем поля сообщения за отправителя
+        const auto &sendetMsgUN = ((1 != unLockSdBlIp->getMetaEntity()) ?
+                                       unLockSdBlIp :
+                                       ((1 != unLockIuBlIp->getMetaEntity()) ?
+                                            unLockIuBlIp :
+                                            nullptr));
+
+        msg.setObject(sendetMsgUN->getName());
+        msg.setObjecttype(sendetMsgUN->getType());
+        msg.setD1(sendetMsgUN->getNum1());
+        msg.setD2(sendetMsgUN->getNum2());
+        msg.setD3(sendetMsgUN->getNum3());
+        msg.setDirection(sendetMsgUN->getDirection());
+        msg.setComment(commentMsg);
+        msg.setType(typeMsg);
+
+        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        GraphTerminal::sendAbonentEventsAndStates(sendetMsgUN, msg);
+        if(113 == msg.getType()) {
+            SoundAdjuster::instance().playAlarm();
+        }
+    }
+
+    // будим рессивер
+    if(isWakeUp || 10 == reciver->getPublishedState()) {
+        reciver->setPublishedState(-1);
+    }
+
+    unLockSdBlIp->updDoubl();
+    unLockIuBlIp->updDoubl();
+    SignalSlotCommutator::getInstance()->emitUpdUN();
+
+    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(5) <--";
+    return true;
+}
+
+bool PortManager::PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+{
+    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -->";
+    if(TypeUnitNode::IU_BL_IP != currentUN->getType() ||
+       1 > currentUN->getNum2() ||
+       4 < currentUN->getNum2()) {
+        qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41(1) <--";
+        return false;
+    }
+
+    auto reciver = UnitNode::findReciver(currentUN);
+    if(!reciver.isNull()) {
+        reciver->resetCountStatusConnectRequesterWaitAnswer();
+        reciver->setStateWord(stateWord);
+    } else {
+        qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41(2) <--";
+        return false;
+    }
+
+    QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
+    currentUN->setStateWord(stateWord);
+
+    const auto &swpCurrent = currentUN->swpIUBLIP(),
+               &swpPrevious = previousUN->swpIUBLIP();
+    auto isChangedStatus = true;
+    if(swpCurrent.isOff() != swpPrevious.isOff() ||
+       swpCurrent.isOn() != swpPrevious.isOn()) {
+        // состояние не зменилось - что-то пропускаем
+        isChangedStatus = false;
+    }
+    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
+
+    auto isFirstWakeUp = false;
+    // устройство очнулось (после потери связи например)
+    if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
+        isFirstWakeUp = true;
+    }
+    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
+
+    auto isWakeUp = false;
+    // устройство очнулось (после потери связи например)
+    if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
+        isWakeUp = true;
+    }
+    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
+
+    // запись вкл/выкл ИУ -->
+    int typeMsg = -1;
+    QString commentMsg;
+
+    if(1 == swpCurrent.isOff()) {
+        commentMsg = QObject::tr("Выкл");
+        typeMsg = 100;
+        currentUN->setPublishedState(100);
+        reciver->setPublishedState(100);
+    } else if(1 == swpCurrent.isOn()) {
+        commentMsg = QObject::tr("Вкл");
+        typeMsg = 101;
+        currentUN->setPublishedState(101);
+        reciver->setPublishedState(101);
+    }
+
+    qDebug() << "состояние ИУ -->" << commentMsg;
+    qDebug() << "pIU: " << previousUN->toString() << swpPrevious.byteWord().toHex();
+    qDebug() << "cIU: " << currentUN->toString() << swpCurrent.byteWord().toHex();
+    qDebug() << "состояние ИУ <--";
+
+    if((isWakeUp || isFirstWakeUp || isChangedStatus) && 1 != currentUN->getMetaEntity() && -1 != typeMsg) {
+        // следует записать сообщение
+        JourEntity msg;
+
+        // заполняем поля сообщения за отправителя
+        msg.setObject(currentUN->getName());
+        msg.setObjecttype(currentUN->getType());
+        msg.setD1(currentUN->getNum1());
+        msg.setD2(currentUN->getNum2());
+        msg.setD3(currentUN->getNum3());
+        msg.setDirection(currentUN->getDirection());
+        msg.setComment(commentMsg);
+        msg.setType(typeMsg);
+
+        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+    }
+    // запись вкл/выкл ИУ <--
+
+    // будим рессивер
+    if(isWakeUp || 10 == reciver->getPublishedState()) {
+        reciver->setPublishedState(-1);
+    }
+
+    currentUN->updDoubl();
+    SignalSlotCommutator::getInstance()->emitUpdUN();
+
+    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41(3) <--";
+    return true;
+}
+
+bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+{
+    qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41() -->";
+    if(TypeUnitNode::SD_BL_IP == currentUN->getType() && 1 != currentUN->getBazalt()) {
+        qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41(1) <--";
+        return false;
+    }
+
+
+    auto reciver = UnitNode::findReciver(currentUN);
+    if(!reciver.isNull()) {
+        reciver->resetCountStatusConnectRequesterWaitAnswer();
+        reciver->setStateWord(stateWord);
+    } else {
+        qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41(2) <--";
+        return false;
+    }
+
+    QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
+    currentUN->setStateWord(stateWord);
+
+    const auto &swpCurrent = currentUN->swpSDBLIP(),
+               &swpPrevious = previousUN->swpSDBLIP();
+
+    auto isChangedStatus = true;
+    if(swpCurrent.isOff() != swpPrevious.isOff() ||
+       swpCurrent.isOn() != swpPrevious.isOn() ||
+       swpCurrent.isAlarm() != swpPrevious.isAlarm() ||
+       swpCurrent.isWasAlarm() != swpPrevious.isWasAlarm() ||
+       swpCurrent.isNorm() != swpPrevious.isNorm()) {
+        // состояние не зменилось - что-то пропускаем
+        isChangedStatus = false;
+    }
+    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
+
+    auto isFirstWakeUp = false;
+    // устройство очнулось (после потери связи например)
+    if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
+        isFirstWakeUp = true;
+    }
+    qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
+
+    auto isWakeUp = false;
+    // устройство очнулось (после потери связи например)
+    if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
+        isWakeUp = true;
+    }
+    qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
+
+    // даём сброс тревоги если нужен
+    auto makedAlarmReset0x24 = false;
+    if(1 == swpCurrent.isOn() &&
+       1 == swpCurrent.isAlarm() &&
+       1 == swpCurrent.isWasAlarm()) { // сброс тревоги
+        //нужен сброс
+        DataQueueItem alarmReset0x24;
+        alarmReset0x24.setPort(currentUN->getUdpPort());
+        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+        DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
+
+        if(alarmReset0x24.isValid()) {
+            reciver->queueMsg.enqueue(alarmReset0x24);
+            makedAlarmReset0x24 = true;
+        }
+    }
+    qDebug() << "PortManager::procSDBLIPStatusWord0x41 -- makedAlarmReset0x24" << makedAlarmReset0x24;
+
+    JourEntity prepareMsg;
+    // заполняем поля сообщения за отправителя
+    prepareMsg.setObject(currentUN->getName());
+    prepareMsg.setObjecttype(currentUN->getType());
+    prepareMsg.setD1(currentUN->getNum1());
+    prepareMsg.setD2(currentUN->getNum2());
+    prepareMsg.setD3(currentUN->getNum3());
+    prepareMsg.setDirection(currentUN->getDirection());
+
+    // запись вкл/выкл СД -->
+    int typeMsg = -1;
+    QString commentMsg;
+
+    if((1 == swpCurrent.isOff() && 0 == swpPrevious.isOff()) ||
+       (isFirstWakeUp && 1 == swpCurrent.isOff())) {
+        commentMsg = QObject::tr("Выкл");
+        typeMsg = 100;
+        reciver->setPublishedState(100);
+    } else if((1 == swpCurrent.isOn() && 0 == swpPrevious.isOn()) ||
+              (isFirstWakeUp && 1 == swpCurrent.isOff())) {
+        commentMsg = QObject::tr("Вкл");
+        typeMsg = 101;
+        reciver->setPublishedState(101);
+    }
+
+    qDebug() << "состояние СД -->" << commentMsg;
+    qDebug() << "pSD: " << previousUN->toString() << swpPrevious.byteWord().toHex();
+    qDebug() << "cSD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
+    qDebug() << "состояние СД <--";
+
+    if(1 != currentUN->getMetaEntity() && -1 != typeMsg) {
+        // следует записать сообщение
+        JourEntity msg = prepareMsg;
+        // заполняем поля сообщения
+        msg.setComment(commentMsg);
+        msg.setType(typeMsg);
+
+        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+    }
+
+    // запись тревог и нормы СД
+    if(1 == swpCurrent.isOn() &&
+       1 == swpCurrent.isAlarm() &&
+       1 == swpCurrent.isWasAlarm() &&
+       (swpPrevious.isAlarm() != swpCurrent.isAlarm() ||
+        swpPrevious.isWasAlarm() != swpCurrent.isWasAlarm())) {
+        //сохранение Тревога или Норма
+        commentMsg = QObject::tr("Тревога-СРАБОТКА");
+        typeMsg = 20;
+        currentUN->setPublishedState(20);
+        reciver->setPublishedState(20);
+    } else if(1 == swpCurrent.isOn() &&
+              1 == swpCurrent.isNorm() &&
+              swpCurrent.isNorm() != swpPrevious.isNorm()) {
+        commentMsg = QObject::tr("Норма");
+        typeMsg = 1;
+        currentUN->setPublishedState(1);
+        reciver->setPublishedState(1);
+    }
+
+    qDebug() << "состояние СД -->" << commentMsg;
+    qDebug() << "pSD: " << previousUN->toString() << swpPrevious.byteWord().toHex();
+    qDebug() << "cSD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
+    qDebug() << "состояние СД <--";
+
+    if((isWakeUp ||
+        isFirstWakeUp ||
+        20 == currentUN->getPublishedState() ||
+        previousUN->getPublishedState() != currentUN->getPublishedState()) &&
+            1 != currentUN->getMetaEntity() &&
+            -1 != typeMsg && currentUN->getControl()) {
+        // следует записать сообщение
+        JourEntity msg = prepareMsg;
+        // заполняем поля сообщения
+        msg.setComment(commentMsg);
+        msg.setType(typeMsg);
+
+        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+
+        if(20 == typeMsg) {
+            SoundAdjuster::instance().playAlarm();
+        }
+    }
+
+    currentUN->updDoubl();
+    SignalSlotCommutator::getInstance()->emitUpdUN();
+
+    if(20 == typeMsg) {
+        //сохранение Тревога или Норма
+        for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+        }
+        //нужен сброс
+    }
+
+    qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41(3) <--";
+    return true;
 }
 
 DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest)
 {
-//    //qDebug() << "Utils::parcingStatusWord0x41 -->";
+    qDebug() << "Utils::parcingStatusWord0x41() -->";
     const StateWord newStateWord(item.data().mid(5, 4));
     resultRequest = item;
     resultRequest.setData();
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
-    for(QSharedPointer<UnitNode>  un : tmpSet) {
-//        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) && item.port() == un->getUdpPort() && TypeUnitNode::BL_IP == un->getType()) {
-//            un->setCountStatusConnectRequesterWaitAnswer(0);
-//        }
+    for(const QSharedPointer<UnitNode>  &un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
-        auto reciver = UnitNode::findReciver(un);
-        if(!reciver.isNull()) {
-            reciver->resetCountStatusConnectRequesterWaitAnswer();
-            reciver->setStateWord(newStateWord);
-        }
-        QSharedPointer<UnitNode> previousCopyUNLockSdBlIp, previousCopyUNLockIuBlIp;
-        QSharedPointer<UnitNode>  unLockSdBlIp, unLockIuBlIp;
-        bool isLockPair = false;
-        if(1 <= un->getNum2() && 4 >= un->getNum2()) {
-            if(!reciver.isNull()) {
-                for(const auto &tmpUN : as_const(reciver->getListChilde())) {
-                    if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
-                        previousCopyUNLockIuBlIp = UnitNodeFactory::makeShare(*tmpUN);
-                        unLockIuBlIp = tmpUN;
-                        break;
-                    }
+
+        if(TypeUnitNode::BL_IP == un->getType())  {
+
+            QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*un);
+            un->setStateWord(newStateWord);
+
+            const auto &swpCurrent = un->swpBLIP(),
+                       &swpPrevious = previousUN->swpBLIP();
+            if((swpCurrent.isWasDK() != swpPrevious.isWasDK()) ||
+               (swpCurrent.isExistDK() != swpPrevious.isExistDK())) {
+                un->setStateWord(newStateWord);
+                if(10 == un->getPublishedState()) {
+                    un->setPublishedState(-1);
                 }
-
-                for(const auto& tmpUN : as_const(reciver->getListChilde())) {
-                    if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2() && 0 != tmpUN->getBazalt()) {
-                        previousCopyUNLockSdBlIp = UnitNodeFactory::makeShare(*tmpUN);
-                        unLockSdBlIp = tmpUN;
-                        break;
-                    }
-                }
-            }
-
-            if(unLockSdBlIp.isNull() || unLockIuBlIp.isNull()) {
-//                previousCopyUNLockIuBlIp.clear();
-//                previousCopyUNLockSdBlIp.clear();
-//                unLockIuBlIp.clear();
-//                unLockSdBlIp.clear();
-                isLockPair = false;
-            } else if(0 != unLockSdBlIp->getBazalt()) {
-                isLockPair = true;
-            }
-        }
-        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
-        un->setStateWord(newStateWord);
-//        un->updDoubl();
-
-        if(isLockPair && (!unLockSdBlIp.isNull() || !unLockIuBlIp.isNull())) {
-            unLockSdBlIp->setStateWord(newStateWord);
-            unLockIuBlIp->setStateWord(newStateWord);
-        }
-
-        if(TypeUnitNode::BL_IP == un->getType() && !un->swpBLIP().isNull() && !previousCopyUN->swpBLIP().isNull()) {
-            if((un->swpBLIP().isWasDK() != previousCopyUN->swpBLIP().isWasDK()) ||
-               (un->swpBLIP().isExistDK() != previousCopyUN->swpBLIP().isExistDK())) {
-                un->setStateWord(newStateWord);if(10 == un->getPublishedState()) {un->setPublishedState(-1); }
                 un->updDoubl();
                 SignalSlotCommutator::getInstance()->emitUpdUN();
+                continue;
             }
+
         }
 
-        if(0 != un->getDK() &&
-           DKCiclStatus::DKIgnore != previousCopyUN->getDkStatus() &&
-           DKCiclStatus::DKWrong != previousCopyUN->getDkStatus() &&
-           DKCiclStatus::DKDone != previousCopyUN->getDkStatus() &&
-           un->getDkInvolved()) {
-//            //qDebug() << "DkStatus --> " << un->toString();
-            int unCalcDkStatus = un->calcDKStatus();
-//            //qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
-//            //qDebug() << "DkStatus -- unDkStatus " << un->getDkStatus();
-            if(DKCiclStatus::DKReady == previousCopyUN->getDkStatus() &&
-                    DKCiclStatus::DKNorm == unCalcDkStatus)
-                un->setDkStatus(DKCiclStatus::DKNorm);
-            else if((DKCiclStatus::DKNorm == previousCopyUN->getDkStatus() || DKCiclStatus::DKReady == previousCopyUN->getDkStatus())&&
-                    DKCiclStatus::DKWasAlarn == unCalcDkStatus)
-                un->setDkStatus(DKCiclStatus::DKWasAlarn);
-            else if(DKCiclStatus::DKWasAlarn == previousCopyUN->getDkStatus() &&
-                    DKCiclStatus::DKNorm == unCalcDkStatus)
-                un->setDkStatus(DKCiclStatus::DKDone);
-            else if(DKCiclStatus::DKWasAlarn == previousCopyUN->getDkStatus() &&
-                    DKCiclStatus::DKWas == unCalcDkStatus)
-                un->setDkStatus(DKCiclStatus::DKDone);
-            else if((DKCiclStatus::DKNorm == previousCopyUN->getDkStatus() &&
-                     DKCiclStatus::DKNorm == unCalcDkStatus) ||
-                    (DKCiclStatus::DKWasAlarn == previousCopyUN->getDkStatus() &&
-                     DKCiclStatus::DKWasAlarn == unCalcDkStatus))
-                un->setDkStatus(previousCopyUN->getDkStatus());
-            else
-                un->setDkStatus(DKCiclStatus::DKWrong);
-//            un->updDoubl();
-//            //qDebug() << "DkStatus -- unNewDkStatus " << un->getDkStatus();
-//            //qDebug() << "DkStatus <--";
+        auto isProcessed = false;
+
+        if(procDkBLIPStatusWord0x41(un, newStateWord)) {
+            isProcessed = true;
+            qDebug() << "PortManager::parcingStatusWord0x41 --> procDkBLIPStatusWord0x41() " << isProcessed;
+        } else if(procUzoBLIPStatusWord0x41(un, newStateWord)) {
+            isProcessed = true;
+            qDebug() << "PortManager::parcingStatusWord0x41 --> procUzoBLIPStatusWord0x41() " << isProcessed;
+        } else if(procIUBLIPStatusWord0x41(un, newStateWord)) {
+            isProcessed = true;
+            qDebug() << "PortManager::parcingStatusWord0x41 --> procIUBLIPStatusWord0x41() " << isProcessed;
+        } else if(procSDBLIPStatusWord0x41(un, newStateWord)) {
+            isProcessed = true;
+            qDebug() << "PortManager::parcingStatusWord0x41 --> procSDBLIPStatusWord0x41() " << isProcessed;
+        } else {
+            qDebug() << "PortManager::parcingStatusWord0x41 --> proc " << isProcessed;
         }
-
-        if((!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord().getByteWord() != un->getStateWord().getByteWord())) ||
-           (!previousCopyUNLockSdBlIp.isNull() && !unLockSdBlIp.isNull() && (previousCopyUNLockSdBlIp->getStateWord().getByteWord() != unLockSdBlIp->getStateWord().getByteWord())) ||
-           (!previousCopyUNLockIuBlIp.isNull() && !unLockIuBlIp.isNull() && (previousCopyUNLockIuBlIp->getStateWord().getByteWord() != unLockIuBlIp->getStateWord().getByteWord()))) {
-            un->setStateWord(newStateWord);
-            if(!unLockIuBlIp.isNull() && !unLockSdBlIp.isNull() && isLockPair) {
-                unLockSdBlIp->setStateWord(newStateWord);
-                unLockIuBlIp->setStateWord(newStateWord);
-            }
-
-//            un->updDoubl();
-//            SignalSlotCommutator::getInstance()->emitUpdUN();
-
-            if(!un->getDkInvolved()) {
-
-                JourEntity msg;
-                msg.setObject(un->getName());
-                msg.setObjecttype(un->getType());
-                msg.setD1(un->getNum1());
-                msg.setD2(un->getNum2());
-                msg.setD3(un->getNum3());
-                msg.setDirection(un->getDirection());
-
-                if(un->getDkInvolved()) {
-//                    //qDebug() << "DkInvolved continue " << un->toString();
-                    un->updDoubl();
-                    SignalSlotCommutator::getInstance()->emitUpdUN();
-                    continue;
-                } else if(!un->getParentUN().isNull() && un->getParentUN()->getDkInvolved()) {
-//                    //qDebug() << "DkInvolved continue " << un->toString();
-                    un->updDoubl();
-                    SignalSlotCommutator::getInstance()->emitUpdUN();
-                    continue;
-                } else if(isLockPair) { // запись сообщения УЗ
-                    if(unLockSdBlIp->swpSDBLIP().isAlarm() == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
-                       unLockIuBlIp->swpIUBLIP().isOff() == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() &&
-                       unLockSdBlIp->swpSDBLIP().isNorm() == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
-                       unLockIuBlIp->swpIUBLIP().isOn() == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) { // состояние не зменилось - пропускаем
-                        if(10 == unLockSdBlIp->getPublishedState()) {
-                            unLockSdBlIp->setPublishedState(-1);
-                        }
-                        if(10 == unLockIuBlIp->getPublishedState()) {
-                            unLockIuBlIp->setPublishedState(-1);
-                        }
-                        if(10 == reciver->getPublishedState()) {
-                            reciver->setPublishedState(-1);
-                        }
-
-                        unLockSdBlIp->updDoubl();
-                        unLockIuBlIp->updDoubl();
-                        SignalSlotCommutator::getInstance()->emitUpdUN();
-                        continue;
-                    } else if(
-                            (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
-                             1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Открыто
-                             1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                             1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Открыто ключом
-
-                            (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
-                             1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() && //Закрыто
-                             1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                             1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
-                    { // запрещённая обработка перехода (Открыто -> Открыто ключом, Закрыто -> Закрыто ключом)
-                        //qDebug() << "isLockPair continue " << un->toString();
-                        if(10 == unLockSdBlIp->getPublishedState()) {
-                            unLockSdBlIp->setPublishedState(-1);
-                        }
-                        if(10 == unLockIuBlIp->getPublishedState()) {
-                            unLockIuBlIp->setPublishedState(-1);
-                        }
-                        if(10 == reciver->getPublishedState()) {
-                            reciver->setPublishedState(-1);
-                        }
-                        unLockSdBlIp->updDoubl();
-                        unLockIuBlIp->updDoubl();
-                        SignalSlotCommutator::getInstance()->emitUpdUN();
-                        continue;
-                    }
-
-                    if(10 == unLockSdBlIp->getPublishedState()) {
-                        unLockSdBlIp->setPublishedState(-1);
-                    }
-                    if(10 == unLockIuBlIp->getPublishedState()) {
-                        unLockIuBlIp->setPublishedState(-1);
-                    }
-                    if(10 == reciver->getPublishedState()) {
-                        reciver->setPublishedState(-1);
-                    }
-                    unLockSdBlIp->updDoubl();
-                    unLockIuBlIp->updDoubl();
-
-                    // переводим на другой шаг обработчик открытия и закрытия этого УЗ
-                    QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
-                    for(auto ar : as_const(getLsWaiter())) {
-                        if(ar->getIpPort() == tmpPair &&
-                           RequesterType::LockRequester == ar->getRequesterType() &&
-                           ar->getUnTarget() == unLockSdBlIp) {
-                            SignalSlotCommutator::getInstance()->emitEndLockWait();
-                            if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
-//                                ar->startSecondRequest();
-                                continue;
-                            } else if(BeatStatus::Waite == ar->getBeatStatus()) {
-                                ar->startSecondRequest(3000);
-                            } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) {
-//                                ar->startEnd();
-                                continue;
-                            } else if(BeatStatus::WaiteEnd == ar->getBeatStatus()) {
-                                  ar->startEnd();
-                            }
-                        }
-                    }
-
-                    /*
-                    if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
-                       1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff()) {
-                        //Открыто
-                        qDebug() << "isLockPair Old O " << un->toString();
-                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
-                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) {
-                        //Закрыто
-                        qDebug() << "isLockPair Old L " << un->toString();
-                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
-                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) {
-                        //Открыто ключом
-                        qDebug() << "isLockPair Old OK " << un->toString();
-                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
-                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff()) {
-                        //Закрыто ключом
-                        qDebug() << "isLockPair Old LK " << un->toString();
-                    }
-
-                    if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                       1 == unLockIuBlIp->swpIUBLIP().isOff()) {
-                        //Открыто
-                        qDebug() << "isLockPair New O " << un->toString();
-                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
-                        //Закрыто
-                        qDebug() << "isLockPair New L " << un->toString();
-                    } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
-                        //Открыто ключом
-                        qDebug() << "isLockPair New OK " << un->toString();
-                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                              1 == unLockIuBlIp->swpIUBLIP().isOff()) {
-                        //Закрыто ключом
-                        qDebug() << "isLockPair New LK " << un->toString();
-                    }
-                    */
-
-
-                    if(
-                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
-                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() &&  //Открыто ключом
-                     1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                     1 == unLockIuBlIp->swpIUBLIP().isOff()) ||//Открыто
-
-                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
-                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Закрыто ключом
-                     1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                     1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Закрыто
-
-                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
-                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Открыто
-                     1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                     1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Открыто ключом
-
-                     (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
-                      1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() && //Закрыто
-                      1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                      1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
-                    { // запрещённая запись перехода (Открыто <-> Открыто ключом, Закрыто <-> Закрыто ключом)
-                        qDebug() << "isLockPair not jour " << un->toString();
-                    } else {                        
-                        msg.setObject(unLockSdBlIp->getName());
-
-    //                    qDebug() << "isLockPair " << un->getName();
-                        if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                           1 == unLockIuBlIp->swpIUBLIP().isOff() &&
-                           (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
-                            unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
-                            //Открыто
-                            msg.setComment(QObject::tr("Открыто"));
-                            msg.setType(111);
-                            un->setPublishedState(111);
-                            unLockIuBlIp->setPublishedState(100);
-                        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                                  1 == unLockIuBlIp->swpIUBLIP().isOn() &&
-                                  (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
-                                   unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
-                            //Закрыто
-                            msg.setComment(QObject::tr("Закрыто"));
-                            msg.setType(110);
-                            un->setPublishedState(110);
-                            unLockIuBlIp->setPublishedState(101);
-                        } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-                                  1 == unLockIuBlIp->swpIUBLIP().isOn() &&
-                                  (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
-                                   unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
-                            //Открыто ключом
-                            msg.setComment(QObject::tr("Открыто ключом"));
-                            msg.setType(113);
-                            un->setPublishedState(113);
-                            unLockIuBlIp->setPublishedState(101);
-                        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-                                  1 == unLockIuBlIp->swpIUBLIP().isOff() &&
-                                  (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
-                                   unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
-                            //Закрыто ключом
-                            msg.setComment(QObject::tr("Закрыто ключом"));
-                            msg.setType(112);
-                            un->setPublishedState(112);
-                            unLockIuBlIp->setPublishedState(100);
-                        }
-
-                        if(1 != un->getMetaEntity()) {
-
-                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
-                            qDebug() << un->toString();
-                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
-                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
-                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
-
-                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                            GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                            if(113 == msg.getType()) {
-                                SoundAdjuster::instance().playAlarm();
-                            }
-
-                        } else if(1 != unLockSdBlIp->getMetaEntity()) {
-                            msg.setObject(unLockSdBlIp->getName());
-                            msg.setObjecttype(unLockSdBlIp->getType());
-                            msg.setD1(unLockSdBlIp->getNum1());
-                            msg.setD2(unLockSdBlIp->getNum2());
-                            msg.setD3(unLockSdBlIp->getNum3());
-                            msg.setDirection(unLockSdBlIp->getDirection());
-
-                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
-                            qDebug() << un->toString();
-                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
-                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
-                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
-
-                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                            GraphTerminal::sendAbonentEventsAndStates(unLockSdBlIp, msg);
-                            if(113 == msg.getType()) {
-                                SoundAdjuster::instance().playAlarm();
-                            }
-
-                        } else if(1 != unLockIuBlIp->getMetaEntity()) {
-                            msg.setObject(unLockIuBlIp->getName());
-                            msg.setObjecttype(unLockIuBlIp->getType());
-                            msg.setD1(unLockIuBlIp->getNum1());
-                            msg.setD2(unLockIuBlIp->getNum2());
-                            msg.setD3(unLockIuBlIp->getNum3());
-                            msg.setDirection(unLockIuBlIp->getDirection());
-
-                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
-                            qDebug() << un->toString();
-                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
-                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
-                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
-
-                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                            GraphTerminal::sendAbonentEventsAndStates(unLockIuBlIp, msg);
-                            if(113 == msg.getType()) {
-                                SoundAdjuster::instance().playAlarm();
-                            }
-                        }
-
-                    }
-
-                } else { // запись сообщения СД или ИУ
-
-                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
-                       (1 == un->swpSDBLIP().isOn()) &&
-                       (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm())) { // сброс тревоги
-                        //нужен сброс
-                        auto alarmReset0x24 = resultRequest;
-                        DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
-                        if(!reciver.isNull())
-                            reciver->queueMsg.enqueue(alarmReset0x24);
-                        qDebug() << "PortManager::parcingStatusWord0x41 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
-
-                    }
-
-                    // запись вкл/выкл СД
-                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
-                       (1 == un->swpSDBLIP().isOff()) &&
-                       (0 == previousCopyUN->swpSDBLIP().isOff())) {
-                        msg.setComment(QObject::tr("Выкл"));
-                        msg.setType(100);
-                        reciver->setPublishedState(100);
-                    } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
-                              (1 == un->swpSDBLIP().isOn()) &&
-                              (0 == previousCopyUN->swpSDBLIP().isOn())) {
-                        msg.setComment(QObject::tr("Вкл"));
-                        msg.setType(101);
-                        reciver->setPublishedState(101);
-                    }                    
-                    if(1 != un->getMetaEntity() && 0 != msg.getType()) {
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    }
-                    msg.setType(0);
-
-                    // запись тревог и нормы СД
-                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
-                       (1 == un->swpSDBLIP().isOn()) &&
-                       (1 == un->swpSDBLIP().isAlarm() && 1 == un->swpSDBLIP().isWasAlarm()) &&
-                       (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
-                        //сохранение Тревога или Норма
-                        msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
-                        msg.setType(20);
-                        un->setPublishedState(20);
-                        reciver->setPublishedState(20);
-                    } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
-                              (1 == un->swpSDBLIP().isOn()) &&
-                              (1 == un->swpSDBLIP().isNorm()) &&
-                              (un->swpSDBLIP().isNorm() != previousCopyUN->swpSDBLIP().isNorm()) &&
-                              1 != un->getPublishedState()) {
-                        msg.setComment(QObject::tr("Норма"));
-                        msg.setType(1);
-                        un->setPublishedState(1);
-                        reciver->setPublishedState(1);
-                    }
-                    if(un->getControl() && 1 != un->getMetaEntity() && 0 != msg.getType()) {
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                        if(20 == msg.getType()) {
-                            SoundAdjuster::instance().playAlarm();
-                        } else if(10 == msg.getType() || 12 == msg.getType() || 21 == msg.getType()) {
-                            SoundAdjuster::instance().playAlarm2();
-                        }
-                    }
-                    msg.setType(0);
-
-                    // запись вкл/выкл ИУ
-                    if((TypeUnitNode::IU_BL_IP == un->getType()) &&
-                        (1 == un->swpIUBLIP().isOff()) &&
-                        (previousCopyUN->swpIUBLIP().isOff() != un->swpIUBLIP().isOff())) {
-                        msg.setComment(QObject::tr("Выкл"));
-                        msg.setType(100);
-                        un->setPublishedState(100);
-                        reciver->setPublishedState(100);
-                        qDebug() << un << "!!! OFF !!!" << un->toString() << un->getDoubles();
-                    } else if((TypeUnitNode::IU_BL_IP == un->getType()) &&
-                              (1 == un->swpIUBLIP().isOn()) &&
-                              (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn())) {
-                        msg.setComment(QObject::tr("Вкл"));
-                        msg.setType(101);
-                        un->setPublishedState(101);
-                        reciver->setPublishedState(101);
-                        qDebug() << un << "!!! ON !!!" << un->toString() << un->getDoubles();
-                    }
-                    if(1 != un->getMetaEntity() && 0 != msg.getType()) {
-                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    }
-                    msg.setType(0);
-
-                    if(10 == un->getPublishedState()) {
-                        un->setPublishedState(-1);
-                    }
-                    if(10 == reciver->getPublishedState()) {
-                        reciver->setPublishedState(-1);
-                    }
-
-                }
-            }
-
-//            un->updDoubl();
-//            SignalSlotCommutator::getInstance()->emitUpdUN();
-
-            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) &&
-               (1 == un->swpSDBLIP().isOn()) &&
-               (1 == un->swpSDBLIP().isAlarm() && 1 == un->swpSDBLIP().isWasAlarm()) &&
-               (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
-                //сохранение Тревога или Норма
-                for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(un))) {
-                    SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
-                }
-                //нужен сброс
-            }
-        }
-        un->updDoubl();
-        SignalSlotCommutator::getInstance()->emitUpdUN();
-
     }
-//    //qDebug() << "Utils::parcingStatusWord0x41 <--";
+
+    qDebug() << "Utils::parcingStatusWord0x41() <--";
     return resultRequest;
+
+}
+
+
+//DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest)
+//{
+////    //qDebug() << "Utils::parcingStatusWord0x41 -->";
+//    const StateWord newStateWord(item.data().mid(5, 4));
+//    resultRequest = item;
+//    resultRequest.setData();
+
+//    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+//    for(QSharedPointer<UnitNode>  un : tmpSet) {
+////        if(item.address().isEqual(QHostAddress(un->getUdpAdress())) && item.port() == un->getUdpPort() && TypeUnitNode::BL_IP == un->getType()) {
+////            un->setCountStatusConnectRequesterWaitAnswer(0);
+////        }
+//        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
+//            continue;
+//        auto reciver = UnitNode::findReciver(un);
+//        if(!reciver.isNull()) {
+//            reciver->resetCountStatusConnectRequesterWaitAnswer();
+//            reciver->setStateWord(newStateWord);
+//        }
+//        QSharedPointer<UnitNode> previousCopyUNLockSdBlIp, previousCopyUNLockIuBlIp;
+//        QSharedPointer<UnitNode>  unLockSdBlIp, unLockIuBlIp;
+//        bool isLockPair = false;
+//        if(1 <= un->getNum2() && 4 >= un->getNum2()) {
+//            if(!reciver.isNull()) {
+//                for(const auto &tmpUN : as_const(reciver->getListChilde())) {
+//                    if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
+//                        previousCopyUNLockIuBlIp = UnitNodeFactory::makeShare(*tmpUN);
+//                        unLockIuBlIp = tmpUN;
+//                        break;
+//                    }
+//                }
+
+//                for(const auto& tmpUN : as_const(reciver->getListChilde())) {
+//                    if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2() && 0 != tmpUN->getBazalt()) {
+//                        previousCopyUNLockSdBlIp = UnitNodeFactory::makeShare(*tmpUN);
+//                        unLockSdBlIp = tmpUN;
+//                        break;
+//                    }
+//                }
+//            }
+
+//            if(unLockSdBlIp.isNull() || unLockIuBlIp.isNull()) {
+////                previousCopyUNLockIuBlIp.clear();
+////                previousCopyUNLockSdBlIp.clear();
+////                unLockIuBlIp.clear();
+////                unLockSdBlIp.clear();
+//                isLockPair = false;
+//            } else if(0 != unLockSdBlIp->getBazalt()) {
+//                isLockPair = true;
+//            }
+//        }
+//        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
+//        un->setStateWord(newStateWord);
+////        un->updDoubl();
+
+//        if(isLockPair && (!unLockSdBlIp.isNull() || !unLockIuBlIp.isNull())) {
+//            unLockSdBlIp->setStateWord(newStateWord);
+//            unLockIuBlIp->setStateWord(newStateWord);
+//        }
+
+//        if(TypeUnitNode::BL_IP == un->getType() && !un->swpBLIP().isNull() && !previousCopyUN->swpBLIP().isNull()) {
+//            if((un->swpBLIP().isWasDK() != previousCopyUN->swpBLIP().isWasDK()) ||
+//               (un->swpBLIP().isExistDK() != previousCopyUN->swpBLIP().isExistDK())) {
+//                un->setStateWord(newStateWord);
+//                if(10 == un->getPublishedState()) {
+//                    un->setPublishedState(-1);
+//                }
+//                un->updDoubl();
+//                SignalSlotCommutator::getInstance()->emitUpdUN();
+//            }
+//        }
+
+//        if(0 != un->getDK() &&
+//           DKCiclStatus::DKIgnore != previousCopyUN->getDkStatus() &&
+//           DKCiclStatus::DKWrong != previousCopyUN->getDkStatus() &&
+//           DKCiclStatus::DKDone != previousCopyUN->getDkStatus() &&
+//           un->getDkInvolved()) {
+////            //qDebug() << "DkStatus --> " << un->toString();
+//            int unCalcDkStatus = un->calcDKStatus();
+////            //qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
+////            //qDebug() << "DkStatus -- unDkStatus " << un->getDkStatus();
+//            if(DKCiclStatus::DKReady == previousCopyUN->getDkStatus() &&
+//                    DKCiclStatus::DKNorm == unCalcDkStatus)
+//                un->setDkStatus(DKCiclStatus::DKNorm);
+//            else if((DKCiclStatus::DKNorm == previousCopyUN->getDkStatus() || DKCiclStatus::DKReady == previousCopyUN->getDkStatus())&&
+//                    DKCiclStatus::DKWasAlarn == unCalcDkStatus)
+//                un->setDkStatus(DKCiclStatus::DKWasAlarn);
+//            else if(DKCiclStatus::DKWasAlarn == previousCopyUN->getDkStatus() &&
+//                    DKCiclStatus::DKNorm == unCalcDkStatus)
+//                un->setDkStatus(DKCiclStatus::DKDone);
+//            else if(DKCiclStatus::DKWasAlarn == previousCopyUN->getDkStatus() &&
+//                    DKCiclStatus::DKWas == unCalcDkStatus)
+//                un->setDkStatus(DKCiclStatus::DKDone);
+//            else if((DKCiclStatus::DKNorm == previousCopyUN->getDkStatus() &&
+//                     DKCiclStatus::DKNorm == unCalcDkStatus) ||
+//                    (DKCiclStatus::DKWasAlarn == previousCopyUN->getDkStatus() &&
+//                     DKCiclStatus::DKWasAlarn == unCalcDkStatus))
+//                un->setDkStatus(previousCopyUN->getDkStatus());
+//            else
+//                un->setDkStatus(DKCiclStatus::DKWrong);
+////            un->updDoubl();
+////            //qDebug() << "DkStatus -- unNewDkStatus " << un->getDkStatus();
+////            //qDebug() << "DkStatus <--";
+//        }
+
+//        if((!previousCopyUN.isNull() && !un.isNull() && (previousCopyUN->getStateWord().getByteWord() != un->getStateWord().getByteWord())) ||
+//           (!previousCopyUNLockSdBlIp.isNull() && !unLockSdBlIp.isNull() && (previousCopyUNLockSdBlIp->getStateWord().getByteWord() != unLockSdBlIp->getStateWord().getByteWord())) ||
+//           (!previousCopyUNLockIuBlIp.isNull() && !unLockIuBlIp.isNull() && (previousCopyUNLockIuBlIp->getStateWord().getByteWord() != unLockIuBlIp->getStateWord().getByteWord()))) {
+//            un->setStateWord(newStateWord);
+//            if(!unLockIuBlIp.isNull() && !unLockSdBlIp.isNull() && isLockPair) {
+//                unLockSdBlIp->setStateWord(newStateWord);
+//                unLockIuBlIp->setStateWord(newStateWord);
+//            }
+
+////            un->updDoubl();
+////            SignalSlotCommutator::getInstance()->emitUpdUN();
+
+//            if(!un->getDkInvolved()) {
+
+//                JourEntity msg;
+//                msg.setObject(un->getName());
+//                msg.setObjecttype(un->getType());
+//                msg.setD1(un->getNum1());
+//                msg.setD2(un->getNum2());
+//                msg.setD3(un->getNum3());
+//                msg.setDirection(un->getDirection());
+
+//                if(un->getDkInvolved()) {
+////                    //qDebug() << "DkInvolved continue " << un->toString();
+//                    un->updDoubl();
+//                    SignalSlotCommutator::getInstance()->emitUpdUN();
+//                    continue;
+//                } else if(!un->getParentUN().isNull() && un->getParentUN()->getDkInvolved()) {
+////                    //qDebug() << "DkInvolved continue " << un->toString();
+//                    un->updDoubl();
+//                    SignalSlotCommutator::getInstance()->emitUpdUN();
+//                    continue;
+//                } else if(isLockPair) { // запись сообщения УЗ
+//                    if(unLockSdBlIp->swpSDBLIP().isAlarm() == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                       unLockIuBlIp->swpIUBLIP().isOff() == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() &&
+//                       unLockSdBlIp->swpSDBLIP().isNorm() == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+//                       unLockIuBlIp->swpIUBLIP().isOn() == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) { // состояние не зменилось - пропускаем
+//                        if(10 == unLockSdBlIp->getPublishedState()) {
+//                            unLockSdBlIp->setPublishedState(-1);
+//                        }
+//                        if(10 == unLockIuBlIp->getPublishedState()) {
+//                            unLockIuBlIp->setPublishedState(-1);
+//                        }
+//                        if(10 == reciver->getPublishedState()) {
+//                            reciver->setPublishedState(-1);
+//                        }
+
+//                        unLockSdBlIp->updDoubl();
+//                        unLockIuBlIp->updDoubl();
+//                        SignalSlotCommutator::getInstance()->emitUpdUN();
+//                        continue;
+//                    } else if(
+//                            (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                             1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Открыто
+//                             1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                             1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Открыто ключом
+
+//                            (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+//                             1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() && //Закрыто
+//                             1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+//                             1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
+//                    { // запрещённая обработка перехода (Открыто -> Открыто ключом, Закрыто -> Закрыто ключом)
+//                        //qDebug() << "isLockPair continue " << un->toString();
+//                        if(10 == unLockSdBlIp->getPublishedState()) {
+//                            unLockSdBlIp->setPublishedState(-1);
+//                        }
+//                        if(10 == unLockIuBlIp->getPublishedState()) {
+//                            unLockIuBlIp->setPublishedState(-1);
+//                        }
+//                        if(10 == reciver->getPublishedState()) {
+//                            reciver->setPublishedState(-1);
+//                        }
+//                        unLockSdBlIp->updDoubl();
+//                        unLockIuBlIp->updDoubl();
+//                        SignalSlotCommutator::getInstance()->emitUpdUN();
+//                        continue;
+//                    }
+
+//                    if(10 == unLockSdBlIp->getPublishedState()) {
+//                        unLockSdBlIp->setPublishedState(-1);
+//                    }
+//                    if(10 == unLockIuBlIp->getPublishedState()) {
+//                        unLockIuBlIp->setPublishedState(-1);
+//                    }
+//                    if(10 == reciver->getPublishedState()) {
+//                        reciver->setPublishedState(-1);
+//                    }
+//                    unLockSdBlIp->updDoubl();
+//                    unLockIuBlIp->updDoubl();
+
+//                    // переводим на другой шаг обработчик открытия и закрытия этого УЗ
+//                    QPair<QString, QString> tmpPair(Utils::hostAddressToString(item.address()), QVariant(item.port()).toString());
+//                    for(auto ar : as_const(getLsWaiter())) {
+//                        if(ar->getIpPort() == tmpPair &&
+//                           RequesterType::LockRequester == ar->getRequesterType() &&
+//                           ar->getUnTarget() == unLockSdBlIp) {
+//                            SignalSlotCommutator::getInstance()->emitEndLockWait();
+//                            if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
+////                                ar->startSecondRequest();
+//                                continue;
+//                            } else if(BeatStatus::Waite == ar->getBeatStatus()) {
+//                                ar->startSecondRequest(3000);
+//                            } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) {
+////                                ar->startEnd();
+//                                continue;
+//                            } else if(BeatStatus::WaiteEnd == ar->getBeatStatus()) {
+//                                  ar->startEnd();
+//                            }
+//                        }
+//                    }
+
+//                    /*
+//                    if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                       1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff()) {
+//                        //Открыто
+//                        qDebug() << "isLockPair Old O " << un->toString();
+//                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+//                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) {
+//                        //Закрыто
+//                        qDebug() << "isLockPair Old L " << un->toString();
+//                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn()) {
+//                        //Открыто ключом
+//                        qDebug() << "isLockPair Old OK " << un->toString();
+//                    } else if(1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+//                              1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff()) {
+//                        //Закрыто ключом
+//                        qDebug() << "isLockPair Old LK " << un->toString();
+//                    }
+
+//                    if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                       1 == unLockIuBlIp->swpIUBLIP().isOff()) {
+//                        //Открыто
+//                        qDebug() << "isLockPair New O " << un->toString();
+//                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+//                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
+//                        //Закрыто
+//                        qDebug() << "isLockPair New L " << un->toString();
+//                    } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                              1 == unLockIuBlIp->swpIUBLIP().isOn()) {
+//                        //Открыто ключом
+//                        qDebug() << "isLockPair New OK " << un->toString();
+//                    } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+//                              1 == unLockIuBlIp->swpIUBLIP().isOff()) {
+//                        //Закрыто ключом
+//                        qDebug() << "isLockPair New LK " << un->toString();
+//                    }
+//                    */
+
+
+//                    if(
+//                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() &&  //Открыто ключом
+//                     1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                     1 == unLockIuBlIp->swpIUBLIP().isOff()) ||//Открыто
+
+//                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+//                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Закрыто ключом
+//                     1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+//                     1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Закрыто
+
+//                    (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                     1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOff() && //Открыто
+//                     1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                     1 == unLockIuBlIp->swpIUBLIP().isOn()) || //Открыто ключом
+
+//                     (1 == previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() &&
+//                      1 == previousCopyUNLockIuBlIp->swpIUBLIP().isOn() && //Закрыто
+//                      1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+//                      1 == unLockIuBlIp->swpIUBLIP().isOff())) //Закрыто ключом
+//                    { // запрещённая запись перехода (Открыто <-> Открыто ключом, Закрыто <-> Закрыто ключом)
+//                        qDebug() << "isLockPair not jour " << un->toString();
+//                    } else {
+//                        msg.setObject(unLockSdBlIp->getName());
+
+//    //                    qDebug() << "isLockPair " << un->getName();
+//                        if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                           1 == unLockIuBlIp->swpIUBLIP().isOff() &&
+//                           (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
+//                            unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
+//                            //Открыто
+//                            msg.setComment(QObject::tr("Открыто"));
+//                            msg.setType(111);
+//                            un->setPublishedState(111);
+//                            unLockIuBlIp->setPublishedState(100);
+//                        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+//                                  1 == unLockIuBlIp->swpIUBLIP().isOn() &&
+//                                  (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
+//                                   unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
+//                            //Закрыто
+//                            msg.setComment(QObject::tr("Закрыто"));
+//                            msg.setType(110);
+//                            un->setPublishedState(110);
+//                            unLockIuBlIp->setPublishedState(101);
+//                        } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
+//                                  1 == unLockIuBlIp->swpIUBLIP().isOn() &&
+//                                  (unLockSdBlIp->swpSDBLIP().isAlarm() != previousCopyUNLockSdBlIp->swpSDBLIP().isAlarm() ||
+//                                   unLockIuBlIp->swpIUBLIP().isOn() != previousCopyUNLockIuBlIp->swpIUBLIP().isOn())) {
+//                            //Открыто ключом
+//                            msg.setComment(QObject::tr("Открыто ключом"));
+//                            msg.setType(113);
+//                            un->setPublishedState(113);
+//                            unLockIuBlIp->setPublishedState(101);
+//                        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
+//                                  1 == unLockIuBlIp->swpIUBLIP().isOff() &&
+//                                  (unLockSdBlIp->swpSDBLIP().isNorm() != previousCopyUNLockSdBlIp->swpSDBLIP().isNorm() ||
+//                                   unLockIuBlIp->swpIUBLIP().isOff() != previousCopyUNLockIuBlIp->swpIUBLIP().isOff())) {
+//                            //Закрыто ключом
+//                            msg.setComment(QObject::tr("Закрыто ключом"));
+//                            msg.setType(112);
+//                            un->setPublishedState(112);
+//                            unLockIuBlIp->setPublishedState(100);
+//                        }
+
+//                        if(1 != un->getMetaEntity()) {
+
+//                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
+//                            qDebug() << un->toString();
+//                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
+//                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
+//                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
+
+//                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+//                            GraphTerminal::sendAbonentEventsAndStates(un, msg);
+//                            if(113 == msg.getType()) {
+//                                SoundAdjuster::instance().playAlarm();
+//                            }
+
+//                        } else if(1 != unLockSdBlIp->getMetaEntity()) {
+//                            msg.setObject(unLockSdBlIp->getName());
+//                            msg.setObjecttype(unLockSdBlIp->getType());
+//                            msg.setD1(unLockSdBlIp->getNum1());
+//                            msg.setD2(unLockSdBlIp->getNum2());
+//                            msg.setD3(unLockSdBlIp->getNum3());
+//                            msg.setDirection(unLockSdBlIp->getDirection());
+
+//                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
+//                            qDebug() << un->toString();
+//                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
+//                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
+//                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
+
+//                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+//                            GraphTerminal::sendAbonentEventsAndStates(unLockSdBlIp, msg);
+//                            if(113 == msg.getType()) {
+//                                SoundAdjuster::instance().playAlarm();
+//                            }
+
+//                        } else if(1 != unLockIuBlIp->getMetaEntity()) {
+//                            msg.setObject(unLockIuBlIp->getName());
+//                            msg.setObjecttype(unLockIuBlIp->getType());
+//                            msg.setD1(unLockIuBlIp->getNum1());
+//                            msg.setD2(unLockIuBlIp->getNum2());
+//                            msg.setD3(unLockIuBlIp->getNum3());
+//                            msg.setDirection(unLockIuBlIp->getDirection());
+
+//                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... -->";
+//                            qDebug() << un->toString();
+//                            qDebug() << "current: " << unLockSdBlIp->swpBLIP().byteWord().toHex();
+//                            qDebug() << "previous:" << previousCopyUNLockSdBlIp->swpBLIP().byteWord().toHex();
+//                            qDebug() << "Загадочные события с УЗ продолжаются, надо вести лог и разобраться... <--";
+
+//                            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+//                            GraphTerminal::sendAbonentEventsAndStates(unLockIuBlIp, msg);
+//                            if(113 == msg.getType()) {
+//                                SoundAdjuster::instance().playAlarm();
+//                            }
+//                        }
+
+//                    }
+
+//                } else { // запись сообщения СД или ИУ
+
+//                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+//                       (1 == un->swpSDBLIP().isOn()) &&
+//                       (1 == un->swpSDBLIP().isAlarm()) && (1 == un->swpSDBLIP().isWasAlarm())) { // сброс тревоги
+//                        //нужен сброс
+//                        auto alarmReset0x24 = resultRequest;
+//                        DataQueueItem::makeAlarmReset0x24(alarmReset0x24, un);
+//                        if(!reciver.isNull())
+//                            reciver->queueMsg.enqueue(alarmReset0x24);
+//                        qDebug() << "PortManager::parcingStatusWord0x41 -- DataQueueItem::makeAlarmReset0x24(" << resultRequest.data().toHex() << ", " << un->toString() << ");";
+
+//                    }
+
+//                    // запись вкл/выкл СД
+//                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+//                       ((1 == un->swpSDBLIP().isOff() &&
+//                         0 == previousCopyUN->swpSDBLIP().isOff()) ||
+//                        (-1 == un->getPublishedState() &&
+//                         1 == un->swpSDBLIP().isOff()))) {
+//                        msg.setComment(QObject::tr("Выкл"));
+//                        msg.setType(100);
+//                        reciver->setPublishedState(100);
+//                    } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+//                              ((1 == un->swpSDBLIP().isOn() &&
+//                                0 == previousCopyUN->swpSDBLIP().isOn()) ||
+//                               (-1 == un->getPublishedState() &&
+//                                1 == un->swpSDBLIP().isOff()))) {
+//                        msg.setComment(QObject::tr("Вкл"));
+//                        msg.setType(101);
+//                        reciver->setPublishedState(101);
+//                    }
+//                    if(1 != un->getMetaEntity() && 0 != msg.getType()) {
+//                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+//                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+//                    }
+//                    msg.setType(0);
+
+//                    // запись тревог и нормы СД
+//                    if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+//                       (1 == un->swpSDBLIP().isOn()) &&
+//                       (1 == un->swpSDBLIP().isAlarm() && 1 == un->swpSDBLIP().isWasAlarm()) &&
+//                       (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
+//                        //сохранение Тревога или Норма
+//                        msg.setComment(QObject::tr("Тревога-СРАБОТКА"));
+//                        msg.setType(20);
+//                        un->setPublishedState(20);
+//                        reciver->setPublishedState(20);
+//                    } else if((TypeUnitNode::SD_BL_IP == un->getType() && 1 != un->getBazalt()) &&
+//                              (1 == un->swpSDBLIP().isOn()) &&
+//                              (1 == un->swpSDBLIP().isNorm()) &&
+//                              (un->swpSDBLIP().isNorm() != previousCopyUN->swpSDBLIP().isNorm()) &&
+//                              1 != un->getPublishedState()) {
+//                        msg.setComment(QObject::tr("Норма"));
+//                        msg.setType(1);
+//                        un->setPublishedState(1);
+//                        reciver->setPublishedState(1);
+//                    }
+//                    if(un->getControl() && 1 != un->getMetaEntity() && 0 != msg.getType()) {
+//                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+//                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+//                        if(20 == msg.getType()) {
+//                            SoundAdjuster::instance().playAlarm();
+//                        } else if(10 == msg.getType() || 12 == msg.getType() || 21 == msg.getType()) {
+//                            SoundAdjuster::instance().playAlarm2();
+//                        }
+//                    }
+//                    msg.setType(0);
+
+//                    // запись вкл/выкл ИУ
+//                    if((TypeUnitNode::IU_BL_IP == un->getType()) &&
+//                        (1 == un->swpIUBLIP().isOff()) &&
+//                        (previousCopyUN->swpIUBLIP().isOff() != un->swpIUBLIP().isOff())) {
+//                        msg.setComment(QObject::tr("Выкл"));
+//                        msg.setType(100);
+//                        un->setPublishedState(100);
+//                        reciver->setPublishedState(100);
+//                        qDebug() << un << "!!! OFF !!!" << un->toString() << un->getDoubles();
+//                    } else if((TypeUnitNode::IU_BL_IP == un->getType()) &&
+//                              (1 == un->swpIUBLIP().isOn()) &&
+//                              (previousCopyUN->swpIUBLIP().isOn() != un->swpIUBLIP().isOn())) {
+//                        msg.setComment(QObject::tr("Вкл"));
+//                        msg.setType(101);
+//                        un->setPublishedState(101);
+//                        reciver->setPublishedState(101);
+//                        qDebug() << un << "!!! ON !!!" << un->toString() << un->getDoubles();
+//                    }
+//                    if(1 != un->getMetaEntity() && 0 != msg.getType()) {
+//                        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+//                        GraphTerminal::sendAbonentEventsAndStates(un, msg);
+//                    }
+//                    msg.setType(0);
+
+//                    if(10 == un->getPublishedState()) {
+//                        un->setPublishedState(-1);
+//                    }
+//                    if(10 == reciver->getPublishedState()) {
+//                        reciver->setPublishedState(-1);
+//                    }
+
+//                }
+//            }
+
+////            un->updDoubl();
+////            SignalSlotCommutator::getInstance()->emitUpdUN();
+
+//            if(!un->getDkInvolved() && (TypeUnitNode::SD_BL_IP == un->getType() /*&& 0 != un->getBazalt()*/) &&
+//               (1 == un->swpSDBLIP().isOn()) &&
+//               (1 == un->swpSDBLIP().isAlarm() && 1 == un->swpSDBLIP().isWasAlarm()) &&
+//               (previousCopyUN->swpSDBLIP().isAlarm() != un->swpSDBLIP().isAlarm() || previousCopyUN->swpSDBLIP().isWasAlarm() != un->swpSDBLIP().isWasAlarm())) {
+//                //сохранение Тревога или Норма
+//                for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(un))) {
+//                    SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+//                }
+//                //нужен сброс
+//            }
+//        }
+//        un->updDoubl();
+//        SignalSlotCommutator::getInstance()->emitUpdUN();
+
+//    }
+////    //qDebug() << "Utils::parcingStatusWord0x41 <--";
+//    return resultRequest;
+//}
+
+bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+{
+    QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
+    currentUN->setStateWord(stateWord);
+
+    qDebug() << "PortManager::PortManager::procDkBLIPStatusWord0x41() -->";
+    if(0 == currentUN->getDK() ||
+       DKCiclStatus::DKIgnore == previousUN->getDkStatus() ||
+       DKCiclStatus::DKWrong == previousUN->getDkStatus() ||
+       DKCiclStatus::DKDone == previousUN->getDkStatus() ||
+       currentUN->getDkInvolved()) {
+        qDebug() << "PortManager::PortManager::procDkBLIPStatusWord0x41(1) <--";
+        return false;
+    }
+
+
+    //qDebug() << "DkStatus --> " << currentUN->toString();
+    int unCalcDkStatus = currentUN->calcDKStatus();
+    //qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
+    //qDebug() << "DkStatus -- unDkStatus " << currentUN->getDkStatus();
+    if(DKCiclStatus::DKReady == previousUN->getDkStatus() &&
+            DKCiclStatus::DKNorm == unCalcDkStatus)
+        currentUN->setDkStatus(DKCiclStatus::DKNorm);
+    else if((DKCiclStatus::DKNorm == previousUN->getDkStatus() || DKCiclStatus::DKReady == previousUN->getDkStatus())&&
+            DKCiclStatus::DKWasAlarn == unCalcDkStatus)
+        currentUN->setDkStatus(DKCiclStatus::DKWasAlarn);
+    else if(DKCiclStatus::DKWasAlarn == previousUN->getDkStatus() &&
+            DKCiclStatus::DKNorm == unCalcDkStatus)
+        currentUN->setDkStatus(DKCiclStatus::DKDone);
+    else if(DKCiclStatus::DKWasAlarn == previousUN->getDkStatus() &&
+            DKCiclStatus::DKWas == unCalcDkStatus)
+        currentUN->setDkStatus(DKCiclStatus::DKDone);
+    else if((DKCiclStatus::DKNorm == previousUN->getDkStatus() &&
+             DKCiclStatus::DKNorm == unCalcDkStatus) ||
+            (DKCiclStatus::DKWasAlarn == previousUN->getDkStatus() &&
+             DKCiclStatus::DKWasAlarn == unCalcDkStatus))
+        currentUN->setDkStatus(previousUN->getDkStatus());
+    else
+        currentUN->setDkStatus(DKCiclStatus::DKWrong);
+
+    currentUN->updDoubl();
+    SignalSlotCommutator::getInstance()->emitUpdUN();
+
+    //qDebug() << "DkStatus -- unNewDkStatus " << currentUN->getDkStatus();
+    //qDebug() << "DkStatus <--";
+    qDebug() << "PortManager::PortManager::procDkBLIPStatusWord0x41(2) <--";
+    return true;
 }
 
 DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueItem &resultRequest)
