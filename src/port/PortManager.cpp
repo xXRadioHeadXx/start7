@@ -897,13 +897,13 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     return result;
 }
 
-bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
-    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -->";
+    qDebug() << "PortManager::procUzoBLIPStatusWord0x41() -->";
     if((TypeUnitNode::SD_BL_IP != currentUN->getType() && TypeUnitNode::IU_BL_IP != currentUN->getType()) ||
        1 > currentUN->getNum2() ||
        4 < currentUN->getNum2()) {
-        qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(1) <--";
+        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(1) <--";
         return false;
     }
 
@@ -913,7 +913,7 @@ bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<Un
         reciver->resetCountStatusConnectRequesterWaitAnswer();
         reciver->setStateWord(stateWord);
     } else {
-        qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(2) <--";
+        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(2) <--";
         return false;
     }
 
@@ -936,10 +936,10 @@ bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<Un
     }
 
     if(unLockSdBlIp.isNull() || unLockIuBlIp.isNull()) {
-        qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(3) <--";
+        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(3) <--";
         return false;
     } else if(0 == unLockSdBlIp->getBazalt()) {
-        qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(4) <--";
+        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(4) <--";
         return false;
     }
 
@@ -960,7 +960,7 @@ bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<Un
         isChangedStatus = true;
     }
 
-    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
+    qDebug() << "PortManager::procUzoBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
 
     // проверка на запрещённые переходы состояний -->
     auto isForbiddenTransferStatusForReaction = false;
@@ -978,7 +978,7 @@ bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<Un
       // (Открыто -> Открыто ключом, Закрыто -> Закрыто ключом)
         isForbiddenTransferStatusForReaction = true;
     }
-    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isForbiddenTransferStatusForReaction " << isForbiddenTransferStatusForReaction;
+    qDebug() << "PortManager::procUzoBLIPStatusWord0x41() -- isForbiddenTransferStatusForReaction " << isForbiddenTransferStatusForReaction;
 
     // переводим на другой шаг обработчик открытия и закрытия этого УЗ -->
     if(!isForbiddenTransferStatusForReaction && isChangedStatus) {
@@ -1031,7 +1031,7 @@ bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<Un
     { // запрещённая запись перехода (Открыто <-> Открыто ключом, Закрыто <-> Закрыто ключом)
         isForbiddenTransferStatusForJour = true;
     }
-    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isForbiddenTransferStatusForJour " << isForbiddenTransferStatusForJour;
+    qDebug() << "PortManager::procUzoBLIPStatusWord0x41() -- isForbiddenTransferStatusForJour " << isForbiddenTransferStatusForJour;
     // проверка на запрещённые переходы состояний <--
 
     auto isFirstWakeUp = false;
@@ -1039,14 +1039,14 @@ bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<Un
     if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
         isFirstWakeUp = true;
     }
-    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
+    qDebug() << "PortManager::procUzoBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
 
     auto isWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
         isWakeUp = true;
     }
-    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
+    qDebug() << "PortManager::procUzoBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
 
     int typeMsg = -1;
     QString commentMsg;
@@ -1132,17 +1132,17 @@ bool PortManager::PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<Un
     unLockIuBlIp->updDoubl();
     SignalSlotCommutator::getInstance()->emitUpdUN();
 
-    qDebug() << "PortManager::PortManager::procUzoBLIPStatusWord0x41(5) <--";
+    qDebug() << "PortManager::procUzoBLIPStatusWord0x41(5) <--";
     return true;
 }
 
-bool PortManager::PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
-    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -->";
+    qDebug() << "PortManager::procIUBLIPStatusWord0x41() -->";
     if(TypeUnitNode::IU_BL_IP != currentUN->getType() ||
        1 > currentUN->getNum2() ||
        4 < currentUN->getNum2()) {
-        qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41(1) <--";
+        qDebug() << "PortManager::procIUBLIPStatusWord0x41(1) <--";
         return false;
     }
 
@@ -1151,7 +1151,7 @@ bool PortManager::PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<Uni
         reciver->resetCountStatusConnectRequesterWaitAnswer();
         reciver->setStateWord(stateWord);
     } else {
-        qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41(2) <--";
+        qDebug() << "PortManager::procIUBLIPStatusWord0x41(2) <--";
         return false;
     }
 
@@ -1160,27 +1160,28 @@ bool PortManager::PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<Uni
 
     const auto &swpCurrent = currentUN->swpIUBLIP(),
                &swpPrevious = previousUN->swpIUBLIP();
-    auto isChangedStatus = true;
+
+    auto isChangedStatus = false;
     if(swpCurrent.isOff() != swpPrevious.isOff() ||
        swpCurrent.isOn() != swpPrevious.isOn()) {
         // состояние не зменилось - что-то пропускаем
-        isChangedStatus = false;
+        isChangedStatus = true;
     }
-    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
+    qDebug() << "PortManager::procIUBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
         isFirstWakeUp = true;
     }
-    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
+    qDebug() << "PortManager::procIUBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
 
     auto isWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
         isWakeUp = true;
     }
-    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
+    qDebug() << "PortManager::procIUBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
 
     // запись вкл/выкл ИУ -->
     int typeMsg = -1;
@@ -1230,15 +1231,16 @@ bool PortManager::PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<Uni
     currentUN->updDoubl();
     SignalSlotCommutator::getInstance()->emitUpdUN();
 
-    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41(3) <--";
+    qDebug() << "PortManager::procIUBLIPStatusWord0x41(3) <--";
     return true;
 }
 
-bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
-    qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41() -->";
-    if(TypeUnitNode::SD_BL_IP == currentUN->getType() && 1 != currentUN->getBazalt()) {
-        qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41(1) <--";
+    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -->";
+    if(TypeUnitNode::SD_BL_IP != currentUN->getType() ||
+       1 == currentUN->getBazalt()) {
+        qDebug() << "PortManager::procSDBLIPStatusWord0x41(1) <--";
         return false;
     }
 
@@ -1248,7 +1250,7 @@ bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<Uni
         reciver->resetCountStatusConnectRequesterWaitAnswer();
         reciver->setStateWord(stateWord);
     } else {
-        qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41(2) <--";
+        qDebug() << "PortManager::procSDBLIPStatusWord0x41(2) <--";
         return false;
     }
 
@@ -1258,30 +1260,38 @@ bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<Uni
     const auto &swpCurrent = currentUN->swpSDBLIP(),
                &swpPrevious = previousUN->swpSDBLIP();
 
-    auto isChangedStatus = true;
-    if(swpCurrent.isOff() != swpPrevious.isOff() ||
-       swpCurrent.isOn() != swpPrevious.isOn() ||
-       swpCurrent.isAlarm() != swpPrevious.isAlarm() ||
+    auto isChangedStatus = false;
+    if(swpCurrent.isAlarm() != swpPrevious.isAlarm() ||
        swpCurrent.isWasAlarm() != swpPrevious.isWasAlarm() ||
        swpCurrent.isNorm() != swpPrevious.isNorm()) {
         // состояние не зменилось - что-то пропускаем
-        isChangedStatus = false;
+        isChangedStatus = true;
     }
-    qDebug() << "PortManager::PortManager::procIUBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
+    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -- isChangedStatus " << isChangedStatus;
+
+    auto isSwitchOnOff = false;
+    if(!swpPrevious.isNull() &&
+       (swpCurrent.isOff() != swpPrevious.isOff() ||
+        swpCurrent.isOn() != swpPrevious.isOn())) {
+        // состояние не зменилось - что-то пропускаем
+        isSwitchOnOff = true;
+    }
+    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -- isSwitchOnOff " << isSwitchOnOff;
+
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
         isFirstWakeUp = true;
     }
-    qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
+    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
 
     auto isWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
         isWakeUp = true;
     }
-    qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
+    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
@@ -1314,13 +1324,11 @@ bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<Uni
     int typeMsg = -1;
     QString commentMsg;
 
-    if((1 == swpCurrent.isOff() && 0 == swpPrevious.isOff()) ||
-       (isFirstWakeUp && 1 == swpCurrent.isOff())) {
+    if(1 == swpCurrent.isOff()) {
         commentMsg = QObject::tr("Выкл");
         typeMsg = 100;
         reciver->setPublishedState(100);
-    } else if((1 == swpCurrent.isOn() && 0 == swpPrevious.isOn()) ||
-              (isFirstWakeUp && 1 == swpCurrent.isOff())) {
+    } else if(1 == swpCurrent.isOn()) {
         commentMsg = QObject::tr("Вкл");
         typeMsg = 101;
         reciver->setPublishedState(101);
@@ -1331,7 +1339,7 @@ bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<Uni
     qDebug() << "cSD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
     qDebug() << "состояние СД <--";
 
-    if(1 != currentUN->getMetaEntity() && -1 != typeMsg) {
+    if(isSwitchOnOff && 1 != currentUN->getMetaEntity() && -1 != typeMsg) {
         // следует записать сообщение
         JourEntity msg = prepareMsg;
         // заполняем поля сообщения
@@ -1341,6 +1349,7 @@ bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<Uni
         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     }
+    typeMsg = -1;
 
     // запись тревог и нормы СД
     if(1 == swpCurrent.isOn() &&
@@ -1354,12 +1363,19 @@ bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<Uni
         currentUN->setPublishedState(20);
         reciver->setPublishedState(20);
     } else if(1 == swpCurrent.isOn() &&
-              1 == swpCurrent.isNorm() &&
-              swpCurrent.isNorm() != swpPrevious.isNorm()) {
+              1 == swpCurrent.isNorm()) {
         commentMsg = QObject::tr("Норма");
         typeMsg = 1;
         currentUN->setPublishedState(1);
         reciver->setPublishedState(1);
+    } else if(1 == swpCurrent.isOn() && (isFirstWakeUp || isWakeUp) && !isSwitchOnOff) {
+        commentMsg = QObject::tr("Вкл (начальное состояние)");
+        typeMsg = 101;
+        reciver->setPublishedState(101);
+    } else if(1 == swpCurrent.isOff() && (isFirstWakeUp || isWakeUp) && !isSwitchOnOff) {
+        commentMsg = QObject::tr("Выкл (начальное состояние)");
+        typeMsg = 100;
+        reciver->setPublishedState(100);
     }
 
     qDebug() << "состояние СД -->" << commentMsg;
@@ -1370,9 +1386,11 @@ bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<Uni
     if((isWakeUp ||
         isFirstWakeUp ||
         20 == currentUN->getPublishedState() ||
-        previousUN->getPublishedState() != currentUN->getPublishedState()) &&
-            1 != currentUN->getMetaEntity() &&
-            -1 != typeMsg && currentUN->getControl()) {
+        currentUN->getPublishedState() != previousUN->getPublishedState()) &&
+       isChangedStatus &&
+       1 != currentUN->getMetaEntity() &&
+       -1 != typeMsg &&
+       currentUN->getControl()) {
         // следует записать сообщение
         JourEntity msg = prepareMsg;
         // заполняем поля сообщения
@@ -1398,7 +1416,7 @@ bool PortManager::PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<Uni
         //нужен сброс
     }
 
-    qDebug() << "PortManager::PortManager::procSDBLIPStatusWord0x41(3) <--";
+    qDebug() << "PortManager::procSDBLIPStatusWord0x41(3) <--";
     return true;
 }
 
@@ -1414,25 +1432,25 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) || item.port() != un->getUdpPort() || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1()))
             continue;
 
-        if(TypeUnitNode::BL_IP == un->getType())  {
+//        if(TypeUnitNode::BL_IP == un->getType())  {
 
-            QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*un);
-            un->setStateWord(newStateWord);
+//            QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*un);
+//            un->setStateWord(newStateWord);
 
-            const auto &swpCurrent = un->swpBLIP(),
-                       &swpPrevious = previousUN->swpBLIP();
-            if((swpCurrent.isWasDK() != swpPrevious.isWasDK()) ||
-               (swpCurrent.isExistDK() != swpPrevious.isExistDK())) {
-                un->setStateWord(newStateWord);
-                if(10 == un->getPublishedState()) {
-                    un->setPublishedState(-1);
-                }
-                un->updDoubl();
-                SignalSlotCommutator::getInstance()->emitUpdUN();
-                continue;
-            }
+//            const auto &swpCurrent = un->swpBLIP(),
+//                       &swpPrevious = previousUN->swpBLIP();
+//            if((swpCurrent.isWasDK() != swpPrevious.isWasDK()) ||
+//               (swpCurrent.isExistDK() != swpPrevious.isExistDK())) {
+//                un->setStateWord(newStateWord);
+//                if(10 == un->getPublishedState()) {
+//                    un->setPublishedState(-1);
+//                }
+//                un->updDoubl();
+//                SignalSlotCommutator::getInstance()->emitUpdUN();
+//                continue;
+//            }
 
-        }
+//        }
 
         auto isProcessed = false;
 
@@ -1962,18 +1980,19 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
 bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
+    qDebug() << "PortManager::procDkBLIPStatusWord0x41() -->";
+    if(0 == currentUN->getDK()
+    || DKCiclStatus::DKIgnore == currentUN->getDkStatus()
+    || DKCiclStatus::DKWrong == currentUN->getDkStatus()
+    || DKCiclStatus::DKDone == currentUN->getDkStatus()
+    || !currentUN->getDkInvolved()) {
+        qDebug() << "PortManager::procDkBLIPStatusWord0x41(1) <--";
+        return false;
+    }
+
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(stateWord);
 
-    qDebug() << "PortManager::PortManager::procDkBLIPStatusWord0x41() -->";
-    if(0 == currentUN->getDK() ||
-       DKCiclStatus::DKIgnore == previousUN->getDkStatus() ||
-       DKCiclStatus::DKWrong == previousUN->getDkStatus() ||
-       DKCiclStatus::DKDone == previousUN->getDkStatus() ||
-       currentUN->getDkInvolved()) {
-        qDebug() << "PortManager::PortManager::procDkBLIPStatusWord0x41(1) <--";
-        return false;
-    }
 
 
     //qDebug() << "DkStatus --> " << currentUN->toString();
@@ -2005,7 +2024,7 @@ bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 
     //qDebug() << "DkStatus -- unNewDkStatus " << currentUN->getDkStatus();
     //qDebug() << "DkStatus <--";
-    qDebug() << "PortManager::PortManager::procDkBLIPStatusWord0x41(2) <--";
+    qDebug() << "PortManager::procDkBLIPStatusWord0x41(2) <--";
     return true;
 }
 
