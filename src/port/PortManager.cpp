@@ -1823,7 +1823,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
         auto reciver = UnitNode::findReciver(un);
         if(!reciver.isNull()) {
             reciver->resetCountStatusConnectRequesterWaitAnswer();
-            reciver->setStateWord(newStateWord);
+//            reciver->setStateWord(newStateWord);
         } else {
 //            qDebug() << "PortManager::parcingStatusWord0x31 --x match";
             continue;
@@ -1979,7 +1979,9 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
-    && (1 == swpCurrent.isFault()
+    && (1 == swpCurrent.isExistDK()
+     || 1 == swpCurrent.isWasDK()
+     || 1 == swpCurrent.isFault()
      || 1 == swpCurrent.isOpened()
      || 1 == swpCurrent.isWasOpened()
      || 1 == swpCurrent.isAlarm()
@@ -2167,7 +2169,9 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
-    && (1 == swpCurrent.isFault()
+    && (1 == swpCurrent.isExistDK()
+     || 1 == swpCurrent.isWasDK()
+     || 1 == swpCurrent.isFault()
      || 1 == swpCurrent.isAlarm()
      || 1 == swpCurrent.isWasAlarm())) { // сброс тревоги
         //нужен сброс
@@ -2345,7 +2349,9 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
-    && (1 == swpCurrent.isOpened()
+    && (1 == swpCurrent.isExistDK()
+     || 1 == swpCurrent.isWasDK()
+     || 1 == swpCurrent.isOpened()
      || 1 == swpCurrent.isWasOpened()
      || 1 == swpCurrent.isAlarm()
      || 1 == swpCurrent.isWasAlarm())) { // сброс тревоги
