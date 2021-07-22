@@ -22,8 +22,16 @@ ProcessDKWaiter::~ProcessDKWaiter()
 {
     //qDebug() << "ProcessDKWaiter::~ProcessDKWaiter(" << this << ") <--";
     Port::typeDefPort(getPtrPort())->setProcDK(false);
-    if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
-        getUnReciver()->setDkInvolved(false);
+//    if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
+//        getUnReciver()->setDkInvolved(false);
+//    }
+    getUnReciver()->setDkInvolved(false);
+    auto reciver = UnitNode::findReciver(getUnReciver());
+    if(!reciver.isNull()) {
+       reciver->setDkInvolved(false);
+    }
+    for(const auto &cld : as_const(getUnReciver()->getListChilde())) {
+        cld->setDkInvolved(false);
     }
 }
 
