@@ -36,6 +36,7 @@ private:
 //    ProcessDKWaiter * addProcessDKWaiter(QHostAddress address, int port, int index);
     static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
     static QList<AbstractPort *> loadPortsUdpObj(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
+
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
     static bool procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
     static bool procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
@@ -44,6 +45,12 @@ private:
 
 
     static DataQueueItem parcingStatusWord0x31(DataQueueItem &item, DataQueueItem & resultRequest);
+    static bool procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+
+
     static DataQueueItem parcingStatusWord0x32(DataQueueItem &item, DataQueueItem & resultRequest);
     static DataQueueItem parcingStatusWord0x33(DataQueueItem &item, DataQueueItem & resultRequest);
     static DataQueueItem parcingStatusWord0x34(DataQueueItem &item, DataQueueItem & resultRequest);
