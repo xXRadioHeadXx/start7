@@ -1887,21 +1887,27 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     }
     if((TypeUnitNode::RLM_C == currentUN->getType()
      && 1 == currentUN->swpRLMC().isOn()
-     && (1 == currentUN->swpRLMC().isInAlarm()
-      || 1 == currentUN->swpRLMC().isOutAlarm()
-      || 1 == currentUN->swpRLMC().isWasAlarm()))
+     && (
+         1 == currentUN->swpRLMC().isOutAlarm()
+//      || 1 == currentUN->swpRLMC().isWasDK()
+      || 1 == currentUN->swpRLMC().isWasAlarm())
+        )
     || (TypeUnitNode::RLM_KRL == currentUN->getType()
      && 1 == currentUN->swpRLM().isOn()
-     && (1 == currentUN->swpRLM().isInAlarm()
-      || 1 == currentUN->swpRLM().isOutAlarm()
-      || 1 == currentUN->swpRLM().isWasAlarm()))
+     && (
+         1 == currentUN->swpRLM().isOutAlarm()
+//      || 1 == currentUN->swpRLM().isWasDK()
+      || 1 == currentUN->swpRLM().isWasAlarm()
+      || 1 == currentUN->swpRLM().isWasOpened())
+        )
     || (TypeUnitNode::TG == currentUN->getType()
      && 1 == currentUN->swpTGType0x31().isOn()
-     && (1 == currentUN->swpTGType0x31().isInAlarm()
+     && (
+         1 == currentUN->swpTGType0x31().isInAlarm()
+//      || 1 == currentUN->swpTGType0x31().isWasDK()
       || 1 == currentUN->swpTGType0x31().isOutAlarm()
-      || 1 == currentUN->swpTGType0x31().isWasAlarm()
-      || 1 == currentUN->swpTGType0x31().isInOpened()
-      || 1 == currentUN->swpTGType0x31().isWasOpened()))) {
+      || 1 == currentUN->swpTGType0x31().isWasOpened())
+        )) {
         //нужен сброс
         auto reciver = UnitNode::findReciver(currentUN);
         if(reciver.isNull()) {
@@ -1979,13 +1985,11 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
-    && (1 == swpCurrent.isExistDK()
-     || 1 == swpCurrent.isWasDK()
-     || 1 == swpCurrent.isFault()
-     || 1 == swpCurrent.isOpened()
-     || 1 == swpCurrent.isWasOpened()
-     || 1 == swpCurrent.isAlarm()
-     || 1 == swpCurrent.isWasAlarm())) { // сброс тревоги
+    && (
+        1 == currentUN->swpRLM().isOutAlarm()
+     || 1 == currentUN->swpRLM().isWasDK()
+     || 1 == currentUN->swpRLM().isWasAlarm()
+     || 1 == currentUN->swpRLM().isWasOpened())) { // сброс тревоги
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
@@ -2169,11 +2173,9 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
-    && (1 == swpCurrent.isExistDK()
-     || 1 == swpCurrent.isWasDK()
-     || 1 == swpCurrent.isFault()
-     || 1 == swpCurrent.isAlarm()
-     || 1 == swpCurrent.isWasAlarm())) { // сброс тревоги
+    && (1 == currentUN->swpRLMC().isOutAlarm()
+     || 1 == currentUN->swpRLMC().isWasDK()
+     || 1 == currentUN->swpRLMC().isWasAlarm())) { // сброс тревоги
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
@@ -2349,12 +2351,10 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
-    && (1 == swpCurrent.isExistDK()
-     || 1 == swpCurrent.isWasDK()
-     || 1 == swpCurrent.isOpened()
-     || 1 == swpCurrent.isWasOpened()
-     || 1 == swpCurrent.isAlarm()
-     || 1 == swpCurrent.isWasAlarm())) { // сброс тревоги
+    && (1 == currentUN->swpTGType0x31().isInAlarm()
+     || 1 == currentUN->swpTGType0x31().isWasDK()
+     || 1 == currentUN->swpTGType0x31().isOutAlarm()
+     || 1 == currentUN->swpTGType0x31().isWasOpened())) { // сброс тревоги
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
