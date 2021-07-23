@@ -1903,7 +1903,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     || (TypeUnitNode::TG == currentUN->getType()
      && 1 == currentUN->swpTGType0x31().isOn()
      && (
-         1 == currentUN->swpTGType0x31().isInAlarm()
+         1 == currentUN->swpTGType0x31().isWasAlarm()
 //      || 1 == currentUN->swpTGType0x31().isWasDK()
       || 1 == currentUN->swpTGType0x31().isOutAlarm()
       || 1 == currentUN->swpTGType0x31().isWasOpened())
