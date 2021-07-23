@@ -645,7 +645,8 @@ UnitNode::UnitNode(const UnitNode & parent) :
     stateWordType0x34(parent.stateWordType0x34),
     metaNames(parent.metaNames),
     dkStatus(parent.dkStatus),
-    dkInvolved(parent.dkInvolved)
+    dkInvolved(parent.dkInvolved),
+    publishedState(parent.publishedState)
 {
     UnitNodeCFG::operator=(parent);
     TreeItem::operator=(parent);
@@ -658,6 +659,8 @@ UnitNode::UnitNode(const UnitNode & parent) :
 
     setDkStatus(parent.getDkStatus());
     setDkInvolved(parent.getDkInvolved());
+    setPublishedState(parent.getPublishedState());
+
 
     matchEditableControl();
     matchEditableOnOff();
@@ -681,6 +684,7 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
 
     setDkStatus(c.getDkStatus());
     setDkInvolved(c.getDkInvolved());
+    setPublishedState(c.getPublishedState());
 
     matchEditableControl();
     matchEditableOnOff();

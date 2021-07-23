@@ -1233,8 +1233,9 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 {
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -->";
     if(TypeUnitNode::SD_BL_IP != currentUN->getType() ||
-       1 == currentUN->getBazalt()) {
 //        qDebug() << "PortManager::procSDBLIPStatusWord0x41(1) <--";
+       1 == currentUN->getBazalt() ||
+       currentUN->getDkInvolved()) {
         return false;
     }
 
@@ -1271,7 +1272,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
-    if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
+    if(-1 == currentUN->getPublishedState()) {
         isFirstWakeUp = true;
     }
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -- isFirstWakeUp " << isFirstWakeUp;
@@ -1286,7 +1287,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn() &&
-       1 == swpCurrent.isAlarm() &&
+//       1 == swpCurrent.isAlarm() &&
        1 == swpCurrent.isWasAlarm()) { // сброс тревоги
         //нужен сброс
         DataQueueItem alarmReset0x24;
@@ -1361,11 +1362,11 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     } else if(1 == swpCurrent.isOn() && (isFirstWakeUp || isWakeUp) && !isSwitchOnOff) {
         commentMsg = QObject::tr("Вкл (начальное состояние)");
         typeMsg = 101;
-        reciver->setPublishedState(101);
+        currentUN->setPublishedState(101);
     } else if(1 == swpCurrent.isOff() && (isFirstWakeUp || isWakeUp) && !isSwitchOnOff) {
         commentMsg = QObject::tr("Выкл (начальное состояние)");
         typeMsg = 100;
-        reciver->setPublishedState(100);
+        currentUN->setPublishedState(100);
     }
 
 //    qDebug() << "состояние СД -->" << commentMsg;
@@ -1376,8 +1377,8 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     if((isWakeUp ||
         isFirstWakeUp ||
         20 == currentUN->getPublishedState() ||
-        currentUN->getPublishedState() != previousUN->getPublishedState()) &&
-       isChangedStatus &&
+        currentUN->getPublishedState() != previousUN->getPublishedState() ||
+        isChangedStatus) &&
        1 != currentUN->getMetaEntity() &&
        -1 != typeMsg &&
        currentUN->getControl()) {
