@@ -846,7 +846,7 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
 //        setCellTextWithForeground( table, i,0, (QObject::tr("Сработка ЧЭ%1").arg(i)));
         //"Cработка ЧЭ%1"
         if(1 == swp32.C(i).isInAlarm()) {
-            setCellTextBackgroundColorForegroundBold( table, i, 1, (QObject::tr("Да[1]")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+            setCellTextBackgroundColorForegroundBold( table, i, 1, (QObject::tr("Было[1]")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         } else if(0 == swp32.C(i).isInAlarm()) {
             setCellTextBackgroundColorForegroundBold( table, i, 1, (QObject::tr("Нет[0]")), cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         }

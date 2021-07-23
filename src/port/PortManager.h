@@ -50,8 +50,11 @@ private:
     static bool procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
     static bool procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
 
-
     static DataQueueItem parcingStatusWord0x32(DataQueueItem &item, DataQueueItem & resultRequest);
+    static bool procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+
+
     static DataQueueItem parcingStatusWord0x33(DataQueueItem &item, DataQueueItem & resultRequest);
     static DataQueueItem parcingStatusWord0x34(DataQueueItem &item, DataQueueItem & resultRequest);
     static void procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous);
