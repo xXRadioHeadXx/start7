@@ -6,8 +6,8 @@
 #include "ServerSettingUtils.h"
 #include "Utils.h"
 #include "global.h"
-#include "SWPSDBLIP.h"
-#include "SWPIUBLIP.h"
+#include "SWPSDBLIPType0x41.h"
+#include "SWPIUBLIPType0x41.h"
 
 LockWaiter::LockWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
@@ -128,7 +128,7 @@ void LockWaiter::init() {
         newMetaUnIuBlIp->setUdpAdress(getUnReciverSdBlIp()->getUdpAdress());
         newMetaUnIuBlIp->setUdpTimeout(getUnReciverSdBlIp()->getUdpTimeout());
         newMetaUnIuBlIp->setNum1(getUnReciverSdBlIp()->getNum1());
-        newMetaUnIuBlIp->setStateWord(getUnReciverSdBlIp()->getStateWord());
+        newMetaUnIuBlIp->setStateWord(0x41u, getUnReciverSdBlIp()->getStateWord(0x41u));
 
         newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
         newMetaUnIuBlIp->setMetaEntity(1);

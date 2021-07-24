@@ -1,16 +1,16 @@
-#include "SWPBLIP.h"
+#include "SWPBLIPType0x41.h"
 
-const SWPSDBLIP SWPBLIP::sd(int numSD) const
+const SWPSDBLIPType0x41 SWPBLIPType0x41::sd(int numSD) const
 {
-    return SWPSDBLIP(getStateWord(), numSD);
+    return SWPSDBLIPType0x41(getStateWord(), numSD);
 }
 
-const SWPIUBLIP SWPBLIP::iu(int numIU) const
+const SWPIUBLIPType0x41 SWPBLIPType0x41::iu(int numIU) const
 {
-    return SWPIUBLIP(getStateWord(), numIU);
+    return SWPIUBLIPType0x41(getStateWord(), numIU);
 }
 
-SWPBLIP::SWPBLIP(const StateWord &stateWord) :
+SWPBLIPType0x41::SWPBLIPType0x41(const StateWord &stateWord) :
     SWP(stateWord)
 {
 }
@@ -20,16 +20,16 @@ SWPBLIP::SWPBLIP(const StateWord &stateWord) :
 //{
 //}
 
-SWPBLIP::SWPBLIP(const SWPBLIP &parent) :
+SWPBLIPType0x41::SWPBLIPType0x41(const SWPBLIPType0x41 &parent) :
     SWP(parent)
 {
 }
 
-SWPBLIP::~SWPBLIP() {
+SWPBLIPType0x41::~SWPBLIPType0x41() {
 
 }
 
-int SWPBLIP::isExistDK() const
+int SWPBLIPType0x41::isExistDK() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -39,7 +39,7 @@ int SWPBLIP::isExistDK() const
         return 0; // Status::Not);
 }
 
-int SWPBLIP::isWasDK() const
+int SWPBLIPType0x41::isWasDK() const
 {
     if(byteWord().isEmpty())
         return -1;

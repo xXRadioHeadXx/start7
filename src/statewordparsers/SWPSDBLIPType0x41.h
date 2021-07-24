@@ -1,16 +1,16 @@
-#ifndef SWPSDBLIP_H
-#define SWPSDBLIP_H
+#ifndef SWPSDBLIPTYPE0X41_H
+#define SWPSDBLIPTYPE0X41_H
 
 #include "SWP.h"
 
-class SWPSDBLIP : public SWP
+class SWPSDBLIPType0x41 : public SWP
 {
     quint8 _mask = 0x00;
 public:
-    SWPSDBLIP(const StateWord &stateWord, int numSD);
+    SWPSDBLIPType0x41(const StateWord &stateWord, int numSD);
 //    SWPSDBLIP(const QByteArray &stateWord, int numSD);
-    SWPSDBLIP(const SWPSDBLIP & parent);
-    virtual ~SWPSDBLIP();
+    SWPSDBLIPType0x41(const SWPSDBLIPType0x41 & parent);
+    virtual ~SWPSDBLIPType0x41();
 
     int isAlarm() const;
     int isInAlarm() const;
@@ -21,4 +21,4 @@ public:
     quint8 mask() const;
 };
 
-#endif // SWPSDBLIP_H
+#endif // SWPSDBLIPTYPE0X41_H

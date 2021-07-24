@@ -1,14 +1,14 @@
-#include "SWPSDBLIP.h"
+#include "SWPIUBLIPType0x41.h"
 
-quint8 SWPSDBLIP::mask() const
+quint8 SWPIUBLIPType0x41::mask() const
 {
     return _mask;
 }
 
-SWPSDBLIP::SWPSDBLIP(const StateWord &stateWord, int numSD) :
+SWPIUBLIPType0x41::SWPIUBLIPType0x41(const StateWord &stateWord, int numIU) :
     SWP(stateWord)
 {
-    switch (numSD) {
+    switch (numIU) {
     case 1:
         _mask = 0x01;
         break;
@@ -39,10 +39,10 @@ SWPSDBLIP::SWPSDBLIP(const StateWord &stateWord, int numSD) :
     }
 }
 
-//SWPSDBLIP::SWPSDBLIP(const QByteArray &byteWord, int numSD) :
+//SWPIUBLIP::SWPIUBLIP(const QByteArray &byteWord, int numIU) :
 //    SWP(byteWord)
 //{
-//    switch (numSD) {
+//    switch (numIU) {
 //    case 1:
 //        _mask = 0x01;
 //        break;
@@ -73,59 +73,32 @@ SWPSDBLIP::SWPSDBLIP(const StateWord &stateWord, int numSD) :
 //    }
 //}
 
-SWPSDBLIP::SWPSDBLIP(const SWPSDBLIP &parent) :
+SWPIUBLIPType0x41::SWPIUBLIPType0x41(const SWPIUBLIPType0x41 &parent) :
     SWP(parent),
     _mask(parent.mask())
 {
 }
 
-SWPSDBLIP::~SWPSDBLIP() {
+SWPIUBLIPType0x41::~SWPIUBLIPType0x41() {
 
 }
 
-int SWPSDBLIP::isAlarm() const
-{
-    return isInAlarm();
-}
-
-int SWPSDBLIP::isInAlarm() const
+int SWPIUBLIPType0x41::isOutAlarm() const
 {
     if(byteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(byteWord().at(0)) & mask())
-        return 1; //Status::Alarm);
+    if(static_cast<quint8>(byteWord().at(1)) & mask())
+        return 1; //Status::On);
     else
-        return 0; //Status::Norm);
-}
-
-
-int SWPSDBLIP::isNorm() const
-{
-    int isalarm = isAlarm();
-    return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
-}
-
-int SWPSDBLIP::isWasAlarm() const
-{
-    if(byteWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(byteWord().at(2)) & mask())
-        return 1; //Status::Was);
-    else
-        return 0; //Status::Not);
-}
-
-int SWPSDBLIP::isOn() const
-{
-    if(byteWord().isEmpty())
-        return -1;
-    if(static_cast<quint8>(0) == (static_cast<quint8>(byteWord().at(3)) & mask()))
         return 0; //Status::Off;
-    else
-        return 1; //
 }
 
-int SWPSDBLIP::isOff() const
+int SWPIUBLIPType0x41::isOn() const
+{
+    return isOutAlarm();
+}
+
+int SWPIUBLIPType0x41::isOff() const
 {
     int ison = isOn();
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));

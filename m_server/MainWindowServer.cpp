@@ -15,8 +15,8 @@
 
 #include "SWPRLM.h"
 #include "SWPRLMC.h"
-#include "SWPSDBLIP.h"
-#include "SWPIUBLIP.h"
+#include "SWPSDBLIPType0x41.h"
+#include "SWPIUBLIPType0x41.h"
 #include "SWPTGType0x31.h"
 #include "ServerTableModelJour.h"
 #include <QScrollBar>

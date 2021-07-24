@@ -6,11 +6,11 @@
 #include "Icons_cfg.h"
 #include "SignalSlotCommutator.h"
 #include "global.h"
-#include "SWPBLIP.h"
+#include "SWPBLIPType0x41.h"
 #include "SWPRLM.h"
 #include "SWPRLMC.h"
-#include "SWPSDBLIP.h"
-#include "SWPIUBLIP.h"
+#include "SWPSDBLIPType0x41.h"
+#include "SWPIUBLIPType0x41.h"
 #include "SWPTGType0x31.h"
 #include "SWPTGType0x34.h"
 #include "SWPTGType0x33.h"
@@ -109,7 +109,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             else
                 return Icons::fldr_empt();
         } else if(TypeUnitNode::SD_BL_IP == getType()) {
-            const SWPSDBLIP swp = swpSDBLIP();
+            const SWPSDBLIPType0x41 swp = swpSDBLIP();
             if(0 == getBazalt()) {
                 if(getControl() && swp.isNull()) {
                     return Icons::sqr_ylw();
@@ -151,7 +151,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             }
 
         } else if(TypeUnitNode::IU_BL_IP == getType()) {
-            const SWPIUBLIP swp = swpIUBLIP();
+            const SWPIUBLIPType0x41 swp = swpIUBLIP();
             if(swp.isNull()) {
                 return Icons::sqr_ylw();
             } else if(1 == swp.isOn()) {
@@ -385,7 +385,8 @@ void UnitNode::setDoubles(QSharedPointer<UnitNode> value)
 void UnitNode::updDoubl()
 {
     for(auto c : as_const(this->doubles)) {
-        c->setStateWord(this->getStateWord());
+        c->setStateWords(this->getStateWords());
+        c->setStateWordType0x41(this->getStateWordType0x41());
         c->setStateWordType0x31(this->getStateWordType0x31());
         c->setStateWordType0x34(this->getStateWordType0x34());
         c->setStateWordType0x33(this->getStateWordType0x33());
@@ -402,6 +403,23 @@ void UnitNode::updDoubl()
     }
 }
 
+StateWord UnitNode::getStateWord(const uint8_t key) const
+{
+    if(0 != stateWords.count(key)) {
+        try {
+            return stateWords.at(key);
+        }  catch (std::out_of_range e) {
+            return StateWord();
+        }
+    }
+    return StateWord();
+}
+
+void UnitNode::setStateWord(const uint8_t key, const StateWord &value)
+{
+    stateWords[key] = value;
+}
+
 //void UnitNode::deleteChild(int row)
 //{
 //    this->listChilde.removeAt(row);
@@ -414,19 +432,21 @@ void UnitNode::updDoubl()
 //    this->listTreeChilde.clear();
 //}
 
-StateWord UnitNode::getStateWord() const
+StateWord UnitNode::getStateWordType0x41() const
 {
-    return stateWord;
+    return getStateWord(0x41u);
+    return stateWordType0x41;
 }
 
-void UnitNode::setStateWord(const StateWord &value)
+void UnitNode::setStateWordType0x41(const StateWord &value)
 {
-    stateWord = value;
+    setStateWord(0x41u, value);
+    stateWordType0x41 = value;
 }
 
 int UnitNode::isConnected() const
 {
-    if(getStateWord().getByteWord().isEmpty() &&
+    if(getStateWord(0x41u).getByteWord().isEmpty() &&
        getStateWordType0x31().getByteWord().isEmpty() &&
        getStateWordType0x32().getByteWord().isEmpty() &&
        getStateWordType0x33().getByteWord().isEmpty() &&
@@ -576,6 +596,16 @@ void UnitNode::setMetaEntity(int newMetaEntity)
     metaEntity = newMetaEntity;
 }
 
+std::map<const uint8_t, StateWord> UnitNode::getStateWords() const
+{
+    return stateWords;
+}
+
+void UnitNode::setStateWords(const std::map<const uint8_t, StateWord> &value)
+{
+    stateWords = value;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
@@ -625,9 +655,9 @@ UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
     this->parentUN = parent;
 }
 
-const SWPSDBLIP UnitNode::swpSDBLIP() const {return SWPSDBLIP(getStateWord(), getNum2());}
-const SWPIUBLIP UnitNode::swpIUBLIP() const {return SWPIUBLIP(getStateWord(), getNum2());}
-const SWPBLIP UnitNode::swpBLIP() const {return SWPBLIP(getStateWord());}
+const SWPSDBLIPType0x41 UnitNode::swpSDBLIP() const {return SWPSDBLIPType0x41(getStateWord(0x41u), getNum2());}
+const SWPIUBLIPType0x41 UnitNode::swpIUBLIP() const {return SWPIUBLIPType0x41(getStateWord(0x41u), getNum2());}
+const SWPBLIPType0x41 UnitNode::swpBLIP() const {return SWPBLIPType0x41(getStateWord(0x41u));}
 const SWPRLM UnitNode::swpRLM() const {return SWPRLM(getStateWordType0x31());}
 const SWPRLMC UnitNode::swpRLMC() const {return SWPRLMC(getStateWordType0x31());}
 const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getStateWordType0x31());}
@@ -638,7 +668,8 @@ const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getSta
 UnitNode::UnitNode(const UnitNode & parent) :
 //    UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
     ServerUnitNodeTreeItem(),
-    stateWord(parent.stateWord),
+    stateWords(parent.stateWords),
+    stateWordType0x41(parent.stateWordType0x41),
     stateWordType0x31(parent.stateWordType0x31),
     stateWordType0x32(parent.stateWordType0x32),
     stateWordType0x33(parent.stateWordType0x33),
@@ -650,7 +681,8 @@ UnitNode::UnitNode(const UnitNode & parent) :
 {
     UnitNodeCFG::operator=(parent);
     TreeItem::operator=(parent);
-    setStateWord(parent.getStateWord());
+    setStateWords(parent.getStateWords());
+    setStateWordType0x41(parent.getStateWordType0x41());
     setStateWordType0x31(parent.getStateWordType0x31());
     setStateWordType0x34(parent.getStateWordType0x34());
     setStateWordType0x33(parent.getStateWordType0x33());
@@ -675,7 +707,8 @@ UnitNode::~UnitNode()
 UnitNode & UnitNode::operator=(const UnitNode& c) {
     UnitNodeCFG::operator=(c);
     TreeItem::operator=(c);
-    setStateWord(c.getStateWord());
+    setStateWords(c.getStateWords());
+    setStateWordType0x41(c.getStateWordType0x41());
     setStateWordType0x31(c.getStateWordType0x31());
     setStateWordType0x34(c.getStateWordType0x34());
     setStateWordType0x33(c.getStateWordType0x33());
@@ -839,9 +872,9 @@ int UnitNode::childCount() const noexcept
 
 int UnitNode_BL_IP::isExistDK() const
 {
-    if(getStateWord().getByteWord().isEmpty())
+    if(getStateWord(0x41u).getByteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().getByteWord().at(1)) & 0x80)
+    if(static_cast<quint8>(getStateWord(0x41u).getByteWord().at(1)) & 0x80)
         return 1; // Status::Exists);
     else
         return 0; // Status::Not);
@@ -849,9 +882,9 @@ int UnitNode_BL_IP::isExistDK() const
 
 int UnitNode_BL_IP::isWasAlarm() const
 {
-    if(getStateWord().getByteWord().isEmpty())
+    if(getStateWord(0x41u).getByteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord().getByteWord().at(1)) & 0x40)
+    if(static_cast<quint8>(getStateWord(0x41u).getByteWord().at(1)) & 0x40)
         return 1; //Status::Was);
     else
         return 0; //Status::Not);

@@ -1,7 +1,7 @@
 #include "GraphTerminal.h"
 
-#include "SWPSDBLIP.h"
-#include "SWPIUBLIP.h"
+#include "SWPSDBLIPType0x41.h"
+#include "SWPIUBLIPType0x41.h"
 #include "TcpServer.h"
 #include <QTcpSocket>
 #include <qdom.h>

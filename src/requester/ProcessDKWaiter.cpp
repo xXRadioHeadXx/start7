@@ -5,9 +5,9 @@
 #include "Utils.h"
 #include "global.h"
 
-#include "SWPBLIP.h"
-#include "SWPSDBLIP.h"
-#include "SWPIUBLIP.h"
+#include "SWPBLIPType0x41.h"
+#include "SWPSDBLIPType0x41.h"
+#include "SWPIUBLIPType0x41.h"
 #include "SWPRLM.h"
 #include "SWPRLMC.h"
 #include "SWPTGType0x32.h"

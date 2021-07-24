@@ -308,7 +308,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 newMetaUnIuBlIp->setUdpAdress(un->getUdpAdress());
                 newMetaUnIuBlIp->setUdpTimeout(un->getUdpTimeout());
                 newMetaUnIuBlIp->setNum1(un->getNum1());
-                newMetaUnIuBlIp->setStateWord(un->getStateWord());
+                newMetaUnIuBlIp->setStateWord(0x41u, un->getStateWord(0x41u));
 
                 newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
                 newMetaUnIuBlIp->setControl(false);

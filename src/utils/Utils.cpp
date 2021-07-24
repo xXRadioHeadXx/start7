@@ -6,11 +6,11 @@
 #include "SignalSlotCommutator.h"
 #include "global.h"
 #include "UnitNode.h"
-#include "SWPBLIP.h"
+#include "SWPBLIPType0x41.h"
 #include "SWPRLM.h"
 #include "SWPRLMC.h"
-#include "SWPSDBLIP.h"
-#include "SWPIUBLIP.h"
+#include "SWPSDBLIPType0x41.h"
+#include "SWPIUBLIPType0x41.h"
 #include "SWPTGType0x32.h"
 #include "SWPTGSubType0x32.h"
 #include "SWPTGType0x34.h"
@@ -434,7 +434,7 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
 
         int row = -1;
 
-        if(un->getStateWord().getByteWord().isEmpty()) {
+        if(un->getStateWord(0x41u).getByteWord().isEmpty()) {
             if(TypeUnitNode::SD_BL_IP == un->getType()) {
                 row = un->getNum2();
             } else if(TypeUnitNode::IU_BL_IP == un->getType()) {

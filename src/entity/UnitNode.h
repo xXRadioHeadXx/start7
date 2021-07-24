@@ -29,11 +29,11 @@ enum DKCiclStatus {
 
 
 
-class SWPBLIP;
+class SWPBLIPType0x41;
 class SWPRLM;
 class SWPRLMC;
-class SWPSDBLIP;
-class SWPIUBLIP;
+class SWPSDBLIPType0x41;
+class SWPIUBLIPType0x41;
 class SWPTGType0x31;
 class SWPTGType0x34;
 class SWPTGType0x33;
@@ -48,7 +48,10 @@ class UnitNode :
 private:
     int defaultNeededStateWordType = 0x22;
     int neededStateWordType = 0x22;
-    StateWord stateWord;
+
+    std::map<const uint8_t, StateWord> stateWords;
+
+    StateWord stateWordType0x41;
     StateWord stateWordType0x31;
     StateWord stateWordType0x32;
     StateWord stateWordType0x33;
@@ -141,10 +144,11 @@ public:
 
     static int adamOffToMs(int adamOff);
 
+    StateWord getStateWord(const uint8_t key) const;
+    void setStateWord(const uint8_t key, const StateWord &value);
 
-
-    StateWord getStateWord() const;
-    void setStateWord(const StateWord &value);
+    StateWord getStateWordType0x41() const;
+    void setStateWordType0x41(const StateWord &value);
 
     virtual int isConnected() const;
     virtual int calcDKStatus() const {return DKCiclStatus::DKIgnore;}
@@ -183,9 +187,9 @@ public:
     StateWord getStateWordType0x32() const;
     void setStateWordType0x32(const StateWord &value);
 
-    const SWPSDBLIP swpSDBLIP() const; // {return SWPSDBLIP(getStateWord(), getNum2());}
-    const SWPIUBLIP swpIUBLIP() const; // {return SWPIUBLIP(getStateWord(), getNum2());}
-    const SWPBLIP swpBLIP() const; // {return SWPBLIP(getStateWord());}
+    const SWPSDBLIPType0x41 swpSDBLIP() const; // {return SWPSDBLIP(getStateWord(), getNum2());}
+    const SWPIUBLIPType0x41 swpIUBLIP() const; // {return SWPIUBLIP(getStateWord(), getNum2());}
+    const SWPBLIPType0x41 swpBLIP() const; // {return SWPBLIP(getStateWord());}
     const SWPRLM swpRLM() const; // {return SWPRLM(getStateWord());}
     const SWPRLMC swpRLMC() const; // {return SWPRLMC(getStateWord());}
     const SWPTGType0x31 swpTGType0x31() const; // {return SWPTGType0x31(getStateWord());}
@@ -203,6 +207,9 @@ public:
 
     int getMetaEntity() const;
     void setMetaEntity(int newMetaEntity);
+
+    std::map<const uint8_t, StateWord> getStateWords() const;
+    void setStateWords(const std::map<const uint8_t, StateWord> &value);
 
 protected :
     void setDefaultNeededStateWordType(int value);
