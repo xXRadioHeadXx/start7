@@ -386,11 +386,6 @@ void UnitNode::updDoubl()
 {
     for(auto c : as_const(this->doubles)) {
         c->setStateWords(this->getStateWords());
-        c->setStateWordType0x41(this->getStateWordType0x41());
-        c->setStateWordType0x31(this->getStateWordType0x31());
-        c->setStateWordType0x34(this->getStateWordType0x34());
-        c->setStateWordType0x33(this->getStateWordType0x33());
-        c->setStateWordType0x32(this->getStateWordType0x32());
         c->setDkStatus(this->getDkStatus());
         c->setDkInvolved(this->getDkInvolved());
         c->setParentUN(this->getParentUN());
@@ -431,18 +426,6 @@ void UnitNode::setStateWord(const uint8_t key, const StateWord &value)
 //    this->listChilde.clear();
 //    this->listTreeChilde.clear();
 //}
-
-StateWord UnitNode::getStateWordType0x41() const
-{
-    return getStateWord(0x41u);
-    return stateWordType0x41;
-}
-
-void UnitNode::setStateWordType0x41(const StateWord &value)
-{
-    setStateWord(0x41u, value);
-    stateWordType0x41 = value;
-}
 
 int UnitNode::isConnected() const
 {
@@ -502,36 +485,6 @@ void UnitNode::setMaxCountStatusConnectRequesterWaitAnswer(int value)
 //    qDebug() << this->toString() << "::setMaxCountStatusConnectRequesterWaitAnswer(" << maxCountStatusConnectRequesterWaitAnswer << ") ~ " << maxCountStatusConnectRequesterWaitAnswer * getUdpTimeout() << "ms";
 }
 
-StateWord UnitNode::getStateWordType0x31() const
-{
-    return stateWordType0x31;
-}
-
-void UnitNode::setStateWordType0x31(const StateWord &value)
-{
-    stateWordType0x31 = value;
-}
-
-StateWord UnitNode::getStateWordType0x34() const
-{
-    return stateWordType0x34;
-}
-
-void UnitNode::setStateWordType0x34(const StateWord &value)
-{
-    stateWordType0x34 = value;
-}
-
-StateWord UnitNode::getStateWordType0x33() const
-{
-    return stateWordType0x33;
-}
-
-void UnitNode::setStateWordType0x33(const StateWord &value)
-{
-    stateWordType0x33 = value;
-}
-
 int UnitNode::getNeededStateWordType() const
 {
     return neededStateWordType;
@@ -541,17 +494,6 @@ void UnitNode::setNeededStateWordType(int value)
 {
     neededStateWordType = value;
 }
-
-StateWord UnitNode::getStateWordType0x32() const
-{
-    return stateWordType0x32;
-}
-
-void UnitNode::setStateWordType0x32(const StateWord &value)
-{
-    stateWordType0x32 = value;
-}
-
 int UnitNode::getDefaultNeededStateWordType() const
 {
     return defaultNeededStateWordType;
@@ -669,11 +611,6 @@ UnitNode::UnitNode(const UnitNode & parent) :
 //    UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
     ServerUnitNodeTreeItem(),
     stateWords(parent.stateWords),
-    stateWordType0x41(parent.stateWordType0x41),
-    stateWordType0x31(parent.stateWordType0x31),
-    stateWordType0x32(parent.stateWordType0x32),
-    stateWordType0x33(parent.stateWordType0x33),
-    stateWordType0x34(parent.stateWordType0x34),
     metaNames(parent.metaNames),
     dkStatus(parent.dkStatus),
     dkInvolved(parent.dkInvolved),
@@ -682,11 +619,6 @@ UnitNode::UnitNode(const UnitNode & parent) :
     UnitNodeCFG::operator=(parent);
     TreeItem::operator=(parent);
     setStateWords(parent.getStateWords());
-    setStateWordType0x41(parent.getStateWordType0x41());
-    setStateWordType0x31(parent.getStateWordType0x31());
-    setStateWordType0x34(parent.getStateWordType0x34());
-    setStateWordType0x33(parent.getStateWordType0x33());
-    setStateWordType0x32(parent.getStateWordType0x32());
     setMetaNames(parent.getMetaNames());
 
     setDkStatus(parent.getDkStatus());
@@ -708,11 +640,6 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     UnitNodeCFG::operator=(c);
     TreeItem::operator=(c);
     setStateWords(c.getStateWords());
-    setStateWordType0x41(c.getStateWordType0x41());
-    setStateWordType0x31(c.getStateWordType0x31());
-    setStateWordType0x34(c.getStateWordType0x34());
-    setStateWordType0x33(c.getStateWordType0x33());
-    setStateWordType0x32(c.getStateWordType0x32());
     setMetaNames(c.getMetaNames());
 
     setDkStatus(c.getDkStatus());

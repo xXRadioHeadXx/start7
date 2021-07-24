@@ -51,11 +51,6 @@ private:
 
     std::map<const uint8_t, StateWord> stateWords;
 
-    StateWord stateWordType0x41;
-    StateWord stateWordType0x31;
-    StateWord stateWordType0x32;
-    StateWord stateWordType0x33;
-    StateWord stateWordType0x34;
     QSet<QSharedPointer<UnitNode> > doubles; //[Obj_1]
     QSet<QString> metaNames; //[Obj_1]
 
@@ -147,9 +142,6 @@ public:
     StateWord getStateWord(const uint8_t key) const;
     void setStateWord(const uint8_t key, const StateWord &value);
 
-    StateWord getStateWordType0x41() const;
-    void setStateWordType0x41(const StateWord &value);
-
     virtual int isConnected() const;
     virtual int calcDKStatus() const {return DKCiclStatus::DKIgnore;}
 
@@ -174,18 +166,6 @@ public:
     int getDefaultNeededStateWordType() const;
 
     static QSharedPointer<UnitNode> findReciver(QSharedPointer<UnitNode> reciver);
-
-    StateWord getStateWordType0x31() const;
-    void setStateWordType0x31(const StateWord &value);
-
-    StateWord getStateWordType0x34() const;
-    void setStateWordType0x34(const StateWord &value);
-
-    StateWord getStateWordType0x33() const;
-    void setStateWordType0x33(const StateWord &value);
-
-    StateWord getStateWordType0x32() const;
-    void setStateWordType0x32(const StateWord &value);
 
     const SWPSDBLIPType0x41 swpSDBLIP() const; // {return SWPSDBLIP(getStateWord(), getNum2());}
     const SWPIUBLIPType0x41 swpIUBLIP() const; // {return SWPIUBLIP(getStateWord(), getNum2());}
