@@ -193,9 +193,9 @@ public:
     const SWPRLM swpRLM() const; // {return SWPRLM(getStateWord());}
     const SWPRLMC swpRLMC() const; // {return SWPRLMC(getStateWord());}
     const SWPTGType0x31 swpTGType0x31() const; // {return SWPTGType0x31(getStateWord());}
-    const SWPTGType0x34 swpTGType0x34() const; // {return SWPTGType0x34(getStateWordType0x34());}
-    const SWPTGType0x33 swpTGType0x33() const; // {return SWPTGType0x33(getStateWordType0x33());}
-    const SWPTGType0x32 swpTGType0x32() const; // {return SWPTGType0x32(getStateWordType0x32());}
+    const SWPTGType0x34 swpTGType0x34() const; // {return SWPTGType0x34(getStateWord(0x34u));}
+    const SWPTGType0x33 swpTGType0x33() const; // {return SWPTGType0x33(getStateWord(0x33u));}
+    const SWPTGType0x32 swpTGType0x32() const; // {return SWPTGType0x32(getStateWord(0x32u));}
 
 public:
     QQueue<DataQueueItem> queueMsg;

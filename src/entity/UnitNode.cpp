@@ -447,10 +447,10 @@ void UnitNode::setStateWordType0x41(const StateWord &value)
 int UnitNode::isConnected() const
 {
     if(getStateWord(0x41u).getByteWord().isEmpty() &&
-       getStateWordType0x31().getByteWord().isEmpty() &&
-       getStateWordType0x32().getByteWord().isEmpty() &&
-       getStateWordType0x33().getByteWord().isEmpty() &&
-       getStateWordType0x34().getByteWord().isEmpty())
+       getStateWord(0x31u).getByteWord().isEmpty() &&
+       getStateWord(0x32u).getByteWord().isEmpty() &&
+       getStateWord(0x33u).getByteWord().isEmpty() &&
+       getStateWord(0x34u).getByteWord().isEmpty())
         return 0;
     else
         return 1;
@@ -658,12 +658,12 @@ UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
 const SWPSDBLIPType0x41 UnitNode::swpSDBLIP() const {return SWPSDBLIPType0x41(getStateWord(0x41u), getNum2());}
 const SWPIUBLIPType0x41 UnitNode::swpIUBLIP() const {return SWPIUBLIPType0x41(getStateWord(0x41u), getNum2());}
 const SWPBLIPType0x41 UnitNode::swpBLIP() const {return SWPBLIPType0x41(getStateWord(0x41u));}
-const SWPRLM UnitNode::swpRLM() const {return SWPRLM(getStateWordType0x31());}
-const SWPRLMC UnitNode::swpRLMC() const {return SWPRLMC(getStateWordType0x31());}
-const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getStateWordType0x31());}
-const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getStateWordType0x34());}
-const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWordType0x33());}
-const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWordType0x32());}
+const SWPRLM UnitNode::swpRLM() const {return SWPRLM(getStateWord(0x31u));}
+const SWPRLMC UnitNode::swpRLMC() const {return SWPRLMC(getStateWord(0x31u));}
+const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getStateWord(0x31u));}
+const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getStateWord(0x34u));}
+const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWord(0x33u));}
+const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWord(0x32u));}
 
 UnitNode::UnitNode(const UnitNode & parent) :
 //    UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
@@ -909,11 +909,11 @@ int UnitNode_SD_BL_IP::calcDKStatus() const {
 
 
 int UnitNode_TG::calcDKStatus() const {
-    const auto swp31 = swpTGType0x31();
+//    const auto swp31 = swpTGType0x31();
     const auto swp32 = swpTGType0x32();
     const auto swp33 = swpTGType0x33();
 
-    if(!swp31.isNull() && !swp32.isNull() && !swp33.isNull() && (swp31.cdate() >= swp33.cdate()) && (swp31.cdate() >= swp33.cdate())) {
+    /*if(!swp31.isNull() && !swp32.isNull() && !swp33.isNull() && (swp31.cdate() >= swp33.cdate()) && (swp31.cdate() >= swp33.cdate())) {
         //
         if(1 == swp31.isWasAlarm() || 1 == swp31.isOutAlarm()) {
             return DKCiclStatus::DKWasAlarn;
@@ -921,7 +921,7 @@ int UnitNode_TG::calcDKStatus() const {
             return DKCiclStatus::DKNorm;
         }
        //
-    } else if(!swp32.isNull() && !swp33.isNull() && (swp32.cdate() >= swp33.cdate())) {
+    } else*/ if(!swp32.isNull() && !swp33.isNull() && (swp32.cdate() >= swp33.cdate())) {
         //
         if(1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isSideAlarm()) {
             return DKCiclStatus::DKWasAlarn;
@@ -945,7 +945,7 @@ int UnitNode_TG::calcDKStatus() const {
             return DKCiclStatus::DKNorm;
         }
        //
-    } else if(!swp31.isNull()) {
+    } /*else if(!swp31.isNull()) {
         //
         if(1 == swp31.isWasAlarm() || 1 == swp31.isOutAlarm()) {
             return DKCiclStatus::DKWasAlarn;
@@ -953,7 +953,7 @@ int UnitNode_TG::calcDKStatus() const {
             return DKCiclStatus::DKNorm;
         }
        //
-    }
+    }*/
     return DKCiclStatus::DKWas;
 }
 

@@ -1783,7 +1783,7 @@ void MainWindowServer::fillPageRLM()
         return;
     else if(TypeUnitNode::RLM_C == selUN->getType()) {
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
-        qDebug() << "StateWord " << selUN->getStateWordType0x31().getByteWord().toHex();
+        qDebug() << "StateWord " << selUN->getStateWord(0x31u).getByteWord().toHex();
         qDebug() << "clockPeriod " << selUN->swpRLMC().clockPeriod();
         qDebug() << "modeProcessing " << selUN->swpRLMC().modeProcessing();
         qDebug() << "threshold " << selUN->swpRLMC().threshold();
@@ -1802,7 +1802,7 @@ void MainWindowServer::fillPageRLM()
         return;
     } else if(TypeUnitNode::RLM_KRL == selUN->getType()) {
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
-        qDebug() << "StateWord " << selUN->getStateWordType0x31().getByteWord().toHex();
+        qDebug() << "StateWord " << selUN->getStateWord(0x31u).getByteWord().toHex();
         qDebug() << "clockPeriod " << selUN->swpRLM().clockPeriod();
         qDebug() << "modeProcessing " << selUN->swpRLM().modeProcessing();
         qDebug() << "threshold " << selUN->swpRLM().threshold();
@@ -1837,7 +1837,7 @@ void MainWindowServer::fillPageTG()
 
 
     qDebug() << "MainWindowServer::fillPageTG(" << selUN->toString() << ") -->";
-    qDebug() << "StateWord " << selUN->getStateWordType0x34().getByteWord().toHex();
+    qDebug() << "StateWord " << selUN->getStateWord(0x34u).getByteWord().toHex();
     qDebug() << "input " << ci;
 
     auto swp = selUN->swpTGType0x34();
@@ -1902,7 +1902,7 @@ void MainWindowServer::fillPageTGAtPointInput(int ci)
 
 
     qDebug() << "MainWindowServer::fillPageTG(" << target->toString() << ") -->";
-    qDebug() << "StateWord " << target->getStateWordType0x34().getByteWord().toHex();
+    qDebug() << "StateWord " << target->getStateWord(0x34u).getByteWord().toHex();
     qDebug() << "input " << ci;
 
     auto swp = target->swpTGType0x34();
@@ -1998,7 +1998,7 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 
     switch (selUN->getType()) {
     case TypeUnitNode::RLM_KRL: {
-        auto newStateWord = selUN->getStateWordType0x31().getByteWord();
+        auto newStateWord = selUN->getStateWord(0x31u).getByteWord();
         if(newStateWord.isEmpty()) {
 //            //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
             return;
@@ -2076,7 +2076,7 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         break;
     }
     case TypeUnitNode::RLM_C: {
-        auto newStateWord = selUN->getStateWordType0x31().getByteWord();
+        auto newStateWord = selUN->getStateWord(0x31u).getByteWord();
         if(newStateWord.isEmpty()) {
 //            //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
             return;

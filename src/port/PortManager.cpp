@@ -1853,7 +1853,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWordType0x31(stateWord);
+    currentUN->setStateWord(0x31u, stateWord);
     currentUN->setPublishedState(-1);
 
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
@@ -1944,7 +1944,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWordType0x31(stateWord);
+    currentUN->setStateWord(0x31u, stateWord);
 
     const auto &swpCurrent = currentUN->swpRLM(),
                &swpPrevious = previousUN->swpRLM();
@@ -2145,7 +2145,7 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWordType0x31(stateWord);
+    currentUN->setStateWord(0x31u, stateWord);
 
     const auto &swpCurrent = currentUN->swpRLMC(),
                &swpPrevious = previousUN->swpRLMC();
@@ -2333,7 +2333,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWordType0x31(stateWord);
+    currentUN->setStateWord(0x31u, stateWord);
 
     const auto &swpCurrent = currentUN->swpTGType0x31(),
                &swpPrevious = previousUN->swpTGType0x31();
@@ -2536,7 +2536,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
 //        auto previousSWP = un->swpTGType0x32();
 //        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
-//        un->setStateWordType0x32(newStateWord);
+//        un->setStateWord(0x32u, newStateWord);
 ////        un->updDoubl();
 ////        SignalSlotCommutator::getInstance()->emitUpdUN();
 
@@ -2741,7 +2741,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWordType0x32(stateWord);
+    currentUN->setStateWord(0x32u, stateWord);
     currentUN->setPublishedState(-1);
 
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
@@ -2817,7 +2817,7 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWordType0x32(stateWord);
+    currentUN->setStateWord(0x32u, stateWord);
 
     const auto &swpCurrent = currentUN->swpTGType0x32(),
                &swpPrevious = previousUN->swpTGType0x32();
@@ -2980,7 +2980,7 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
 //        auto previousSWP = un->swpTGType0x33();
 //        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
-//        un->setStateWordType0x33(newStateWord);
+//        un->setStateWord(0x33u, newStateWord);
 ////        un->updDoubl();
 ////        SignalSlotCommutator::getInstance()->emitUpdUN();
 
@@ -3191,7 +3191,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWordType0x33(stateWord);
+    currentUN->setStateWord(0x33u, stateWord);
     currentUN->setPublishedState(-1);
 
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
@@ -3268,7 +3268,7 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWordType0x33(stateWord);
+    currentUN->setStateWord(0x33u, stateWord);
 
     const auto &swpCurrent = currentUN->swpTGType0x33(),
                &swpPrevious = previousUN->swpTGType0x33();
@@ -3431,7 +3431,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
         auto previousSWP = un->swpTGType0x34();
 //        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
 
-        un->setStateWordType0x34(newStateWord);
+        un->setStateWord(0x34u, newStateWord);
         un->updDoubl();
         SignalSlotCommutator::getInstance()->emitUpdUN();
 
@@ -3714,11 +3714,11 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
 {
 //    //qDebug() << "PortManager::unLostedConnect(" << un << ")";
     if(1 == un->isConnected()) {
-        un->setStateWord(0x41u, QByteArray());
-        un->setStateWordType0x31(QByteArray());
-        un->setStateWordType0x32(QByteArray());
-        un->setStateWordType0x33(QByteArray());
-        un->setStateWordType0x34(QByteArray());
+        un->setStateWord(0x41u, StateWord());
+        un->setStateWord(0x31u, StateWord());
+        un->setStateWord(0x32u, StateWord());
+        un->setStateWord(0x33u, StateWord());
+        un->setStateWord(0x34u, StateWord());
 
         un->setPublishedState(10);
         if((un->getControl() || TypeUnitNode::IU_BL_IP == un->getType()) && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
