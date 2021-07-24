@@ -1,29 +1,19 @@
-#include "SWPRLM.h"
+#include "SWPRLMType0x31.h"
 
 #include "Utils.h"
 #include "global.h"
 
-SWPRLM::SWPRLM(const StateWord &stateWord) :
+SWPRLMType0x31::SWPRLMType0x31(const StateWord &stateWord) :
     SWP(stateWord)
 {
 }
 
-//SWPRLM::SWPRLM(const QByteArray &byteWord) :
-//    SWP(byteWord)
-//{
-//}
-
-SWPRLM::SWPRLM(const SWPRLM &parent) :
-    SWP(parent)
-{
-}
-
-SWPRLM::~SWPRLM() {
+SWPRLMType0x31::~SWPRLMType0x31() {
 
 }
 
 
-float SWPRLM::threshold() const
+float SWPRLMType0x31::threshold() const
 {
     if(byteWord().isEmpty())
         return -1.0;
@@ -48,14 +38,14 @@ float SWPRLM::threshold() const
     }
 }
 
-int SWPRLM::modeProcessing() const
+int SWPRLMType0x31::modeProcessing() const
 {
     if(byteWord().isEmpty())
         return -1;
     return (static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x10)) >> 4;
 }
 
-int SWPRLM::clockPeriod() const
+int SWPRLMType0x31::clockPeriod() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -68,7 +58,7 @@ int SWPRLM::clockPeriod() const
     return (static_cast<quint8>(byteWord().at(0)) & static_cast<quint8>(0x60)) >> 5;
 }
 
-double SWPRLM::voltage() const
+double SWPRLMType0x31::voltage() const
 {
     if(byteWord().isEmpty())
         return -1.0;
@@ -76,7 +66,7 @@ double SWPRLM::voltage() const
     return 5.0 - 5.0 * ((double)(0x00FF&byteWord().at(1)) / 255.0);
 }
 
-int SWPRLM::isOn() const
+int SWPRLMType0x31::isOn() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -86,18 +76,18 @@ int SWPRLM::isOn() const
         return 0; //Status::Off;
 }
 
-int SWPRLM::isOff() const
+int SWPRLMType0x31::isOff() const
 {
     int ison = isOn();
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
-int SWPRLM::isAlarm() const
+int SWPRLMType0x31::isAlarm() const
 {
     return isInAlarm();
 }
 
-int SWPRLM::isInAlarm() const
+int SWPRLMType0x31::isInAlarm() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -107,7 +97,7 @@ int SWPRLM::isInAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPRLM::isOutAlarm() const
+int SWPRLMType0x31::isOutAlarm() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -117,13 +107,13 @@ int SWPRLM::isOutAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPRLM::isNorm() const
+int SWPRLMType0x31::isNorm() const
 {
     int isalarm = isAlarm();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int SWPRLM::isWasAlarm() const
+int SWPRLMType0x31::isWasAlarm() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -133,7 +123,7 @@ int SWPRLM::isWasAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPRLM::isExistDK() const
+int SWPRLMType0x31::isExistDK() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -143,12 +133,12 @@ int SWPRLM::isExistDK() const
         return 0; //Status::Not;
 }
 
-int SWPRLM::synchronization() const
+int SWPRLMType0x31::synchronization() const
 {
     return isExistDK();
 }
 
-int SWPRLM::isWasDK() const
+int SWPRLMType0x31::isWasDK() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -158,12 +148,12 @@ int SWPRLM::isWasDK() const
         return 0; //Status::Not;
 }
 
-int SWPRLM::isOpened() const
+int SWPRLMType0x31::isOpened() const
 {
     return isInOpened();
 }
 
-int SWPRLM::isInOpened() const
+int SWPRLMType0x31::isInOpened() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -173,7 +163,7 @@ int SWPRLM::isInOpened() const
         return 0; //Status::Not;
 }
 
-int SWPRLM::isWasOpened() const
+int SWPRLMType0x31::isWasOpened() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -183,7 +173,7 @@ int SWPRLM::isWasOpened() const
         return 0; //Status::Not;
 }
 
-int SWPRLM::isFault() const
+int SWPRLMType0x31::isFault() const
 {
     if(1 == isOn() &&
        0 == isOutAlarm() &&

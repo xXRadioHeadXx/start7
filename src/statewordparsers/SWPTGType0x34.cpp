@@ -11,10 +11,6 @@ SWPTGType0x34::SWPTGType0x34(const StateWord &stateWord) :
 //{
 //}
 
-SWPTGType0x34::SWPTGType0x34(const SWPTGType0x34 &parent) :
-    SWP(parent)
-{
-}
 
 SWPTGType0x34::~SWPTGType0x34() {
 
@@ -32,29 +28,29 @@ SWPTGSubType0x34 SWPTGType0x34::C(int numIn) const
     case 4:
     return C4();
     default:
-    return SWPTGSubType0x34(QByteArray());
+    return SWPTGSubType0x34(StateWord());
     }
 }
 
 SWPTGSubType0x34 SWPTGType0x34::C1() const
 {
-    return SWPTGSubType0x34(byteWord().mid(0, 7));
+    return SWPTGSubType0x34(StateWord(byteWord().mid(0, 7), cdate()));
 }
 
 SWPTGSubType0x34 SWPTGType0x34::C2() const
 {
-    return SWPTGSubType0x34(byteWord().mid(7, 7));
+    return SWPTGSubType0x34(StateWord(byteWord().mid(7, 7), cdate()));
 
 }
 
 SWPTGSubType0x34 SWPTGType0x34::C3() const
 {
-    return SWPTGSubType0x34(byteWord().mid(14, 7));
+    return SWPTGSubType0x34(StateWord(byteWord().mid(14, 7), cdate()));
 
 }
 
 SWPTGSubType0x34 SWPTGType0x34::C4() const
 {
-    return SWPTGSubType0x34(byteWord().mid(21, 7));
+    return SWPTGSubType0x34(StateWord(byteWord().mid(21, 7), cdate()));
 
 }

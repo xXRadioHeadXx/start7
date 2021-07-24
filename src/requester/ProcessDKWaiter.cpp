@@ -8,8 +8,8 @@
 #include "SWPBLIPType0x41.h"
 #include "SWPSDBLIPType0x41.h"
 #include "SWPIUBLIPType0x41.h"
-#include "SWPRLM.h"
-#include "SWPRLMC.h"
+#include "SWPRLMType0x31.h"
+#include "SWPRLMCType0x31.h"
 #include "SWPTGType0x32.h"
 #include "SWPTGType0x33.h"
 

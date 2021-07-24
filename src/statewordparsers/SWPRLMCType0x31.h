@@ -1,15 +1,19 @@
-#ifndef SWPRLMC_H
-#define SWPRLMC_H
+#ifndef SWPRLMCTYPE0X31_H
+#define SWPRLMCTYPE0X31_H
 
 #include "SWP.h"
 
-class SWPRLMC : public SWP
+class SWPRLMCType0x31 : public SWP
 {
 public:
-    SWPRLMC(const StateWord &stateWord);
-//    SWPRLMC(const QByteArray &bytrWord);
-    SWPRLMC(const SWPRLMC & parent);
-    virtual ~SWPRLMC();
+    SWPRLMCType0x31(const StateWord &stateWord);
+
+    SWPRLMCType0x31(const SWPRLMCType0x31&) = default;
+    SWPRLMCType0x31(SWPRLMCType0x31&&) = default;
+    SWPRLMCType0x31 & operator=(const SWPRLMCType0x31&) = default;
+    SWPRLMCType0x31& operator=(SWPRLMCType0x31&&) = default;
+
+    virtual ~SWPRLMCType0x31();
 
     int isAlarm() const;
     int isInAlarm() const;
@@ -30,4 +34,4 @@ public:
     int isFault() const;
 };
 
-#endif // SWPRLMC_H
+#endif // SWPRLMCTYPE0X31_H

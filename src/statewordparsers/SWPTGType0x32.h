@@ -9,7 +9,13 @@ class SWPTGType0x32 : public SWP
 public:
     SWPTGType0x32(const StateWord &stateWord);
 //    SWPTGType0x32(const QByteArray &byteWord);
-    SWPTGType0x32(const SWPTGType0x32 & parent);
+
+    SWPTGType0x32(const SWPTGType0x32&) = default;
+    SWPTGType0x32(SWPTGType0x32&&) = default;
+    SWPTGType0x32 & operator=(const SWPTGType0x32&) = default;
+    SWPTGType0x32& operator=(SWPTGType0x32&&) = default;
+
+
     virtual ~SWPTGType0x32();
 
     int isOutAlarmC1() const;

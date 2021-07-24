@@ -11,10 +11,6 @@ SWPTGSubType0x34::SWPTGSubType0x34(const StateWord &stateWord) :
 //{
 //}
 
-SWPTGSubType0x34::SWPTGSubType0x34(const SWPTGSubType0x34 &parent) :
-    SWP(parent)
-{
-}
 
 SWPTGSubType0x34::~SWPTGSubType0x34() {
 

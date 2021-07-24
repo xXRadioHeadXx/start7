@@ -30,8 +30,8 @@ enum DKCiclStatus {
 
 
 class SWPBLIPType0x41;
-class SWPRLM;
-class SWPRLMC;
+class SWPRLMType0x31;
+class SWPRLMCType0x31;
 class SWPSDBLIPType0x41;
 class SWPIUBLIPType0x41;
 class SWPTGType0x31;
@@ -170,8 +170,8 @@ public:
     const SWPSDBLIPType0x41 swpSDBLIP() const; // {return SWPSDBLIP(getStateWord(), getNum2());}
     const SWPIUBLIPType0x41 swpIUBLIP() const; // {return SWPIUBLIP(getStateWord(), getNum2());}
     const SWPBLIPType0x41 swpBLIP() const; // {return SWPBLIP(getStateWord());}
-    const SWPRLM swpRLM() const; // {return SWPRLM(getStateWord());}
-    const SWPRLMC swpRLMC() const; // {return SWPRLMC(getStateWord());}
+    const SWPRLMType0x31 swpRLM() const; // {return SWPRLM(getStateWord());}
+    const SWPRLMCType0x31 swpRLMC() const; // {return SWPRLMC(getStateWord());}
     const SWPTGType0x31 swpTGType0x31() const; // {return SWPTGType0x31(getStateWord());}
     const SWPTGType0x34 swpTGType0x34() const; // {return SWPTGType0x34(getStateWord(0x34u));}
     const SWPTGType0x33 swpTGType0x33() const; // {return SWPTGType0x33(getStateWord(0x33u));}

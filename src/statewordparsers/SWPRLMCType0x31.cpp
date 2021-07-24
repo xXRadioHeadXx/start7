@@ -1,33 +1,23 @@
-#include "SWPRLMC.h"
+#include "SWPRLMCType0x31.h"
 
 #include <QtMath>
 
-SWPRLMC::SWPRLMC(const StateWord &stateWord) :
+SWPRLMCType0x31::SWPRLMCType0x31(const StateWord &stateWord) :
     SWP(stateWord)
 {
 }
 
-//SWPRLMC::SWPRLMC(const QByteArray &byteWord) :
-//    SWP(byteWord)
-//{
-//}
-
-SWPRLMC::SWPRLMC(const SWPRLMC &parent) :
-    SWP(parent)
-{
-}
-
-SWPRLMC::~SWPRLMC() {
+SWPRLMCType0x31::~SWPRLMCType0x31() {
 
 }
 
 
-int SWPRLMC::isAlarm() const
+int SWPRLMCType0x31::isAlarm() const
 {
     return isInAlarm();
 }
 
-int SWPRLMC::isInAlarm() const
+int SWPRLMCType0x31::isInAlarm() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -37,7 +27,7 @@ int SWPRLMC::isInAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPRLMC::isOutAlarm() const
+int SWPRLMCType0x31::isOutAlarm() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -47,13 +37,13 @@ int SWPRLMC::isOutAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPRLMC::isNorm() const
+int SWPRLMCType0x31::isNorm() const
 {
     int isalarm = isAlarm();
     return ((0 == isalarm) ? 1 : ((1 == isalarm) ? 0 : isalarm));
 }
 
-int SWPRLMC::isWasDK() const
+int SWPRLMCType0x31::isWasDK() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -63,7 +53,7 @@ int SWPRLMC::isWasDK() const
         return 0; //Status::Not;
 }
 
-int SWPRLMC::isExistDK() const
+int SWPRLMCType0x31::isExistDK() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -73,7 +63,7 @@ int SWPRLMC::isExistDK() const
         return 0; //Status::Not;
 }
 
-int SWPRLMC::isWasAlarm() const
+int SWPRLMCType0x31::isWasAlarm() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -83,7 +73,7 @@ int SWPRLMC::isWasAlarm() const
         return 0; //Status::Not;
 }
 
-int SWPRLMC::isOn() const
+int SWPRLMCType0x31::isOn() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -93,20 +83,20 @@ int SWPRLMC::isOn() const
         return 0; //Status::Off;
 }
 //b5fe6304312c011600d9
-int SWPRLMC::isOff() const
+int SWPRLMCType0x31::isOff() const
 {
     int ison = isOn();
     return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
 }
 
-double SWPRLMC::voltage() const
+double SWPRLMCType0x31::voltage() const
 {
     if(byteWord().isEmpty())
         return -1.0;
     return 5.0 - 5.0 * ((double)(0x00FF&byteWord().at(0)) / 255.0);
 }
 
-int SWPRLMC::synchronization() const
+int SWPRLMCType0x31::synchronization() const
 {
     if(byteWord().isEmpty())
         return -1;
@@ -116,18 +106,18 @@ int SWPRLMC::synchronization() const
         return 0; //Internal;
 }
 
-int SWPRLMC::isExternalSynchronization() const
+int SWPRLMCType0x31::isExternalSynchronization() const
 {
     return synchronization();
 }
 
-int SWPRLMC::isInternalSynchronization() const
+int SWPRLMCType0x31::isInternalSynchronization() const
 {
     int ises = isExternalSynchronization();
     return ((0 == ises) ? 1 : ((1 == ises) ? 0 : ises));
 }
 
-float SWPRLMC::threshold() const
+float SWPRLMCType0x31::threshold() const
 {
     if(byteWord().isEmpty())
         return -1.0;
@@ -152,21 +142,21 @@ float SWPRLMC::threshold() const
     }
 }
 
-int SWPRLMC::clockPeriod() const
+int SWPRLMCType0x31::clockPeriod() const
 {
     if(byteWord().isEmpty())
         return -1;
     return (static_cast<quint8>(byteWord().at(2)) & static_cast<quint8>(0x70)) >> 4;
 }
 
-int SWPRLMC::modeProcessing() const
+int SWPRLMCType0x31::modeProcessing() const
 {
     if(byteWord().isEmpty())
         return -1;
     return static_cast<quint8>(byteWord().at(3)) & static_cast<quint8>(0x03);
 }
 
-int SWPRLMC::isFault() const
+int SWPRLMCType0x31::isFault() const
 {
     if(byteWord().isEmpty())
         return -1;

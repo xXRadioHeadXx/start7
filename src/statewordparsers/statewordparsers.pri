@@ -7,8 +7,8 @@ SOURCES += \
     $$PWD/SWP.cpp \
     $$PWD/SWPBLIPType0x41.cpp \
     $$PWD/SWPIUBLIPType0x41.cpp \
-    $$PWD/SWPRLM.cpp \
-    $$PWD/SWPRLMC.cpp \
+    $$PWD/SWPRLMCType0x31.cpp \
+    $$PWD/SWPRLMType0x31.cpp \
     $$PWD/SWPSDBLIPType0x41.cpp \
     $$PWD/SWPTGSubType0x32.cpp \
     $$PWD/SWPTGSubType0x33.cpp \
@@ -23,8 +23,8 @@ HEADERS += \
     $$PWD/SWP.h \
     $$PWD/SWPBLIPType0x41.h \
     $$PWD/SWPIUBLIPType0x41.h \
-    $$PWD/SWPRLM.h \
-    $$PWD/SWPRLMC.h \
+    $$PWD/SWPRLMCType0x31.h \
+    $$PWD/SWPRLMType0x31.h \
     $$PWD/SWPSDBLIPType0x41.h \
     $$PWD/SWPTGSubType0x32.h \
     $$PWD/SWPTGSubType0x33.h \

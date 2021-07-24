@@ -7,8 +7,8 @@
 #include "SignalSlotCommutator.h"
 #include "global.h"
 #include "SWPBLIPType0x41.h"
-#include "SWPRLM.h"
-#include "SWPRLMC.h"
+#include "SWPRLMType0x31.h"
+#include "SWPRLMCType0x31.h"
 #include "SWPSDBLIPType0x41.h"
 #include "SWPIUBLIPType0x41.h"
 #include "SWPTGType0x31.h"
@@ -161,7 +161,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             } else
                 return Icons::sqr_ylw();
         } else if(TypeUnitNode::RLM_C == getType()) {
-            const SWPRLMC swp = swpRLMC();
+            const SWPRLMCType0x31 swp = swpRLMC();
             if(getControl() && swp.isNull()) {
                 return Icons::sqr_ylw();
             } else if(!getControl() && swp.isNull()) {
@@ -188,7 +188,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_blk_crs_ylw();
             }
         } else if(TypeUnitNode::RLM_KRL == getType()) {
-            const SWPRLM swp = swpRLM();
+            const SWPRLMType0x31 swp = swpRLM();
             if(getControl() && swp.isNull()) {
                 return Icons::sqr_ylw();
             } else if(!getControl() && swp.isNull()) {
@@ -600,8 +600,8 @@ UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
 const SWPSDBLIPType0x41 UnitNode::swpSDBLIP() const {return SWPSDBLIPType0x41(getStateWord(0x41u), getNum2());}
 const SWPIUBLIPType0x41 UnitNode::swpIUBLIP() const {return SWPIUBLIPType0x41(getStateWord(0x41u), getNum2());}
 const SWPBLIPType0x41 UnitNode::swpBLIP() const {return SWPBLIPType0x41(getStateWord(0x41u));}
-const SWPRLM UnitNode::swpRLM() const {return SWPRLM(getStateWord(0x31u));}
-const SWPRLMC UnitNode::swpRLMC() const {return SWPRLMC(getStateWord(0x31u));}
+const SWPRLMType0x31 UnitNode::swpRLM() const {return SWPRLMType0x31(getStateWord(0x31u));}
+const SWPRLMCType0x31 UnitNode::swpRLMC() const {return SWPRLMCType0x31(getStateWord(0x31u));}
 const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getStateWord(0x31u));}
 const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getStateWord(0x34u));}
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWord(0x33u));}

@@ -12,7 +12,12 @@ private:
 public:
 //    SWPBLIP(const QByteArray &stateWord);
     SWPBLIPType0x41(const StateWord &stateWord);
-    SWPBLIPType0x41(const SWPBLIPType0x41 & parent);
+
+    SWPBLIPType0x41(const SWPBLIPType0x41&) = default;
+    SWPBLIPType0x41(SWPBLIPType0x41&&) = default;
+    SWPBLIPType0x41 & operator=(const SWPBLIPType0x41&) = default;
+    SWPBLIPType0x41& operator=(SWPBLIPType0x41&&) = default;
+
     virtual ~SWPBLIPType0x41();
 
     int isExistDK() const;

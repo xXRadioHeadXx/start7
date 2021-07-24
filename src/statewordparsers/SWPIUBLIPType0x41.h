@@ -9,7 +9,12 @@ class SWPIUBLIPType0x41 : public SWP
 public:
     SWPIUBLIPType0x41(const StateWord &stateWord, int numIU);
 //    SWPIUBLIP(const QByteArray &byteWord, int numIU);
-    SWPIUBLIPType0x41(const SWPIUBLIPType0x41 & parent);
+
+    SWPIUBLIPType0x41(const SWPIUBLIPType0x41&) = default;
+    SWPIUBLIPType0x41(SWPIUBLIPType0x41&&) = default;
+    SWPIUBLIPType0x41 & operator=(const SWPIUBLIPType0x41&) = default;
+    SWPIUBLIPType0x41& operator=(SWPIUBLIPType0x41&&) = default;
+
     virtual ~SWPIUBLIPType0x41();
 
     int isOutAlarm() const;

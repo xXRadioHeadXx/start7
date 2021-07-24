@@ -9,7 +9,12 @@ class SWPSDBLIPType0x41 : public SWP
 public:
     SWPSDBLIPType0x41(const StateWord &stateWord, int numSD);
 //    SWPSDBLIP(const QByteArray &stateWord, int numSD);
-    SWPSDBLIPType0x41(const SWPSDBLIPType0x41 & parent);
+
+    SWPSDBLIPType0x41(const SWPSDBLIPType0x41&) = default;
+    SWPSDBLIPType0x41(SWPSDBLIPType0x41&&) = default;
+    SWPSDBLIPType0x41 & operator=(const SWPSDBLIPType0x41&) = default;
+    SWPSDBLIPType0x41& operator=(SWPSDBLIPType0x41&&) = default;
+
     virtual ~SWPSDBLIPType0x41();
 
     int isAlarm() const;

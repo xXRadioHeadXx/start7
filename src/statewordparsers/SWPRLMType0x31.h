@@ -1,15 +1,19 @@
-#ifndef SWPRLM_H
-#define SWPRLM_H
+#ifndef SWPRLMTYPE0X31_H
+#define SWPRLMTYPE0X31_H
 
 #include "SWP.h"
 
-class SWPRLM : public SWP
+class SWPRLMType0x31 : public SWP
 {
 public:
-    SWPRLM(const StateWord &byteWord);
-//    SWPRLM(const QByteArray &byteWord);
-    SWPRLM(const SWPRLM & parent);
-    virtual ~SWPRLM();
+    SWPRLMType0x31(const StateWord &byteWord);
+
+    SWPRLMType0x31(const SWPRLMType0x31&) = default;
+    SWPRLMType0x31(SWPRLMType0x31&&) = default;
+    SWPRLMType0x31 & operator=(const SWPRLMType0x31&) = default;
+    SWPRLMType0x31& operator=(SWPRLMType0x31&&) = default;
+
+    virtual ~SWPRLMType0x31();
 
     float threshold() const;
     int modeProcessing() const;
@@ -31,4 +35,4 @@ public:
     int isFault() const;
 };
 
-#endif // SWPRLM_H
+#endif // SWPRLMTYPE0X31_H

@@ -12,11 +12,6 @@ SWPTGSubType0x32::SWPTGSubType0x32(const StateWord &stateWord, const int flang) 
 //{
 //}
 
-SWPTGSubType0x32::SWPTGSubType0x32(const SWPTGSubType0x32 &parent) :
-    SWP(parent),
-    flang(parent.getFlang())
-{
-}
 
 SWPTGSubType0x32::~SWPTGSubType0x32() {
 

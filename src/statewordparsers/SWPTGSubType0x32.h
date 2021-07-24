@@ -10,7 +10,12 @@ private:
 public:
     SWPTGSubType0x32(const StateWord &stateWord, const int flang);
 //    SWPTGSubType0x32(const QByteArray &byteWord, const int flang);
-    SWPTGSubType0x32(const SWPTGSubType0x32 & parent);
+
+    SWPTGSubType0x32(const SWPTGSubType0x32&) = default;
+    SWPTGSubType0x32(SWPTGSubType0x32&&) = default;
+    SWPTGSubType0x32 & operator=(const SWPTGSubType0x32&) = default;
+    SWPTGSubType0x32& operator=(SWPTGSubType0x32&&) = default;
+
     virtual ~SWPTGSubType0x32();
     int getFlang() const;
 

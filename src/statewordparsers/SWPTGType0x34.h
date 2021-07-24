@@ -9,7 +9,12 @@ class SWPTGType0x34 : public SWP
 public:
     SWPTGType0x34(const StateWord &stateWord);
 //    SWPTGType0x34(const QByteArray &byteWord);
-    SWPTGType0x34(const SWPTGType0x34 & parent);
+
+    SWPTGType0x34(const SWPTGType0x34&) = default;
+    SWPTGType0x34(SWPTGType0x34&&) = default;
+    SWPTGType0x34 & operator=(const SWPTGType0x34&) = default;
+    SWPTGType0x34& operator=(SWPTGType0x34&&) = default;
+
     virtual ~SWPTGType0x34();
 
     SWPTGSubType0x34 C(int numIn) const;

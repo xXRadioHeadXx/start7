@@ -20,10 +20,6 @@ SWPBLIPType0x41::SWPBLIPType0x41(const StateWord &stateWord) :
 //{
 //}
 
-SWPBLIPType0x41::SWPBLIPType0x41(const SWPBLIPType0x41 &parent) :
-    SWP(parent)
-{
-}
 
 SWPBLIPType0x41::~SWPBLIPType0x41() {
 

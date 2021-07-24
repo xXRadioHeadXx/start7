@@ -13,8 +13,8 @@
 #include "ServerSettingUtils.h"
 #include "global.h"
 
-#include "SWPRLM.h"
-#include "SWPRLMC.h"
+#include "SWPRLMType0x31.h"
+#include "SWPRLMCType0x31.h"
 #include "SWPSDBLIPType0x41.h"
 #include "SWPIUBLIPType0x41.h"
 #include "SWPTGType0x31.h"

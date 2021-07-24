@@ -8,7 +8,12 @@ class SWPTGType0x31 : public SWP
 public:
     SWPTGType0x31(const StateWord &stateWord);
 //    SWPTGType0x31(const QByteArray byteWord);
-    SWPTGType0x31(const SWPTGType0x31 & parent);
+
+    SWPTGType0x31(const SWPTGType0x31&) = default;
+    SWPTGType0x31(SWPTGType0x31&&) = default;
+    SWPTGType0x31 & operator=(const SWPTGType0x31&) = default;
+    SWPTGType0x31& operator=(SWPTGType0x31&&) = default;
+
     virtual ~SWPTGType0x31();
 
     int isOn() const;

@@ -73,11 +73,6 @@ SWPIUBLIPType0x41::SWPIUBLIPType0x41(const StateWord &stateWord, int numIU) :
 //    }
 //}
 
-SWPIUBLIPType0x41::SWPIUBLIPType0x41(const SWPIUBLIPType0x41 &parent) :
-    SWP(parent),
-    _mask(parent.mask())
-{
-}
 
 SWPIUBLIPType0x41::~SWPIUBLIPType0x41() {
 

@@ -73,11 +73,6 @@ SWPSDBLIPType0x41::SWPSDBLIPType0x41(const StateWord &stateWord, int numSD) :
 //    }
 //}
 
-SWPSDBLIPType0x41::SWPSDBLIPType0x41(const SWPSDBLIPType0x41 &parent) :
-    SWP(parent),
-    _mask(parent.mask())
-{
-}
 
 SWPSDBLIPType0x41::~SWPSDBLIPType0x41() {
 

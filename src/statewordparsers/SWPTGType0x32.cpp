@@ -12,10 +12,6 @@ SWPTGType0x32::SWPTGType0x32(const StateWord &stateWord) :
 //{
 //}
 
-SWPTGType0x32::SWPTGType0x32(const SWPTGType0x32 &parent) :
-    SWP(parent)
-{
-}
 
 SWPTGType0x32::~SWPTGType0x32() {
 
