@@ -628,9 +628,9 @@ UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
 const SWPSDBLIP UnitNode::swpSDBLIP() const {return SWPSDBLIP(getStateWord(), getNum2());}
 const SWPIUBLIP UnitNode::swpIUBLIP() const {return SWPIUBLIP(getStateWord(), getNum2());}
 const SWPBLIP UnitNode::swpBLIP() const {return SWPBLIP(getStateWord());}
-const SWPRLM UnitNode::swpRLM() const {return SWPRLM(getStateWord());}
-const SWPRLMC UnitNode::swpRLMC() const {return SWPRLMC(getStateWord());}
-const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getStateWord());}
+const SWPRLM UnitNode::swpRLM() const {return SWPRLM(getStateWordType0x31());}
+const SWPRLMC UnitNode::swpRLMC() const {return SWPRLMC(getStateWordType0x31());}
+const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getStateWordType0x31());}
 const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getStateWordType0x34());}
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWordType0x33());}
 const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWordType0x32());}

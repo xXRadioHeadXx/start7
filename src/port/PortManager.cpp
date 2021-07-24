@@ -637,8 +637,6 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> un, QByteArray stat
 {
     if(un.isNull() || stateWord.isEmpty()) {
         return;
-    } else if(un->getStateWord().getByteWord().size() > stateWord.size()) {
-        return;
     }
 
     auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(un);
@@ -1855,7 +1853,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWord(stateWord);
+    currentUN->setStateWordType0x31(stateWord);
     currentUN->setPublishedState(-1);
 
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
@@ -1946,7 +1944,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWord(stateWord);
+    currentUN->setStateWordType0x31(stateWord);
 
     const auto &swpCurrent = currentUN->swpRLM(),
                &swpPrevious = previousUN->swpRLM();
@@ -2147,7 +2145,7 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWord(stateWord);
+    currentUN->setStateWordType0x31(stateWord);
 
     const auto &swpCurrent = currentUN->swpRLMC(),
                &swpPrevious = previousUN->swpRLMC();
@@ -2335,7 +2333,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     }
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
-    currentUN->setStateWord(stateWord);
+    currentUN->setStateWordType0x31(stateWord);
 
     const auto &swpCurrent = currentUN->swpTGType0x31(),
                &swpPrevious = previousUN->swpTGType0x31();
