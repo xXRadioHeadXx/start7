@@ -587,6 +587,11 @@ bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
                 return false;
             return true;
         }
+        case static_cast<quint8>(0x42): {
+            if(static_cast<quint8>(0x02) != NBB)
+                return false;
+            return true;
+        }
         default:
             return false;
         }

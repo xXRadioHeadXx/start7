@@ -3048,6 +3048,19 @@ void PortManager::manageOverallReadQueue()
 
                 break;
             }
+            case static_cast<quint8>(0x42): {
+                for(auto scr : as_const(getLsSCR())) {
+                    if(scr->getIpPort() == tmpPair &&
+                       TypeUnitNode::BL_IP == static_cast<quint8>(scr->getUnReciver()->getType())) {
+                        scr->resetBeatCount();
+                        break;
+                    }
+                }
+                DataQueueItem request;
+                parcingStatusWord0x42(itm, request);
+
+                break;
+            }
             case static_cast<quint8>(0x31): {
                 for(auto scr : as_const(getLsSCR())) {
                     if(scr->getIpPort() == tmpPair &&

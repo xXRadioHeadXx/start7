@@ -10,6 +10,7 @@
 #include "SWPRLMType0x31.h"
 #include "SWPRLMCType0x31.h"
 #include "SWPSDBLIPType0x41.h"
+#include "SWPSDBLIPType0x42.h"
 #include "SWPIUBLIPType0x41.h"
 #include "SWPTGType0x32.h"
 #include "SWPTGSubType0x32.h"
@@ -444,7 +445,15 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
         } else if(TypeUnitNode::SD_BL_IP == un->getType()) {
             row = un->getNum2();
             if(1 == un->swpSDBLIPType0x41().isAlarm()) {
-                setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Тревога")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
+                auto swp = un->swpSDBLIPType0x42();
+                if(!swp.isNull()) {
+                    if(swp.isLineBreak()) {
+                        setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Разрыв")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
+                    } else if(swp.isShortCircuit()) {
+                        setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Замыкание")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
+                    }
+                } else
+                    setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Тревога")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
             }
             else if(1 == un->swpSDBLIPType0x41().isNorm()) {
                 setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Норма")), cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Норма"

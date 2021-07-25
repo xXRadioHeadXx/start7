@@ -374,7 +374,7 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                     } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
                         selUN->getParentUN()->setNeededStateWordType(/*0x2A2E*/0x2A2C2E); // 32 & 34 & 33
                         selUN->getParentUN()->leftoversCounter.counter = 0;
-                        selUN->getParentUN()->leftoversCounter.divider = 2;
+                        selUN->getParentUN()->leftoversCounter.divider = 3;
                     } else if(!ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { //
                         selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
                         selUN->getParentUN()->leftoversCounter.counter = 0;
@@ -386,9 +386,15 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                     }
 
                 } else if(TypeUnitNode::BL_IP == selUN->getParentUN()->getType()) {
-                    selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
-                    selUN->getParentUN()->leftoversCounter.counter = 0;
-                    selUN->getParentUN()->leftoversCounter.divider = 1;
+                    if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
+                        selUN->getParentUN()->setNeededStateWordType(0x2225); // 41 & 42
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 2;
+                    } else {
+                        selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 1;
+                    }
                 } else {
                     selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
                     selUN->getParentUN()->leftoversCounter.counter = 0;
