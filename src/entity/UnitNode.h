@@ -184,6 +184,9 @@ public:
 public:
     QQueue<DataQueueItem> queueMsg;
 
+    void pushUniqQueueMsg(const DataQueueItem &msg);
+    DataQueueItem pullQueueMsg();
+
 
     void decrementCountStatusConnectRequesterWaitAnswer();
     int getPublishedState() const;

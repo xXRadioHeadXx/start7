@@ -124,10 +124,7 @@ void AbstractRequester::firstRequest() {
        AutoOnOffWaiter == getRequesterType() ||
        ConfirmWaiter == getRequesterType() ||
        LockRequester == getRequesterType()) {
-        if(!getUnReciver()->queueMsg.isEmpty() && getUnReciver()->queueMsg.constLast().data() != getFirstMsg().data())
-            getUnReciver()->queueMsg.enqueue(getFirstMsg());
-        else if(getUnReciver()->queueMsg.isEmpty())
-            getUnReciver()->queueMsg.enqueue(getFirstMsg());
+        getUnReciver()->pushUniqQueueMsg(getFirstMsg());
     } else {
         Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
     }
@@ -229,7 +226,7 @@ void AbstractRequester::secondRequest() {
        AutoOnOffWaiter == getRequesterType() ||
        ConfirmWaiter == getRequesterType() ||
        LockRequester == getRequesterType()) {
-        getUnReciver()->queueMsg.enqueue(getSecondMsg());
+        getUnReciver()->pushUniqQueueMsg(getSecondMsg());
     } else {
         Port::typeDefPort(getPtrPort())->write(getSecondMsg(), false);
     }
@@ -330,7 +327,7 @@ void AbstractRequester::endRequest() {
        AutoOnOffWaiter == getRequesterType() ||
        ConfirmWaiter == getRequesterType() ||
        LockRequester == getRequesterType()) {
-        getUnReciver()->queueMsg.enqueue(getEndMsg());
+        getUnReciver()->pushUniqQueueMsg(getEndMsg());
     } else {
         Port::typeDefPort(getPtrPort())->write(getEndMsg(), false);
     }

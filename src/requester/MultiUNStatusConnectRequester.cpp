@@ -173,7 +173,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
 
         if(!currentTrackedUN()->queueMsg.isEmpty()) {
 //            qDebug() << "currentTrackedUN(" << currentTrackedUN()->toString() << ")->queueMsg(" << currentTrackedUN()->queueMsg.size() << ")";
-            result = currentTrackedUN()->queueMsg.dequeue();
+            result = currentTrackedUN()->pullQueueMsg();
 
             currentTrackedUN()->decrementCountStatusConnectRequesterWaitAnswer();
 

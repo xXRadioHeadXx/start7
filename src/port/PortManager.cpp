@@ -1291,7 +1291,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
         if(alarmReset0x24.isValid()) {
-            reciver->queueMsg.enqueue(alarmReset0x24);
+            reciver->pushUniqQueueMsg(alarmReset0x24);
             makedAlarmReset0x24 = true;
         }
     }
@@ -1760,7 +1760,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
             DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
             if(alarmReset0x24.isValid()) {
-                reciver->queueMsg.enqueue(alarmReset0x24);
+                reciver->pushUniqQueueMsg(alarmReset0x24);
                 qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
             }
         }
@@ -1840,7 +1840,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
         DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
         if(alarmReset0x24.isValid()) {
-            reciver->queueMsg.enqueue(alarmReset0x24);
+            reciver->pushUniqQueueMsg(alarmReset0x24);
             makedAlarmReset0x24 = true;
         }
     }
@@ -2040,7 +2040,7 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
         DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
         if(alarmReset0x24.isValid()) {
-            reciver->queueMsg.enqueue(alarmReset0x24);
+            reciver->pushUniqQueueMsg(alarmReset0x24);
             makedAlarmReset0x24 = true;
         }
     }
@@ -2233,7 +2233,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
         DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
         if(alarmReset0x24.isValid()) {
-            reciver->queueMsg.enqueue(alarmReset0x24);
+            reciver->pushUniqQueueMsg(alarmReset0x24);
             makedAlarmReset0x24 = true;
         }
     }
@@ -2458,7 +2458,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
             DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
             if(alarmReset0x24.isValid()) {
-                reciver->queueMsg.enqueue(alarmReset0x24);
+                reciver->pushUniqQueueMsg(alarmReset0x24);
                 qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
             }
         }
@@ -2533,7 +2533,7 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
         if(alarmReset0x24.isValid()) {
-            reciver->queueMsg.enqueue(alarmReset0x24);
+            reciver->pushUniqQueueMsg(alarmReset0x24);
             makedAlarmReset0x24 = true;
         }
     }
@@ -2724,7 +2724,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
             DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
             if(alarmReset0x24.isValid()) {
-                reciver->queueMsg.enqueue(alarmReset0x24);
+                reciver->pushUniqQueueMsg(alarmReset0x24);
 //                qDebug() << "PortManager::procDkStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
             }
         }
@@ -2800,7 +2800,7 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
         DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
 
         if(alarmReset0x24.isValid()) {
-            reciver->queueMsg.enqueue(alarmReset0x24);
+            reciver->pushUniqQueueMsg(alarmReset0x24);
             makedAlarmReset0x24 = true;
         }
     }

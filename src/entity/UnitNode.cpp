@@ -611,6 +611,20 @@ const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getSta
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWord(0x33u));}
 const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWord(0x32u));}
 
+void UnitNode::pushUniqQueueMsg(const DataQueueItem &msg){
+    for(const auto &content : as_const(queueMsg)) {
+        if(content.data() == msg.data())
+            return;
+    }
+    queueMsg.enqueue(msg);
+};
+
+DataQueueItem UnitNode::pullQueueMsg() {
+    if(!queueMsg.isEmpty())
+        return queueMsg.dequeue();
+    return DataQueueItem();
+};
+
 UnitNode::UnitNode(const UnitNode & parent) :
 //    UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
     ServerUnitNodeTreeItem(),
