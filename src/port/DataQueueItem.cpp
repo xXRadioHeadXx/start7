@@ -296,16 +296,16 @@ QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode>un, bool onOff, 
             if(type != un->getType())
                 continue;
             quint8 mask = 0x00;
-            if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIP().isNull())
-                mask = un->swpSDBLIP().mask();
-            else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIP().isNull())
-                mask = un->swpIUBLIP().mask();
+            if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIPType0x41().isNull())
+                mask = un->swpSDBLIPType0x41().mask();
+            else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIPType0x41().isNull())
+                mask = un->swpIUBLIPType0x41().mask();
 
-            if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIP().isNull() &&
-                    1 == un->swpSDBLIP().isOff())
+            if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIPType0x41().isNull() &&
+                    1 == un->swpSDBLIPType0x41().isOff())
                 D1 = D1 & ~mask;
-            else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIP().isNull() &&
-                    1 == un->swpIUBLIP().isOff())
+            else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIPType0x41().isNull() &&
+                    1 == un->swpIUBLIPType0x41().isOff())
                 D1 = D1 & ~mask;
             else
                 D1 = D1 | mask;

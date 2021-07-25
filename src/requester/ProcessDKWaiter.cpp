@@ -76,13 +76,13 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
        TypeUnitNode::IU_BL_IP == getUnReciver()->getType() ||
        TypeUnitNode::BL_IP == getUnReciver()->getType()) {
 //        isWasDK = getUnReciver()->swpBLIP().isWasDK();
-        isExistDK = getUnReciver()->swpBLIP().isExistDK();
+        isExistDK = getUnReciver()->swpBLIPType0x41().isExistDK();
     } else if(TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
 //        isWasDK = getUnReciver()->swpRLM().isWasDK();
-        isExistDK = getUnReciver()->swpRLM().isExistDK();
+        isExistDK = getUnReciver()->swpRLMType0x31().isExistDK();
     } else if(TypeUnitNode::RLM_C == getUnReciver()->getType()) {
 //        isWasDK = getUnReciver()->swpRLMC().isWasDK();
-        isExistDK = getUnReciver()->swpRLMC().isExistDK();
+        isExistDK = getUnReciver()->swpRLMCType0x31().isExistDK();
     } else if(TypeUnitNode::TG == getUnReciver()->getType()) {
         const auto swp32 = getUnReciver()->swpTGType0x32();
         const auto swp33 = getUnReciver()->swpTGType0x33();

@@ -6,10 +6,12 @@ INCLUDEPATH += $$PWD/
 SOURCES += \
     $$PWD/SWP.cpp \
     $$PWD/SWPBLIPType0x41.cpp \
+    $$PWD/SWPBLIPType0x42.cpp \
     $$PWD/SWPIUBLIPType0x41.cpp \
     $$PWD/SWPRLMCType0x31.cpp \
     $$PWD/SWPRLMType0x31.cpp \
     $$PWD/SWPSDBLIPType0x41.cpp \
+    $$PWD/SWPSDBLIPType0x42.cpp \
     $$PWD/SWPTGSubType0x32.cpp \
     $$PWD/SWPTGSubType0x33.cpp \
     $$PWD/SWPTGSubType0x34.cpp \
@@ -22,10 +24,12 @@ SOURCES += \
 HEADERS += \
     $$PWD/SWP.h \
     $$PWD/SWPBLIPType0x41.h \
+    $$PWD/SWPBLIPType0x42.h \
     $$PWD/SWPIUBLIPType0x41.h \
     $$PWD/SWPRLMCType0x31.h \
     $$PWD/SWPRLMType0x31.h \
     $$PWD/SWPSDBLIPType0x41.h \
+    $$PWD/SWPSDBLIPType0x42.h \
     $$PWD/SWPTGSubType0x32.h \
     $$PWD/SWPTGSubType0x33.h \
     $$PWD/SWPTGSubType0x34.h \

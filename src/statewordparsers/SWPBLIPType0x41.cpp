@@ -15,12 +15,6 @@ SWPBLIPType0x41::SWPBLIPType0x41(const StateWord &stateWord) :
 {
 }
 
-//SWPBLIP::SWPBLIP(const QByteArray &byteWord) :
-//    SWP(byteWord)
-//{
-//}
-
-
 SWPBLIPType0x41::~SWPBLIPType0x41() {
 
 }

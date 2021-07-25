@@ -43,6 +43,9 @@ private:
     static bool procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
     static bool procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
 
+    static DataQueueItem parcingStatusWord0x42(DataQueueItem &item, DataQueueItem & resultRequest);
+    static bool procDkBLIPStatusWord0x42(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procSDBLIPStatusWord0x42(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
 
     static DataQueueItem parcingStatusWord0x31(DataQueueItem &item, DataQueueItem & resultRequest);
     static bool procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);

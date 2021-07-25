@@ -7,10 +7,7 @@
 
 class SWPBLIPType0x41 : public SWP
 {
-private:
-
 public:
-//    SWPBLIP(const QByteArray &stateWord);
     SWPBLIPType0x41(const StateWord &stateWord);
 
     SWPBLIPType0x41(const SWPBLIPType0x41&) = default;

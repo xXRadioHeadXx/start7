@@ -722,9 +722,9 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
         if(isDebug) { //! debug
             menu->addAction(ui->actionUNOff);
             menu->addAction(ui->actionUNOn);
-        } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOn() && 1 != sel->getBazalt()) {
+        } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIPType0x41().isOn() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionUNOff);
-        } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIP().isOff() && 1 != sel->getBazalt()) {
+        } else if(sel->isEditableOnOff() && 1 == sel->swpSDBLIPType0x41().isOff() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionUNOn);
         }
 
@@ -732,10 +732,10 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionClose);
             menu->addAction(ui->actionOpen);
             menu->addSeparator();
-        } else if(0 != sel->getBazalt() && (1 == sel->swpSDBLIP().isAlarm())) {
+        } else if(0 != sel->getBazalt() && (1 == sel->swpSDBLIPType0x41().isAlarm())) {
             menu->addAction(ui->actionClose);
             menu->addSeparator();
-        } else if(0 != sel->getBazalt() && (1 == sel->swpSDBLIP().isNorm())) {
+        } else if(0 != sel->getBazalt() && (1 == sel->swpSDBLIPType0x41().isNorm())) {
             menu->addAction(ui->actionOpen);
             menu->addSeparator();
         }
@@ -757,10 +757,10 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionUNOff);
             menu->addAction(ui->actionUNOn);
             menu->addSeparator();
-        } else if(sel->isEditableOnOff() && (1 == sel->swpIUBLIP().isOn())) {
+        } else if(sel->isEditableOnOff() && (1 == sel->swpIUBLIPType0x41().isOn())) {
             menu->addAction(ui->actionUNOff);
             menu->addSeparator();
-        } else if(sel->isEditableOnOff() && (1 == sel->swpIUBLIP().isOff())) {
+        } else if(sel->isEditableOnOff() && (1 == sel->swpIUBLIPType0x41().isOff())) {
             menu->addAction(ui->actionUNOn);
             menu->addSeparator();
         }
@@ -782,10 +782,10 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionUNOff);
             menu->addAction(ui->actionUNOn);
             menu->addSeparator();
-        } else if(sel->isEditableOnOff() && (1 == sel->swpRLMC().isOn())) {
+        } else if(sel->isEditableOnOff() && (1 == sel->swpRLMCType0x31().isOn())) {
             menu->addAction(ui->actionUNOff);
             menu->addSeparator();
-        } else if(sel->isEditableOnOff() && (1 == sel->swpRLMC().isOff())) {
+        } else if(sel->isEditableOnOff() && (1 == sel->swpRLMCType0x31().isOff())) {
             menu->addAction(ui->actionUNOn);
             menu->addSeparator();
         }
@@ -803,10 +803,10 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionUNOff);
             menu->addAction(ui->actionUNOn);
             menu->addSeparator();
-        } else if(sel->isEditableOnOff() && (1 == sel->swpRLM().isOn())) {
+        } else if(sel->isEditableOnOff() && (1 == sel->swpRLMType0x31().isOn())) {
             menu->addAction(ui->actionUNOff);
             menu->addSeparator();
-        } else if(sel->isEditableOnOff() && (1 == sel->swpRLM().isOff())) {
+        } else if(sel->isEditableOnOff() && (1 == sel->swpRLMType0x31().isOff())) {
             menu->addAction(ui->actionUNOn);
             menu->addSeparator();
         }
@@ -1784,18 +1784,18 @@ void MainWindowServer::fillPageRLM()
     else if(TypeUnitNode::RLM_C == selUN->getType()) {
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
         qDebug() << "StateWord " << selUN->getStateWord(0x31u).getByteWord().toHex();
-        qDebug() << "clockPeriod " << selUN->swpRLMC().clockPeriod();
-        qDebug() << "modeProcessing " << selUN->swpRLMC().modeProcessing();
-        qDebug() << "threshold " << selUN->swpRLMC().threshold();
+        qDebug() << "clockPeriod " << selUN->swpRLMCType0x31().clockPeriod();
+        qDebug() << "modeProcessing " << selUN->swpRLMCType0x31().modeProcessing();
+        qDebug() << "threshold " << selUN->swpRLMCType0x31().threshold();
 
         int tmpIndex = 0;
-        tmpIndex = ui->comboBox_RLMTactPeriod->findData(selUN->swpRLMC().clockPeriod());
+        tmpIndex = ui->comboBox_RLMTactPeriod->findData(selUN->swpRLMCType0x31().clockPeriod());
         ui->comboBox_RLMTactPeriod->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
 
-        tmpIndex = ui->comboBox_RLMCondition->findData(selUN->swpRLMC().modeProcessing());
+        tmpIndex = ui->comboBox_RLMCondition->findData(selUN->swpRLMCType0x31().modeProcessing());
         ui->comboBox_RLMCondition->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
 
-        tmpIndex = ui->comboBox_RLMEdge->findData(selUN->swpRLMC().threshold());
+        tmpIndex = ui->comboBox_RLMEdge->findData(selUN->swpRLMCType0x31().threshold());
         ui->comboBox_RLMEdge->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") <--";
 
@@ -1803,18 +1803,18 @@ void MainWindowServer::fillPageRLM()
     } else if(TypeUnitNode::RLM_KRL == selUN->getType()) {
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
         qDebug() << "StateWord " << selUN->getStateWord(0x31u).getByteWord().toHex();
-        qDebug() << "clockPeriod " << selUN->swpRLM().clockPeriod();
-        qDebug() << "modeProcessing " << selUN->swpRLM().modeProcessing();
-        qDebug() << "threshold " << selUN->swpRLM().threshold();
+        qDebug() << "clockPeriod " << selUN->swpRLMType0x31().clockPeriod();
+        qDebug() << "modeProcessing " << selUN->swpRLMType0x31().modeProcessing();
+        qDebug() << "threshold " << selUN->swpRLMType0x31().threshold();
 
         int tmpIndex = 0;
-        tmpIndex = ui->comboBox_RLMTactPeriod->findData(selUN->swpRLM().clockPeriod());
+        tmpIndex = ui->comboBox_RLMTactPeriod->findData(selUN->swpRLMType0x31().clockPeriod());
         ui->comboBox_RLMTactPeriod->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
 
-        tmpIndex = ui->comboBox_RLMCondition->findData(selUN->swpRLM().modeProcessing());
+        tmpIndex = ui->comboBox_RLMCondition->findData(selUN->swpRLMType0x31().modeProcessing());
         ui->comboBox_RLMCondition->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
 
-        tmpIndex = ui->comboBox_RLMEdge->findData(selUN->swpRLM().threshold());
+        tmpIndex = ui->comboBox_RLMEdge->findData(selUN->swpRLMType0x31().threshold());
         ui->comboBox_RLMEdge->setCurrentIndex(-1 == tmpIndex ? 0 : tmpIndex);
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") <--";
 

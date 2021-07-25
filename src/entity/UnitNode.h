@@ -30,9 +30,11 @@ enum DKCiclStatus {
 
 
 class SWPBLIPType0x41;
+class SWPBLIPType0x42;
 class SWPRLMType0x31;
 class SWPRLMCType0x31;
 class SWPSDBLIPType0x41;
+class SWPSDBLIPType0x42;
 class SWPIUBLIPType0x41;
 class SWPTGType0x31;
 class SWPTGType0x34;
@@ -167,11 +169,13 @@ public:
 
     static QSharedPointer<UnitNode> findReciver(QSharedPointer<UnitNode> reciver);
 
-    const SWPSDBLIPType0x41 swpSDBLIP() const; // {return SWPSDBLIP(getStateWord(), getNum2());}
-    const SWPIUBLIPType0x41 swpIUBLIP() const; // {return SWPIUBLIP(getStateWord(), getNum2());}
-    const SWPBLIPType0x41 swpBLIP() const; // {return SWPBLIP(getStateWord());}
-    const SWPRLMType0x31 swpRLM() const; // {return SWPRLM(getStateWord());}
-    const SWPRLMCType0x31 swpRLMC() const; // {return SWPRLMC(getStateWord());}
+    const SWPSDBLIPType0x41 swpSDBLIPType0x41() const; // {return SWPSDBLIP(getStateWord(), getNum2());}
+    const SWPIUBLIPType0x41 swpIUBLIPType0x41() const; // {return SWPIUBLIP(getStateWord(), getNum2());}
+    const SWPBLIPType0x41 swpBLIPType0x41() const; // {return SWPBLIP(getStateWord());}
+    const SWPBLIPType0x42 swpBLIPType0x42() const;
+    const SWPSDBLIPType0x42 swpSDBLIPType0x42() const;
+    const SWPRLMType0x31 swpRLMType0x31() const; // {return SWPRLM(getStateWord());}
+    const SWPRLMCType0x31 swpRLMCType0x31() const; // {return SWPRLMC(getStateWord());}
     const SWPTGType0x31 swpTGType0x31() const; // {return SWPTGType0x31(getStateWord());}
     const SWPTGType0x34 swpTGType0x34() const; // {return SWPTGType0x34(getStateWord(0x34u));}
     const SWPTGType0x33 swpTGType0x33() const; // {return SWPTGType0x33(getStateWord(0x33u));}

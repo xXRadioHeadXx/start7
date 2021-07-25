@@ -317,23 +317,23 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 if(nullptr == unTarget)
                     continue;
                 if(TypeUnitNode::IU_BL_IP == unTarget->getType())
-                    if(unTarget->swpIUBLIP().isNull())
+                    if(unTarget->swpIUBLIPType0x41().isNull())
                         continue;
 
                 if(TypeUnitNode::SD_BL_IP == unTarget->getType())
-                    if(unTarget->swpSDBLIP().isNull())
+                    if(unTarget->swpSDBLIPType0x41().isNull())
                         continue;
 
 
                 bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
 
-                if(0 != unTarget->getBazalt() && 1 == unTarget->swpSDBLIP().isAlarm() && "100" == idCommand.nodeValue()) {
+                if(0 != unTarget->getBazalt() && 1 == unTarget->swpSDBLIPType0x41().isAlarm() && "100" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, false);
-                } else if(0 != unTarget->getBazalt() && 1 == unTarget->swpSDBLIP().isNorm() && "101" == idCommand.nodeValue()) {
+                } else if(0 != unTarget->getBazalt() && 1 == unTarget->swpSDBLIPType0x41().isNorm() && "101" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, true);
                 } else if(0 != unTarget->getBazalt()) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, value);
-                } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIP().isOff() && "101" == idCommand.nodeValue()) {
+                } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIPType0x41().isOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
                         SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
@@ -347,9 +347,9 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     } else {
                         SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
                     }
-                } else if(unTarget->isEditableOnOff() && (1 == unTarget->swpIUBLIP().isOff()) && "101" == idCommand.nodeValue()) {
+                } else if(unTarget->isEditableOnOff() && (1 == unTarget->swpIUBLIPType0x41().isOff()) && "101" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
-                } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIP().isOn() && "100" == idCommand.nodeValue()) {
+                } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIPType0x41().isOn() && "100" == idCommand.nodeValue()) {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
                 } else  {
                     SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, value);

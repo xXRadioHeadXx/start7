@@ -7,8 +7,10 @@
 #include "SignalSlotCommutator.h"
 #include "global.h"
 #include "SWPBLIPType0x41.h"
+#include "SWPBLIPType0x42.h"
 #include "SWPRLMType0x31.h"
 #include "SWPRLMCType0x31.h"
+#include "SWPSDBLIPType0x42.h"
 #include "SWPSDBLIPType0x41.h"
 #include "SWPIUBLIPType0x41.h"
 #include "SWPTGType0x31.h"
@@ -109,7 +111,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             else
                 return Icons::fldr_empt();
         } else if(TypeUnitNode::SD_BL_IP == getType()) {
-            const SWPSDBLIPType0x41 swp = swpSDBLIP();
+            const SWPSDBLIPType0x41 swp = swpSDBLIPType0x41();
             if(0 == getBazalt()) {
                 if(getControl() && swp.isNull()) {
                     return Icons::sqr_ylw();
@@ -151,7 +153,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             }
 
         } else if(TypeUnitNode::IU_BL_IP == getType()) {
-            const SWPIUBLIPType0x41 swp = swpIUBLIP();
+            const SWPIUBLIPType0x41 swp = swpIUBLIPType0x41();
             if(swp.isNull()) {
                 return Icons::sqr_ylw();
             } else if(1 == swp.isOn()) {
@@ -161,7 +163,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
             } else
                 return Icons::sqr_ylw();
         } else if(TypeUnitNode::RLM_C == getType()) {
-            const SWPRLMCType0x31 swp = swpRLMC();
+            const SWPRLMCType0x31 swp = swpRLMCType0x31();
             if(getControl() && swp.isNull()) {
                 return Icons::sqr_ylw();
             } else if(!getControl() && swp.isNull()) {
@@ -188,7 +190,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                 return Icons::sqr_blk_crs_ylw();
             }
         } else if(TypeUnitNode::RLM_KRL == getType()) {
-            const SWPRLMType0x31 swp = swpRLM();
+            const SWPRLMType0x31 swp = swpRLMType0x31();
             if(getControl() && swp.isNull()) {
                 return Icons::sqr_ylw();
             } else if(!getControl() && swp.isNull()) {
@@ -597,11 +599,13 @@ UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
     this->parentUN = parent;
 }
 
-const SWPSDBLIPType0x41 UnitNode::swpSDBLIP() const {return SWPSDBLIPType0x41(getStateWord(0x41u), getNum2());}
-const SWPIUBLIPType0x41 UnitNode::swpIUBLIP() const {return SWPIUBLIPType0x41(getStateWord(0x41u), getNum2());}
-const SWPBLIPType0x41 UnitNode::swpBLIP() const {return SWPBLIPType0x41(getStateWord(0x41u));}
-const SWPRLMType0x31 UnitNode::swpRLM() const {return SWPRLMType0x31(getStateWord(0x31u));}
-const SWPRLMCType0x31 UnitNode::swpRLMC() const {return SWPRLMCType0x31(getStateWord(0x31u));}
+const SWPBLIPType0x41 UnitNode::swpBLIPType0x41() const {return SWPBLIPType0x41(getStateWord(0x41u));}
+const SWPSDBLIPType0x41 UnitNode::swpSDBLIPType0x41() const {return SWPSDBLIPType0x41(getStateWord(0x41u), getNum2());}
+const SWPIUBLIPType0x41 UnitNode::swpIUBLIPType0x41() const {return SWPIUBLIPType0x41(getStateWord(0x41u), getNum2());}
+const SWPBLIPType0x42 UnitNode::swpBLIPType0x42() const {return SWPBLIPType0x42(getStateWord(0x42u));}
+const SWPSDBLIPType0x42 UnitNode::swpSDBLIPType0x42() const {return SWPSDBLIPType0x42(getStateWord(0x42u), getNum2());}
+const SWPRLMType0x31 UnitNode::swpRLMType0x31() const {return SWPRLMType0x31(getStateWord(0x31u));}
+const SWPRLMCType0x31 UnitNode::swpRLMCType0x31() const {return SWPRLMCType0x31(getStateWord(0x31u));}
 const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getStateWord(0x31u));}
 const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getStateWord(0x34u));}
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWord(0x33u));}
@@ -818,17 +822,17 @@ int UnitNode_BL_IP::isWasAlarm() const
 }
 
 int UnitNode_SD_BL_IP::calcDKStatus() const {
-    if(1 == swpSDBLIP().isWasAlarm() && 1 == swpSDBLIP().isAlarm()) {
+    if(1 == swpSDBLIPType0x41().isWasAlarm() && 1 == swpSDBLIPType0x41().isAlarm()) {
         return DKCiclStatus::DKWasAlarn;
-    } else if(1 == swpSDBLIP().isNorm() && 1 == swpSDBLIP().isWasAlarm()) {
+    } else if(1 == swpSDBLIPType0x41().isNorm() && 1 == swpSDBLIPType0x41().isWasAlarm()) {
         return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-    } else if(1 == swpSDBLIP().isAlarm()) {
+    } else if(1 == swpSDBLIPType0x41().isAlarm()) {
         return DKCiclStatus::DKWrong;
 //            return DKCiclStatus::DKWasAlarn;
-    } else if(1 == swpSDBLIP().isOff()) {
+    } else if(1 == swpSDBLIPType0x41().isOff()) {
         return DKCiclStatus::DKWrong;
-    } else if(1 == swpSDBLIP().isNorm()) {
+    } else if(1 == swpSDBLIPType0x41().isNorm()) {
         return DKCiclStatus::DKNorm;
     }
     return DKCiclStatus::DKWrong;
@@ -885,7 +889,7 @@ int UnitNode_TG::calcDKStatus() const {
 }
 
 int UnitNode_RLM_KRL::calcDKStatus() const {
-    const auto swp = swpRLM();
+    const auto swp = swpRLMType0x31();
 
     if(!swp.isNull()) {
         if(1 == swp.isAlarm() && 1 == swp.isWasAlarm()) {
@@ -898,7 +902,7 @@ int UnitNode_RLM_KRL::calcDKStatus() const {
 }
 
 int UnitNode_RLM_C::calcDKStatus() const {
-    const auto swp = swpRLMC();
+    const auto swp = swpRLMCType0x31();
 
     if(!swp.isNull()) {
         if(1 == swp.isAlarm() && 1 == swp.isWasAlarm()) {

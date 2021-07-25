@@ -8,7 +8,6 @@ class SWPSDBLIPType0x41 : public SWP
     quint8 _mask = 0x00;
 public:
     SWPSDBLIPType0x41(const StateWord &stateWord, int numSD);
-//    SWPSDBLIP(const QByteArray &stateWord, int numSD);
 
     SWPSDBLIPType0x41(const SWPSDBLIPType0x41&) = default;
     SWPSDBLIPType0x41(SWPSDBLIPType0x41&&) = default;

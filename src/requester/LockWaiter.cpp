@@ -174,32 +174,32 @@ void LockWaiter::init() {
     }
 
 
-    if(1 == getUnReciverSdBlIp()->swpSDBLIP().isAlarm() &&
-       1 == getUnReciverIuBlIp()->swpIUBLIP().isOff()) {
+    if(1 == getUnReciverSdBlIp()->swpSDBLIPType0x41().isAlarm() &&
+       1 == getUnReciverIuBlIp()->swpIUBLIPType0x41().isOff()) {
 //        qDebug() << "LockRequester::init 1";
         //Открыто
         setInitVarianrt(1);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
-    } else if(1 == getUnReciverSdBlIp()->swpSDBLIP().isNorm() &&
-              1 == getUnReciverIuBlIp()->swpIUBLIP().isOn()) {
+    } else if(1 == getUnReciverSdBlIp()->swpSDBLIPType0x41().isNorm() &&
+              1 == getUnReciverIuBlIp()->swpIUBLIPType0x41().isOn()) {
 //        qDebug() << "LockRequester::init 2";
         //Закрыто
         setInitVarianrt(2);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(0);
         setTimeIntervalRequest(500);
-    } else if(1 == getUnReciverSdBlIp()->swpSDBLIP().isAlarm() &&
-              1 == getUnReciverIuBlIp()->swpIUBLIP().isOn()) {
+    } else if(1 == getUnReciverSdBlIp()->swpSDBLIPType0x41().isAlarm() &&
+              1 == getUnReciverIuBlIp()->swpIUBLIPType0x41().isOn()) {
 //        qDebug() << "LockRequester::init 3";
         //Открыто ключом
         setInitVarianrt(3);
         setTimeIntervalWaiteFirst(30000);
         setTimeIntervalWaiteSecond(30000);
         setTimeIntervalRequest(500);
-    } else if(1 == getUnReciverSdBlIp()->swpSDBLIP().isNorm() &&
-              1 == getUnReciverIuBlIp()->swpIUBLIP().isOff()) {
+    } else if(1 == getUnReciverSdBlIp()->swpSDBLIPType0x41().isNorm() &&
+              1 == getUnReciverIuBlIp()->swpIUBLIPType0x41().isOff()) {
 //        qDebug() << "LockRequester::init 4";
         //Закрыто ключом
         setInitVarianrt(4);
