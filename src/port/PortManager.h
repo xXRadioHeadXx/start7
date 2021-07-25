@@ -60,6 +60,9 @@ private:
     static bool procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
 
     static DataQueueItem parcingStatusWord0x34(DataQueueItem &item, DataQueueItem & resultRequest);
+    static bool procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procTgStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+
     static void procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous);
 
     static QSharedPointer<ShedulerDK> shedulerDK;

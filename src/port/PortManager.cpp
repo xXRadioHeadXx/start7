@@ -898,9 +898,10 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
 bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procUzoBLIPStatusWord0x41() -->";
-    if((TypeUnitNode::SD_BL_IP != currentUN->getType() && TypeUnitNode::IU_BL_IP != currentUN->getType()) ||
-       1 > currentUN->getNum2() ||
-       4 < currentUN->getNum2()) {
+    if((TypeUnitNode::SD_BL_IP != currentUN->getType() && TypeUnitNode::IU_BL_IP != currentUN->getType())
+    || 1 > currentUN->getNum2()
+    || 4 < currentUN->getNum2()
+    || currentUN->getDkInvolved()) {
 //        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(1) <--";
         return false;
     }
@@ -1134,9 +1135,10 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
 bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procIUBLIPStatusWord0x41() -->";
-    if(TypeUnitNode::IU_BL_IP != currentUN->getType() ||
-       1 > currentUN->getNum2() ||
-       4 < currentUN->getNum2()) {
+    if(TypeUnitNode::IU_BL_IP != currentUN->getType()
+    || 1 > currentUN->getNum2()
+    || 4 < currentUN->getNum2()
+    || currentUN->getDkInvolved()) {
 //        qDebug() << "PortManager::procIUBLIPStatusWord0x41(1) <--";
         return false;
     }
@@ -1230,10 +1232,10 @@ bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -->";
-    if(TypeUnitNode::SD_BL_IP != currentUN->getType() ||
+    if(TypeUnitNode::SD_BL_IP != currentUN->getType()
+    || 1 == currentUN->getBazalt()
+    || currentUN->getDkInvolved()) {
 //        qDebug() << "PortManager::procSDBLIPStatusWord0x41(1) <--";
-       1 == currentUN->getBazalt() ||
-       currentUN->getDkInvolved()) {
         return false;
     }
 
@@ -1464,7 +1466,7 @@ bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x41u, stateWord);
-    currentUN->setPublishedState(-1);
+//    currentUN->setPublishedState(-1);
 
     //qDebug() << "DkStatus --> " << currentUN->toString();
     int unCalcDkStatus = currentUN->calcDKStatus();
@@ -1854,7 +1856,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x31u, stateWord);
-    currentUN->setPublishedState(-1);
+//    currentUN->setPublishedState(-1);
 
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
         procDK(currentUN, previousUN);
@@ -1884,7 +1886,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
-            currentUN->setPublishedState(-1);
+//            currentUN->setPublishedState(-1);
         }
     }
     if((TypeUnitNode::RLM_C == currentUN->getType()
@@ -1932,7 +1934,8 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
 bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procRlmStatusWord0x31() -->";
-    if(TypeUnitNode::RLM_KRL != currentUN->getType()) {
+    if(TypeUnitNode::RLM_KRL != currentUN->getType()
+    || currentUN->getDkInvolved()) {
 //        qDebug() << "PortManager::procRlmStatusWord0x31(1) <--";
         return false;
     }
@@ -2133,7 +2136,8 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
 bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procRlmCStatusWord0x31() -->";
-    if(TypeUnitNode::RLM_C != currentUN->getType()) {
+    if(TypeUnitNode::RLM_C != currentUN->getType()
+    || currentUN->getDkInvolved()) {
 //        qDebug() << "PortManager::procRlmCStatusWord0x31(1) <--";
         return false;
     }
@@ -2321,7 +2325,8 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
 bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procTgStatusWord0x31() -->";
-    if(TypeUnitNode::TG != currentUN->getType()) {
+    if(TypeUnitNode::TG != currentUN->getType()
+    || currentUN->getDkInvolved()) {
 //        qDebug() << "PortManager::procTgStatusWord0x31(1) <--";
         return false;
     }
@@ -2694,7 +2699,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
 
 DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueItem &resultRequest)
 {
-    qDebug() << "PortManager::parcingStatusWord0x32 --> " << item.address() << static_cast<quint8>(item.data().at(2));
+//    qDebug() << "PortManager::parcingStatusWord0x32 --> " << item.address() << static_cast<quint8>(item.data().at(2));
     StateWord newStateWord(item.data().mid(5, item.data().at(3)));
     resultRequest = item;
     resultRequest.setData();
@@ -2722,15 +2727,15 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
         }
 
         if(procDkStatusWord0x32(un, newStateWord)) {
-            qDebug() << "PortManager::parcingStatusWord0x32 --> procDkStatusWord0x32() " << true;
+//            qDebug() << "PortManager::parcingStatusWord0x32 --> procDkStatusWord0x32() " << true;
         } else if(procTgStatusWord0x32(un, newStateWord)) {
-            qDebug() << "PortManager::parcingStatusWord0x32 --> procTgStatusWord0x32() " << true;
+//            qDebug() << "PortManager::parcingStatusWord0x32 --> procTgStatusWord0x32() " << true;
         } else {
-            qDebug() << "PortManager::parcingStatusWord0x32 --X proc " << false;
+//            qDebug() << "PortManager::parcingStatusWord0x32 --X proc " << false;
         }
 
     }
-    qDebug() << "PortManager::parcingStatusWord0x32 <--";
+//    qDebug() << "PortManager::parcingStatusWord0x32 <--";
     return resultRequest;
 }
 
@@ -2772,7 +2777,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
-            currentUN->setPublishedState(-1);
+//            currentUN->setPublishedState(-1);
         }
     }
     const auto &swpCurrent = currentUN->swpTGType0x32().C(currentUN->getNum2());
@@ -2804,15 +2809,16 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
 
 bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
-    qDebug() << "PortManager::procTgStatusWord0x32() -->";
-    if(TypeUnitNode::TG != currentUN->getType()) {
-        qDebug() << "PortManager::procTgStatusWord0x32(1) <--";
+//    qDebug() << "PortManager::procTgStatusWord0x32() -->";
+    if(TypeUnitNode::TG != currentUN->getType()
+    || currentUN->getDkInvolved()) {
+//        qDebug() << "PortManager::procTgStatusWord0x32(1) <--";
         return false;
     }
 
     auto reciver = UnitNode::findReciver(currentUN);
     if(reciver.isNull()) {
-        qDebug() << "PortManager::procTgStatusWord0x32(2) <--";
+//        qDebug() << "PortManager::procTgStatusWord0x32(2) <--";
         return false;
     }
 
@@ -2835,21 +2841,21 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         // состояние не зменилось - что-то пропускаем
         isChangedStatus = true;
     }
-    qDebug() << "PortManager::procTgStatusWord0x32() -- isChangedStatus " << isChangedStatus;
+//    qDebug() << "PortManager::procTgStatusWord0x32() -- isChangedStatus " << isChangedStatus;
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
         isFirstWakeUp = true;
     }
-    qDebug() << "PortManager::procTgStatusWord0x32() -- isFirstWakeUp " << isFirstWakeUp;
+//    qDebug() << "PortManager::procTgStatusWord0x32() -- isFirstWakeUp " << isFirstWakeUp;
 
     auto isWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
         isWakeUp = true;
     }
-    qDebug() << "PortManager::procTgStatusWord0x32() -- isWakeUp " << isWakeUp;
+//    qDebug() << "PortManager::procTgStatusWord0x32() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
     auto makedAlarmReset0x24 = false;
@@ -2868,7 +2874,7 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
             makedAlarmReset0x24 = true;
         }
     }
-    qDebug() << "PortManager::procTgStatusWord0x32 -- makedAlarmReset0x24" << makedAlarmReset0x24;
+//    qDebug() << "PortManager::procTgStatusWord0x32 -- makedAlarmReset0x24" << makedAlarmReset0x24;
 
     JourEntity prepareMsg;
     // заполняем поля сообщения за отправителя
@@ -2909,10 +2915,10 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         currentUN->setPublishedState(1);
     }
 
-    qDebug() << "состояние TG -->" << commentMsg;
-    qDebug() << "pTG: " << previousUN->toString() << swpPrevious.byteWord().toHex();
-    qDebug() << "cTG: " << currentUN->toString() << swpCurrent.byteWord().toHex();
-    qDebug() << "состояние TG <--";
+//    qDebug() << "состояние TG -->" << commentMsg;
+//    qDebug() << "pTG: " << previousUN->toString() << swpPrevious.byteWord().toHex();
+//    qDebug() << "cTG: " << currentUN->toString() << swpCurrent.byteWord().toHex();
+//    qDebug() << "состояние TG <--";
 
     if((isWakeUp ||
         isFirstWakeUp ||
@@ -2951,7 +2957,7 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     currentUN->updDoubl();
     SignalSlotCommutator::getInstance()->emitUpdUN();
 
-    qDebug() << "PortManager::procTgStatusWord0x32(X) <--";
+//    qDebug() << "PortManager::procTgStatusWord0x32(X) <--";
     return true;
 }
 
@@ -3192,7 +3198,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x33u, stateWord);
-    currentUN->setPublishedState(-1);
+//    currentUN->setPublishedState(-1);
 
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
         procDK(currentUN, previousUN);
@@ -3222,7 +3228,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
-            currentUN->setPublishedState(-1);
+//            currentUN->setPublishedState(-1);
         }
     }
     const auto &swpCurrent = currentUN->swpTGType0x33().C(currentUN->getNum2());
@@ -3256,7 +3262,8 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
 bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procTgStatusWord0x33() -->";
-    if(TypeUnitNode::TG != currentUN->getType()) {
+    if(TypeUnitNode::TG != currentUN->getType()
+    || currentUN->getDkInvolved()) {
 //        qDebug() << "PortManager::procTgStatusWord0x33(1) <--";
         return false;
     }
@@ -3415,30 +3422,83 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
 
     const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
-        if(TypeUnitNode::TG != un->getType())
-            continue;
-        if(!item.address().isEqual(QHostAddress(un->getUdpAdress())) ||
-           item.port() != un->getUdpPort() ||
-           static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+        if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(1)";
             continue;
         }
+        if(!item.address().isEqual(QHostAddress(un->getUdpAdress()))
+        || item.port() != un->getUdpPort()
+        || static_cast<quint8>(item.data().at(2)) != static_cast<quint8>(un->getNum1())) {
+//            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(2)";
+            continue;
+        }
+
         auto reciver = UnitNode::findReciver(un);
         if(!reciver.isNull()) {
             reciver->resetCountStatusConnectRequesterWaitAnswer();
+//            reciver->setStateWord(newStateWord);
+        } else {
+//            qDebug() << "PortManager::parcingStatusWord0x34 --x match";
+            continue;
         }
 
-        auto previousSWP = un->swpTGType0x34();
-//        QSharedPointer<UnitNode> previousCopyUN = UnitNodeFactory::makeShare(*un);
-
-        un->setStateWord(0x34u, newStateWord);
-        un->updDoubl();
-        SignalSlotCommutator::getInstance()->emitUpdUN();
+        if(procDkStatusWord0x34(un, newStateWord)) {
+//            qDebug() << "PortManager::parcingStatusWord0x34 --> procDkStatusWord0x34() " << true;
+        } else if(procTgStatusWord0x34(un, newStateWord)) {
+//            qDebug() << "PortManager::parcingStatusWord0x34 --> procTgStatusWord0x34() " << true;
+        } else {
+//            qDebug() << "PortManager::parcingStatusWord0x34 --X proc " << false;
+        }
 
     }
 //    qDebug() << "PortManager::parcingStatusWord0x34 <--";
     return resultRequest;
 }
+
+bool PortManager::procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+{
+//    qDebug() << "PortManager::procDkStatusWord0x34 -->";
+    if(!currentUN->getDkInvolved()
+    || TypeUnitNode::TG != currentUN->getType()) {
+//        qDebug() << "PortManager::procDkStatusWord0x34(1) <--";
+        return false;
+    }
+
+    currentUN->setStateWord(0x34u, stateWord);
+//    currentUN->setPublishedState(-1);
+
+
+    currentUN->updDoubl();
+    SignalSlotCommutator::getInstance()->emitUpdUN();
+
+//    qDebug() << "PortManager::procDkStatusWord0x34(1) <--";
+    return true;
+}
+
+bool PortManager::procTgStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+{
+//    qDebug() << "PortManager::procTgStatusWord0x34() -->";
+    if(TypeUnitNode::TG != currentUN->getType()
+    || currentUN->getDkInvolved()) {
+//        qDebug() << "PortManager::procTgStatusWord0x34(1) <--";
+        return false;
+    }
+
+    auto reciver = UnitNode::findReciver(currentUN);
+    if(reciver.isNull()) {
+//        qDebug() << "PortManager::procTgStatusWord0x34(2) <--";
+        return false;
+    }
+
+    currentUN->setStateWord(0x34u, stateWord);
+
+    currentUN->updDoubl();
+    SignalSlotCommutator::getInstance()->emitUpdUN();
+
+//    qDebug() << "PortManager::procTgStatusWord0x34(X) <--";
+    return true;
+}
+
 
 void PortManager::procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous) {
     qDebug() << "DkStatus --> " << current->toString();
@@ -3642,7 +3702,7 @@ void PortManager::manageOverallReadQueue()
                                             DataBaseManager::insertJourMsg_wS(msg);
                                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
 
-                                            un->setPublishedState(-1);
+//                                            un->setPublishedState(-1);
                                         }
                                     } else {
                                         msg.setComment(tr("Ком. ДК не выполнена"));
@@ -3651,7 +3711,7 @@ void PortManager::manageOverallReadQueue()
                                             DataBaseManager::insertJourMsg_wS(msg);
                                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
 
-                                            un->setPublishedState(-1);
+//                                            un->setPublishedState(-1);
 
                                             SoundAdjuster::instance().playAlarm2();
                                         }
