@@ -1002,10 +1002,11 @@ bool Control_Unit_Manager::pass_to_add_RASTRMTV(UnitNode *unit, UnitNode *parren
 
 bool Control_Unit_Manager::pass_to_add_INFO_TABLO(UnitNode *unit, UnitNode *parrent,TreeModelUnitNode *modelTreeUN)
 {
-    if(parrent->getType()!=TypeUnitNode::GROUP)
-    if(parrent->getType()!=TypeUnitNode::SYSTEM)
+ //   if(parrent->getType()!=TypeUnitNode::GROUP)
+  //  if(parrent->getType()!=TypeUnitNode::SYSTEM)
+    if(parrent->getType()!=TypeUnitNode::SSOI_SD)
     {
-        QMessageBox::critical(0,"Ошибка"," может быть добавлен только к группе");
+        QMessageBox::critical(0,"Ошибка"," может быть добавлен только к ССОИ-СД");
         return false;
 
     }
