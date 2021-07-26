@@ -446,14 +446,15 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
             row = un->getNum2();
             if(1 == un->swpSDBLIPType0x41().isAlarm()) {
                 auto swp = un->swpSDBLIPType0x42();
-                if(!swp.isNull()) {
-                    if(swp.isLineBreak()) {
-                        setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Разрыв")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
-                    } else if(swp.isShortCircuit()) {
-                        setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Замыкание")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
-                    }
-                } else
+                if(swp.isNull()) {
                     setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Тревога")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
+                } else if(1 == swp.isLineBreak() && 1 == swp.isInAlarm()) {
+                    setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Разрыв")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
+                } else if(1 == swp.isShortCircuit() && 1 == swp.isInAlarm()) {
+                    setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Замыкание")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
+                } else {
+                    setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Тревога")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
+                }
             }
             else if(1 == un->swpSDBLIPType0x41().isNorm()) {
                 setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Норма")), cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Норма"

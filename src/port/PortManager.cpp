@@ -1244,7 +1244,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     currentUN->setStateWord(0x41u, stateWord);
 
     const auto &swpCurrent = currentUN->swpSDBLIPType0x41(),
-               &swpPrevious = swpCurrent;
+               &swpPrevious = previousUN->swpSDBLIPType0x41();
 
     auto isChangedStatus = false;
     if(swpCurrent.isAlarm() != swpPrevious.isAlarm() ||
