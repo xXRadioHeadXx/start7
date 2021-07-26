@@ -740,8 +740,9 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 
         this->on_actionCreate_triggered();
 
-            QRegExpValidator*  validator = new QRegExpValidator(QRegExp ("[^!""|@#$%^&*()_]{0,50}"));
-
+       //     QRegExpValidator*  validator = new QRegExpValidator(QRegExp ("[^!""|@#$%^&*()_]{0,50}"));
+      //      "[A-Za-z\\d]+"
+QRegExpValidator*  validator = new QRegExpValidator(QRegExp ( "[а-яА-ЯёЁa-zA-Z0-9]{0,50}"));
 
                 this->ui->uName_combobox->setValidator(validator);
 }
