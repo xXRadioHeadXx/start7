@@ -51,6 +51,8 @@ private:
 
     Delegate* dlgt;
 
+    QRegExpValidator* validator;
+
     int cfg_type;
 
     QString last_ini_patch;
@@ -422,7 +424,7 @@ private:
     QString str_TOROS =         " Торос";
     QString str_DEVLINE =       " ТВ-камера DevLine";
     QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
-    QString str_INFO_TABLO =    " информационное табло";
+    QString str_INFO_TABLO =    " Информационное табло";
 
     QList<QString> l_Unittype_rif={
 

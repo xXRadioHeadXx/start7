@@ -10,6 +10,13 @@
 my_combobox::my_combobox(QWidget *parent)
     : QComboBox(parent)
 {
+
+//  QRegExpValidator*  validator = new QRegExpValidator(QRegExp ("[^!@#$%^&*()_]"));
+
+//QRegExpValidator*  validator = new QRegExpValidator(QRegExp ("[a-zA-Z0-9]{0,2}"));
+
+
+//    this->setValidator(validator);
 //for(int i=0;i<10;i++)
 //    this->addItem(QString::number(i));
 

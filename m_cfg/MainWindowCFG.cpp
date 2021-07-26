@@ -24,6 +24,8 @@
 #include <QInputDialog>
 #include <QDate>
 
+#include <QtCore>
+
 //#include <control.h>
 
 
@@ -45,6 +47,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
 
+
+
 m_ctrl=new Control_Unit_Manager();
     QStringList list;
     list<<str_system_RIF;
@@ -54,6 +58,9 @@ m_ctrl=new Control_Unit_Manager();
     Если программа лежит в папке :/SSOI/ - открывать версию ССОИ-М
     Если ни там ни там - предлагать выбор версии
     */
+
+
+
 
     QByteArray dir= QCoreApplication::applicationDirPath().toLocal8Bit();
     qDebug()<<"DIR "<<dir;
@@ -732,6 +739,11 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 
 
         this->on_actionCreate_triggered();
+
+            QRegExpValidator*  validator = new QRegExpValidator(QRegExp ("[^!""|@#$%^&*()_]{0,50}"));
+
+
+                this->ui->uName_combobox->setValidator(validator);
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -1414,7 +1426,7 @@ void MainWindowCFG::on_pushButton_4_clicked()
 
     if(m_TypeUnitNode.key(this->ui->uType_combobox->currentText())==unit->getType())
     {
-    //qDebug()<<"[PRODIT]";
+    //qDebug()<<"[PROFIT]";
     unit->setName(this->ui->uName_combobox->currentText());
 
     switch(unit->getType())
