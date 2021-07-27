@@ -323,6 +323,59 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         }
     }
 
+    for(const auto &un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes().values())) {
+        if(!UnitNode::findReciver(un).isNull())
+            continue;
+
+        const auto &doubles = un->getDoubles().values();
+
+        QSharedPointer<UnitNode> possibleParent;
+        for(const auto &dbl : doubles) {
+            possibleParent = UnitNode::findReciver(dbl);
+            if(!possibleParent.isNull())
+                break;
+        }
+
+        if(possibleParent.isNull()) {
+            if(TypeUnitNode::SD_BL_IP == un->getType()
+            || TypeUnitNode::IU_BL_IP == un->getType()) {
+                possibleParent = UnitNodeFactory::makeShare(TypeUnitNode::BL_IP);
+                possibleParent->setType(TypeUnitNode::BL_IP);
+                possibleParent->setUdpAdress(un->getUdpAdress());
+                possibleParent->setUdpPort(un->getUdpPort());
+                possibleParent->setName("MetaBLIP");
+                possibleParent->setNum1(static_cast<quint8>(0xFF));
+                possibleParent->setControl(false);
+                possibleParent->setMetaEntity(1);
+                \
+            } else if (TypeUnitNode::TG == un->getType()) {
+                possibleParent = UnitNodeFactory::makeShare(TypeUnitNode::TG_Base);
+                possibleParent->setType(TypeUnitNode::TG_Base);
+                possibleParent->setUdpAdress(un->getUdpAdress());
+                possibleParent->setUdpPort(un->getUdpPort());
+                possibleParent->setNum1(un->getNum1());
+                possibleParent->setNum2(0);
+                possibleParent->setNum3(0);
+                possibleParent->setName("MetaTG_" + QString::number(un->getNum1()));
+                possibleParent->setControl(false);
+                possibleParent->setMetaEntity(1);
+            } else if (TypeUnitNode::RLM_C == un->getType()
+                    || TypeUnitNode::RLM_KRL == un->getType()) {
+                possibleParent = un;
+            }
+        }
+
+        if(!possibleParent.isNull()) {
+            getSetMetaRealUnitNodes().insert(possibleParent);
+            ServerSettingUtils::linkDoubles(possibleParent);
+            un->setParentUN(possibleParent);
+            for(const auto &dbl : doubles) {
+                dbl->setParentUN(possibleParent);
+            }
+        }
+    }
+
+
 //    for(auto un : getListTreeUnitNodes())
 //        qDebug() << un->toString();
 //    for(auto un : getSetMetaRealUnitNodes())
