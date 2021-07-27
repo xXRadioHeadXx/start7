@@ -31,11 +31,12 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::getLinkedUI(QSharedPointer<
             auto cun = c.dynamicCast<UnitNode>();
             if(TypeUnitNode::IU_BL_IP == cun->getType()) {
                 setSlaveUN.insert(cun);
+                setSlaveUN.unite(cun->getDoubles());
             }
         }
     }
 
-    setSlaveUN.intersect(ServerSettingUtils::getSetMetaRealUnitNodes());
+    setSlaveUN = setSlaveUN.intersect(ServerSettingUtils::getSetMetaRealUnitNodes());
 
     result = setSlaveUN.values();
 
