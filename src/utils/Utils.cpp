@@ -1201,7 +1201,10 @@ QSet<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(const QSharedPointer<
 //        //qDebug() << "itr :" << unSetTmp;
 //        //qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
         if(!unDouble->treeParent().isNull()) {
-            if(TypeUnitNode::SD_BL_IP == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()) {
+            if(TypeUnitNode::SD_BL_IP == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNode::RLM_KRL == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNode::RLM_C == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNode::TG == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()) {
 //                //qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->toString();
             } else {
                 unSetTmp.remove(unDouble);
