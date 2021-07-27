@@ -1,8 +1,7 @@
 #include "DataQueueItem.h"
 #include "global.h"
 #include "UnitNode.h"
-#include "SWPSDBLIPType0x41.h"
-#include "SWPIUBLIPType0x41.h"
+#include "SWPBLIPType0x41.h"
 
 QByteArray DataQueueItem::preamble() const
 {
@@ -248,7 +247,7 @@ DataQueueItem DataQueueItem::makeOnOff0x23(DataQueueItem &item, QSharedPointer<U
     return item;
 }
 
-QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode>un, bool onOff, QSharedPointer<UnitNode> pun)
+QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode> un, bool onOff, QSharedPointer<UnitNode> pun)
 {
     if(DataQueueItem::data0x23.isEmpty()) {
         DataQueueItem::data0x23.append(static_cast<quint8>(0xB5));      //<SB>
@@ -259,14 +258,14 @@ QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode>un, bool onOff, 
         DataQueueItem::data0x23.append(Utils::getByteSumm(DataQueueItem::data0x23)); //<CHKS>
     }
 
-    if(nullptr == un)
+    if(un.isNull())
         return QByteArray(DataQueueItem::data0x23);
     else if(TypeUnitNode::IU_BL_IP != un->getType())
         return QByteArray(DataQueueItem::data0x23);
 
     QSharedPointer<UnitNode> target = un;
 
-    if(nullptr == pun) {
+    if(pun.isNull()) {
         pun = target;
     }
     if(TypeUnitNode::BL_IP != pun->getType()) {
@@ -277,21 +276,24 @@ QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode>un, bool onOff, 
             pun = pun->getParentUN();
         }
     }
-    QSharedPointer<UnitNode> reciver = pun;
+    auto reciver = UnitNode::findReciver(un);
 
     quint8 D1 = 0x00;
-    if(TypeUnitNode::SD_BL_IP == target->getType() ||
-            TypeUnitNode::IU_BL_IP == target->getType()) {
-        while(nullptr != reciver) {
-            if(TypeUnitNode::BL_IP == reciver->getType()) {
-                break;
-            }
-            reciver = reciver->getParentUN();
-        }
-    }
     int type = target->getType();
 
-    if(nullptr != reciver)
+    const auto &swpReciver = reciver->swpBLIPType0x41();
+    if(!reciver.isNull() && !swpReciver.isNull()) {
+        D1 = swpReciver.byteWord().at(1) & 0b00001111;
+        quint8 mask = 0x00;
+        if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIPType0x41().isNull())
+            mask = un->swpSDBLIPType0x41().mask();
+        else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIPType0x41().isNull())
+            mask = un->swpIUBLIPType0x41().mask();
+        if(onOff)
+            D1 = D1 | mask;
+        else if(!onOff)
+            D1 = D1 & ~mask;
+    } else {
         for(auto un : as_const(reciver->getListChilde())) {
             if(type != un->getType())
                 continue;
@@ -301,10 +303,12 @@ QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode>un, bool onOff, 
             else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIPType0x41().isNull())
                 mask = un->swpIUBLIPType0x41().mask();
 
-            if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIPType0x41().isNull() &&
+            if(TypeUnitNode::SD_BL_IP == un->getType() &&
+                    !un->swpSDBLIPType0x41().isNull() &&
                     1 == un->swpSDBLIPType0x41().isOff())
                 D1 = D1 & ~mask;
-            else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIPType0x41().isNull() &&
+            else if(TypeUnitNode::IU_BL_IP == un->getType() &&
+                    !un->swpIUBLIPType0x41().isNull() &&
                     1 == un->swpIUBLIPType0x41().isOff())
                 D1 = D1 & ~mask;
             else
@@ -315,6 +319,7 @@ QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode>un, bool onOff, 
             else if(un == target && !onOff)
                 D1 = D1 & ~mask;
         }
+    }
 
     QByteArray data = DataQueueItem::data0x23;
     data[4] = D1;
