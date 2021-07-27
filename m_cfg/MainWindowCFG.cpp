@@ -1183,7 +1183,7 @@ void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 
  this->ui->stackedWidget_3->setCurrentIndex(0);
 
-this->ui->pushButton_4->setDisabled(true);
+this->ui->edit_unit_button->setDisabled(true);
     current_index=index;
     if(index.isValid())
     {
@@ -1416,195 +1416,7 @@ void MainWindowCFG::update()
 
 
 
-void MainWindowCFG::on_pushButton_4_clicked()
-{
-    //qDebug()<<"rename_unit()";
-    QModelIndex index=this->ui->treeView->currentIndex();
-    if(index.isValid())
-    {
-        UnitNode* unit = static_cast<UnitNode*>(index.internalPointer());
 
-
-    if(m_TypeUnitNode.key(this->ui->uType_combobox->currentText())==unit->getType())
-    {
-    //qDebug()<<"[PROFIT]";
-    unit->setName(this->ui->uName_combobox->currentText());
-
-    switch(unit->getType())
-        {
-        case TypeUnitNode::GROUP:
-
-        break;
-
-        case TypeUnitNode::SD_BL_IP:
-
-
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        setUdpTimeout_for_BL_IP(unit);
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-        SD_BL_IP_set_values_from_combobox(unit);
-
-
-        break;
-
-    case TypeUnitNode::IU_BL_IP:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        setUdpTimeout_for_BL_IP(unit);
-
-
-
-    break;
-
-    case TypeUnitNode::TG:
-
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-        setUdpTimeout_for_TG(unit);
-    break;
-
-    case TypeUnitNode::RLM_KRL:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-
-    break;
-
-    case TypeUnitNode::RLM_C:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-
-
-    break;
-
-    case TypeUnitNode::BOD_T4K_M:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-
-    break;
-
-    case TypeUnitNode::Y4_T4K_M:
-
-    break;
-
-    case TypeUnitNode::DD_T4K_M:
-
-
-    break;
-
-    case TypeUnitNode::BOD_SOTA:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-    break;
-
-    case TypeUnitNode::Y4_SOTA:
-
-    break;
-
-    case TypeUnitNode::DD_SOTA:
-
-
-    break;
-
-    case TypeUnitNode::KL:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-    break;
-
-    case TypeUnitNode::ONVIF:
-
-    break;
-
-    case TypeUnitNode::STRAZH_IP:
-
-    break;
-
-    case TypeUnitNode::NET_DEV:
-
-    break;
-
-    case TypeUnitNode::SSOI_SD:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-        SSOI_SD_set_values_from_combobox(unit);
-    break;
-
-    case TypeUnitNode::SSOI_IU:
-
-    break;
-
-    case TypeUnitNode::ADAM:
-
-    break;
-
-    case TypeUnitNode::TOROS:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-    case TypeUnitNode::DEVLINE:
-    //qDebug()<<"[DEVLINE]";
-        unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
-        unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
-        unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());
-        unit->setY(this->ui->coordinate_X_doubleSpinBox_5->value());
-    break;
-
-    case TypeUnitNode::RASTRMTV:
-
-    break;
-
-    case TypeUnitNode::INFO_TABLO:
-
-    break;
-
-        }
-    this->get_option(unit);
-
-    }
-
-    else
-    {
-    //qDebug()<<"[FALSE]";
-
-    }
-
-    }
-
-//   change_unit();
-
-    this->ui->pushButton_4->setDisabled(true);
-
-}
 
 bool MainWindowCFG::set_option(UnitNode *unit, UnitNode* parent)
 {
@@ -2255,6 +2067,28 @@ void MainWindowCFG::setAlarmMsgOn()
     }
 }
 
+bool MainWindowCFG::set_AdamOff_for_all_IU_BL_IP_instances(UnitNode *unit)
+{
+
+   qDebug()<<"Посмотри - это список дубликатов:";
+
+   int val=unit->getAdamOff();
+   foreach(QModelIndex ind, modelTreeUN->list_Equals)
+   {
+     UnitNode *un = static_cast<UnitNode*>(ind.internalPointer());
+
+    qDebug()<< un->getName();
+    un->setAdamOff(val);
+
+
+
+   }
+
+
+}
+
+
+
 void MainWindowCFG::setAdamOff()
 {
     //qDebug()<<QString::number(val_for_setAdamoff);
@@ -2265,6 +2099,7 @@ void MainWindowCFG::setAdamOff_off()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(0);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_5_sec()
@@ -2272,6 +2107,7 @@ void MainWindowCFG::setAdamOff_5_sec()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(1);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_10_sec()
@@ -2279,6 +2115,7 @@ void MainWindowCFG::setAdamOff_10_sec()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(2);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_30_sec()
@@ -2286,6 +2123,7 @@ void MainWindowCFG::setAdamOff_30_sec()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(3);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_1_min()
@@ -2293,6 +2131,7 @@ void MainWindowCFG::setAdamOff_1_min()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(4);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_5_min()
@@ -2300,6 +2139,7 @@ void MainWindowCFG::setAdamOff_5_min()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(5);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_10_min()
@@ -2307,6 +2147,7 @@ void MainWindowCFG::setAdamOff_10_min()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(6);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_20_min()
@@ -2314,6 +2155,7 @@ void MainWindowCFG::setAdamOff_20_min()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(7);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_30_min()
@@ -2321,6 +2163,7 @@ void MainWindowCFG::setAdamOff_30_min()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(8);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::setAdamOff_1_hour()
@@ -2328,12 +2171,13 @@ void MainWindowCFG::setAdamOff_1_hour()
     QModelIndex index = this->ui->treeView->currentIndex();
     UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
     un->setAdamOff(9);
+    set_AdamOff_for_all_IU_BL_IP_instances(un);
 }
 
 void MainWindowCFG::open_edit_menu()
 {
     this->ui->tabWidget->setCurrentIndex(2);
-    this->ui->pushButton_4->setEnabled(true);
+    this->ui->edit_unit_button->setEnabled(true);
     //qDebug()<<"edit menu";
 
     QModelIndex index =this->ui->treeView->currentIndex();
@@ -2935,7 +2779,7 @@ if(index.isValid())
 if(enable==true)
 {
 
-    this->ui->pushButton_4->setEnabled(true);
+    this->ui->edit_unit_button->setEnabled(true);
 
     //case TypeUnitNode::SD_BL_IP:
     this->ui->SD_BL_IP_num_combobox->setDisabled(true);
@@ -3052,7 +2896,7 @@ if(enable==true)
 else
 {
 
-this->ui->pushButton_4->setDisabled(true);
+this->ui->edit_unit_button->setDisabled(true);
 
     //case TypeUnitNode::GROUP:
 this->ui->SD_BL_IP_num_combobox->setEnabled(true);
@@ -3182,12 +3026,15 @@ void MainWindowCFG::RS485_UDP_set_from_unit(UnitNode *unit)
 this->ui->UDP_RS485_Widget->setVisible(true);
 if(unit->getUdpUse()==1)
     {
+
             this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->UDP);
     }
 
 else
     {
             this->ui->UDP_RS485_combobox->setCurrentText(" RS485");
+    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
     }
 
 this->ui->ipadress_combobox->setCurrentText(unit->getUdpAdress());
@@ -3400,6 +3247,198 @@ Name.append(this->ui->KL_CD_combobox->currentText());
 
     this->ui->uName_combobox->setCurrentText(Name);
     }
+}
+
+void MainWindowCFG::func_to_edit_unit()
+{
+    qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    qDebug()<<"edit_unit()";
+    QModelIndex index=this->ui->treeView->currentIndex();
+    if(index.isValid())
+    {
+        UnitNode* unit = static_cast<UnitNode*>(index.internalPointer());
+
+
+    if(m_TypeUnitNode.key(this->ui->uType_combobox->currentText())==unit->getType())
+    {
+    //qDebug()<<"[PROFIT]";
+    unit->setName(this->ui->uName_combobox->currentText());
+
+    switch(unit->getType())
+        {
+        case TypeUnitNode::GROUP:
+
+        break;
+
+        case TypeUnitNode::SD_BL_IP:
+
+    qDebug()<<"SD_BL_IP:";
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        setUdpTimeout_for_BL_IP(unit);
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+        SD_BL_IP_set_values_from_combobox(unit);
+
+
+        break;
+
+    case TypeUnitNode::IU_BL_IP:
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        qDebug()<<"unit->setUdpTimeout "<<this->ui->timeout_doubleSpinBox->value();
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        setUdpTimeout_for_BL_IP(unit);
+        set_AdamOff_for_all_IU_BL_IP_instances(unit);
+
+
+
+    break;
+
+    case TypeUnitNode::TG:
+
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+        setUdpTimeout_for_TG(unit);
+    break;
+
+    case TypeUnitNode::RLM_KRL:
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+
+    break;
+
+    case TypeUnitNode::RLM_C:
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+
+
+    break;
+
+    case TypeUnitNode::BOD_T4K_M:
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+
+    break;
+
+    case TypeUnitNode::Y4_T4K_M:
+
+    break;
+
+    case TypeUnitNode::DD_T4K_M:
+
+
+    break;
+
+    case TypeUnitNode::BOD_SOTA:
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+    break;
+
+    case TypeUnitNode::Y4_SOTA:
+
+    break;
+
+    case TypeUnitNode::DD_SOTA:
+
+
+    break;
+
+    case TypeUnitNode::KL:
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+    break;
+
+    case TypeUnitNode::ONVIF:
+
+    break;
+
+    case TypeUnitNode::STRAZH_IP:
+
+    break;
+
+    case TypeUnitNode::NET_DEV:
+
+    break;
+
+    case TypeUnitNode::SSOI_SD:
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+        SSOI_SD_set_values_from_combobox(unit);
+    break;
+
+    case TypeUnitNode::SSOI_IU:
+
+    break;
+
+    case TypeUnitNode::ADAM:
+
+    break;
+
+    case TypeUnitNode::TOROS:
+        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
+        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
+        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
+        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
+        unit->setDescription(ui->Dop_info_description_lineedit->text());
+
+    case TypeUnitNode::DEVLINE:
+    //qDebug()<<"[DEVLINE]";
+        unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
+        unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
+        unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());
+        unit->setY(this->ui->coordinate_X_doubleSpinBox_5->value());
+    break;
+
+    case TypeUnitNode::RASTRMTV:
+
+    break;
+
+    case TypeUnitNode::INFO_TABLO:
+
+    break;
+
+        }
+    this->get_option(unit);
+
+    }
+
+    else
+    {
+    //qDebug()<<"[FALSE]";
+
+    }
+
+    }
+
+//   change_unit();
+
+    this->ui->edit_unit_button->setDisabled(true);
 }
 
 QString MainWindowCFG::get_dd(UnitNode* unit)
@@ -5937,11 +5976,14 @@ void MainWindowCFG::set_option_INFO_TABLO(UnitNode *unit)
 
 bool MainWindowCFG::setUdpTimeout_for_BL_IP(UnitNode *unit)
 {
+    qDebug()<<"setUdpTimeout_for_BL_IP ";
     if(unit->getType()!=TypeUnitNode::SD_BL_IP)
     if(unit->getType()!=TypeUnitNode::IU_BL_IP)
       return false;
 
     int val=unit->getUdpTimeout();
+
+    qDebug()<<"timeout "<<val;
 
     auto is_equal = [](UnitNode *my,UnitNode *unit)->bool
        {
@@ -7573,7 +7615,7 @@ void MainWindowCFG::on_devline_xy_pushButton_clicked()
 void MainWindowCFG::on_uType_combobox_currentTextChanged(const QString &arg1)
 {
         //qDebug()<<"[currentTextChanged]";
-    this->ui->pushButton_4->setDisabled(true);
+    this->ui->edit_unit_button->setDisabled(true);
 //    this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     this->ui->UDP_RS485_Widget->setVisible(false);
 
@@ -7949,4 +7991,10 @@ void MainWindowCFG::on_TG_adress_combobox_currentIndexChanged(int index)
 void MainWindowCFG::on_TG_U4_4A_combobox_currentIndexChanged(int index)
 {
    Name_update();
+}
+
+void MainWindowCFG::on_edit_unit_button_clicked()
+{
+    qDebug()<<"[on_edit_unit_button_clicked]";
+    this->func_to_edit_unit();
 }

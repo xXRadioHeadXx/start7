@@ -2548,37 +2548,6 @@
               <string>Вверх</string>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_4">
-             <property name="geometry">
-              <rect>
-               <x>139</x>
-               <y>31</y>
-               <width>130</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>108</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>999</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Изменить</string>
-             </property>
-            </widget>
             <widget class="QPushButton" name="pushButton_moveDown">
              <property name="geometry">
               <rect>
@@ -2709,6 +2678,37 @@
                </property>
               </widget>
              </widget>
+            </widget>
+            <widget class="QPushButton" name="edit_unit_button">
+             <property name="geometry">
+              <rect>
+               <x>139</x>
+               <y>30</y>
+               <width>130</width>
+               <height>30</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>108</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>999</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Изменить</string>
+             </property>
             </widget>
            </widget>
            <widget class="my_combobox" name="uName_combobox">

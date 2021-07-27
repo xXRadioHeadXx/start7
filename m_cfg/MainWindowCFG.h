@@ -116,6 +116,8 @@ private:
 
     void Name_update();
 
+    void func_to_edit_unit();
+
     QString get_dd(UnitNode* unit);
     QString get_y4(UnitNode* unit);
 //    QList<udev_device*> listDevices();
@@ -618,6 +620,8 @@ private slots:
     void YZ_MONOLIT();
     void setAlarmMsgOn();
 
+    bool set_AdamOff_for_all_IU_BL_IP_instances(UnitNode* un);
+
     void setAdamOff();
 
 
@@ -647,7 +651,7 @@ private slots:
     void on_treeView_clicked(const QModelIndex &index);
 
 
-    void on_pushButton_4_clicked();
+
     void on_actionCreate_triggered();
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
@@ -732,5 +736,6 @@ private slots:
    void on_DD_T4K_M_combobox_currentIndexChanged(int index);
    void on_TG_adress_combobox_currentIndexChanged(int index);
    void on_TG_U4_4A_combobox_currentIndexChanged(int index);
+   void on_edit_unit_button_clicked();
 };
 #endif // MAINWINDOWCFG_H
