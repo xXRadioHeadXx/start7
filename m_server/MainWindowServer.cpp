@@ -685,12 +685,12 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 {
     QModelIndex index = ui->treeView->indexAt(pos);
     if (!index.isValid()) {
-        this->selUN = nullptr;
+        this->selUN = QSharedPointer<UnitNode>(nullptr);
         selIndex = QModelIndex();
         return;
     }
     QSharedPointer<UnitNode>  sel = this->modelTreeUN->clickedUN(index);
-    if(nullptr == sel)
+    if(sel.isNull())
         return;
 
     this->selUN = sel;
@@ -929,8 +929,10 @@ void MainWindowServer::on_actionUNOn_triggered()
     const auto& setUn = Utils::findeSetAutoOnOffUN(selUN);
     if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, selUN, true);
-    else
-        this->m_portManager->requestAutoOnOffIUCommand(false, setUn.values().first());
+    else {
+        auto un = setUn.values().first();
+        this->m_portManager->requestAutoOnOffIUCommand(false, un);
+    }
 }
 
 void MainWindowServer::on_actionUNOff_triggered()

@@ -68,7 +68,7 @@ public:
     static void fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
-    static QSet<QSharedPointer<UnitNode> > findeSetAutoOnOffUN(QSharedPointer<UnitNode> un);
+    static QSet<QSharedPointer<UnitNode> > findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un);
     static QSize getQTableWidgetContentSize(QTableWidget * const table);
 
     static char reverseBits( char number );

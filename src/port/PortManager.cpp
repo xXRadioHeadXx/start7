@@ -629,6 +629,9 @@ void PortManager::requestAutoOnOffIUCommand(QSharedPointer<UnitNode> selUN)
 }
 
 void PortManager::requestAutoOnOffIUCommand(bool out, QSharedPointer<UnitNode> selUN) {
+    if(selUN.isNull())
+        return;
+
     if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
         QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
         for(const auto& pt : as_const(m_udpPortsVector)) {
