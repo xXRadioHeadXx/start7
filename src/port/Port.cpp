@@ -38,7 +38,10 @@ void Port::beatProcDK_wTW()
     timerBeatProcDK.stop();
 }
 
-bool Port::readPass = false;
+#ifdef QT_DEBUG
+    bool Port::readPass = true;
+#endif
+
 
 Port::Port(const AbstractPort::Protocol &protocol, QObject *parent, const int index, DataBaseManager *dbm) : AbstractPort(protocol, parent), portIndex(index), m_dbm(dbm) {}
 
@@ -216,8 +219,10 @@ void Port::readUdpDatagrams()
         QHostAddress ip4Address(ip6Address.toIPv4Address(&conversionOK));
         if (conversionOK && getStHostAddress().contains(ip4Address) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
         {
-            if(readPass)
-                continue;
+#ifdef QT_DEBUG
+    if(readPass)
+        continue;
+#endif
             pushLocalReadQueue(DataQueueItem(datagram, ip4Address, port, getPortIndex()));
 //            // временно -->
 //            if(Utils::isSavedMsg(datagram)) {

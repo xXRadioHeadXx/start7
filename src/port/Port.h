@@ -32,7 +32,10 @@ private:
     bool procDK = false;
 
 public:
+#ifdef QT_DEBUG
     static bool readPass;
+#endif
+
 
     explicit Port(const AbstractPort::Protocol &protocol = AbstractPort::UDP, QObject *parent = nullptr, const int index = 0, DataBaseManager *dbm = nullptr);
     virtual ~Port();
