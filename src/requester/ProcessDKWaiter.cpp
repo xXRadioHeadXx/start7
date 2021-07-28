@@ -196,7 +196,7 @@ void ProcessDKWaiter::init() {
         addLsTrackedUN(getUnReciver());
     }
 
-    setTimeIntervalWaiteFirst(11000);
+    setTimeIntervalWaiteFirst(11'000);
     setTimeIntervalRequest(500);
 
     connect(this, SIGNAL(importantBeatStatus()), SignalSlotCommutator::getInstance(), SLOT(emitEndDKWait()));

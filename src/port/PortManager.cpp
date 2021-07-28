@@ -73,6 +73,58 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
         }
     }
 
+    timerFirstWakeUp.singleShot(20'000, [](){
+        for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
+            if(10 != un->getPublishedState())
+                continue;
+
+            QSharedPointer<UnitNode> target;
+
+            if(1 == un->getMetaEntity()) {
+                for(const auto& dbl : as_const(un->getDoubles())) {
+                    if(1 != dbl->getMetaEntity()) {
+                        target = dbl;
+                        break;
+                    }
+                }
+            } else {
+                target = un;
+            }
+
+            if(target.isNull())
+                continue;
+
+            if((target->getControl() || TypeUnitNode::IU_BL_IP == target->getType())) {
+                JourEntity msg;
+                msg.setObject(target->getName());
+                msg.setType(10);
+                msg.setObjecttype(target->getType());
+                msg.setD1(target->getNum1());
+                msg.setD2(target->getNum2());
+                msg.setD3(target->getNum3());
+                msg.setDirection(target->getDirection());
+                msg.setComment(tr("Нет связи"));
+                DataBaseManager::insertJourMsg_wS(msg);
+                GraphTerminal::sendAbonentEventsAndStates(target, msg);
+
+                SoundAdjuster::instance().playAlarm2();
+            }
+
+            for(const auto& uncld : as_const(un->getListChilde())) {
+                unLostedConnect(uncld);
+            }
+
+            for(auto scr : as_const(getLsSCR())) {
+                if(scr->getUnReciver() == un && BeatStatus::Unsuccessful == scr->getBeatStatus()) {
+                    scr->startFirstRequest();
+                    break;
+                }
+            }
+
+            SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        }
+    });
 }
 
 QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
@@ -828,7 +880,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
 
         if(out) {
             msg.setComment(tr("Удал. ком. ") + (value ? tr("Вкл") : tr("Выкл")));
-            msg.setType((value ? 1000 : 1001));
+            msg.setType((value ? 1'000 : 1'001));
         } else {
             msg.setComment(tr("Послана ком. ") + (value ? tr("Вкл") : tr("Выкл")));
             msg.setType((value ? 130 : 131));
@@ -983,7 +1035,7 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
 //                                ar->startSecondRequest();
                     continue;
                 } else if(BeatStatus::Waite == ar->getBeatStatus()) {
-                    ar->startSecondRequest(3000);
+                    ar->startSecondRequest(3'000);
                 } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) {
 //                                ar->startEnd();
                     continue;
@@ -3226,7 +3278,7 @@ void PortManager::manageOverallReadQueue()
     }
 }
 
-void PortManager::unLostedConnect(QSharedPointer<UnitNode> un) const
+void PortManager::unLostedConnect(QSharedPointer<UnitNode> un)
 {
 //    //qDebug() << "PortManager::unLostedConnect(" << un << ")";
     if(1 == un->isConnected()) {

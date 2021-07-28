@@ -42,7 +42,7 @@ private:
     DataQueueItem endMsg;
     QPair<QString, QString> ipPort;
     int portIndex = -1;
-    int timeIntervalRequest = 1000;
+    int timeIntervalRequest = 1'000;
     int timeIntervalWaiteFirst = 0;
     int timeIntervalWaiteSecond = 0;
     AbstractPort * ptrPort = nullptr;
@@ -69,7 +69,7 @@ public:
 private:
     QSharedPointer<QTimer> timerFirst;
 protected:
-    void timerFirstStart(int interval = 1000);
+    void timerFirstStart(int interval = 1'000);
     void timerFirstStop();
     virtual DataQueueItem makeFirstMsg() = 0;
 public slots:
@@ -97,7 +97,7 @@ public slots:
 private:
     QSharedPointer<QTimer> timerSecond;;
 protected:
-    void timerSecondStart(int interval = 1000);
+    void timerSecondStart(int interval = 1'000);
     void timerSecondStop();
     virtual DataQueueItem makeSecondMsg() = 0;
 public slots:
@@ -124,7 +124,7 @@ public slots:
 private:
     QSharedPointer<QTimer> timerEnd;
 protected:
-    void timerEndStart(int interval = 1000);
+    void timerEndStart(int interval = 1'000);
     void timerEndStop();
     virtual DataQueueItem makeEndMsg() = 0;
 public slots:

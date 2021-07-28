@@ -398,31 +398,31 @@ int UnitNodeCFG::adamOffToMs(int adamOff)
             interval = 0;
             break;
         case 1:
-            interval = 5000;
+            interval = 5'000;
             break;
         case 2:
-            interval = 10000;
+            interval = 10'000;
             break;
         case 3:
-            interval = 30000;
+            interval = 30'000;
             break;
         case 4:
-            interval = 60000;
+            interval = 60'000;
             break;
         case 5:
-            interval = 300000;
+            interval = 300'000;
             break;
         case 6:
-            interval = 600000;
+            interval = 600'000;
             break;
         case 7:
-            interval = 1200000;
+            interval = 1'200'000;
             break;
         case 8:
-            interval = 2400000;
+            interval = 2'400'000;
             break;
         case 9:
-            interval = 3600000;
+            interval = 3'600'000;
             break;
         default:
             interval = 0;

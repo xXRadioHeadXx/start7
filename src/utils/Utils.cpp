@@ -907,9 +907,9 @@ void Utils::fillDiagnosticTableTG(QTableWidget * const table, const QSharedPoint
 
         if(1 == swp34.C(ci + 1).isOffFlt1() && 1 == swp34.C(ci + 1).isOffFlt2() && 1 == swp34.C(ci + 1).isOffFlt3()) {
             setCellTextBackgroundColorForegroundBold( table, (7 + 4 * ci),1, (QObject::tr("Выкл")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), false);
-        } else if(50001 == swp32.C(ci + 1).voltage()) {
+        } else if(50'001 == swp32.C(ci + 1).voltage()) {
             setCellTextBackgroundColorForegroundBold( table, (7 + 4 * ci),1, (QObject::tr("Обрыв кабеля")), cellBlue, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
-        } else if(50000 == swp32.C(ci + 1).voltage()) {
+        } else if(50'000 == swp32.C(ci + 1).voltage()) {
             setCellTextBackgroundColorForegroundBold( table, (7 + 4 * ci),1, (QObject::tr("Замыкание кабеля")), cellBlue, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         } else if(1 == swp32.C(ci + 1).isFault()) {
             setCellTextBackgroundColorForegroundBold( table, (7 + 4 * ci),1, (QObject::tr("Неисправность")), cellBlue, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);

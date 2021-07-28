@@ -11,11 +11,11 @@ void Sheduler::start() const
 {
     const int currSec = QTime(0, 0, 0).secsTo(QTime::currentTime());
     const int runSec = QTime(0, 0, 0).secsTo(runTime);
-    const int DAY = 86400;
+    const int DAY = 86'400;
 
     const int nextSec = (currSec > runSec) ? (DAY + runSec - currSec) : (runSec - currSec);
 
-    timer.singleShot(nextSec * 1000, this, SLOT(regularRunSlot()));
+    timer.singleShot(nextSec * 1'000, this, SLOT(regularRunSlot()));
 }
 
 void Sheduler::stop()
@@ -46,5 +46,5 @@ void Sheduler::regularRunSlot() const
 
     const int nextSec = (currSec > runSec) ? (DAY + runSec - currSec) : (runSec - currSec);
 
-    timer.singleShot(nextSec * 1000, this, SLOT(regularRunSlot()));
+    timer.singleShot(nextSec * 1'000, this, SLOT(regularRunSlot()));
 }

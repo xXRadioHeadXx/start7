@@ -31,6 +31,8 @@ private:
     static QList<QSharedPointer<AbstractRequester> > lsSCR;
     static QList<QSharedPointer<AbstractRequester> > lsWaiter;
 
+    QTimer timerFirstWakeUp;
+
     void setupPort(const int index = 0);
     void setupPort(AbstractPort *port);
 //    ProcessDKWaiter * addProcessDKWaiter(QHostAddress address, int port, int index);
@@ -141,7 +143,7 @@ public slots:
 
 
     void manageOverallReadQueue();
-    void unLostedConnect(QSharedPointer<UnitNode> un) const;
+    static void unLostedConnect(QSharedPointer<UnitNode> un);
 };
 
 #endif // PORTMANAGER_H

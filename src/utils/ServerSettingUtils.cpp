@@ -81,7 +81,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         return getListTreeUnitNodes();
 
     {
-        QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
+        auto tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
 
         tmpUN->setType(TypeUnitNode::SYSTEM);
         tmpUN->setNum1(0);
@@ -90,6 +90,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         tmpUN->setLevel(0);
         tmpUN->setName(QObject::tr("Система"));
         tmpUN->setMetaNames("Obj_0");
+        tmpUN->setPublishedState(10);
 
         ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
         root = tmpUN;
@@ -104,7 +105,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse";
 
         if(0 != ini.GetSection(strGroup.toStdString().c_str())) {
-            QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare((TypeUnitNode)codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Type")).toInt(), root);
+            auto tmpUN = UnitNodeFactory::makeShare(static_cast<TypeUnitNode>(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Type")).toInt()), root);
             tmpUN->setMetaNames(strGroup);
 
             QString isEnable = codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Enable"));
@@ -155,6 +156,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
             tmpUN->setIcon3Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon3Path")));
             tmpUN->setIcon4Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon4Path")));
 
+            tmpUN->setPublishedState(10);
 
             if(!tmpUN->getName().isEmpty())
             {
@@ -225,6 +227,8 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         tmpParentUN->setNum1(static_cast<quint8>(0xFF));
                         tmpParentUN->setControl(false);
                         tmpParentUN->setMetaEntity(1);
+
+                        tmpParentUN->setPublishedState(10);
                         \
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
                         ServerSettingUtils::linkDoubles(tmpParentUN);
@@ -265,6 +269,8 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         tmpParentUN->setControl(false);
                         tmpParentUN->setMetaEntity(1);
 
+                        tmpParentUN->setPublishedState(10);
+
                         getSetMetaRealUnitNodes().insert(tmpParentUN);
                         ServerSettingUtils::linkDoubles(tmpParentUN);
                     }
@@ -302,7 +308,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
             }
 
             if(needAddUI) {
-                QSharedPointer<UnitNode> newMetaUnIuBlIp = UnitNodeFactory::makeShare(TypeUnitNode::IU_BL_IP, parent);
+                auto newMetaUnIuBlIp = UnitNodeFactory::makeShare(TypeUnitNode::IU_BL_IP, parent);
                 newMetaUnIuBlIp->setNum2(un->getNum2());
                 newMetaUnIuBlIp->setUdpPort(un->getUdpPort());
                 newMetaUnIuBlIp->setUdpAdress(un->getUdpAdress());
@@ -313,6 +319,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
                 newMetaUnIuBlIp->setControl(false);
                 newMetaUnIuBlIp->setMetaEntity(1);
+                newMetaUnIuBlIp->setPublishedState(10);
 
                 parent->addChild(newMetaUnIuBlIp);
                 newMetaUnIuBlIp->setParentUN(parent);
@@ -347,7 +354,6 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                 possibleParent->setNum1(static_cast<quint8>(0xFF));
                 possibleParent->setControl(false);
                 possibleParent->setMetaEntity(1);
-                \
             } else if (TypeUnitNode::TG == un->getType()) {
                 possibleParent = UnitNodeFactory::makeShare(TypeUnitNode::TG_Base);
                 possibleParent->setType(TypeUnitNode::TG_Base);
@@ -366,6 +372,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         }
 
         if(!possibleParent.isNull()) {
+            possibleParent->setPublishedState(10);
             getSetMetaRealUnitNodes().insert(possibleParent);
             ServerSettingUtils::linkDoubles(possibleParent);
             un->setParentUN(possibleParent);
@@ -399,7 +406,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointe
 
 
     {
-        QSharedPointer<UnitNode> tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
+        auto tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
 
         tmpUN->setType(TypeUnitNode::SYSTEM);
         tmpUN->setNum1(0);
@@ -466,7 +473,7 @@ bool ServerSettingUtils::loadTreeUnitNodes(UnitNode*/*root*/, UnitNode*/*unit*/)
     return true;
 }
 
-QSet<int>  ServerSettingUtils::priorityJoutTyper = {901,902, 20,21,22,23,25,905,1007, 200,10, 904, 12,13,17,18, 110,111,112,113,11, 130,131/*,133*/,134,135,136,137,140,141,150,151,1000,1001,1002,1003,1004,1007/*,1133*/,1136,1137,1902, 11,13};
+QSet<int>  ServerSettingUtils::priorityJoutTyper = {901,902, 20,21,22,23,25,905,1'007, 200,10, 904, 12,13,17,18, 110,111,112,113,11, 130,131/*,133*/,134,135,136,137,140,141,150,151,1'000,1'001,1'002,1'003,1'004,1'007/*,1133*/,1'136,1'137,1'902, 11,13};
 
 const QSet<int> &ServerSettingUtils::getPriorityJoutTyper()
 {

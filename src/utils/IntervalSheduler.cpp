@@ -9,7 +9,7 @@ IntervalSheduler::IntervalSheduler(const QTime time) :
 
 void IntervalSheduler::start() const
 {
-    timer.singleShot(runInterval * 1000, this, SLOT(regularRunSlot()));
+    timer.singleShot(runInterval * 1'000, this, SLOT(regularRunSlot()));
 }
 
 void IntervalSheduler::stop()
@@ -21,5 +21,5 @@ void IntervalSheduler::regularRunSlot() const
 {
     regularRun();
 
-    timer.singleShot(runInterval * 1000, this, SLOT(regularRunSlot()));
+    timer.singleShot(runInterval * 1'000, this, SLOT(regularRunSlot()));
 }

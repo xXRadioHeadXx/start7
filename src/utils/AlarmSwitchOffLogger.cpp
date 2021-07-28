@@ -58,7 +58,7 @@ void AlarmSwitchOffLogger::run()
             file.write(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss").toLocal8Bit());
             file.close();
 
-            msleep(1000);
+            msleep(1'000);
         }  catch (...) {
 
         }
