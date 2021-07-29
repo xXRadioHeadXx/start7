@@ -2,6 +2,7 @@
 #define SERVERSETTINGUTILS_H
 
 #include <QCoreApplication>
+#include <set>
 
 class UnitNode;
 class QStringList;
@@ -9,7 +10,7 @@ class ServerSettingUtils
 {
 private:
     static QList<QSharedPointer<UnitNode> > listTreeUnitNodes;
-    static QSet<QSharedPointer<UnitNode> > listMetaRealUnitNodes;
+    static std::set<QSharedPointer<UnitNode> > listMetaRealUnitNodes;
 
 public:
     ServerSettingUtils();
@@ -22,21 +23,21 @@ public:
 
     static QList<QSharedPointer<UnitNode> > &getListTreeUnitNodes();
     static QSharedPointer<UnitNode> getTreeUnitNodes(UnitNode*);
-    static QSet<QSharedPointer<UnitNode> > &getSetMetaRealUnitNodes();
+    static std::set<QSharedPointer<UnitNode> > &getSetMetaRealUnitNodes();
     static QSharedPointer<UnitNode> getMetaRealUnitNodes(UnitNode*);
 
     static QVariant getValueSettings(const QString key, const QString group, const QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
     static bool loadTreeUnitNodes(UnitNode* root, UnitNode*unit);
 
-    static QSet<int>  priorityJoutTyper;
+    static std::set<int>  priorityJoutTyper;
 
     static QStringList reasonTemplate;
     static QStringList measureTemplate;
 
     static const QStringList &getReasonTemplate();
     static const QStringList &getMeasureTemplate();
-    static const QSet<int> &getPriorityJoutTyper();
+    static const std::set<int> &getPriorityJoutTyper();
 };
 
 #endif // SERVERSETTINGUTILS_H

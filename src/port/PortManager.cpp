@@ -387,9 +387,9 @@ void PortManager::startStatusRequest(){
 
     clearLsSCR();
 
-    QSet<QSharedPointer<UnitNode> > tmpSet;
+    std::set<QSharedPointer<UnitNode> > tmpSet;
     for(const auto& un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
-        if(ServerSettingUtils::getSetMetaRealUnitNodes().contains(un) &&
+        if(ServerSettingUtils::getSetMetaRealUnitNodes().end() != ServerSettingUtils::getSetMetaRealUnitNodes().find(un) &&
           (TypeUnitNode::BL_IP == un->getType() ||
            TypeUnitNode::RLM_C == un->getType() ||
            TypeUnitNode::RLM_KRL == un->getType() ||
@@ -400,7 +400,7 @@ void PortManager::startStatusRequest(){
                   TypeUnitNode::TG == un->getType()) {
             if(!un->getParentUN().isNull() &&
                (TypeUnitNode::BL_IP == un->getParentUN()->getType() || TypeUnitNode::TG_Base == un->getParentUN()->getType()) &&
-               ServerSettingUtils::getSetMetaRealUnitNodes().contains(un->getParentUN())) {
+               ServerSettingUtils::getSetMetaRealUnitNodes().end() != ServerSettingUtils::getSetMetaRealUnitNodes().find(un->getParentUN())) {
                 tmpSet.insert(un->getParentUN());
             }
         }
@@ -419,7 +419,7 @@ void PortManager::startStatusRequest(){
             AbstractPort * ptrPort = nullptr;
             QPair<QString, QString> unIpPort(un->getUdpAdress(), QString::number(un->getUdpPort()));
             for(const auto& p : as_const(getUdpPortsVector())) {
-                if(Port::typeDefPort(p)->getStIpPort().contains(unIpPort)) {
+                if(Port::typeDefPort(p)->getStIpPort().end() != Port::typeDefPort(p)->getStIpPort().find(unIpPort)) {
                     ptrPort = p;
 //                    qDebug() << "PortManager::startStatusRequest() -- ptrPort " << ptrPort << ":" << unIpPort;
                     break;
@@ -458,7 +458,7 @@ void PortManager::startStatusRequest(){
 
 void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
     if(selUN.isNull()) {
-        QSet<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
+        std::set<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
         for(const QSharedPointer<UnitNode>  &un : lsTmp) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
@@ -468,7 +468,7 @@ void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
             if(!selUN.isNull()) {
                 QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
                 for(const auto& pt : as_const(m_udpPortsVector)) {
-                    if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
+                    if(Port::typeDefPort(pt)->getStIpPort().end() != Port::typeDefPort(pt)->getStIpPort().find(tmpPair)) {
 
                         auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(selUN);
                         tmpCAW->init();
@@ -523,7 +523,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
     //
     QList<QSharedPointer<UnitNode> > lsTrgtUN;
     if(selUN.isNull()) {
-        QSet<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
+        std::set<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
         for(const QSharedPointer<UnitNode>  &un : lsTmp) {
             if(TypeUnitNode::BL_IP == un->getType() ||
                TypeUnitNode::RLM_C == un->getType() ||
@@ -559,7 +559,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
     for(QSharedPointer<UnitNode>  un : lsTrgtUN) {
         QPair<QString, QString> tmpPair(un->getUdpAdress(), QVariant(un->getUdpPort()).toString());
         for(const auto& pt : as_const(m_udpPortsVector)) {
-            if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
+            if(Port::typeDefPort(pt)->getStIpPort().end() != Port::typeDefPort(pt)->getStIpPort().find(tmpPair)) {
 
                 auto tmpPDKW = QSharedPointer<ProcessDKWaiter>::create(un);
                 tmpPDKW->init();
@@ -635,10 +635,10 @@ void PortManager::requestAutoOnOffIUCommand(bool out, QSharedPointer<UnitNode> s
     if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
         QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
         for(const auto& pt : as_const(m_udpPortsVector)) {
-            if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
+            if(Port::typeDefPort(pt)->getStIpPort().end() != Port::typeDefPort(pt)->getStIpPort().find(tmpPair)) {
                 bool needJour = true;
                 for(auto ar : as_const(getLsWaiter())) {
-                    if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN))) {
+                    if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().end() != ar->getUnTarget()->getDoubles().find(selUN))) {
                         ar->timerTripleStop();
                         ar->setBeatStatus(BeatStatus::Unsuccessful);
 
@@ -794,9 +794,9 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
         return; // с этим типом устройств не работаем
 
     // ищем устройство в списке мета и реальных устройств -->
-    if(!ServerSettingUtils::getSetMetaRealUnitNodes().contains(target)) {
+    if(ServerSettingUtils::getSetMetaRealUnitNodes().end() == ServerSettingUtils::getSetMetaRealUnitNodes().find(target)) {
         for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes()))
-            if(un->getDoubles().contains(target)) {
+            if(un->getDoubles().end() != un->getDoubles().find(target)) {
                 target = un;
                 break;
             }
@@ -810,7 +810,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
             for(auto ar : as_const(getLsWaiter())) {
                 if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) &&
 //                   (ar->getUnReciver() == reciverIU) &&
-                   (ar->getUnTarget() == target || ar->getUnTarget()->getDoubles().contains(target))) {
+                   (ar->getUnTarget() == target || ar->getUnTarget()->getDoubles().end() != ar->getUnTarget()->getDoubles().find(target))) {
                     ar->timerTripleStop();
                     ar->setBeatStatus(BeatStatus::Unsuccessful);
                 }
@@ -914,8 +914,8 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     if(0 >= cntTrItm)
         return result;
 
-    QSet<QPair<QString, QString> > stIpPort;
-    QSet<QString> stPort;
+    std::set<QPair<QString, QString> > stIpPort;
+    std::set<QString> stPort;
 
     for(int index = 0; index < cntTrItm; index++)
     {
@@ -1470,7 +1470,7 @@ DataQueueItem PortManager::parcingStatusWord0x42(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(const QSharedPointer<UnitNode>  &un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress()))
         || item.port() != un->getUdpPort()
@@ -1610,7 +1610,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(const QSharedPointer<UnitNode>  &un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress()))
         || item.port() != un->getUdpPort()
@@ -1700,7 +1700,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::RLM_C != un->getType()
         && TypeUnitNode::RLM_KRL != un->getType()
@@ -2422,7 +2422,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(1)";
@@ -2686,7 +2686,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(1)";
@@ -2953,7 +2953,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(1)";

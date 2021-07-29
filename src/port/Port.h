@@ -14,6 +14,12 @@ class Port :
 {
     Q_OBJECT
 private:
+    struct QHostAddressComparator {
+        bool operator()(const QHostAddress &lhs, const QHostAddress &rhs) const
+        {
+            return lhs.toIPv4Address() < rhs.toIPv4Address();
+        }
+    };
 
     QSharedPointer<QAbstractSocket> m_ptrSocket;
     QString strPort;
@@ -21,8 +27,9 @@ private:
     QByteArray readArray;
     const int portIndex;
     QSharedPointer<DataBaseManager> m_dbm;
-    QSet<QPair<QString, QString> > stIpPort;
-    QSet<QHostAddress> stHostAddress;
+    std::set<QPair<QString, QString> > stIpPort;
+
+    std::set<QHostAddress, QHostAddressComparator> stHostAddress;
 
     QList<DataQueueItem> localReadQueue;
     QList<DataQueueItem> localWriteQueue;
@@ -68,12 +75,12 @@ public:
 
     int getPortIndex() const;
 
-    QSet<QPair<QString, QString> > getStIpPort() const;
-    void setSetIpPort(const QSet<QPair<QString, QString> > &value);
+    std::set<QPair<QString, QString> > getStIpPort() const;
+    void setSetIpPort(const std::set<QPair<QString, QString> > &value);
     void addToSetIpPort(const QPair<QString, QString> &value);
 
-    QSet<QHostAddress> getStHostAddress() const;
-    void setStHostAddress(const QSet<QHostAddress> &value);
+    std::set<QHostAddress, QHostAddressComparator> getStHostAddress() const;
+    void setStHostAddress(const std::set<QHostAddress, QHostAddressComparator> &value);
 
     QList<DataQueueItem> getLocalReadQueue() const;
     QList<DataQueueItem> popLocalReadQueue();

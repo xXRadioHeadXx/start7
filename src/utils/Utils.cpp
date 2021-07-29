@@ -1189,30 +1189,31 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
     // fill <--
 }
 
-QSet<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un)
+std::set<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un)
 {
-    QSet<QSharedPointer<UnitNode> > unSetTmp;
+    std::set<QSharedPointer<UnitNode> > unSetTmp;
     if(TypeUnitNode::IU_BL_IP != un->getType()) {
         return unSetTmp;
     }
     unSetTmp.insert(un);
-    unSetTmp = unSetTmp + un->getDoubles();
-    for(const auto& unDouble : unSetTmp.values()) {
-//        //qDebug() << "itr :" << unSetTmp;
-//        //qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
-        if(!unDouble->treeParent().isNull()) {
-            if(TypeUnitNode::SD_BL_IP == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
-            || TypeUnitNode::RLM_KRL == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
-            || TypeUnitNode::RLM_C == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
-            || TypeUnitNode::TG == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()) {
+    unSetTmp.insert(un->getDoubles().begin(), un->getDoubles().end());
+
+    for(auto it = unSetTmp.begin(); it != unSetTmp.end(); ) {
+        if(!(*it)->treeParent().isNull()) {
+            if(TypeUnitNode::SD_BL_IP == qSharedPointerCast<UnitNode>((*it)->treeParent())->getType()
+            || TypeUnitNode::RLM_KRL == qSharedPointerCast<UnitNode>((*it)->treeParent())->getType()
+            || TypeUnitNode::RLM_C == qSharedPointerCast<UnitNode>((*it)->treeParent())->getType()
+            || TypeUnitNode::TG == qSharedPointerCast<UnitNode>((*it)->treeParent())->getType()) {
+                ++it;
 //                //qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->toString();
             } else {
-                unSetTmp.remove(unDouble);
+                it = unSetTmp.erase(it);
             }
         } else {
-            unSetTmp.remove(unDouble);
+            it = unSetTmp.erase(it);
         }
     }
+
 //    //qDebug() << "res :" << unSetTmp;
     return unSetTmp;
 }
