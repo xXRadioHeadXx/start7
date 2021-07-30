@@ -338,10 +338,10 @@ void AbstractRequester::endRequest() {
 }
 //Step#end <--
 
-QSharedPointer<UnitNode> AbstractRequester::getUnTarget() const { return unTarget; }
+QSharedPointer<UnitNode> AbstractRequester::getUnTarget() { return unTarget; }
 void AbstractRequester::setUnTarget(QSharedPointer<UnitNode> value) { unTarget = value; }
 
-QSharedPointer<UnitNode> AbstractRequester::getUnReciver() const  { return unReciver; }
+QSharedPointer<UnitNode> AbstractRequester::getUnReciver() { return unReciver; }
 void AbstractRequester::setUnReciver(QSharedPointer<UnitNode> value) { unReciver = value; }
 
 DataQueueItem AbstractRequester::getFirstMsg() const { return firstMsg; }

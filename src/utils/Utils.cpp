@@ -1189,7 +1189,7 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
     // fill <--
 }
 
-std::set<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un)
+std::set<QSharedPointer<UnitNode> > Utils::findeSetAutoOnOffUN(const QSharedPointer<UnitNode> un)
 {
     std::set<QSharedPointer<UnitNode> > unSetTmp;
     if(TypeUnitNode::IU_BL_IP != un->getType()) {

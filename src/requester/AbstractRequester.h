@@ -145,10 +145,10 @@ public:
     //Step#end <--
 
 public:
-    QSharedPointer<UnitNode> getUnTarget() const;
+    QSharedPointer<UnitNode> getUnTarget();
     void setUnTarget(QSharedPointer<UnitNode> value);
 
-    QSharedPointer<UnitNode> getUnReciver() const;
+    QSharedPointer<UnitNode> getUnReciver();
     void setUnReciver(QSharedPointer<UnitNode> value);
 
     DataQueueItem getFirstMsg() const;

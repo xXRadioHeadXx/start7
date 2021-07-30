@@ -431,7 +431,7 @@ void PortManager::startStatusRequest(){
         }
     }
 
-//    for(const QSharedPointer<UnitNode> &un : as_const(tmpSet)) {
+//    for(const QSharedPointer<UnitNode> un : as_const(tmpSet)) {
 //        qDebug() << "tmpSet -- " << un->toString();
 //    }
 
@@ -970,7 +970,7 @@ std::list<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     return result;
 }
 
-bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procUzoBLIPStatusWord0x41() -->";
     if((TypeUnitNode::SD_BL_IP != currentUN->getType() && TypeUnitNode::IU_BL_IP != currentUN->getType())
@@ -1207,7 +1207,7 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
     return true;
 }
 
-bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procIUBLIPStatusWord0x41() -->";
     if(TypeUnitNode::IU_BL_IP != currentUN->getType()
@@ -1304,7 +1304,7 @@ bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     return true;
 }
 
-bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -->";
     if(TypeUnitNode::SD_BL_IP != currentUN->getType()
@@ -1525,7 +1525,7 @@ DataQueueItem PortManager::parcingStatusWord0x42(DataQueueItem &item, DataQueueI
 
 }
 
-bool PortManager::procDkBLIPStatusWord0x42(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procDkBLIPStatusWord0x42(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procDkBLIPStatusWord0x42() -->";
     if(0 == currentUN->getDK()
@@ -1547,7 +1547,7 @@ bool PortManager::procDkBLIPStatusWord0x42(const QSharedPointer<UnitNode> &curre
     return true;
 }
 
-bool PortManager::procSDBLIPStatusWord0x42(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procSDBLIPStatusWord0x42(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
     //    qDebug() << "PortManager::procSDBLIPStatusWord0x42() -->";
     if(TypeUnitNode::SD_BL_IP != currentUN->getType()
@@ -1669,7 +1669,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
 
 }
 
-bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procDkBLIPStatusWord0x41() -->";
     if(0 == currentUN->getDK()
@@ -1766,7 +1766,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
     return resultRequest;
 }
 
-bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
     if(!currentUN->getDkInvolved()) {
         return false;
@@ -1849,7 +1849,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     return true;
 }
 
-bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procRlmStatusWord0x31() -->";
     if(TypeUnitNode::RLM_KRL != currentUN->getType()
@@ -2053,7 +2053,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     return true;
 }
 
-bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procRlmCStatusWord0x31() -->";
     if(TypeUnitNode::RLM_C != currentUN->getType()
@@ -2244,7 +2244,7 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     return true;
 }
 
-bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procTgStatusWord0x31() -->";
     if(TypeUnitNode::TG != currentUN->getType()
@@ -2482,7 +2482,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
     return resultRequest;
 }
 
-bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
     if(!currentUN->getDkInvolved() || TypeUnitNode::TG != currentUN->getType()) {
         return false;
@@ -2550,7 +2550,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     return true;
 }
 
-bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procTgStatusWord0x32() -->";
     if(TypeUnitNode::TG != currentUN->getType()
@@ -2746,7 +2746,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
     return resultRequest;
 }
 
-bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procDkStatusWord0x33 -->";
     if(!currentUN->getDkInvolved() || TypeUnitNode::TG != currentUN->getType()) {
@@ -2817,7 +2817,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     return true;
 }
 
-bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procTgStatusWord0x33() -->";
     if(TypeUnitNode::TG != currentUN->getType()
@@ -3013,7 +3013,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
     return resultRequest;
 }
 
-bool PortManager::procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procDkStatusWord0x34(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procDkStatusWord0x34 -->";
     if(!currentUN->getDkInvolved()
@@ -3033,7 +3033,7 @@ bool PortManager::procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN
     return true;
 }
 
-bool PortManager::procTgStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord)
+bool PortManager::procTgStatusWord0x34(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord)
 {
 //    qDebug() << "PortManager::procTgStatusWord0x34() -->";
     if(TypeUnitNode::TG != currentUN->getType()

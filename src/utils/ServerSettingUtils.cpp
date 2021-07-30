@@ -43,10 +43,10 @@ std::list<QSharedPointer<UnitNode> > ServerSettingUtils::getLinkedUI(QSharedPoin
     return result;
 }
 
-int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> &un)
+int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> un)
 {
     int result = 0;
-    for(const QSharedPointer<UnitNode> &dblUN : as_const(getListTreeUnitNodes())) {
+    for(const QSharedPointer<UnitNode> dblUN : as_const(getListTreeUnitNodes())) {
         if(dblUN->getType() == un->getType() &&
                 dblUN->getUdpAdress() == un->getUdpAdress() &&
                 dblUN->getUdpPort() == un->getUdpPort() &&
@@ -433,7 +433,7 @@ std::list<QSharedPointer<UnitNode> > & ServerSettingUtils::getListTreeUnitNodes(
 
 QSharedPointer<UnitNode> ServerSettingUtils::getTreeUnitNodes(UnitNode* target)
 {
-    for(QSharedPointer<UnitNode> & un : getListTreeUnitNodes()) {
+    for(QSharedPointer<UnitNode>  un : getListTreeUnitNodes()) {
         if(target == un.data()) {
             return un;
         }
@@ -448,7 +448,7 @@ std::set<QSharedPointer<UnitNode> > & ServerSettingUtils::getSetMetaRealUnitNode
 
 QSharedPointer<UnitNode> ServerSettingUtils::getMetaRealUnitNodes(UnitNode* target)
 {
-    for(const QSharedPointer<UnitNode> & un : getSetMetaRealUnitNodes()) {
+    for(const QSharedPointer<UnitNode>  un : getSetMetaRealUnitNodes()) {
         if(target == un.data()) {
             return un;
         }

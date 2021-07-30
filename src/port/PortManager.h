@@ -40,33 +40,33 @@ private:
     static std::list<AbstractPort *> loadPortsUdpObj(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
 
     static DataQueueItem parcingStatusWord0x42(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkBLIPStatusWord0x42(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procSDBLIPStatusWord0x42(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procDkBLIPStatusWord0x42(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procSDBLIPStatusWord0x42(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
 
     static DataQueueItem parcingStatusWord0x31(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procDkStatusWord0x31(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procRlmStatusWord0x31(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procRlmCStatusWord0x31(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procTgStatusWord0x31(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
 
     static DataQueueItem parcingStatusWord0x32(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procDkStatusWord0x32(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procTgStatusWord0x32(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
 
 
     static DataQueueItem parcingStatusWord0x33(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procDkStatusWord0x33(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procTgStatusWord0x33(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
 
     static DataQueueItem parcingStatusWord0x34(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procTgStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
+    static bool procDkStatusWord0x34(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
+    static bool procTgStatusWord0x34(const QSharedPointer<UnitNode> currentUN, const StateWord &stateWord);
 
     static void procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous);
 

@@ -17,7 +17,7 @@ public:
 
     static std::list<QSharedPointer<UnitNode> > getLinkedUI(QSharedPointer<UnitNode> un);
 
-    static int linkDoubles(QSharedPointer<UnitNode> &un);
+    static int linkDoubles(QSharedPointer<UnitNode> un);
     static std::list<QSharedPointer<UnitNode> > loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
     static std::list<QSharedPointer<UnitNode> > loadEmptyTree(QSharedPointer<UnitNode> root);
 

@@ -17,7 +17,7 @@ MultiUNStatusConnectRequester::~MultiUNStatusConnectRequester()
     Port::typeDefPort(getPtrPort())->setProcDK(false);
 }
 
-std::list<QSharedPointer<UnitNode> > MultiUNStatusConnectRequester::getLsTrackedUN() const
+std::list<QSharedPointer<UnitNode> > &MultiUNStatusConnectRequester::getLsTrackedUN()
 {
     return lsTrackedUN;
 }
@@ -68,7 +68,7 @@ void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  val
 //    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN <--";
 }
 
-QSharedPointer<UnitNode> MultiUNStatusConnectRequester::previousTrackedUN() const
+QSharedPointer<UnitNode> MultiUNStatusConnectRequester::previousTrackedUN()
 {
     if(1 < getLsTrackedUN().size())
     {
@@ -84,19 +84,16 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::previousTrackedUN() cons
             --it;
 
         return *it;
-    } else if(1 == getLsTrackedUN().size()) {
-        return getLsTrackedUN().front();
     }
-
-    return QSharedPointer<UnitNode>::create();
+    return getLsTrackedUN().front();
 }
 
-QSharedPointer<UnitNode> MultiUNStatusConnectRequester::currentTrackedUN() const
+QSharedPointer<UnitNode> MultiUNStatusConnectRequester::currentTrackedUN()
 {
     return getUnReciver();
 }
 
-QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
+QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN()
 {
 //    qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() -->";
     if(1 < getLsTrackedUN().size())
@@ -113,11 +110,9 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
             ++it;
 
         return *it;
-    } else if(1 == getLsTrackedUN().size()) {
-        return getLsTrackedUN().front();
     }
 //    qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() null <--";
-    return QSharedPointer<UnitNode>::create();
+    return getLsTrackedUN().front();
 }
 
 int MultiUNStatusConnectRequester::optimalTimeIntervalRequest(QSharedPointer<UnitNode> un) const

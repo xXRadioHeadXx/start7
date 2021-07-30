@@ -86,7 +86,7 @@ private:
 public:
 
     struct Comparator {
-        bool operator()(const QSharedPointer<UnitNode> &lhs, const QSharedPointer<UnitNode> &rhs) const
+        bool operator()(const QSharedPointer<UnitNode> lhs, const QSharedPointer<UnitNode> rhs) const
         {
             if(lhs.isNull() || rhs.isNull())
                 return false;

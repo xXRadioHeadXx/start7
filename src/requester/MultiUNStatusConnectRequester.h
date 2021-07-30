@@ -19,13 +19,13 @@ public:
 
     virtual void init() override;
 
-    std::list<QSharedPointer<UnitNode>> getLsTrackedUN() const;
+    std::list<QSharedPointer<UnitNode>> &getLsTrackedUN();
     void setLsTrackedUN(const std::list<QSharedPointer<UnitNode>> &value);
     void addLsTrackedUN(QSharedPointer<UnitNode> value);
 
-    QSharedPointer<UnitNode> previousTrackedUN() const;
-    QSharedPointer<UnitNode> currentTrackedUN() const;
-    QSharedPointer<UnitNode> nextTrackedUN() const;
+    QSharedPointer<UnitNode> previousTrackedUN();
+    QSharedPointer<UnitNode> currentTrackedUN();
+    QSharedPointer<UnitNode> nextTrackedUN();
 
     int optimalTimeIntervalRequest(QSharedPointer<UnitNode> un) const;
 
