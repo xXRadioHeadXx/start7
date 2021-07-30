@@ -155,14 +155,14 @@ private:
     QSharedPointer<UnitNode> selUN;
     QModelIndex selIndex;
     JourEntity selMsg;
-    QList<JourEntity> listSelMsg;
+    std::list<JourEntity> listSelMsg;
 //    QTranslator *ruTranslator;
 
     QTimer quasiProgressBeat;
     int waitIntervalProgressBar;
     float wasIntervalProgressBar;
 
-    QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
+    std::vector<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
 
     QString unSqlSelect;
     int beginSelectRow = 2147483647, endSelectRow = -1;

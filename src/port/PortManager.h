@@ -22,14 +22,14 @@ private:
 
     QSharedPointer<DataBaseManager> m_dbm;
 
-    static QList<AbstractPort *> m_udpPortsVector;
+    static std::list<AbstractPort *> m_udpPortsVector;
     static GraphTerminal * graphTerminal;
 
-    QList<DataQueueItem> overallReadQueue;
-    QList<DataQueueItem> overallWriteQueue;
+    std::list<DataQueueItem> overallReadQueue;
+    std::list<DataQueueItem> overallWriteQueue;
 
-    static QList<QSharedPointer<AbstractRequester> > lsSCR;
-    static QList<QSharedPointer<AbstractRequester> > lsWaiter;
+    static std::list<QSharedPointer<AbstractRequester> > lsSCR;
+    static std::list<QSharedPointer<AbstractRequester> > lsWaiter;
 
     QTimer timerFirstWakeUp;
 
@@ -37,7 +37,7 @@ private:
     void setupPort(AbstractPort *port);
 //    ProcessDKWaiter * addProcessDKWaiter(QHostAddress address, int port, int index);
     static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
-    static QList<AbstractPort *> loadPortsUdpObj(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
+    static std::list<AbstractPort *> loadPortsUdpObj(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
     static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
     static bool procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
@@ -86,29 +86,29 @@ public:
 
     bool preparePort(QString ip, QString port, int index);
 
-    QList<DataQueueItem> getOverallReadQueue() const;
-    QList<DataQueueItem> popOverallReadQueue();
-    void setOverallReadQueue(const QList<DataQueueItem> &value);
-    void pushOverallReadQueue(const QList<DataQueueItem> &value);
+    std::list<DataQueueItem> &getOverallReadQueue();
+    std::list<DataQueueItem> popOverallReadQueue();
+    void setOverallReadQueue(const std::list<DataQueueItem> &value);
+    void pushOverallReadQueue(const std::list<DataQueueItem> &value);
     void pushOverallReadQueue(const DataQueueItem &value);
 
-    QList<DataQueueItem> getOverallWriteQueue() const;
-    QList<DataQueueItem> popOverallWriteQueue();
-    void setOverallWriteQueue(const QList<DataQueueItem> &value);
-    void pushOverallWriteQueue(const QList<DataQueueItem> &value);
+    std::list<DataQueueItem> &getOverallWriteQueue();
+    std::list<DataQueueItem> popOverallWriteQueue();
+    void setOverallWriteQueue(const std::list<DataQueueItem> &value);
+    void pushOverallWriteQueue(const std::list<DataQueueItem> &value);
     void pushOverallWriteQueue(const DataQueueItem &value);
 
-    static QList<AbstractPort *> getUdpPortsVector();
+    static std::list<AbstractPort *> getUdpPortsVector();
 
-    static QList<QSharedPointer<AbstractRequester> > getLsWaiter();
-    void setLsWaiter(const QList<QSharedPointer<AbstractRequester> > &value);
+    static std::list<QSharedPointer<AbstractRequester> > getLsWaiter();
+    void setLsWaiter(const std::list<QSharedPointer<AbstractRequester> > &value);
     void appLsWaiter(QSharedPointer<AbstractRequester> value);
     void prependLsWaiter(QSharedPointer<AbstractRequester> value);
     static void removeLsWaiter(QSharedPointer<AbstractRequester> value);
     void clearLsWaiter();
 
-    static QList<QSharedPointer<AbstractRequester> > getLsSCR();
-    void setLsSCR(const QList<QSharedPointer<AbstractRequester> > &value);
+    static std::list<QSharedPointer<AbstractRequester> > getLsSCR();
+    void setLsSCR(const std::list<QSharedPointer<AbstractRequester> > &value);
     void appLsSCR(QSharedPointer<AbstractRequester> value);
     void prependLsSCR(QSharedPointer<AbstractRequester> value);
     void removeLsSCR(QSharedPointer<AbstractRequester> value);
@@ -125,9 +125,9 @@ signals:
     void portChanged(int index);
 
 public slots:
-    QList<DataQueueItem> readAll(const int index);
+    std::list<DataQueueItem> readAll(const int index);
     void write();
-    void write(const QList<DataQueueItem> &data);
+    void write(const std::list<DataQueueItem> &data);
     void write(const DataQueueItem &data);
     void startStatusRequest();
     void requestAlarmReset(QSharedPointer<UnitNode> selUN = nullptr);

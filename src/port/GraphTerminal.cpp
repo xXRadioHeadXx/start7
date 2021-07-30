@@ -50,94 +50,117 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
 
 }
 
-QList<DataQueueItem> GraphTerminal::getOverallReadQueue() const
+std::list<DataQueueItem> GraphTerminal::getOverallReadQueue() const
 {
     return overallReadQueue;
 }
 
-void GraphTerminal::setOverallReadQueue(const QList<DataQueueItem> &value)
+void GraphTerminal::setOverallReadQueue(const std::list<DataQueueItem> &value)
 {
     overallReadQueue = value;
 }
 
-QList<DataQueueItem> GraphTerminal::popOverallReadQueue() {
-    QList<DataQueueItem> result(getOverallReadQueue());
-    for(const auto& itm : as_const(result)) {
-        overallReadQueue.removeOne(itm);
+std::list<DataQueueItem> GraphTerminal::popOverallReadQueue() {
+    auto result(getOverallReadQueue());
+    for(const auto &value : result) {
+        for(auto it = overallReadQueue.begin(); it != overallReadQueue.end(); ) {
+            if(*it == value) {
+                it = overallReadQueue.erase(it);
+            } else {
+                ++it;
+            }
+        }
     }
     return result;
 }
 
 DataQueueItem GraphTerminal::popReadQueue()
 {
-    QList<DataQueueItem> ls(getOverallReadQueue());
-    if(ls.isEmpty())
+    auto ls(getOverallReadQueue());
+    if(ls.empty())
         return DataQueueItem();
 
-    DataQueueItem result = ls.first();
-    overallReadQueue.removeOne(result);
-
+    DataQueueItem result = ls.front();
+    for(auto it = overallReadQueue.begin(); it != overallReadQueue.end(); ) {
+        if(*it == result) {
+            it = overallReadQueue.erase(it);
+        } else {
+            ++it;
+        }
+    }
     return result;
 }
 
-void GraphTerminal::pushOverallReadQueue(const QList<DataQueueItem> &value) {
-    overallReadQueue.append(value);
+void GraphTerminal::pushOverallReadQueue(const std::list<DataQueueItem> &value) {
+    overallReadQueue.insert(overallReadQueue.end(), value.begin(), value.end());
     //    //qDebug() << "pushOverallReadQueue size(" << overallReadQueue.size() << ")";
 }
 
 void GraphTerminal::pushReadQueue(const DataQueueItem &value)
 {
-    overallReadQueue.append(value);
+    overallReadQueue.push_back(value);
 }
 
 void GraphTerminal::pushOverallReadQueue(const DataQueueItem &value){
-    overallReadQueue.append(value);
+    overallReadQueue.push_back(value);
 //    //qDebug() << "pushOverallReadQueue size(" << overallReadQueue.size() << ")";
 }
 
-QList<DataQueueItem> GraphTerminal::getOverallWriteQueue() const
+std::list<DataQueueItem> GraphTerminal::getOverallWriteQueue() const
 {
     return overallWriteQueue;
 }
 
-void GraphTerminal::setOverallWriteQueue(const QList<DataQueueItem> &value)
+void GraphTerminal::setOverallWriteQueue(const std::list<DataQueueItem> &value)
 {
     overallWriteQueue = value;
 }
 
-QList<DataQueueItem> GraphTerminal::popOverallWriteQueue() {
-    QList<DataQueueItem> result(getOverallWriteQueue());
-    for(const auto& itm : as_const(result)) {
-        overallWriteQueue.removeOne(itm);
+std::list<DataQueueItem> GraphTerminal::popOverallWriteQueue() {
+    auto result(getOverallWriteQueue());
+    for(const auto &value : result) {
+        for(auto it = overallWriteQueue.begin(); it != overallWriteQueue.end(); ) {
+            if(*it == value) {
+                it = overallWriteQueue.erase(it);
+            } else {
+                ++it;
+            }
+        }
     }
     return result;
 }
 
 DataQueueItem GraphTerminal::popWriteQueue()
 {
-    QList<DataQueueItem> ls(getOverallWriteQueue());
-    if(ls.isEmpty())
+    auto ls(getOverallWriteQueue());
+    if(ls.empty())
         return DataQueueItem();
 
-    DataQueueItem result = ls.first();
-    overallWriteQueue.removeOne(result);
+    DataQueueItem result = ls.front();
+    for(auto it = overallWriteQueue.begin(); it != overallWriteQueue.end(); ) {
+        if(*it == result) {
+            it = overallWriteQueue.erase(it);
+        } else {
+            ++it;
+        }
+    }
 
     return result;
 }
 
-void GraphTerminal::pushOverallWriteQueue(const QList<DataQueueItem> &value) {
-    overallWriteQueue.append(value);
+void GraphTerminal::pushOverallWriteQueue(const std::list<DataQueueItem> &value) {
+    overallWriteQueue.insert(overallWriteQueue.end(), value.begin(), value.end());
 }
 
 
 void GraphTerminal::pushOverallWriteQueue(const DataQueueItem &value){
-    overallWriteQueue.append(value);
+    overallWriteQueue.push_back(value);
 }
 
 void GraphTerminal::manageOverallReadQueue()
 {
 //    //qDebug() << "GraphTerminal::manageOverallReadQueue() -->";
-    while(!getOverallReadQueue().isEmpty()) {
+    while(!getOverallReadQueue().empty()) {
         DataQueueItem itm = popReadQueue();
 
         QDomDocument doc;
@@ -644,14 +667,14 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 if((start.nodeValue().isEmpty() && from.nodeValue().isEmpty()) || length.nodeValue().isEmpty())
                     continue;
 
-                QList<JourEntity> jours;
+                std::list<JourEntity> jours;
 
                 if(!start.nodeValue().isEmpty() && from.nodeValue().isEmpty())
                     jours = DataBaseManager::getJourRecordAfter(start.nodeValue().toInt(), length.nodeValue().toInt());
                 else if(start.nodeValue().isEmpty() && !from.nodeValue().isEmpty())
                     jours = DataBaseManager::getJourRecordAfter(QDateTime::fromString(from.nodeValue(), "yyyy-MM-dd hh:mm:ss"), length.nodeValue().toInt());
 
-                dataAnswer = makeListJourRecord(jours.mid(0, length.nodeValue().toInt())).toByteArray();
+                dataAnswer = makeListJourRecord(std::list<JourEntity>(jours.begin(), std::next(jours.begin(), length.nodeValue().toInt() - 1))).toByteArray();
                 //
 
             } else {
@@ -948,9 +971,9 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
     QDomElement  devicesElement  =  doc.createElement("devices");
     RIFPlusPacketElement.appendChild(devicesElement);
 
-    if(nullptr == un) {
-        for(QSharedPointer<UnitNode>  unTmp : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
-            if(unTmp->getMetaNames().end() != unTmp->getMetaNames().find("Obj_0")) {
+    if(un.isNull()) {
+        for(const auto &unTmp : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
+            if(0 != unTmp->getMetaNames().count("Obj_0")) {
                 un = unTmp;
                 break;
             }
@@ -959,7 +982,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
 
     QDomElement  deviceElement  =  doc.createElement("device");
     QString id;
-    if(nullptr != un) {
+    if(!un.isNull()) {
         QString id;
         if(!un->getMetaNames().empty()) {
             id = ((un->getMetaNames().end() != un->getMetaNames().begin()) ? *un->getMetaNames().begin() : "Obj_X");
@@ -1281,7 +1304,7 @@ QDomElement GraphTerminal::makeJourRecord(const JourEntity &jour, QDomElement &j
     return joursDom;
 }
 
-QDomDocument GraphTerminal::makeListJourRecord(const QList<JourEntity> &jourList)
+QDomDocument GraphTerminal::makeListJourRecord(const std::list<JourEntity> &jourList)
 {
     QDomDocument doc;//(docType);
 

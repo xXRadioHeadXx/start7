@@ -12,7 +12,7 @@ QSqlDatabase DataBaseManager::db = QSqlDatabase();
 
 QSharedPointer<ShedulerNewDuty> DataBaseManager::shedulerNewDuty;
 
-QStringList DataBaseManager::fields = {
+std::set<QString> DataBaseManager::fields = {
 //    "id",
     "cdate",
     "mdate",
@@ -100,12 +100,12 @@ void DataBaseManager::setIdStartLastDuty(qint64 value)
 
 void DataBaseManager::setIdStartLastDuty()
 {
-    QList<JourEntity> newRecords(DataBaseManager::getQueryMSGRecord("SELECT j1.* FROM public.jour j1 WHERE j1.id in (SELECT max(j2.id) FROM public.jour j2 WHERE j2.type = 902)"));
+    std::list<JourEntity> newRecords(DataBaseManager::getQueryMSGRecord("SELECT j1.* FROM public.jour j1 WHERE j1.id in (SELECT max(j2.id) FROM public.jour j2 WHERE j2.type = 902)"));
 
-    if(newRecords.isEmpty())
+    if(newRecords.empty())
         setIdStartLastDuty(-1);
     else
-        setIdStartLastDuty(newRecords.first().getId());
+        setIdStartLastDuty(newRecords.front().getId());
 }
 
 QString DataBaseManager::getHostName()
@@ -413,7 +413,7 @@ int DataBaseManager::updateJourMsg(JourEntity &msg)
 
 int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant value, const std::set<int> setId)
 {
-    if(!fields.contains(field) || value.isNull() || setId.empty())
+    if(fields.end() == fields.find(field) || value.isNull() || setId.empty())
         return 0;
 
     QString sql;
@@ -438,7 +438,7 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
 
 
     QString sqlId;
-    const QList<int> listId(setId.begin(), setId.end());
+    const std::list<int> listId(setId.begin(), setId.end());
     sqlId.append(":vId0");
     for(int i = 1, n = listId.size(); i < n; i++) {
         sqlId.append(", :vId" + QString::number(i));
@@ -464,8 +464,9 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
 
     query.bindValue(":vMdate", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.z"));
 
-    for(int i = 0, n = listId.size(); i < n; i++) {
-        query.bindValue(":vId" + QString::number(i), listId.at(i));
+    auto it = listId.begin();
+    for(int i = 0, n = listId.size(); i < n && it != listId.end(); i++, it++) {
+        query.bindValue(":vId" + QString::number(i), *it);
     }
 
     if(query.exec())
@@ -495,8 +496,8 @@ int DataBaseManager::checkNecessarilyReasonMeasureFill() {
         flt += " id >= :vIdMin ";
     }
 
-    const QList<int> listType(ServerSettingUtils::getPriorityJoutTyper().begin(), ServerSettingUtils::getPriorityJoutTyper().end());
-    if(!listType.isEmpty()) {
+    const std::list<int> listType(ServerSettingUtils::getPriorityJoutTyper().begin(), ServerSettingUtils::getPriorityJoutTyper().end());
+    if(!listType.empty()) {
         QString sqlType;
         sqlType.append(":vType0");
         for(int i = 1, n = listType.size(); i < n; i++) {
@@ -530,9 +531,10 @@ int DataBaseManager::checkNecessarilyReasonMeasureFill() {
     query.prepare(sql);
 
     query.bindValue(":vIdMin", DataBaseManager::getIdStartLastDuty());
-    if(!listType.isEmpty()) {
-        for(int i = 0, n = listType.size(); i < n; i++) {
-            query.bindValue(":vType" + QString::number(i), listType.at(i));
+    if(!listType.empty()) {
+        auto it = listType.begin();
+        for(int i = 0, n = listType.size(); i < n && it != listType.end(); i++) {
+            query.bindValue(":vType" + QString::number(i), *it);
         }
     }
 
@@ -582,16 +584,16 @@ void DataBaseManager::resetAllFlags()
     }
 }
 
-QList<JourEntity> DataBaseManager::getQueryMSGRecord(QString sql) {
-    QList<JourEntity> result;
+std::list<JourEntity> DataBaseManager::getQueryMSGRecord(QString sql) {
+    std::list<JourEntity> result;
     QSqlQuery query(m_db());
     query.prepare(sql);
     result = DataBaseManager::getQueryMSGRecord(query);
     return result;
 }
 
-QList<JourEntity> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
-    QList<JourEntity> result;
+std::list<JourEntity> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
+    std::list<JourEntity> result;
 
     if(query.exec())
     {
@@ -622,7 +624,7 @@ QList<JourEntity> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
             me.setObjecttype(rec.value("objecttype").toInt());
             me.setFlag(rec.value("flag").toInt());
 
-            result.append(me);
+            result.push_back(me);
         }
     }
 
@@ -630,9 +632,9 @@ QList<JourEntity> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
     return result;
 }
 
-QList<JourEntity> DataBaseManager::getJourRecordAfter(const int &id, const int &limit)
+std::list<JourEntity> DataBaseManager::getJourRecordAfter(const int &id, const int &limit)
 {
-    QList<JourEntity> result;
+    std::list<JourEntity> result;
     QString sql;
     sql = "SELECT * FROM public.jour ";
     QString sqlFlt = "id >= " + QString::number(id);
@@ -649,9 +651,9 @@ QList<JourEntity> DataBaseManager::getJourRecordAfter(const int &id, const int &
     return result;
 }
 
-QList<JourEntity> DataBaseManager::getJourRecordAfter(const QDateTime &from, const int &limit)
+std::list<JourEntity> DataBaseManager::getJourRecordAfter(const QDateTime &from, const int &limit)
 {
-    QList<JourEntity> result;
+    std::list<JourEntity> result;
     QString sql;
     sql = "SELECT * FROM public.jour ";
     QString sqlFlt = "cdate >= to_timestamp('" + from.toString("yyyy-MM-dd hh:mm:ss.00") + "', 'YYYY-MM-DD HH24:MI:SS.MS')";
@@ -689,17 +691,17 @@ int DataBaseManager::executeQuery(QSqlQuery query)
     return -1;
 }
 
-QList<JourEntity> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ {
+std::list<JourEntity> DataBaseManager::getMSGRecordAfter(const int &id) /*const*/ {
     return getFltMSGRecordAfter("", id);
 }
 
-QList<JourEntity> DataBaseManager::getOneMSGRecord(const int &id) //const
+std::list<JourEntity> DataBaseManager::getOneMSGRecord(const int &id) //const
 {
     return getFltOneMSGRecord("", id);
 }
 
-QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
-    QList<JourEntity> result;
+std::list<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
+    std::list<JourEntity> result;
     QString sql;
     sql = "SELECT * FROM public.jour ";
     if(id > 0 || !flt.isEmpty()) {
@@ -735,8 +737,8 @@ QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const
 
 
 
-QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const int &id) {
-    QList<JourEntity> result;
+std::list<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const int &id) {
+    std::list<JourEntity> result;
     QString sql;
     sql = "SELECT * FROM public.jour ";
     if(id > 0 || !flt.isEmpty() || -1 != DataBaseManager::getIdStartLastDuty()) {
@@ -789,7 +791,7 @@ QList<QString> DataBaseManager::getReasonGroup() {
         while(query.next())
         {
             QSqlRecord rec = query.record();
-            result.append(rec.value("reason").toString());
+            result.push_back(rec.value("reason").toString());
         }
     }
 //    //qDebug() << "DataBaseManager::getReasonGroup(" << query.lastQuery() << ")";
@@ -814,7 +816,7 @@ QList<QString> DataBaseManager::getMeasuresGroup() {
         while(query.next())
         {
             QSqlRecord rec = query.record();
-            result.append(rec.value("measures").toString());
+            result.push_back(rec.value("measures").toString());
         }
     }
 //    //qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";
@@ -839,7 +841,7 @@ QList<QString> DataBaseManager::getDirectionGroup() {
         while(query.next())
         {
             QSqlRecord rec = query.record();
-            result.append(rec.value("direction").toString());
+            result.push_back(rec.value("direction").toString());
         }
     }
 //    //qDebug() << "DataBaseManager::getMeasuresGroup(" << query.lastQuery() << ")";

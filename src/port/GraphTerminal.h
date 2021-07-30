@@ -15,8 +15,8 @@ class GraphTerminal : public QObject
     Q_OBJECT
 private:
     static QSharedPointer<TcpServer> m_tcpServer;
-    QList<DataQueueItem> overallReadQueue;
-    QList<DataQueueItem> overallWriteQueue;
+    std::list<DataQueueItem> overallReadQueue;
+    std::list<DataQueueItem> overallWriteQueue;
 
 //    static QHash<QTcpSocket*, QByteArray*> abonents;
     static QMultiHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > abonents;
@@ -38,22 +38,22 @@ private:
     static QDomDocument makeEventBook(JourEntity jour);
 
     static QDomElement makeJourRecord(const JourEntity &jour, QDomElement &joursDom);
-    static QDomDocument makeListJourRecord(const QList<JourEntity> &jourList);
+    static QDomDocument makeListJourRecord(const std::list<JourEntity> &jourList);
 
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
 
-    QList<DataQueueItem> getOverallReadQueue() const;
-    QList<DataQueueItem> popOverallReadQueue();
+    std::list<DataQueueItem> getOverallReadQueue() const;
+    std::list<DataQueueItem> popOverallReadQueue();
     DataQueueItem popReadQueue();
-    void setOverallReadQueue(const QList<DataQueueItem> &value);
-    void pushOverallReadQueue(const QList<DataQueueItem> &value);
+    void setOverallReadQueue(const std::list<DataQueueItem> &value);
+    void pushOverallReadQueue(const std::list<DataQueueItem> &value);
 
-    QList<DataQueueItem> getOverallWriteQueue() const;
-    QList<DataQueueItem> popOverallWriteQueue();
+    std::list<DataQueueItem> getOverallWriteQueue() const;
+    std::list<DataQueueItem> popOverallWriteQueue();
     DataQueueItem popWriteQueue();
-    void setOverallWriteQueue(const QList<DataQueueItem> &value);
-    void pushOverallWriteQueue(const QList<DataQueueItem> &value);
+    void setOverallWriteQueue(const std::list<DataQueueItem> &value);
+    void pushOverallWriteQueue(const std::list<DataQueueItem> &value);
 
 private slots:
     void manageOverallReadQueue();

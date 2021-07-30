@@ -497,18 +497,20 @@ void MainWindowDB::on_tableView_doubleClicked(const QModelIndex &index)
 
     sqlFlt = sqlFlt.arg(selMsg.getId());
 
-    QList<JourEntity> tmpLs = modelJour->getListJour();
-    if(selMsg.getId() != tmpLs.last().getId()) {
+    auto tmpLs = modelJour->getListJour();
+    if(selMsg.getId() != tmpLs.back().getId()) {
         int indexCurrentMsg = -1;
+        auto it = tmpLs.begin();
         for(int i = 0, n = tmpLs.size(); i < n; i++) {
-            if(selMsg.getId() == tmpLs.at(i).getId()) {
+            if(selMsg.getId() == (*it).getId()) {
                 indexCurrentMsg = i;
                 break;
             }
+            it++;
         }
         if(-1 == indexCurrentMsg)
             return;
-        JourEntity nextMsg = tmpLs.at(indexCurrentMsg + 1);
+        JourEntity nextMsg = *std::next(it,1);//tmpLs.at(indexCurrentMsg + 1);
         if(0 != nextMsg.getId() && 902 == nextMsg.getType()) {
             sqlFlt += " AND id < %1 ";
             sqlFlt = sqlFlt.arg(nextMsg.getId());

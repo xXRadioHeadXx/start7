@@ -81,12 +81,12 @@ int AuthenticationDialog::initialForm(const QString fileName)
         decriptPassword = codec->toUnicode(decriptPassword.toStdString().c_str());
         newUser.setDecriptPW(decriptPassword);
 
-        listUser.append(newUser);
+        listUser.push_back(newUser);
     }
 
     ui->comboBox->clear();
-    for(int i = 0; i < listUser.size(); i++) {
-        ui->comboBox->addItem(listUser.at(i).getOperatorLableText());
+    for(const auto &user : listUser) {
+        ui->comboBox->addItem(user.getOperatorLableText());
     }
     return 1;
 }
@@ -94,10 +94,11 @@ int AuthenticationDialog::initialForm(const QString fileName)
 void AuthenticationDialog::on_pushButton_clicked()
 {
     QString dcrPWFromForm = ui->lineEdit->text();
-    QString dcrPWFromUser = listUser.at(ui->comboBox->currentIndex()).getDecriptPW();
+    const auto &it = std::next(listUser.begin(), ui->comboBox->currentIndex());
+    QString dcrPWFromUser = (*it).getDecriptPW();
 
     if(dcrPWFromForm == dcrPWFromUser) {
-        Operator::setApprovedOperator(listUser.at(ui->comboBox->currentIndex()));
+        Operator::setApprovedOperator(*it);
         this->setResult(QDialog::Accepted);
         this->accept();
     } else {

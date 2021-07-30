@@ -12,20 +12,27 @@ QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
     Q_UNUSED(option);
 
     QComboBox *comboBox = new QComboBox(parent);
-    auto jour = ServerTableModelJour::getListJour().value(index.row(), JourEntity());
-    QList<QString> items;
+    auto it = std::next(ServerTableModelJour::getListJour().begin(), index.row());
+    auto jour = *it;
 
-    if("reason" == field)
-        items = ServerSettingUtils::getReasonTemplate();
-    else if("measures" == field)
-        items = ServerSettingUtils::getMeasureTemplate();
+    QStringList items = (
+            (("reason" == field) ?
+                ServerSettingUtils::getReasonTemplate() :
+                (("measures" == field) ?
+                    ServerSettingUtils::getMeasureTemplate() :
+                    QStringList() )));
+
+    QString val;
+    if("reason" == field && !jour.getReason().isEmpty())
+        val = jour.getReason();
+    else if("measures" == field && !jour.getMeasures().isEmpty())
+        val = jour.getMeasures();
 
     int currentIndex = 0;
-
-    if("reason" == field && !jour.getReason().isEmpty())
-        currentIndex = items.indexOf(jour.getReason());
-    else if("measures" == field && !jour.getMeasures().isEmpty())
-        currentIndex = items.indexOf(jour.getMeasures());
+    for(auto itr = items.begin(); itr != items.end(); itr++, currentIndex++) {
+        if(*itr == val)
+            break;
+    }
 
     comboBox->addItems(items);
     comboBox->setCurrentIndex(currentIndex);

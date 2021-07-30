@@ -9,7 +9,7 @@ class TableModelMSG : public QAbstractTableModel
 {
     Q_OBJECT
 
-    static QList<JourEntity> m_listMSG;
+    static std::list<JourEntity> m_listMSG;
     quint32 newRecordMSG;
     quint32 updRecordMSG;
     bool needScroll;
@@ -42,7 +42,7 @@ public:
     QFont getFont() const;
     void setFont(const QFont &value);
 
-    static QList<JourEntity> getListMSG();
+    static std::list<JourEntity> getListMSG();
 
     bool getForegroundRoleFlag() const;
     void setForegroundRoleFlag(bool value);
@@ -60,7 +60,7 @@ public:
 
 signals:
     void needScrollToBottom();
-    void selectedMsg(QList<JourEntity> listUN);
+    void selectedMsg(std::list<JourEntity> listUN);
     void selectedMsg(JourEntity msg);
 
 public slots:

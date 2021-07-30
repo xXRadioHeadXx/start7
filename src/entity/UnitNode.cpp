@@ -90,12 +90,12 @@ void UnitNode::setParentUN(QSharedPointer<UnitNode> value)
 //    treeParentUN = value;
 //}
 
-//QList<QSharedPointer<UnitNode> > UnitNode::getListTreeChilde() const
+//std::list<QSharedPointer<UnitNode> > UnitNode::getListTreeChilde() const
 //{
 //    return listTreeChilde;
 //}
 
-QList<QSharedPointer<UnitNode> > UnitNode::getListChilde() const
+std::list<QSharedPointer<UnitNode> > UnitNode::getListChilde() const
 {
     return listChilde;
 }
@@ -767,12 +767,11 @@ void UnitNode::addChild(QSharedPointer<UnitNode> tc) noexcept
     {
         return;
     }
-    if(!this->listChilde.contains(tc))
-    {
-        this->listChilde.append(tc);
-//        QSharedPointer<UnitNode> iam = QSharedPointer<UnitNode>(this);
-//        tc->setParentUN(iam);
+    for(const auto &ch : listChilde) {
+        if(ch == tc)
+            return;
     }
+    this->listChilde.push_back(tc);
 }
 
 //QSharedPointer<UnitNode>  UnitNode::treeChild(int num) noexcept
@@ -780,14 +779,16 @@ void UnitNode::addChild(QSharedPointer<UnitNode> tc) noexcept
 //    return listTreeChilde.value(num, 0);
 //}
 
-//QList<QSharedPointer<UnitNode> > UnitNode::treeChild() noexcept
+//std::list<QSharedPointer<UnitNode> > UnitNode::treeChild() noexcept
 //{
 //    return listTreeChilde;
 //}
 
 QSharedPointer<UnitNode>  UnitNode::child(int num) noexcept
 {
-    return listChilde.value(num, 0);
+    auto it = listChilde.begin();
+    it = std::next(it, num);
+    return *it;
 }
 
 //int UnitNode::treeChildCount() const noexcept

@@ -7,7 +7,7 @@
 class TreeItem //: public virtual QObject
 {
 private:
-    QList<QSharedPointer<TreeItem> > treeChildItems;
+    std::list<QSharedPointer<TreeItem> > treeChildItems;
     QSharedPointer<TreeItem> treePparentItem;
 
 public:
@@ -18,8 +18,8 @@ public:
     QSharedPointer<TreeItem> treeParent() const;
     void setTreePparent(QSharedPointer<TreeItem>value);
 
-    QList<QSharedPointer<TreeItem> > listTreeChilds() const;
-    void setListTreeChilds(const QList<QSharedPointer<TreeItem> > & list);
+    std::list<QSharedPointer<TreeItem> > listTreeChilds() const;
+    void setListTreeChilds(const std::list<QSharedPointer<TreeItem> > & list);
 
     QSharedPointer<TreeItem> treeChild(int index) const;
 

@@ -6,7 +6,7 @@
 #include "Icons.h"
 #include "ServerSettingUtils.h"
 
-QList<JourEntity> ServerTableModelJour::m_listJour = QList<JourEntity>();
+std::list<JourEntity> ServerTableModelJour::m_listJour = std::list<JourEntity>();
 
 
 QFont ServerTableModelJour::getFont() const
@@ -19,7 +19,7 @@ void ServerTableModelJour::setFont(const QFont &value)
     font = value;
 }
 
-QList<JourEntity> ServerTableModelJour::getListJour()
+std::list<JourEntity> ServerTableModelJour::getListJour()
 {
     return m_listJour;
 }
@@ -128,7 +128,8 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
     {
         return result;
     }
-    const JourEntity msgRecord = m_listJour.at(row);
+    auto it = std::next(m_listJour.begin(), row);
+    const JourEntity msgRecord = *it;
 
     // закрасим строчку по io признаку
     if (role == Qt::BackgroundRole && (4 == index.column() || 5 == index.column()))
@@ -208,17 +209,19 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
 // Функция для приёма данных от пользователя
 bool ServerTableModelJour::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    auto it = std::next(m_listJour.begin(), index.row());
     if (role == Qt::EditRole) {
-        if (index.column() == 4)
-                m_listJour[index.row()].setReason(value.toString());
-        else if (index.column() == 5)
-                m_listJour[index.row()].setMeasures(value.toString());
-        else
+        if (index.column() == 4) {
+            (*it).setReason(value.toString());
+        } else if (index.column() == 5) {
+            (*it).setMeasures(value.toString());
+        } else {
             return false;
+        }
 
 //        m_listMSG.replace(index.row(), item);
 
-        DataBaseManager::updateJourMsg(m_listJour[index.row()]);
+        DataBaseManager::updateJourMsg((*it));
         emit dataChanged(index, index, QVector<int>() << Qt::DisplayRole << Qt::EditRole);
 
         if (index.column() == 4)
@@ -282,10 +285,11 @@ bool ServerTableModelJour::insertRows(int row, int count, const QModelIndex &par
     {
         this->beginInsertRows(parent, row, row);
 
-        QList<JourEntity> tmp = DataBaseManager::getOneMSGRecord(newRecordMSG);
-        if(!tmp.isEmpty())
-            m_listJour.insert(row, tmp.first());
-
+        auto tmp = DataBaseManager::getOneMSGRecord(newRecordMSG);
+        if(!tmp.empty()) {
+            auto it = std::next(m_listJour.begin(), row);
+            m_listJour.insert(it, tmp.front());
+        }
         this->endInsertRows();
         return true;
     }
@@ -296,7 +300,7 @@ void ServerTableModelJour::castomUpdateListRecords(QString sql)
 {
 //    int lastRecordMSG = -1;
 
-    QList<JourEntity> newRecords(DataBaseManager::getQueryMSGRecord(sql));
+    auto newRecords(DataBaseManager::getQueryMSGRecord(sql));
 
 
     this->beginResetModel();
@@ -313,9 +317,9 @@ void ServerTableModelJour::castomUpdateListRecords(QString sql)
 
 void ServerTableModelJour::updateAllRecords()
 {
-    QList<JourEntity> newRecords(DataBaseManager::getMSGRecordAfter(DataBaseManager::getIdStartLastDuty() - 1));
+    auto newRecords(DataBaseManager::getMSGRecordAfter(DataBaseManager::getIdStartLastDuty() - 1));
 
-    if(newRecords.isEmpty())
+    if(newRecords.empty())
         return;
 
     this->beginResetModel();
@@ -332,18 +336,18 @@ void ServerTableModelJour::updateAllRecords()
 void ServerTableModelJour::updateListRecords()
 {
     int lastRecordMSG = -1;
-    if(!m_listJour.isEmpty())
-        lastRecordMSG = m_listJour.last().getId();
+    if(!m_listJour.empty())
+        lastRecordMSG = m_listJour.back().getId();
 
 
-    QList<JourEntity> newRecords(DataBaseManager::getMSGRecordAfter(lastRecordMSG));
+    auto newRecords(DataBaseManager::getMSGRecordAfter(lastRecordMSG));
 
-    if(newRecords.isEmpty())
+    if(newRecords.empty())
         return;
 
     this->beginInsertRows(QModelIndex(), m_listJour.size(), m_listJour.size() + newRecords.size() - 1);
 
-    m_listJour.append(newRecords);
+    m_listJour.insert(m_listJour.end(), newRecords.begin(), newRecords.end());
 
     this->endInsertRows();
 
@@ -353,7 +357,7 @@ void ServerTableModelJour::updateListRecords()
 void ServerTableModelJour::updateListRecords(const quint32 idMSG)
 {
     newRecordMSG = idMSG;
-//    QList<JourEntity> newRecords(DataBaseManager::getOneMSGRecord(idMSG));
+//    auto newRecords(DataBaseManager::getOneMSGRecord(idMSG));
 
     this->insertRows(this->rowCount());
 
@@ -363,15 +367,16 @@ void ServerTableModelJour::updateListRecords(const quint32 idMSG)
 void ServerTableModelJour::updateRecord(const quint32 idMSG)
 {
     updRecordMSG = idMSG;
-    QList<JourEntity> updRecord(DataBaseManager::getOneMSGRecord(idMSG));
+    auto updRecord(DataBaseManager::getOneMSGRecord(idMSG));
 
-    if(updRecord.isEmpty())
+    if(updRecord.empty())
         return;
 
-    for(int i = 0, n = m_listJour.size(); i < n; i++) {
-        JourEntity target = m_listJour.at(i);
-        if(target.getId() == updRecord.first().getId()) {
-            m_listJour[i] = updRecord.first();
+    auto it = m_listJour.begin();
+    for(int i = 0, n = m_listJour.size(); i < n; i++, it++) {
+        JourEntity &target = *it;
+        if(target.getId() == updRecord.front().getId()) {
+            target = updRecord.front();
 #ifdef QT_DEBUG
             emit this->dataChanged(this->index(i, 0, QModelIndex()), this->index(i, 8, QModelIndex()));
 #else
@@ -380,6 +385,7 @@ void ServerTableModelJour::updateRecord(const quint32 idMSG)
 
             break;
         }
+        ++it;
     }
 }
 
@@ -405,10 +411,10 @@ void ServerTableModelJour::updateListRecordsMSG()
     this->endResetModel();
 }
 
-QList<JourEntity> ServerTableModelJour::listIndexsToListJours(const QModelIndexList &listIndex) const {
-    QList<JourEntity> list;
+std::list<JourEntity> ServerTableModelJour::listIndexsToListJours(const QModelIndexList &listIndex) const {
+    std::list<JourEntity> list;
     for(const auto index : listIndex) {
-        list.append(indexToJour(index));
+        list.push_back(indexToJour(index));
     }
 
     return list;
@@ -418,7 +424,8 @@ JourEntity ServerTableModelJour::indexToJour(const QModelIndex &index) const {
     if (!index.isValid())
         return nullptr;
 
-    const JourEntity item = m_listJour.at(index.row());
+    auto it = std::next(m_listJour.begin(), index.row());
+    const JourEntity item = *it;
 
     return item;
 }

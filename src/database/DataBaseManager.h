@@ -16,7 +16,7 @@ class DataBaseManager : public QObject
     static QSqlDatabase db;
 
     static QSharedPointer<ShedulerNewDuty> shedulerNewDuty;
-    static QStringList fields;
+    static std::set<QString> fields;
     static QMetaType::Type fieldType(QString field);
 
 public:
@@ -34,16 +34,16 @@ public:
     static int updateJourMsgFieldById(const QString field, const QVariant value, const std::set<int> setId);
     static void resetAllFlags_wS();
     static void resetAllFlags();
-    static QList<JourEntity> getMSGRecordAfter(const int &id = 0);
-    static QList<JourEntity> getOneMSGRecord(const int &id = -1);
-//    static QList<JourEntity> getMSGRecords();
-    static QList<JourEntity> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);
-    static QList<JourEntity> getFltOneMSGRecord(const QString flt = "", const int &id = -1);
-//    static QList<JourEntity> getFltMSGRecords(const QString flt = "");
-    static QList<JourEntity> getQueryMSGRecord(QString sql);
-    static QList<JourEntity> getQueryMSGRecord(QSqlQuery query);
-    static QList<JourEntity> getJourRecordAfter(const int &id, const int &limit = -1);
-    static QList<JourEntity> getJourRecordAfter(const QDateTime &from, const int &limit = -1);
+    static std::list<JourEntity> getMSGRecordAfter(const int &id = 0);
+    static std::list<JourEntity> getOneMSGRecord(const int &id = -1);
+//    static std::list<JourEntity> getMSGRecords();
+    static std::list<JourEntity> getFltMSGRecordAfter(const QString flt = "", const int &id = 0);
+    static std::list<JourEntity> getFltOneMSGRecord(const QString flt = "", const int &id = -1);
+//    static std::list<JourEntity> getFltMSGRecords(const QString flt = "");
+    static std::list<JourEntity> getQueryMSGRecord(QString sql);
+    static std::list<JourEntity> getQueryMSGRecord(QSqlQuery query);
+    static std::list<JourEntity> getJourRecordAfter(const int &id, const int &limit = -1);
+    static std::list<JourEntity> getJourRecordAfter(const QDateTime &from, const int &limit = -1);
 
     static int executeQuery(QString sql);
     static int executeQuery(QSqlQuery query);

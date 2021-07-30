@@ -35,30 +35,39 @@ ProcessDKWaiter::~ProcessDKWaiter()
     }
 }
 
-QList<QSharedPointer<UnitNode> > ProcessDKWaiter::getLsTrackedUN() const
+std::list<QSharedPointer<UnitNode> > ProcessDKWaiter::getLsTrackedUN() const
 {
     return lsTrackedUN;
 }
 
-void ProcessDKWaiter::setLsTrackedUN(const QList<QSharedPointer<UnitNode> > &value)
+void ProcessDKWaiter::setLsTrackedUN(const std::list<QSharedPointer<UnitNode> > &value)
 {
     lsTrackedUN = value;
 }
 
 void ProcessDKWaiter::addLsTrackedUN(QSharedPointer<UnitNode> value)
 {
-    lsTrackedUN.append(value);
+    lsTrackedUN.push_back(value);
     //    qDebug() << "ProcessDKWaiter::addLsTrackedUN(" << value->toString() << ")";
 }
 
 bool ProcessDKWaiter::removeLsTrackedUN(const QSharedPointer<UnitNode> value)
 {
-    return 0 != lsTrackedUN.removeAll(value);
+    auto result = 0;
+    for(auto it = lsTrackedUN.begin(); it != lsTrackedUN.end(); ) {
+        if(*it == value) {
+            it = lsTrackedUN.erase(it);
+            ++result;
+        } else {
+            ++it;
+        }
+    }
+    return 0 != result;
     //    qDebug() << "ProcessDKWaiter::addLsTrackedUN(" << value->toString() << ")";
 }
 
 
-const QList<QSharedPointer<UnitNode> > &ProcessDKWaiter::getLsTrackedUN()
+const std::list<QSharedPointer<UnitNode> > &ProcessDKWaiter::getLsTrackedUN()
 {
     return lsTrackedUN;
 }

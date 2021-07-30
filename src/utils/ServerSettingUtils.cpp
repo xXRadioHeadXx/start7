@@ -7,7 +7,6 @@
 #include <QTextCodec>
 #include "TreeItem.h"
 #include "SimpleIni.h"
-#include <QStringList>
 #include <QFile>
 //#include <algorithm>
 
@@ -16,12 +15,12 @@ ServerSettingUtils::ServerSettingUtils()
 
 }
 
-QList<QSharedPointer<UnitNode> > ServerSettingUtils::listTreeUnitNodes;
+std::list<QSharedPointer<UnitNode> > ServerSettingUtils::listTreeUnitNodes;
 std::set<QSharedPointer<UnitNode> > ServerSettingUtils::listMetaRealUnitNodes;
 
-QList<QSharedPointer<UnitNode> > ServerSettingUtils::getLinkedUI(QSharedPointer<UnitNode> un)
+std::list<QSharedPointer<UnitNode> > ServerSettingUtils::getLinkedUI(QSharedPointer<UnitNode> un)
 {
-    QList<QSharedPointer<UnitNode> > result;
+    std::list<QSharedPointer<UnitNode> > result;
 
     auto setMasterUN = un->getDoubles();
     setMasterUN.insert(un);
@@ -65,9 +64,9 @@ int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> &un)
     return result;
 }
 
-QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName) {
+std::list<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName) {
     qDebug() << "ServerSettingUtils::loadTreeUnitNodes -->";
-    if(!getListTreeUnitNodes().isEmpty()) {
+    if(!getListTreeUnitNodes().empty()) {
         getListTreeUnitNodes().clear();
     }
 
@@ -96,7 +95,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
 
         ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
         root = tmpUN;
-        getListTreeUnitNodes().append(QSharedPointer<UnitNode>(tmpUN));
+        getListTreeUnitNodes().push_back(QSharedPointer<UnitNode>(tmpUN));
     }
 
     for(int index = 0; index < cntTrItm; index++)
@@ -164,7 +163,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
             {
                 qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse successfully " << tmpUN->toString();
 //                qDebug() << tmpUN->metaName << tmpUN->toString();
-                getListTreeUnitNodes().append(QSharedPointer<UnitNode>(tmpUN));
+                getListTreeUnitNodes().push_back(QSharedPointer<UnitNode>(tmpUN));
                 bool key = true;
                 for (auto rit = getListTreeUnitNodes().rbegin(); rit != getListTreeUnitNodes().rend(); ++rit) {
                     if((*rit)->getLevel() < tmpUN->getLevel())
@@ -395,9 +394,9 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
     return getListTreeUnitNodes();
 }
 
-QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointer<UnitNode> root)
+std::list<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointer<UnitNode> root)
 {
-    if(!getListTreeUnitNodes().isEmpty()) {
+    if(!getListTreeUnitNodes().empty()) {
    //     for(UnitNode*un : getListTreeUnitNodes())
    //         delete un;
         getListTreeUnitNodes().clear();
@@ -420,7 +419,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointe
 
         ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
 //        root = tmpUN;
-        getListTreeUnitNodes().append(tmpUN);
+        getListTreeUnitNodes().push_back(tmpUN);
 
 
     }
@@ -428,7 +427,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointe
       return getListTreeUnitNodes();
 }
 
-QList<QSharedPointer<UnitNode> > & ServerSettingUtils::getListTreeUnitNodes() {
+std::list<QSharedPointer<UnitNode> > & ServerSettingUtils::getListTreeUnitNodes() {
     return ServerSettingUtils::listTreeUnitNodes;
 }
 
@@ -482,50 +481,50 @@ const std::set<int> &ServerSettingUtils::getPriorityJoutTyper()
     return priorityJoutTyper;
 }
 
-QStringList ServerSettingUtils::reasonTemplate([](){
+QList<QString> ServerSettingUtils::reasonTemplate([](){
     QString nameFile("comment.lst");
     if(!QFile::exists(nameFile))//(QCoreApplication::applicationDirPath() + "/" + nameFile))
-        return QStringList();
+        return QList<QString>();
 
     QFile file(nameFile);//(QCoreApplication::applicationDirPath() + "/" + nameFile);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return QStringList();
+        return QList<QString>();
 
-    QStringList result;
+    QList<QString> result;
 
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     while (!file.atEnd()) {
-        result.append(codec->toUnicode(file.readLine()).remove(QChar(0x0B)).remove(QChar(0x0A)));
+        result.push_back(codec->toUnicode(file.readLine()).remove(QChar(0x0B)).remove(QChar(0x0A)));
     }
 
     return result;
 }());
 
-QStringList ServerSettingUtils::measureTemplate([](){
+QList<QString> ServerSettingUtils::measureTemplate([](){
     QString nameFile("comment2.lst");
     if(!QFile::exists(nameFile))//QCoreApplication::applicationDirPath() + "/" + nameFile))
-        return QStringList();
+        return QList<QString>();
 
     QFile file(nameFile);//(QCoreApplication::applicationDirPath() + "/" + nameFile);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return QStringList();
+        return QList<QString>();
 
-    QStringList result;
+    QList<QString> result;
 
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     while (!file.atEnd()) {
-        result.append(codec->toUnicode(file.readLine()).remove(QChar(0x0B)).remove(QChar(0x0A)));
+        result.push_back(codec->toUnicode(file.readLine()).remove(QChar(0x0B)).remove(QChar(0x0A)));
     }
 
     return result;
 }());
 
-const QStringList &ServerSettingUtils::getMeasureTemplate()
+QList<QString> ServerSettingUtils::getMeasureTemplate()
 {
     return measureTemplate;
 }
 
-const QStringList &ServerSettingUtils::getReasonTemplate()
+QList<QString> ServerSettingUtils::getReasonTemplate()
 {
     return reasonTemplate;
 }

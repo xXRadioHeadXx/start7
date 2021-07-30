@@ -2,6 +2,7 @@
 #define COMBOBOXDELEGATE_H
 
 #include <QItemDelegate>
+#include <list>
 
 class QModelIndex;
 class QWidget;

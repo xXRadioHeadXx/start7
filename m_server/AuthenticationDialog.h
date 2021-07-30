@@ -26,7 +26,7 @@ private slots:
 private:
     Ui::AuthenticationDialog *ui;
 
-    QList<Operator> listUser;
+    std::list<Operator> listUser;
     int initialResult = 0;
 
     int initialForm(const QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));

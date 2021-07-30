@@ -6,7 +6,7 @@
 class ProcessDKWaiter final : public AbstractRequester
 {
 private:
-    QList<QSharedPointer<UnitNode> > lsTrackedUN;
+    std::list<QSharedPointer<UnitNode> > lsTrackedUN;
 
 protected:
     virtual DataQueueItem makeFirstMsg() override;
@@ -19,11 +19,11 @@ public:
 
     virtual void init() override;
 
-    QList<QSharedPointer<UnitNode> > getLsTrackedUN() const;
-    void setLsTrackedUN(const QList<QSharedPointer<UnitNode> > &value);
+    std::list<QSharedPointer<UnitNode> > getLsTrackedUN() const;
+    void setLsTrackedUN(const std::list<QSharedPointer<UnitNode> > &value);
     void addLsTrackedUN(QSharedPointer<UnitNode> value);
     bool removeLsTrackedUN(const QSharedPointer<UnitNode> value);
-    const QList<QSharedPointer<UnitNode> > & getLsTrackedUN();
+    const std::list<QSharedPointer<UnitNode> > & getLsTrackedUN();
 };
 
 #endif // PROCESSDKWAITER_H

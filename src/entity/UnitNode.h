@@ -57,7 +57,7 @@ private:
     std::set<QString> metaNames; //[Obj_1]
 
     QSharedPointer<UnitNode> parentUN; //родительское устройство
-    QList<QSharedPointer<UnitNode> > listChilde; //список детей
+    std::list<QSharedPointer<UnitNode> > listChilde; //список детей
 
     int timeIntervalStatusRequest = 70;
 
@@ -184,7 +184,7 @@ public:
     QSharedPointer<UnitNode> getParentUN() const;
     void setParentUN(QSharedPointer<UnitNode> value);
 
-    QList<QSharedPointer<UnitNode> > getListChilde() const;
+    std::list<QSharedPointer<UnitNode> > getListChilde() const;
 
     QPixmap getPxm(SubTypeApp type = SubTypeApp::server);
 

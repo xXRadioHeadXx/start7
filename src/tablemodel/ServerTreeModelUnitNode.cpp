@@ -192,45 +192,6 @@ bool ServerTreeModelUnitNode::setData(const QModelIndex &index, const QVariant &
      return parentItem->treeChildCount();
  }
 
-// void TreeModelUnitNode::appendNewUNInStructure(QModelIndex &index, UnitNode* un)
-// {
-//     //qDebug() << "TreeModelUnitNode::appendNewUNInStructure(" << index << ", " << un << ") -->";
-//     UnitNode*parent = static_cast<UnitNode*>(index.internalPointer());
-
-//     this->beginInsertRows(index.parent(), index.row(), index.row());
-//     parent->addTreeChild(un);
-//     parent->addChild(un);
-//     this->endInsertRows();
-
-//     //qDebug() << "TreeModelUnitNode::appendNewUNInStructure() <--";
-
-//     return;
-// }
-
-//  void TreeModelUnitNode::appendNewUNInStructure(UnitNode* /*un*/)
-//  {
-//      this->beginResetModel();
-//      this->createProxySortTree();//
-//      this->endResetModel();
-//      return;
-
-// //     this->beginInsertRows(this->findeIndexUNL(un->unTreeParent),
-// //                           un->unTreeParent->listChilde.indexOf(un),
-// //                           un->unTreeParent->listChilde.indexOf(un));
-// //     this->endInsertRows();
-//  }
-
-// void TreeModelUnitNode::updateUNStructure(UnitNode* /*un*/)
-// {
-//     this->beginResetModel();
-//     this->createProxySortTree();
-//     this->endResetModel();
-//     return;
-
-////     emit this->dataChanged(this->findeIndexUNL(un),
-////                            this->findeIndexUNR(un));//3
-// }
-
  QSharedPointer<UnitNode> ServerTreeModelUnitNode::clickedUN(const QModelIndex &index)
  {
      if (!index.isValid())
@@ -301,25 +262,6 @@ QModelIndex ServerTreeModelUnitNode::findeIndexUN(UnitNode*tc,
      return index;
 }
 
-
-//void TreeModelUnitNode::moveUNStructure(UnitNode*objPtr,
-//                                        UnitNode*sourceParent,
-//                                        int sourceChild,
-//                                        UnitNode*destinationParent,
-//                                        int destinationChild)
-//{
-//    this->beginResetModel();
-//    this->createProxySortTree();
-//    this->endResetModel();
-//    return;
-//}
-
-//сортировка
-//void TreeModelUnitNode::sort(int column, Qt::SortOrder order)
-//{
-
-//}
-
 void ServerTreeModelUnitNode::updateUNs()
 {
     emit this->dataChanged(QModelIndex(), QModelIndex());
@@ -334,96 +276,6 @@ void ServerTreeModelUnitNode::loadSettings(QString fileName)
     listItemUN = ServerSettingUtils::loadTreeUnitNodes(rootItemUN, fileName);
     this->endResetModel();
 }
-
-//void TreeModelUnitNode::makeEmptyTree()
-//{
-//    this->beginResetModel();
-//    listItemUN = SettingUtils::loadEmptyTree(rootItemUN);
-//    this->endResetModel();
-//}
-
-//void TreeModelUnitNode::getListFromModel(QList<UnitNode*> &list, UnitNode* parentTC) const
-//{
-//    if(nullptr == parentTC) {
-//        list.clear();
-//        parentTC = rootItemUN.data();
-//    }
-
-//    for(int i(0), n(parentTC->treeChildCount()); i < n; i++)
-//    {
-//        auto un = parentTC->treeChild(i).data();
-//        un->setMetaNames(QString("Obj_%1").arg(list.count()));
-//        list.append(un);
-//        if(0 < un->treeChildCount())
-//            getListFromModel(list, un);
-//    }
-//}
-
-//bool TreeModelUnitNode::deleteUnit(QModelIndex index)
-//{
-//    //qDebug()<<"TreeModelUnitNode::deleteUnit(" << index << ") -->";
-
-//    if(this->parent(index).isValid()) {
-//        this->beginRemoveRows(index.parent(),index.row(),index.row());
-//        UnitNode*parent = static_cast<UnitNode*>(this->parent(index).internalPointer());
-//        parent->deleteChild(index.row());
-//        //emit dataChanged(index,index);
-//        this->endRemoveRows();
-//        emit dataChanged(index,index);
-//        //qDebug()<<"TreeModelUnitNode::deleteUnit() <-- true";
-//        return true;
-//    } else
-//        //qDebug()<<"TreeModelUnitNode::deleteUnit() <-- false";
-
-//    return false;
-//}
-
-//bool TreeModelUnitNode::moveUNUp(QModelIndex index)
-//{
-//    if(index.row()>0) {
-//        UnitNode* un = static_cast<UnitNode*>(index.internalPointer());
-//        UnitNode* parent = un->getTreeParentUN();
-//        QModelIndex parent_ind = this->parent(index);
-
-//        this->beginMoveRows(parent_ind,
-//                            index.row(),
-//                            index.row(),
-//                            parent_ind,
-//                            (index.row() - 1));
-
-//      //  this->moveRow(parent_ind,index.row(),parent_ind,(index.row()-1));
-//        parent->moveTreeChildUNUp(un);
-
-//        this->endMoveRows();
-//        return true;
-//    }
-//    return false;
-// //  this->beginMoveRows()
-// //   //    parent->move_up(index.row());
-// //   this->endResetModel();
-//}
-
-//bool TreeModelUnitNode::moveUNDown(QModelIndex index)
-//{
-//    if(index.row() < (this->rowCount(this->parent(index)) - 1)) {
-//        UnitNode* un = static_cast<UnitNode*>(index.internalPointer());
-//        UnitNode* parent = un->getTreeParentUN();
-//        QModelIndex parent_ind = this->parent(index);
-
-//        this->beginMoveRows(parent_ind,
-//                            index.row(),
-//                            index.row(),
-//                            parent_ind,
-//                            (index.row() + 2));
-
-//      //  this->moveRow(parent,index.row(),parent,(index.row()-1));
-//        parent->moveTreeChildUNDown(un);
-
-//        this->endMoveRows();
-//        return true;
-//    }
-//    return false;
-//}
 
 void ServerTreeModelUnitNode::createProxySortTree()
 {
@@ -444,53 +296,22 @@ void ServerTreeModelUnitNode::sortingListItemUN()
         {
             if(Qt::AscendingOrder == sortOrder)
             {
-                if(listItemUN[j]->getName().compare(listItemUN[j + 1]->getName()) > 0)
+                const auto &itl = std::next(listItemUN.begin(), j),
+                           &itr = std::next(itl, 1);
+                if((*itl)->getName().compare((*itr)->getName()) > 0)
                 {
-                    listItemUN.swap(j, j + 1);
-//                    UnitNode*temp = listItemUN[j]; //change for elements
-//                    listItemUN[j] = listItemUN[j + 1];
-//                    listItemUN[j + 1] = temp;
+                    std::swap(*itl, *itr);
                 }
             }
             if(Qt::DescendingOrder == sortOrder)
             {
-                if(listItemUN[j]->getName().compare(listItemUN[j + 1]->getName()) < 0)
+                const auto &itl = std::next(listItemUN.begin(), j),
+                           &itr = std::next(itl, 1);
+                if((*itl)->getName().compare((*itr)->getName()) < 0)
                 {
-                    listItemUN.swap(j, j + 1);
-//                    UnitNode*temp = listItemUN[j]; //change for elements
-//                    listItemUN[j] = listItemUN[j + 1];
-//                    listItemUN[j + 1] = temp;
+                    std::swap(*itl, *itr);
                 }
             }
         }
     }
-    //сортировка по номерам устр
-//    for(int i(0), n(listItemUN.size()); i < n - 1; i++)
-//    {
-//        for(int j(0); j < n - i - 1; j++)
-//        {
-//            if(listItemUN[j]->_numArea() == listItemUN[j + 1]->_numArea())
-//            {
-//                if(Qt::AscendingOrder == sortOrder)
-//                {
-//                    if(listItemUN[j]->_numNode() > listItemUN[j + 1]->_numNode())
-//                    {
-//                        UnitNode*temp = listItemUN[j]; //change for elements
-//                        listItemUN[j] = listItemUN[j + 1];
-//                        listItemUN[j + 1] = temp;
-//                    }
-//                }
-//                if(Qt::DescendingOrder == sortOrder)
-//                {
-//                    if(listItemUN[j]->_numNode() < listItemUN[j + 1]->_numNode())
-//                    {
-//                        UnitNode*temp = listItemUN[j]; //change for elements
-//                        listItemUN[j] = listItemUN[j + 1];
-//                        listItemUN[j + 1] = temp;
-//                    }
-//                }
-//            }
-
-//        }
-//    }
 }

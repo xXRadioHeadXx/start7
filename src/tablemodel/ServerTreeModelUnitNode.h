@@ -20,7 +20,7 @@ public:
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
     QSharedPointer<UnitNode> rootItemUN = QSharedPointer<UnitNode>(new UnitNode());
-    QList<QSharedPointer<UnitNode> > listItemUN;
+    std::list<QSharedPointer<UnitNode> > listItemUN;
 
     QVariant data(const QModelIndex &index, int role) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
@@ -63,7 +63,7 @@ public:
     void loadSettings(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
 //    void makeEmptyTree(void);
-//    void getListFromModel(QList<UnitNode*> &list, UnitNode* parentTC = nullptr) const;
+//    void getListFromModel(std::list<UnitNode*> &list, UnitNode* parentTC = nullptr) const;
 
 //    bool deleteUnit(QModelIndex index);
 
@@ -76,7 +76,7 @@ public:
     void setTypeApp(const SubTypeApp &value);
 
 signals:
-    void selectedUN(QList<QSharedPointer<UnitNode> > listUN);
+    void selectedUN(std::list<QSharedPointer<UnitNode> > listUN);
     void selectedUN(QSharedPointer<UnitNode> un);
     void updatedUNs();
 

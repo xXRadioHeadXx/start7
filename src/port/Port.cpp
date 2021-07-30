@@ -85,11 +85,11 @@ void Port::close() {
     }
 }
 
-QList<DataQueueItem> Port::readAll() {
+std::list<DataQueueItem> Port::readAll() {
     return popLocalReadQueue();
 }
 
-void Port::write(const QList<DataQueueItem> &data) {
+void Port::write(const std::list<DataQueueItem> &data) {
     for(const auto& itm : data) {
         write(itm);
     }
@@ -367,54 +367,64 @@ void Port::setStHostAddress(const std::set<QHostAddress, QHostAddressComparator>
     stHostAddress = value;
 }
 
-QList<DataQueueItem> Port::getLocalReadQueue() const
+std::list<DataQueueItem> Port::getLocalReadQueue() const
 {
     return localReadQueue;
 }
 
-void Port::setLocalReadQueue(const QList<DataQueueItem> &value)
+void Port::setLocalReadQueue(const std::list<DataQueueItem> &value)
 {
     localReadQueue = value;
 }
 
-QList<DataQueueItem> Port::popLocalReadQueue() {
-    auto result(getLocalReadQueue()); //QList<DataQueueItem>
-    for(const auto& itm : as_const(result)) {
-        localReadQueue.removeOne(itm);
+std::list<DataQueueItem> Port::popLocalReadQueue() {
+    auto result(getLocalReadQueue()); //std::list<DataQueueItem>
+    for(const auto& itm : result) {
+        for(auto it = localReadQueue.begin(); it != localReadQueue.end(); ) {
+            if(*it == itm)
+                it = localReadQueue.erase(it);
+            else
+                ++it;
+        }
     }
     return result;
 }
 
-void Port::pushLocalReadQueue(const QList<DataQueueItem> &value) {
-    localReadQueue.append(value);
+void Port::pushLocalReadQueue(const std::list<DataQueueItem> &value) {
+    localReadQueue.insert(localReadQueue.end(), value.begin(), value.end());
 }
 
 void Port::pushLocalReadQueue(const DataQueueItem &value){
-    localReadQueue.append(value);
+    localReadQueue.push_back(value);
 }
 
-QList<DataQueueItem> Port::getLocalWriteQueue() const
+std::list<DataQueueItem> Port::getLocalWriteQueue() const
 {
     return localWriteQueue;
 }
 
-void Port::setLocalWriteQueue(const QList<DataQueueItem> &value)
+void Port::setLocalWriteQueue(const std::list<DataQueueItem> &value)
 {
     localWriteQueue = value;
 }
 
-QList<DataQueueItem> Port::popLocalWriteQueue() {
-    auto result(getLocalWriteQueue()); //QList<DataQueueItem>
-    for(const auto& itm : as_const(result)) {
-        localWriteQueue.removeOne(itm);
+std::list<DataQueueItem> Port::popLocalWriteQueue() {
+    auto result(getLocalWriteQueue()); //std::list<DataQueueItem>
+    for(const auto& itm : result) {
+        for(auto it = localWriteQueue.begin(); it != localWriteQueue.end(); ) {
+            if(*it == itm)
+                it = localWriteQueue.erase(it);
+            else
+                ++it;
+        }
     }
     return result;
 }
-void Port::pushLocalWriteQueue(const QList<DataQueueItem> &value) {
-    localWriteQueue.append(value);
+void Port::pushLocalWriteQueue(const std::list<DataQueueItem> &value) {
+    localWriteQueue.insert(localWriteQueue.end(), value.begin(), value.end());
 }
 
 void Port::pushLocalWriteQueue(const DataQueueItem &value){
-    localWriteQueue.append(value);
+    localWriteQueue.push_back(value);
 }
 // getter setter <--

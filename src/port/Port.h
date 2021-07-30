@@ -31,8 +31,8 @@ private:
 
     std::set<QHostAddress, QHostAddressComparator> stHostAddress;
 
-    QList<DataQueueItem> localReadQueue;
-    QList<DataQueueItem> localWriteQueue;
+    std::list<DataQueueItem> localReadQueue;
+    std::list<DataQueueItem> localWriteQueue;
 
     int timeIntervalProcDK = 11'000;
     QTimer timerBeatProcDK;
@@ -50,7 +50,7 @@ public:
     // interface -->
     bool open();
     void close();
-    void write(const QList<DataQueueItem> &data);
+    void write(const std::list<DataQueueItem> &data);
     void write(const DataQueueItem &data, bool dbIns = true);
     bool isOpen();
     // interface <--
@@ -82,16 +82,16 @@ public:
     std::set<QHostAddress, QHostAddressComparator> getStHostAddress() const;
     void setStHostAddress(const std::set<QHostAddress, QHostAddressComparator> &value);
 
-    QList<DataQueueItem> getLocalReadQueue() const;
-    QList<DataQueueItem> popLocalReadQueue();
-    void setLocalReadQueue(const QList<DataQueueItem> &value);
-    void pushLocalReadQueue(const QList<DataQueueItem> &value);
+    std::list<DataQueueItem> getLocalReadQueue() const;
+    std::list<DataQueueItem> popLocalReadQueue();
+    void setLocalReadQueue(const std::list<DataQueueItem> &value);
+    void pushLocalReadQueue(const std::list<DataQueueItem> &value);
     void pushLocalReadQueue(const DataQueueItem &value);
 
-    QList<DataQueueItem> getLocalWriteQueue() const;
-    QList<DataQueueItem> popLocalWriteQueue();
-    void setLocalWriteQueue(const QList<DataQueueItem> &value);
-    void pushLocalWriteQueue(const QList<DataQueueItem> &value);
+    std::list<DataQueueItem> getLocalWriteQueue() const;
+    std::list<DataQueueItem> popLocalWriteQueue();
+    void setLocalWriteQueue(const std::list<DataQueueItem> &value);
+    void pushLocalWriteQueue(const std::list<DataQueueItem> &value);
     void pushLocalWriteQueue(const DataQueueItem &value);
     // getter setter <--
 
@@ -113,7 +113,7 @@ private:
 
 public slots:
     // interface -->
-    QList<DataQueueItem> readAll();
+    std::list<DataQueueItem> readAll();
     void write();
     // interface <--
 

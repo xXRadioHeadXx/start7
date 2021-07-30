@@ -501,7 +501,7 @@ void MainWindowServer::tableView_selectionChanged()
     auto listJour = modelJour->listIndexsToListJours(selectedRows);
 
     if(1 == listJour.size()) {
-        selMsg = listJour.first();
+        selMsg = listJour.front();
         listSelMsg = listJour;
 
         modelJour->selectOnedMsg(selMsg);
@@ -1111,17 +1111,17 @@ void MainWindowServer::on_actionIncrease_triggered()
     int currentIndexFont = 0;
 
     for(int n = fontSize.size(); currentIndexFont < n; currentIndexFont++)
-        if(font.pointSize() == fontSize.at(currentIndexFont).first)
+        if(font.pointSize() == fontSize[currentIndexFont].first)
             break;
 
     if(currentIndexFont + 1 >= fontSize.size())
         return;
 
-    font.setPointSize(fontSize.at(currentIndexFont + 1).first);
+    font.setPointSize(fontSize[currentIndexFont + 1].first);
     modelJour->setFont(font);
 
-    ui->tableView->verticalHeader()->setMinimumHeight(fontSize.at(currentIndexFont + 1).second);
-    ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont + 1).second);
+    ui->tableView->verticalHeader()->setMinimumHeight(fontSize[currentIndexFont + 1].second);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize[currentIndexFont + 1].second);
 
     ui->treeView->resizeColumnToContents(0);
 
@@ -1142,17 +1142,17 @@ void MainWindowServer::on_actionReduce_triggered()
     int currentIndexFont = 0;
 
     for(int n = fontSize.size(); currentIndexFont < n; currentIndexFont++)
-        if(font.pointSize() == fontSize.at(currentIndexFont).first)
+        if(font.pointSize() == fontSize[currentIndexFont].first)
             break;
 
     if(0 > currentIndexFont - 1)
         return;
 
-    font.setPointSize(fontSize.at(currentIndexFont - 1).first);
+    font.setPointSize(fontSize[currentIndexFont - 1].first);
     modelJour->setFont(font);
 
-    ui->tableView->verticalHeader()->setMinimumHeight(fontSize.at(currentIndexFont - 1).second);
-    ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont - 1).second);
+    ui->tableView->verticalHeader()->setMinimumHeight(fontSize[currentIndexFont - 1].second);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize[currentIndexFont - 1].second);
 
     ui->treeView->resizeColumnToContents(0);
 
@@ -1279,7 +1279,7 @@ void MainWindowServer::on_actionDataBase_triggered()
     // windows code
     file.append(".exe");
 #endif
-    process->start(file, QStringList());
+    process->start(file, QList<QString>());
 }
 
 void MainWindowServer::on_actionUNSqlSelect_triggered()
@@ -1296,7 +1296,7 @@ void MainWindowServer::on_actionUNSqlSelect_triggered()
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
 //    codec->fromUnicode("-sql");
 //    codec->fromUnicode("\"" + getUnSqlSelect() + "\"");
-    process->start(file, QStringList() << codec->fromUnicode("-sql") << codec->fromUnicode("\"" + getUnSqlSelect() + "\""));
+    process->start(file, QList<QString>() << codec->fromUnicode("-sql") << codec->fromUnicode("\"" + getUnSqlSelect() + "\""));
 }
 
 void MainWindowServer::changeSelectUN(QSharedPointer<UnitNode> un)
@@ -1892,7 +1892,7 @@ void MainWindowServer::fillPageTGAtPointInput(int ci)
         return;
 
     QSharedPointer<UnitNode> target;
-    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
+    const auto tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes();//.begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG == un->getType() &&
            un->getUdpAdress() == selUN->getUdpAdress() &&

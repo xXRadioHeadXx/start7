@@ -5,23 +5,23 @@
 #include <set>
 
 class UnitNode;
-class QStringList;
+class std::list<QString>;
 class ServerSettingUtils
 {
 private:
-    static QList<QSharedPointer<UnitNode> > listTreeUnitNodes;
+    static std::list<QSharedPointer<UnitNode> > listTreeUnitNodes;
     static std::set<QSharedPointer<UnitNode> > listMetaRealUnitNodes;
 
 public:
     ServerSettingUtils();
 
-    static QList<QSharedPointer<UnitNode> > getLinkedUI(QSharedPointer<UnitNode> un);
+    static std::list<QSharedPointer<UnitNode> > getLinkedUI(QSharedPointer<UnitNode> un);
 
     static int linkDoubles(QSharedPointer<UnitNode> &un);
-    static QList<QSharedPointer<UnitNode> > loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
-    static QList<QSharedPointer<UnitNode> > loadEmptyTree(QSharedPointer<UnitNode> root);
+    static std::list<QSharedPointer<UnitNode> > loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
+    static std::list<QSharedPointer<UnitNode> > loadEmptyTree(QSharedPointer<UnitNode> root);
 
-    static QList<QSharedPointer<UnitNode> > &getListTreeUnitNodes();
+    static std::list<QSharedPointer<UnitNode> > &getListTreeUnitNodes();
     static QSharedPointer<UnitNode> getTreeUnitNodes(UnitNode*);
     static std::set<QSharedPointer<UnitNode> > &getSetMetaRealUnitNodes();
     static QSharedPointer<UnitNode> getMetaRealUnitNodes(UnitNode*);
@@ -32,11 +32,11 @@ public:
 
     static std::set<int>  priorityJoutTyper;
 
-    static QStringList reasonTemplate;
-    static QStringList measureTemplate;
+    static QList<QString> reasonTemplate;
+    static QList<QString> measureTemplate;
 
-    static const QStringList &getReasonTemplate();
-    static const QStringList &getMeasureTemplate();
+    static QList<QString> getReasonTemplate();
+    static QList<QString> getMeasureTemplate();
     static const std::set<int> &getPriorityJoutTyper();
 };
 

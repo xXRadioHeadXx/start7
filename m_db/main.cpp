@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     }
 
     QRegExp regExpSql("-sql\\s*\\\".*\\\"");
-    QStringList sl;
+    QList<QString> sl;
     if (-1 != regExpSql.indexIn(argString)) {
         sl = regExpSql.capturedTexts();
     }

@@ -52,7 +52,7 @@ public:
     static QString baMsgToStr(const QByteArray ba = QByteArray());
     static bool isSavedMsg(const QByteArray ba);
     template <typename T>
-    static QList<T> reversed( const QList<T> & in );
+    static std::list<T> reversed( const std::list<T> & in );
     static QTableWidgetItem *setCellText(QTableWidget * const table, const int row, const int column, const QString &text);
     static QTableWidgetItem *setCellTextWithForeground(QTableWidget * const table, const int row, const int column, const QString &text, const QBrush &foreground = QBrush(QColor(0x00, 0x00, 0x00)));
     static QTableWidgetItem *setCellForeground(QTableWidget * const table, const int row, const int column, const QBrush &foreground = QBrush(QColor(0x00, 0x00, 0x00)));

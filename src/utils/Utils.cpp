@@ -272,8 +272,8 @@ void Utils::setCellColor(QTableWidget * const table, const int row, const int co
 }
 
 template <typename T>
-QList<T> Utils::reversed( const QList<T> & in ) {
-    QList<T> result;
+std::list<T> Utils::reversed( const std::list<T> & in ) {
+    std::list<T> result;
     result.reserve( in.size() );
     std::reverse_copy( in.begin(), in.end(), std::back_inserter( result ) );
     return result;
@@ -413,7 +413,7 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
     }
 
 
-    QList<QSharedPointer<UnitNode> > tmpLs = parent->getListChilde();
+    auto tmpLs = parent->getListChilde();
     for(QSharedPointer<UnitNode>  un : tmpLs) {
         if(TypeUnitNode::SD_BL_IP != un->getType() && TypeUnitNode::IU_BL_IP != un->getType()) {
             continue;

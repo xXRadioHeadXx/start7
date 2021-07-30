@@ -7,6 +7,8 @@
 #include <QTimer>
 //#include <QDebug>
 #include "UnitNode.h"
+#include <list>
+//#include <QDebug>
 
 enum BeatStatus {
     Start = 0,

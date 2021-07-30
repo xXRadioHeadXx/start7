@@ -5,7 +5,7 @@
 #include "SignalSlotCommutator.h"
 #include "Icons.h"
 
-QList<JourEntity> TableModelMSG::m_listMSG = QList<JourEntity>();
+std::list<JourEntity> TableModelMSG::m_listMSG = std::list<JourEntity>();
 
 
 QFont TableModelMSG::getFont() const
@@ -18,7 +18,7 @@ void TableModelMSG::setFont(const QFont &value)
     font = value;
 }
 
-QList<JourEntity> TableModelMSG::getListMSG()
+std::list<JourEntity> TableModelMSG::getListMSG()
 {
     return m_listMSG;
 }
@@ -129,7 +129,8 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
     {
         return result;
     }
-    const JourEntity msgRecord = m_listMSG.at(row);
+    auto it = std::next(m_listMSG.begin(), row);
+    const JourEntity msgRecord = *it;
 
     if(Qt::FontRole == role) {
         QFont font = getFont();
@@ -180,17 +181,18 @@ QVariant TableModelMSG::data(const QModelIndex &index, int role) const
 // Функция для приёма данных от пользователя
 bool TableModelMSG::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    auto it = std::next(m_listMSG.begin(), index.row());
     if (role == Qt::EditRole) {
         if (index.column() == 4)
-                m_listMSG[index.row()].setReason(value.toString());
+                (*it).setReason(value.toString());
         else if (index.column() == 5)
-                m_listMSG[index.row()].setMeasures(value.toString());
+                (*it).setMeasures(value.toString());
         else
             return false;
 
 //        m_listMSG.replace(index.row(), item);
 
-        DataBaseManager::updateJourMsg(m_listMSG[index.row()]);
+        DataBaseManager::updateJourMsg(*it);
         emit dataChanged(index, index, QVector<int>() << Qt::DisplayRole << Qt::EditRole);
         return true;
     }
@@ -248,9 +250,11 @@ bool TableModelMSG::insertRows(int row, int count, const QModelIndex &parent)
     {
         this->beginInsertRows(parent, row, row);
 
-        QList<JourEntity> tmp = DataBaseManager::getOneMSGRecord(newRecordMSG);
-        if(!tmp.isEmpty())
-            m_listMSG.insert(row, tmp.first());
+        auto tmp = DataBaseManager::getOneMSGRecord(newRecordMSG);
+        if(!tmp.empty()) {
+            auto it = std::next(m_listMSG.begin(), row);
+            m_listMSG.insert(it, tmp.front());
+        }
 
         this->endInsertRows();
         return true;
@@ -262,7 +266,7 @@ void TableModelMSG::castomUpdateListRecords(QString sql)
 {
 //    int lastRecordMSG = -1;
 
-    QList<JourEntity> newRecords(DataBaseManager::getQueryMSGRecord(sql));
+    auto newRecords(DataBaseManager::getQueryMSGRecord(sql));
 
 
     this->beginResetModel();
@@ -279,9 +283,9 @@ void TableModelMSG::castomUpdateListRecords(QString sql)
 
 void TableModelMSG::updateAllRecords()
 {
-    QList<JourEntity> newRecords(DataBaseManager::getMSGRecordAfter(DataBaseManager::getIdStartLastDuty() - 1));
+    auto newRecords(DataBaseManager::getMSGRecordAfter(DataBaseManager::getIdStartLastDuty() - 1));
 
-    if(newRecords.isEmpty())
+    if(newRecords.empty())
         return;
 
     this->beginResetModel();
@@ -298,18 +302,18 @@ void TableModelMSG::updateAllRecords()
 void TableModelMSG::updateListRecords()
 {
     int lastRecordMSG = -1;
-    if(!m_listMSG.isEmpty())
-        lastRecordMSG = m_listMSG.last().getId();
+    if(!m_listMSG.empty())
+        lastRecordMSG = m_listMSG.back().getId();
 
 
-    QList<JourEntity> newRecords(DataBaseManager::getMSGRecordAfter(lastRecordMSG));
+    auto newRecords(DataBaseManager::getMSGRecordAfter(lastRecordMSG));
 
-    if(newRecords.isEmpty())
+    if(newRecords.empty())
         return;
 
     this->beginInsertRows(QModelIndex(), m_listMSG.size(), m_listMSG.size() + newRecords.size() - 1);
 
-    m_listMSG.append(newRecords);
+    m_listMSG.insert(m_listMSG.end(), newRecords.begin(), newRecords.end());
 
     this->endInsertRows();
 
@@ -319,7 +323,7 @@ void TableModelMSG::updateListRecords()
 void TableModelMSG::updateListRecords(const quint32 idMSG)
 {
     newRecordMSG = idMSG;
-//    QList<JourEntity> newRecords(DataBaseManager::getOneMSGRecord(idMSG));
+//    auto newRecords(DataBaseManager::getOneMSGRecord(idMSG));
 
     this->insertRows(this->rowCount());
 
@@ -329,15 +333,16 @@ void TableModelMSG::updateListRecords(const quint32 idMSG)
 void TableModelMSG::updateRecord(const quint32 idMSG)
 {
     updRecordMSG = idMSG;
-    QList<JourEntity> updRecord(DataBaseManager::getOneMSGRecord(idMSG));
+    auto updRecord(DataBaseManager::getOneMSGRecord(idMSG));
 
-    if(updRecord.isEmpty())
+    if(updRecord.empty())
         return;
 
-    for(int i = 0, n = m_listMSG.size(); i < n; i++) {
-        JourEntity target = m_listMSG.at(i);
-        if(target.getId() == updRecord.first().getId()) {
-            target = updRecord.first();
+    int i = 0;
+    for(auto it = m_listMSG.begin(); it != m_listMSG.end(); it++, i++) {
+        auto &target = *it;
+        if(target.getId() == updRecord.front().getId()) {
+            target = updRecord.front();
             emit this->dataChanged(this->index(i, 0, QModelIndex()), this->index(i, 6, QModelIndex()));
             break;
         }
@@ -370,7 +375,7 @@ JourEntity TableModelMSG::clickedMsg(const QModelIndex &index)
     if (!index.isValid())
         return nullptr;
 
-    const JourEntity item = m_listMSG.at(index.row());
+    const JourEntity item = *std::next(m_listMSG.begin(), index.row());
 
 //    JourEntity item = static_cast<JourEntity>(index.internalPointer());
     if(0 != item.getId())

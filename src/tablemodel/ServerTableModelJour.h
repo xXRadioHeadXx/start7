@@ -9,7 +9,7 @@ class ServerTableModelJour : public QAbstractTableModel
 {
     Q_OBJECT
 
-    static QList<JourEntity> m_listJour;
+    static std::list<JourEntity> m_listJour;
     quint32 newRecordMSG;
     quint32 updRecordMSG;
     bool needScroll;
@@ -42,7 +42,7 @@ public:
     QFont getFont() const;
     void setFont(const QFont &value);
 
-    static QList<JourEntity> getListJour();
+    static std::list<JourEntity> getListJour();
 
     bool getForegroundRoleFlag() const;
     void setForegroundRoleFlag(bool value);
@@ -61,10 +61,10 @@ public:
     bool getNeedScroll() const;
 
     JourEntity indexToJour(const QModelIndex &index) const;
-    QList<JourEntity> listIndexsToListJours(const QModelIndexList &listIndex) const;
+    std::list<JourEntity> listIndexsToListJours(const QModelIndexList &listIndex) const;
 signals:
     void needScrollToBottom();
-    void selectedMsg(QList<JourEntity> listUN);
+    void selectedMsg(std::list<JourEntity> listUN);
     void selectedMsg(JourEntity msg);
     void dataChangedReason(JourEntity msg);
     void dataChangedMeasures(JourEntity msg);

@@ -48,8 +48,6 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
 //    m_portFactorys.reserve(1);
 //    m_portFactorys.insert(Protocol::UDP, new PortFactory());
 
-    m_udpPortsVector.reserve(MAX_COUNT_PORTS);
-
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(bool, QSharedPointer<UnitNode> , bool)), this, SLOT(requestOnOffCommand(bool, QSharedPointer<UnitNode> , bool)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)), this, SLOT(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(QSharedPointer<UnitNode> )), this, SLOT(requestDK(QSharedPointer<UnitNode> )));
@@ -127,14 +125,14 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
     });
 }
 
-QList<AbstractPort *> PortManager::m_udpPortsVector = QList<AbstractPort *>();
+std::list<AbstractPort *> PortManager::m_udpPortsVector = std::list<AbstractPort *>();
 
 GraphTerminal * PortManager::graphTerminal = nullptr;
 
 
-QList<QSharedPointer<AbstractRequester> > PortManager::lsSCR = QList<QSharedPointer<AbstractRequester> >();
+std::list<QSharedPointer<AbstractRequester> > PortManager::lsSCR = std::list<QSharedPointer<AbstractRequester> >();
 
-QList<QSharedPointer<AbstractRequester> > PortManager::lsWaiter = QList<QSharedPointer<AbstractRequester> >();
+std::list<QSharedPointer<AbstractRequester> > PortManager::lsWaiter = std::list<QSharedPointer<AbstractRequester> >();
 
 PortManager::~PortManager()
 {
@@ -170,17 +168,20 @@ void PortManager::loadSettings() {
 }
 
 bool PortManager::open(const int index) {
-    return m_udpPortsVector.at(index)->open();
+    auto it = std::next(m_udpPortsVector.begin(), index);
+    return (*it)->open();
 }
 
 void PortManager::close(const int index) {
-    return m_udpPortsVector.at(index)->close();
+    auto it = std::next(m_udpPortsVector.begin(), index);
+    return (*it)->close();
 }
 
-QList<DataQueueItem> PortManager::readAll(const int index) {
-    switch (m_udpPortsVector.at(index)->getProtocol()) {
+std::list<DataQueueItem> PortManager::readAll(const int index) {
+    auto it = std::next(m_udpPortsVector.begin(), index);
+    switch ((*it)->getProtocol()) {
         case AbstractPort::UDP:
-            pushOverallReadQueue(Port::typeDefPort(m_udpPortsVector.at(index))->popLocalReadQueue());
+            pushOverallReadQueue(Port::typeDefPort(*it)->popLocalReadQueue());
             manageOverallReadQueue();
             break;
         default:
@@ -194,17 +195,18 @@ void PortManager::write() {
     write(popOverallWriteQueue());
 }
 
-void PortManager::write(const QList<DataQueueItem> &data) {
+void PortManager::write(const std::list<DataQueueItem> &data) {
     for(const auto& itm : data) {
         write(itm);
     }
 }
 
 void PortManager::write(const DataQueueItem &data) {
-    switch (m_udpPortsVector.at(data.portIndex())->getProtocol()) {
+    auto it = std::next(m_udpPortsVector.begin(), data.portIndex());
+    switch ((*it)->getProtocol()) {
         case AbstractPort::UDP:
-            Port::typeDefPort(m_udpPortsVector.at(data.portIndex()))->pushLocalWriteQueue(data);
-            Port::typeDefPort(m_udpPortsVector.at(data.portIndex()))->write();
+            Port::typeDefPort(*it)->pushLocalWriteQueue(data);
+            Port::typeDefPort(*it)->write();
             break;
         default:
             break;
@@ -212,20 +214,21 @@ void PortManager::write(const DataQueueItem &data) {
 }
 
 bool PortManager::isOpen(const int index) {
-    return m_udpPortsVector.at(index)->isOpen();
+    auto it = std::next(m_udpPortsVector.begin(), index);
+    return (*it)->isOpen();
 }
 
-QList<AbstractPort *> PortManager::getUdpPortsVector()
+std::list<AbstractPort *> PortManager::getUdpPortsVector()
 {
     return m_udpPortsVector;
 }
 
-QList<QSharedPointer<AbstractRequester> > PortManager::getLsWaiter()
+std::list<QSharedPointer<AbstractRequester> > PortManager::getLsWaiter()
 {
     return lsWaiter;
 }
 
-void PortManager::setLsWaiter(const QList<QSharedPointer<AbstractRequester> > &value)
+void PortManager::setLsWaiter(const std::list<QSharedPointer<AbstractRequester> > &value)
 {
     lsWaiter = value;
 }
@@ -235,7 +238,7 @@ void PortManager::appLsWaiter(QSharedPointer<AbstractRequester> value) {
         return;
 
     if(value->isValid())
-        lsWaiter.append(value);
+        lsWaiter.push_back(value);
 }
 
 void PortManager::prependLsWaiter(QSharedPointer<AbstractRequester> value) {
@@ -243,33 +246,38 @@ void PortManager::prependLsWaiter(QSharedPointer<AbstractRequester> value) {
         return;
 
     if(value->isValid())
-        lsWaiter.prepend(value);
+        lsWaiter.push_front(value);
 }
 
 
 void PortManager::removeLsWaiter(QSharedPointer<AbstractRequester> value) {
 
     value->timerTripleStop();
-    lsWaiter.removeAll(value);
+    for(auto it = lsWaiter.begin(); it != lsWaiter.end(); ) {
+        if(*it == value)
+            it = lsWaiter.erase(it);
+        else
+            ++it;
+    }
     value->setBeatStatus(BeatStatus::Unsuccessful);
 }
 
 void PortManager::clearLsWaiter()
 {
-    for(int i = 0, n = lsWaiter.size(); i < n; i++) {
-        QSharedPointer<AbstractRequester> value = lsWaiter.at(i);
+    for(auto it = lsWaiter.begin(); it != lsWaiter.end(); it++) {
+        auto value = *it;
         value->timerTripleStop();
         value->setBeatStatus(BeatStatus::Unsuccessful);
     }
     lsWaiter.clear();
 }
 
-QList<QSharedPointer<AbstractRequester> > PortManager::getLsSCR()
+std::list<QSharedPointer<AbstractRequester> > PortManager::getLsSCR()
 {
     return lsSCR;
 }
 
-void PortManager::setLsSCR(const QList<QSharedPointer<AbstractRequester> > &value)
+void PortManager::setLsSCR(const std::list<QSharedPointer<AbstractRequester> > &value)
 {
     lsSCR = value;
 }
@@ -279,7 +287,7 @@ void PortManager::appLsSCR(QSharedPointer<AbstractRequester> value) {
         return;
 
     if(value->isValid())
-        lsSCR.append(value);
+        lsSCR.push_back(value);
 }
 
 void PortManager::prependLsSCR(QSharedPointer<AbstractRequester> value) {
@@ -287,21 +295,25 @@ void PortManager::prependLsSCR(QSharedPointer<AbstractRequester> value) {
         return;
 
     if(value->isValid())
-        lsSCR.prepend(value);
+        lsSCR.push_front(value);
 }
 
 
 void PortManager::removeLsSCR(QSharedPointer<AbstractRequester> value) {
-
     value->timerTripleStop();
-    lsSCR.removeAll(value);
+    for(auto it = lsSCR.begin(); it != lsSCR.end(); ) {
+        if(*it == value)
+            it = lsSCR.erase(it);
+        else
+            ++it;
+    }
     value->setBeatStatus(BeatStatus::Unsuccessful);
 }
 
 void PortManager::clearLsSCR()
 {
-    for(int i = 0, n = lsSCR.size(); i < n; i++) {
-        QSharedPointer<AbstractRequester>  value = lsSCR.at(i);
+    for(auto it = lsSCR.begin(); it != lsSCR.end(); it++) {
+        auto value = *it;
         value->timerTripleStop();
         value->setBeatStatus(BeatStatus::Unsuccessful);
     }
@@ -310,7 +322,8 @@ void PortManager::clearLsSCR()
 
 
 void PortManager::setupPort(const int index) {
-    setupPort(m_udpPortsVector.at(index));
+    auto it = std::next(m_udpPortsVector.begin(), index);
+    setupPort(*it);
 }
 
 void PortManager::setupPort(AbstractPort *port) {
@@ -325,60 +338,72 @@ bool PortManager::preparePort(QString ip, QString port, int index) {
     if(index + 1 < MAX_COUNT_PORTS)
         return false;
 
-    Port::typeDefPort(m_udpPortsVector.at(index))->prepareUdpScoket(ip, port);
+    auto it = std::next(m_udpPortsVector.begin(), index);
+    Port::typeDefPort(*it)->prepareUdpScoket(ip, port);
     return true;
 }
 
-QList<DataQueueItem> PortManager::getOverallReadQueue() const
+std::list<DataQueueItem> & PortManager::getOverallReadQueue()
 {
     return overallReadQueue;
 }
 
-void PortManager::setOverallReadQueue(const QList<DataQueueItem> &value)
+void PortManager::setOverallReadQueue(const std::list<DataQueueItem> &value)
 {
     overallReadQueue = value;
 }
 
-QList<DataQueueItem> PortManager::popOverallReadQueue() {
+std::list<DataQueueItem> PortManager::popOverallReadQueue() {
     const auto& result(getOverallReadQueue());
     for(const auto& itm : result) {
-        overallReadQueue.removeOne(itm);
+        for(auto it = getOverallReadQueue().begin(); it != getOverallReadQueue().end(); ) {
+            if(*it == itm)
+                it = getOverallReadQueue().erase(it);
+            else
+                ++it;
+        }
     }
     return result;
 }
-void PortManager::pushOverallReadQueue(const QList<DataQueueItem> &value) {
-    overallReadQueue.append(value);
+void PortManager::pushOverallReadQueue(const std::list<DataQueueItem> &value) {
+    overallReadQueue.insert(overallReadQueue.end(), value.begin(), value.end());
 //    //qDebug() << "pushOverallReadQueue size(" << overallReadQueue.size() << ")";
 }
 
 void PortManager::pushOverallReadQueue(const DataQueueItem &value){
-    overallReadQueue.append(value);
+    overallReadQueue.push_back(value);
 //    //qDebug() << "pushOverallReadQueue size(" << overallReadQueue.size() << ")";
 }
 
-QList<DataQueueItem> PortManager::getOverallWriteQueue() const
+std::list<DataQueueItem> &PortManager::getOverallWriteQueue()
 {
     return overallWriteQueue;
 }
 
-void PortManager::setOverallWriteQueue(const QList<DataQueueItem> &value)
+void PortManager::setOverallWriteQueue(const std::list<DataQueueItem> &value)
 {
     overallWriteQueue = value;
 }
 
-QList<DataQueueItem> PortManager::popOverallWriteQueue() {
+std::list<DataQueueItem> PortManager::popOverallWriteQueue() {
     const auto& result(getOverallWriteQueue());
     for(const auto& itm : result) {
-        overallWriteQueue.removeOne(itm);
+        for(auto it = getOverallWriteQueue().begin(); it != getOverallWriteQueue().end(); ) {
+            if(*it == itm)
+                it = getOverallWriteQueue().erase(it);
+            else
+                ++it;
+        }
     }
     return result;
 }
-void PortManager::pushOverallWriteQueue(const QList<DataQueueItem> &value) {
-    overallWriteQueue.append(value);
+
+void PortManager::pushOverallWriteQueue(const std::list<DataQueueItem> &value) {
+    overallWriteQueue.insert(overallWriteQueue.end(), value.begin(), value.end());
 }
 
 void PortManager::pushOverallWriteQueue(const DataQueueItem &value){
-    overallWriteQueue.append(value);
+    overallWriteQueue.push_back(value);
 }
 
 void PortManager::startStatusRequest(){
@@ -439,7 +464,7 @@ void PortManager::startStatusRequest(){
                 auto tmpSCR = QSharedPointer<MultiUNStatusConnectRequester>::create(un);
                 tmpSCR->init();
                 tmpSCR->setPtrPort(ptrPort);
-                lsSCR.append(tmpSCR);
+                lsSCR.push_back(tmpSCR);
                 tmpSCR->addLsTrackedUN(un);
 //                qDebug() << "PortManager::startStatusRequest() -- new scr->getPtrPort("<<tmpSCR->getPtrPort()<<")";
 //                qDebug() << "PortManager::startStatusRequest() -- new scr->getLsTrackedUN("<<tmpSCR->getLsTrackedUN()<<")";
@@ -521,7 +546,7 @@ void PortManager::requestDK(QSharedPointer<UnitNode> selUN)
 
 void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
     //
-    QList<QSharedPointer<UnitNode> > lsTrgtUN;
+    std::list<QSharedPointer<UnitNode> > lsTrgtUN;
     if(selUN.isNull()) {
         std::set<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
         for(const QSharedPointer<UnitNode>  &un : lsTmp) {
@@ -530,16 +555,16 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                TypeUnitNode::RLM_KRL == un->getType() ||
                TypeUnitNode::TG_Base == un->getType()
                     /* или датчик */) {
-                lsTrgtUN.append(un);
-                qDebug() << lsTrgtUN.constLast()->toString();
+                lsTrgtUN.push_back(un);
+                qDebug() << lsTrgtUN.back()->toString();
             }
         }
     } else if(!selUN.isNull()) {
         QSharedPointer<UnitNode>  un = selUN;
-        lsTrgtUN.append(UnitNode::findReciver(un));
+        lsTrgtUN.push_back(UnitNode::findReciver(un));
     }
 
-    if(lsTrgtUN.isEmpty())
+    if(lsTrgtUN.empty())
         return;
 
     if(selUN.isNull()) {
@@ -905,8 +930,8 @@ GraphTerminal * PortManager::loadPortsTcpGraphTerminal(QString fileName) {
     return nullptr;
 }
 
-QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
-    QList<AbstractPort *> result;
+std::list<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
+    std::list<AbstractPort *> result;
 
     int cntTrItm = ServerSettingUtils::getValueSettings("Count", "TREE", fileName).toInt();
 
@@ -933,11 +958,11 @@ QList<AbstractPort *> PortManager::loadPortsUdpObj(QString fileName) {
     }
 
     for(const auto& prt : as_const(stPort)) {
-            result.append(PortFactory(AbstractPort::UDP).create(AbstractPort::UDP, result.size()));
-        Port::typeDefPort(result.last())->setStrPort(prt);
+            result.push_back(PortFactory(AbstractPort::UDP).create(AbstractPort::UDP, result.size()));
+        Port::typeDefPort(result.back())->setStrPort(prt);
         for(const auto& tmp : as_const(stIpPort)) {
             if(prt == tmp.second)
-                Port::typeDefPort(result.last())->addToSetIpPort(tmp);
+                Port::typeDefPort(result.back())->addToSetIpPort(tmp);
         }
     }
 
@@ -1470,7 +1495,7 @@ DataQueueItem PortManager::parcingStatusWord0x42(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
+    const std::list<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(const QSharedPointer<UnitNode>  &un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress()))
         || item.port() != un->getUdpPort()
@@ -1610,7 +1635,7 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
+    const std::list<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(const QSharedPointer<UnitNode>  &un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress()))
         || item.port() != un->getUdpPort()
@@ -1700,7 +1725,7 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
+    const std::list<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::RLM_C != un->getType()
         && TypeUnitNode::RLM_KRL != un->getType()
@@ -2422,7 +2447,7 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
+    const std::list<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(1)";
@@ -2686,7 +2711,7 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
+    const std::list<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(1)";
@@ -2953,7 +2978,7 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
+    const std::list<QSharedPointer<UnitNode> > tmpSet(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(1)";
