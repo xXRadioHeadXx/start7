@@ -74,7 +74,27 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
     }
 
     timerFirstWakeUp.singleShot(20'000, [](){
-        for(const auto& un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
+        QList<QSharedPointer<UnitNode>> list = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+
+        qSort(list.begin(),
+              list.end(),
+              [](QSharedPointer<UnitNode> &lhs, QSharedPointer<UnitNode> &rhs){
+                if(lhs.isNull() || rhs.isNull())
+                    return true;
+                else if(lhs->getType() < rhs->getType())
+                    return true;
+                else if(lhs->getNum1() < rhs->getNum1())
+                    return true;
+                else if(lhs->getNum2() < rhs->getNum2())
+                    return true;
+                else if(lhs->getNum3() < rhs->getNum3())
+                    return true;
+
+                return false;
+            });
+
+
+        for(const auto& un : list) {
             if(10 != un->getPublishedState())
                 continue;
 
@@ -110,9 +130,9 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
                 SoundAdjuster::instance().playAlarm2();
             }
 
-            for(const auto& uncld : as_const(un->getListChilde())) {
-                unLostedConnect(uncld);
-            }
+//            for(const auto& uncld : as_const(un->getListChilde())) {
+//                unLostedConnect(uncld);
+//            }
 
             for(auto scr : as_const(getLsSCR())) {
                 if(scr->getUnReciver() == un && BeatStatus::Unsuccessful == scr->getBeatStatus()) {
@@ -1588,7 +1608,7 @@ bool PortManager::procSDBLIPStatusWord0x42(const QSharedPointer<UnitNode> &curre
     }
 
     if(1 == swpCurrent.isLineBreak()) {
-        commentMsg = QObject::tr("Разрыв");
+        commentMsg = QObject::tr("Обрыв");
 
 //        qDebug() << "состояние СД -->" << commentMsg;
 //        qDebug() << "pSD: " << previousUN->toString() << swpPrevious.byteWord().toHex();

@@ -39,40 +39,40 @@ class UnitNodeCFG : public QObject
 private:
     int Type=TypeUnitNode::SYSTEM;
     int Num1=-1;//=0
-    int Num2;//=0
-    int Num3;//=0
-    int Level;//=1
-    QString Name;//=250
-    int IconVisible;//=0
-    int X;//=40
-    int Y;//=40
+    int Num2=0;
+    int Num3=0;
+    int Level=0;
+    QString Name="";
+    int IconVisible=0;
+    int X=0;
+    int Y=0;
     int DK=1;
     int Bazalt=0;
-    int Metka;//=0
-    int Razriv;//=0
-    int AdamOff;//=0
-    int AlarmMsgOn;//=0
-    int ConnectBlock;//=0
-    int OutType;//=0
-    int asoosd_kk;//=0
-    int asoosd_nn;//=0
-    QString Description;//=
-    int lan = 0;//=0
-    int lon = 0;//=0
-    int UdpUse;//=0
-    QString UdpAdress;//=
-    int UdpPort;//=0
+    int Metka=0;
+    int Razriv=0;
+    int AdamOff=0;
+    int AlarmMsgOn=0;
+    int ConnectBlock=0;
+    int OutType=0;
+    int asoosd_kk=0;
+    int asoosd_nn=0;
+    QString Description="";
+    int lan=0;
+    int lon=0;
+    int UdpUse=0;
+    QString UdpAdress="";
+    int UdpPort=0;
     int UdpTimeout = 50;
-    int Metka1Time_0;//=0
-    int Metka1Time_1;//=0
-    int Metka2Time_0;//=0
-    int Metka2Time_1;//=0
-    int Metka3Time_0;//=0
-    int Metka3Time_1;//=0
-    int Metka4Time_0;//=0
-    int Metka4Time_1;//=0
-    int MetkaDopuskTime_0;//=0
-    int MetkaDopuskTime_1;//=1
+    int Metka1Time_0=0;
+    int Metka1Time_1=0;
+    int Metka2Time_0=0;
+    int Metka2Time_1=0;
+    int Metka3Time_0=0;
+    int Metka3Time_1=0;
+    int Metka4Time_0=0;
+    int Metka4Time_1=0;
+    int MetkaDopuskTime_0=0;
+    int MetkaDopuskTime_1=1;
 
     QString Icon1Path;
     QString Icon2Path;
