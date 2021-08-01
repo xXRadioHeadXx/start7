@@ -161,7 +161,7 @@ void ProcessDKWaiter::init() {
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
     for(AbstractPort * pt : as_const(PortManager::getUdpPortsVector())) {
-        if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
+        if(Port::typeDefPort(pt)->getStIpPort().end() != Port::typeDefPort(pt)->getStIpPort().find(getIpPort())) {
             setPtrPort(pt);
             setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
             break;

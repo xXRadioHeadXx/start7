@@ -217,7 +217,8 @@ void Port::readUdpDatagrams()
         socket->readDatagram(datagram.data(), datagram.size(), &ip6Address, &port);
 //        //qDebug() << "read i(" << getPortIndex() << ") s(" << dataSize << "/" << datagram.size() << ") " << datagram.toHex() << ip6Address << port;
         QHostAddress ip4Address(ip6Address.toIPv4Address(&conversionOK));
-        if (conversionOK && getStHostAddress().contains(ip4Address) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
+        auto lam = [](const auto &target, const auto &container){ for(auto it = container.begin(); it != container.end(); it++) if(*it == target) return true; return false;};
+        if (conversionOK && lam(ip4Address, getStHostAddress()) && !datagram.isEmpty() && !datagram.toHex().isEmpty())
         {
 #ifdef QT_DEBUG
     if(readPass)
@@ -335,12 +336,12 @@ int Port::getPortIndex() const
     return portIndex;
 }
 
-QSet<QPair<QString, QString> > Port::getStIpPort() const
+std::set<QPair<QString, QString> > Port::getStIpPort() const
 {
     return stIpPort;
 }
 
-void Port::setSetIpPort(const QSet<QPair<QString, QString> > &value)
+void Port::setSetIpPort(const std::set<QPair<QString, QString> > &value)
 {
     stIpPort = value;
     stHostAddress.clear();
@@ -356,12 +357,12 @@ void Port::addToSetIpPort(const QPair<QString, QString> &value) {
     }
 }
 
-QSet<QHostAddress> Port::getStHostAddress() const
+std::set<QHostAddress, Port::QHostAddressComparator> Port::getStHostAddress() const
 {
     return stHostAddress;
 }
 
-void Port::setStHostAddress(const QSet<QHostAddress> &value)
+void Port::setStHostAddress(const std::set<QHostAddress, QHostAddressComparator> &value)
 {
     stHostAddress = value;
 }

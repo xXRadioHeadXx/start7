@@ -2,7 +2,7 @@
 #define UNITNODE_H
 
 #include <QObject>
-#include <QSet>
+#include <set>
 #include <QVariant>
 #include <QQueue>
 #include "UnitNodeCFG.h"
@@ -53,8 +53,8 @@ private:
 
     std::map<const uint8_t, StateWord> stateWords;
 
-    QSet<QSharedPointer<UnitNode> > doubles; //[Obj_1]
-    QSet<QString> metaNames; //[Obj_1]
+    std::set<QSharedPointer<UnitNode> > doubles; //[Obj_1]
+    std::set<QString> metaNames; //[Obj_1]
 
     QSharedPointer<UnitNode> parentUN; //родительское устройство
     QList<QSharedPointer<UnitNode> > listChilde; //список детей
@@ -85,6 +85,72 @@ private:
 
 public:
 
+    struct Comparator {
+        bool operator()(const QSharedPointer<UnitNode> &lhs, const QSharedPointer<UnitNode> &rhs) const
+        {
+            if(lhs.isNull() || rhs.isNull())
+                return false;
+            else if(0 < lhs->getUdpAdress().compare(rhs->getUdpAdress()))
+                return true;
+            else if(lhs->getUdpPort() < rhs->getUdpPort())
+                return true;
+            else if(lhs->getType() < rhs->getType())
+                return true;
+            else if(lhs->getNum1() < rhs->getNum1())
+                return true;
+            else if(lhs->getNum2() < rhs->getNum2())
+                return true;
+            else if(lhs->getNum3() < rhs->getNum3())
+                return true;
+            else if(lhs->getName() < rhs->getName())
+                return true;
+
+            return false;
+        }
+
+        bool operator()(const UnitNode &lhs, const UnitNode &rhs) const
+        {
+            if(0 < lhs.getUdpAdress().compare(rhs.getUdpAdress()))
+                return true;
+            else if(lhs.getUdpPort() < rhs.getUdpPort())
+                return true;
+            else if(lhs.getType() < rhs.getType())
+                return true;
+            else if(lhs.getNum1() < rhs.getNum1())
+                return true;
+            else if(lhs.getNum2() < rhs.getNum2())
+                return true;
+            else if(lhs.getNum3() < rhs.getNum3())
+                return true;
+            else if(lhs.getName() < rhs.getName())
+                return true;
+
+            return false;
+        }
+
+        bool operator()(const UnitNode *lhs, const UnitNode *rhs) const
+        {
+            if(nullptr == lhs || nullptr == rhs)
+                return false;
+            else if(0 < lhs->getUdpAdress().compare(rhs->getUdpAdress()))
+                return true;
+            else if(lhs->getUdpPort() < rhs->getUdpPort())
+                return true;
+            else if(lhs->getType() < rhs->getType())
+                return true;
+            else if(lhs->getNum1() < rhs->getNum1())
+                return true;
+            else if(lhs->getNum2() < rhs->getNum2())
+                return true;
+            else if(lhs->getNum3() < rhs->getNum3())
+                return true;
+            else if(lhs->getName() < rhs->getName())
+                return true;
+
+            return false;
+        }
+    };
+
     struct LeftoversCounter{
         int counter = 0;
         int divider = 2;
@@ -110,10 +176,10 @@ public:
     QSharedPointer<UnitNode>  child(int num) noexcept;
     int childCount() const noexcept;
 
-    QSet<QString> getMetaNames() const;
+    std::set<QString> getMetaNames() const;
     void resetMetaNames(const QString &value);
     void setMetaNames(const QString &value);
-    void setMetaNames(const QSet<QString> &value);
+    void setMetaNames(const std::set<QString> &value);
 
     QSharedPointer<UnitNode> getParentUN() const;
     void setParentUN(QSharedPointer<UnitNode> value);
@@ -129,8 +195,8 @@ public:
     bool getDkInvolved() const;
     void setDkInvolved(bool value);
 
-    QSet<QSharedPointer<UnitNode> > getDoubles() const;
-    void setDoubles(const QSet<QSharedPointer<UnitNode> > &value);
+    std::set<QSharedPointer<UnitNode> > getDoubles() const;
+    void setDoubles(const std::set<QSharedPointer<UnitNode> > &value);
     void setDoubles(QSharedPointer<UnitNode> value);
 
     void updDoubl();
