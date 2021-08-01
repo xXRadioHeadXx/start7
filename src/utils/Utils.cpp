@@ -449,7 +449,7 @@ void Utils::fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPoi
                 if(swp.isNull()) {
                     setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Тревога")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
                 } else if(1 == swp.isLineBreak() && 1 == swp.isInAlarm()) {
-                    setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Разрыв")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
+                    setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Обрыв")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
                 } else if(1 == swp.isShortCircuit() && 1 == swp.isInAlarm()) {
                     setCellTextBackgroundColorForegroundBold( table, row, 1, (QObject::tr("Замыкание")), cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false); // "Тревога"
                 } else {

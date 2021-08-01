@@ -2037,7 +2037,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     currentUN->updDoubl();
     SignalSlotCommutator::getInstance()->emitUpdUN();
 
-    if(20 == typeMsg && !iniState) {
+    if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
             SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
@@ -2423,7 +2423,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     currentUN->updDoubl();
     SignalSlotCommutator::getInstance()->emitUpdUN();
 
-    if(20 == typeMsg && !iniState) {
+    if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
             SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
@@ -2583,14 +2583,14 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
-    if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
+    if(-1 == currentUN->getPublishedState()) {
         isFirstWakeUp = true;
     }
 //    qDebug() << "PortManager::procTgStatusWord0x32() -- isFirstWakeUp " << isFirstWakeUp;
 
     auto isWakeUp = false;
     // устройство очнулось (после потери связи например)
-    if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
+    if(10 == currentUN->getPublishedState()) {
         isWakeUp = true;
     }
 //    qDebug() << "PortManager::procTgStatusWord0x32() -- isWakeUp " << isWakeUp;
@@ -2626,6 +2626,7 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     int typeMsg = -1;
     QString commentMsg;
 
+    bool iniState = false;
     // запись неисправность/вскрытие/тревога/норма TG
     if(1 == swpCurrentCi.isFault()
     && swpCurrentCi.isFault() != swpPreviousCi.isFault()) {
@@ -2651,6 +2652,12 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         commentMsg = QObject::tr("Норма");
         typeMsg = 1;
         currentUN->setPublishedState(1);
+    } else if(1 != swpCurrentCi.isNorm()&&
+              (isFirstWakeUp || isWakeUp)) {
+        commentMsg = QObject::tr("Тревога-СРАБОТКА (начальное состояние)");
+        typeMsg = 20;
+        currentUN->setPublishedState(20);
+        iniState = true;
     }
 
 //    qDebug() << "состояние TG -->" << commentMsg;
@@ -2682,14 +2689,14 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         } else if(12 == typeMsg || 21 == typeMsg) {
             SoundAdjuster::instance().playAlarm2();
         }
+    }
 
-        if(20 == typeMsg) {
-            // тригер на ИУ
-            for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-                SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
-            }
-            //нужен сброс
+    if((21 == typeMsg || 20 == typeMsg) && !iniState) {
+        // тригер на ИУ
+        for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
         }
+        //нужен сброс
     }
 
     currentUN->updDoubl();
@@ -2850,14 +2857,14 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
-    if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
+    if(-1 == currentUN->getPublishedState()) {
         isFirstWakeUp = true;
     }
 //    qDebug() << "PortManager::procTgStatusWord0x33() -- isFirstWakeUp " << isFirstWakeUp;
 
     auto isWakeUp = false;
     // устройство очнулось (после потери связи например)
-    if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
+    if(10 == currentUN->getPublishedState()) {
         isWakeUp = true;
     }
 //    qDebug() << "PortManager::procTgStatusWord0x33() -- isWakeUp " << isWakeUp;
@@ -2893,6 +2900,7 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     int typeMsg = -1;
     QString commentMsg;
 
+    bool iniState = false;
     // запись неисправность/вскрытие/тревога/норма TG
     if(1 == swpCurrentCi.isFault()
     && swpCurrentCi.isFault() != swpPreviousCi.isFault()) {
@@ -2918,6 +2926,12 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
         commentMsg = QObject::tr("Норма");
         typeMsg = 1;
         currentUN->setPublishedState(1);
+    } else if(1 != swpCurrentCi.isNorm() &&
+              (isFirstWakeUp || isWakeUp)) {
+        commentMsg = QObject::tr("Тревога-СРАБОТКА (начальное состояние)");
+        typeMsg = 20;
+        currentUN->setPublishedState(20);
+        iniState = true;
     }
 
 //    qDebug() << "состояние TG -->" << commentMsg;
@@ -2950,13 +2964,14 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
             SoundAdjuster::instance().playAlarm2();
         }
 
-        if(20 == typeMsg) {
-            // тригер на ИУ
-            for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-                SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
-            }
-            //нужен сброс
+    }
+
+    if((21 == typeMsg || 20 == typeMsg) && !iniState) {
+        // тригер на ИУ
+        for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
         }
+        //нужен сброс
     }
 
     currentUN->updDoubl();

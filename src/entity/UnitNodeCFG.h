@@ -38,7 +38,7 @@ class UnitNodeCFG : public QObject
     Q_OBJECT
 private:
     int Type=TypeUnitNode::SYSTEM;
-    int Num1=-1;//=0
+    int Num1=0;
     int Num2=0;
     int Num3=0;
     int Level=0;
