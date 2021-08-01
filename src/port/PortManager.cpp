@@ -1384,6 +1384,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     // запись вкл/выкл СД -->
     int typeMsg = -1;
     QString commentMsg;
+    bool needRepeatActualState = false;
 
     if(1 == swpCurrent.isOff()) {
         commentMsg = QObject::tr("Выкл");
@@ -1393,6 +1394,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         commentMsg = QObject::tr("Вкл");
         typeMsg = 101;
         reciver->setPublishedState(101);
+        needRepeatActualState = true;
     }
 
 //    qDebug() << "состояние СД -->" << commentMsg;
@@ -1409,6 +1411,8 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 
         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+    } else {
+        needRepeatActualState = false;
     }
     typeMsg = -1;
 
@@ -1450,7 +1454,8 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         isFirstWakeUp ||
         20 == currentUN->getPublishedState() ||
         currentUN->getPublishedState() != previousUN->getPublishedState() ||
-        isChangedStatus) &&
+        isChangedStatus ||
+        needRepeatActualState) &&
        1 != currentUN->getMetaEntity() &&
        -1 != typeMsg &&
        currentUN->getControl()) {
@@ -1888,14 +1893,14 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
-    if(-1 == currentUN->getPublishedState() || -1 == reciver->getPublishedState()) {
+    if(-1 == currentUN->getPublishedState()) {
         isFirstWakeUp = true;
     }
 //    qDebug() << "PortManager::procRlmStatusWord0x31() -- isFirstWakeUp " << isFirstWakeUp;
 
     auto isWakeUp = false;
     // устройство очнулось (после потери связи например)
-    if(10 == currentUN->getPublishedState() || 10 == reciver->getPublishedState()) {
+    if(10 == currentUN->getPublishedState()) {
         isWakeUp = true;
     }
 //    qDebug() << "PortManager::procRlmStatusWord0x31() -- isWakeUp " << isWakeUp;
@@ -1932,6 +1937,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
 
     int typeMsg = -1;
     QString commentMsg;
+    bool needRepeatActualState = false;
 
     // запись вкл/выкл РЛМ
     if(1 == swpCurrent.isOff()) {
@@ -1940,6 +1946,8 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     } else if(1 == swpCurrent.isOn()) {
         commentMsg = QObject::tr("Вкл");
         typeMsg = 101;
+        needRepeatActualState = true;
+
     }
 
 //    qDebug() << "состояние RLM -->" << commentMsg;
@@ -1956,13 +1964,15 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
 
         SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+    } else {
+        needRepeatActualState = false;
     }
     typeMsg = -1;
 
     bool iniState = false;
     // запись тревога/норма РЛМ
     if(1 == swpCurrent.isFault()
-    && swpCurrent.isFault() != swpPrevious.isFault()) {
+    && (swpCurrent.isFault() != swpPrevious.isFault() || needRepeatActualState)) {
         //сохранение неисправность или Норма
         commentMsg = QObject::tr("Неисправность");
         typeMsg = 12;
@@ -1971,7 +1981,8 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
            && 1 == swpCurrent.isOpened()
            && 1 == swpCurrent.isWasOpened()
            && (swpPrevious.isOpened() != swpCurrent.isOpened()
-            || swpPrevious.isWasOpened() != swpCurrent.isWasOpened())) {
+            || swpPrevious.isWasOpened() != swpCurrent.isWasOpened()
+            || needRepeatActualState)) {
         //сохранение Тревога или Норма
         commentMsg = QObject::tr("Тревога-ВСКРЫТИЕ");
         typeMsg = 21;
@@ -1980,15 +1991,16 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
            && 1 == swpCurrent.isAlarm()
            && 1 == swpCurrent.isWasAlarm()
            && (swpPrevious.isAlarm() != swpCurrent.isAlarm()
-            || swpPrevious.isWasAlarm() != swpCurrent.isWasAlarm())) {
+            || swpPrevious.isWasAlarm() != swpCurrent.isWasAlarm()
+            || needRepeatActualState)) {
         //сохранение Тревога или Норма
         commentMsg = QObject::tr("Тревога-СРАБОТКА");
         typeMsg = 20;
         currentUN->setPublishedState(20);
     } else if(1 == swpCurrent.isOn()
            && 1 == swpCurrent.isNorm()
-           && swpPrevious.isNorm() != swpCurrent.isNorm()
-           && 1 != currentUN->getPublishedState()) {
+           && ((swpPrevious.isNorm() != swpCurrent.isNorm()
+             && 1 != currentUN->getPublishedState()) || needRepeatActualState)) {
         commentMsg = QObject::tr("Норма");
         typeMsg = 1;
         currentUN->setPublishedState(1);
@@ -2012,8 +2024,10 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
         12 == currentUN->getPublishedState() ||
         20 == currentUN->getPublishedState() ||
         21 == currentUN->getPublishedState() ||
-        currentUN->getPublishedState() != previousUN->getPublishedState()) &&
-       isChangedStatus &&
+        currentUN->getPublishedState() != previousUN->getPublishedState() ||
+        needRepeatActualState
+        ) &&
+       (needRepeatActualState || isChangedStatus) &&
        1 != currentUN->getMetaEntity() &&
        -1 != typeMsg &&
        currentUN->getControl()) {
