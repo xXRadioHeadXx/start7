@@ -1337,10 +1337,15 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
+    auto needAlarmReset0x24 = false;
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn() &&
 //       1 == swpCurrent.isAlarm() &&
        1 == swpCurrent.isWasAlarm()) { // сброс тревоги
+        needAlarmReset0x24 = true;
+    }
+//    qDebug() << "PortManager::procSDBLIPStatusWord0x41 -- needAlarmReset0x24" << needAlarmReset0x24;
+    if(needAlarmReset0x24) {
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
@@ -1789,7 +1794,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
-//            currentUN->setPublishedState(-1);
+            currentUN->setPublishedState(-1);
         }
     }
     if((TypeUnitNode::RLM_C == currentUN->getType()
@@ -1830,6 +1835,9 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
             }
         }
     }
+
+    currentUN->updDoubl();
+    SignalSlotCommutator::getInstance()->emitUpdUN();
 
     return true;
 }
@@ -1891,6 +1899,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
 //    qDebug() << "PortManager::procRlmStatusWord0x31() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
+    auto needAlarmReset0x24 = false;
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
     && (
@@ -1898,6 +1907,10 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
      || 1 == currentUN->swpRLMType0x31().isWasDK()
      || 1 == currentUN->swpRLMType0x31().isWasAlarm()
      || 1 == currentUN->swpRLMType0x31().isWasOpened())) { // сброс тревоги
+        needAlarmReset0x24 = true;
+    }
+//    qDebug() << "PortManager::procRlmStatusWord0x31 -- needAlarmReset0x24" << needAlarmReset0x24;
+    if(needAlarmReset0x24) {
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
@@ -2101,11 +2114,16 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
 //    qDebug() << "PortManager::procRlmCStatusWord0x31() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
+    auto needAlarmReset0x24 = false;
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
     && (1 == currentUN->swpRLMCType0x31().isOutAlarm()
      || 1 == currentUN->swpRLMCType0x31().isWasDK()
      || 1 == currentUN->swpRLMCType0x31().isWasAlarm())) { // сброс тревоги
+        needAlarmReset0x24 = true;
+    }
+//    qDebug() << "PortManager::procRlmCStatusWord0x31 -- needAlarmReset0x24" << needAlarmReset0x24;
+    if(needAlarmReset0x24) {
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
@@ -2302,12 +2320,17 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
 //    qDebug() << "PortManager::procTgStatusWord0x31() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
+    auto needAlarmReset0x24 = false;
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrent.isOn()
     && (1 == swpCurrent.isWasAlarm()
      || 1 == swpCurrent.isWasDK()
      || 1 == swpCurrent.isOutAlarm()
      || 1 == swpCurrent.isWasOpened())) { // сброс тревоги
+        needAlarmReset0x24 = true;
+    }
+//    qDebug() << "PortManager::procTgStatusWord0x31 -- needAlarmReset0x24" << needAlarmReset0x24;
+    if(needAlarmReset0x24) {
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
@@ -2523,7 +2546,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
-//            currentUN->setPublishedState(-1);
+            currentUN->setPublishedState(-1);
         }
     }
     const auto &swpCurrent = currentUN->swpTGType0x32().C(currentUN->getNum2());
@@ -2604,11 +2627,16 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
 //    qDebug() << "PortManager::procTgStatusWord0x32() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
+    auto needAlarmReset0x24 = false;
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrentCi.isInAlarm()
     || 1 == swpCurrent.isWasDK()
     || 1 == swpCurrentCi.isSideAlarm()
     || 1 == swpCurrentCi.isWasOpened()) { // сброс тревоги
+        needAlarmReset0x24 = true;
+    }
+//    qDebug() << "PortManager::procTgStatusWord0x32 -- needAlarmReset0x24" << needAlarmReset0x24;
+    if(needAlarmReset0x24) {
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
@@ -2797,7 +2825,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
             SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
-//            currentUN->setPublishedState(-1);
+            currentUN->setPublishedState(-1);
         }
     }
     const auto &swpCurrent = currentUN->swpTGType0x33().C(currentUN->getNum2());
@@ -2879,11 +2907,16 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
 //    qDebug() << "PortManager::procTgStatusWord0x33() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
+    auto needAlarmReset0x24 = false;
     auto makedAlarmReset0x24 = false;
     if(1 == swpCurrentCi.isInAlarm()
     || 1 == swpCurrent.isWasDK()
     || 1 == swpCurrentCi.isSideAlarm()
     || 1 == swpCurrentCi.isWasOpened()) { // сброс тревоги
+        needAlarmReset0x24 = true;
+    }
+//    qDebug() << "PortManager::procTgStatusWord0x33 -- needAlarmReset0x24" << needAlarmReset0x24;
+    if(needAlarmReset0x24) {
         //нужен сброс
         DataQueueItem alarmReset0x24;
         alarmReset0x24.setPort(currentUN->getUdpPort());
@@ -3258,7 +3291,7 @@ void PortManager::manageOverallReadQueue()
                                             DataBaseManager::insertJourMsg_wS(msg);
                                             GraphTerminal::sendAbonentEventsAndStates(un, msg);
 
-//                                            un->setPublishedState(-1);
+                                            un->setPublishedState(-1);
                                         }
                                     } else {
                                         msg.setComment(tr("Ком. ДК не выполнена"));
@@ -3275,6 +3308,7 @@ void PortManager::manageOverallReadQueue()
                                     un->setDkInvolved(false);
                                     un->setDkStatus(DKCiclStatus::DKIgnore);
                                     un->updDoubl();
+                                    SignalSlotCommutator::getInstance()->emitUpdUN();
                                 }
 //                                SignalSlotCommutator::getInstance()->emitStopDKWait();
 //                                removeLsWaiter(ar);
