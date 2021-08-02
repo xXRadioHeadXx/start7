@@ -123,7 +123,7 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
                 msg.setD2(target->getNum2());
                 msg.setD3(target->getNum3());
                 msg.setDirection(target->getDirection());
-                msg.setComment(tr("Нет связи"));
+                msg.setComment(tr("Нет связи (начальное состояние)"));
                 DataBaseManager::insertJourMsg_wS(msg);
                 GraphTerminal::sendAbonentEventsAndStates(target, msg);
 
