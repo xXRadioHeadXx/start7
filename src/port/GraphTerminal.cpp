@@ -523,7 +523,6 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 }
 
                 if(nullptr != unTarget) {
-                    unTarget->setControl(val);
 
                     JourEntity msgOn;
                     msgOn.setObject(unTarget->getName());
@@ -534,9 +533,14 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     msgOn.setDirection(Utils::hostAddressToString(itm.address()));
                     msgOn.setType((unTarget->getControl() ? 1137 : 1136));
                     msgOn.setComment(tr("Удал. ком. Контроль ") + (val ? tr("Вкл") : tr("Выкл")));
-                    if((unTarget->getControl() || TypeUnitNode::IU_BL_IP == unTarget->getType()) && !unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
+                    if(!unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
                         DataBaseManager::insertJourMsg_wS(msgOn);
                     }
+
+                    unTarget->setControl(val);
+                    if(unTarget->getControl())
+                        unTarget->setPublishedState(-1);
+                    unTarget->updDoubl();
 
                     dataAnswer = makeEventsAndStates(unTarget, msgOn).toByteArray();
 

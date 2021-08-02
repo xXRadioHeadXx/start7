@@ -986,17 +986,15 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setDirection(selUN->getDirection());
         msgOn.setType((selUN->getControl() ? 137 : 136));
         msgOn.setComment(tr("Контроль ") + (selUN->getControl() ? tr("Вкл") : tr("Выкл")));
-        if((selUN->getControl() || TypeUnitNode::IU_BL_IP == selUN->getType()) && !selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+        if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
             DataBaseManager::insertJourMsg_wS(msgOn);
             GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
         }
 
-//        if(selUN->getControl()) {
-//            selUN->setStatus1(Status::Uncnown);
-//            selUN->setStatus2(Status::Uncnown);
-//        }
-//        if(selUN->getControl())
-//            GraphTerminal::sendAbonentEventsAndStates(selUN);
+        if(selUN->getControl()) {
+            selUN->setPublishedState(-1);
+            selUN->updDoubl();
+        }
     }
 }
 
