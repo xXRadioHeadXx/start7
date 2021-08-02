@@ -303,7 +303,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 QSharedPointer<UnitNode> unTarget = QSharedPointer<UnitNode>(nullptr);
                 for(auto un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
-                    if(un->getMetaNames().end() != un->getMetaNames().find("Obj_" + deviceId.nodeValue()) &&
+                    if(un->getMetaNames().contains("Obj_" + deviceId.nodeValue()) &&
                        un->getLevel() == deviceLevel.nodeValue().toInt() &&
                        un->getType() == deviceType.nodeValue().toInt() &&
                        un->getNum1() == deviceNum1.nodeValue().toInt() &&
@@ -335,14 +335,14 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, value);
                 } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIPType0x41().isOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
-                    if(setUn.empty()) {
+                    if(setUn.isEmpty()) {
                         SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
                     } else {
                         SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
                     }
                 } else if(unTarget->isEditableOnOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
-                    if(setUn.empty()) {
+                    if(setUn.isEmpty()) {
                         SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
                     } else {
                         SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
@@ -382,21 +382,21 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 if(nodeDevice.attributes().contains("num3")) deviceNum3 = nodeDevice.attributes().namedItem("num3");
 
                 QSharedPointer<UnitNode>  unTarget = nullptr;
-                std::set<QSharedPointer<UnitNode> > unTargetSet;
+                QSet<QSharedPointer<UnitNode> > unTargetSet;
 
                 //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
                 for(QSharedPointer<UnitNode>  un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
-                        if(un->getMetaNames().end() != un->getMetaNames().find(unMetaName)) {
+                        if(un->getMetaNames().contains(unMetaName)) {
                             unTargetSet.insert(un);
                         }
                     }
 
                     if(!deviceId.isNull() && !deviceLevel.isNull() && !deviceType.isNull() && !deviceNum1.isNull() && !deviceNum2.isNull() && !deviceNum3.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
-                        if(un->getMetaNames().end() != un->getMetaNames().find(unMetaName) &&
+                        if(un->getMetaNames().contains(unMetaName) &&
                            un->getLevel() == deviceLevel.nodeValue().toInt() &&
                            un->getNum1() == deviceNum1.nodeValue().toInt() &&
                            un->getNum2() == deviceNum2.nodeValue().toInt() &&
@@ -415,7 +415,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                for(const auto& un : as_const(unTargetSet)) {
+                for(const auto& un : as_const(unTargetSet.values())) {
                     if(TypeUnitNode::SD_BL_IP == un->getType() ||
                        TypeUnitNode::IU_BL_IP == un->getType() ||
                        TypeUnitNode::RLM_C == un->getType() ||
@@ -444,7 +444,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 QString unMetaName("Obj_" + nodeDevice.attributes().namedItem("id").nodeValue());
 
                 for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
-                    if(un->getMetaNames().end() != un->getMetaNames().find(unMetaName)) {
+                    if(un->getMetaNames().contains(unMetaName)) {
                         SignalSlotCommutator::getInstance()->emitChangeSelectUN(un);
                     }
                 }
@@ -474,21 +474,21 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 if(nodeDevice.attributes().contains("num3")) deviceNum3 = nodeDevice.attributes().namedItem("num3");
 
                 QSharedPointer<UnitNode>  unTarget = nullptr;
-                std::set<QSharedPointer<UnitNode> > unTargetSet;
+                QSet<QSharedPointer<UnitNode> > unTargetSet;
 
                 //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
                 for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
-                        if(un->getMetaNames().end() != un->getMetaNames().find(unMetaName)) {
+                        if(un->getMetaNames().contains(unMetaName)) {
                             unTargetSet.insert(un);
                         }
                     }
 
                     if(!deviceId.isNull() && !deviceLevel.isNull() && !deviceType.isNull() && !deviceNum1.isNull() && !deviceNum2.isNull() && !deviceNum3.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
-                        if(un->getMetaNames().end() != un->getMetaNames().find(unMetaName) &&
+                        if(un->getMetaNames().contains(unMetaName) &&
                            un->getLevel() == deviceLevel.nodeValue().toInt() &&
                            un->getNum1() == deviceNum1.nodeValue().toInt() &&
                            un->getNum2() == deviceNum2.nodeValue().toInt() &&
@@ -507,7 +507,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                for(const auto& un : as_const(unTargetSet)) {
+                for(const auto& un : as_const(unTargetSet.values())) {
                     if(un->isEditableControl()) {
                         unTarget = un;
                         //qDebug() << unTarget->toString();
@@ -574,21 +574,21 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 if(nodeDevice.attributes().contains("num3")) deviceNum3 = nodeDevice.attributes().namedItem("num3");
 
                 QSharedPointer<UnitNode>  unTarget = nullptr;
-                std::set<QSharedPointer<UnitNode> > unTargetSet;
+                QSet<QSharedPointer<UnitNode> > unTargetSet;
 
                 //qDebug() << "id[" << deviceId.nodeValue() << "] level[" << deviceLevel.nodeValue() << "] type[" << deviceType.nodeValue() << "] num1[" << deviceNum1.nodeValue() << "] num2[" << deviceNum2.nodeValue() << "] num3[" << deviceNum3.nodeValue() << "]";
 
                 for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
                     if(!deviceId.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
-                        if(un->getMetaNames().end() != un->getMetaNames().find(unMetaName)) {
+                        if(un->getMetaNames().contains(unMetaName)) {
                             unTargetSet.insert(un);
                         }
                     }
 
                     if(!deviceId.isNull() && !deviceLevel.isNull() && !deviceType.isNull() && !deviceNum1.isNull() && !deviceNum2.isNull() && !deviceNum3.isNull()) {
                         QString unMetaName("Obj_" + deviceId.nodeValue());
-                        if(un->getMetaNames().end() != un->getMetaNames().find(unMetaName) &&
+                        if(un->getMetaNames().contains(unMetaName) &&
                            un->getLevel() == deviceLevel.nodeValue().toInt() &&
                            un->getNum1() == deviceNum1.nodeValue().toInt() &&
                            un->getNum2() == deviceNum2.nodeValue().toInt() &&
@@ -607,7 +607,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                for(const auto& un : as_const(unTargetSet)) {
+                for(const auto& un : as_const(unTargetSet.values())) {
                     if(TypeUnitNode::SD_BL_IP == un->getType() ||
                        TypeUnitNode::IU_BL_IP == un->getType() ||
                        TypeUnitNode::RLM_C == un->getType() ||
@@ -806,11 +806,11 @@ QDomDocument GraphTerminal::makeInitialStatus(QString docType)
         //
         // описание длиной не более 50 символов” dk=”1” option=”0”>
 
-        if(1 == un->getMetaEntity() || un->getMetaNames().empty())
+        if(1 == un->getMetaEntity() || un->getMetaNames().isEmpty())
             continue;
 
         QDomElement  deviceElement  =  doc.createElement("device");
-        QString id = *un->getMetaNames().begin();
+        QString id = un->getMetaNames().values().first();
         id.remove("Obj_");
         deviceElement.setAttribute("id", id);
         deviceElement.setAttribute("level", un->getLevel());
@@ -871,13 +871,13 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
         // <device id="0" level="0" type="33" num1="1" num2="1" num3="1" name="1" lat=”55.761248” lon: “37.608074” description=”Текстовое описание длиной
         // не более 50 символов”>
 
-        if(1 == un->getMetaEntity() || un->getMetaNames().empty())
+        if(1 == un->getMetaEntity() || un->getMetaNames().isEmpty())
             continue;
 
         QDomElement  deviceElement  =  doc.createElement("device");
         QString id;
-        if(!un->getMetaNames().empty()) {
-            id = ((un->getMetaNames().end() != un->getMetaNames().begin()) ? *un->getMetaNames().begin() : "Obj_X");
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
             id.remove("Obj_");
         } else {
             id = "X";
@@ -950,7 +950,7 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
 
     if(nullptr == un) {
         for(QSharedPointer<UnitNode>  unTmp : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
-            if(unTmp->getMetaNames().end() != unTmp->getMetaNames().find("Obj_0")) {
+            if(unTmp->getMetaNames().contains("Obj_0")) {
                 un = unTmp;
                 break;
             }
@@ -961,8 +961,8 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
     QString id;
     if(nullptr != un) {
         QString id;
-        if(!un->getMetaNames().empty()) {
-            id = ((un->getMetaNames().end() != un->getMetaNames().begin()) ? *un->getMetaNames().begin() : "Obj_X");
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
             id.remove("Obj_");
         } else {
             id = "X";
@@ -1223,8 +1223,8 @@ QDomDocument GraphTerminal::makeEventBook(JourEntity jour) {
     QDomElement  deviceElement  =  doc.createElement("device");
     if(nullptr != un) {
         QString id;
-        if(!un->getMetaNames().empty()) {
-            id = ((un->getMetaNames().end() != un->getMetaNames().begin()) ? *un->getMetaNames().begin() : "Obj_X");
+        if(!un->getMetaNames().isEmpty()) {
+            id = un->getMetaNames().values().value(0, "Obj_X");
             id.remove("Obj_");
         } else {
             id = "X";

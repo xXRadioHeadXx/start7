@@ -442,9 +442,9 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
     } else if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
         auto setUN = Utils::findeSetAutoOnOffUN(selUN);
         QString subStr;
-        if(!setUN.empty()) {
+        if(!setUN.isEmpty()) {
             subStr.append("(Авто %1с.)");
-            subStr = subStr.arg(UnitNodeCFG::adamOffToMs((*setUN.begin())->getAdamOff()) / 1000);
+            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(setUN.values().first()->getAdamOff()) / 1000);
         }
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
     } else
@@ -534,7 +534,7 @@ void MainWindowServer::on_toolButtonReason_clicked()
 {
     tableView_saveSelection();
 
-    std::set<int> setId;
+    QSet<int> setId;
     for(const auto &j : as_const(listSelMsg)) {
         setId.insert(j.getId());
     }
@@ -556,7 +556,7 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
 {
     tableView_saveSelection();
 
-    std::set<int> setId;
+    QSet<int> setId;
     for(const auto &j : as_const(listSelMsg)) {
         setId.insert(j.getId());
     }
@@ -703,9 +703,9 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 //        menu->addAction(ui->actionTest);
 
     if(sel->treeChildCount()) {
-        if(!ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().end() != selUN->getMetaNames().find("Obj_0"))
+        if(!ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
             menu->addAction(ui->actionExpandUNTree);
-        if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().end() != selUN->getMetaNames().find("Obj_0"))
+        if(ui->treeView->isExpanded(selIndex) || selUN->getMetaNames().contains("Obj_0"))
             menu->addAction(ui->actionCollapseUNTree);
     }
 
@@ -900,7 +900,7 @@ void MainWindowServer::on_actionExpandUNTree_triggered()
 
     QModelIndex index = selIndex;
 
-    if(selUN->getMetaNames().end() != selUN->getMetaNames().find("Obj_0")) {
+    if(selUN->getMetaNames().contains("Obj_0")) {
         ui->treeView->expandAll();
         return;
     } else if(index.isValid() && 0 != selUN->treeChildCount())
@@ -914,7 +914,7 @@ void MainWindowServer::on_actionCollapseUNTree_triggered()
 
     QModelIndex index = selIndex;
 
-    if(selUN->getMetaNames().end() != selUN->getMetaNames().find("Obj_0")) {
+    if(selUN->getMetaNames().contains("Obj_0")) {
         ui->treeView->collapseAll();
         return;
     } else if(index.isValid() && 0 != selUN->treeChildCount())
@@ -927,10 +927,10 @@ void MainWindowServer::on_actionUNOn_triggered()
         return;
 
     const auto& setUn = Utils::findeSetAutoOnOffUN(selUN);
-    if(setUn.empty())
+    if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, selUN, true);
     else {
-        auto un = *setUn.begin();
+        auto un = setUn.values().first();
         this->m_portManager->requestAutoOnOffIUCommand(false, un);
     }
 }
@@ -1058,10 +1058,10 @@ void MainWindowServer::updateLabelCount()
 
         auto listJour = modelJour->getListJour();
         for(auto ji : as_const(listJour)) {
-            if(0 != needReason && ServerSettingUtils::getPriorityJoutTyper().end() != ServerSettingUtils::getPriorityJoutTyper().find(ji.getType()) && ji.getReason().isEmpty()) {
+            if(0 != needReason && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getReason().isEmpty()) {
                 countReason++;
             }
-            if (0 != needMeasure && ServerSettingUtils::getPriorityJoutTyper().end() != ServerSettingUtils::getPriorityJoutTyper().find(ji.getType()) && ji.getMeasures().isEmpty()) {
+            if (0 != needMeasure && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getMeasures().isEmpty()) {
                 countMeasure++;
             }
         }
@@ -1180,10 +1180,10 @@ int MainWindowServer::checkNecessarilyReasonMeasureFill() {
 
         auto listJour = modelJour->getListJour();
         for(const auto &ji : as_const(listJour)) {
-            if(0 != needReason && ServerSettingUtils::getPriorityJoutTyper().end() != ServerSettingUtils::getPriorityJoutTyper().find(ji.getType()) && ji.getReason().isEmpty()) {
+            if(0 != needReason && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getReason().isEmpty()) {
                 countReason++;
             }
-            if (0 != needMeasure && ServerSettingUtils::getPriorityJoutTyper().end() != ServerSettingUtils::getPriorityJoutTyper().find(ji.getType()) && ji.getMeasures().isEmpty()) {
+            if (0 != needMeasure && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getMeasures().isEmpty()) {
                 countMeasure++;
             }
         }
@@ -1892,8 +1892,7 @@ void MainWindowServer::fillPageTGAtPointInput(int ci)
         return;
 
     QSharedPointer<UnitNode> target;
-    const QList<QSharedPointer<UnitNode> > tmpSet =
-            QList<QSharedPointer<UnitNode>>::fromStdList(std::list<QSharedPointer<UnitNode>>(ServerSettingUtils::getSetMetaRealUnitNodes().begin(), ServerSettingUtils::getSetMetaRealUnitNodes().end()));
+    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG == un->getType() &&
            un->getUdpAdress() == selUN->getUdpAdress() &&

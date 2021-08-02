@@ -114,7 +114,7 @@ void LockWaiter::init() {
 
     setUnReciver(UnitNode::findReciver(getUnTarget()));
 
-    for(QSharedPointer<UnitNode>  un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes())) {
+    for(QSharedPointer<UnitNode>  un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes().values())) {
         if(TypeUnitNode::IU_BL_IP == un->getType() && getUnReciverSdBlIp()->getNum2() == un->getNum2() && getUnReciverSdBlIp()->getUdpPort() == un->getUdpPort() && getUnReciverSdBlIp()->getUdpAdress() == un->getUdpAdress()) {
             setUnReciverIuBlIp(un);
             break;
@@ -149,7 +149,7 @@ void LockWaiter::init() {
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
     for(AbstractPort * pt : as_const(PortManager::getUdpPortsVector())) {
-        if(Port::typeDefPort(pt)->getStIpPort().end() != Port::typeDefPort(pt)->getStIpPort().find(getIpPort())) {
+        if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
             setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
             break;
@@ -167,7 +167,7 @@ void LockWaiter::init() {
     setIpPort(QPair<QString, QString>(getUnReciver()->getUdpAdress(), QVariant(getUnReciver()->getUdpPort()).toString()));
 
     for(AbstractPort * pt : as_const(PortManager::getUdpPortsVector())) {
-        if(Port::typeDefPort(pt)->getStIpPort().end() != Port::typeDefPort(pt)->getStIpPort().find(getIpPort())) {
+        if(Port::typeDefPort(pt)->getStIpPort().contains(getIpPort())) {
             setPtrPort(pt);
             setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
             break;

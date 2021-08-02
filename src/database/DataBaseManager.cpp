@@ -411,9 +411,9 @@ int DataBaseManager::updateJourMsg(JourEntity &msg)
     }
 }
 
-int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant value, const std::set<int> setId)
+int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant value, const QSet<int> setId)
 {
-    if(!fields.contains(field) || value.isNull() || setId.empty())
+    if(!fields.contains(field) || value.isNull() || setId.isEmpty())
         return 0;
 
     QString sql;
@@ -438,8 +438,7 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
 
 
     QString sqlId;
-    const QList<int> listId =
-            QList<int>::fromStdList(std::list<int>(setId.begin(), setId.end()));(setId.begin(), setId.end());
+    const QList<int> listId = setId.values();
     sqlId.append(":vId0");
     for(int i = 1, n = listId.size(); i < n; i++) {
         sqlId.append(", :vId" + QString::number(i));
@@ -496,8 +495,7 @@ int DataBaseManager::checkNecessarilyReasonMeasureFill() {
         flt += " id >= :vIdMin ";
     }
 
-    const QList<int> listType =
-            QList<int>::fromStdList(std::list<int>(ServerSettingUtils::getPriorityJoutTyper().begin(), ServerSettingUtils::getPriorityJoutTyper().end()));
+    const QList<int> listType = ServerSettingUtils::getPriorityJoutTyper().values();
     if(!listType.isEmpty()) {
         QString sqlType;
         sqlType.append(":vType0");

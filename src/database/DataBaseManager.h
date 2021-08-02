@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QtSql>
-#include <set>
 #include "ShedulerNewDuty.h"
 
 #include "JourEntity.h"
@@ -31,7 +30,7 @@ public:
     static int insertJourMsg(const JourEntity &msg);
     static int updateJourMsg_wS(JourEntity &msg);
     static int updateJourMsg(JourEntity &msg);
-    static int updateJourMsgFieldById(const QString field, const QVariant value, const std::set<int> setId);
+    static int updateJourMsgFieldById(const QString field, const QVariant value, const QSet<int> setId);
     static void resetAllFlags_wS();
     static void resetAllFlags();
     static QList<JourEntity> getMSGRecordAfter(const int &id = 0);

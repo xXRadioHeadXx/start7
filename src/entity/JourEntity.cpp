@@ -103,7 +103,7 @@ int JourEntity::getType() const
 void JourEntity::setType(int value)
 {
     type = value;
-    if(ServerSettingUtils::getPriorityJoutTyper().end() != ServerSettingUtils::getPriorityJoutTyper().find(value))
+    if(ServerSettingUtils::getPriorityJoutTyper().contains(value))
         flag = 1;
     else
         flag = -1;

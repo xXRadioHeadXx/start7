@@ -21,7 +21,7 @@
 #include "SWPTGSubType0x33.h"
 #include "DataQueueItem.h"
 
-std::set<QString> UnitNode::getMetaNames() const
+QSet<QString> UnitNode::getMetaNames() const
 {
     return metaNames;
 }
@@ -37,9 +37,9 @@ void UnitNode::setMetaNames(const QString &value)
     metaNames.insert(value);
 }
 
-void UnitNode::setMetaNames(const std::set<QString> &value)
+void UnitNode::setMetaNames(const QSet<QString> &value)
 {
-    metaNames.insert(value.begin(), value.end());
+    metaNames += value;
 }
 
 void UnitNode::setType(int value)
@@ -360,32 +360,29 @@ void UnitNode::setDkInvolved(bool value)
 //    updDoubl();
 }
 
-std::set<QSharedPointer<UnitNode> > UnitNode::getDoubles() const
+QSet<QSharedPointer<UnitNode> > UnitNode::getDoubles() const
 {
     return doubles;
 }
 
-void UnitNode::setDoubles(const std::set<QSharedPointer<UnitNode> > &value)
+void UnitNode::setDoubles(const QSet<QSharedPointer<UnitNode> > &value)
 {
     doubles = value;
-    for(auto it = doubles.begin(); it != doubles.end(); ) {
-        if(this == (*it).data())
-            it = doubles.erase(it);
-        else
-            ++it;
+    QMutableSetIterator<QSharedPointer<UnitNode> > i(doubles);
+    while (i.hasNext()) {
+        if (this == i.next().data())
+            i.remove();
     }
 }
 
 void UnitNode::setDoubles(QSharedPointer<UnitNode> value)
 {
     doubles.insert(value);
-    for(auto it = doubles.begin(); it != doubles.end(); ) {
-        if(this == (*it).data())
-            it = doubles.erase(it);
-        else
-            ++it;
-    }
-}
+    QMutableSetIterator<QSharedPointer<UnitNode> > i(doubles);
+    while (i.hasNext()) {
+        if (this == i.next().data())
+            i.remove();
+    }}
 
 void UnitNode::updDoubl()
 {
