@@ -247,6 +247,206 @@ public:
     const SWPTGType0x33 swpTGType0x33() const; // {return SWPTGType0x33(getStateWord(0x33u));}
     const SWPTGType0x32 swpTGType0x32() const; // {return SWPTGType0x32(getStateWord(0x32u));}
 
+
+    virtual bool operator<(const UnitNode &rhs) const final{
+        if(getUdpAdress() < rhs.getUdpAdress())
+            return true;
+        else if(getUdpAdress() > rhs.getUdpAdress())
+            return false;
+        else if(getType() < rhs.getType())
+            return true;
+        else if(getType() > rhs.getType())
+            return false;
+        else if(getNum1() < rhs.getNum1())
+            return true;
+        else if(getNum1() > rhs.getNum1())
+            return false;
+        else if(getNum2() < rhs.getNum2())
+            return true;
+        else if(getNum2() > rhs.getNum2())
+            return false;
+        else if(getNum3() < rhs.getNum3())
+            return true;
+        else if(getNum3() > rhs.getNum3())
+            return false;
+        else if(getName() < rhs.getName())
+            return true;
+        else if(getName() > rhs.getName())
+            return false;
+        else if(getLevel() < rhs.getLevel())
+            return true;
+        else if(getLevel() > rhs.getLevel())
+            return false;
+
+        return false;
+    }
+
+    friend bool operator<(const UnitNode &lhs, const UnitNode &rhs) {
+        if(lhs.getUdpAdress() < rhs.getUdpAdress())
+            return true;
+        else if(lhs.getUdpAdress() > rhs.getUdpAdress())
+            return false;
+        else if(lhs.getType() < rhs.getType())
+            return true;
+        else if(lhs.getType() > rhs.getType())
+            return false;
+        else if(lhs.getNum1() < rhs.getNum1())
+            return true;
+        else if(lhs.getNum1() > rhs.getNum1())
+            return false;
+        else if(lhs.getNum2() < rhs.getNum2())
+            return true;
+        else if(lhs.getNum2() > rhs.getNum2())
+            return false;
+        else if(lhs.getNum3() < rhs.getNum3())
+            return true;
+        else if(lhs.getNum3() > rhs.getNum3())
+            return false;
+        else if(lhs.getName() < rhs.getName())
+            return true;
+        else if(lhs.getName() > rhs.getName())
+            return false;
+        else if(lhs.getLevel() < rhs.getLevel())
+            return true;
+        else if(lhs.getLevel() > rhs.getLevel())
+            return false;
+
+        return false;
+    }
+
+    friend bool operator<(const QSharedPointer<UnitNode> &lhs, const QSharedPointer<UnitNode> &rhs) {
+        if(lhs->getUdpAdress() < rhs->getUdpAdress())
+            return true;
+        else if(lhs->getUdpAdress() > rhs->getUdpAdress())
+            return false;
+        else if(lhs->getType() < rhs->getType())
+            return true;
+        else if(lhs->getType() > rhs->getType())
+            return false;
+        else if(lhs->getNum1() < rhs->getNum1())
+            return true;
+        else if(lhs->getNum1() > rhs->getNum1())
+            return false;
+        else if(lhs->getNum2() < rhs->getNum2())
+            return true;
+        else if(lhs->getNum2() > rhs->getNum2())
+            return false;
+        else if(lhs->getNum3() < rhs->getNum3())
+            return true;
+        else if(lhs->getNum3() > rhs->getNum3())
+            return false;
+        else if(lhs->getName() < rhs->getName())
+            return true;
+        else if(lhs->getName() > rhs->getName())
+            return false;
+        else if(lhs->getLevel() < rhs->getLevel())
+            return true;
+        else if(lhs->getLevel() > rhs->getLevel())
+            return false;
+
+        return false;
+    }
+
+    virtual int operator-(const UnitNode &rhs) const final{
+        if(getUdpAdress() < rhs.getUdpAdress())
+            return -1;
+        else if(getUdpAdress() > rhs.getUdpAdress())
+            return +1;
+        else if(getType() < rhs.getType())
+            return -1;
+        else if(getType() > rhs.getType())
+            return +1;
+        else if(getNum1() < rhs.getNum1())
+            return -1;
+        else if(getNum1() > rhs.getNum1())
+            return +1;
+        else if(getNum2() < rhs.getNum2())
+            return -1;
+        else if(getNum2() > rhs.getNum2())
+            return +1;
+        else if(getNum3() < rhs.getNum3())
+            return -1;
+        else if(getNum3() > rhs.getNum3())
+            return +1;
+        else if(getName() < rhs.getName())
+            return -1;
+        else if(getName() > rhs.getName())
+            return +1;
+        else if(getLevel() < rhs.getLevel())
+            return -1;
+        else if(getLevel() > rhs.getLevel())
+            return +1;
+
+        return 0;
+    }
+
+    friend bool operator-(const UnitNode &lhs, const UnitNode &rhs) {
+        if(lhs.getUdpAdress() < rhs.getUdpAdress())
+            return -1;
+        else if(lhs.getUdpAdress() > rhs.getUdpAdress())
+            return +1;
+        else if(lhs.getType() < rhs.getType())
+            return -1;
+        else if(lhs.getType() > rhs.getType())
+            return +1;
+        else if(lhs.getNum1() < rhs.getNum1())
+            return -1;
+        else if(lhs.getNum1() > rhs.getNum1())
+            return +1;
+        else if(lhs.getNum2() < rhs.getNum2())
+            return -1;
+        else if(lhs.getNum2() > rhs.getNum2())
+            return +1;
+        else if(lhs.getNum3() < rhs.getNum3())
+            return -1;
+        else if(lhs.getNum3() > rhs.getNum3())
+            return +1;
+        else if(lhs.getName() < rhs.getName())
+            return -1;
+        else if(lhs.getName() > rhs.getName())
+            return +1;
+        else if(lhs.getLevel() < rhs.getLevel())
+            return -1;
+        else if(lhs.getLevel() > rhs.getLevel())
+            return +1;
+
+        return 0;
+    }
+
+    friend bool operator-(const QSharedPointer<UnitNode> &lhs, const QSharedPointer<UnitNode> &rhs) {
+        if(lhs->getUdpAdress() < rhs->getUdpAdress())
+            return -1;
+        else if(lhs->getUdpAdress() > rhs->getUdpAdress())
+            return +1;
+        else if(lhs->getType() < rhs->getType())
+            return -1;
+        else if(lhs->getType() > rhs->getType())
+            return +1;
+        else if(lhs->getNum1() < rhs->getNum1())
+            return -1;
+        else if(lhs->getNum1() > rhs->getNum1())
+            return +1;
+        else if(lhs->getNum2() < rhs->getNum2())
+            return -1;
+        else if(lhs->getNum2() > rhs->getNum2())
+            return +1;
+        else if(lhs->getNum3() < rhs->getNum3())
+            return -1;
+        else if(lhs->getNum3() > rhs->getNum3())
+            return +1;
+        else if(lhs->getName() < rhs->getName())
+            return -1;
+        else if(lhs->getName() > rhs->getName())
+            return +1;
+        else if(lhs->getLevel() < rhs->getLevel())
+            return -1;
+        else if(lhs->getLevel() > rhs->getLevel())
+            return +1;
+
+        return 0;
+    }
+
+
 public:
     QQueue<DataQueueItem> queueMsg;
 

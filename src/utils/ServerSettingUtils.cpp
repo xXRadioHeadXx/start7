@@ -384,7 +384,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         }
     }
 
-
+    std::sort(ServerSettingUtils::listTreeUnitNodes.begin(), ServerSettingUtils::listTreeUnitNodes.end());
 //    for(auto un : getListTreeUnitNodes())
 //        qDebug() << un->toString();
 //    for(auto un : getSetMetaRealUnitNodes())

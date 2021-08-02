@@ -770,8 +770,7 @@ void UnitNode::addChild(QSharedPointer<UnitNode> tc) noexcept
     if(!this->listChilde.contains(tc))
     {
         this->listChilde.append(tc);
-//        QSharedPointer<UnitNode> iam = QSharedPointer<UnitNode>(this);
-//        tc->setParentUN(iam);
+        std::sort(listChilde.begin(), listChilde.end());
     }
 }
 
