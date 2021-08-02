@@ -2,6 +2,7 @@
 #define UNITNODECFG_H
 
 #include <QObject>
+#include <QSharedPointer>
 
 enum TypeUnitNode {
     SYSTEM = -1, //Система
@@ -222,6 +223,105 @@ public:
     virtual void setIcon4Path(const QString &value) final;
 
     virtual QString toString() const final;
+
+    virtual bool operator<(const UnitNodeCFG &rhs) const final{
+        if(getUdpAdress() < rhs.getUdpAdress())
+            return true;
+        else if(getUdpAdress() > rhs.getUdpAdress())
+            return false;
+        else if(getType() < rhs.getType())
+            return true;
+        else if(getType() > rhs.getType())
+            return false;
+        else if(getNum1() < rhs.getNum1())
+            return true;
+        else if(getNum1() > rhs.getNum1())
+            return false;
+        else if(getNum2() < rhs.getNum2())
+            return true;
+        else if(getNum2() > rhs.getNum2())
+            return false;
+        else if(getNum3() < rhs.getNum3())
+            return true;
+        else if(getNum3() > rhs.getNum3())
+            return false;
+        else if(getName() < rhs.getName())
+            return true;
+        else if(getName() > rhs.getName())
+            return false;
+        else if(getLevel() < rhs.getLevel())
+            return true;
+        else if(getLevel() > rhs.getLevel())
+            return false;
+
+        return false;
+    }
+
+    friend bool operator<(const UnitNodeCFG &lhs, const UnitNodeCFG &rhs) {
+        if(lhs.getUdpAdress() < rhs.getUdpAdress())
+            return true;
+        else if(lhs.getUdpAdress() > rhs.getUdpAdress())
+            return false;
+        else if(lhs.getType() < rhs.getType())
+            return true;
+        else if(lhs.getType() > rhs.getType())
+            return false;
+        else if(lhs.getNum1() < rhs.getNum1())
+            return true;
+        else if(lhs.getNum1() > rhs.getNum1())
+            return false;
+        else if(lhs.getNum2() < rhs.getNum2())
+            return true;
+        else if(lhs.getNum2() > rhs.getNum2())
+            return false;
+        else if(lhs.getNum3() < rhs.getNum3())
+            return true;
+        else if(lhs.getNum3() > rhs.getNum3())
+            return false;
+        else if(lhs.getName() < rhs.getName())
+            return true;
+        else if(lhs.getName() > rhs.getName())
+            return false;
+        else if(lhs.getLevel() < rhs.getLevel())
+            return true;
+        else if(lhs.getLevel() > rhs.getLevel())
+            return false;
+
+        return false;
+    }
+
+    friend bool operator<(const QSharedPointer<UnitNodeCFG> &lhs, const QSharedPointer<UnitNodeCFG> &rhs) {
+        if(lhs->getUdpAdress() < rhs->getUdpAdress())
+            return true;
+        else if(lhs->getUdpAdress() > rhs->getUdpAdress())
+            return false;
+        else if(lhs->getType() < rhs->getType())
+            return true;
+        else if(lhs->getType() > rhs->getType())
+            return false;
+        else if(lhs->getNum1() < rhs->getNum1())
+            return true;
+        else if(lhs->getNum1() > rhs->getNum1())
+            return false;
+        else if(lhs->getNum2() < rhs->getNum2())
+            return true;
+        else if(lhs->getNum2() > rhs->getNum2())
+            return false;
+        else if(lhs->getNum3() < rhs->getNum3())
+            return true;
+        else if(lhs->getNum3() > rhs->getNum3())
+            return false;
+        else if(lhs->getName() < rhs->getName())
+            return true;
+        else if(lhs->getName() > rhs->getName())
+            return false;
+        else if(lhs->getLevel() < rhs->getLevel())
+            return true;
+        else if(lhs->getLevel() > rhs->getLevel())
+            return false;
+
+        return false;
+    }
 
 };
 

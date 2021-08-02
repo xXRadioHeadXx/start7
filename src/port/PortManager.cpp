@@ -75,26 +75,9 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
 
     timerFirstWakeUp.singleShot(20'000, [](){
         QList<QSharedPointer<UnitNode>> list = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+        std::sort(list.begin(), list.end());
 
-        qSort(list.begin(),
-              list.end(),
-              [](QSharedPointer<UnitNode> &lhs, QSharedPointer<UnitNode> &rhs){
-                if(lhs.isNull() || rhs.isNull())
-                    return true;
-                else if(lhs->getType() < rhs->getType())
-                    return true;
-                else if(lhs->getNum1() < rhs->getNum1())
-                    return true;
-                else if(lhs->getNum2() < rhs->getNum2())
-                    return true;
-                else if(lhs->getNum3() < rhs->getNum3())
-                    return true;
-
-                return false;
-            });
-
-
-        for(const auto& un : list) {
+        for(const auto& un : qAsConst(list)) {
             if(10 != un->getPublishedState())
                 continue;
 
@@ -1495,7 +1478,8 @@ DataQueueItem PortManager::parcingStatusWord0x42(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    std::sort(tmpSet.begin(), tmpSet.end());
     for(const QSharedPointer<UnitNode>  &un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress()))
         || item.port() != un->getUdpPort()
@@ -1635,7 +1619,8 @@ DataQueueItem PortManager::parcingStatusWord0x41(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    std::sort(tmpSet.begin(), tmpSet.end());
     for(const QSharedPointer<UnitNode>  &un : tmpSet) {
         if(!item.address().isEqual(QHostAddress(un->getUdpAdress()))
         || item.port() != un->getUdpPort()
@@ -1725,7 +1710,8 @@ DataQueueItem PortManager::parcingStatusWord0x31(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    std::sort(tmpSet.begin(), tmpSet.end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::RLM_C != un->getType()
         && TypeUnitNode::RLM_KRL != un->getType()
@@ -2464,7 +2450,8 @@ DataQueueItem PortManager::parcingStatusWord0x32(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    std::sort(tmpSet.begin(), tmpSet.end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x32 -- continue(1)";
@@ -2735,7 +2722,8 @@ DataQueueItem PortManager::parcingStatusWord0x33(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    std::sort(tmpSet.begin(), tmpSet.end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x33 -- continue(1)";
@@ -3010,7 +2998,8 @@ DataQueueItem PortManager::parcingStatusWord0x34(DataQueueItem &item, DataQueueI
     resultRequest = item;
     resultRequest.setData();
 
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    std::sort(tmpSet.begin(), tmpSet.end());
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG != un->getType()) {
 //            qDebug() << "PortManager::parcingStatusWord0x34 -- continue(1)";
