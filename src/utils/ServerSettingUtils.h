@@ -2,14 +2,16 @@
 #define SERVERSETTINGUTILS_H
 
 #include <QCoreApplication>
+#include <QSet>
 
 class UnitNode;
 class QStringList;
 class ServerSettingUtils
 {
 private:
-    static QList<QSharedPointer<UnitNode> > listTreeUnitNodes;
-    static QSet<QSharedPointer<UnitNode> > listMetaRealUnitNodes;
+    static QList<QSharedPointer<UnitNode>> listTreeUnitNodes;
+    static QSet<QSharedPointer<UnitNode>> listMetaRealUnitNodes;
+    static QList<QSharedPointer<UnitNode>> sortedMetaRealUnitNodes;
 
 public:
     ServerSettingUtils();
@@ -22,7 +24,9 @@ public:
 
     static QList<QSharedPointer<UnitNode> > &getListTreeUnitNodes();
     static QSharedPointer<UnitNode> getTreeUnitNodes(UnitNode*);
+    static const QList<QSharedPointer<UnitNode> > &sortMetaRealUnitNodes();
     static QSet<QSharedPointer<UnitNode> > &getSetMetaRealUnitNodes();
+    static QSet<QSharedPointer<UnitNode> >::iterator insertMetaRealUnitNodes(const QSharedPointer<UnitNode> &value);
     static QSharedPointer<UnitNode> getMetaRealUnitNodes(UnitNode*);
 
     static QVariant getValueSettings(const QString key, const QString group, const QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));

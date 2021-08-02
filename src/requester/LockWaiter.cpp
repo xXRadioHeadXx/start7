@@ -114,7 +114,7 @@ void LockWaiter::init() {
 
     setUnReciver(UnitNode::findReciver(getUnTarget()));
 
-    for(QSharedPointer<UnitNode>  un : as_const(ServerSettingUtils::getSetMetaRealUnitNodes().values())) {
+    for(QSharedPointer<UnitNode>  un : ServerSettingUtils::sortMetaRealUnitNodes()) {
         if(TypeUnitNode::IU_BL_IP == un->getType() && getUnReciverSdBlIp()->getNum2() == un->getNum2() && getUnReciverSdBlIp()->getUdpPort() == un->getUdpPort() && getUnReciverSdBlIp()->getUdpAdress() == un->getUdpAdress()) {
             setUnReciverIuBlIp(un);
             break;
@@ -134,7 +134,7 @@ void LockWaiter::init() {
         newMetaUnIuBlIp->setMetaEntity(1);
         newMetaUnIuBlIp->setPublishedState(10);
 
-        ServerSettingUtils::getSetMetaRealUnitNodes().insert(newMetaUnIuBlIp);
+        ServerSettingUtils::insertMetaRealUnitNodes(newMetaUnIuBlIp);
         qDebug() << "LockWaiter::init() add " << newMetaUnIuBlIp->toString();
         getUnReciver()->addChild(newMetaUnIuBlIp);
 

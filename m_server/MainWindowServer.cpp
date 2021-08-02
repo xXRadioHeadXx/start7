@@ -1892,7 +1892,7 @@ void MainWindowServer::fillPageTGAtPointInput(int ci)
         return;
 
     QSharedPointer<UnitNode> target;
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::getSetMetaRealUnitNodes().values();
+    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::sortMetaRealUnitNodes();
     for(QSharedPointer<UnitNode>  un : tmpSet) {
         if(TypeUnitNode::TG == un->getType() &&
            un->getUdpAdress() == selUN->getUdpAdress() &&
