@@ -1424,10 +1424,13 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     } else if(1 == swpCurrent.isOn() &&
               1 != swpCurrent.isNorm() &&
               (isFirstWakeUp || isWakeUp)) {
-        commentMsg = QObject::tr("Тревога-СРАБОТКА (начальное состояние)");
+        commentMsg = QObject::tr("Тревога-СРАБОТКА");
         typeMsg = 20;
         currentUN->setPublishedState(20);
         iniState = true;
+    }
+    if(isWakeUp || isFirstWakeUp) {
+        commentMsg += " (начальное состояние)";
     }
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41 -- iniState" << iniState;
 
@@ -2004,10 +2007,13 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     } else if(1 == swpCurrent.isOn() &&
               1 != swpCurrent.isNorm() &&
               (isFirstWakeUp || isWakeUp)) {
-        commentMsg = QObject::tr("Тревога-СРАБОТКА (начальное состояние)");
+        commentMsg = QObject::tr("Тревога-СРАБОТКА");
         typeMsg = 20;
         currentUN->setPublishedState(20);
         iniState = true;
+    }
+    if(isWakeUp || isFirstWakeUp) {
+        commentMsg += " (начальное состояние)";
     }
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41 -- iniState" << iniState;
 
@@ -2209,10 +2215,13 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     } else if(1 == swpCurrent.isOn() &&
               1 != swpCurrent.isNorm() &&
               (isFirstWakeUp || isWakeUp)) {
-        commentMsg = QObject::tr("Тревога-СРАБОТКА (начальное состояние)");
+        commentMsg = QObject::tr("Тревога-СРАБОТКА");
         typeMsg = 20;
         currentUN->setPublishedState(20);
         iniState = true;
+    }
+    if(isWakeUp || isFirstWakeUp) {
+        commentMsg += " (начальное состояние)";
     }
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41 -- iniState" << iniState;
 
@@ -2412,10 +2421,13 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     } else if(1 == swpCurrent.isOn() &&
               1 != swpCurrent.isNorm() &&
               (isFirstWakeUp || isWakeUp)) {
-        commentMsg = QObject::tr("Тревога-СРАБОТКА (начальное состояние)");
+        commentMsg = QObject::tr("Тревога-СРАБОТКА");
         typeMsg = 20;
         currentUN->setPublishedState(20);
         iniState = true;
+    }
+    if(isWakeUp || isFirstWakeUp) {
+        commentMsg += " (начальное состояние)";
     }
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41 -- iniState" << iniState;
 
@@ -2690,10 +2702,13 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         currentUN->setPublishedState(1);
     } else if(1 != swpCurrentCi.isNorm()&&
               (isFirstWakeUp || isWakeUp)) {
-        commentMsg = QObject::tr("Тревога-СРАБОТКА (начальное состояние)");
+        commentMsg = QObject::tr("Тревога-СРАБОТКА");
         typeMsg = 20;
         currentUN->setPublishedState(20);
         iniState = true;
+    }
+    if(isWakeUp || isFirstWakeUp) {
+        commentMsg += " (начальное состояние)";
     }
 
 //    qDebug() << "состояние TG -->" << commentMsg;
@@ -2970,10 +2985,13 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
         currentUN->setPublishedState(1);
     } else if(1 != swpCurrentCi.isNorm() &&
               (isFirstWakeUp || isWakeUp)) {
-        commentMsg = QObject::tr("Тревога-СРАБОТКА (начальное состояние)");
+        commentMsg = QObject::tr("Тревога-СРАБОТКА");
         typeMsg = 20;
         currentUN->setPublishedState(20);
         iniState = true;
+    }
+    if(isWakeUp || isFirstWakeUp) {
+        commentMsg += " (начальное состояние)";
     }
 
 //    qDebug() << "состояние TG -->" << commentMsg;
