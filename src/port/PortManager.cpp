@@ -1461,6 +1461,20 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         if(20 == typeMsg && !iniState) {
             SoundAdjuster::instance().playAlarm();
         }
+    } else if(!isSwitchOnOff && 1 == swpCurrent.isOff()) {
+        currentUN->setPublishedState(1);
+
+        if(isWakeUp || isFirstWakeUp) {
+            commentMsg = QObject::tr("Выкл (начальное состояние)");
+            typeMsg = 100;
+            JourEntity msg = prepareMsg;
+            // заполняем поля сообщения
+            msg.setComment(commentMsg);
+            msg.setType(typeMsg);
+
+            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+        }
     }
 
     currentUN->updDoubl();
@@ -2083,7 +2097,20 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
         } else if(12 == typeMsg || 21 == typeMsg) {
             SoundAdjuster::instance().playAlarm2();
         }
+    } else if(!isSwitchOnOff && 1 == swpCurrent.isOff()) {
+        currentUN->setPublishedState(1);
 
+        if(isWakeUp || isFirstWakeUp) {
+            commentMsg = QObject::tr("Выкл (начальное состояние)");
+            typeMsg = 100;
+            JourEntity msg = prepareMsg;
+            // заполняем поля сообщения
+            msg.setComment(commentMsg);
+            msg.setType(typeMsg);
+
+            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+        }
     }
 
     currentUN->updDoubl();
@@ -2291,6 +2318,20 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
             SoundAdjuster::instance().playAlarm2();
         }
 
+    } else if(!isSwitchOnOff && 1 == swpCurrent.isOff()) {
+        currentUN->setPublishedState(1);
+
+        if(isWakeUp || isFirstWakeUp) {
+            commentMsg = QObject::tr("Выкл (начальное состояние)");
+            typeMsg = 100;
+            JourEntity msg = prepareMsg;
+            // заполняем поля сообщения
+            msg.setComment(commentMsg);
+            msg.setType(typeMsg);
+
+            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+        }
     }
 
     currentUN->updDoubl();
@@ -2494,7 +2535,20 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
         } else if(21 == typeMsg) {
             SoundAdjuster::instance().playAlarm2();
         }
+    } else if(!isSwitchOnOff && 1 == swpCurrent.isOff()) {
+        currentUN->setPublishedState(1);
 
+        if(isWakeUp || isFirstWakeUp) {
+            commentMsg = QObject::tr("Выкл (начальное состояние)");
+            typeMsg = 100;
+            JourEntity msg = prepareMsg;
+            // заполняем поля сообщения
+            msg.setComment(commentMsg);
+            msg.setType(typeMsg);
+
+            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+        }
     }
 
     currentUN->updDoubl();
