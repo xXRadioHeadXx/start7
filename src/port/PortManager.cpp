@@ -1665,6 +1665,7 @@ bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 {
 //    qDebug() << "PortManager::procDkBLIPStatusWord0x41() -->";
     if(0 == currentUN->getDK()
+    || TypeUnitNode::SD_BL_IP != currentUN->getType()
     || DKCiclStatus::DKIgnore == currentUN->getDkStatus()
     || DKCiclStatus::DKWrong == currentUN->getDkStatus()
     || DKCiclStatus::DKDone == currentUN->getDkStatus()
@@ -1677,8 +1678,18 @@ bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     currentUN->setStateWord(0x41u, stateWord);
 //    currentUN->setPublishedState(-1);
 
+    auto swpCurrent = currentUN->swpSDBLIPType0x41();
+    if(1 == swpCurrent.isOff()) {
+        currentUN->setDkStatus(DKCiclStatus::DKWrong);
+
+        currentUN->updDoubl();
+        SignalSlotCommutator::getInstance()->emitUpdUN();
+
+        return true;
+    }
+
     //qDebug() << "DkStatus --> " << currentUN->toString();
-    int unCalcDkStatus = currentUN->calcDKStatus();
+    auto unCalcDkStatus = currentUN->calcDKStatus();
     //qDebug() << "DkStatus -- unCalcDkStatus " << unCalcDkStatus;
     //qDebug() << "DkStatus -- unDkStatus " << currentUN->getDkStatus();
     if(DKCiclStatus::DKReady == previousUN->getDkStatus() &&
@@ -1769,6 +1780,30 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     currentUN->setStateWord(0x31u, stateWord);
 //    currentUN->setPublishedState(-1);
 
+    if((TypeUnitNode::RLM_C == currentUN->getType()
+     && (1 == currentUN->swpRLMCType0x31().isOff()
+      || 1 == currentUN->swpRLMCType0x31().isFault()
+        ))
+    || (TypeUnitNode::RLM_KRL == currentUN->getType()
+     && (1 == currentUN->swpRLMType0x31().isOff()
+      || 1 == currentUN->swpRLMType0x31().isFault()
+        ))
+    || (TypeUnitNode::TG == currentUN->getType()
+     && 1 == currentUN->swpTGType0x31().isOff())
+      ) { // ДК уже никогда не выполнить
+        for(const auto &ar : as_const(getLsWaiter())) {
+             if(RequesterType::DKWaiter == ar->getRequesterType()) {
+                 auto dwWaiter = ar.dynamicCast<ProcessDKWaiter>();
+                 if(dwWaiter->getLsTrackedUN().contains(currentUN)) {
+                     finishDKWaiter(dwWaiter);
+                     qDebug() << "PortManager::procDkStatusWord0x31 remove dwWaiter";
+                     break;
+                 }
+             }
+        }
+    }
+
+
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
         procDK(currentUN, previousUN);
         if(DKCiclStatus::DKDone == currentUN->getDkStatus()) {
@@ -1781,7 +1816,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
                              SignalSlotCommutator::getInstance()->emitStopDKWait();
                          }
                          qDebug() << "PortManager::removeLsTrackedUN(" << currentUN->toString() << ")";
-                         break;
+                         return true;
                      }
                  }
             }
@@ -2528,7 +2563,23 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x32u, stateWord);
-    currentUN->setPublishedState(-1);
+//    currentUN->setPublishedState(-1);
+
+    const auto &swpCurrent = currentUN->swpTGType0x32().C(currentUN->getNum2());
+
+    if(1 == swpCurrent.isFault()) { // ДК уже никогда не выполнить
+        for(const auto &ar : as_const(getLsWaiter())) {
+             if(RequesterType::DKWaiter == ar->getRequesterType()) {
+                 auto dwWaiter = ar.dynamicCast<ProcessDKWaiter>();
+                 if(dwWaiter->getLsTrackedUN().contains(currentUN)) {
+                     finishDKWaiter(dwWaiter);
+                     qDebug() << "PortManager::procDkStatusWord0x31 remove dwWaiter";
+                     return true;
+                 }
+             }
+        }
+    }
+
 
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
         procDK(currentUN, previousUN);
@@ -2561,7 +2612,6 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
             currentUN->setPublishedState(-1);
         }
     }
-    const auto &swpCurrent = currentUN->swpTGType0x32().C(currentUN->getNum2());
     if(1 == swpCurrent.isInAlarm()
 //    || 1 == swpCurrent.isWasDK()
     || 1 == swpCurrent.isSideAlarm()
@@ -2811,6 +2861,20 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x33u, stateWord);
 //    currentUN->setPublishedState(-1);
+    const auto &swpCurrent = currentUN->swpTGType0x33().C(currentUN->getNum2());
+
+    if(1 == swpCurrent.isFault()) { // ДК уже никогда не выполнить
+        for(const auto &ar : as_const(getLsWaiter())) {
+             if(RequesterType::DKWaiter == ar->getRequesterType()) {
+                 auto dwWaiter = ar.dynamicCast<ProcessDKWaiter>();
+                 if(dwWaiter->getLsTrackedUN().contains(currentUN)) {
+                     finishDKWaiter(dwWaiter);
+                     qDebug() << "PortManager::procDkStatusWord0x31 remove dwWaiter";
+                     return true;
+                 }
+             }
+        }
+    }
 
     if(DKCiclStatus::DKDone != currentUN->getDkStatus()) {
         procDK(currentUN, previousUN);
@@ -2843,7 +2907,6 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
             currentUN->setPublishedState(-1);
         }
     }
-    const auto &swpCurrent = currentUN->swpTGType0x33().C(currentUN->getNum2());
     if(1 == swpCurrent.isInAlarm()
 //    || 1 == swpCurrent.isWasDK()
     || 1 == swpCurrent.isSideAlarm()
@@ -3292,59 +3355,7 @@ void PortManager::manageOverallReadQueue()
 
                         } else if(BeatStatus::RequestStep2 == ar->getBeatStatus()) { // удаляем завершившихся и переводим во второе ожидание другие
 
-                            if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                for(QSharedPointer<UnitNode>  un : ar.dynamicCast<ProcessDKWaiter>()->getLsTrackedUN()) {
-                                    JourEntity msg;
-                                    msg.setObject(un->getName());
-                                    msg.setObjecttype(un->getType());
-                                    msg.setD1(un->getNum1());
-                                    msg.setD2(un->getNum2());
-                                    msg.setD3(un->getNum3());
-                                    msg.setDirection(un->getDirection());
-
-                                    if(DKCiclStatus::DKDone == un->getDkStatus()) {
-                                        msg.setComment(tr("Ком. ДК выполнена"));
-                                        msg.setType(3);
-                                        if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
-                                            DataBaseManager::insertJourMsg_wS(msg);
-                                            GraphTerminal::sendAbonentEventsAndStates(un, msg);
-
-                                            un->setPublishedState(-1);
-                                        }
-                                    } else {
-                                        msg.setComment(tr("Ком. ДК не выполнена"));
-                                        msg.setType(11);
-                                        if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
-                                            DataBaseManager::insertJourMsg_wS(msg);
-                                            GraphTerminal::sendAbonentEventsAndStates(un, msg);
-
-//                                            un->setPublishedState(-1);
-
-                                            SoundAdjuster::instance().playAlarm2();
-                                        }
-                                    }
-                                    un->setDkInvolved(false);
-                                    un->setDkStatus(DKCiclStatus::DKIgnore);
-                                    un->updDoubl();
-                                    SignalSlotCommutator::getInstance()->emitUpdUN();
-                                }
-//                                SignalSlotCommutator::getInstance()->emitStopDKWait();
-//                                removeLsWaiter(ar);
-                            } else if(RequesterType::LockRequester == ar->getRequesterType()){
-
-                                if(RequesterType::LockRequester == ar->getRequesterType()) {
-                                    SignalSlotCommutator::getInstance()->emitStartLockWait(ar->getTimeIntervalWaiteSecond());
-                                }
-
-                                ar->startWaiteEndSecondWaite();
-                            }
-
-                            if(RequesterType::LockRequester != ar->getRequesterType()) {
-                                if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                    SignalSlotCommutator::getInstance()->emitStopDKWait();
-                                }
-                                removeLsWaiter(ar);
-                            }
+                            finishDKWaiter(ar);
 
                         } else if(BeatStatus::End == ar->getBeatStatus()) { // кончаем конценных, но такого не бывает
 
@@ -3375,6 +3386,62 @@ void PortManager::manageOverallReadQueue()
                 }
             }
         }
+    }
+}
+
+void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
+    if(RequesterType::DKWaiter == ar->getRequesterType()) {
+        for(QSharedPointer<UnitNode>  un : ar.dynamicCast<ProcessDKWaiter>()->getLsTrackedUN()) {
+            JourEntity msg;
+            msg.setObject(un->getName());
+            msg.setObjecttype(un->getType());
+            msg.setD1(un->getNum1());
+            msg.setD2(un->getNum2());
+            msg.setD3(un->getNum3());
+            msg.setDirection(un->getDirection());
+
+            if(DKCiclStatus::DKDone == un->getDkStatus()) {
+                msg.setComment(tr("Ком. ДК выполнена"));
+                msg.setType(3);
+                if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
+                    DataBaseManager::insertJourMsg_wS(msg);
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+
+                    un->setPublishedState(-1);
+                }
+            } else {
+                msg.setComment(tr("Ком. ДК не выполнена"));
+                msg.setType(11);
+                if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
+                    DataBaseManager::insertJourMsg_wS(msg);
+                    GraphTerminal::sendAbonentEventsAndStates(un, msg);
+
+//                                            un->setPublishedState(-1);
+
+                    SoundAdjuster::instance().playAlarm2();
+                }
+            }
+            un->setDkInvolved(false);
+            un->setDkStatus(DKCiclStatus::DKIgnore);
+            un->updDoubl();
+            SignalSlotCommutator::getInstance()->emitUpdUN();
+        }
+//                                SignalSlotCommutator::getInstance()->emitStopDKWait();
+//                                removeLsWaiter(ar);
+    } else if(RequesterType::LockRequester == ar->getRequesterType()){
+
+        if(RequesterType::LockRequester == ar->getRequesterType()) {
+            SignalSlotCommutator::getInstance()->emitStartLockWait(ar->getTimeIntervalWaiteSecond());
+        }
+
+        ar->startWaiteEndSecondWaite();
+    }
+
+    if(RequesterType::LockRequester != ar->getRequesterType()) {
+        if(RequesterType::DKWaiter == ar->getRequesterType()) {
+            SignalSlotCommutator::getInstance()->emitStopDKWait();
+        }
+        removeLsWaiter(ar);
     }
 }
 

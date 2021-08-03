@@ -106,6 +106,7 @@ public:
     void prependLsWaiter(QSharedPointer<AbstractRequester> value);
     static void removeLsWaiter(QSharedPointer<AbstractRequester> value);
     void clearLsWaiter();
+    static void finishDKWaiter(QSharedPointer<AbstractRequester> ar);
 
     static QList<QSharedPointer<AbstractRequester> > getLsSCR();
     void setLsSCR(const QList<QSharedPointer<AbstractRequester> > &value);
