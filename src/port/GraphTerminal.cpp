@@ -531,7 +531,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     msgOn.setD2(unTarget->getNum2());
                     msgOn.setD3(unTarget->getNum3());
                     msgOn.setDirection(Utils::hostAddressToString(itm.address()));
-                    msgOn.setType((unTarget->getControl() ? 1137 : 1136));
+                    msgOn.setType((val ? 1137 : 1136));
                     msgOn.setComment(tr("Удал. ком. Контроль ") + (val ? tr("Вкл") : tr("Выкл")));
                     if(!unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
                         DataBaseManager::insertJourMsg_wS(msgOn);
