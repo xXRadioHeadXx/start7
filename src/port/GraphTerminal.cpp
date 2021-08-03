@@ -2,6 +2,15 @@
 
 #include "SWPSDBLIPType0x41.h"
 #include "SWPIUBLIPType0x41.h"
+#include "SWPRLMType0x31.h"
+#include "SWPRLMCType0x31.h"
+#include "SWPTGType0x31.h"
+#include "SWPTGType0x32.h"
+#include "SWPTGType0x33.h"
+#include "SWPTGType0x34.h"
+#include "SWPTGSubType0x32.h"
+#include "SWPTGSubType0x33.h"
+#include "SWPTGSubType0x34.h"
 #include "TcpServer.h"
 #include <QTcpSocket>
 #include <qdom.h>
@@ -1027,6 +1036,24 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
 QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, QDomElement &stateElement)
 {
     stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+
+    bool isSwitchOff = false;
+    if(TypeUnitNode::SD_BL_IP == un->getType() && 1 == un->swpSDBLIPType0x41().isOff()) {
+        isSwitchOff = true;
+    } else if(TypeUnitNode::RLM_KRL == un->getType() && 1 == un->swpRLMType0x31().isOff()) {
+        isSwitchOff = true;
+    } else if(TypeUnitNode::RLM_C == un->getType() && 1 == un->swpRLMCType0x31().isOff()) {
+        isSwitchOff = true;
+    } else if(TypeUnitNode::TG == un->getType() && 1 == un->swpTGType0x31().isOff()) {
+        isSwitchOff = true;
+    }
+
+    if(isSwitchOff) {
+        stateElement.setAttribute("id", 1);
+        stateElement.setAttribute("name", "Норма");
+        return stateElement;
+    }
+
     stateElement.setAttribute("id", un->getPublishedState());
     switch (un->getPublishedState()) {
         case 113: {
@@ -1079,87 +1106,6 @@ QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, Q
         }
     }
     return stateElement;
-
-//    bool isLockPair = false;
-//    QSharedPointer<UnitNode>  unLockSdBlIp = nullptr, unLockIuBlIp = nullptr;
-//    if(1 >= un->getNum2() && 4 >= un->getNum2()) {
-//        auto reciver = UnitNode::findReciver(un);
-//        if( nullptr != reciver) {
-//            for(const auto& tmpUN : as_const(reciver->getListChilde())) {
-//                if(TypeUnitNode::IU_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
-//                    unLockIuBlIp = tmpUN;
-//                    break;
-//                }
-//            }
-
-//            for(const auto& tmpUN : as_const(reciver->getListChilde())) {
-//                if(TypeUnitNode::SD_BL_IP == tmpUN->getType() && tmpUN->getNum2() == un->getNum2()) {
-//                    unLockSdBlIp = tmpUN;
-//                    break;
-//                }
-//            }
-//        }
-
-//        if(nullptr == unLockSdBlIp || nullptr == unLockIuBlIp)
-//            isLockPair = false;
-//        else if(0 != unLockSdBlIp->getBazalt())
-//            isLockPair = true;
-//    }
-//    //
-
-//    if(isLockPair && TypeUnitNode::SD_BL_IP == un->getType()) {
-//        if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-//           1 == unLockIuBlIp->swpIUBLIP().isOff()) {
-//            //Открыто
-//            stateElement.setAttribute("id", 111);
-//            stateElement.setAttribute("name", "Открыто");
-//        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-//                  1 == unLockIuBlIp->swpIUBLIP().isOn()) {
-//            //Закрыто
-//            stateElement.setAttribute("id", 110);
-//            stateElement.setAttribute("name", "Закрыто");
-//        } else if(1 == unLockSdBlIp->swpSDBLIP().isAlarm() &&
-//                  1 == unLockIuBlIp->swpIUBLIP().isOn()) {
-//            //Открыто ключом
-//            stateElement.setAttribute("id", 113);
-//            stateElement.setAttribute("name", "Открыто ключом");
-//        } else if(1 == unLockSdBlIp->swpSDBLIP().isNorm() &&
-//                  1 == unLockIuBlIp->swpIUBLIP().isOff()) {
-//            //Закрыто ключом
-//            stateElement.setAttribute("id", 112);
-//            stateElement.setAttribute("name", "Закрыто ключом");
-//        }
-//        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && ((1 == un->swpSDBLIP().isAlarm()) || (1 == un->swpSDBLIP().isWasAlarm()))) {
-//        //сохранение Тревога или Норма
-//        stateElement.setAttribute("id", 20);
-//        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//        stateElement.setAttribute("name", "Тревога-СРАБОТКА");
-//    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isNorm())) {
-//        stateElement.setAttribute("id", 1);
-//        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//        stateElement.setAttribute("name", "Норма");
-//    } else if((TypeUnitNode::SD_BL_IP == un->getType()) && (1 == un->swpSDBLIP().isOff())) {
-//        stateElement.setAttribute("id", 100);
-//        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//        stateElement.setAttribute("name", "Выкл");
-//    } else if((TypeUnitNode::IU_BL_IP == un->getType()) && (1 == un->swpIUBLIP().isOff())) {
-//        stateElement.setAttribute("id", 100);
-//        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//        stateElement.setAttribute("name", "Выкл");
-//    } else if((!isLockPair && TypeUnitNode::SD_BL_IP == un->getType() &&
-//               !un->getStateWord().isEmpty()) ||
-//              (!isLockPair && TypeUnitNode::IU_BL_IP == un->getType() &&
-//               !un->getStateWord().isEmpty())) {
-//         stateElement.setAttribute("id", 101);
-//         stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//         stateElement.setAttribute("name", "Вкл");
-//     } else {
-//        stateElement.setAttribute("id", 0);
-//        stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-//        stateElement.setAttribute("name", "Неопр. сост.");
-//    }
-//    return stateElement;
 }
 
 
