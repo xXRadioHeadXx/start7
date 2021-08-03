@@ -933,8 +933,15 @@ QDomDocument GraphTerminal::makeEventsAndStates(QString /*docType*/)
 
         QDomElement  statesElement  =  doc.createElement("states");
         deviceElement.appendChild(statesElement);
-        QDomElement  stateElement  =  doc.createElement("state");
+        if(!un->getControl() && 1 != un->getMetaEntity()) {
+            QDomElement  stateElement  =  doc.createElement("state");
+            stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+            stateElement.setAttribute("id", 136);
+            stateElement.setAttribute("name", "Контроль выкл");
+            statesElement.appendChild(stateElement);
+        }
         if(1 != un->getMetaEntity()) {
+            QDomElement  stateElement  =  doc.createElement("state");
             makeActualStateElement(un, stateElement);
             statesElement.appendChild(stateElement);
         }
