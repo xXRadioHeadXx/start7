@@ -680,8 +680,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 const auto buffers = m_tcpServer->getAbonents();
                 for(const auto& socket : as_const(buffers.keys())) {
-                    if((socket->peerAddress().isEqual(hostSender) && socket->peerPort() == portSender)
-                    || socket->peerAddress().isEqual(QHostAddress(QHostAddress::Any))) {
+                    if(socket->peerAddress().isEqual(hostSender) && socket->peerPort() == portSender) {
                         QByteArray buf;
                         QTextStream ts(&buf);
                         auto cw51 = QTextCodec::codecForName("windows-1251");
