@@ -43,8 +43,6 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
         QString nPort2 = ServerSettingUtils::getValueSettings("Port2", "INTEGRATION").toString();
         Q_UNUSED(nPort2)
 
-//        m_tcpServer->writeData(nHost, "Hello!");
-
         const auto buffers = m_tcpServer->getAbonents();
         abonents.unite(buffers);
         for(auto socket : as_const(abonents.keys())) {
@@ -773,9 +771,12 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                         DataQueueItem itmAnswer = itm;
                         itmAnswer.setData(docAnswer.toByteArray());
 
+                        const auto &hostSender = QHostAddress(itm.address());
+                        const quint16 &portSender = itm.port();
+
                         const auto buffers = m_tcpServer->getAbonents();
                         for(const auto& socket : as_const(buffers.keys())) {
-                            if(socket->peerAddress() == itm.address()) {
+                            if(socket->peerAddress().isEqual(hostSender) && socket->peerPort() == portSender) {
                                 QByteArray buf;
                                 QTextStream ts(&buf);
                                 auto cw51 = QTextCodec::codecForName("windows-1251");
