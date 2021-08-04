@@ -88,29 +88,21 @@ void SignalSlotCommutator::emitEndLockWait() const
     emit this->endLockWait();
 }
 
-void SignalSlotCommutator::emitAutoOnOffIU(bool out, QSharedPointer<UnitNode>  un) const
+void SignalSlotCommutator::emitAutoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const
 {
-    emit this->autoOnOffIU(out , un);
+    emit this->autoOnOffIU(isAuto, fromAbonent, unTarget);
 }
 
-void SignalSlotCommutator::emitAutoOnOffIU(QSharedPointer<UnitNode>  un) const
-{
-    emit this->autoOnOffIU(false, un);
-}
 
 void SignalSlotCommutator::emitLostedConnect(QSharedPointer<UnitNode>  un) const
 {
     emit this->lostConnect(un);
 }
 
-void SignalSlotCommutator::emitRequestOnOffCommand(QSharedPointer<UnitNode>  un, bool value) const
-{
-    emit this->requestOnOffCommand(false, un, value);
-}
 
-void SignalSlotCommutator::emitRequestOnOffCommand(bool out, QSharedPointer<UnitNode>  un, bool value) const
+void SignalSlotCommutator::emitRequestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue) const
 {
-    emit this->requestOnOffCommand(out, un, value);
+    emit this->requestOnOffCommand(isAuto, fromAbonent, unTarget, onOffValue);
 }
 
 void SignalSlotCommutator::emitLockOpenCloseCommand(bool out, QSharedPointer<UnitNode>  un, bool value) const

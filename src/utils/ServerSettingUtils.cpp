@@ -66,7 +66,7 @@ int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> &un)
 }
 
 QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName) {
-    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -->";
+//    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -->";
     if(!getListTreeUnitNodes().isEmpty()) {
         getListTreeUnitNodes().clear();
     }
@@ -104,7 +104,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
         QString strGroup("Obj_%1");
         strGroup = strGroup.arg(index + 1);
 
-        qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse";
+//        qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse";
 
         if(0 != ini.GetSection(strGroup.toStdString().c_str())) {
             auto tmpUN = UnitNodeFactory::makeShare(static_cast<TypeUnitNode>(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Type")).toInt()), root);
@@ -112,7 +112,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
 
             QString isEnable = codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Enable"));
             if("false" == isEnable) {
-                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " disabled";
+//                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " disabled";
                 continue;
             }
 
@@ -162,7 +162,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
 
             if(!tmpUN->getName().isEmpty())
             {
-                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse successfully " << tmpUN->toString();
+//                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse successfully " << tmpUN->toString();
 //                qDebug() << tmpUN->metaName << tmpUN->toString();
                 getListTreeUnitNodes().append(QSharedPointer<UnitNode>(tmpUN));
                 bool key = true;
@@ -191,7 +191,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                         auto posybleParent = UnitNode::findReciver(dbl);
                         if(!posybleParent.isNull()) {
                             tmpUN->setParentUN(posybleParent);
-                            qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " set parrent " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
+//                            qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " set parrent " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
                             break;
                         }
                     }
@@ -201,7 +201,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
 
 //                    tmpUN->addChild(tmpUN);
                     tmpUN->setParentUN(tmpUN);
-                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
+//                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
                     insertMetaRealUnitNodes(tmpUN);
 
                 } else if(tmpUN->getDoubles().isEmpty() &&
@@ -239,7 +239,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                     tmpParentUN->addChild(tmpUN);
                     tmpUN->setParentUN(tmpParentUN);
 
-                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
+//                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
                     insertMetaRealUnitNodes(tmpUN);
 
                 } else if(tmpUN->getDoubles().isEmpty() &&
@@ -280,10 +280,10 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
                     tmpParentUN->addChild(tmpUN);
                     tmpUN->setParentUN(tmpParentUN);
 
-                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
+//                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
                     insertMetaRealUnitNodes(tmpUN);
                 } else {
-                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " not insert " << tmpUN->toString();
+//                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " not insert " << tmpUN->toString();
                 }
 
             }
@@ -327,7 +327,7 @@ QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPo
 
                 parent->addChild(newMetaUnIuBlIp);
                 newMetaUnIuBlIp->setParentUN(parent);
-                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- meta insert " << newMetaUnIuBlIp->toString() << " parent " << newMetaUnIuBlIp->getParentUN()->toString();
+//                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- meta insert " << newMetaUnIuBlIp->toString() << " parent " << newMetaUnIuBlIp->getParentUN()->toString();
                 insertMetaRealUnitNodes(newMetaUnIuBlIp);
                 ServerSettingUtils::linkDoubles(newMetaUnIuBlIp);
                 it = ServerSettingUtils::sortMetaRealUnitNodes().begin();
@@ -463,7 +463,7 @@ QSet<QSharedPointer<UnitNode>> & ServerSettingUtils::getSetMetaRealUnitNodes() {
 }
 
 QSet<QSharedPointer<UnitNode>>::iterator ServerSettingUtils::insertMetaRealUnitNodes(const QSharedPointer<UnitNode> &value) {
-    qDebug() << "ServerSettingUtils::insertMetaRealUnitNodes";
+//    qDebug() << "ServerSettingUtils::insertMetaRealUnitNodes";
     auto it = ServerSettingUtils::listMetaRealUnitNodes.insert(value);
     ServerSettingUtils::sortedMetaRealUnitNodes = ServerSettingUtils::listMetaRealUnitNodes.values();
     std::sort(ServerSettingUtils::sortedMetaRealUnitNodes.begin(), ServerSettingUtils::sortedMetaRealUnitNodes.end());

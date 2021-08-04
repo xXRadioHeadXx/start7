@@ -29,11 +29,9 @@ public slots:
      void emitStartLockWait(int interval) const;
      void emitStopLockWait() const;
      void emitEndLockWait() const;
-     void emitAutoOnOffIU(bool, QSharedPointer<UnitNode> ) const;
-     void emitAutoOnOffIU(QSharedPointer<UnitNode> ) const;
+     void emitAutoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const;
      void emitLostedConnect(QSharedPointer<UnitNode> ) const;
-     void emitRequestOnOffCommand(bool, QSharedPointer<UnitNode> , bool) const;
-     void emitRequestOnOffCommand(QSharedPointer<UnitNode> , bool) const;
+     void emitRequestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue) const;
      void emitLockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool) const;
      void emitLockOpenCloseCommand(QSharedPointer<UnitNode> , bool) const;
      void emitChangeSelectUN (QSharedPointer<UnitNode> ) const;
@@ -60,10 +58,9 @@ signals:
      void startLockWait(int interval) const;
      void stopLockWait() const;
      void endLockWait() const;
-     void autoOnOffIU(QSharedPointer<UnitNode> ) const;
-     void autoOnOffIU(bool, QSharedPointer<UnitNode> ) const;
+     void autoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const;
      void lostConnect(QSharedPointer<UnitNode> ) const;
-     void requestOnOffCommand(bool, QSharedPointer<UnitNode> , bool) const;
+     void requestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue) const;
      void lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool) const;
      void changeSelectUN (QSharedPointer<UnitNode> ) const;
      void requestDK (QSharedPointer<UnitNode> ) const;

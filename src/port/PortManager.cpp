@@ -50,10 +50,10 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
 
     m_udpPortsVector.reserve(MAX_COUNT_PORTS);
 
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(bool, QSharedPointer<UnitNode> , bool)), this, SLOT(requestOnOffCommand(bool, QSharedPointer<UnitNode> , bool)));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(bool, bool, QSharedPointer<UnitNode> , bool)), this, SLOT(requestOnOffCommand(bool, bool, QSharedPointer<UnitNode> , bool)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)), this, SLOT(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(QSharedPointer<UnitNode> )), this, SLOT(requestDK(QSharedPointer<UnitNode> )));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(autoOnOffIU(bool, QSharedPointer<UnitNode> )), this, SLOT(requestAutoOnOffIUCommand(bool, QSharedPointer<UnitNode> )));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(autoOnOffIU(bool, bool, QSharedPointer<UnitNode> )), this, SLOT(requestAutoOnOffIUCommand(bool, bool, QSharedPointer<UnitNode> )));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, QSharedPointer<UnitNode> )), this, SLOT(requestDK(bool, QSharedPointer<UnitNode> )));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(alarmsReset(QSharedPointer<UnitNode> )), this, SLOT(requestAlarmReset(QSharedPointer<UnitNode> )));
 
@@ -625,22 +625,18 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
     }
 }
 
-void PortManager::requestAutoOnOffIUCommand(QSharedPointer<UnitNode> selUN)
-{
-    requestAutoOnOffIUCommand(false, selUN);
-}
 
-void PortManager::requestAutoOnOffIUCommand(bool out, QSharedPointer<UnitNode> selUN) {
-    if(selUN.isNull())
+void PortManager::requestAutoOnOffIUCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) {
+    if(unTarget.isNull())
         return;
 
-    if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
-        QPair<QString, QString> tmpPair(selUN->getUdpAdress(), QVariant(selUN->getUdpPort()).toString());
+    if(TypeUnitNode::IU_BL_IP == unTarget->getType()) {
+        QPair<QString, QString> tmpPair(unTarget->getUdpAdress(), QVariant(unTarget->getUdpPort()).toString());
         for(const auto& pt : as_const(m_udpPortsVector)) {
             if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
                 bool needJour = true;
                 for(auto ar : as_const(getLsWaiter())) {
-                    if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == selUN || ar->getUnTarget()->getDoubles().contains(selUN))) {
+                    if((RequesterType::AutoOnOffWaiter == ar->getRequesterType()) && (ar->getUnTarget() == unTarget || ar->getUnTarget()->getDoubles().contains(unTarget))) {
                         ar->timerTripleStop();
                         ar->setBeatStatus(BeatStatus::Unsuccessful);
 
@@ -649,28 +645,33 @@ void PortManager::requestAutoOnOffIUCommand(bool out, QSharedPointer<UnitNode> s
                     }
                 }
 
-                auto tmpOOIUW = QSharedPointer<OnOffIUWaiter>::create(selUN);
+                auto tmpOOIUW = QSharedPointer<OnOffIUWaiter>::create(unTarget);
                 tmpOOIUW->init();
                 appLsWaiter(tmpOOIUW);
 //                tmpOOIUW->startFirstRequest();
 
                 if(needJour) {
                     JourEntity msg;
-                    msg.setObject(selUN->getName());
-                    msg.setObjecttype(selUN->getType());
-                    msg.setD1(selUN->getNum1());
-                    msg.setD2(selUN->getNum2());
-                    msg.setD3(selUN->getNum3());
+                    msg.setObject(unTarget->getName());
+                    msg.setObjecttype(unTarget->getType());
+                    msg.setD1(unTarget->getNum1());
+                    msg.setD2(unTarget->getNum2());
+                    msg.setD3(unTarget->getNum3());
                     msg.setType(130);
-                    msg.setDirection(selUN->getDirection());
-
-                    if(out)
-                        msg.setComment(tr("Удал. ком. Вкл"));
+                    msg.setDirection(unTarget->getDirection());
+                    QString comment;
+                    if(fromAbonent)
+                        comment = tr("Удал. ком. Вкл");
                     else
-                        msg.setComment(tr("Послана ком. Вкл"));
-                    if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+                        comment = tr("Послана ком. Вкл");
+                    if(isAuto)
+                        comment += tr(" (Авто)");
+
+                    msg.setComment(comment);
+
+                    if(!unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
                         DataBaseManager::insertJourMsg_wS(msg);
-                        GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
+                        GraphTerminal::sendAbonentEventsAndStates(unTarget, msg);
                     }
                 }
 
@@ -780,14 +781,10 @@ void PortManager::lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN,
 
 }
 
-void PortManager::requestOnOffCommand(QSharedPointer<UnitNode> selUN, bool value)
-{
-    requestOnOffCommand(false, selUN, value);
-}
 
-void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, bool value)
+void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue)
 {
-    QSharedPointer<UnitNode>  target = selUN;
+    QSharedPointer<UnitNode>  target = unTarget;
 
     if(TypeUnitNode::SD_BL_IP != target->getType() &&
        TypeUnitNode::IU_BL_IP != target->getType() &&
@@ -806,7 +803,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
     // ищем устройство в списке мета и реальных устройств <--
 
     // value true - Вкл. Оставляем работать шедулер (реквестер) автовыключения/автовыключения -->
-    if(!value) {
+    if(!onOffValue) {
         if(TypeUnitNode::IU_BL_IP == target->getType()) { // Прерываем работу если это было ИУ
 //            auto reciverIU = UnitNode::findReciver(selUN);
             for(auto ar : as_const(getLsWaiter())) {
@@ -836,9 +833,9 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
                 mask = target->swpIUBLIPType0x41().mask();
             }
 
-            if(value)
+            if(onOffValue)
                 D1 = D1 | mask;
-            else if(!value)
+            else if(!onOffValue)
                 D1 = D1 & ~mask;
 
             auto tmpCAW = QSharedPointer<ConfirmationAdmissionWaiter>::create(reciver);
@@ -867,7 +864,7 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
             tmpCAW->init();
 //            tmpCAW->setUnTarget(target);
             DataQueueItem itm = tmpCAW->getFirstMsg();
-            if(value)
+            if(onOffValue)
                 DataQueueItem::makeOn0x26(itm, reciver);
             else
                 DataQueueItem::makeOff0x25(itm, reciver);
@@ -876,23 +873,29 @@ void PortManager::requestOnOffCommand(bool out, QSharedPointer<UnitNode> selUN, 
         }
 
         JourEntity msg;
-        msg.setObject(selUN->getName());
-        msg.setObjecttype(selUN->getType());
-        msg.setD1(selUN->getNum1());
-        msg.setD2(selUN->getNum2());
-        msg.setD3(selUN->getNum3());
-        msg.setDirection(selUN->getDirection());
+        msg.setObject(unTarget->getName());
+        msg.setObjecttype(unTarget->getType());
+        msg.setD1(unTarget->getNum1());
+        msg.setD2(unTarget->getNum2());
+        msg.setD3(unTarget->getNum3());
+        msg.setDirection(unTarget->getDirection());
 
-        if(out) {
-            msg.setComment(tr("Удал. ком. ") + (value ? tr("Вкл") : tr("Выкл")));
-            msg.setType((value ? 1'000 : 1'001));
+        QString comment;
+        if(fromAbonent) {
+            comment = tr("Удал. ком. ") + (onOffValue ? tr("Вкл") : tr("Выкл"));
+            msg.setType((onOffValue ? 1'000 : 1'001));
         } else {
-            msg.setComment(tr("Послана ком. ") + (value ? tr("Вкл") : tr("Выкл")));
-            msg.setType((value ? 130 : 131));
+            comment = tr("Послана ком. ") + (onOffValue ? tr("Вкл") : tr("Выкл"));
+            msg.setType((onOffValue ? 130 : 131));
         }
-        if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+        if(isAuto)
+            comment += tr(" (Авто)");
+
+        msg.setComment(comment);
+
+        if(!unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
             DataBaseManager::insertJourMsg_wS(msg);
-            GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
+            GraphTerminal::sendAbonentEventsAndStates(unTarget, msg);
         }
     }
 }
@@ -1483,7 +1486,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     if(20 == typeMsg && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -2119,7 +2122,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -2340,7 +2343,7 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     if(20 == typeMsg && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -2557,7 +2560,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -2849,7 +2852,7 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -3146,7 +3149,7 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }

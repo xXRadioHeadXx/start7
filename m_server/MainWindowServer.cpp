@@ -928,10 +928,10 @@ void MainWindowServer::on_actionUNOn_triggered()
 
     const auto& setUn = Utils::findeSetAutoOnOffUN(selUN);
     if(setUn.isEmpty())
-        this->m_portManager->requestOnOffCommand(false, selUN, true);
+        this->m_portManager->requestOnOffCommand(false, false, selUN, true);
     else {
         auto un = setUn.values().first();
-        this->m_portManager->requestAutoOnOffIUCommand(false, un);
+        this->m_portManager->requestAutoOnOffIUCommand(false, false, un);
     }
 }
 
@@ -951,7 +951,7 @@ void MainWindowServer::on_actionUNOff_triggered()
             return;
         }
     }
-    this->m_portManager->requestOnOffCommand(false, selUN, false);
+    this->m_portManager->requestOnOffCommand(false, false, selUN, false);
 }
 
 void MainWindowServer::on_actionControl_triggered()

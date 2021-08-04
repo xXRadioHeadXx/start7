@@ -345,23 +345,23 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIPType0x41().isOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
-                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, true);
                     } else {
-                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
+                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(false, true, unTarget);
                     }
                 } else if(unTarget->isEditableOnOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
-                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, true);
                     } else {
-                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, unTarget);
+                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(false, true, unTarget);
                     }
                 } else if(unTarget->isEditableOnOff() && (1 == unTarget->swpIUBLIPType0x41().isOff()) && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, true);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, true);
                 } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIPType0x41().isOn() && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, false);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, false);
                 } else  {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(true, unTarget, value);
+                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, value);
                 }
                 //
             } else/* if("101" == idCommand.nodeValue()) {
