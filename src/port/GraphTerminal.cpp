@@ -1063,9 +1063,9 @@ QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, Q
         isSwitchOff = true;
     }
 
-    if(isSwitchOff) {
-        stateElement.setAttribute("id", 1);
-        stateElement.setAttribute("name", "Норма");
+    if(isSwitchOff && 1 == un->getPublishedState()) {
+        stateElement.setAttribute("id", 100);
+        stateElement.setAttribute("name", "Выкл");
         return stateElement;
     }
 
