@@ -132,8 +132,7 @@ public slots:
     void write(const DataQueueItem &data);
     void startStatusRequest();
     void requestAlarmReset(QSharedPointer<UnitNode> selUN = nullptr);
-    void requestDK(bool out, QSharedPointer<UnitNode> selUN = nullptr);
-    void requestDK(QSharedPointer<UnitNode> selUN = nullptr);
+    void requestDK(const bool isAuto = true, const bool fromAbonent = false, const QSharedPointer<UnitNode> unTarget = nullptr);
     void requestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue);
     void requestAutoOnOffIUCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget);
     void lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN, bool value);

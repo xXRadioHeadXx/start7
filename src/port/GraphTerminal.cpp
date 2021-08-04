@@ -436,7 +436,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                SignalSlotCommutator::getInstance()->emitRequestDK(true, unTarget);
+                SignalSlotCommutator::getInstance()->emitRequestDK(false, true, unTarget);
 
                 //qDebug() << "<--";
                 //

@@ -52,9 +52,8 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
 
     connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(bool, bool, QSharedPointer<UnitNode> , bool)), this, SLOT(requestOnOffCommand(bool, bool, QSharedPointer<UnitNode> , bool)));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)), this, SLOT(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(QSharedPointer<UnitNode> )), this, SLOT(requestDK(QSharedPointer<UnitNode> )));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(autoOnOffIU(bool, bool, QSharedPointer<UnitNode> )), this, SLOT(requestAutoOnOffIUCommand(bool, bool, QSharedPointer<UnitNode> )));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, QSharedPointer<UnitNode> )), this, SLOT(requestDK(bool, QSharedPointer<UnitNode> )));
+    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, bool, QSharedPointer<UnitNode> )), this, SLOT(requestDK(bool, bool, QSharedPointer<UnitNode> )));
     connect(SignalSlotCommutator::getInstance(), SIGNAL(alarmsReset(QSharedPointer<UnitNode> )), this, SLOT(requestAlarmReset(QSharedPointer<UnitNode> )));
 
     {
@@ -516,15 +515,11 @@ void PortManager::requestAlarmReset(QSharedPointer<UnitNode>  selUN) {
     //    write();
 }
 
-void PortManager::requestDK(QSharedPointer<UnitNode> selUN)
-{
-    requestDK(false, selUN);
-}
 
-void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
+void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) {
     //
     QList<QSharedPointer<UnitNode> > lsTrgtUN;
-    if(selUN.isNull()) {
+    if(unTarget.isNull()) {
         QSet<QSharedPointer<UnitNode> > lsTmp = ServerSettingUtils::getSetMetaRealUnitNodes();
         for(const QSharedPointer<UnitNode>  &un : lsTmp) {
             if(TypeUnitNode::BL_IP == un->getType() ||
@@ -536,24 +531,28 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                 qDebug() << lsTrgtUN.constLast()->toString();
             }
         }
-    } else if(!selUN.isNull()) {
-        QSharedPointer<UnitNode>  un = selUN;
+    } else if(!unTarget.isNull()) {
+        QSharedPointer<UnitNode>  un = unTarget;
         lsTrgtUN.append(UnitNode::findReciver(un));
     }
 
     if(lsTrgtUN.isEmpty())
         return;
 
-    if(selUN.isNull()) {
+    if(unTarget.isNull()) {
         JourEntity msg;
         msg.setObject(tr("РИФ Общий"));
-        if(out) {
-            msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
+        QString comment;
+        if(fromAbonent) {
+            comment += tr("Удал. ком. ДК Послана ком. ДК");
             msg.setType(1133);
         } else {
-            msg.setComment(tr("Послана ком. ДК"));
+            comment += tr("Послана ком. ДК");
             msg.setType(133);
         }
+        if(isAuto)
+            comment += tr(" (Авто)");
+        msg.setComment(comment);
         DataBaseManager::insertJourMsg_wS(msg);
         GraphTerminal::sendAbonentEventsAndStates(msg);
     }
@@ -570,7 +569,7 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
                 break;
             }
         }
-        if(selUN.isNull() && !un->getName().isEmpty()/* && un->getControl()*/) {
+        if(unTarget.isNull() && !un->getName().isEmpty()/* && un->getControl()*/) {
             auto tmpUN = un;
             if(1 == tmpUN->getMetaEntity()) {
                 for(const auto &chld : as_const(tmpUN->getListChilde())) {
@@ -583,13 +582,17 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
             }
             if(!tmpUN->getName().isEmpty() && 1 != tmpUN->getMetaEntity()) {
                 JourEntity msg;
-                if(out) {
-                    msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
+                QString comment;
+                if(fromAbonent) {
+                    comment += tr("Удал. ком. ДК Послана ком. ДК");
                     msg.setType(1133);
                 } else {
-                    msg.setComment(tr("Послана ком. ДК"));
+                    comment += tr("Послана ком. ДК");
                     msg.setType(133);
                 }
+                if(isAuto)
+                    comment += tr(" (Авто)");
+                msg.setComment(comment);
                 msg.setObject(tmpUN->getName());
                 msg.setObjecttype(tmpUN->getType());
                 msg.setD1(tmpUN->getNum1());
@@ -602,25 +605,29 @@ void PortManager::requestDK(bool out, QSharedPointer<UnitNode> selUN) {
             }
         }
     }
-    if(!selUN.isNull()/* && selUN->getControl()*/) {
+    if(!unTarget.isNull()/* && selUN->getControl()*/) {
         JourEntity msg;
-        msg.setObjecttype(selUN->getType());
-        msg.setD1(selUN->getNum1());
-        msg.setD2(selUN->getNum2());
-        msg.setD3(selUN->getNum3());
-        msg.setDirection(selUN->getDirection());
+        msg.setObjecttype(unTarget->getType());
+        msg.setD1(unTarget->getNum1());
+        msg.setD2(unTarget->getNum2());
+        msg.setD3(unTarget->getNum3());
+        msg.setDirection(unTarget->getDirection());
 
-        if(out) {
-            msg.setComment(tr("Удал. ком. ДК Послана ком. ДК"));
+        QString comment;
+        if(fromAbonent) {
+            comment += tr("Удал. ком. ДК Послана ком. ДК");
             msg.setType(1133);
         } else {
-            msg.setComment(tr("Послана ком. ДК"));
+            comment += tr("Послана ком. ДК");
             msg.setType(133);
         }
-        msg.setObject(selUN->getName());
-        if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
+        if(isAuto)
+            comment += tr(" (Авто)");
+        msg.setComment(comment);
+        msg.setObject(unTarget->getName());
+        if(!unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
             DataBaseManager::insertJourMsg_wS(msg);
-            GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
+            GraphTerminal::sendAbonentEventsAndStates(unTarget, msg);
         }
     }
 }

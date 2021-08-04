@@ -856,7 +856,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 
 void MainWindowServer::on_actionDK_triggered()
 {
-    this->m_portManager->requestDK(this->selUN);
+    this->m_portManager->requestDK(false, false, this->selUN);
 }
 
 void MainWindowServer::stopWaitProgressBar()
@@ -890,7 +890,7 @@ void MainWindowServer::startWaitProgressBar(int interval)
 
 void MainWindowServer::on_actionRifDKOverall_triggered()
 {
-    this->m_portManager->requestDK();
+    this->m_portManager->requestDK(false, false);
 }
 
 void MainWindowServer::on_actionExpandUNTree_triggered()

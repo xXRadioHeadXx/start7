@@ -35,8 +35,7 @@ public slots:
      void emitLockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool) const;
      void emitLockOpenCloseCommand(QSharedPointer<UnitNode> , bool) const;
      void emitChangeSelectUN (QSharedPointer<UnitNode> ) const;
-     void emitRequestDK (QSharedPointer<UnitNode> ) const;
-     void emitRequestDK (bool, QSharedPointer<UnitNode>  un) const;
+     void emitRequestDK (const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const;
      void emitForcedNewDuty(bool out) const;
      void emitAlarmsReset(QSharedPointer<UnitNode>  un) const;
      void emitUpdateLabelOperator() const;
@@ -63,8 +62,7 @@ signals:
      void requestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue) const;
      void lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool) const;
      void changeSelectUN (QSharedPointer<UnitNode> ) const;
-     void requestDK (QSharedPointer<UnitNode> ) const;
-     void requestDK (bool, QSharedPointer<UnitNode> ) const;
+     void requestDK (const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const;
      void forcedNewDuty(bool out) const;
      void alarmsReset(QSharedPointer<UnitNode>  un) const;
      void updateLabelOperator() const;

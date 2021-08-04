@@ -120,14 +120,10 @@ void SignalSlotCommutator::emitChangeSelectUN(QSharedPointer<UnitNode>  un) cons
     emit this->changeSelectUN(un);
 }
 
-void SignalSlotCommutator::emitRequestDK(QSharedPointer<UnitNode>  un) const
-{
-    emit this->requestDK(un);
-}
 
-void SignalSlotCommutator::emitRequestDK(bool out, QSharedPointer<UnitNode> un) const
+void SignalSlotCommutator::emitRequestDK(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const
 {
-    emit this->requestDK(out, un);
+    emit this->requestDK(isAuto, fromAbonent, unTarget);
 }
 
 void SignalSlotCommutator::emitForcedNewDuty(bool out) const
