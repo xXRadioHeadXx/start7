@@ -1830,7 +1830,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
                              SignalSlotCommutator::getInstance()->emitStopDKWait();
                          }
                          qDebug() << "PortManager::removeLsTrackedUN(" << currentUN->toString() << ")";
-                         return true;
+                         break;
                      }
                  }
             }
