@@ -73,8 +73,27 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
     if(!getUnTarget().isNull() && TypeUnitNode::RLM_C == getUnTarget()->getType())
         result.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
 
-    if(result.isValid())
+    if(result.isValid()) {
+
+        JourEntity msg;
+        msg.setObject(getUnTarget()->getName());
+        msg.setObjecttype(getUnTarget()->getType());
+        msg.setD1(getUnTarget()->getNum1());
+        msg.setD2(getUnTarget()->getNum2());
+        msg.setD3(getUnTarget()->getNum3());
+        msg.setType(130);
+        msg.setDirection(getUnTarget()->getDirection());
+        QString comment;
+        comment = tr("Послана ком. Вкл (Авто)");
+        msg.setComment(comment);
+
+        if(!getUnTarget()->getName().isEmpty() && 1 != getUnTarget()->getMetaEntity()) {
+            DataBaseManager::insertJourMsg_wS(msg);
+            GraphTerminal::sendAbonentEventsAndStates(getUnTarget(), msg);
+        }
+
         return result;
+    }
 
     return DataQueueItem();
 }
