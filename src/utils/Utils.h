@@ -79,7 +79,10 @@ public:
 
     static QString XOR_Crypt(QString src);
 
-
+    // пригодились)))
+    static const double randomNormalDistribution(const double mean, const double stddev);
+    static const double randomExponentialDistribution(const double mean);
+    static const bool randomBernoulliDistribution(const double meanTrue);
 };
 
 #endif // UTILS_H

@@ -11,13 +11,15 @@ class IntervalSheduler : public QObject
 
     QTimer timer;
     const int runInterval;
+    const double mean;
+
 
 //    virtual void firstRun() const = 0;
 private:
     virtual void regularRun() const = 0;
 
 public:
-    explicit IntervalSheduler(const QTime time);
+    explicit IntervalSheduler(const QTime time, const double mean);
 
 public slots:
     void start() const;

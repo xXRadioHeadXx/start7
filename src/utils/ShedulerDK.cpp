@@ -1,7 +1,7 @@
 #include "ShedulerDK.h"
 
-ShedulerDK::ShedulerDK(QTime runTime) :
-    IntervalSheduler(runTime)
+ShedulerDK::ShedulerDK(QTime runTime, const double mean) :
+    IntervalSheduler(runTime, mean)
 {
 
 }

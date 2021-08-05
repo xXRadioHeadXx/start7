@@ -66,8 +66,8 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
         auto autoDK = codec->toUnicode(ini.GetValue("RIF", "AutoDK"));
 
         if(0 != autoDK.toInt()) {
-            shedulerDK = QSharedPointer<ShedulerDK>::create(QTime(autoDK.toInt(), 0));
-            connect(shedulerDK.data(), SIGNAL(activated()), this, SLOT(requestDK()));
+            shedulerDK = QSharedPointer<ShedulerDK>::create(QTime(autoDK.toInt(), 0), 300'000L);
+            connect(shedulerDK.data(), &ShedulerDK::activated, this, [this](){requestDK(true, false);});
             shedulerDK->start();
         }
     }
@@ -553,8 +553,10 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
         if(isAuto)
             comment += tr(" (Авто)");
         msg.setComment(comment);
-        DataBaseManager::insertJourMsg_wS(msg);
-        GraphTerminal::sendAbonentEventsAndStates(msg);
+        if(!isAuto) {
+            DataBaseManager::insertJourMsg_wS(msg);
+            GraphTerminal::sendAbonentEventsAndStates(msg);
+        }
     }
 
     for(QSharedPointer<UnitNode>  un : lsTrgtUN) {
@@ -562,7 +564,7 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
         for(const auto& pt : as_const(m_udpPortsVector)) {
             if(Port::typeDefPort(pt)->getStIpPort().contains(tmpPair)) {
 
-                auto tmpPDKW = QSharedPointer<ProcessDKWaiter>::create(un);
+                auto tmpPDKW = QSharedPointer<ProcessDKWaiter>::create(isAuto, un);
                 tmpPDKW->init();
                 appLsWaiter(tmpPDKW);
 //                tmpPDKW->startFirstRequest();
@@ -600,8 +602,10 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
                 msg.setD3(tmpUN->getNum3());
                 msg.setDirection(tmpUN->getDirection());
 
-                DataBaseManager::insertJourMsg_wS(msg);
-                GraphTerminal::sendAbonentEventsAndStates(msg);
+                if(!isAuto) {
+                    DataBaseManager::insertJourMsg_wS(msg);
+                    GraphTerminal::sendAbonentEventsAndStates(msg);
+                }
             }
         }
     }
@@ -625,7 +629,7 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
             comment += tr(" (Авто)");
         msg.setComment(comment);
         msg.setObject(unTarget->getName());
-        if(!unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
+        if(!isAuto && !unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
             DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(unTarget, msg);
         }
@@ -676,7 +680,7 @@ void PortManager::requestAutoOnOffIUCommand(const bool isAuto, const bool fromAb
 
                     msg.setComment(comment);
 
-                    if(!unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
+                    if(!isAuto && !unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
                         DataBaseManager::insertJourMsg_wS(msg);
                         GraphTerminal::sendAbonentEventsAndStates(unTarget, msg);
                     }
@@ -1800,6 +1804,8 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
         return false;
     }
 
+    const auto &isAutoDK = currentUN->getIsAutoDkInvolved();
+
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x31u, stateWord);
 //    currentUN->setPublishedState(-1);
@@ -1853,8 +1859,10 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
             msg.setDirection(currentUN->getDirection());
             msg.setComment(tr("Ком. ДК выполнена"));
             msg.setType(3);
-            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+            if(!isAutoDK) {
+                SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+            }
 
             currentUN->setPublishedState(-1);
         }
@@ -2625,6 +2633,8 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         return false;
     }
 
+    const auto &isAutoDK = currentUN->getIsAutoDkInvolved();
+
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x32u, stateWord);
 //    currentUN->setPublishedState(-1);
@@ -2670,8 +2680,10 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
             msg.setDirection(currentUN->getDirection());
             msg.setComment(tr("Ком. ДК выполнена"));
             msg.setType(3);
-            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+            if(!isAutoDK) {
+                SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+            }
 
             currentUN->setPublishedState(-1);
         }
@@ -2922,6 +2934,8 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
         return false;
     }
 
+    const auto &isAutoDK = currentUN->getIsAutoDkInvolved();
+
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x33u, stateWord);
 //    currentUN->setPublishedState(-1);
@@ -2965,9 +2979,10 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
             msg.setDirection(currentUN->getDirection());
             msg.setComment(tr("Ком. ДК выполнена"));
             msg.setType(3);
-            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
-
+            if(!isAutoDK) {
+                SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+            }
             currentUN->setPublishedState(-1);
         }
     }
@@ -3220,6 +3235,8 @@ bool PortManager::procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN
         return false;
     }
 
+    const auto &isAutoDK = currentUN->getIsAutoDkInvolved();
+
     currentUN->setStateWord(0x34u, stateWord);
 //    currentUN->setPublishedState(-1);
 
@@ -3456,6 +3473,9 @@ void PortManager::manageOverallReadQueue()
 void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
     if(RequesterType::DKWaiter == ar->getRequesterType()) {
         for(QSharedPointer<UnitNode>  un : ar.dynamicCast<ProcessDKWaiter>()->getLsTrackedUN()) {
+
+            const auto &isAutoDK = un->getIsAutoDkInvolved();
+
             JourEntity msg;
             msg.setObject(un->getName());
             msg.setObjecttype(un->getType());
@@ -3474,7 +3494,10 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
                     un->setPublishedState(-1);
                 }
             } else {
-                msg.setComment(tr("Ком. ДК не выполнена"));
+                QString comment = tr("Ком. ДК не выполнена");
+                if(isAutoDK)
+                    comment = tr("Ком. ДК (Авто) не выполнена");
+                msg.setComment(comment);
                 msg.setType(11);
                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                     DataBaseManager::insertJourMsg_wS(msg);

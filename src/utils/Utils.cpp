@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include <random>
 #include <QTableWidget>
 #include <QHeaderView>
 #include <QHostAddress>
@@ -220,7 +221,6 @@ QTableWidgetItem *Utils::setCellBold(QTableWidget * const table, const int row, 
     }
 
     item = table->item(row, column);
-
     if(nullptr != item) {
         QFont font = item->font();
         font.setBold(bold);
@@ -1276,4 +1276,28 @@ QString Utils::XOR_Crypt(QString src)
     }
     QString str_res = QString::fromLocal8Bit(res);
     return str_res;
+}
+
+const double Utils::randomNormalDistribution(const double mean, const double stddev) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::normal_distribution<> d{mean, stddev};
+    return std::round(d(gen));
+}
+
+const double Utils::randomExponentialDistribution(const double mean) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::exponential_distribution<> d(1.0 / mean);
+    return d(gen);
+}
+
+const bool Utils::randomBernoulliDistribution(const double meanTrue) {
+    // set meanTrue = 0.25
+    // give "true" 1/4 of the time
+    // give "false" 3/4 of the time
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::bernoulli_distribution d(meanTrue);
+    return d(gen);
 }

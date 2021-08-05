@@ -357,6 +357,7 @@ bool UnitNode::getDkInvolved() const
 void UnitNode::setDkInvolved(bool value)
 {
     dkInvolved = value;
+    isAutoDkInvolved = isAutoDkInvolved && dkInvolved;
 //    updDoubl();
 }
 
@@ -548,6 +549,16 @@ std::map<const uint8_t, StateWord> UnitNode::getStateWords() const
 void UnitNode::setStateWords(const std::map<const uint8_t, StateWord> &value)
 {
     stateWords = value;
+}
+
+bool UnitNode::getIsAutoDkInvolved() const
+{
+    return isAutoDkInvolved;
+}
+
+void UnitNode::setIsAutoDkInvolved(bool newIsAutoDkInvolved)
+{
+    isAutoDkInvolved = newIsAutoDkInvolved;
 }
 
 void UnitNode::matchEditableControl()

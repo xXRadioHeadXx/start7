@@ -63,6 +63,8 @@ private:
 
     int dkStatus = DKCiclStatus::DKIgnore;
     bool dkInvolved = false;
+    bool isAutoDkInvolved = false;
+
 
     int countStatusConnectRequesterWaitAnswer = 0;
     int maxCountStatusConnectRequesterWaitAnswer = 400;
@@ -397,6 +399,9 @@ public:
 
     std::map<const uint8_t, StateWord> getStateWords() const;
     void setStateWords(const std::map<const uint8_t, StateWord> &value);
+
+    bool getIsAutoDkInvolved() const;
+    void setIsAutoDkInvolved(bool newIsAutoDkInvolved);
 
 protected :
     void setDefaultNeededStateWordType(int value);

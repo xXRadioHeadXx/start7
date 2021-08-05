@@ -13,7 +13,7 @@
 #include "SWPTGType0x32.h"
 #include "SWPTGType0x33.h"
 
-ProcessDKWaiter::ProcessDKWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
+ProcessDKWaiter::ProcessDKWaiter(const bool isAuto, QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType), isAuto(isAuto)
 {
     //qDebug() << "ProcessDKWaiter::ProcessDKWaiter(" << this << ") -->";
 }
@@ -171,25 +171,30 @@ void ProcessDKWaiter::init() {
     if(TypeUnitNode::BL_IP == getUnReciver()->getType()) {
         for(QSharedPointer<UnitNode>  uncld : as_const(getUnReciver()->getListChilde())) {
             if(0 != uncld->getDK() && (TypeUnitNode::SD_BL_IP == uncld->getType() /* или датчик */)) {
+                uncld->setIsAutoDkInvolved(isAuto);
                 uncld->setDkInvolved(true);
                 uncld->setDkStatus(DKCiclStatus::DKReady);
                 uncld->updDoubl();
                 addLsTrackedUN(uncld);
             }
         }
+        getUnReciver()->setIsAutoDkInvolved(isAuto);
         getUnReciver()->setDkInvolved(true);
     } else if(TypeUnitNode::TG_Base == getUnReciver()->getType()) {
         for(QSharedPointer<UnitNode>  uncld : as_const(getUnReciver()->getListChilde())) {
             if(TypeUnitNode::TG == uncld->getType() /* или датчик */) {
+                uncld->setIsAutoDkInvolved(isAuto);
                 uncld->setDkInvolved(true);
                 uncld->setDkStatus(DKCiclStatus::DKReady);
                 uncld->updDoubl();
                 addLsTrackedUN(uncld);
             }
         }
+        getUnReciver()->setIsAutoDkInvolved(isAuto);
         getUnReciver()->setDkInvolved(true);
     } else if(TypeUnitNode::RLM_C == getUnReciver()->getType() ||
               TypeUnitNode::RLM_KRL == getUnReciver()->getType()) {
+        getUnReciver()->setIsAutoDkInvolved(isAuto);
         getUnReciver()->setDkInvolved(true);
         getUnReciver()->setDkStatus(DKCiclStatus::DKReady);
         getUnReciver()->updDoubl();

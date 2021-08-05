@@ -7,7 +7,7 @@ class ShedulerDK : public IntervalSheduler
 {
     Q_OBJECT
 public:
-    ShedulerDK(QTime runTime);
+    ShedulerDK(QTime runTime, const double mean);
 
 private:
     virtual void regularRun() const override;
