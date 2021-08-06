@@ -691,7 +691,7 @@ private slots:
    void on_BACKUP_pushButton_clicked();
 
 
-   void coordinate_menu(bool visible,bool active, int x, int y, QString text);
+   void coordinate_menu(bool visible,bool active, double x, double y, QString text);
    void coordinate_devline(bool active, int x, int y, int x1, int y1);
    void on_pushButton_5_clicked();
    void on_uType_combobox_activated(const QString &arg1);

@@ -2721,6 +2721,7 @@ case TypeUnitNode::SSOI_SD:
     qDebug()<<"unit->getNum2()"<<unit->getNum2()<<" str "<<this->ui->SSOI_SD_Num2->currentText();
     this->ui->SSOI_SD_Num3->setCurrentText(QString::number(unit->getNum3()));
     SSOI_SD_set_combobox_value_from(unit);
+    coordinate_menu(true,true,unit->getLan(),unit->getLon(),unit->getDescription());
 break;
 
 case TypeUnitNode::SSOI_IU:
@@ -3277,6 +3278,8 @@ void MainWindowCFG::func_to_edit_unit()
         unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         setUdpTimeout_for_BL_IP(unit);
+
+        qDebug()<<this->ui->coordinate_X_doubleSpinBox->value();
         unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
         unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
         unit->setDescription(ui->Dop_info_description_lineedit->text());
@@ -7424,9 +7427,11 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
 
 
 
-void MainWindowCFG::coordinate_menu(bool visible, bool active, int x, int y, QString text)
+void MainWindowCFG::coordinate_menu(bool visible, bool active, double x, double y, QString text)
 {
-
+    qDebug()<<"coordinate_menu";
+    qDebug()<<x;
+    qDebug()<<y;
     if(visible)
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->coordinates_for_all);
     else

@@ -237,22 +237,22 @@ void UnitNode::setDescription(const QString &value)
     Description = value;
 }
 
-int UnitNode::getLan() const
+double UnitNode::getLan() const
 {
     return lan;
 }
 
-void UnitNode::setLan(int value)
+void UnitNode::setLan(double value)
 {
     lan = value;
 }
 
-int UnitNode::getLon() const
+double UnitNode::getLon() const
 {
     return lon;
 }
 
-void UnitNode::setLon(int value)
+void UnitNode::setLon(double value)
 {
     lon = value;
 }

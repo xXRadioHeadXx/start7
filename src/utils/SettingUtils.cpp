@@ -13,6 +13,38 @@ SettingUtils::SettingUtils()
 
 }
 
+double get_value(QVariant var)
+{
+    qDebug()<<"settings.value( lan , -1 )"<<" "<<var.toString()
+                                          <<" "<<var.toDouble()
+                                          <<" "<<var.toFloat()
+                                          <<" "<<var
+                                          <<" "<<var.toStringList().join(',');
+    double res;
+    if(var.toString()=="")
+    {
+      QString list=var.toStringList().join(',');
+      QString str=var.toStringList().join(',');
+      qDebug()<<str;
+      str=str.replace(",",".");
+      qDebug()<<str;
+
+      bool ok(false);
+        res = str.toDouble(&ok);
+
+
+    }
+    else
+    {
+
+    res=var.toDouble();
+    }
+
+
+    qDebug()<<"get "<<res;
+    return res;
+}
+
 QList<UnitNode *> SettingUtils::listTreeUnitNodes;
 QSet<UnitNode *> SettingUtils::listMetaRealUnitNodes;
 
@@ -104,8 +136,22 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitN
             tmpUN->setAsoosd_kk(settings.value( "asoosd_kk" , -1 ).toInt());
             tmpUN->setAsoosd_nn(settings.value( "asoosd_nn" , -1 ).toInt());
             tmpUN->setDescription(settings.value( "Description" , -1 ).toString());
-            tmpUN->setLan(settings.value( "lan" , -1 ).toInt());
-            tmpUN->setLon(settings.value( "lon" , -1 ).toInt());
+
+
+get_value(settings.value( "lan" , -1 ));
+get_value(settings.value( "lon" , -1 ));
+
+
+
+
+ tmpUN->setLan(get_value(settings.value( "lan" , -1 )));
+ tmpUN->setLon(get_value(settings.value( "lon" , -1 )));
+
+
+            qDebug()<<tmpUN->getLan();
+            qDebug()<<tmpUN->getLon();
+
+
             tmpUN->setUdpUse(settings.value( "UdpUse" , -1 ).toInt());
             tmpUN->setUdpAdress(settings.value( "UdpAdress" , -1 ).toString());
             tmpUN->setUdpPort(settings.value( "UpdPort" , -1 ).toInt());

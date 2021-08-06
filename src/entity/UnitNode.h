@@ -139,8 +139,8 @@ private:
     int asoosd_kk;//=0
     int asoosd_nn;//=0
     QString Description;//=
-    int lan = 0;//=0
-    int lon = 0;//=0
+    float lan = 0;//=0
+    float lon = 0;//=0
     int UdpUse;//=0
     QString UdpAdress;//=
     int UdpPort;//=0
@@ -280,11 +280,11 @@ public:
     QString getDescription() const;
     void setDescription(const QString &value);
 
-    int getLan() const;
-    void setLan(int value);
+    double getLan() const;
+    void setLan(double value);
 
-    int getLon() const;
-    void setLon(int value);
+    double getLon() const;
+    void setLon(double value);
 
     int getUdpUse() const;
     void setUdpUse(int value);
