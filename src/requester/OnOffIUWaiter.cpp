@@ -93,6 +93,7 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
         }
 
         getUnTarget()->setWaitAutoCommand(true);
+        getUnTarget()->updDoubl();
         return result;
     }
 

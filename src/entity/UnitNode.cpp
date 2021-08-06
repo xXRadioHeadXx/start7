@@ -397,7 +397,8 @@ void UnitNode::updDoubl()
         c->setX(this->getX());
         c->setY(this->getY());
         c->setDkInvolved(this->getDkInvolved());
-        c->setPublishedState(this->getPublishedState());
+        c->setIsAutoDkInvolved(this->getIsAutoDkInvolved());
+        c->setWaitAutoCommand(this->getWaitAutoCommand());
     }
 }
 
@@ -660,7 +661,9 @@ UnitNode::UnitNode(const UnitNode & parent) :
     metaNames(parent.metaNames),
     dkStatus(parent.dkStatus),
     dkInvolved(parent.dkInvolved),
-    publishedState(parent.publishedState)
+    publishedState(parent.publishedState),
+    isAutoDkInvolved(parent.isAutoDkInvolved),
+    waitAutoCommand(parent.waitAutoCommand)
 {
     UnitNodeCFG::operator=(parent);
     TreeItem::operator=(parent);
@@ -671,6 +674,8 @@ UnitNode::UnitNode(const UnitNode & parent) :
     setDkInvolved(parent.getDkInvolved());
     setPublishedState(parent.getPublishedState());
 
+    setIsAutoDkInvolved(parent.getIsAutoDkInvolved());
+    setWaitAutoCommand(parent.getWaitAutoCommand());
 
     matchEditableControl();
     matchEditableOnOff();
@@ -691,6 +696,9 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     setDkStatus(c.getDkStatus());
     setDkInvolved(c.getDkInvolved());
     setPublishedState(c.getPublishedState());
+
+    setIsAutoDkInvolved(c.getIsAutoDkInvolved());
+    setWaitAutoCommand(c.getWaitAutoCommand());
 
     matchEditableControl();
     matchEditableOnOff();
