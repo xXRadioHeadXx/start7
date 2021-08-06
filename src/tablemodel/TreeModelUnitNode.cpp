@@ -106,13 +106,15 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
      {
          foreach(QModelIndex ind, list_Equals_for_chanell)
          {
-         if(ind==index)
+         if(ind.parent()==index.parent()&&
+            ind.row()==index.row())
               return QVariant(QColor(Qt::green));
          }
 
          foreach(QModelIndex ind, list_Equals)
          {
-         if(ind==index)
+             if(ind.parent()==index.parent()&&
+                ind.row()==index.row())
               return QVariant(QColor(204, 255, 255, 255));
          }
 
