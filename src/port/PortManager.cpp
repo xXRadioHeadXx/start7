@@ -658,6 +658,7 @@ void PortManager::requestAutoOnOffIUCommand(const bool isAuto, const bool fromAb
 
                 auto tmpOOIUW = QSharedPointer<OnOffIUWaiter>::create(unTarget);
                 tmpOOIUW->init();
+                unTarget->setWaitAutoCommand(isAuto);
                 appLsWaiter(tmpOOIUW);
 //                tmpOOIUW->startFirstRequest();
 
@@ -880,6 +881,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
             else
                 DataQueueItem::makeOff0x25(itm, reciver);
             tmpCAW->setFirstMsg(itm);
+            unTarget->setWaitAutoCommand(isAuto);
             appLsWaiter(tmpCAW);
         }
 
@@ -1275,6 +1277,8 @@ bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         msg.setD2(currentUN->getNum2());
         msg.setD3(currentUN->getNum3());
         msg.setDirection(currentUN->getDirection());
+        if(currentUN->takeResetWaitAutoCommand())
+            commentMsg += tr(" (Авто)");
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 

@@ -561,6 +561,23 @@ void UnitNode::setIsAutoDkInvolved(bool newIsAutoDkInvolved)
     isAutoDkInvolved = newIsAutoDkInvolved;
 }
 
+bool UnitNode::getWaitAutoCommand() const
+{
+    return waitAutoCommand;
+}
+
+void UnitNode::setWaitAutoCommand(bool newWaitAutoCommand)
+{
+    waitAutoCommand = newWaitAutoCommand;
+}
+
+bool UnitNode::takeResetWaitAutoCommand()
+{
+    auto res = waitAutoCommand;
+    waitAutoCommand = false;
+    return res;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&

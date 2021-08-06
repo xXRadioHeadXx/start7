@@ -64,6 +64,7 @@ private:
     int dkStatus = DKCiclStatus::DKIgnore;
     bool dkInvolved = false;
     bool isAutoDkInvolved = false;
+    bool waitAutoCommand = false;
 
 
     int countStatusConnectRequesterWaitAnswer = 0;
@@ -402,6 +403,10 @@ public:
 
     bool getIsAutoDkInvolved() const;
     void setIsAutoDkInvolved(bool newIsAutoDkInvolved);
+
+    bool getWaitAutoCommand() const;
+    void setWaitAutoCommand(bool newWaitAutoCommand);
+    bool takeResetWaitAutoCommand();
 
 protected :
     void setDefaultNeededStateWordType(int value);

@@ -92,6 +92,7 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
             GraphTerminal::sendAbonentEventsAndStates(getUnTarget(), msg);
         }
 
+        getUnTarget()->setWaitAutoCommand(true);
         return result;
     }
 
