@@ -104,11 +104,12 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
         if(str_system==str_system_SSOI)
         {
 
-            this->ui->tabWidget->removeTab(3);
-          this->ui->tabWidget->removeTab(5);
 
-        this->ui->Subsystem_RIF->setHidden(true);
-        this->ui->Subsystem_ADAM->setHidden(true);
+          this->ui->tabWidget->removeTab(4);
+          this->ui->tabWidget->removeTab(6);
+
+     //   this->ui->Subsystem_RIF->setHidden(true);
+     //   this->ui->Subsystem_ADAM->setHidden(true);
          //  this->ui->Subsystem_RIF->setVisible(false);
          //   this->ui->Subsystem_ADAM->setVisible(false);
             this->ui->DevLine_groupbox->setVisible(false);
