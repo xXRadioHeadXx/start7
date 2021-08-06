@@ -680,7 +680,7 @@ void PortManager::requestAutoOnOffIUCommand(const bool isAuto, const bool fromAb
 
                     msg.setComment(comment);
 
-                    if(!isAuto && !unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
+                    if(!unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
                         DataBaseManager::insertJourMsg_wS(msg);
                         GraphTerminal::sendAbonentEventsAndStates(unTarget, msg);
                     }

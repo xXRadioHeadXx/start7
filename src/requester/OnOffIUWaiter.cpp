@@ -84,7 +84,7 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
         msg.setType(130);
         msg.setDirection(getUnTarget()->getDirection());
         QString comment;
-        comment = tr("Послана ком. Вкл (Авто)");
+        comment = tr("Послана ком. Выкл (Авто)");
         msg.setComment(comment);
 
         if(!getUnTarget()->getName().isEmpty() && 1 != getUnTarget()->getMetaEntity()) {

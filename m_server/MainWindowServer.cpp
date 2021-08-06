@@ -29,7 +29,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowServer)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);  
 
 #ifdef QT_DEBUG
     auto action = new QPushButton("Read Pass", this);
@@ -850,6 +850,16 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
     /* Call the context menu */
 //        menu->popup(ui->treeView->viewport()->mapToGlobal(pos));
 
+#ifdef QT_DEBUG
+    auto action = new QAction("Alarm To IU", this);
+    connect(action, &QAction::triggered, this,  [sel](){
+        for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(sel))) {
+            qDebug() << "Alarm To " <<iuun->toString() << "IU From " << sel->toString();
+            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+        }
+    });
+    menu->addAction(action);
+#endif
 
     menu->exec(ui->treeView->viewport()->mapToGlobal(pos));
 }
