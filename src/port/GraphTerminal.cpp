@@ -545,8 +545,9 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
 
                     unTarget->setControl(val);
-                    if(unTarget->getControl())
+                    if(unTarget->getControl()) {
                         unTarget->setPublishedState(-1);
+                    }
                     unTarget->updDoubl();
 
                     dataAnswer = makeEventsAndStates(unTarget, msgOn).toByteArray();
@@ -1055,6 +1056,16 @@ QDomDocument GraphTerminal::makeEventsAndStates(QSharedPointer<UnitNode>  un, Jo
 QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, QDomElement &stateElement)
 {
     stateElement.setAttribute("datetime", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    if(-1 == un->getPublishedState()) {
+        auto comment = QString();
+        auto code = 0;
+        un->calkStateUN(comment, code);
+        if(0 < code && !comment.isEmpty()) {
+            stateElement.setAttribute("id", code);
+            stateElement.setAttribute("name", comment);
+            return stateElement;
+        }
+    }
 
     bool isSwitchOff = false;
     if(TypeUnitNode::SD_BL_IP == un->getType() && 1 == un->swpSDBLIPType0x41().isOff()) {
@@ -1129,15 +1140,18 @@ QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, Q
 
 
 void GraphTerminal::sendAbonentEventsAndStates(JourEntity jour){
-    sendAbonent(makeEventsAndStates(jour).toByteArray());
+    const auto xml = makeEventsAndStates(jour).toByteArray();
+    sendAbonent(xml);
 }
 
 void GraphTerminal::sendAbonentEventsAndStates(QSharedPointer<UnitNode> un){
-    sendAbonent(makeEventsAndStates(un).toByteArray());
+    const auto xml = makeEventsAndStates(un).toByteArray();
+    sendAbonent(xml);
 }
 
 void GraphTerminal::sendAbonentEventsAndStates(QSharedPointer<UnitNode> un, JourEntity jour){
-    sendAbonent(makeEventsAndStates(un, jour).toByteArray());
+    const auto xml = makeEventsAndStates(un, jour).toByteArray();
+    sendAbonent(xml);
 }
 
 void GraphTerminal::sendAbonent(QByteArray ba) {

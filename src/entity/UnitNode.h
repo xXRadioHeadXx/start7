@@ -408,6 +408,8 @@ public:
     void setWaitAutoCommand(bool newWaitAutoCommand);
     bool takeResetWaitAutoCommand();
 
+    void calkStateUN(QString &comment, int &code) const;
+
 protected :
     void setDefaultNeededStateWordType(int value);
 

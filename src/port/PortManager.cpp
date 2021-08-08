@@ -1868,7 +1868,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
                 GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             }
 
-            currentUN->setPublishedState(-1);
+            GraphTerminal::sendAbonentEventsAndStates(currentUN);
         }
     }
     if((TypeUnitNode::RLM_C == currentUN->getType()
@@ -2689,7 +2689,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
                 GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             }
 
-            currentUN->setPublishedState(-1);
+            GraphTerminal::sendAbonentEventsAndStates(currentUN);
         }
     }
     if(1 == swpCurrent.isInAlarm()
@@ -2987,7 +2987,8 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
                 SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             }
-            currentUN->setPublishedState(-1);
+
+            GraphTerminal::sendAbonentEventsAndStates(currentUN);
         }
     }
     if(1 == swpCurrent.isInAlarm()
@@ -3494,8 +3495,6 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                     DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-
-                    un->setPublishedState(-1);
                 }
             } else {
                 QString comment = tr("Ком. ДК не выполнена");
@@ -3506,15 +3505,13 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                     DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-
-//                                            un->setPublishedState(-1);
-
                     SoundAdjuster::instance().playAlarm2();
                 }
             }
             un->setDkInvolved(false);
             un->setDkStatus(DKCiclStatus::DKIgnore);
             un->updDoubl();
+            GraphTerminal::sendAbonentEventsAndStates(un);
             SignalSlotCommutator::getInstance()->emitUpdUN();
         }
 //                                SignalSlotCommutator::getInstance()->emitStopDKWait();

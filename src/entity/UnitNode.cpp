@@ -579,6 +579,175 @@ bool UnitNode::takeResetWaitAutoCommand()
     return res;
 }
 
+void UnitNode::calkStateUN(QString &comment, int &code) const
+{
+    if(TypeUnitNode::SD_BL_IP == getType() && !swpSDBLIPType0x41().isNull()) {
+        const auto &swpCurrent = swpSDBLIPType0x41();
+
+        if(1 == swpCurrent.isOff()) {
+            comment = QObject::tr("Выкл");
+            code = 100;
+        } else if(1 == swpCurrent.isOn() &&
+                  1 == swpCurrent.isAlarm() &&
+                  1 == swpCurrent.isWasAlarm()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        } else if(1 == swpCurrent.isOn() &&
+                  1 == swpCurrent.isNorm()) {
+            comment = QObject::tr("Норма");
+            code = 1;
+        } else if(1 == swpCurrent.isOn() &&
+                  1 != swpCurrent.isNorm()) {
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        }
+    } else if(TypeUnitNode::IU_BL_IP == getType() && !swpIUBLIPType0x41().isNull()) {
+        const auto &swpCurrent = swpIUBLIPType0x41();
+
+        if(1 == swpCurrent.isOff()) {
+            comment = QObject::tr("Выкл");
+            code = 100;
+        } else if(1 == swpCurrent.isOn()) {
+            comment = QObject::tr("Вкл");
+            code = 101;
+        }
+    } else if(TypeUnitNode::RLM_KRL == getType() && !swpRLMType0x31().isNull()) {
+        const auto &swpCurrent = swpRLMType0x31();
+
+        if(1 == swpCurrent.isOff()) {
+            comment = QObject::tr("Выкл");
+            code = 100;
+        } else if(1 == swpCurrent.isFault()) {
+            //сохранение неисправность или Норма
+            comment = QObject::tr("Неисправность");
+            code = 12;
+        } else if(1 == swpCurrent.isOn()
+               && 1 == swpCurrent.isOpened()
+               && 1 == swpCurrent.isWasOpened()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-ВСКРЫТИЕ");
+            code = 21;
+        } else if(1 == swpCurrent.isOn()
+               && 1 == swpCurrent.isAlarm()
+               && 1 == swpCurrent.isWasAlarm()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        } else if(1 == swpCurrent.isOn()
+               && 1 == swpCurrent.isNorm()) {
+            comment = QObject::tr("Норма");
+            code = 1;
+        } else if(1 == swpCurrent.isOn() &&
+                  1 != swpCurrent.isNorm()) {
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        }
+    } else if(TypeUnitNode::RLM_C == getType() && !swpRLMCType0x31().isNull()) {
+        const auto &swpCurrent = swpRLMCType0x31();
+
+        if(1 == swpCurrent.isOff()) {
+            comment= QObject::tr("Выкл");
+            code = 100;
+        } else if(1 == swpCurrent.isFault()) {
+            //сохранение неисправность или Норма
+            comment = QObject::tr("Неисправность");
+            code = 12;
+        } else if(1 == swpCurrent.isOn()
+               && 1 == swpCurrent.isAlarm()
+               && 1 == swpCurrent.isWasAlarm()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        } else if(1 == swpCurrent.isOn()
+               && 1 == swpCurrent.isNorm()) {
+            comment = QObject::tr("Норма");
+            code = 1;
+        } else if(1 == swpCurrent.isOn() &&
+                  1 != swpCurrent.isNorm()) {
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        }
+    } else if(TypeUnitNode::TG == getType() && !swpTGType0x33().isNull()) {
+        const auto &swpCurrent = swpTGType0x33();
+        const auto &swpCurrentCi = swpCurrent.C(getNum2());
+
+        if(1 == swpCurrentCi.isFault()) {
+            //сохранение неисправность или Норма
+            comment = QObject::tr("Неисправность");
+            code = 12;
+        } else if(1 == swpCurrentCi.isOpened()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-ВСКРЫТИЕ");
+            code = 21;
+        } else if(1 == swpCurrentCi.isAlarm()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        } else if(1 == swpCurrentCi.isNorm()) {
+            comment = QObject::tr("Норма");
+            code = 1;
+        } else if(1 != swpCurrentCi.isNorm()) {
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        }
+    } else if(TypeUnitNode::TG == getType() && !swpTGType0x32().isNull()) {
+        const auto &swpCurrent = swpTGType0x32();
+        const auto &swpCurrentCi = swpCurrent.C(getNum2());
+
+        if(1 == swpCurrentCi.isFault()) {
+            //сохранение неисправность или Норма
+            comment = QObject::tr("Неисправность");
+            code = 12;
+        } else if(1 == swpCurrentCi.isOpened()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-ВСКРЫТИЕ");
+            code = 21;
+        } else if(1 == swpCurrentCi.isAlarm()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        } else if(1 == swpCurrentCi.isNorm()) {
+            comment = QObject::tr("Норма");
+            code = 1;
+        } else if(1 != swpCurrentCi.isNorm()) {
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        }
+    } else if(TypeUnitNode::TG == getType() && !swpTGType0x31().isNull()) {
+        const auto &swpCurrent = swpTGType0x31();
+
+        if(1 == swpCurrent.isOff()) {
+            comment = QObject::tr("Выкл");
+            code = 100;
+        } else if(1 == swpCurrent.isOn()
+                  && 1 == swpCurrent.isOpened()
+                  && 1 == swpCurrent.isWasOpened()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-ВСКРЫТИЕ");
+            code = 21;
+        } else if(1 == swpCurrent.isOn()
+               && 1 == swpCurrent.isAlarm()
+               && 1 == swpCurrent.isWasAlarm()) {
+            //сохранение Тревога или Норма
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        } else if(1 == swpCurrent.isOn()
+               && 1 == swpCurrent.isNorm()) {
+            comment = QObject::tr("Норма");
+            code = 1;
+        } else if(1 == swpCurrent.isOn() &&
+                  1 != swpCurrent.isNorm()) {
+            comment = QObject::tr("Тревога-СРАБОТКА");
+            code = 20;
+        }
+    }
+
+    if((-1 == getPublishedState() || 10 == getPublishedState()) && !comment.isEmpty()) {
+        comment += " (начальное состояние)";
+    }
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&

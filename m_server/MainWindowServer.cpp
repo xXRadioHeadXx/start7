@@ -1002,6 +1002,7 @@ void MainWindowServer::on_actionControl_triggered()
         }
 
         if(selUN->getControl()) {
+            GraphTerminal::sendAbonentEventsAndStates(selUN);
             selUN->setPublishedState(-1);
             selUN->updDoubl();
         }
