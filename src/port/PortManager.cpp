@@ -1010,6 +1010,13 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
     unLockSdBlIp->setStateWord(0x41u, stateWord);
     unLockIuBlIp->setStateWord(0x41u, stateWord);
 
+    const auto &swpBLIP = unLockSdBlIp->swpBLIPType0x41();
+    if(1 == swpBLIP.isExistDK()
+    || 1 == swpBLIP.isWasDK()) {
+        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(5) <--";
+        return true;
+    }
+
     const auto &swpCurrentSD = unLockSdBlIp->swpSDBLIPType0x41(),
                &swpPreviousSD = previousCopyUNLockSdBlIp->swpSDBLIPType0x41();
     const auto &swpCurrentIU = unLockIuBlIp->swpIUBLIPType0x41(),
@@ -1220,6 +1227,24 @@ bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x41u, stateWord);
 
+    const auto &swpBLIP = currentUN->swpBLIPType0x41();
+    if(1 == swpBLIP.isExistDK()
+    || 1 == swpBLIP.isWasDK()) {
+        {
+            //нужен сброс
+            DataQueueItem alarmReset0x24;
+            alarmReset0x24.setPort(currentUN->getUdpPort());
+            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+            DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
+
+            if(alarmReset0x24.isValid()) {
+                reciver->pushUniqQueueMsg(alarmReset0x24);
+            }
+        }
+        qDebug() << "PortManager::procIUBLIPStatusWord0x41(5) <--";
+        return true;
+    }
+
     const auto &swpCurrent = currentUN->swpIUBLIPType0x41(),
                &swpPrevious = previousUN->swpIUBLIPType0x41();
 
@@ -1317,6 +1342,24 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x41u, stateWord);
+
+    const auto &swpBLIP = currentUN->swpBLIPType0x41();
+    if(1 == swpBLIP.isExistDK()
+    || 1 == swpBLIP.isWasDK()) {
+        {
+            //нужен сброс
+            DataQueueItem alarmReset0x24;
+            alarmReset0x24.setPort(currentUN->getUdpPort());
+            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+            DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
+
+            if(alarmReset0x24.isValid()) {
+                reciver->pushUniqQueueMsg(alarmReset0x24);
+            }
+        }
+        qDebug() << "PortManager::procSDBLIPStatusWord0x41(5) <--";
+        return true;
+    }
 
     const auto &swpCurrent = currentUN->swpSDBLIPType0x41(),
                &swpPrevious = previousUN->swpSDBLIPType0x41();
@@ -1937,6 +1980,23 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     const auto &swpCurrent = currentUN->swpRLMType0x31(),
                &swpPrevious = previousUN->swpRLMType0x31();
 
+    if(1 == swpCurrent.isExistDK()
+    || 1 == swpCurrent.isWasDK()) {
+        {
+            //нужен сброс
+            DataQueueItem alarmReset0x24;
+            alarmReset0x24.setPort(currentUN->getUdpPort());
+            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+            DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
+
+            if(alarmReset0x24.isValid()) {
+                reciver->pushUniqQueueMsg(alarmReset0x24);
+            }
+        }
+        qDebug() << "PortManager::procRlmStatusWord0x31(5) <--";
+        return true;
+    }
+
     auto isChangedStatus = false;
     if(swpCurrent.isFault() != swpPrevious.isFault()
     || swpCurrent.isOpened() != swpPrevious.isOpened()
@@ -2170,6 +2230,23 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     const auto &swpCurrent = currentUN->swpRLMCType0x31(),
                &swpPrevious = previousUN->swpRLMCType0x31();
 
+    if(1 == swpCurrent.isExistDK()
+    || 1 == swpCurrent.isWasDK()) {
+        {
+            //нужен сброс
+            DataQueueItem alarmReset0x24;
+            alarmReset0x24.setPort(currentUN->getUdpPort());
+            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+            DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
+
+            if(alarmReset0x24.isValid()) {
+                reciver->pushUniqQueueMsg(alarmReset0x24);
+            }
+        }
+        qDebug() << "PortManager::procRlmCStatusWord0x31(5) <--";
+        return true;
+    }
+
     auto isChangedStatus = false;
     if(swpCurrent.isFault() != swpPrevious.isFault()
     || swpCurrent.isAlarm() != swpPrevious.isAlarm()
@@ -2391,6 +2468,23 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
 
     const auto &swpCurrent = currentUN->swpTGType0x31(),
                &swpPrevious = previousUN->swpTGType0x31();
+
+    if(1 == swpCurrent.isExistDK()
+    || 1 == swpCurrent.isWasDK()) {
+        {
+            //нужен сброс
+            DataQueueItem alarmReset0x24;
+            alarmReset0x24.setPort(currentUN->getUdpPort());
+            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+            DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
+
+            if(alarmReset0x24.isValid()) {
+                reciver->pushUniqQueueMsg(alarmReset0x24);
+            }
+        }
+        qDebug() << "PortManager::procTgStatusWord0x31(5) <--";
+        return true;
+    }
 
     auto isChangedStatus = false;
     if(swpCurrent.isOpened() != swpPrevious.isOpened()
@@ -2741,6 +2835,23 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     const auto &swpCurrentCi = swpCurrent.C(currentUN->getNum2()),
                &swpPreviousCi = swpPrevious.C(currentUN->getNum2());
 
+    if(1 == swpCurrent.isExistDK()
+    || 1 == swpCurrent.isWasDK()) {
+        {
+            //нужен сброс
+            DataQueueItem alarmReset0x24;
+            alarmReset0x24.setPort(currentUN->getUdpPort());
+            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+            DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
+
+            if(alarmReset0x24.isValid()) {
+                reciver->pushUniqQueueMsg(alarmReset0x24);
+            }
+        }
+        qDebug() << "PortManager::procTgStatusWord0x32(5) <--";
+        return true;
+    }
+
     auto isChangedStatus = false;
     if(swpCurrentCi.isInOpened() != swpPreviousCi.isInOpened()
     || swpCurrentCi.isWasOpened() != swpPreviousCi.isWasOpened()
@@ -3040,6 +3151,23 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
                &swpPrevious = previousUN->swpTGType0x33();
     const auto &swpCurrentCi = swpCurrent.C(currentUN->getNum2()),
                &swpPreviousCi = swpPrevious.C(currentUN->getNum2());
+
+    if(1 == swpCurrent.isExistDK()
+    || 1 == swpCurrent.isWasDK()) {
+        {
+            //нужен сброс
+            DataQueueItem alarmReset0x24;
+            alarmReset0x24.setPort(currentUN->getUdpPort());
+            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+            DataQueueItem::makeAlarmReset0x24(alarmReset0x24, currentUN);
+
+            if(alarmReset0x24.isValid()) {
+                reciver->pushUniqQueueMsg(alarmReset0x24);
+            }
+        }
+        qDebug() << "PortManager::procTgStatusWord0x33(5) <--";
+        return true;
+    }
 
     auto isChangedStatus = false;
     if(swpCurrentCi.isInOpened() != swpPreviousCi.isInOpened()
