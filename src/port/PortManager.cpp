@@ -582,7 +582,7 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
                 }
 
             }
-            if(!tmpUN->getName().isEmpty() && 1 != tmpUN->getMetaEntity()) {
+            if(!tmpUN->getName().isEmpty() && 1 != tmpUN->getMetaEntity() && !unTarget.isNull()) {
                 JourEntity msg;
                 QString comment;
                 if(fromAbonent) {
