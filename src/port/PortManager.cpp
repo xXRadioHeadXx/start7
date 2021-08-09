@@ -1194,11 +1194,6 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
         }
     }
 
-    // будим рессивер
-    if(isWakeUp || 10 == reciver->getPublishedState()) {
-        reciver->setPublishedState(-1);
-    }
-
     unLockSdBlIp->updDoubl();
     unLockIuBlIp->updDoubl();
     SignalSlotCommutator::getInstance()->emitUpdUN();
@@ -1311,11 +1306,6 @@ bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     }
     // запись вкл/выкл ИУ <--
-
-    // будим рессивер
-    if(isWakeUp || 10 == reciver->getPublishedState()) {
-        reciver->setPublishedState(-1);
-    }
 
     currentUN->updDoubl();
     SignalSlotCommutator::getInstance()->emitUpdUN();
@@ -1751,7 +1741,6 @@ bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x41u, stateWord);
-//    currentUN->setPublishedState(-1);
 
     auto swpCurrent = currentUN->swpSDBLIPType0x41();
     if(1 == swpCurrent.isOff()) {
@@ -1855,7 +1844,6 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x31u, stateWord);
-//    currentUN->setPublishedState(-1);
 
     if((TypeUnitNode::RLM_C == currentUN->getType()
      && (1 == currentUN->swpRLMCType0x31().isOff()
@@ -2735,7 +2723,6 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x32u, stateWord);
-//    currentUN->setPublishedState(-1);
 
     const auto &swpCurrent = currentUN->swpTGType0x32().C(currentUN->getNum2());
 
@@ -3053,7 +3040,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x33u, stateWord);
-//    currentUN->setPublishedState(-1);
+
     const auto &swpCurrent = currentUN->swpTGType0x33().C(currentUN->getNum2());
 
     if(1 == swpCurrent.isFault()) { // ДК уже никогда не выполнить
@@ -3371,8 +3358,6 @@ bool PortManager::procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN
     const auto &isAutoDK = currentUN->getIsAutoDkInvolved();
 
     currentUN->setStateWord(0x34u, stateWord);
-//    currentUN->setPublishedState(-1);
-
 
     currentUN->updDoubl();
     SignalSlotCommutator::getInstance()->emitUpdUN();
