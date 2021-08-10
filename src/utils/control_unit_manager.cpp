@@ -18,7 +18,7 @@ qDebug()<<"проверяю "<<unit->getName()<<" родитель "<<unit->getT
 
 if(unit->getName()=="")
 {
-    QMessageBox::critical(0,"Ошибка","Введите имя устройства");
+    QMessageBox::critical(0,"Ошибка","Введите правильно имя устройства");
 
     return false;
 
