@@ -913,6 +913,10 @@ QVariant UnitNode::dataTreeColumn(int column) const
     {
         case 0:
         {
+            return this->getDkInvolved() ? tr("ДК") : "";
+        }
+        case 1:
+        {
             return this->getName();
         }
         default:

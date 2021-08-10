@@ -1010,9 +1010,12 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
     unLockSdBlIp->setStateWord(0x41u, stateWord);
     unLockIuBlIp->setStateWord(0x41u, stateWord);
 
-    const auto &swpBLIP = unLockSdBlIp->swpBLIPType0x41();
-    if(1 == swpBLIP.isExistDK()
-    || 1 == swpBLIP.isWasDK()) {
+    const auto &swpCurrentBLIP = unLockSdBlIp->swpBLIPType0x41();
+    const auto &swpPreviousBLIP = previousCopyUNLockSdBlIp->swpBLIPType0x41();
+    if(1 == swpCurrentBLIP.isExistDK()
+    || 1 == swpCurrentBLIP.isWasDK()
+    || 1 == swpPreviousBLIP.isExistDK()
+    || 1 == swpPreviousBLIP.isWasDK()) {
         qDebug() << "PortManager::procUzoBLIPStatusWord0x41(5) <--";
         return true;
     }
@@ -1222,9 +1225,12 @@ bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x41u, stateWord);
 
-    const auto &swpBLIP = currentUN->swpBLIPType0x41();
-    if(1 == swpBLIP.isExistDK()
-    || 1 == swpBLIP.isWasDK()) {
+    const auto &swpCurrentBLIP = currentUN->swpBLIPType0x41();
+    const auto &swpPreviousBLIP = previousUN->swpBLIPType0x41();
+    if(1 == swpCurrentBLIP.isExistDK()
+    || 1 == swpCurrentBLIP.isWasDK()
+    || 1 == swpPreviousBLIP.isExistDK()
+    || 1 == swpPreviousBLIP.isWasDK()) {
         {
             //нужен сброс
             DataQueueItem alarmReset0x24;
@@ -1333,9 +1339,12 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x41u, stateWord);
 
-    const auto &swpBLIP = currentUN->swpBLIPType0x41();
-    if(1 == swpBLIP.isExistDK()
-    || 1 == swpBLIP.isWasDK()) {
+    const auto &swpCurrentBLIP = currentUN->swpBLIPType0x41();
+    const auto &swpPreviousBLIP = previousUN->swpBLIPType0x41();
+    if(1 == swpCurrentBLIP.isExistDK()
+    || 1 == swpCurrentBLIP.isWasDK()
+    || 1 == swpPreviousBLIP.isExistDK()
+    || 1 == swpPreviousBLIP.isWasDK()) {
         {
             //нужен сброс
             DataQueueItem alarmReset0x24;
@@ -1969,7 +1978,9 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
                &swpPrevious = previousUN->swpRLMType0x31();
 
     if(1 == swpCurrent.isExistDK()
-    || 1 == swpCurrent.isWasDK()) {
+    || 1 == swpCurrent.isWasDK()
+    || 1 == swpPrevious.isExistDK()
+    || 1 == swpPrevious.isWasDK()) {
         {
             //нужен сброс
             DataQueueItem alarmReset0x24;
@@ -2219,7 +2230,9 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
                &swpPrevious = previousUN->swpRLMCType0x31();
 
     if(1 == swpCurrent.isExistDK()
-    || 1 == swpCurrent.isWasDK()) {
+    || 1 == swpCurrent.isWasDK()
+    || 1 == swpPrevious.isExistDK()
+    || 1 == swpPrevious.isWasDK()) {
         {
             //нужен сброс
             DataQueueItem alarmReset0x24;
@@ -2458,7 +2471,9 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
                &swpPrevious = previousUN->swpTGType0x31();
 
     if(1 == swpCurrent.isExistDK()
-    || 1 == swpCurrent.isWasDK()) {
+    || 1 == swpCurrent.isWasDK()
+    || 1 == swpPrevious.isExistDK()
+    || 1 == swpPrevious.isWasDK()) {
         {
             //нужен сброс
             DataQueueItem alarmReset0x24;
@@ -2823,7 +2838,9 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
                &swpPreviousCi = swpPrevious.C(currentUN->getNum2());
 
     if(1 == swpCurrent.isExistDK()
-    || 1 == swpCurrent.isWasDK()) {
+    || 1 == swpCurrent.isWasDK()
+    || 1 == swpPrevious.isExistDK()
+    || 1 == swpPrevious.isWasDK()) {
         {
             //нужен сброс
             DataQueueItem alarmReset0x24;
@@ -3140,7 +3157,9 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
                &swpPreviousCi = swpPrevious.C(currentUN->getNum2());
 
     if(1 == swpCurrent.isExistDK()
-    || 1 == swpCurrent.isWasDK()) {
+    || 1 == swpCurrent.isWasDK()
+    || 1 == swpPrevious.isExistDK()
+    || 1 == swpPrevious.isWasDK()) {
         {
             //нужен сброс
             DataQueueItem alarmReset0x24;

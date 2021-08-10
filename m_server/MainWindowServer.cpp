@@ -164,6 +164,8 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SLOT(initLabelOperator()));
 
     ui->treeView->resizeColumnToContents(0);
+    ui->treeView->resizeColumnToContents(1);
+    ui->treeView->setColumnWidth(0, 95);
 
     ui->tableView->resizeColumnToContents(0);
     ui->tableView->resizeColumnToContents(1);
@@ -1133,6 +1135,8 @@ void MainWindowServer::on_actionIncrease_triggered()
     ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont + 1).second);
 
     ui->treeView->resizeColumnToContents(0);
+    ui->treeView->resizeColumnToContents(1);
+
 
     ui->tableView->resizeColumnToContents(0);
     ui->tableView->resizeColumnToContents(1);
@@ -1164,6 +1168,7 @@ void MainWindowServer::on_actionReduce_triggered()
     ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont - 1).second);
 
     ui->treeView->resizeColumnToContents(0);
+    ui->treeView->resizeColumnToContents(1);
 
     ui->tableView->resizeColumnToContents(0);
     ui->tableView->resizeColumnToContents(1);

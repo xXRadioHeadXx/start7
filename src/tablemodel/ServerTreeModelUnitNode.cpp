@@ -35,7 +35,7 @@ ServerTreeModelUnitNode::~ServerTreeModelUnitNode()
 int ServerTreeModelUnitNode::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 1;
+    return 2;
 }
 
 QSharedPointer<UnitNode> ServerTreeModelUnitNode::getTreeUnitNodes(UnitNode*target) const
@@ -67,13 +67,17 @@ int ServerTreeModelUnitNode::sizeHintForRow(int /*row*/) const
 //     }
 
      if(role == Qt::DecorationRole &&
-        rootItemUN != item &&
-        0 == index.column())
+        rootItemUN != item)
      {
          QPixmap pxm;
          switch(index.column())
          {
          case 0:
+         {
+
+             break;
+         }
+         case 1:
          {
              pxm = item->getPxm(typeApp);
              break;
@@ -134,6 +138,8 @@ bool ServerTreeModelUnitNode::setData(const QModelIndex &index, const QVariant &
      if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
          switch(section) {
          case 0:
+             return "";
+         case 1:
              return tr("Имя");
          default:
              return QVariant();
@@ -181,7 +187,7 @@ bool ServerTreeModelUnitNode::setData(const QModelIndex &index, const QVariant &
  int ServerTreeModelUnitNode::rowCount(const QModelIndex &parent) const
  {
      QSharedPointer<UnitNode> parentItem;
-     if (parent.column() > 0)
+     if (parent.column() > 1)
          return 0;
 
      if (!parent.isValid())

@@ -1141,16 +1141,20 @@ QDomElement GraphTerminal::makeActualStateElement(QSharedPointer<UnitNode> un, Q
 
 void GraphTerminal::sendAbonentEventsAndStates(JourEntity jour){
     const auto xml = makeEventsAndStates(jour).toByteArray();
+    qDebug() << "GraphTerminal::sendAbonentEventsAndStates(JourEntity jour)";
     sendAbonent(xml);
 }
 
 void GraphTerminal::sendAbonentEventsAndStates(QSharedPointer<UnitNode> un){
     const auto xml = makeEventsAndStates(un).toByteArray();
+    qDebug() << "GraphTerminal::sendAbonentEventsAndStates(QSharedPointer<UnitNode> un)";
+    qDebug() << xml;
     sendAbonent(xml);
 }
 
 void GraphTerminal::sendAbonentEventsAndStates(QSharedPointer<UnitNode> un, JourEntity jour){
     const auto xml = makeEventsAndStates(un, jour).toByteArray();
+    qDebug() << "GraphTerminal::sendAbonentEventsAndStates(QSharedPointer<UnitNode> un, JourEntity jour)";
     sendAbonent(xml);
 }
 

@@ -169,12 +169,6 @@
              <property name="indentation">
               <number>16</number>
              </property>
-             <attribute name="headerMinimumSectionSize">
-              <number>350</number>
-             </attribute>
-             <attribute name="headerDefaultSectionSize">
-              <number>350</number>
-             </attribute>
             </widget>
            </item>
            <item>
