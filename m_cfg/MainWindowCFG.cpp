@@ -301,8 +301,8 @@ QString str;
 str.clear();
 if(i/10<1)
     str.append("0");
-if(i/100<1)
-    str.append("0");
+//if(i/100<1)
+//    str.append("0");
 str.append(QString::number(i));
 this->ui->TOROS_Num1->addItem(str);
 
@@ -3225,7 +3225,8 @@ Name.append(this->ui->TG_U4_4A_combobox->currentText());
     break;
 
     case TypeUnitNode::RLM_KRL:
-Name.append("РИФ-РЛМ-КРЛ-");
+Name.append(this->ui->RLM_KRL_type_comboBox->currentText());
+Name.append("-");
 if(this->ui->RLM_KRL_adress_combobox->currentText().toInt()<10)
 Name.append("0");
 Name.append(this->ui->RLM_KRL_adress_combobox->currentText());
@@ -3247,7 +3248,7 @@ Name.append(this->ui->BOD_T4K_M_adress_combobox->currentText());
 
     case TypeUnitNode::Y4_T4K_M:
         if(parent){
-            Name.append("Точка-М: БОД");
+            Name.append("БОД");
             if(parent->getNum1()<10)
             Name.append("0");
             Name.append(QString::number(parent->getNum1()));
@@ -3258,15 +3259,10 @@ Name.append(this->ui->BOD_T4K_M_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::DD_T4K_M:
-        if(parent){
-            Name.append("Точка-М: БОД");
-            if(parent->getNum1()<10)
-            Name.append("0");
-            Name.append(QString::number(parent->getNum1()));
-        }
+
 Name.append(" ДД");
 if(parent){
-    Name.append(QString::number(parent->getNum2()/10));
+    Name.append(QString::number(parent->getNum2()/100));
 Name.append("-");
 }
 Name.append(this->ui->DD_T4K_M_combobox->currentText());
@@ -3282,7 +3278,7 @@ Name.append(this->ui->BOD_SOTA_M_adress_combobox->currentText());
     case TypeUnitNode::Y4_SOTA:
 
         if(parent){
-            Name.append("Сота: БОД");
+            Name.append("БОД");
             if(parent->getNum1()<100)
             Name.append("0");
             Name.append(QString::number(parent->getNum1()));
@@ -3293,12 +3289,7 @@ Name.append(this->ui->U4_Sota_M_combobox->currentText());
     break;
 
     case TypeUnitNode::DD_SOTA:
-        if(parent){
-            Name.append("Сота: БОД");
-            if(parent->getNum1()<10)
-            Name.append("0");
-            Name.append(QString::number(parent->getNum1()));
-        }
+
 Name.append(" ДД");
 if(parent){
     Name.append(QString::number(parent->getNum2()/100));
@@ -3308,7 +3299,8 @@ Name.append(this->ui->DD_Sota_M_combobox->currentText());
     break;
 
     case TypeUnitNode::ONVIF:
-Name.append(this->ui->uType_combobox->currentText());
+//Name.append(this->ui->uType_combobox->currentText());
+Name.append("Камера ONVIF ");
 Name.append(" ");
 Name.append(this->ui->ONVIF_IPaddr_combobox->currentText());
 
@@ -3329,40 +3321,45 @@ Name.append(this->ui->STRAZH_IP__IPaddr_combobox->currentText());
     break;
 
     case TypeUnitNode::SSOI_SD:
-//Name.append(" СД ");
-Name.append(this->ui->uType_combobox->currentText());
-Name.append(" канал ");
+
+Name.append("Канал");
 Name.append(this->ui->SSOI_SD_Num1->currentText());
-Name.append(" БЛ ");
+Name.append("-БЛ");
 Name.append(this->ui->SSOI_SD_Num2->currentText());
-Name.append(" СД ");
+
+
+Name.append("-СД");
+if(this->ui->SSOI_SD_Num3->currentText()=="вскрытие")
+Name.append("-");
 Name.append(this->ui->SSOI_SD_Num3->currentText());
+
+/*
 if(this->ui->SSOI_SD_OutType->currentIndex()>0)
 {
 Name.append(" тип:");
 Name.append(this->ui->SSOI_SD_OutType->currentText());
 }
+*/
     break;
 
     case TypeUnitNode::SSOI_IU:
-Name.append(this->ui->uType_combobox->currentText());
-Name.append("канал ");
+Name.append("Канал");
 Name.append(this->ui->SSOI_IU_Num1->currentText());
-Name.append(" БЛ ");
+Name.append("-БЛ");
 Name.append(this->ui->SSOI_IU_Num2->currentText());
-Name.append(" ");
+Name.append("-");
 Name.append(this->ui->SSOI_IU_Num3->currentText());
     break;
 
     case TypeUnitNode::ADAM:
-Name.append("Адам ");
+Name.append("ADAM ");
 Name.append(this->ui->ADAM_Num1->currentText());
 Name.append("-");
 Name.append(this->ui->ADAM_Num2->currentText());
     break;
 
     case TypeUnitNode::TOROS:
-Name.append("Торос ");
+Name.append("Торос-");
 Name.append(this->ui->TOROS_Num1->currentText());
     break;
 
@@ -3375,7 +3372,12 @@ Name.append(")");
     break;
 
     case TypeUnitNode::RASTRMTV:
-Name.append("РАСТР-М ТВ ");
+Name.append("Камера-");
+
+
+
+Name.append(this->ui->RASTRMTV_Num3->currentText());
+
     break;
 
     case TypeUnitNode::INFO_TABLO:
@@ -3384,9 +3386,11 @@ Name.append("РАСТР-М ТВ ");
     break;
 
     case TypeUnitNode::KL:
-Name.append("КЛ ");
+Name.append("КЛ-");
+if(this->ui->KL_adress_combobox->currentText().toInt()<10)
+Name.append("0");
 Name.append(this->ui->KL_adress_combobox->currentText());
-Name.append(" СД ");
+Name.append(" СД");
 Name.append(this->ui->KL_CD_combobox->currentText());
 
     break;
@@ -8156,6 +8160,16 @@ void MainWindowCFG::on_edit_unit_button_clicked()
 }
 
 void MainWindowCFG::on_ipadress_combobox_currentTextChanged(const QString &arg1)
+{
+    Name_update();
+}
+
+void MainWindowCFG::on_RASTRMTV_Num3_currentIndexChanged(int index)
+{
+    Name_update();
+}
+
+void MainWindowCFG::on_RLM_KRL_type_comboBox_currentIndexChanged(const QString &arg1)
 {
     Name_update();
 }

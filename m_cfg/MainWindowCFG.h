@@ -738,5 +738,7 @@ private slots:
    void on_TG_U4_4A_combobox_currentIndexChanged(int index);
    void on_edit_unit_button_clicked();
    void on_ipadress_combobox_currentTextChanged(const QString &arg1);
+   void on_RASTRMTV_Num3_currentIndexChanged(int index);
+   void on_RLM_KRL_type_comboBox_currentIndexChanged(const QString &arg1);
 };
 #endif // MAINWINDOWCFG_H
