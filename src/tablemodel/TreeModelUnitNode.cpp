@@ -69,6 +69,8 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
          {
              UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
              pxm = item->getPxm(typeApp,index.column());
+              if(!pxm.isNull())
+             return QVariant(pxm);
              break;
          }
          case 1:
@@ -76,6 +78,8 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
              UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
              if(un->getDK()==1)
              pxm = item->getPxm(typeApp,index.column());
+              if(!pxm.isNull())
+             return QVariant(pxm);
              break;
          }
          case 2:
@@ -83,6 +87,8 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
              UnitNode *un = static_cast<UnitNode*>(index.internalPointer());
              if(un->getAlarmMsgOn()==1)
              pxm = item->getPxm(typeApp,index.column());
+              if(!pxm.isNull())
+             return QVariant(pxm);
              break;
          }
 
@@ -90,11 +96,12 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
          {
              break;
          }
-         }
-         if(!pxm.isNull())
-             pxm = pxm.scaled(17,17);
 
-         return QVariant(pxm);
+         }
+     //    if(!pxm.isNull())
+     //        pxm = pxm.scaled(17,17);
+
+
      }
 
      if(role == Qt::DisplayRole)

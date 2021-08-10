@@ -3139,12 +3139,18 @@ else
 
 void MainWindowCFG::Name_update()
 {
+
+  UnitNode *parent = static_cast<UnitNode*>(current_index.internalPointer());
+
     if(this->ui->checkBox->isChecked())
     {
     QString Name;
     Name.clear();
     int type=m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 //    Name.append(this->ui->uType_combobox->currentText());
+    QString ip_str;
+    QStringList myStringList;
+
     switch(type)
     {
 
@@ -3153,66 +3159,151 @@ Name.append("Группа ");
     break;
 
     case TypeUnitNode::SD_BL_IP:
-Name.append(this->ui->uType_combobox->currentText());
-Name.append(" ");
+Name.append("БЛ");
+ip_str=this->ui->ipadress_combobox->currentText();
+myStringList = ip_str.split(".");
+if(myStringList.count()==4)
+{
+    ip_str=myStringList[3];
+    if(ip_str.toInt()<100)
+        ip_str="0"+ip_str;
+    if(ip_str.toInt()<10)
+        ip_str="0"+ip_str;
+}
+else
+    ip_str="-IP";
+
+//разделить на подстроки через символ точку
+//четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
+
+Name.append(ip_str);
+Name.append(" СД");
+Name.append("-");
+
+//if(this->ui->SD_BL_IP_num_combobox->currentText().toInt()<10)
+//Name.append("0");
+
 Name.append(this->ui->SD_BL_IP_num_combobox->currentText());
 
 
     break;
 
     case TypeUnitNode::IU_BL_IP:
-Name.append(this->ui->uType_combobox->currentText());
-Name.append(" ");
+        Name.append("БЛ");
+        ip_str=this->ui->ipadress_combobox->currentText();
+        myStringList = ip_str.split(".");
+        if(myStringList.count()==4)
+        {
+            ip_str=myStringList[3];
+            if(ip_str.toInt()<100)
+                ip_str="0"+ip_str;
+            if(ip_str.toInt()<10)
+                ip_str="0"+ip_str;
+        }
+        else
+            ip_str="-IP";
+
+        //разделить на подстроки через символ точку
+        //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
+
+        Name.append(ip_str);
+        Name.append(" ИУ");
+Name.append("-");
+//if(this->ui->IU_BL_IP_num_combobox->currentText().toInt()<10)
+//Name.append("0");
 Name.append(this->ui->IU_BL_IP_num_combobox->currentText());
 
     break;
 
     case TypeUnitNode::TG:
-Name.append("ТГ ");
+Name.append("Точка-");
+if(this->ui->TG_adress_combobox->currentText().toInt()<10)
+Name.append("0");
 Name.append(this->ui->TG_adress_combobox->currentText());
-Name.append(" ЧЭ ");
+Name.append("-ЧЭ");
 Name.append(this->ui->TG_U4_4A_combobox->currentText());
     break;
 
     case TypeUnitNode::RLM_KRL:
 Name.append("РЛМ-КРЛ ");
+if(this->ui->RLM_KRL_adress_combobox->currentText().toInt()<10)
+Name.append("0");
 Name.append(this->ui->RLM_KRL_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::RLM_C:
 Name.append("РЛМ-С ");
+if(this->ui->RLM_C_adress_combobox->currentText().toInt()<10)
+Name.append("0");
 Name.append(this->ui->RLM_C_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::BOD_T4K_M:
-Name.append(this->ui->uType_combobox->currentText());
-Name.append(" ");
+Name.append("Точка-М: БОД");
+if(this->ui->BOD_T4K_M_adress_combobox->currentText().toInt()<10)
+Name.append("0");
 Name.append(this->ui->BOD_T4K_M_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::Y4_T4K_M:
-        Name.append("Уч ");
+        if(parent){
+            Name.append("Точка-М: БОД");
+            if(parent->getNum1()<10)
+            Name.append("0");
+            Name.append(QString::number(parent->getNum1()));
+                        Name.append(" ");
+        }
+        Name.append("Участок ");
         Name.append(this->ui->Y4_T4K_M_combobox->currentText());
     break;
 
     case TypeUnitNode::DD_T4K_M:
-Name.append("ДД ");
+        if(parent){
+            Name.append("Точка-М: БОД");
+            if(parent->getNum1()<10)
+            Name.append("0");
+            Name.append(QString::number(parent->getNum1()));
+        }
+Name.append(" ДД");
+if(parent){
+    Name.append(QString::number(parent->getNum2()/10));
+Name.append("-");
+}
 Name.append(this->ui->DD_T4K_M_combobox->currentText());
     break;
 
     case TypeUnitNode::BOD_SOTA:
-Name.append(this->ui->uType_combobox->currentText());
-Name.append(" ");
+Name.append("Сота: БОД");
+if(this->ui->BOD_SOTA_M_adress_combobox->currentText().toInt()<10)
+Name.append("0");
 Name.append(this->ui->BOD_SOTA_M_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::Y4_SOTA:
-Name.append("Уч ");
+
+        if(parent){
+            Name.append("Сота: БОД");
+            if(parent->getNum1()<100)
+            Name.append("0");
+            Name.append(QString::number(parent->getNum1()));
+                        Name.append(" ");
+        }
+Name.append("Участок ");
 Name.append(this->ui->U4_Sota_M_combobox->currentText());
     break;
 
     case TypeUnitNode::DD_SOTA:
-Name.append("ДД ");
+        if(parent){
+            Name.append("Сота: БОД");
+            if(parent->getNum1()<10)
+            Name.append("0");
+            Name.append(QString::number(parent->getNum1()));
+        }
+Name.append(" ДД");
+if(parent){
+    Name.append(QString::number(parent->getNum2()/100));
+Name.append("-");
+}
 Name.append(this->ui->DD_Sota_M_combobox->currentText());
     break;
 
@@ -8062,4 +8153,9 @@ void MainWindowCFG::on_edit_unit_button_clicked()
 {
     qDebug()<<"[on_edit_unit_button_clicked]";
     this->func_to_edit_unit();
+}
+
+void MainWindowCFG::on_ipadress_combobox_currentTextChanged(const QString &arg1)
+{
+    Name_update();
 }

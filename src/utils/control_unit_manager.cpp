@@ -1039,7 +1039,12 @@ bool Control_Unit_Manager::correct_UDP_parametres(UnitNode *unit)
 {
     qDebug()<<"UdpUse "<<unit->getUdpUse();
     qDebug()<<"UdpAdress "<<unit->getUdpAdress();
-    if(unit->getUdpUse()==1)
+
+
+    if((unit->getUdpUse()==1)
+            ||(unit->getType()==TypeUnitNode::SD_BL_IP)
+            ||(unit->getType()==TypeUnitNode::IU_BL_IP)
+            )
     {
         QHostAddress myIP;
            if(myIP.setAddress( unit->getUdpAdress()))
@@ -1051,7 +1056,7 @@ bool Control_Unit_Manager::correct_UDP_parametres(UnitNode *unit)
            {
            qDebug()<<"Invalid IP address";
 
-        QMessageBox::critical(0,"Ошибка","Не заданы пармаетры UDP протокола (IP адрес или порт)");
+        QMessageBox::critical(0,"Ошибка","Не заданы параметры UDP протокола (IP адрес или порт)");
 
         return false;
            }

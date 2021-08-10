@@ -90,7 +90,7 @@ QString UnitNode::getName() const
 
 void UnitNode::setName(const QString &value)
 {
-    QRegExp re("[а-яА-Я0-9 -]{1,25}");
+    QRegExp re("[а-яА-Яa-zA-Z0-9 -:]{1,25}");
 
       qDebug()<< re.exactMatch(value);
 
@@ -784,7 +784,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type, int column)
 
 
 
-                 return Icons_cfg::empty();
+              //   return Icons_cfg::empty();
 
              }
              else
@@ -792,10 +792,12 @@ QPixmap UnitNode::getPxm(SubTypeApp type, int column)
              {
                  if(AlarmMsgOn==1)
                  return Icons_cfg::Alarm();
-                 else
-                 return Icons_cfg::empty();
+              //   else
+              //   return Icons_cfg::empty();
              }
     }
+    QPixmap pixmap;
+    return pixmap;
 
 }
 
