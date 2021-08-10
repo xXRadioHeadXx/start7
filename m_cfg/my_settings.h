@@ -23,12 +23,14 @@ public:
     void set_value(QString group,QString field, QByteArray *val);
 
 
-    QByteArray value(QString field);
+    QByteArray get_value(QString field);
 
     void beginGroup(QString group);
     void endGroup();
 
     void convert(QByteArray* src);
+
+
 
 private:
     QMap<QString,MY_GROUP*> map;

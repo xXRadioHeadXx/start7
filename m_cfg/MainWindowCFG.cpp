@@ -1678,6 +1678,62 @@ void MainWindowCFG::on_actionSave_triggered()
 
 
                   }
+/*
+                  //Везде где есть lan и lon убираем кавычки
+QList<UnitNode *> List;
+this->modelTreeUN->getListFromModel(List);
+for(int i=1;i<List.count();i++)
+{
+UnitNode* unit=List.at(i);
+QString strGroup("Obj_%1");
+strGroup=strGroup.arg(i);
+my.beginGroup(strGroup);
+
+QByteArray lan= my.get_value( "lan");
+QByteArray lon= my.get_value( "lon");
+my.endGroup();
+
+qDebug()<<strGroup;
+qDebug()<<"lan "<<lan;
+qDebug()<<"lan "<<lon;
+
+QByteArray true_lan;
+true_lan.clear();
+
+for(int i=0;i<lan.size();i++)
+{
+
+ qDebug()<<i<<"....."<<(quint8(lan[i]));
+
+ if(quint8(lan[i])!=34)
+ true_lan.append(lan[i]);
+}
+
+qDebug()<<"--------------";
+QByteArray true_lon;
+true_lon.clear();
+for(int i=0;i<lon.size();i++)
+{
+ qDebug()<<i<<"....."<<(quint8(lon[i]));
+  if(quint8(lon[i])!=34)
+ true_lon.append(lon[i]);
+}
+
+true_lan=true_lan.toHex();
+true_lon=true_lon.toHex();
+qDebug()<<"true_lan "<<true_lan;
+qDebug()<<"true_lon "<<true_lon;
+
+
+
+ //my.set_value(strGroup, "lan", &true_lan);
+// my.set_value(strGroup, "lon", &true_lon);
+
+}
+*/
+
+
+
 
 //delete my;
 }
@@ -6457,8 +6513,18 @@ for(int i=1;i<List.count();i++)
 
         settings.setValue("Description", unit->getDescription());
 
-        settings.setValue("lan",QString::number(unit->getLan()));
-        settings.setValue("lon", unit->getLon());
+
+
+
+        settings.setValue("lan",QString::number(unit->getLan(),'g',7));
+
+
+
+        settings.setValue("lon",QString::number(unit->getLon(),'g',7));
+
+
+
+
 
         settings.setValue("UdpUse", QString::number(unit->getUdpUse()));
         settings.setValue("UdpAdress", unit->getUdpAdress());
@@ -7429,7 +7495,7 @@ void MainWindowCFG::on_BACKUP_pushButton_clicked()
 
 void MainWindowCFG::coordinate_menu(bool visible, bool active, double x, double y, QString text)
 {
-    qDebug()<<"coordinate_menu";
+    qDebug()<<"coordinate_menu "<<(float)x<<" "<<(float)y;
     qDebug()<<x;
     qDebug()<<y;
     if(visible)

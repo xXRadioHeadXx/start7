@@ -21,8 +21,7 @@ double get_value(QVariant var)
                                           <<" "<<var
                                           <<" "<<var.toStringList().join(',');
     double res;
-    if(var.toString()=="")
-    {
+
       QString list=var.toStringList().join(',');
       QString str=var.toStringList().join(',');
       qDebug()<<str;
@@ -33,12 +32,7 @@ double get_value(QVariant var)
         res = str.toDouble(&ok);
 
 
-    }
-    else
-    {
 
-    res=var.toDouble();
-    }
 
 
     qDebug()<<"get "<<res;
@@ -144,8 +138,8 @@ get_value(settings.value( "lon" , -1 ));
 
 
 
- tmpUN->setLan(get_value(settings.value( "lan" , -1 )));
- tmpUN->setLon(get_value(settings.value( "lon" , -1 )));
+ tmpUN->setLan(settings.value( "lan" , -1 ).toDouble());
+ tmpUN->setLon(settings.value( "lon" , -1 ).toDouble());
 
 
             qDebug()<<tmpUN->getLan();

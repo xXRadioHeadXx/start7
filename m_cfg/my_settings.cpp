@@ -91,8 +91,8 @@ My_settings::My_settings(QString filepath, QObject *parent)
 
 
                                    }
-                           //      //qDebug()<<"key "<<QString::fromUtf8(key);
-                           //      //qDebug()<< "val "<<" "<<QString::fromUtf8(val)<<" "<<val.toHex();
+                           qDebug()<<"key "<<QString::fromUtf8(key);
+                           qDebug()<< "val "<<" "<<QString::fromUtf8(val)<<" "<<val.toHex();
 
                               //    fields.insert(QString::fromUtf8(key),val);
 
@@ -344,7 +344,7 @@ void My_settings::set_value(QString group, QString field, QByteArray *val)
     this->endGroup();
 }
 
-QByteArray My_settings::value(QString field)
+QByteArray My_settings::get_value(QString field)
 {
     QByteArray ar;
     ar.clear();

@@ -2049,7 +2049,7 @@
              </rect>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="coordinates_for_all">
              <widget class="QGroupBox" name="groupBox_4">
@@ -2365,8 +2365,11 @@
                <property name="contextMenuPolicy">
                 <enum>Qt::NoContextMenu</enum>
                </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
                <property name="maximum">
-                <double>9999.989999999999782</double>
+                <double>10000.000000000000000</double>
                </property>
               </widget>
               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_3">
@@ -2381,8 +2384,11 @@
                <property name="contextMenuPolicy">
                 <enum>Qt::NoContextMenu</enum>
                </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
                <property name="maximum">
-                <double>9999.989999999999782</double>
+                <double>10000.000000000000000</double>
                </property>
               </widget>
               <widget class="QLabel" name="label_37">
@@ -2422,8 +2428,11 @@
                <property name="contextMenuPolicy">
                 <enum>Qt::NoContextMenu</enum>
                </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
                <property name="maximum">
-                <double>9999.989999999999782</double>
+                <double>10000.000000000000000</double>
                </property>
               </widget>
               <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_4">
@@ -2438,8 +2447,11 @@
                <property name="contextMenuPolicy">
                 <enum>Qt::NoContextMenu</enum>
                </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
                <property name="maximum">
-                <double>9999.989999999999782</double>
+                <double>10000.000000000000000</double>
                </property>
               </widget>
               <widget class="My_lineEdit" name="mouse_X" native="true">
