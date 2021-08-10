@@ -743,9 +743,9 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 
        //     QRegExpValidator*  validator = new QRegExpValidator(QRegExp ("[^!""|@#$%^&*()_]{0,50}"));
       //      "[A-Za-z\\d]+"
-QRegExpValidator*  validator = new QRegExpValidator(QRegExp ( "[а-яА-ЯёЁa-zA-Z0-9]{0,50}"));
+//QRegExpValidator*  validator = new QRegExpValidator(QRegExp ( "[а-яА-ЯёЁa-zA-Z0-9]{0,50}"));
 
-                this->ui->uName_combobox->setValidator(validator);
+     //           this->ui->uName_combobox->setValidator(validator);
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -5958,14 +5958,7 @@ void MainWindowCFG::get_option_DEVLINE(UnitNode *unit)
 
 void MainWindowCFG::set_option_DEVLINE(UnitNode *unit)
 {
-//    QString str;
-//    str.clear();
- //   str.append("ТВ-Камера ");
-//    str.append(QString::number(this->ui->DEVLINE_Num1->value()));
-//    str.append("(Поток");
-//    str.append(this->ui->DEVLINE_OutType->currentText());
-//    str.append(")");
-//    unit->setName(str);
+
     unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
     unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
     unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());

@@ -90,7 +90,14 @@ QString UnitNode::getName() const
 
 void UnitNode::setName(const QString &value)
 {
+    QRegExp re("[а-яА-Я0-9 -]{1,25}");
+
+      qDebug()<< re.exactMatch(value);
+
+      if(re.exactMatch(value))
     Name = value;
+      else
+          qDebug()<<"FAIL !!!";
 }
 
 int UnitNode::getIconVisible() const
