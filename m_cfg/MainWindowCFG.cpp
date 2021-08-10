@@ -3225,14 +3225,14 @@ Name.append(this->ui->TG_U4_4A_combobox->currentText());
     break;
 
     case TypeUnitNode::RLM_KRL:
-Name.append("РЛМ-КРЛ ");
+Name.append("РИФ-РЛМ-КРЛ-");
 if(this->ui->RLM_KRL_adress_combobox->currentText().toInt()<10)
 Name.append("0");
 Name.append(this->ui->RLM_KRL_adress_combobox->currentText());
     break;
 
     case TypeUnitNode::RLM_C:
-Name.append("РЛМ-С ");
+Name.append("РИФ-РЛМ-С-");
 if(this->ui->RLM_C_adress_combobox->currentText().toInt()<10)
 Name.append("0");
 Name.append(this->ui->RLM_C_adress_combobox->currentText());
