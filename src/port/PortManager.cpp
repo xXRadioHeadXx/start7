@@ -1465,18 +1465,22 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
 
     bool iniState = false;
     // запись тревог и нормы СД
-    if(1 == swpCurrent.isOn() &&
-       1 == swpCurrent.isAlarm() &&
-       1 == swpCurrent.isWasAlarm() &&
-       (swpPrevious.isAlarm() != swpCurrent.isAlarm() ||
-        swpPrevious.isWasAlarm() != swpCurrent.isWasAlarm())) {
+    if(1 == swpCurrent.isOn()
+    && 1 == swpCurrent.isAlarm()
+    && 1 == swpCurrent.isWasAlarm()
+    && (swpPrevious.isAlarm() != swpCurrent.isAlarm()
+     || swpPrevious.isWasAlarm() != swpCurrent.isWasAlarm()
+     || needRepeatActualState)) {
         //сохранение Тревога или Норма
         commentMsg = QObject::tr("Тревога-СРАБОТКА");
         typeMsg = 20;
         currentUN->setPublishedState(20);
         reciver->setPublishedState(20);
-    } else if(1 == swpCurrent.isOn() &&
-              1 == swpCurrent.isNorm()) {
+    } else if(1 == swpCurrent.isOn()
+           && 1 == swpCurrent.isNorm()
+           && ((swpPrevious.isNorm() != swpCurrent.isNorm()
+             && 1 != currentUN->getPublishedState())
+            || needRepeatActualState)) {
         commentMsg = QObject::tr("Норма");
         typeMsg = 1;
         currentUN->setPublishedState(1);
@@ -3621,6 +3625,7 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
             msg.setD3(un->getNum3());
             msg.setDirection(un->getDirection());
 
+            bool needSendEventsAndStates = false;
             if(DKCiclStatus::DKDone == un->getDkStatus()) {
                 msg.setComment(tr("Ком. ДК выполнена"));
                 msg.setType(3);
@@ -3628,6 +3633,7 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
                     DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 }
+                needSendEventsAndStates = true;
             } else {
                 QString comment = tr("Ком. ДК не выполнена");
                 if(isAutoDK)
@@ -3643,7 +3649,8 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
             un->setDkInvolved(false);
             un->setDkStatus(DKCiclStatus::DKIgnore);
             un->updDoubl();
-            GraphTerminal::sendAbonentEventsAndStates(un);
+            if(needSendEventsAndStates)
+                GraphTerminal::sendAbonentEventsAndStates(un);
             SignalSlotCommutator::getInstance()->emitUpdUN();
         }
 //                                SignalSlotCommutator::getInstance()->emitStopDKWait();

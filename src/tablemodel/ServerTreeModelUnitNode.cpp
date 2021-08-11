@@ -72,12 +72,12 @@ int ServerTreeModelUnitNode::sizeHintForRow(int /*row*/) const
          QPixmap pxm;
          switch(index.column())
          {
-         case 0:
-         {
+//         case 0:
+//         {
 
-             break;
-         }
-         case 1:
+//             break;
+//         }
+         case 0:
          {
              pxm = item->getPxm(typeApp);
              break;
