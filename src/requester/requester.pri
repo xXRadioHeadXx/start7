@@ -6,6 +6,7 @@ INCLUDEPATH += $$PWD/
 
 SOURCES += \
     $$PWD/AbstractRequester.cpp \
+    $$PWD/ManagerOneMsg.cpp \
     $$PWD/MultiUNStatusConnectRequester.cpp \
     $$PWD/ProcessDKWaiter.cpp \
     $$PWD/ConfirmationAdmissionWaiter.cpp \
@@ -15,6 +16,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/AbstractRequester.h \
+    $$PWD/ManagerOneMsg.h \
     $$PWD/MultiUNStatusConnectRequester.h \
     $$PWD/ProcessDKWaiter.h \
     $$PWD/ConfirmationAdmissionWaiter.h \
