@@ -2,44 +2,41 @@
 #define SIGNALSLOTCOMMUTATOR_H
 
 #include <QObject>
+#include "template/SingletonTemplate.h"
 
 class UnitNode;
-class SignalSlotCommutator : public QObject
+class SignalSlotCommutator : public QObject, public SingletonTemplate<SignalSlotCommutator>
 {
     Q_OBJECT
 public:
-    static SignalSlotCommutator * getInstance();
-private:
-     static SignalSlotCommutator * instance;
-     explicit SignalSlotCommutator(QObject *parent = nullptr);
 
 public slots:
-     void emitInsNewCommandMSG(const quint32 id) const;
-     void emitInsNewCommandMSG() const;
-     void emitInsNewJourMSG(const quint32 id) const;
-     void emitInsNewJourMSG() const;
-     void emitUpdAllJourMSG() const;
-     void emitUpdJourMSG(const quint32 id) const;
-     void emitUpdJourMSG() const;
-     void emitUpdUN() const;
-     void emitUpdDataTreeUN() const;
-     void emitStartDKWait(int interval) const;
-     void emitStopDKWait() const;
-     void emitEndDKWait() const;
-     void emitStartLockWait(int interval) const;
-     void emitStopLockWait() const;
-     void emitEndLockWait() const;
-     void emitAutoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const;
-     void emitLostedConnect(QSharedPointer<UnitNode> ) const;
-     void emitRequestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue) const;
-     void emitLockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool) const;
-     void emitLockOpenCloseCommand(QSharedPointer<UnitNode> , bool) const;
-     void emitChangeSelectUN (QSharedPointer<UnitNode> ) const;
-     void emitRequestDK (const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const;
-     void emitForcedNewDuty(bool out) const;
-     void emitAlarmsReset(QSharedPointer<UnitNode>  un) const;
-     void emitUpdateLabelOperator() const;
-     void emitChangeCountIntegrationAbonent(int) const;
+     static void emitInsNewCommandMSG(const quint32 id);
+     static void emitInsNewCommandMSG();
+     static void emitInsNewJourMSG(const quint32 id);
+     static void emitInsNewJourMSG();
+     static void emitUpdAllJourMSG();
+     static void emitUpdJourMSG(const quint32 id);
+     static void emitUpdJourMSG();
+     static void emitUpdUN();
+     static void emitUpdDataTreeUN();
+     static void emitStartDKWait(int interval);
+     static void emitStopDKWait();
+     static void emitEndDKWait();
+     static void emitStartLockWait(int interval);
+     static void emitStopLockWait();
+     static void emitEndLockWait();
+     static void emitAutoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget);
+     static void emitLostedConnect(QSharedPointer<UnitNode> );
+     static void emitRequestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue);
+     static void emitLockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool);
+     static void emitLockOpenCloseCommand(QSharedPointer<UnitNode> , bool);
+     static void emitChangeSelectUN (QSharedPointer<UnitNode> );
+     static void emitRequestDK (const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget);
+     static void emitForcedNewDuty(bool out);
+     static void emitAlarmsReset(QSharedPointer<UnitNode>  un);
+     static void emitUpdateLabelOperator();
+     static void emitChangeCountIntegrationAbonent(int);
 
 signals:
      void insNewCommandMSG(const quint32 id) const;

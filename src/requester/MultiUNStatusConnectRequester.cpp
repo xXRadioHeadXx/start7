@@ -156,7 +156,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     if(currentTrackedUN()->getMaxCountStatusConnectRequesterWaitAnswer() <= currentTrackedUN()->getCountStatusConnectRequesterWaitAnswer()) {
 //        qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg() -- max:" << getUnReciver()->getMaxCountSCRWA() << "<= curr:" << getUnReciver()->getCountSCRWA() << " " << getUnReciver()->toString();
         currentTrackedUN()->resetCountStatusConnectRequesterWaitAnswer();
-        SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
+        SignalSlotCommutator::emitLostedConnect(getUnReciver());
     }
 
     result.setPort(currentTrackedUN()->getUdpPort());

@@ -50,11 +50,11 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
 
     m_udpPortsVector.reserve(MAX_COUNT_PORTS);
 
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestOnOffCommand(bool, bool, QSharedPointer<UnitNode> , bool)), this, SLOT(requestOnOffCommand(bool, bool, QSharedPointer<UnitNode> , bool)));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)), this, SLOT(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(autoOnOffIU(bool, bool, QSharedPointer<UnitNode> )), this, SLOT(requestAutoOnOffIUCommand(bool, bool, QSharedPointer<UnitNode> )));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(requestDK(bool, bool, QSharedPointer<UnitNode> )), this, SLOT(requestDK(bool, bool, QSharedPointer<UnitNode> )));
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(alarmsReset(QSharedPointer<UnitNode> )), this, SLOT(requestAlarmReset(QSharedPointer<UnitNode> )));
+    connect(&SignalSlotCommutator::instance(), SIGNAL(requestOnOffCommand(bool, bool, QSharedPointer<UnitNode> , bool)), this, SLOT(requestOnOffCommand(bool, bool, QSharedPointer<UnitNode> , bool)));
+    connect(&SignalSlotCommutator::instance(), SIGNAL(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)), this, SLOT(lockOpenCloseCommand(bool, QSharedPointer<UnitNode> , bool)));
+    connect(&SignalSlotCommutator::instance(), SIGNAL(autoOnOffIU(bool, bool, QSharedPointer<UnitNode> )), this, SLOT(requestAutoOnOffIUCommand(bool, bool, QSharedPointer<UnitNode> )));
+    connect(&SignalSlotCommutator::instance(), SIGNAL(requestDK(bool, bool, QSharedPointer<UnitNode> )), this, SLOT(requestDK(bool, bool, QSharedPointer<UnitNode> )));
+    connect(&SignalSlotCommutator::instance(), SIGNAL(alarmsReset(QSharedPointer<UnitNode> )), this, SLOT(requestAlarmReset(QSharedPointer<UnitNode> )));
 
     {
         CSimpleIniA ini;
@@ -122,7 +122,7 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
                 }
             }
 
-            SignalSlotCommutator::getInstance()->emitUpdUN();
+            SignalSlotCommutator::emitUpdUN();
 
         }
     });
@@ -384,7 +384,7 @@ void PortManager::pushOverallWriteQueue(const DataQueueItem &value){
 
 void PortManager::startStatusRequest(){
 //    qDebug() << "PortManager::startStatusRequest() -->";
-    disconnect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(QSharedPointer<UnitNode> )), this, SLOT(unLostedConnect(QSharedPointer<UnitNode> )));
+    disconnect(&SignalSlotCommutator::instance(), SIGNAL(lostConnect(QSharedPointer<UnitNode> )), this, SLOT(unLostedConnect(QSharedPointer<UnitNode> )));
 
     clearLsSCR();
 
@@ -453,7 +453,7 @@ void PortManager::startStatusRequest(){
         scr->startFirstRequest();
     }
 
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(lostConnect(QSharedPointer<UnitNode> )), this, SLOT(unLostedConnect(QSharedPointer<UnitNode> )));
+    connect(&SignalSlotCommutator::instance(), SIGNAL(lostConnect(QSharedPointer<UnitNode> )), this, SLOT(unLostedConnect(QSharedPointer<UnitNode> )));
 //    qDebug() << "PortManager::startStatusRequest() <--";
 }
 
@@ -752,7 +752,7 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> un, QByteArray stat
     msg.setComment(QObject::tr("Запись настройки"));
     msg.setType(134);
     if((un->getControl() || TypeUnitNode::IU_BL_IP == un->getType()) && !un->getName().isEmpty() && 1 != un->getMetaEntity()) {
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(un, msg);
     }
 }
@@ -1072,7 +1072,7 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
             if(ar->getIpPort() == tmpPair &&
                RequesterType::LockRequester == ar->getRequesterType() &&
                ar->getUnTarget() == unLockSdBlIp) {
-                SignalSlotCommutator::getInstance()->emitEndLockWait();
+                SignalSlotCommutator::emitEndLockWait();
                 if(BeatStatus::RequestStep1 == ar->getBeatStatus()) {
 //                                ar->startSecondRequest();
                     continue;
@@ -1201,7 +1201,7 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(sendetMsgUN, msg);
         if(113 == msg.getType()) {
             SoundAdjuster::instance().playAlarm();
@@ -1210,7 +1210,7 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
 
     unLockSdBlIp->updDoubl();
     unLockIuBlIp->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
     if(1 == swpCurrentSD.isWasAlarm()) {
         //нужен сброс
@@ -1331,13 +1331,13 @@ bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     }
     // запись вкл/выкл ИУ <--
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "PortManager::procIUBLIPStatusWord0x41(3) <--";
     return true;
@@ -1479,7 +1479,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     } else {
         needRepeatActualState = false;
@@ -1542,7 +1542,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg && !iniState) {
@@ -1559,18 +1559,18 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
             msg.setComment(commentMsg);
             msg.setType(typeMsg);
 
-            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         }
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
     if(20 == typeMsg && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -1633,7 +1633,7 @@ bool PortManager::procDkBLIPStatusWord0x42(const QSharedPointer<UnitNode> &curre
     currentUN->setStateWord(0x42u, stateWord);
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "PortManager::procDkBLIPStatusWord0x42(2) <--";
     return true;
@@ -1714,7 +1714,7 @@ bool PortManager::procSDBLIPStatusWord0x42(const QSharedPointer<UnitNode> &curre
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x42(3) <--";
         return true;
@@ -1783,7 +1783,7 @@ bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         currentUN->setDkStatus(DKCiclStatus::DKWrong);
 
         currentUN->updDoubl();
-        SignalSlotCommutator::getInstance()->emitUpdUN();
+        SignalSlotCommutator::emitUpdUN();
 
         return true;
     }
@@ -1813,7 +1813,7 @@ bool PortManager::procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         currentUN->setDkStatus(DKCiclStatus::DKWrong);
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
     //qDebug() << "DkStatus -- unNewDkStatus " << currentUN->getDkStatus();
     //qDebug() << "DkStatus <--";
@@ -1914,7 +1914,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
                      if(dwWaiter->removeLsTrackedUN(currentUN)) {
                          if(0 == dwWaiter->getLsTrackedUN().size()) {
                              removeLsWaiter(dwWaiter);
-                             SignalSlotCommutator::getInstance()->emitStopDKWait();
+                             SignalSlotCommutator::emitStopDKWait();
                          }
                          qDebug() << "PortManager::removeLsTrackedUN(" << currentUN->toString() << ")";
                          break;
@@ -1931,7 +1931,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
             msg.setComment(tr("Ком. ДК выполнена"));
             msg.setType(3);
             if(!isAutoDK) {
-                SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             }
 
@@ -1978,7 +1978,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
     return true;
 }
@@ -2119,7 +2119,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     } else {
         needRepeatActualState = false;
@@ -2197,7 +2197,7 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg && !iniState) {
@@ -2216,18 +2216,18 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
             msg.setComment(commentMsg);
             msg.setType(typeMsg);
 
-            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         }
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
     if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -2367,7 +2367,7 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     } else {
         needRepeatActualState = false;
@@ -2436,7 +2436,7 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg && !iniState) {
@@ -2456,18 +2456,18 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
             msg.setComment(commentMsg);
             msg.setType(typeMsg);
 
-            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         }
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
     if(20 == typeMsg && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -2608,7 +2608,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     }
     typeMsg = -1;
@@ -2673,7 +2673,7 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg && !iniState) {
@@ -2692,18 +2692,18 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
             msg.setComment(commentMsg);
             msg.setType(typeMsg);
 
-            SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         }
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
     if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
@@ -2791,7 +2791,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
                      if(dwWaiter->removeLsTrackedUN(currentUN)) {
                          if(0 == dwWaiter->getLsTrackedUN().size()) {
                              removeLsWaiter(dwWaiter);
-                             SignalSlotCommutator::getInstance()->emitStopDKWait();
+                             SignalSlotCommutator::emitStopDKWait();
                          }
                          qDebug() << "PortManager::removeLsTrackedUN(" << currentUN->toString() << ")";
                          break;
@@ -2808,7 +2808,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
             msg.setComment(tr("Ком. ДК выполнена"));
             msg.setType(3);
             if(!isAutoDK) {
-                SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             }
 
@@ -2836,7 +2836,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
     return true;
 }
@@ -3004,7 +3004,7 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg) {
@@ -3017,13 +3017,13 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "PortManager::procTgStatusWord0x32(X) <--";
     return true;
@@ -3109,7 +3109,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
                      if(dwWaiter->removeLsTrackedUN(currentUN)) {
                          if(0 == dwWaiter->getLsTrackedUN().size()) {
                              removeLsWaiter(dwWaiter);
-                             SignalSlotCommutator::getInstance()->emitStopDKWait();
+                             SignalSlotCommutator::emitStopDKWait();
                          }
 //                         qDebug() << "PortManager::removeLsTrackedUN(" << currentUN->toString() << ")";
                          break;
@@ -3126,7 +3126,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
             msg.setComment(tr("Ком. ДК выполнена"));
             msg.setType(3);
             if(!isAutoDK) {
-                SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
                 GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             }
 
@@ -3154,7 +3154,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "PortManager::procDkStatusWord0x33(1) <--";
     return true;
@@ -3323,7 +3323,7 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg) {
@@ -3337,13 +3337,13 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     if((21 == typeMsg || 20 == typeMsg) && !iniState) {
         // тригер на ИУ
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(currentUN))) {
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
         //нужен сброс
     }
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "PortManager::procTgStatusWord0x33(X) <--";
     return true;
@@ -3406,7 +3406,7 @@ bool PortManager::procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN
     currentUN->setStateWord(0x34u, stateWord);
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "PortManager::procDkStatusWord0x34(1) <--";
     return true;
@@ -3430,7 +3430,7 @@ bool PortManager::procTgStatusWord0x34(const QSharedPointer<UnitNode> &currentUN
     currentUN->setStateWord(0x34u, stateWord);
 
     currentUN->updDoubl();
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "PortManager::procTgStatusWord0x34(X) <--";
     return true;
@@ -3591,9 +3591,9 @@ void PortManager::manageOverallReadQueue()
                             }
 
                             if(RequesterType::DKWaiter == ar->getRequesterType()) {
-                                SignalSlotCommutator::getInstance()->emitStartDKWait(ar->getTimeIntervalWaiteFirst());
+                                SignalSlotCommutator::emitStartDKWait(ar->getTimeIntervalWaiteFirst());
                             } else if(RequesterType::LockRequester == ar->getRequesterType()) {
-                                SignalSlotCommutator::getInstance()->emitStartLockWait(ar->getTimeIntervalWaiteFirst());
+                                SignalSlotCommutator::emitStartLockWait(ar->getTimeIntervalWaiteFirst());
                             }
 
                             ar->startWaiteSecondRequest();
@@ -3605,7 +3605,7 @@ void PortManager::manageOverallReadQueue()
                         } else if(BeatStatus::End == ar->getBeatStatus()) { // кончаем конценных, но такого не бывает
 
                             if(RequesterType::LockRequester == ar->getRequesterType()) {
-                                SignalSlotCommutator::getInstance()->emitStopLockWait();
+                                SignalSlotCommutator::emitStopLockWait();
                             }
 
                             removeLsWaiter(ar);
@@ -3674,14 +3674,14 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
             un->updDoubl();
             if(needSendEventsAndStates)
                 GraphTerminal::sendAbonentEventsAndStates(un);
-            SignalSlotCommutator::getInstance()->emitUpdUN();
+            SignalSlotCommutator::emitUpdUN();
         }
 //                                SignalSlotCommutator::getInstance()->emitStopDKWait();
 //                                removeLsWaiter(ar);
     } else if(RequesterType::LockRequester == ar->getRequesterType()){
 
         if(RequesterType::LockRequester == ar->getRequesterType()) {
-            SignalSlotCommutator::getInstance()->emitStartLockWait(ar->getTimeIntervalWaiteSecond());
+            SignalSlotCommutator::emitStartLockWait(ar->getTimeIntervalWaiteSecond());
         }
 
         ar->startWaiteEndSecondWaite();
@@ -3689,7 +3689,7 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
 
     if(RequesterType::LockRequester != ar->getRequesterType()) {
         if(RequesterType::DKWaiter == ar->getRequesterType()) {
-            SignalSlotCommutator::getInstance()->emitStopDKWait();
+            SignalSlotCommutator::emitStopDKWait();
         }
         removeLsWaiter(ar);
     }
@@ -3741,6 +3741,6 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un)
         }
     }
 
-    SignalSlotCommutator::getInstance()->emitUpdUN();
+    SignalSlotCommutator::emitUpdUN();
 
 }

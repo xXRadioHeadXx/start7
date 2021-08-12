@@ -265,7 +265,7 @@ DataBaseManager::~DataBaseManager() noexcept
 int DataBaseManager::insertJourMsg_wS(const JourEntity &msg) {
     int lastInsertId = insertJourMsg(msg);
     if(0 != lastInsertId)
-        SignalSlotCommutator::getInstance()->emitInsNewJourMSG(/*lastInsertId*/);
+        SignalSlotCommutator::emitInsNewJourMSG(/*lastInsertId*/);
 //        emit this->insertNewMSG();
     return lastInsertId;
 }
@@ -331,7 +331,7 @@ int DataBaseManager::updateJourMsg_wS(JourEntity &msg) {
     int lastUpdateId = updateJourMsg(msg);
 
     if(0 != lastUpdateId)
-        SignalSlotCommutator::getInstance()->emitUpdJourMSG(lastUpdateId);
+        SignalSlotCommutator::emitUpdJourMSG(lastUpdateId);
 //        emit this->updateMSG(lastUpdateId);
     return lastUpdateId;
 }
@@ -555,7 +555,7 @@ int DataBaseManager::checkNecessarilyReasonMeasureFill() {
 void DataBaseManager::resetAllFlags_wS()
 {
     resetAllFlags();
-    SignalSlotCommutator::getInstance()->emitUpdAllJourMSG();
+    SignalSlotCommutator::emitUpdAllJourMSG();
 }
 
 void DataBaseManager::resetAllFlags()

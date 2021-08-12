@@ -21,7 +21,7 @@ ServerTreeModelUnitNode::ServerTreeModelUnitNode(QObject *parent) :
     rootItemUN->setLevel(0); //rootItemUN->treeParent().isNull();
 
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updUN()),
             this,
             SLOT(updateUNs()));
@@ -329,7 +329,7 @@ QModelIndex ServerTreeModelUnitNode::findeIndexUN(UnitNode*tc,
 void ServerTreeModelUnitNode::updateUNs()
 {
     emit this->dataChanged(QModelIndex(), QModelIndex());
-    SignalSlotCommutator::getInstance()->emitUpdDataTreeUN();
+    SignalSlotCommutator::emitUpdDataTreeUN();
 //    emit this->updatedUNs();
     return;
 }

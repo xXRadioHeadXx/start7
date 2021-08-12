@@ -55,27 +55,27 @@ ServerTableModelJour::ServerTableModelJour(QObject *parent) :
     needScroll = true;
     m_listJour = DataBaseManager::getOneMSGRecord();
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG(const quint32)),
             this,
             SLOT(updateListRecords(const quint32)));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG()),
             this,
             SLOT(updateListRecords()));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updJourMSG(const quint32)),
             this,
             SLOT(updateRecord(const quint32)));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updJourMSG()),
             this,
             SLOT(updateAllRecords()));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updAllJourMSG()),
             this,
             SLOT(updateAllRecords()));

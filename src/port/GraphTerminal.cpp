@@ -48,7 +48,7 @@ GraphTerminal::GraphTerminal(int nPort, QObject *parent) : QObject(parent)
         for(auto socket : as_const(abonents.keys())) {
             connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
         }
-        SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
+        SignalSlotCommutator::emitChangeCountIntegrationAbonent(abonents.size());
 
 
     }  catch (...) {
@@ -187,7 +187,7 @@ void GraphTerminal::manageOverallReadQueue()
 //                GraphTerminal::sendAbonentEventsAndStates(msgOn);
 //                DataBaseManager::resetAllFlags_wS();
 //            }
-            SignalSlotCommutator::getInstance()->emitAlarmsReset(nullptr);
+            SignalSlotCommutator::emitAlarmsReset(nullptr);
             {
                 JourEntity msgOn;
                 msgOn.setObject(tr("Оператор"));
@@ -215,7 +215,7 @@ void GraphTerminal::disconnected()
     for(const auto &key : abonents.keys()) {
         if(key.data() == socket) {
             abonents.remove(key);
-            SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
+            SignalSlotCommutator::emitChangeCountIntegrationAbonent(abonents.size());
 
             qDebug() << "GraphTerminal::disconnected()" << abonents;
             return;
@@ -260,7 +260,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.insert(socket, buffers.value(socket));
                         connect(socket.data(), SIGNAL(disconnected()), SLOT(disconnected()));
-                        SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
+                        SignalSlotCommutator::emitChangeCountIntegrationAbonent(abonents.size());
 
 //                        qDebug() << "GraphTerminal::procCommands(10000)" << abonents;
                     }
@@ -271,7 +271,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 for(const auto& socket : as_const(abonents.keys())) {
                     if(socket->peerAddress() == itm.address()) {
                         abonents.remove(socket);
-                        SignalSlotCommutator::getInstance()->emitChangeCountIntegrationAbonent(abonents.size());
+                        SignalSlotCommutator::emitChangeCountIntegrationAbonent(abonents.size());
 
 //                        qDebug() << "GraphTerminal::procCommands(10001)" << abonents;
                         break;
@@ -335,31 +335,31 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 bool value = ("100" == idCommand.nodeValue()) ? false : ("101" == idCommand.nodeValue()) ? true : false;
 
                 if(0 != unTarget->getBazalt() && 1 == unTarget->swpSDBLIPType0x41().isAlarm() && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, false);
+                    SignalSlotCommutator::emitLockOpenCloseCommand(true, unTarget, false);
                 } else if(0 != unTarget->getBazalt() && 1 == unTarget->swpSDBLIPType0x41().isNorm() && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, true);
+                    SignalSlotCommutator::emitLockOpenCloseCommand(true, unTarget, true);
                 } else if(0 != unTarget->getBazalt()) {
-                    SignalSlotCommutator::getInstance()->emitLockOpenCloseCommand(true, unTarget, value);
+                    SignalSlotCommutator::emitLockOpenCloseCommand(true, unTarget, value);
                 } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIPType0x41().isOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
-                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, true);
+                        SignalSlotCommutator::emitRequestOnOffCommand(false, true, unTarget, true);
                     } else {
-                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(false, true, unTarget);
+                        SignalSlotCommutator::emitAutoOnOffIU(false, true, unTarget);
                     }
                 } else if(unTarget->isEditableOnOff() && "101" == idCommand.nodeValue()) {
                     const auto& setUn = Utils::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
-                        SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, true);
+                        SignalSlotCommutator::emitRequestOnOffCommand(false, true, unTarget, true);
                     } else {
-                        SignalSlotCommutator::getInstance()->emitAutoOnOffIU(false, true, unTarget);
+                        SignalSlotCommutator::emitAutoOnOffIU(false, true, unTarget);
                     }
                 } else if(unTarget->isEditableOnOff() && (1 == unTarget->swpIUBLIPType0x41().isOff()) && "101" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, true);
+                    SignalSlotCommutator::emitRequestOnOffCommand(false, true, unTarget, true);
                 } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIPType0x41().isOn() && "100" == idCommand.nodeValue()) {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, false);
+                    SignalSlotCommutator::emitRequestOnOffCommand(false, true, unTarget, false);
                 } else  {
-                    SignalSlotCommutator::getInstance()->emitRequestOnOffCommand(false, true, unTarget, value);
+                    SignalSlotCommutator::emitRequestOnOffCommand(false, true, unTarget, value);
                 }
                 //
             } else/* if("101" == idCommand.nodeValue()) {
@@ -434,7 +434,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                     }
                 }
 
-                SignalSlotCommutator::getInstance()->emitRequestDK(false, true, unTarget);
+                SignalSlotCommutator::emitRequestDK(false, true, unTarget);
 
                 //qDebug() << "<--";
                 //
@@ -452,7 +452,7 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
 
                 for(auto un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
                     if(un->getMetaNames().contains(unMetaName)) {
-                        SignalSlotCommutator::getInstance()->emitChangeSelectUN(un);
+                        SignalSlotCommutator::emitChangeSelectUN(un);
                     }
                 }
                 //
@@ -755,7 +755,7 @@ void GraphTerminal::procEventsAndStates(DataQueueItem itm) {
                             DataBaseManager::resetAllFlags_wS();
                         }
 
-                        SignalSlotCommutator::getInstance()->emitAlarmsReset(nullptr);
+                        SignalSlotCommutator::emitAlarmsReset(nullptr);
 
                         {
                             JourEntity msgOn;
@@ -804,7 +804,7 @@ void GraphTerminal::procAlarmsReset(QDomElement /*root*/) {
 }
 
 void GraphTerminal::procDbStart(DataQueueItem /*itm*/) {
-    SignalSlotCommutator::getInstance()->emitForcedNewDuty(false);
+    SignalSlotCommutator::emitForcedNewDuty(false);
 }
 
 QDomDocument GraphTerminal::makeInitialStatus(QString docType)

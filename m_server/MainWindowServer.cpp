@@ -110,35 +110,35 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     createDiagnosticTable();
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updDataTreeUN()),
             this,
             SLOT(createDiagnosticTable()));
 
     connect(ui->treeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(treeUNCustomMenuRequested(QPoint)));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(startDKWait(int)),
             this,
             SLOT(startWaitProgressBar(int)));
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(stopDKWait()),
             this,
             SLOT(stopWaitProgressBar()));
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(endDKWait()),
             this,
             SLOT(stopWaitProgressBar()));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(startLockWait(int)),
             this,
             SLOT(startWaitProgressBar(int)));
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(stopLockWait()),
             this,
             SLOT(stopWaitProgressBar()));
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(endLockWait()),
             this,
             SLOT(stopWaitProgressBar()));
@@ -149,16 +149,16 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             this,
             SLOT(beatWaitProgressBar()));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(changeSelectUN(QSharedPointer<UnitNode> )),
             this,
             SLOT(changeSelectUN(QSharedPointer<UnitNode> )));
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(forcedNewDuty(bool)),
             this,
             SLOT(forcedNewDuty(bool)));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updateLabelOperator()),
             this,
             SLOT(initLabelOperator()));
@@ -232,27 +232,27 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     connect(ui->comboBox_PointInput, SIGNAL(currentIndexChanged(int)), this, SLOT(fillPageTGAtPointInput(int)));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG(const quint32)),
             this,
             SLOT(updateLabelCount()));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG()),
             this,
             SLOT(updateLabelCount()));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updJourMSG(const quint32)),
             this,
             SLOT(updateLabelCount()));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updJourMSG()),
             this,
             SLOT(updateLabelCount()));
 
-    connect(SignalSlotCommutator::getInstance(),
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(updAllJourMSG()),
             this,
             SLOT(updateLabelCount()));
@@ -283,7 +283,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     m_labelClientCounter = QSharedPointer<QLabel>::create(statusBar());
     statusBar()->addWidget(m_labelClientCounter.data());
-    connect(SignalSlotCommutator::getInstance(), SIGNAL(changeCountIntegrationAbonent(int)), this, SLOT(changLabelClientCounter(int)));
+    connect(&SignalSlotCommutator::instance(), SIGNAL(changeCountIntegrationAbonent(int)), this, SLOT(changLabelClientCounter(int)));
 
     SoundAdjuster::instance().init();
 
@@ -545,7 +545,7 @@ void MainWindowServer::on_toolButtonReason_clicked()
         modelJour->updateAllRecords();
     } else {
         for(const auto &id : as_const(setId)) {
-            SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
+            SignalSlotCommutator::emitUpdJourMSG(id);
         }
     }
     tableView_selectionChanged();
@@ -567,7 +567,7 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
         modelJour->updateAllRecords();
     } else {
         for(const auto &id : as_const(setId)) {
-            SignalSlotCommutator::getInstance()->emitUpdJourMSG(id);
+            SignalSlotCommutator::emitUpdJourMSG(id);
         }
     }
     tableView_selectionChanged();
@@ -857,7 +857,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
     connect(action, &QAction::triggered, this,  [sel](){
         for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(sel))) {
             qDebug() << "Alarm To " <<iuun->toString() << "IU From " << sel->toString();
-            SignalSlotCommutator::getInstance()->emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+            SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
         }
     });
     menu->addAction(action);

@@ -2,146 +2,106 @@
 #include <QSharedPointer>
 //#include <QDebug>
 
-SignalSlotCommutator * SignalSlotCommutator::instance = nullptr;
-
-SignalSlotCommutator * SignalSlotCommutator::getInstance()
-{
-    if (instance == nullptr)
-    {
-        instance = new SignalSlotCommutator();
-    }
-
-    return instance;
+void SignalSlotCommutator::emitInsNewCommandMSG(const quint32 id) {
+    emit SignalSlotCommutator::instance().insNewCommandMSG(id);
 }
 
-SignalSlotCommutator::SignalSlotCommutator(QObject *parent) : QObject(parent)
-{
-    //qDebug() << "SignalSlotCommutator::SignalSlotCommutator(" << parent << ") -- first call";
+void SignalSlotCommutator::emitInsNewCommandMSG() {
+    emit SignalSlotCommutator::instance().insNewCommandMSG();
 }
 
-void SignalSlotCommutator::emitInsNewCommandMSG(const quint32 id) const {
-    emit this->insNewCommandMSG(id);
+void SignalSlotCommutator::emitInsNewJourMSG(const quint32 id) {
+    emit SignalSlotCommutator::instance().insNewJourMSG(id);
 }
 
-void SignalSlotCommutator::emitInsNewCommandMSG() const {
-    emit this->insNewCommandMSG();
+void SignalSlotCommutator::emitInsNewJourMSG() {
+    emit SignalSlotCommutator::instance().insNewJourMSG();
 }
 
-void SignalSlotCommutator::emitInsNewJourMSG(const quint32 id) const {
-    emit this->insNewJourMSG(id);
+void SignalSlotCommutator::emitUpdAllJourMSG() {
+    emit SignalSlotCommutator::instance().updAllJourMSG();
 }
 
-void SignalSlotCommutator::emitInsNewJourMSG() const {
-    emit this->insNewJourMSG();
+void SignalSlotCommutator::emitUpdJourMSG(const quint32 id) {
+    emit SignalSlotCommutator::instance().updJourMSG(id);
 }
 
-void SignalSlotCommutator::emitUpdAllJourMSG() const
-{
-    emit this->updAllJourMSG();
+void SignalSlotCommutator::emitUpdJourMSG() {
+    emit SignalSlotCommutator::instance().updJourMSG();
 }
 
-void SignalSlotCommutator::emitUpdJourMSG(const quint32 id) const {
-    emit this->updJourMSG(id);
+void SignalSlotCommutator::emitUpdUN() {
+    emit SignalSlotCommutator::instance().updUN();
 }
 
-void SignalSlotCommutator::emitUpdJourMSG() const {
-    emit this->updJourMSG();
+void SignalSlotCommutator::emitUpdDataTreeUN() {
+    emit SignalSlotCommutator::instance().updDataTreeUN();
 }
 
-void SignalSlotCommutator::emitUpdUN() const
-{
-    emit this->updUN();
+void SignalSlotCommutator::emitStartDKWait(int interval) {
+    emit SignalSlotCommutator::instance().startDKWait(interval);
 }
 
-void SignalSlotCommutator::emitUpdDataTreeUN() const
-{
-    emit this->updDataTreeUN();
+void SignalSlotCommutator::emitStopDKWait() {
+    emit SignalSlotCommutator::instance().stopDKWait();
 }
 
-void SignalSlotCommutator::emitStartDKWait(int interval) const
-{
-    emit this->startDKWait(interval);
+void SignalSlotCommutator::emitEndDKWait() {
+    emit SignalSlotCommutator::instance().endDKWait();
 }
 
-void SignalSlotCommutator::emitStopDKWait() const
-{
-    emit this->stopDKWait();
+void SignalSlotCommutator::emitStartLockWait(int interval) {
+    emit SignalSlotCommutator::instance().startLockWait(interval);
 }
 
-void SignalSlotCommutator::emitEndDKWait() const
-{
-    emit this->endDKWait();
+void SignalSlotCommutator::emitStopLockWait() {
+    emit SignalSlotCommutator::instance().stopLockWait();
 }
 
-void SignalSlotCommutator::emitStartLockWait(int interval) const
-{
-    emit this->startLockWait(interval);
+void SignalSlotCommutator::emitEndLockWait() {
+    emit SignalSlotCommutator::instance().endLockWait();
 }
 
-void SignalSlotCommutator::emitStopLockWait() const
-{
-    emit this->stopLockWait();
+void SignalSlotCommutator::emitAutoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) {
+    emit SignalSlotCommutator::instance().autoOnOffIU(isAuto, fromAbonent, unTarget);
 }
 
-void SignalSlotCommutator::emitEndLockWait() const
-{
-    emit this->endLockWait();
+void SignalSlotCommutator::emitLostedConnect(QSharedPointer<UnitNode>  un) {
+    emit SignalSlotCommutator::instance().lostConnect(un);
 }
 
-void SignalSlotCommutator::emitAutoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const
-{
-    emit this->autoOnOffIU(isAuto, fromAbonent, unTarget);
+void SignalSlotCommutator::emitRequestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue) {
+    emit SignalSlotCommutator::instance().requestOnOffCommand(isAuto, fromAbonent, unTarget, onOffValue);
 }
 
-
-void SignalSlotCommutator::emitLostedConnect(QSharedPointer<UnitNode>  un) const
-{
-    emit this->lostConnect(un);
+void SignalSlotCommutator::emitLockOpenCloseCommand(bool out, QSharedPointer<UnitNode>  un, bool value) {
+    emit SignalSlotCommutator::instance().lockOpenCloseCommand(out, un, value);
 }
 
-
-void SignalSlotCommutator::emitRequestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue) const
-{
-    emit this->requestOnOffCommand(isAuto, fromAbonent, unTarget, onOffValue);
+void SignalSlotCommutator::emitLockOpenCloseCommand(QSharedPointer<UnitNode>  un, bool value) {
+    emit SignalSlotCommutator::instance().lockOpenCloseCommand(false, un, value);
 }
 
-void SignalSlotCommutator::emitLockOpenCloseCommand(bool out, QSharedPointer<UnitNode>  un, bool value) const
-{
-    emit this->lockOpenCloseCommand(out, un, value);
+void SignalSlotCommutator::emitChangeSelectUN(QSharedPointer<UnitNode>  un) {
+    emit SignalSlotCommutator::instance().changeSelectUN(un);
 }
 
-void SignalSlotCommutator::emitLockOpenCloseCommand(QSharedPointer<UnitNode>  un, bool value) const
-{
-    emit this->lockOpenCloseCommand(false, un, value);
+void SignalSlotCommutator::emitRequestDK(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) {
+    emit SignalSlotCommutator::instance().requestDK(isAuto, fromAbonent, unTarget);
 }
 
-void SignalSlotCommutator::emitChangeSelectUN(QSharedPointer<UnitNode>  un) const
-{
-    emit this->changeSelectUN(un);
+void SignalSlotCommutator::emitForcedNewDuty(bool out) {
+    emit SignalSlotCommutator::instance().forcedNewDuty(out);
 }
 
-
-void SignalSlotCommutator::emitRequestDK(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const
-{
-    emit this->requestDK(isAuto, fromAbonent, unTarget);
+void SignalSlotCommutator::emitAlarmsReset(QSharedPointer<UnitNode> un) {
+    emit SignalSlotCommutator::instance().alarmsReset(un);
 }
 
-void SignalSlotCommutator::emitForcedNewDuty(bool out) const
-{
-    emit this->forcedNewDuty(out);
+void SignalSlotCommutator::emitUpdateLabelOperator() {
+    emit SignalSlotCommutator::instance().updateLabelOperator();
 }
 
-void SignalSlotCommutator::emitAlarmsReset(QSharedPointer<UnitNode> un) const
-{
-    emit this->alarmsReset(un);
-}
-
-void SignalSlotCommutator::emitUpdateLabelOperator() const
-{
-    emit this->updateLabelOperator();
-}
-
-void SignalSlotCommutator::emitChangeCountIntegrationAbonent(int value) const
-{
-    emit this->changeCountIntegrationAbonent(value);
+void SignalSlotCommutator::emitChangeCountIntegrationAbonent(int value) {
+    emit SignalSlotCommutator::instance().changeCountIntegrationAbonent(value);
 }

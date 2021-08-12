@@ -28,7 +28,7 @@ void ShedulerNewDuty::regularRun() const
 
     DataBaseManager::setIdStartLastDuty();
 
-    SignalSlotCommutator::getInstance()->emitUpdAllJourMSG();
-    SignalSlotCommutator::getInstance()->emitUpdateLabelOperator();
+    SignalSlotCommutator::emitUpdAllJourMSG();
+    SignalSlotCommutator::emitUpdateLabelOperator();
 
 }
