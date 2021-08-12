@@ -4,21 +4,21 @@
 
 void SoundAdjuster::init()
 {
-    soundAlarm = QSharedPointer<QSound>::create(":sound/alarm.wav");
-    soundAlarm2 = QSharedPointer<QSound>::create(":sound/alarm2.wav");
-    soundRingin = QSharedPointer<QSound>::create(":sound/ringin.wav");
-    soundRingout = QSharedPointer<QSound>::create(":sound/ringout.wav");
+    SoundAdjuster::instance().soundAlarm = QSharedPointer<QSound>::create(":sound/alarm.wav");
+    SoundAdjuster::instance().soundAlarm2 = QSharedPointer<QSound>::create(":sound/alarm2.wav");
+    SoundAdjuster::instance().soundRingin = QSharedPointer<QSound>::create(":sound/ringin.wav");
+    SoundAdjuster::instance().soundRingout = QSharedPointer<QSound>::create(":sound/ringout.wav");
 }
 
 void SoundAdjuster::playAlarm(const int loops)
 {
-    if(soundAlarm.isNull())
+    if(SoundAdjuster::instance().soundAlarm.isNull())
         return;
-    if(!soundAlarm->isFinished())
+    if(!SoundAdjuster::instance().soundAlarm->isFinished())
         return;
-    soundAlarm->setLoops(loops);
+    SoundAdjuster::instance().soundAlarm->setLoops(loops);
 //    qDebug() << "SoundAdjuster::playAlarm(" << loops << ")" << soundAlarm.loopsRemaining() << soundAlarm.loops();
-    soundAlarm->play();
+    SoundAdjuster::instance().soundAlarm->play();
 }
 
 void SoundAdjuster::playAlarmOneTime()
@@ -28,12 +28,12 @@ void SoundAdjuster::playAlarmOneTime()
 
 void SoundAdjuster::playAlarm2(const int loops)
 {
-    if(soundAlarm2.isNull())
+    if(SoundAdjuster::instance().soundAlarm2.isNull())
         return;
-    if(!soundAlarm2->isFinished())
+    if(!SoundAdjuster::instance().soundAlarm2->isFinished())
         return;
-    soundAlarm2->setLoops(loops);
-    soundAlarm2->play();
+    SoundAdjuster::instance().soundAlarm2->setLoops(loops);
+    SoundAdjuster::instance().soundAlarm2->play();
 }
 
 void SoundAdjuster::playAlarm2OneTime()
@@ -43,12 +43,12 @@ void SoundAdjuster::playAlarm2OneTime()
 
 void SoundAdjuster::playRingin(const int loops)
 {
-    if(soundRingin.isNull())
+    if(SoundAdjuster::instance().soundRingin.isNull())
         return;
-    if(!soundRingin->isFinished())
+    if(!SoundAdjuster::instance().soundRingin->isFinished())
         return;
-    soundRingin->setLoops(loops);
-    soundRingin->play();
+    SoundAdjuster::instance().soundRingin->setLoops(loops);
+    SoundAdjuster::instance().soundRingin->play();
 }
 
 void SoundAdjuster::playRinginOneTime()
@@ -58,12 +58,12 @@ void SoundAdjuster::playRinginOneTime()
 
 void SoundAdjuster::playRingout(const int loops)
 {
-    if(soundRingout.isNull())
+    if(SoundAdjuster::instance().soundRingout.isNull())
         return;
-    if(!soundRingout->isFinished())
+    if(!SoundAdjuster::instance().soundRingout->isFinished())
         return;
-    soundRingout->setLoops(loops);
-    soundRingout->play();
+    SoundAdjuster::instance().soundRingout->setLoops(loops);
+    SoundAdjuster::instance().soundRingout->play();
 }
 
 void SoundAdjuster::playRingoutOneTime()
@@ -73,12 +73,12 @@ void SoundAdjuster::playRingoutOneTime()
 
 void SoundAdjuster::stop()
 {
-    if(!soundAlarm.isNull())
-        soundAlarm->stop();
-    if(!soundAlarm2.isNull())
-        soundAlarm2->stop();
-    if(!soundRingin.isNull())
-        soundRingin->stop();
-    if(!soundRingout.isNull())
-        soundRingout->stop();
+    if(!SoundAdjuster::instance().soundAlarm.isNull())
+        SoundAdjuster::instance().soundAlarm->stop();
+    if(!SoundAdjuster::instance().soundAlarm2.isNull())
+        SoundAdjuster::instance().soundAlarm2->stop();
+    if(!SoundAdjuster::instance().soundRingin.isNull())
+        SoundAdjuster::instance().soundRingin->stop();
+    if(!SoundAdjuster::instance().soundRingout.isNull())
+        SoundAdjuster::instance().soundRingout->stop();
 }

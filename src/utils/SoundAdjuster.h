@@ -13,23 +13,22 @@ class SoundAdjuster : public QObject, public SingletonTemplate<SoundAdjuster>
     QSharedPointer<QSound> soundAlarm2;
     QSharedPointer<QSound> soundRingin;
     QSharedPointer<QSound> soundRingout;
-protected:
-//    explicit SoundAdjuster() {}
+
 public:
     virtual ~SoundAdjuster() {}
 
-    void init();
+    static void init();
 
 public slots:
-    void playAlarm(const int loops = QSound::Infinite);
-    void playAlarmOneTime();
-    void playAlarm2(const int loops = QSound::Infinite);
-    void playAlarm2OneTime();
-    void playRingin(const int loops = QSound::Infinite);
-    void playRinginOneTime();
-    void playRingout(const int loops = QSound::Infinite);
-    void playRingoutOneTime();
-    void stop();
+    static void playAlarm(const int loops = QSound::Infinite);
+    static void playAlarmOneTime();
+    static void playAlarm2(const int loops = QSound::Infinite);
+    static void playAlarm2OneTime();
+    static void playRingin(const int loops = QSound::Infinite);
+    static void playRinginOneTime();
+    static void playRingout(const int loops = QSound::Infinite);
+    static void playRingoutOneTime();
+    static void stop();
 signals:
 
 };

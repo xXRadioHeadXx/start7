@@ -285,7 +285,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     statusBar()->addWidget(m_labelClientCounter.data());
     connect(&SignalSlotCommutator::instance(), SIGNAL(changeCountIntegrationAbonent(int)), this, SLOT(changLabelClientCounter(int)));
 
-    SoundAdjuster::instance().init();
+    SoundAdjuster::init();
 
 }
 
@@ -2248,7 +2248,7 @@ void MainWindowServer::verticalScrollBarJourValueChanged(int value)
 
 void MainWindowServer::on_pushButtonSoundAlarm_clicked()
 {
-    SoundAdjuster::instance().playAlarm();
+    SoundAdjuster::playAlarm();
 
 
     JourEntity msg;
@@ -2261,6 +2261,6 @@ void MainWindowServer::on_pushButtonSoundAlarm_clicked()
 
 void MainWindowServer::on_pushButtonSoundReset_clicked()
 {
-    SoundAdjuster::instance().stop();
+    SoundAdjuster::stop();
 }
 

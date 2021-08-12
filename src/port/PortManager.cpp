@@ -108,7 +108,7 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
                 DataBaseManager::insertJourMsg_wS(msg);
                 GraphTerminal::sendAbonentEventsAndStates(target, msg);
 
-                SoundAdjuster::instance().playAlarm2();
+                SoundAdjuster::playAlarm2();
             }
 
 //            for(const auto& uncld : as_const(un->getListChilde())) {
@@ -1204,7 +1204,7 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(sendetMsgUN, msg);
         if(113 == msg.getType()) {
-            SoundAdjuster::instance().playAlarm();
+            SoundAdjuster::playAlarm();
         }
     }
 
@@ -1546,7 +1546,7 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg && !iniState) {
-            SoundAdjuster::instance().playAlarm();
+            SoundAdjuster::playAlarm();
         }
     } else if(!isSwitchOnOff && 1 == swpCurrent.isOff()) {
         currentUN->setPublishedState(1);
@@ -2201,9 +2201,9 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg && !iniState) {
-            SoundAdjuster::instance().playAlarm();
+            SoundAdjuster::playAlarm();
         } else if(12 == typeMsg || 21 == typeMsg) {
-            SoundAdjuster::instance().playAlarm2();
+            SoundAdjuster::playAlarm2();
         }
     } else if(!isSwitchOnOff && 1 == swpCurrent.isOff()) {
         currentUN->setPublishedState(1);
@@ -2440,9 +2440,9 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg && !iniState) {
-            SoundAdjuster::instance().playAlarm();
+            SoundAdjuster::playAlarm();
         } else if(12 == typeMsg) {
-            SoundAdjuster::instance().playAlarm2();
+            SoundAdjuster::playAlarm2();
         }
 
     } else if(!isSwitchOnOff && 1 == swpCurrent.isOff()) {
@@ -2677,9 +2677,9 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg && !iniState) {
-            SoundAdjuster::instance().playAlarm();
+            SoundAdjuster::playAlarm();
         } else if(21 == typeMsg) {
-            SoundAdjuster::instance().playAlarm2();
+            SoundAdjuster::playAlarm2();
         }
     } else if(!isSwitchOnOff && 1 == swpCurrent.isOff()) {
         currentUN->setPublishedState(1);
@@ -3008,9 +3008,9 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg) {
-            SoundAdjuster::instance().playAlarm();
+            SoundAdjuster::playAlarm();
         } else if(12 == typeMsg || 21 == typeMsg) {
-            SoundAdjuster::instance().playAlarm2();
+            SoundAdjuster::playAlarm2();
         }
     }
 
@@ -3327,9 +3327,9 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
 
         if(20 == typeMsg) {
-            SoundAdjuster::instance().playAlarm();
+            SoundAdjuster::playAlarm();
         } else if(12 == typeMsg || 21 == typeMsg) {
-            SoundAdjuster::instance().playAlarm2();
+            SoundAdjuster::playAlarm2();
         }
 
     }
@@ -3666,7 +3666,7 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
                     DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
-                    SoundAdjuster::instance().playAlarm2();
+                    SoundAdjuster::playAlarm2();
                 }
             }
             un->setDkInvolved(false);
@@ -3720,9 +3720,9 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un)
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
 
             if(20 == msg.getType()) {
-                SoundAdjuster::instance().playAlarm();
+                SoundAdjuster::playAlarm();
             } else if(10 == msg.getType() || 12 == msg.getType() || 21 == msg.getType()) {
-                SoundAdjuster::instance().playAlarm2();
+                SoundAdjuster::playAlarm2();
             }
         }
 
