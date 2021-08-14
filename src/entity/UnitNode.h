@@ -5,6 +5,7 @@
 #include <QSet>
 #include <QVariant>
 #include <QQueue>
+#include <QHostAddress>
 #include "UnitNodeCFG.h"
 #include "ServerUnitNodeTreeItem.h"
 #include "SWP.h"
@@ -387,6 +388,25 @@ public:
             return +1;
 
         return 0;
+    }
+
+    virtual bool equale(const QString &udpAddress, const int num1) const final{
+
+        if(TypeUnitNode::BL_IP != getType()
+        && TypeUnitNode::RLM_C != getType()
+        && TypeUnitNode::RLM_KRL != getType()
+        && TypeUnitNode::TG_Base != getType())
+            return false;
+
+        const auto &hostSender = QHostAddress(udpAddress);
+        const auto &hostSelf = QHostAddress(getUdpAdress());
+
+        if(!hostSelf.isEqual(hostSender))
+            return false;
+        else if(getNum1() != num1)
+            return false;
+
+        return true;
     }
 
     virtual bool equale(const UnitNode &rhs) const final{

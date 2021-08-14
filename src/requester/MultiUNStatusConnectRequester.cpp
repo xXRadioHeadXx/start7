@@ -171,7 +171,18 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
 //       TypeUnitNode::TG == currentTrackedUN()->getType() ||
        TypeUnitNode::TG_Base == currentTrackedUN()->getType()) {
 
-        if(!currentTrackedUN()->getQueueMsg().isEmpty()) {
+        if(!currentTrackedUN()->getQueueManagersSingleMsg().isEmpty()) {
+//            qDebug() << "currentTrackedUN(" << currentTrackedUN()->toString() << ")->QueueManagersSingleMsg(" << currentTrackedUN()->getQueueManagersSingleMsg().size() << ")";
+            auto headMSMsg = currentTrackedUN()->getQueueManagersSingleMsg().head();
+
+            result = headMSMsg->makeDatagram();
+
+            currentTrackedUN()->decrementCountStatusConnectRequesterWaitAnswer();
+
+            setBeatCount(getBeatCount() - 1);
+            if(0 > getBeatCount())
+                resetBeatCount();
+        } else if(!currentTrackedUN()->getQueueMsg().isEmpty()) {
 //            qDebug() << "currentTrackedUN(" << currentTrackedUN()->toString() << ")->queueMsg(" << currentTrackedUN()->queueMsg.size() << ")";
             result = currentTrackedUN()->pullQueueMsg();
 

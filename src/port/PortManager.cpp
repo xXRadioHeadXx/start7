@@ -3496,7 +3496,9 @@ void PortManager::manageOverallReadQueue()
         QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
 //        AbstractPort * pt = m_udpPortsVector.value(itm.portIndex(), nullptr);
         if(DataQueueItem::isValideDirectionI(itm)) {
+            quint8 num1Sender = itm.data().at(1);
             quint8 CMD = itm.data().at(4);
+            QString hostSender = Utils::hostAddressToString(itm.address());
             switch (CMD) {
             case static_cast<quint8>(0x41): {
                 for(auto scr : as_const(getLsSCR())) {
@@ -3579,6 +3581,14 @@ void PortManager::manageOverallReadQueue()
             case static_cast<quint8>(0x30): {
 
 //                qDebug() << "case static_cast<quint8>(0x30)";
+
+                //find sender (local reciver)
+                for(auto &sender : ServerSettingUtils::sortMetaRealUnitNodes()) {
+                    if(sender->equale(hostSender, num1Sender)) {
+                        sender->pullManagerSingleMsg();
+                    }
+                }
+
                 for(auto ar : as_const(getLsWaiter())) {
                     if(ar->getIpPort() == tmpPair ) {
 

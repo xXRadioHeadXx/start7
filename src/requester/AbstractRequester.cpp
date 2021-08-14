@@ -33,10 +33,12 @@ bool AbstractRequester::isValid() {
     result = result && (!getUnReciver().isNull());
 //        //qDebug() << "AbstractRequester::isValid(" << this << ") -- getUnReciver " << result;
     if(BeatStatus::Start != getBeatStatus()) {
-        result = result && getFirstMsg().isValid();
+        result = result && (getFirstMsg().isValid() || !getManagerFirstMsg().isNull());
 //            //qDebug() << "AbstractRequester::isValid(" << this << ") -- getFirstMsg " << result;
-        result = result && (0 == getTimeIntervalWaiteFirst() || getSecondMsg().isValid());
+        result = result && (0 == getTimeIntervalWaiteFirst() || getSecondMsg().isValid() || !getManagerSecondMsg().isNull());
 //            //qDebug() << "AbstractRequester::isValid(" << this << ") -- getSecondMsg " << result;
+        result = result && (0 == getTimeIntervalWaiteSecond() || getEndMsg().isValid() || !getManagerEndMsg().isNull());
+//            //qDebug() << "AbstractRequester::isValid(" << this << ") -- getEndMsg " << result;
     }
 //        //qDebug() << "AbstractRequester::isValid(" << this << ") -- result " << result;
 //    //qDebug() << "AbstractRequester::isValid(" << this << ") <--";
@@ -352,6 +354,15 @@ void AbstractRequester::setSecondMsg(const DataQueueItem &value) { secondMsg = v
 
 DataQueueItem AbstractRequester::getEndMsg() const { return endMsg; }
 void AbstractRequester::setEndMsg(const DataQueueItem &value) { endMsg = value; }
+
+QSharedPointer<ManagerSingleMsg> AbstractRequester::getManagerFirstMsg() const { return managerFirstMsg; }
+void AbstractRequester::setManagerFirstMsg(const QSharedPointer<ManagerSingleMsg> &value) { managerFirstMsg = value; }
+
+QSharedPointer<ManagerSingleMsg> AbstractRequester::getManagerSecondMsg() const { return managerSecondMsg; }
+void AbstractRequester::setManagerSecondMsg(const QSharedPointer<ManagerSingleMsg> &value) { managerSecondMsg = value; }
+
+QSharedPointer<ManagerSingleMsg> AbstractRequester::getManagerEndMsg() const { return managerEndMsg; }
+void AbstractRequester::setManagerEndMsg(const QSharedPointer<ManagerSingleMsg> &value) { managerEndMsg = value; }
 
 QPair<QString, QString> AbstractRequester::getIpPort() const { return ipPort; }
 void AbstractRequester::setIpPort(const QPair<QString, QString> &value) { ipPort = value; }

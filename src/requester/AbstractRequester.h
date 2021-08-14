@@ -39,6 +39,12 @@ private:
     DataQueueItem firstMsg;
     DataQueueItem secondMsg;
     DataQueueItem endMsg;
+
+    QSharedPointer<ManagerSingleMsg> managerFirstMsg;
+    QSharedPointer<ManagerSingleMsg> managerSecondMsg;
+    QSharedPointer<ManagerSingleMsg> managerEndMsg;
+
+
     QPair<QString, QString> ipPort;
     int portIndex = -1;
     int timeIntervalRequest = 1'000;
@@ -156,6 +162,15 @@ public:
 
     DataQueueItem getEndMsg() const;
     void setEndMsg(const DataQueueItem &value);
+
+    QSharedPointer<ManagerSingleMsg> getManagerFirstMsg() const;
+    void setManagerFirstMsg(const QSharedPointer<ManagerSingleMsg> &value);
+
+    QSharedPointer<ManagerSingleMsg> getManagerSecondMsg() const;
+    void setManagerSecondMsg(const QSharedPointer<ManagerSingleMsg> &value);
+
+    QSharedPointer<ManagerSingleMsg> getManagerEndMsg() const;
+    void setManagerEndMsg(const QSharedPointer<ManagerSingleMsg> &value);
 
     QPair<QString, QString> getIpPort() const;
     void setIpPort(const QPair<QString, QString> &value);
