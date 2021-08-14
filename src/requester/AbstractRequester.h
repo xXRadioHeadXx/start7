@@ -1,12 +1,8 @@
 #ifndef ABSTRACTREQUESTER_H
 #define ABSTRACTREQUESTER_H
 
-#include "Utils.h"
 #include "Port.h"
-#include "DataQueueItem.h"
-#include <QTimer>
 //#include <QDebug>
-#include "UnitNode.h"
 
 enum BeatStatus {
     Start = 0,
@@ -28,7 +24,10 @@ enum RequesterType {
     LockRequester = 4
 };
 
-
+class DataQueueItem;
+class UnitNode;
+class QTimer;
+class AbstractPort;
 class AbstractRequester : public QObject
 {
     Q_OBJECT

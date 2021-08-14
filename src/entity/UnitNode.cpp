@@ -809,6 +809,30 @@ const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getSta
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWord(0x33u));}
 const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWord(0x32u));}
 
+const QQueue<QSharedPointer<ManagerSingleMsg>> &UnitNode::getQueueManagersSingleMsg()
+{
+    return queueManagersSingleMsg;
+}
+
+void UnitNode::pushUniqManagerSingleMsg(const QSharedPointer<ManagerSingleMsg> &mngr){
+    for(const auto &content : as_const(queueManagersSingleMsg)) {
+        if(content.data() == mngr.data())
+            return;
+    }
+    queueManagersSingleMsg.enqueue(mngr);
+};
+
+QSharedPointer<ManagerSingleMsg> UnitNode::pullManagerSingleMsg() {
+    if(!queueManagersSingleMsg.isEmpty())
+        return queueManagersSingleMsg.dequeue();
+    return QSharedPointer<ManagerSingleMsg>();
+};
+
+const QQueue<DataQueueItem> &UnitNode::getQueueMsg()
+{
+    return queueMsg;
+}
+
 void UnitNode::pushUniqQueueMsg(const DataQueueItem &msg){
     for(const auto &content : as_const(queueMsg)) {
         if(content.data() == msg.data())

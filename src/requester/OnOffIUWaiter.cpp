@@ -46,7 +46,7 @@ DataQueueItem OnOffIUWaiter::makeFirstMsg()
     if(nullptr == getPtrPort() || getUnReciver().isNull())
         return result;
 
-    result.setData(DataQueueItem::makeOnOff0x23(getUnTarget(), true, getUnReciver()));
+    result.setData(DataQueueItem::makeOn0x23(getUnTarget()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
@@ -65,7 +65,7 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
     if(nullptr == getPtrPort() || getUnReciver().isNull())
         return result;
 
-    result.setData(DataQueueItem::makeOnOff0x23(getUnTarget(), false, getUnReciver()));
+    result.setData(DataQueueItem::makeOff0x23(getUnTarget()));
     result.setPort(getUnReciver()->getUdpPort());
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());

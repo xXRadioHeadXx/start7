@@ -112,7 +112,7 @@ void DataQueueItem::setPortIndex(int portIndex) { m_portIndex = portIndex; }
 
 QByteArray DataQueueItem::data0x20 = QByteArray();
 
-DataQueueItem DataQueueItem::makeOnOff0x20(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillOnOff0x20(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeOnOff0x20(un));
     if(nullptr != un && un->isNeedsPreamble())
@@ -161,7 +161,7 @@ QByteArray DataQueueItem::makeOnOff0x20(const QSharedPointer<UnitNode> un)
 
 QByteArray DataQueueItem::data0x21 = QByteArray();
 
-DataQueueItem DataQueueItem::makeDK0x21(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillDK0x21(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeDK0x21(un));
     if(nullptr != un && un->isNeedsPreamble())
@@ -199,7 +199,7 @@ QByteArray DataQueueItem::makeDK0x21(const QSharedPointer<UnitNode> un)
 
 QByteArray DataQueueItem::data0x22 = QByteArray();
 
-DataQueueItem DataQueueItem::makeStatusRequest0x22(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillStatusRequest0x22(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x22(un));
     if(nullptr != un && un->isNeedsPreamble())
@@ -247,7 +247,7 @@ DataQueueItem DataQueueItem::makeOnOff0x23(DataQueueItem &item, QSharedPointer<U
     return item;
 }
 
-QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode> un, bool onOff, QSharedPointer<UnitNode> pun)
+QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode> un, bool onOff)
 {
     if(DataQueueItem::data0x23.isEmpty()) {
         DataQueueItem::data0x23.append(static_cast<quint8>(0xB5));      //<SB>
@@ -265,17 +265,17 @@ QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode> un, bool onOff,
 
     QSharedPointer<UnitNode> target = un;
 
-    if(pun.isNull()) {
-        pun = target;
-    }
-    if(TypeUnitNode::BL_IP != pun->getType()) {
-        while(nullptr != pun) {
-            if(TypeUnitNode::BL_IP == pun->getType()) {
-                break;
-            }
-            pun = pun->getParentUN();
-        }
-    }
+//    if(pun.isNull()) {
+//        pun = target;
+//    }
+//    if(TypeUnitNode::BL_IP != pun->getType()) {
+//        while(nullptr != pun) {
+//            if(TypeUnitNode::BL_IP == pun->getType()) {
+//                break;
+//            }
+//            pun = pun->getParentUN();
+//        }
+//    }
     auto reciver = UnitNode::findReciver(un);
 
     quint8 D1 = 0x00;
@@ -329,9 +329,35 @@ QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode> un, bool onOff,
     return data;
 }
 
+DataQueueItem DataQueueItem::fillOn0x23(DataQueueItem &item, QSharedPointer<UnitNode>un)
+{
+    item.setData(DataQueueItem::makeOn0x23(un));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    return item;
+}
+
+QByteArray DataQueueItem::makeOn0x23(QSharedPointer<UnitNode> un)
+{
+return DataQueueItem::makeOnOff0x23(un, true);
+}
+
+DataQueueItem DataQueueItem::fillOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un)
+{
+    item.setData(DataQueueItem::makeOff0x23(un));
+    if(nullptr != un && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    return item;
+}
+
+QByteArray DataQueueItem::makeOff0x23(QSharedPointer<UnitNode> un)
+{
+    return DataQueueItem::makeOnOff0x23(un, false);
+}
+
 QByteArray DataQueueItem::data0x24 = QByteArray();
 
-DataQueueItem DataQueueItem::makeAlarmReset0x24(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillAlarmReset0x24(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeAlarmReset0x24(un));
     if(nullptr != un && un->isNeedsPreamble())
@@ -366,7 +392,7 @@ QByteArray DataQueueItem::makeAlarmReset0x24(const QSharedPointer<UnitNode> un)
 
 QByteArray DataQueueItem::data0x25 = QByteArray();
 
-DataQueueItem DataQueueItem::makeOff0x25(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillOff0x25(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeOff0x25(un));
     if(nullptr != un && un->isNeedsPreamble())
@@ -401,7 +427,7 @@ QByteArray DataQueueItem::makeOff0x25(const QSharedPointer<UnitNode> un)
 
 QByteArray DataQueueItem::data0x26 = QByteArray();
 
-DataQueueItem DataQueueItem::makeOn0x26(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillOn0x26(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeOn0x26(un));
     if(nullptr != un && un->isNeedsPreamble())
@@ -435,7 +461,7 @@ QByteArray DataQueueItem::makeOn0x26(const QSharedPointer<UnitNode> un)
 
 QByteArray DataQueueItem::data0x2A = QByteArray();
 
-DataQueueItem DataQueueItem::makeStatusRequest0x2A(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillStatusRequest0x2A(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x2A(un));
     if(nullptr != un && un->isNeedsPreamble())
@@ -467,7 +493,7 @@ QByteArray DataQueueItem::makeStatusRequest0x2A(const QSharedPointer<UnitNode> u
 
 QByteArray DataQueueItem::data0x2C = QByteArray();
 
-DataQueueItem DataQueueItem::makeStatusRequest0x2C(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillStatusRequest0x2C(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x2C(un));
     if(nullptr != un && un->isNeedsPreamble())
@@ -499,7 +525,7 @@ QByteArray DataQueueItem::makeStatusRequest0x2C(const QSharedPointer<UnitNode> u
 
 QByteArray DataQueueItem::data0x2E = QByteArray();
 
-DataQueueItem DataQueueItem::makeStatusRequest0x2E(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillStatusRequest0x2E(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x2E(un));
     if(nullptr != un && un->isNeedsPreamble())

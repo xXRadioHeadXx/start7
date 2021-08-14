@@ -8,6 +8,7 @@
 #include "UnitNodeCFG.h"
 #include "ServerUnitNodeTreeItem.h"
 #include "SWP.h"
+#include "ManagerSingleMsg.h"
 
 enum SubTypeApp {
     any = 0x00,
@@ -73,6 +74,11 @@ private:
     int publishedState = -1;
 
     int metaEntity = 0;
+
+    QQueue<DataQueueItem> queueMsg;
+
+    QQueue<QSharedPointer<ManagerSingleMsg>> queueManagersSingleMsg;
+
 
 private:
 
@@ -385,8 +391,12 @@ public:
 
 
 public:
-    QQueue<DataQueueItem> queueMsg;
 
+    const QQueue<QSharedPointer<ManagerSingleMsg>> &getQueueManagersSingleMsg();
+    void pushUniqManagerSingleMsg(const QSharedPointer<ManagerSingleMsg> &mngr);
+    QSharedPointer<ManagerSingleMsg> pullManagerSingleMsg();
+
+    const QQueue<DataQueueItem> &getQueueMsg();
     void pushUniqQueueMsg(const DataQueueItem &msg);
     DataQueueItem pullQueueMsg();
 

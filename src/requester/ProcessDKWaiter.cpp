@@ -106,7 +106,7 @@ DataQueueItem ProcessDKWaiter::makeFirstMsg() {
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
-    DataQueueItem::makeDK0x21(result, getUnReciver());
+    DataQueueItem::fillDK0x21(result, getUnReciver());
 
     if(result.isValid()) {
         qDebug() << "DataQueueItem ProcessDKWaiter::makeFirstMsg() <--";
@@ -134,7 +134,7 @@ DataQueueItem ProcessDKWaiter::makeSecondMsg() {
     result.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
-    DataQueueItem::makeAlarmReset0x24(result, getUnReciver());
+    DataQueueItem::fillAlarmReset0x24(result, getUnReciver());
 
     if(result.isValid()) {
         qDebug() << "DataQueueItem ProcessDKWaiter::makeSecondMsg() <--";

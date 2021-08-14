@@ -52,7 +52,7 @@ void LockWaiter::setInitVarianrt(int value)
 DataQueueItem LockWaiter::getOnMsg()
 {
     DataQueueItem msgOn;
-    msgOn.setData(DataQueueItem::makeOnOff0x23(getUnReciverIuBlIp(), true, getUnReciver()));
+    msgOn.setData(DataQueueItem::makeOn0x23(getUnReciverIuBlIp()));
     msgOn.setPort(getUnReciver()->getUdpPort());
     msgOn.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     msgOn.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
@@ -66,7 +66,7 @@ DataQueueItem LockWaiter::getOnMsg()
 DataQueueItem LockWaiter::getOffMsg()
 {
     DataQueueItem msgOff;
-    msgOff.setData(DataQueueItem::makeOnOff0x23(getUnReciverIuBlIp(), false, getUnReciver()));
+    msgOff.setData(DataQueueItem::makeOff0x23(getUnReciverIuBlIp()));
     msgOff.setPort(getUnReciver()->getUdpPort());
     msgOff.setAddress(Utils::hostAddress(getUnReciver()->getUdpAdress()));
     msgOff.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
