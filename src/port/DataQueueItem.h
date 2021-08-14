@@ -63,14 +63,14 @@ public:
     static DataQueueItem fillStatusRequest0x22(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
     static QByteArray makeStatusRequest0x22(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
+    static DataQueueItem fillOnOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un = QSharedPointer<UnitNode>(nullptr));
     static QByteArray makeOnOff0x23(QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr), bool onOff = true);
-    static DataQueueItem makeOnOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un = QSharedPointer<UnitNode>(nullptr));
 
-    static QByteArray makeOn0x23(QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
     static DataQueueItem fillOn0x23(DataQueueItem &item, QSharedPointer<UnitNode>un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeOn0x23(QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
-    static QByteArray makeOff0x23(QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
     static DataQueueItem fillOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un = QSharedPointer<UnitNode>(nullptr));
+    static QByteArray makeOff0x23(QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
 
     static DataQueueItem fillAlarmReset0x24(DataQueueItem &item, const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));
     static QByteArray makeAlarmReset0x24(const QSharedPointer<UnitNode> un = QSharedPointer<UnitNode>(nullptr));

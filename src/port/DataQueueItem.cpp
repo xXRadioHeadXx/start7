@@ -239,7 +239,7 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const QSharedPointer<UnitNode> u
 
 QByteArray DataQueueItem::data0x23 = QByteArray();
 
-DataQueueItem DataQueueItem::makeOnOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un)
+DataQueueItem DataQueueItem::fillOnOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un)
 {
     item.setData(DataQueueItem::makeOnOff0x23(un, true));
     if(nullptr != un && un->isNeedsPreamble())

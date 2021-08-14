@@ -818,6 +818,8 @@ void UnitNode::pushUniqManagerSingleMsg(const QSharedPointer<ManagerSingleMsg> &
     for(const auto &content : as_const(queueManagersSingleMsg)) {
         if(content.data() == mngr.data())
             return;
+        if(content->equale(*mngr.data()))
+            return;
     }
     queueManagersSingleMsg.enqueue(mngr);
 };

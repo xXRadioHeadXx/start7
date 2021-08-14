@@ -19,6 +19,10 @@ public:
 
     virtual DataQueueItem makeDatagram() const;
 
+    virtual bool equale(const ManagerSingleMsg &rhs) const final;
+    friend bool equale(const ManagerSingleMsg &lhs, const ManagerSingleMsg &rhs);
+    friend bool equale(const QSharedPointer<ManagerSingleMsg> &lhs, const QSharedPointer<ManagerSingleMsg> &rhs);
+
 public slots:
 
     virtual void accident();

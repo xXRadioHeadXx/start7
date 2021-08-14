@@ -389,6 +389,45 @@ public:
         return 0;
     }
 
+    virtual bool equale(const UnitNode &rhs) const final{
+        if(getUdpAdress() != rhs.getUdpAdress())
+            return false;
+        else if(getType() != rhs.getType())
+            return false;
+        else if(getNum1() != rhs.getNum1())
+            return false;
+        else if(getNum2() != rhs.getNum2())
+            return false;
+
+        return true;
+    }
+
+    friend bool equale(const UnitNode &lhs, const UnitNode &rhs) {
+        if(lhs.getUdpAdress() != rhs.getUdpAdress())
+            return false;
+        else if(lhs.getType() != rhs.getType())
+            return false;
+        else if(lhs.getNum1() != rhs.getNum1())
+            return false;
+        else if(lhs.getNum2() != rhs.getNum2())
+            return false;
+
+        return true;
+    }
+
+    friend bool equale(const QSharedPointer<UnitNode> &lhs, const QSharedPointer<UnitNode> &rhs) {
+        if(lhs->getUdpAdress() != rhs->getUdpAdress())
+            return false;
+        else if(lhs->getType() != rhs->getType())
+            return false;
+        else if(lhs->getNum1() != rhs->getNum1())
+            return false;
+        else if(lhs->getNum2() != rhs->getNum2())
+            return false;
+
+        return true;
+    }
+
 
 public:
 

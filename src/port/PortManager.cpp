@@ -859,7 +859,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
                 DataQueueItem::fillOnOff0x20(itm, target);
                 data = itm.data();
             } else if(TypeUnitNode::IU_BL_IP == target->getType()) {
-                DataQueueItem::makeOnOff0x23(itm, target);
+                DataQueueItem::fillOnOff0x23(itm, target);
                 data = itm.data();
             }
             data[4] = D1;
@@ -1976,7 +1976,7 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
 
             if(alarmReset0x24.isValid()) {
                 reciver->pushUniqQueueMsg(alarmReset0x24);
-                qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
+                qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
             }
         }
     }
@@ -2834,7 +2834,7 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
 
             if(alarmReset0x24.isValid()) {
                 reciver->pushUniqQueueMsg(alarmReset0x24);
-                qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::makeAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
+                qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
             }
         }
     }
@@ -3152,7 +3152,7 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
 
             if(alarmReset0x24.isValid()) {
                 reciver->pushUniqQueueMsg(alarmReset0x24);
-//                qDebug() << "PortManager::procDkStatusWord0x33 -- DataQueueItem::makeAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
+//                qDebug() << "PortManager::procDkStatusWord0x33 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
             }
         }
     }
