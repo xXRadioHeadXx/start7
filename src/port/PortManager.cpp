@@ -14,6 +14,7 @@
 #include "global.h"
 #include <QMessageBox>
 #include "MultiUNStatusConnectRequester.h"
+#include <ManagerSingleMsgAlarmReset.h>
 #include <QQueue>
 #include <SoundAdjuster.h>
 #include "ProcessDKWaiter.h"
@@ -1018,19 +1019,21 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
     || 1 == swpPreviousBLIP.isExistDK()
     || 1 == swpPreviousBLIP.isWasDK()) {
         {
-            auto msMsg = QSharedPointer<ManagerSingleMsg>::create(currentUN,
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
                                                                   DataQueueItem::makeAlarmReset0x24);
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-                reciver->pushUniqManagerSingleMsg(msMsg);
-            }
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
         qDebug() << "PortManager::procUzoBLIPStatusWord0x41(5) <--";
         return true;
     }
@@ -1217,16 +1220,21 @@ bool PortManager::procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curr
     SignalSlotCommutator::emitUpdUN();
 
     if(1 == swpCurrentSD.isWasAlarm()) {
-        //нужен сброс
-        DataQueueItem alarmReset0x24;
-        alarmReset0x24.setPort(currentUN->getUdpPort());
-        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-        if(alarmReset0x24.isValid()) {
-            reciver->pushUniqQueueMsg(alarmReset0x24);
-        }
+        auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                              DataQueueItem::makeAlarmReset0x24);
+        reciver->pushUniqManagerSingleMsg(msMsg);
     }
+//    {
+//        //нужен сброс
+//        DataQueueItem alarmReset0x24;
+//        alarmReset0x24.setPort(currentUN->getUdpPort());
+//        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//        if(alarmReset0x24.isValid()) {
+//            reciver->pushUniqQueueMsg(alarmReset0x24);
+//        }
+//    }
 
 //    qDebug() << "PortManager::procUzoBLIPStatusWord0x41(5) <--";
     return true;
@@ -1259,16 +1267,21 @@ bool PortManager::procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     || 1 == swpPreviousBLIP.isExistDK()
     || 1 == swpPreviousBLIP.isWasDK()) {
         {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
         qDebug() << "PortManager::procIUBLIPStatusWord0x41(5) <--";
         return true;
     }
@@ -1373,16 +1386,21 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     || 1 == swpPreviousBLIP.isExistDK()
     || 1 == swpPreviousBLIP.isWasDK()) {
         {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
         qDebug() << "PortManager::procSDBLIPStatusWord0x41(5) <--";
         return true;
     }
@@ -1433,16 +1451,21 @@ bool PortManager::procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &curre
     }
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41 -- needAlarmReset0x24" << needAlarmReset0x24;
     if(needAlarmReset0x24) {
-        //нужен сброс
-        DataQueueItem alarmReset0x24;
-        alarmReset0x24.setPort(currentUN->getUdpPort());
-        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-        if(alarmReset0x24.isValid()) {
-            reciver->pushUniqQueueMsg(alarmReset0x24);
-            makedAlarmReset0x24 = true;
+        {
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        //нужен сброс
+//        DataQueueItem alarmReset0x24;
+//        alarmReset0x24.setPort(currentUN->getUdpPort());
+//        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//        if(alarmReset0x24.isValid()) {
+//            reciver->pushUniqQueueMsg(alarmReset0x24);
+//            makedAlarmReset0x24 = true;
+//        }
     }
 //    qDebug() << "PortManager::procSDBLIPStatusWord0x41 -- makedAlarmReset0x24" << makedAlarmReset0x24;
 
@@ -1968,17 +1991,22 @@ bool PortManager::procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
         //нужен сброс
         auto reciver = UnitNode::findReciver(currentUN);
         if(reciver.isNull()) {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-                qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
+//            qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
     }
 
     currentUN->updDoubl();
@@ -2013,16 +2041,21 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     || 1 == swpPrevious.isExistDK()
     || 1 == swpPrevious.isWasDK()) {
         {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
         qDebug() << "PortManager::procRlmStatusWord0x31(5) <--";
         return true;
     }
@@ -2075,17 +2108,22 @@ bool PortManager::procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentU
     }
 //    qDebug() << "PortManager::procRlmStatusWord0x31 -- needAlarmReset0x24" << needAlarmReset0x24;
     if(needAlarmReset0x24) {
-        //нужен сброс
-        DataQueueItem alarmReset0x24;
-        alarmReset0x24.setPort(currentUN->getUdpPort());
-        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-        if(alarmReset0x24.isValid()) {
-            reciver->pushUniqQueueMsg(alarmReset0x24);
-            makedAlarmReset0x24 = true;
-        }
+        auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                              DataQueueItem::makeAlarmReset0x24);
+        reciver->pushUniqManagerSingleMsg(msMsg);
     }
+//    {
+//        //нужен сброс
+//        DataQueueItem alarmReset0x24;
+//        alarmReset0x24.setPort(currentUN->getUdpPort());
+//        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//        if(alarmReset0x24.isValid()) {
+//            reciver->pushUniqQueueMsg(alarmReset0x24);
+//            makedAlarmReset0x24 = true;
+//        }
+//    }
 //    qDebug() << "PortManager::procRlmStatusWord0x31 -- makedAlarmReset0x24" << makedAlarmReset0x24;
 
     JourEntity prepareMsg;
@@ -2265,16 +2303,21 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     || 1 == swpPrevious.isExistDK()
     || 1 == swpPrevious.isWasDK()) {
         {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
         qDebug() << "PortManager::procRlmCStatusWord0x31(5) <--";
         return true;
     }
@@ -2323,17 +2366,22 @@ bool PortManager::procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &current
     }
 //    qDebug() << "PortManager::procRlmCStatusWord0x31 -- needAlarmReset0x24" << needAlarmReset0x24;
     if(needAlarmReset0x24) {
-        //нужен сброс
-        DataQueueItem alarmReset0x24;
-        alarmReset0x24.setPort(currentUN->getUdpPort());
-        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-        if(alarmReset0x24.isValid()) {
-            reciver->pushUniqQueueMsg(alarmReset0x24);
-            makedAlarmReset0x24 = true;
-        }
+        auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                              DataQueueItem::makeAlarmReset0x24);
+        reciver->pushUniqManagerSingleMsg(msMsg);
     }
+//    {
+//        //нужен сброс
+//        DataQueueItem alarmReset0x24;
+//        alarmReset0x24.setPort(currentUN->getUdpPort());
+//        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//        if(alarmReset0x24.isValid()) {
+//            reciver->pushUniqQueueMsg(alarmReset0x24);
+//            makedAlarmReset0x24 = true;
+//        }
+//    }
 //    qDebug() << "PortManager::procRlmCStatusWord0x31 -- makedAlarmReset0x24" << makedAlarmReset0x24;
 
     JourEntity prepareMsg;
@@ -2506,16 +2554,21 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     || 1 == swpPrevious.isExistDK()
     || 1 == swpPrevious.isWasDK()) {
         {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
         qDebug() << "PortManager::procTgStatusWord0x31(5) <--";
         return true;
     }
@@ -2566,17 +2619,22 @@ bool PortManager::procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN
     }
 //    qDebug() << "PortManager::procTgStatusWord0x31 -- needAlarmReset0x24" << needAlarmReset0x24;
     if(needAlarmReset0x24) {
-        //нужен сброс
-        DataQueueItem alarmReset0x24;
-        alarmReset0x24.setPort(currentUN->getUdpPort());
-        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-        if(alarmReset0x24.isValid()) {
-            reciver->pushUniqQueueMsg(alarmReset0x24);
-            makedAlarmReset0x24 = true;
-        }
+        auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                              DataQueueItem::makeAlarmReset0x24);
+        reciver->pushUniqManagerSingleMsg(msMsg);
     }
+//    {
+//        //нужен сброс
+//        DataQueueItem alarmReset0x24;
+//        alarmReset0x24.setPort(currentUN->getUdpPort());
+//        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//        if(alarmReset0x24.isValid()) {
+//            reciver->pushUniqQueueMsg(alarmReset0x24);
+//            makedAlarmReset0x24 = true;
+//        }
+//    }
 //    qDebug() << "PortManager::procTgStatusWord0x31 -- makedAlarmReset0x24" << makedAlarmReset0x24;
 
     JourEntity prepareMsg;
@@ -2826,17 +2884,22 @@ bool PortManager::procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
         //нужен сброс
         auto reciver = UnitNode::findReciver(currentUN);
         if(reciver.isNull()) {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-                qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//                qDebug() << "PortManager::procDkStatusWord0x31 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
+//            }
+//        }
     }
 
     currentUN->updDoubl();
@@ -2873,16 +2936,21 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     || 1 == swpPrevious.isExistDK()
     || 1 == swpPrevious.isWasDK()) {
         {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
         qDebug() << "PortManager::procTgStatusWord0x32(5) <--";
         return true;
     }
@@ -2925,17 +2993,22 @@ bool PortManager::procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN
     }
 //    qDebug() << "PortManager::procTgStatusWord0x32 -- needAlarmReset0x24" << needAlarmReset0x24;
     if(needAlarmReset0x24) {
-        //нужен сброс
-        DataQueueItem alarmReset0x24;
-        alarmReset0x24.setPort(currentUN->getUdpPort());
-        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-        if(alarmReset0x24.isValid()) {
-            reciver->pushUniqQueueMsg(alarmReset0x24);
-            makedAlarmReset0x24 = true;
-        }
+        auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                              DataQueueItem::makeAlarmReset0x24);
+        reciver->pushUniqManagerSingleMsg(msMsg);
     }
+//    {
+//        //нужен сброс
+//        DataQueueItem alarmReset0x24;
+//        alarmReset0x24.setPort(currentUN->getUdpPort());
+//        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//        if(alarmReset0x24.isValid()) {
+//            reciver->pushUniqQueueMsg(alarmReset0x24);
+//            makedAlarmReset0x24 = true;
+//        }
+//    }
 //    qDebug() << "PortManager::procTgStatusWord0x32 -- makedAlarmReset0x24" << makedAlarmReset0x24;
 
     JourEntity prepareMsg;
@@ -3144,17 +3217,22 @@ bool PortManager::procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
         //нужен сброс
         auto reciver = UnitNode::findReciver(currentUN);
         if(reciver.isNull()) {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-//                qDebug() << "PortManager::procDkStatusWord0x33 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+////                qDebug() << "PortManager::procDkStatusWord0x33 -- DataQueueItem::fillAlarmReset0x24(" << alarmReset0x24.data().toHex() << ", " << currentUN->toString() << ");";
+//            }
+//        }
     }
 
     currentUN->updDoubl();
@@ -3192,16 +3270,21 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     || 1 == swpPrevious.isExistDK()
     || 1 == swpPrevious.isWasDK()) {
         {
-            //нужен сброс
-            DataQueueItem alarmReset0x24;
-            alarmReset0x24.setPort(currentUN->getUdpPort());
-            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-            if(alarmReset0x24.isValid()) {
-                reciver->pushUniqQueueMsg(alarmReset0x24);
-            }
+            auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                                  DataQueueItem::makeAlarmReset0x24);
+            reciver->pushUniqManagerSingleMsg(msMsg);
         }
+//        {
+//            //нужен сброс
+//            DataQueueItem alarmReset0x24;
+//            alarmReset0x24.setPort(currentUN->getUdpPort());
+//            alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//            DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//            if(alarmReset0x24.isValid()) {
+//                reciver->pushUniqQueueMsg(alarmReset0x24);
+//            }
+//        }
         qDebug() << "PortManager::procTgStatusWord0x33(5) <--";
         return true;
     }
@@ -3244,17 +3327,22 @@ bool PortManager::procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN
     }
 //    qDebug() << "PortManager::procTgStatusWord0x33 -- needAlarmReset0x24" << needAlarmReset0x24;
     if(needAlarmReset0x24) {
-        //нужен сброс
-        DataQueueItem alarmReset0x24;
-        alarmReset0x24.setPort(currentUN->getUdpPort());
-        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
-        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
-
-        if(alarmReset0x24.isValid()) {
-            reciver->pushUniqQueueMsg(alarmReset0x24);
-            makedAlarmReset0x24 = true;
-        }
+        auto msMsg = QSharedPointer<ManagerSingleMsgAlarmReset>::create(currentUN,
+                                                              DataQueueItem::makeAlarmReset0x24);
+        reciver->pushUniqManagerSingleMsg(msMsg);
     }
+//    {
+//        //нужен сброс
+//        DataQueueItem alarmReset0x24;
+//        alarmReset0x24.setPort(currentUN->getUdpPort());
+//        alarmReset0x24.setAddress(Utils::hostAddress(currentUN->getUdpAdress()));
+//        DataQueueItem::fillAlarmReset0x24(alarmReset0x24, currentUN);
+
+//        if(alarmReset0x24.isValid()) {
+//            reciver->pushUniqQueueMsg(alarmReset0x24);
+//            makedAlarmReset0x24 = true;
+//        }
+//    }
 //    qDebug() << "PortManager::procTgStatusWord0x33 -- makedAlarmReset0x24" << makedAlarmReset0x24;
 
     JourEntity prepareMsg;
