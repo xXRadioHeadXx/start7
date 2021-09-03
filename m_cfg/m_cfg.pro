@@ -43,6 +43,7 @@ SOURCES += \
     dbform.cpp \
     delegate.cpp \
     edit_unit_widget.cpp \
+    findunitform.cpp \
     first_dialog.cpp \
     group.cpp \
     main.cpp \
@@ -84,6 +85,7 @@ HEADERS += \
     delegate.h \
     delegate_unit_finder.h \
     edit_unit_widget.h \
+    findunitform.h \
     first_dialog.h \
     group.h \
     adm_aud_combobox.h \
@@ -118,6 +120,7 @@ FORMS += \
     admaud_widget.ui \
     dbform.ui \
     edit_unit_widget.ui \
+    findunitform.ui \
     first_dialog.ui \
     operator_form.ui \
     rastr_widget.ui \

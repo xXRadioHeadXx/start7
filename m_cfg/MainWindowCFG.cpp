@@ -124,6 +124,8 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
 
     db_f=new DBform(this,str_system);
 
+    unitFinder_f=new UnitFinder(this);
+    unitFinder_f->setVisible(false);
 
     this->ui->tabWidget->setCurrentIndex(0);
  /*
@@ -721,7 +723,7 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect(this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
         connect(this->ui->treeView, SIGNAL(   new_current_index(QModelIndex)) , this,SLOT     (   slot_to_get_options(QModelIndex)));
 
-
+/*
         connect(this->m_ctrl, SIGNAL(double_unit_signal(UnitNode *un)) , this,SLOT (double_unit_slot(UnitNode* un)));
 
         connect(this->ui->unitFinder,SIGNAL(options_to_find(QList<QString>)),this,SLOT(find_from_options(QList<QString>)));
@@ -730,7 +732,15 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect(this->ui->unitFinder,SIGNAL(prev()),this,SLOT(prev()));
 
         connect(this->ui->unitFinder,SIGNAL(clear_list_equals()),this,SLOT(clear_list_equals()));
+*/
 
+
+        connect(this->unitFinder_f,SIGNAL(options_to_find(QList<QString>)),this,SLOT(find_from_options(QList<QString>)));
+
+        connect(this->unitFinder_f,SIGNAL(next()),this,SLOT(next()));
+        connect(this->unitFinder_f,SIGNAL(prev()),this,SLOT(prev()));
+
+        connect(this->unitFinder_f,SIGNAL(clear_list_equals()),this,SLOT(clear_list_equals()));
 
         timer = new QTimer(this); // Создаем объект класса QTimer и передаем адрес переменной
             timer->setInterval(10); // Задаем интервал таймера
@@ -963,7 +973,7 @@ void MainWindowCFG::find_from_options(QList<QString> list)
 qDebug()<<"[1]";
 foreach(QString name,list)
  {
-    QString value = this->ui->unitFinder->get_value(name);
+    QString value = this->unitFinder_f->get_value(name);
 
         if(name=="Type")
         {
@@ -8173,4 +8183,10 @@ void MainWindowCFG::on_RASTRMTV_Num3_currentIndexChanged(int index)
 void MainWindowCFG::on_RLM_KRL_type_comboBox_currentIndexChanged(const QString &arg1)
 {
     Name_update();
+}
+
+void MainWindowCFG::on_findButton_clicked()
+{
+    qDebug()<<"[on_findButton_clicked]";
+    unitFinder_f->show();
 }

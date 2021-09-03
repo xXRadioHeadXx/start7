@@ -21,6 +21,7 @@
 #include <QMessageBox>
 #include <my_settings.h>
 #include<control_unit_manager.h>
+#include <unitfinder.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
@@ -77,6 +78,8 @@ private:
 
     rif_widget_model* rif_model ;
     rif_widget_delegate* rif_dlgt;
+
+    UnitFinder* unitFinder_f;
 
     QList<Operator*> operators;
     int opt_tbl_request;
@@ -740,5 +743,6 @@ private slots:
    void on_ipadress_combobox_currentTextChanged(const QString &arg1);
    void on_RASTRMTV_Num3_currentIndexChanged(int index);
    void on_RLM_KRL_type_comboBox_currentIndexChanged(const QString &arg1);
+   void on_findButton_clicked();
 };
 #endif // MAINWINDOWCFG_H

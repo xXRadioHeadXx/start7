@@ -1,7 +1,7 @@
 #ifndef UNITFINDER_H
 #define UNITFINDER_H
 
-#include <QWidget>
+#include <QDialog>
 #include "model_unit_params.h"
 #include <unit_finder_delegate.h>
 #include "rif_widget_delegate.h"
@@ -10,7 +10,7 @@ namespace Ui {
 class UnitFinder;
 }
 
-class UnitFinder : public QWidget
+class UnitFinder : public QDialog
 {
     Q_OBJECT
 

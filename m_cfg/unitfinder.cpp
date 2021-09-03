@@ -4,7 +4,7 @@
 #include <QPushButton>
 
 UnitFinder::UnitFinder(QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::UnitFinder)
 {
     ui->setupUi(this);
