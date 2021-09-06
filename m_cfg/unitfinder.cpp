@@ -8,12 +8,25 @@ UnitFinder::UnitFinder(QWidget *parent) :
     ui(new Ui::UnitFinder)
 {
     ui->setupUi(this);
+
+
+
     model=new Model_Unit_Params();
-    qDebug()<<"rows: "<<model->rowCount();
+
+
+
     qDebug()<<"columns: "<<model->columnCount();
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("Name"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("City"));
+
 
 
     this->ui->tableView->setModel(model);
+     this->ui->tableView->horizontalHeader();
+
+
 
     delegate=new unit_finder_delegate();
     this->ui->tableView->setItemDelegate(delegate);
@@ -33,8 +46,9 @@ UnitFinder::UnitFinder(QWidget *parent) :
 
    this->ui->tableView->setColumnWidth(0,100);
   this->ui->tableView->setColumnWidth(1,350);
-  this->ui->tableView->setColumnWidth(2,512-100-350);
+  this->ui->tableView->setColumnWidth(2,580-100-350);
 
+  this->ui->tableView->show();
 }
 
 UnitFinder::~UnitFinder()

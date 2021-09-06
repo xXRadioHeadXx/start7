@@ -4,6 +4,7 @@
 
 Model_Unit_Params::Model_Unit_Params(QObject *parent) : QAbstractTableModel(parent)
 {
+
     for(int i(0), n(this->l_params.count()); i < n; i++)
     {
       Unit_Parametr* parametr=new Unit_Parametr(this->l_params.at(i));
@@ -22,6 +23,8 @@ int Model_Unit_Params::columnCount(const QModelIndex &parent) const
 {
     return 3;
 }
+
+
 
 QVariant Model_Unit_Params::data(const QModelIndex &index, int role) const
 {
@@ -120,6 +123,27 @@ bool Model_Unit_Params::setData(const QModelIndex &index, const QVariant &value,
 
 QVariant Model_Unit_Params::headerData(int section, Qt::Orientation orientation, int role) const
 {
+
+        if (role == Qt::DisplayRole)
+        {
+        if (orientation == Qt::Horizontal) {
+          switch (section)
+          {
+          case 0:
+            return tr("Свойство");
+
+          case 1:
+            return tr("Значение");
+
+          case 2:
+            return tr("Использовать");
+
+          default:
+            return QString("");
+          }
+        }
+      }
+
     return QVariant();
 }
 
