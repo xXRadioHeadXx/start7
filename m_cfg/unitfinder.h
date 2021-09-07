@@ -20,6 +20,8 @@ public:
 
     QString get_value(QString Name);
 
+    void paintEvent(QPaintEvent *event) override;
+
 private:
     unit_finder_delegate* delegate;
     rif_widget_delegate* delegate_1;

@@ -45,8 +45,13 @@ UnitFinder::UnitFinder(QWidget *parent) :
      this->ui->tableView->openPersistentEditor(model->index(0,1,QModelIndex()));
 
    this->ui->tableView->setColumnWidth(0,100);
-  this->ui->tableView->setColumnWidth(1,350);
-  this->ui->tableView->setColumnWidth(2,580-100-350);
+ // this->ui->tableView->setColumnWidth(1,350);
+  this->ui->tableView->setColumnWidth(2,100);
+    int wdt=this->ui->tableView->width()-this->ui->tableView->columnWidth(0)-this->ui->tableView->columnWidth(2)-10;
+    if (wdt<0)
+        wdt=0;
+         this->ui->tableView->setColumnWidth(1,wdt);
+
 
   this->ui->tableView->show();
 }
@@ -64,7 +69,17 @@ QString UnitFinder::get_value(QString Name)
         return model->data(model->index(i,1,QModelIndex()),Qt::DisplayRole).toString();
       }
     }
- return "ERROR";
+    return "ERROR";
+}
+
+void UnitFinder::paintEvent(QPaintEvent *event)
+{
+  //  qDebug()<<"UnitFinder::paintEvent";
+
+    int wdt=this->ui->tableView->width()-this->ui->tableView->columnWidth(0)-this->ui->tableView->columnWidth(2)-10;
+    if (wdt<0)
+        wdt=0;
+         this->ui->tableView->setColumnWidth(1,wdt);
 }
 
 void UnitFinder::on_pushButton_clicked()

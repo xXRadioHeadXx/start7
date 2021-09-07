@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QApplication>
 #include "UnitNode.h"
+#include <my_lineedit.h>
 
 
 QString str_GROUP=          " ГРУППА";
@@ -119,7 +120,7 @@ QWidget *unit_finder_delegate::createEditor(QWidget *parent, const QStyleOptionV
 
         else
     {
-  QLineEdit* editor = new QLineEdit(parent);
+  My_lineEdit* editor = new My_lineEdit(parent);
         return editor;
     }
 
@@ -131,7 +132,7 @@ QWidget *unit_finder_delegate::createEditor(QWidget *parent, const QStyleOptionV
     {
     QComboBox* editor = new QComboBox(parent);
     editor->addItem(" ");
-    editor->addItem("искать");
+    editor->addItem("да");
     return editor;
     }
     break;
@@ -154,7 +155,7 @@ void unit_finder_delegate::setEditorData(QWidget *editor, const QModelIndex &ind
 
             else
         {
-        QLineEdit* lineedit =static_cast < QLineEdit*>(editor);
+        My_lineEdit* lineedit =static_cast < My_lineEdit*>(editor);
         lineedit->setText(index.model()->data(index,Qt::DisplayRole).toString());
         }
     }
@@ -164,9 +165,9 @@ void unit_finder_delegate::setEditorData(QWidget *editor, const QModelIndex &ind
     {
          QComboBox* combobox = static_cast < QComboBox*>(editor);
          if(index.model()->data(index,Qt::DisplayRole).toBool())
-         combobox->setCurrentText("искать");
+         combobox->setCurrentText("да");
          else
-         combobox->setCurrentText(" ");
+         combobox->setCurrentText("");
 
     }
     break;
@@ -189,7 +190,7 @@ void unit_finder_delegate::setModelData(QWidget *editor, QAbstractItemModel *mod
 
             else
         {
-       QLineEdit* lineedit =static_cast < QLineEdit*>(editor);
+       My_lineEdit* lineedit =static_cast < My_lineEdit*>(editor);
        model->setData(index,lineedit->text());
         }
     }
@@ -199,7 +200,7 @@ void unit_finder_delegate::setModelData(QWidget *editor, QAbstractItemModel *mod
     {
 
        QComboBox* combobox = static_cast < QComboBox*>(editor);
-       if(combobox->currentText()=="искать")
+       if(combobox->currentText()=="да")
        model->setData(index,true);
        else
        model->setData(index,false);
@@ -213,6 +214,10 @@ void unit_finder_delegate::updateEditorGeometry(QWidget *editor, const QStyleOpt
 {
     editor->setGeometry(option.rect);
 
+
+
+
+
 }
 
 void unit_finder_delegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -221,4 +226,8 @@ void unit_finder_delegate::paint(QPainter *painter, const QStyleOptionViewItem &
 QStyledItemDelegate::paint(painter,option,index);
 
 
+
+
 }
+
+
