@@ -91,8 +91,12 @@ m_ctrl=new Control_Unit_Manager();
         ui->setupUi(this);
 
 
-            this->ui->SD_BL_IP_OutType->insertItem(0,m_SD_BL_IP_OutType.value(0));
-        this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
+        this->ui->SD_BL_IP_OutType->clear();
+
+        for(int i=0;i<9;i++)
+        {
+            this->ui->SD_BL_IP_OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+        }
 
 
 
@@ -7838,8 +7842,10 @@ void MainWindowCFG::on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &
 
     this->ui->SD_BL_IP_OutType->clear();
 
-    this->ui->SD_BL_IP_OutType->insertItem(0,m_SD_BL_IP_OutType.value(0));
-
+    for(int i=0;i<8;i++)
+    {
+        this->ui->SD_BL_IP_OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+    }
 
     switch(res)
     {
@@ -7847,7 +7853,7 @@ void MainWindowCFG::on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &
     case 2:
     case 3:
 
-this->ui->SD_BL_IP_OutType->insertItem(1,m_SD_BL_IP_OutType.value(1));
+this->ui->SD_BL_IP_OutType->insertItem(9,m_SSOI_SD_OutType.value(8));
 
 
     break;
