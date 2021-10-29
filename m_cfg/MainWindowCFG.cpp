@@ -1885,18 +1885,19 @@ void MainWindowCFG::SD_BL_IP_set_values_from_combobox(UnitNode *unit)
 {
 qDebug()<<"SD_BL_IP_set_values_from_combobox";
 int key=m_SD_BL_IP_OutType.key(this->ui->SD_BL_IP_OutType->currentText());
-if(key==0)
-    {
-     unit->setBazalt(0);
-     unit->setConnectBlock(0);
-    }
-else if(key==1)
-    {
-
+if(key<8)
+{
+    unit->setOutType(key);
+    unit->setBazalt(0);
+    unit->setConnectBlock(0);
+}
+else if(key==8)
+{
+    unit->setOutType(0);
     unit->setBazalt(1);
     unit->setConnectBlock(0);
     unit->setDK(0);
-    }
+}
 
 
 }
@@ -3945,12 +3946,15 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
     if(unit->getBazalt())
     {
 
-        string1.append(m_SD_BL_IP_OutType.value(1));
+        string1.append(m_SD_BL_IP_OutType.value(8));
     }
     else
     {
+        int val = unit->getOutType();
+        if(val)
+        string1.append(m_SD_BL_IP_OutType.value(unit->getOutType()));
 
-   //     string1.append(m_SD_BL_IP_OutType.value(0));
+
     }
 this->ui->textEdit->append(string1);
 
@@ -5516,7 +5520,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
 
     setUdpTimeout_for_BL_IP(unit);
 
-
+    SD_BL_IP_set_values_from_combobox(unit);
 
     qDebug()<<"Name: "<<unit->getName()
             <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
