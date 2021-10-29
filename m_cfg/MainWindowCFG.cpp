@@ -109,8 +109,8 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
         {
 
 
-          this->ui->tabWidget->removeTab(4);
-          this->ui->tabWidget->removeTab(6);
+          this->ui->tabWidget->removeTab(3);
+          this->ui->tabWidget->removeTab(5);
 
      //   this->ui->Subsystem_RIF->setHidden(true);
      //   this->ui->Subsystem_ADAM->setHidden(true);
