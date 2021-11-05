@@ -1842,23 +1842,23 @@ void MainWindowCFG::operator_delete()
 void MainWindowCFG::SSOI_SD_set_values_from_combobox(UnitNode *unit)
 {
     int key=m_SSOI_SD_OutType.key(this->ui->SSOI_SD_OutType->currentText());
-
+    unit->setOutType(key);
     if(key<8)
     {
-        unit->setOutType(key);
+
         unit->setBazalt(0);
         unit->setConnectBlock(0);
     }
     else if(key==8)
     {
-        unit->setOutType(0);
+ //       unit->setOutType(0);
         unit->setBazalt(1);
         unit->setConnectBlock(0);
         unit->setDK(0);
     }
     else if(key=9)
     {
-        unit->setOutType(0);
+//        unit->setOutType(0);
         unit->setBazalt(0);
         unit->setConnectBlock(1);
         unit->setDK(0);
@@ -1885,15 +1885,17 @@ void MainWindowCFG::SD_BL_IP_set_values_from_combobox(UnitNode *unit)
 {
 qDebug()<<"SD_BL_IP_set_values_from_combobox";
 int key=m_SD_BL_IP_OutType.key(this->ui->SD_BL_IP_OutType->currentText());
+
+    unit->setOutType(key);
 if(key<8)
 {
-    unit->setOutType(key);
+
     unit->setBazalt(0);
     unit->setConnectBlock(0);
 }
 else if(key==8)
 {
-    unit->setOutType(0);
+
     unit->setBazalt(1);
     unit->setConnectBlock(0);
     unit->setDK(0);
