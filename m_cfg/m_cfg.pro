@@ -142,4 +142,5 @@ RESOURCES += \
 #LIBS += -lusb-1.0
 
 DISTFILES += \
-    icons/info_tablo.png
+    icons/info_tablo.png \
+    unitWidgets/unitWidgets.pri
