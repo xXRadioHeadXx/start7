@@ -30,6 +30,7 @@ include(../src/utils/utils.pri)
 include(../src/database/database.pri)
 include(../src/requester/requester.pri)
 include(../src/global.pri)
+include(../m_cfg/unitWidgets/unitWidgets.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
