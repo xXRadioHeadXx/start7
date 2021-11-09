@@ -2,6 +2,7 @@
 #define UNITWIDGET_H
 
 #include <QWidget>
+#include <UnitNode.h>
 
 namespace Ui {
 class UnitWidget;
@@ -15,8 +16,15 @@ public:
     explicit UnitWidget(QWidget *parent = nullptr);
     ~UnitWidget();
 
+    int getID();
+
+protected:
+int ID;
+
+
 private:
     Ui::UnitWidget *ui;
+
 };
 
 #endif // UNITWIDGET_H

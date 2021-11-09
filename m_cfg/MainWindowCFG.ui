@@ -626,14 +626,14 @@
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="geometry">
              <rect>
-              <x>0</x>
+              <x>541</x>
               <y>150</y>
-              <width>561</width>
+              <width>20</width>
               <height>105</height>
              </rect>
             </property>
             <property name="currentIndex">
-             <number>15</number>
+             <number>16</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -1828,9 +1828,9 @@
            <widget class="QWidget" name="UDP_RS485_Widget" native="true">
             <property name="geometry">
              <rect>
-              <x>10</x>
+              <x>541</x>
               <y>76</y>
-              <width>551</width>
+              <width>20</width>
               <height>71</height>
              </rect>
             </property>
@@ -1842,7 +1842,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>300</width>
+              <width>2</width>
               <height>60</height>
              </size>
             </property>
@@ -2042,14 +2042,14 @@
            <widget class="QStackedWidget" name="stackedWidget_2">
             <property name="geometry">
              <rect>
-              <x>10</x>
+              <x>551</x>
               <y>260</y>
-              <width>561</width>
+              <width>20</width>
               <height>81</height>
              </rect>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="coordinates_for_all">
              <widget class="QGroupBox" name="groupBox_4">
@@ -2765,6 +2765,16 @@
              <bool>true</bool>
             </property>
            </widget>
+           <widget class="QStackedWidget" name="stack">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>80</y>
+              <width>561</width>
+              <height>261</height>
+             </rect>
+            </property>
+           </widget>
            <zorder>label_3</zorder>
            <zorder>uType_combobox</zorder>
            <zorder>label_4</zorder>
@@ -2774,8 +2784,28 @@
            <zorder>widget1</zorder>
            <zorder>uName_combobox</zorder>
            <zorder>checkBox</zorder>
+           <zorder>stack</zorder>
           </widget>
          </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Страница</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
         </layout>
        </widget>
        <widget class="QWidget" name="Subsystem_RIF">

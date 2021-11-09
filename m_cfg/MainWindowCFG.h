@@ -23,6 +23,9 @@
 #include<control_unit_manager.h>
 #include <unitfinder.h>
 
+#include <unitWidgets/widget_iu_bl_ip.h>
+#include <unitWidgets/widget_sd_bl_ip.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
 QT_END_NAMESPACE
@@ -46,7 +49,12 @@ struct SerNum_Name{
 class MainWindowCFG : public QMainWindow
 {
     Q_OBJECT
-private:
+private:    
+
+    Widget_IU_BL_IP w_IU_BL_IP;
+    Widget_SD_BL_IP w_SD_BL_IP;
+
+    QList<UnitWidget*> l_UnitWidgets;
 
   bool eventFilter(QObject *obj, QEvent *event);
 

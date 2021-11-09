@@ -88,7 +88,24 @@ m_ctrl=new Control_Unit_Manager();
 
     last_ini_patch="";
 
+
+
         ui->setupUi(this);
+
+
+
+
+        this->ui->stack->addWidget(&w_IU_BL_IP);
+        this->ui->stack->addWidget(&w_SD_BL_IP);
+
+
+       l_UnitWidgets.append(&w_IU_BL_IP);
+       l_UnitWidgets.append(&w_SD_BL_IP);
+
+        this->ui->stack->setCurrentWidget(&w_SD_BL_IP);
+
+
+
 
 
         this->ui->SD_BL_IP_OutType->clear();
@@ -2329,6 +2346,15 @@ void MainWindowCFG::collapseChildren(const QModelIndex &index)
 
 void MainWindowCFG::object_menu_change(int type)
 {
+    foreach(UnitWidget* wgt, l_UnitWidgets){
+        if(wgt->getID()==type){
+            this->ui->stack->setCurrentWidget(wgt);
+            break;
+        }
+
+    }
+
+    /*
     this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     this->ui->UDP_RS485_Widget->setVisible(false);
     switch(type)
@@ -2495,6 +2521,7 @@ void MainWindowCFG::object_menu_change(int type)
     break;
     }
 
+    */
 }
 
 void MainWindowCFG::object_menu_set_settings_default(int type)

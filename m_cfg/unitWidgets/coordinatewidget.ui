@@ -6,311 +6,315 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
+    <width>568</width>
     <height>99</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupbox_coordiantes_devline">
-     <property name="title">
-      <string>Координаты окна камеры</string>
-     </property>
-     <widget class="QLabel" name="label_62">
-      <property name="geometry">
-       <rect>
-        <x>495</x>
-        <y>17</y>
-        <width>16</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Y</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_40">
-      <property name="geometry">
-       <rect>
-        <x>440</x>
-        <y>17</y>
-        <width>16</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>X</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_38">
-      <property name="geometry">
-       <rect>
-        <x>175</x>
-        <y>17</y>
-        <width>91</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>X прав.низ</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="devline_xy_pushButton">
-      <property name="geometry">
-       <rect>
-        <x>344</x>
-        <y>40</y>
-        <width>91</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Изменить</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_36">
-      <property name="geometry">
-       <rect>
-        <x>5</x>
-        <y>17</y>
-        <width>91</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>X лев.верх</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_39">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>17</y>
-        <width>91</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Y прав.низ</string>
-      </property>
-     </widget>
-     <widget class="My_lineEdit" name="mouse_Y" native="true">
-      <property name="geometry">
-       <rect>
-        <x>495</x>
-        <y>40</y>
-        <width>50</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>91</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="text" stdset="0">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_2">
-      <property name="geometry">
-       <rect>
-        <x>5</x>
-        <y>40</y>
-        <width>80</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="decimals">
-       <number>0</number>
-      </property>
-      <property name="maximum">
-       <double>10000.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_3">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>40</y>
-        <width>80</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="decimals">
-       <number>0</number>
-      </property>
-      <property name="maximum">
-       <double>10000.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_37">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>17</y>
-        <width>91</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>16</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Y лев.верх</string>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_5">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>40</y>
-        <width>80</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="decimals">
-       <number>0</number>
-      </property>
-      <property name="maximum">
-       <double>10000.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_4">
-      <property name="geometry">
-       <rect>
-        <x>175</x>
-        <y>40</y>
-        <width>80</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="decimals">
-       <number>0</number>
-      </property>
-      <property name="maximum">
-       <double>10000.000000000000000</double>
-      </property>
-     </widget>
-     <widget class="My_lineEdit" name="mouse_X" native="true">
-      <property name="geometry">
-       <rect>
-        <x>440</x>
-        <y>40</y>
-        <width>50</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>91</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="text" stdset="0">
-       <string/>
-      </property>
-     </widget>
-    </widget>
-   </item>
-  </layout>
+  <widget class="QGroupBox" name="groupbox_coordiantes_devline">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>551</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Координаты окна камеры</string>
+   </property>
+   <widget class="QLabel" name="label_62">
+    <property name="geometry">
+     <rect>
+      <x>495</x>
+      <y>17</y>
+      <width>16</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Y</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_40">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>17</y>
+      <width>16</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_38">
+    <property name="geometry">
+     <rect>
+      <x>175</x>
+      <y>17</y>
+      <width>91</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>X прав.низ</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="devline_xy_pushButton">
+    <property name="geometry">
+     <rect>
+      <x>344</x>
+      <y>40</y>
+      <width>91</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Изменить</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_36">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>17</y>
+      <width>91</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>X лев.верх</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_39">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>17</y>
+      <width>91</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Y прав.низ</string>
+    </property>
+   </widget>
+   <widget class="My_lineEdit" name="mouse_Y" native="true">
+    <property name="geometry">
+     <rect>
+      <x>495</x>
+      <y>40</y>
+      <width>50</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>91</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="text" stdset="0">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_2">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>40</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="decimals">
+     <number>0</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_3">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>40</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="decimals">
+     <number>0</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_37">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>17</y>
+      <width>91</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Y лев.верх</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_5">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>40</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="decimals">
+     <number>0</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="coordinate_X_doubleSpinBox_4">
+    <property name="geometry">
+     <rect>
+      <x>175</x>
+      <y>40</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="decimals">
+     <number>0</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="My_lineEdit" name="mouse_X" native="true">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>40</y>
+      <width>50</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>91</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="text" stdset="0">
+     <string/>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
