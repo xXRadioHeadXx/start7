@@ -2,6 +2,7 @@
 #define COMMUNICATIONTYPEWIDGET_H
 
 #include <QWidget>
+#include <UnitNode.h>
 
 namespace Ui {
 class communicationTypeWidget;
@@ -14,6 +15,9 @@ class communicationTypeWidget : public QWidget
 public:
     explicit communicationTypeWidget(QWidget *parent = nullptr);
     ~communicationTypeWidget();
+
+    void get_options(UnitNode* Unit);
+    void set_options(UnitNode* Unit);
 
 private:
     Ui::communicationTypeWidget *ui;

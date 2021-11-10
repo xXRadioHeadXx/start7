@@ -92,6 +92,7 @@ HEADERS += \
     adm_aud_combobox.h \
     model_unit_params.h \
     my_combobox.h \
+    my_config.h \
     my_doublespinbox.h \
     my_lineedit.h \
     my_settings.h \

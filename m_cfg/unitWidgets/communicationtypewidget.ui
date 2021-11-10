@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>568</width>
-    <height>88</height>
+    <width>550</width>
+    <height>70</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,9 +22,9 @@
   <widget class="QWidget" name="UDP_RS485_Widget" native="true">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>551</width>
+     <x>0</x>
+     <y>0</y>
+     <width>550</width>
      <height>70</height>
     </rect>
    </property>
@@ -56,7 +56,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="UDP">
      <widget class="QLabel" name="label_80">
@@ -85,7 +85,7 @@
        <string>Таймаут,мс</string>
       </property>
      </widget>
-     <widget class="QDoubleSpinBox" name="UdpPort_doubleSpinBox">
+     <widget class="QDoubleSpinBox" name="udpPort">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -107,7 +107,7 @@
        <double>4000.000000000000000</double>
       </property>
      </widget>
-     <widget class="QDoubleSpinBox" name="timeout_doubleSpinBox">
+     <widget class="QDoubleSpinBox" name="udpTimeout">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -131,7 +131,7 @@
      </widget>
     </widget>
     <widget class="QWidget" name="RS485">
-     <widget class="QComboBox" name="port_combobox">
+     <widget class="QComboBox" name="Num3">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -168,7 +168,7 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QComboBox" name="UDP_RS485_combobox">
+   <widget class="QComboBox" name="udpUse">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -214,7 +214,7 @@
      <string>IP-Адрес</string>
     </property>
    </widget>
-   <widget class="my_combobox" name="ipadress_combobox">
+   <widget class="my_combobox" name="udpAdress">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -227,11 +227,11 @@
      <bool>true</bool>
     </property>
    </widget>
-   <zorder>UDP_RS485_combobox</zorder>
+   <zorder>udpUse</zorder>
    <zorder>label_92</zorder>
    <zorder>label_83</zorder>
    <zorder>UDP_RS485_stacked</zorder>
-   <zorder>ipadress_combobox</zorder>
+   <zorder>udpAdress</zorder>
   </widget>
  </widget>
  <customwidgets>

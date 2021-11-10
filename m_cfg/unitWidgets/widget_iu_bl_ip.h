@@ -15,6 +15,9 @@ public:
     explicit Widget_IU_BL_IP(QWidget *parent = nullptr);
     ~Widget_IU_BL_IP();
 
+    virtual void get_option(UnitNode* unit){};
+    virtual void set_option(UnitNode* unit){};
+
 private:
     Ui::Widget_IU_BL_IP *ui;
 };

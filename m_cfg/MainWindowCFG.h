@@ -26,6 +26,8 @@
 #include <unitWidgets/widget_iu_bl_ip.h>
 #include <unitWidgets/widget_sd_bl_ip.h>
 
+#include <my_config.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }
 QT_END_NAMESPACE
@@ -548,30 +550,9 @@ private:
 
     };
 
-    QMap <int,QString> m_SSOI_SD_OutType{
-        {0,"не указан"},
-        {1,"РИФ-РЛМ"},
-        {2,"РИФ-КРЛ"},
-        {3,"РИФ-КРЛМ"},
-        {4,"РИФ-РЛМ-С"},
-        {5,"Трасса"},
-        {6,"Точка-Гарда"},
-        {7,"Разряд"},
-        {8,"УЗ Монолит"},
-        {9,"Блок связи"},
-    };
 
-    QMap <int,QString> m_SD_BL_IP_OutType{
-        {0,"не указан"},
-        {1,"РИФ-РЛМ"},
-        {2,"РИФ-КРЛ"},
-        {3,"РИФ-КРЛМ"},
-        {4,"РИФ-РЛМ-С"},
-        {5,"Трасса"},
-        {6,"Точка-Гарда"},
-        {7,"Разряд"},
-        {8,"УЗ Монолит"},
-    };
+
+
 
 QMap <int,QString> m_ASOOSD_use{
 {0,"ВЫКЛ"},

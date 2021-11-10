@@ -19,13 +19,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="communicationTypeWidget" name="widget" native="true">
+  <widget class="communicationTypeWidget" name="communicationType" native="true">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>578</width>
-     <height>130</height>
+     <x>0</x>
+     <y>0</y>
+     <width>550</width>
+     <height>70</height>
     </rect>
    </property>
   </widget>

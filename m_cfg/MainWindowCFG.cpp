@@ -1248,7 +1248,12 @@ void MainWindowCFG::get_option(UnitNode* unit)
 unit->show();
     selected_type=unit->getType();
 
+   UnitWidget* wgt= dynamic_cast<UnitWidget*>(this->ui->stack->currentWidget());
+
+   wgt->get_option(unit);
+
 //       this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
+    /*
     switch(selected_type)
     {
     case TypeUnitNode::GROUP:
@@ -1349,7 +1354,7 @@ unit->show();
     break;
 
     }
-
+*/
 
 }
 
@@ -1466,6 +1471,11 @@ if(this_name_is_free(this->ui->uName_combobox->currentText())==false)
 
     //qDebug()<<"[set_option]";
 int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
+
+UnitWidget* wgt= dynamic_cast<UnitWidget*>(this->ui->stack->currentWidget());
+
+wgt->set_option(unit);
+/*
        switch(type)
        {
 
@@ -1515,47 +1525,47 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 
        case TypeUnitNode::KL:
        this->set_option_KL(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::ONVIF:
        this->set_option_ONVIF(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::STRAZH_IP:
        this->set_option_STRAZH_IP(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::NET_DEV:
        this->set_option_NET_DEV(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::INFO_TABLO:
        this->set_option_INFO_TABLO(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::SSOI_IU:
        this->set_option_SSOI_IU(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::SSOI_SD:
        this->set_option_SSOI_SD(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::RASTRMTV:
        this->set_option_RASTRMTV(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::TOROS:
        this->set_option_TOROS(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::ADAM:
        this->set_option_ADAM(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::DEVLINE:
        this->set_option_DEVLINE(unit);
-       break;/**/
+       break;
 
        case TypeUnitNode::BL_IP:
   //     this->get_option_BL_IP(unit);
@@ -1567,6 +1577,8 @@ int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 
 
        }
+
+      */
 return true;
 
 }
@@ -2349,7 +2361,10 @@ void MainWindowCFG::object_menu_change(int type)
     foreach(UnitWidget* wgt, l_UnitWidgets){
         if(wgt->getID()==type){
             this->ui->stack->setCurrentWidget(wgt);
-            break;
+             wgt->setVisible(true);
+
+        }else{
+        wgt->setVisible(false);
         }
 
     }

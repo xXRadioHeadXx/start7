@@ -12,3 +12,16 @@ communicationTypeWidget::~communicationTypeWidget()
 {
     delete ui;
 }
+
+void communicationTypeWidget::get_options(UnitNode *unit)
+{
+
+}
+
+void communicationTypeWidget::set_options(UnitNode *unit)
+{
+    unit->setUdpUse((ui->udpUse->currentText()=="UDP")?1:0);
+    unit->setUdpAdress(ui->udpAdress->currentText());
+    unit->setUdpPort(ui->udpPort->text().toInt());
+    unit->setUdpTimeout(ui->udpTimeout->text().toInt());
+}

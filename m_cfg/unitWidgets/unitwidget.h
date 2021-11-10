@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <UnitNode.h>
+#include <my_config.h>
 
 namespace Ui {
 class UnitWidget;
@@ -17,6 +18,11 @@ public:
     ~UnitWidget();
 
     int getID();
+
+    virtual void get_option(UnitNode* unit);
+    virtual void set_option(UnitNode* unit);
+
+
 
 protected:
 int ID;

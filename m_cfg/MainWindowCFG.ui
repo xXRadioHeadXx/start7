@@ -626,9 +626,9 @@
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="geometry">
              <rect>
-              <x>541</x>
+              <x>540</x>
               <y>150</y>
-              <width>20</width>
+              <width>21</width>
               <height>105</height>
              </rect>
             </property>
@@ -1454,9 +1454,9 @@
              <widget class="QComboBox" name="SD_BL_IP_num_combobox">
               <property name="geometry">
                <rect>
-                <x>10</x>
+                <x>240</x>
                 <y>20</y>
-                <width>261</width>
+                <width>31</width>
                 <height>30</height>
                </rect>
               </property>
@@ -1828,8 +1828,8 @@
            <widget class="QWidget" name="UDP_RS485_Widget" native="true">
             <property name="geometry">
              <rect>
-              <x>541</x>
-              <y>76</y>
+              <x>510</x>
+              <y>260</y>
               <width>20</width>
               <height>71</height>
              </rect>
