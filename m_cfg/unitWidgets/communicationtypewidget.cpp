@@ -1,6 +1,6 @@
 #include "communicationtypewidget.h"
 #include "ui_communicationtypewidget.h"
-//#include <unitWidgets/unitwidget.h>
+#include <unitWidgets/unitwidget.h>
 #include <QDebug>
 #include <my_config.h>
 
@@ -9,7 +9,7 @@ communicationTypeWidget::communicationTypeWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::communicationTypeWidget)
 {
-    IDMaster* wgt=dynamic_cast<IDMaster*>(parent);
+    UnitWidget* wgt=dynamic_cast<UnitWidget*>(parent);
 
     ID=wgt->getID();
 

@@ -94,17 +94,28 @@ m_ctrl=new Control_Unit_Manager();
 
 
 
+     //   w_SD_BL_IP=new Widget_SD_BL_IP(this);
+     //   w_IU_BL_IP=new Widget_IU_BL_IP(this);
 
-        this->ui->stack->addWidget(&w_IU_BL_IP);
-        this->ui->stack->addWidget(&w_SD_BL_IP);
+    //    this->ui->stack->addWidget(&w_IU_BL_IP);
+    //    this->ui->stack->addWidget(w_SD_BL_IP);
+
+
 
 
        l_UnitWidgets.append(&w_IU_BL_IP);
        l_UnitWidgets.append(&w_SD_BL_IP);
 
-        this->ui->stack->setCurrentWidget(&w_SD_BL_IP);
+   //     this->ui->stack->setCurrentWidget(w_SD_BL_IP);
 
+     foreach(UnitWidget* wgt, l_UnitWidgets){
 
+      ui->stack->addWidget(wgt);
+      connect(wgt,SIGNAL(updateName(QString)),this,SLOT(updateName(QString)));
+     }
+
+//connect(&w_IU_BL_IP,SIGNAL(updateName(QString)),this,SLOT(updateName(QString)));
+//connect(w_SD_BL_IP,SIGNAL(updateName(QString)),this,SLOT(updateName(QString)));
 
 
 
@@ -843,6 +854,12 @@ void MainWindowCFG::show_equals(UnitNode *unit)
 
         }
 
+}
+
+void MainWindowCFG::updateName(QString name)
+{
+    qDebug()<<"update: ";
+    this->ui->uName_combobox->setCurrentText(name);
 }
 
 void MainWindowCFG::clear_list_equals()

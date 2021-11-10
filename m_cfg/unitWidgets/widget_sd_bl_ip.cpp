@@ -79,9 +79,9 @@ void Widget_SD_BL_IP::set_option(UnitNode *unit)
 
 }
 
-QString Widget_SD_BL_IP::update_name()
+void Widget_SD_BL_IP::update_name()
 {
-    qDebug()<<"";
+    qDebug()<<"SD_BL_IP::update_name";
     QString name;
 
     name.append("БЛ");
@@ -116,10 +116,22 @@ QString Widget_SD_BL_IP::update_name()
 
     name.append(this->ui->Num2->currentText());
 
+
   //  updater->updateName(name);
+    emit updateName(name);
 
 
 
 }
 
 
+
+void Widget_SD_BL_IP::on_Num2_currentIndexChanged(int index)
+{
+    update_name();
+}
+
+void Widget_SD_BL_IP::on_OutType_activated(const QString &arg1)
+{
+    update_name();
+}

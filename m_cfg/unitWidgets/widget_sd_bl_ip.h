@@ -18,7 +18,12 @@ public:
 
     virtual void get_option(UnitNode* unit);
     virtual void set_option(UnitNode* unit);
-    QString update_name() override;
+    void update_name() override;
+private slots:
+    void on_Num2_currentIndexChanged(int index);
+
+    void on_OutType_activated(const QString &arg1);
+
 private:
     Ui::Widget_SD_BL_IP *ui;
 };

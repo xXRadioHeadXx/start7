@@ -601,6 +601,8 @@ public:
 
 private slots:
 
+    void updateName(QString);
+
     void  clear_list_equals();
 
     void next();
