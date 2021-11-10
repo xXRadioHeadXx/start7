@@ -64,6 +64,8 @@ private:
 
     QRegExpValidator* validator;
 
+    UnitWidget* current_wgt();
+
     int cfg_type;
 
     QString last_ini_patch;

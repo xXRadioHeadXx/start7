@@ -1248,9 +1248,7 @@ void MainWindowCFG::get_option(UnitNode* unit)
 unit->show();
     selected_type=unit->getType();
 
-   UnitWidget* wgt= dynamic_cast<UnitWidget*>(this->ui->stack->currentWidget());
-
-   wgt->get_option(unit);
+  //  current_wgt()->get_option(unit);
 
 //       this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
     /*
@@ -1472,9 +1470,7 @@ if(this_name_is_free(this->ui->uName_combobox->currentText())==false)
     //qDebug()<<"[set_option]";
 int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 
-UnitWidget* wgt= dynamic_cast<UnitWidget*>(this->ui->stack->currentWidget());
-
-wgt->set_option(unit);
+ current_wgt()->set_option(unit);
 /*
        switch(type)
        {
@@ -1838,6 +1834,11 @@ bool MainWindowCFG::eventFilter(QObject *obj, QEvent *event)
     }
     */
 
+}
+
+UnitWidget *MainWindowCFG::current_wgt()
+{
+ return dynamic_cast<UnitWidget*>(this->ui->stack->currentWidget());
 }
 
 void MainWindowCFG::operator_add(Operator * op)
@@ -2286,10 +2287,12 @@ void MainWindowCFG::open_edit_menu()
     QModelIndex index =this->ui->treeView->currentIndex();
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
 
-    this->ui->uType_combobox->setCurrentText(this->m_TypeUnitNode.value(unit->getType()));
 
-    this->object_menu_set_settings_from(unit);
-    this->object_menu_set_enabled_for_edit(true);
+    current_wgt()->get_option(unit);
+ //   this->ui->uType_combobox->setCurrentText(this->m_TypeUnitNode.value(unit->getType()));
+
+ //   this->object_menu_set_settings_from(unit);
+ //   this->object_menu_set_enabled_for_edit(true);
    // unit_wgt.show();
     //имя
     //описание
@@ -2547,6 +2550,8 @@ void MainWindowCFG::object_menu_set_settings_default(int type)
     this->ui->uName_combobox->setCurrentText("");
 //qDebug()<<"[object_menu_set_settings_default]";
 
+current_wgt()->get_option(nullptr);
+/*
 switch(type)
 {
 case TypeUnitNode::GROUP:
@@ -2680,7 +2685,9 @@ default:
 this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
 break;
 }
+*/
 }
+
 
 void MainWindowCFG::object_menu_set_settings_from(UnitNode *unit)
 {
@@ -3203,12 +3210,16 @@ void MainWindowCFG::Name_update()
 
     if(this->ui->checkBox->isChecked())
     {
-    QString Name;
+ /*   QString Name;
     Name.clear();
     int type=m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 //    Name.append(this->ui->uType_combobox->currentText());
     QString ip_str;
     QStringList myStringList;
+
+
+
+    //current_wgt()
 
     switch(type)
     {
@@ -3393,13 +3404,13 @@ Name.append("-Вскрытие");
 else
 Name.append(this->ui->SSOI_SD_Num3->currentText());
 
-/*
-if(this->ui->SSOI_SD_OutType->currentIndex()>0)
-{
-Name.append(" тип:");
-Name.append(this->ui->SSOI_SD_OutType->currentText());
-}
-*/
+
+//if(this->ui->SSOI_SD_OutType->currentIndex()>0)
+//{
+//Name.append(" тип:");
+//Name.append(this->ui->SSOI_SD_OutType->currentText());
+//}
+
     break;
 
     case TypeUnitNode::SSOI_IU:
@@ -3432,11 +3443,11 @@ Name.append(")");
     break;
 
     case TypeUnitNode::RASTRMTV:
-Name.append("Камера-");
+    Name.append("Камера-");
 
 
 
-Name.append(this->ui->RASTRMTV_Num3->currentText());
+    Name.append(this->ui->RASTRMTV_Num3->currentText());
 
     break;
 
@@ -3446,19 +3457,19 @@ Name.append(this->ui->RASTRMTV_Num3->currentText());
     break;
 
     case TypeUnitNode::KL:
-Name.append("КЛ-");
-if(this->ui->KL_adress_combobox->currentText().toInt()<10)
-Name.append("0");
-Name.append(this->ui->KL_adress_combobox->currentText());
-Name.append(" СД");
-Name.append(this->ui->KL_CD_combobox->currentText());
+    Name.append("КЛ-");
+    if(this->ui->KL_adress_combobox->currentText().toInt()<10)
+    Name.append("0");
+    Name.append(this->ui->KL_adress_combobox->currentText());
+    Name.append(" СД");
+    Name.append(this->ui->KL_CD_combobox->currentText());
 
     break;
 
     }
 
-
-    this->ui->uName_combobox->setCurrentText(Name);
+*/
+this->ui->uName_combobox->setCurrentText("");
     }
 }
 
@@ -3477,6 +3488,8 @@ void MainWindowCFG::func_to_edit_unit()
     //qDebug()<<"[PROFIT]";
     unit->setName(this->ui->uName_combobox->currentText());
 
+    current_wgt()->set_option(unit);
+    /*
     switch(unit->getType())
         {
         case TypeUnitNode::GROUP:
@@ -3639,6 +3652,8 @@ void MainWindowCFG::func_to_edit_unit()
     break;
 
         }
+
+    */
     this->get_option(unit);
 
     }
@@ -7725,7 +7740,7 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     this->object_menu_set_settings_default(type);
     this->object_menu_set_enabled_for_edit(false);
 
-    Name_update();
+   Name_update();
 
 }
 
@@ -7908,7 +7923,7 @@ this->ui->SD_BL_IP_OutType->insertItem(9,m_SSOI_SD_OutType.value(8));
 
     }
 
-    Name_update();
+   Name_update();
 }
 
 
@@ -8074,148 +8089,148 @@ next();
 
 void MainWindowCFG::on_IU_BL_IP_num_combobox_currentIndexChanged(int index)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_ADAM_Num1_currentIndexChanged(const QString &arg1)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_ADAM_Num2_currentIndexChanged(const QString &arg1)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_TABLO_Num2_currentIndexChanged(const QString &arg1)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_KL_adress_combobox_currentIndexChanged(const QString &arg1)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_KL_CD_combobox_currentIndexChanged(const QString &arg1)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_RLM_C_adress_combobox_currentIndexChanged(const QString &arg1)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_RLM_KRL_adress_combobox_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 
 void MainWindowCFG::on_NET_DEV_IP_combobox_currentTextChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_BOD_SOTA_M_adress_combobox_currentIndexChanged(int index)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_U4_Sota_M_combobox_currentIndexChanged(int index)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_DD_Sota_M_combobox_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_SSOI_IU_Num1_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_SSOI_IU_Num2_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_SSOI_IU_Num3_currentTextChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_SSOI_SD_Num1_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_SSOI_SD_Num2_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_SSOI_SD_Num3_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_SSOI_SD_OutType_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_DEVLINE_Num1_valueChanged(double arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_DEVLINE_OutType_currentIndexChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_ONVIF_IPaddr_combobox_currentTextChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_STRAZH_IP__IPaddr_combobox_currentTextChanged(const QString &arg1)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_TOROS_Num1_currentIndexChanged(int index)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_BOD_T4K_M_adress_combobox_currentIndexChanged(int index)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_Y4_T4K_M_combobox_currentIndexChanged(int index)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_DD_T4K_M_combobox_currentIndexChanged(int index)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_TG_adress_combobox_currentIndexChanged(int index)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_TG_U4_4A_combobox_currentIndexChanged(int index)
 {
-   Name_update();
+  Name_update();
 }
 
 void MainWindowCFG::on_edit_unit_button_clicked()
@@ -8226,17 +8241,17 @@ void MainWindowCFG::on_edit_unit_button_clicked()
 
 void MainWindowCFG::on_ipadress_combobox_currentTextChanged(const QString &arg1)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_RASTRMTV_Num3_currentIndexChanged(int index)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_RLM_KRL_type_comboBox_currentIndexChanged(const QString &arg1)
 {
-    Name_update();
+   Name_update();
 }
 
 void MainWindowCFG::on_findButton_clicked()

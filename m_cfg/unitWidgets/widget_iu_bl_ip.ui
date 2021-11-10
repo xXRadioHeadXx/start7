@@ -78,7 +78,25 @@
     </property>
    </widget>
   </widget>
+  <widget class="communicationTypeWidget" name="communicationType" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>550</width>
+     <height>70</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>communicationTypeWidget</class>
+   <extends>QWidget</extends>
+   <header>unitWidgets/communicationtypewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -23,13 +23,14 @@ int UnitWidget::getID()
 
 void UnitWidget::get_option(UnitNode *unit)
 {
+  qDebug()<<"UnitWidget::get_option";
 
 }
 
 void UnitWidget::set_option(UnitNode *unit)
 {
   qDebug()<<"UnitWidget::set_option";
-  ui->communicationType->set_options(unit);
+
 }
 
 

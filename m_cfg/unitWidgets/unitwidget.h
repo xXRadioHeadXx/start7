@@ -23,7 +23,7 @@ public:
     virtual void get_option(UnitNode* unit);
     virtual void set_option(UnitNode* unit);
 
-
+    virtual QString update_name(){return "";};
 
 protected:
 int ID;

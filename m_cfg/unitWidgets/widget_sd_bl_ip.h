@@ -18,7 +18,7 @@ public:
 
     virtual void get_option(UnitNode* unit);
     virtual void set_option(UnitNode* unit);
-
+    QString update_name() override;
 private:
     Ui::Widget_SD_BL_IP *ui;
 };

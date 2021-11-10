@@ -3,7 +3,19 @@
 #include <QString>
 #include <QMap>
 
+class INameUpdater
+{
+    public:
+        virtual ~INameUpdater() {}
+        virtual void updateName(QString name) = 0;
+};
 
+class IDMaster
+{
+    public:
+        virtual ~IDMaster() {}
+        virtual int getID() = 0;
+};
 
 static const QMap <int,QString> m_SSOI_SD_OutType{
     {0,"не указан"},

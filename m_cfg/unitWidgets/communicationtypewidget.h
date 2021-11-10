@@ -19,6 +19,12 @@ public:
     void get_options(UnitNode* Unit);
     void set_options(UnitNode* Unit);
 
+    QString get_udpAdress();
+
+
+
+
+
 private slots:
     void on_udpUse_currentTextChanged(const QString &arg1);
 
@@ -27,6 +33,8 @@ private:
     int ID;
 
     Ui::communicationTypeWidget *ui;
+
+
 };
 
 #endif // COMMUNICATIONTYPEWIDGET_H
