@@ -1262,8 +1262,17 @@ void MainWindowCFG::get_option(UnitNode* unit)
 {
    this->ui->textEdit->clear();
     //qDebug()<<"get option";
-unit->show();
+    unit->show();
     selected_type=unit->getType();
+
+    foreach(UnitWidget* wgt,l_UnitWidgets){
+        if(wgt->getID()==selected_type){
+
+     wgt->get_string_info_about(unit);
+     this->ui->textEdit->append(wgt->get_string_info_about(unit));
+
+        }
+    }
 
   //  current_wgt()->get_option(unit);
 

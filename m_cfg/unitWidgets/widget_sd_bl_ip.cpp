@@ -124,14 +124,110 @@ void Widget_SD_BL_IP::update_name()
 
 }
 
+QString Widget_SD_BL_IP::get_string_info_about(UnitNode *unit)
+{
+
+
+        QString UdpAdress=unit->getUdpAdress();
+
+
+
+
+        QString str;
+
+
+
+
+        str.append("<b>");str.append(m_TypeUnitNode_d.value(unit->getType()));str.append("</b> ");//  БЛ-IP</b> ");
+
+
+
+        str.append(" :");
+        str.append(" СД:");
+        str.append(QString::number(unit->getNum2()));
+
+        if(unit->getBazalt()==1)
+            {
+                str.append(" +");
+                str.append(" ИУ:");
+                str.append(QString::number(unit->getNum2()));
+            }
+
+
+        str.append("\n");
+
+            str.append(" Кан:");
+
+        if(unit->getUdpUse()==0)
+        {
+            str.append(QString::number(unit->getNum3()));
+
+
+                if(unit->getUdpAdress()!="")
+            {
+                str.append(" (");
+                str.append(unit->getUdpAdress());
+                str.append(")");
+            }
+        }
+        if(unit->getUdpUse()==1)
+        {
+            str.append(unit->getUdpAdress());
+            str.append("::");
+            str.append(QString::number(unit->getUdpPort()));
+
+
+            str.append("\n");
+            str.append("Таймаут: ");
+            str.append(QString::number(unit->getUdpTimeout()));
+            str.append("\n");
+        }
+
+        str.append(" ");
+        if(unit->getBazalt())
+        {
+
+            str.append(m_SD_BL_IP_OutType.value(8));
+        }
+        else
+        {
+            int val = unit->getOutType();
+            if(val)
+            str.append(m_SD_BL_IP_OutType.value(unit->getOutType()));
+
+
+        }
+        return str;
+}
+
 
 
 void Widget_SD_BL_IP::on_Num2_currentIndexChanged(int index)
 {
-    update_name();
+
+
+
+
 }
 
 void Widget_SD_BL_IP::on_OutType_activated(const QString &arg1)
 {
     update_name();
+}
+
+void Widget_SD_BL_IP::on_Num2_currentTextChanged(const QString &arg1)
+{
+    update_name();
+    int res=arg1.toInt();
+    ui->OutType->clear();
+    for(int i=0;i<8;i++)    {
+        ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+    }
+    switch(res)
+    {
+    case 1:
+    case 2:
+    case 3:
+    ui->OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
+    }
 }

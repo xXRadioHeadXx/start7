@@ -410,38 +410,7 @@ private:
     QString str_system_RIF=          "РИФ+";
     QString str_system_SSOI=       "ССОИ-М";
 
-    QString str_NOTHING=          "";
-    QString str_GROUP=          " ГРУППА";
-    QString str_SD_BL_IP=       " БЛ-IP СД";
-    QString str_IU_BL_IP=       " БЛ-IP ИУ";
-    QString str_KL =            " КЛ1 (концентратор) СД";
-    QString str_TG =            " Точка/Гарда";
-    QString str_RLM_KRL =       " РИФ-РЛМ/КРЛ/Трасса";
-    QString str_RLM_C =         " РИФ-РЛМ-С";
-    QString str_STRAZH_IP =     " ТВ-камера+тепловиз.Страж";
-    QString str_NET_DEV =       " Сетевое устройство";
-    QString str_ONVIF =         " ТВ-камера ONVIF";
-    QString str_BOD_T4K_M =     " Точка-М/Гарда БОД";
-    QString str_Y4_T4K_M =      " Точка-М/Гарда Участок";
-    QString str_DD_T4K_M =      " Точка-М/Гарда ДД";
-    QString str_BOD_SOTA =      " Сота/Сота-М БОД";
-    QString str_Y4_SOTA =       " Сота/Сота-М Участок";
-    QString str_DD_SOTA =       " Сота/Сота-М ДД";
 
-    QString str_RIF_RLM=        " РИФ-РЛМ";
-    QString str_RIF_RLM_24=     " РИФ-РЛМ24";
-    QString str_RIF_RLM_B=      " РИФ-РЛМ(Б)";
-    QString str_RIF_KRL=        " РИФ-КРЛ";
-    QString str_Razriv=         " Разрыв";
-    QString str_trassa1l=       " Трасса-1л";
-
-    QString str_SSOI_SD =       " ССОИ СД";
-    QString str_SSOI_IU =       " ССОИ ИУ";
-    QString str_ADAM =          " ADAM";
-    QString str_TOROS =         " Торос";
-    QString str_DEVLINE =       " ТВ-камера DevLine";
-    QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
-    QString str_INFO_TABLO =    " Информационное табло";
 
     QList<QString> l_Unittype_rif={
 
@@ -492,34 +461,7 @@ private:
 {5,str_trassa1l},
 };
 
-    QMap <int,QString> m_TypeUnitNode_d{
-{-1, str_NOTHING},
-{TypeUnitNode::GROUP, str_GROUP},
-{TypeUnitNode::KL ,str_KL },
-{TypeUnitNode::SD_BL_IP ,str_SD_BL_IP },
-{TypeUnitNode::IU_BL_IP ,str_IU_BL_IP },
-{TypeUnitNode::TG ,str_TG },
-{TypeUnitNode::RLM_KRL ,str_RLM_KRL },
-{TypeUnitNode::RLM_C ,str_RLM_C },
-{TypeUnitNode::STRAZH_IP ,str_STRAZH_IP },
-{TypeUnitNode::ONVIF ,str_ONVIF },
-{TypeUnitNode::BOD_T4K_M ,str_BOD_T4K_M },
-{TypeUnitNode::Y4_T4K_M ,str_Y4_T4K_M },
-{TypeUnitNode::DD_T4K_M ,str_DD_T4K_M },
-{TypeUnitNode::BOD_SOTA ,str_BOD_SOTA },
-{TypeUnitNode::Y4_SOTA ,str_Y4_SOTA },
-{TypeUnitNode::DD_SOTA ,str_DD_SOTA },
-{TypeUnitNode::NET_DEV ,str_NET_DEV },
 
-{TypeUnitNode::SSOI_SD ,str_SSOI_SD },
-{TypeUnitNode::SSOI_IU ,str_SSOI_IU },
-{TypeUnitNode::ADAM ,str_ADAM },
-{TypeUnitNode::TOROS ,str_TOROS },
-{TypeUnitNode::DEVLINE ,str_DEVLINE },
-{TypeUnitNode::RASTRMTV ,str_RASTRMTV },
-{TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
-
-    };
 
 
 
@@ -597,11 +539,13 @@ public:
 
     edit_unit_widget unit_wgt;
 
+public slots:
+    void updateName(QString);
 
 
 private slots:
 
-    void updateName(QString);
+
 
     void  clear_list_equals();
 

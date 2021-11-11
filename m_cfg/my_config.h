@@ -2,6 +2,7 @@
 #define MY_CONFIG_H
 #include <QString>
 #include <QMap>
+#include <UnitNode.h>
 
 class INameUpdater
 {
@@ -40,6 +41,68 @@ static const QMap <int,QString> m_SD_BL_IP_OutType{
     {6,"Точка-Гарда"},
     {7,"Разряд"},
     {8,"УЗ Монолит"},
+};
+
+static QString str_NOTHING=          "";
+static QString str_GROUP=          " ГРУППА";
+static QString str_SD_BL_IP=       " БЛ-IP СД";
+static QString str_IU_BL_IP=       " БЛ-IP ИУ";
+static QString str_KL =            " КЛ1 (концентратор) СД";
+static QString str_TG =            " Точка/Гарда";
+static QString str_RLM_KRL =       " РИФ-РЛМ/КРЛ/Трасса";
+static QString str_RLM_C =         " РИФ-РЛМ-С";
+static QString str_STRAZH_IP =     " ТВ-камера+тепловиз.Страж";
+static QString str_NET_DEV =       " Сетевое устройство";
+static QString str_ONVIF =         " ТВ-камера ONVIF";
+static QString str_BOD_T4K_M =     " Точка-М/Гарда БОД";
+static QString str_Y4_T4K_M =      " Точка-М/Гарда Участок";
+static QString str_DD_T4K_M =      " Точка-М/Гарда ДД";
+static QString str_BOD_SOTA =      " Сота/Сота-М БОД";
+static QString str_Y4_SOTA =       " Сота/Сота-М Участок";
+static QString str_DD_SOTA =       " Сота/Сота-М ДД";
+
+static QString str_RIF_RLM=        " РИФ-РЛМ";
+static QString str_RIF_RLM_24=     " РИФ-РЛМ24";
+static QString str_RIF_RLM_B=      " РИФ-РЛМ(Б)";
+static QString str_RIF_KRL=        " РИФ-КРЛ";
+static QString str_Razriv=         " Разрыв";
+static QString str_trassa1l=       " Трасса-1л";
+
+static QString str_SSOI_SD =       " ССОИ СД";
+static QString str_SSOI_IU =       " ССОИ ИУ";
+static QString str_ADAM =          " ADAM";
+static QString str_TOROS =         " Торос";
+static QString str_DEVLINE =       " ТВ-камера DevLine";
+static QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
+static QString str_INFO_TABLO =    " Информационное табло";
+
+static QMap <int,QString> m_TypeUnitNode_d{
+{-1, str_NOTHING},
+{TypeUnitNode::GROUP, str_GROUP},
+{TypeUnitNode::KL ,str_KL },
+{TypeUnitNode::SD_BL_IP ,str_SD_BL_IP },
+{TypeUnitNode::IU_BL_IP ,str_IU_BL_IP },
+{TypeUnitNode::TG ,str_TG },
+{TypeUnitNode::RLM_KRL ,str_RLM_KRL },
+{TypeUnitNode::RLM_C ,str_RLM_C },
+{TypeUnitNode::STRAZH_IP ,str_STRAZH_IP },
+{TypeUnitNode::ONVIF ,str_ONVIF },
+{TypeUnitNode::BOD_T4K_M ,str_BOD_T4K_M },
+{TypeUnitNode::Y4_T4K_M ,str_Y4_T4K_M },
+{TypeUnitNode::DD_T4K_M ,str_DD_T4K_M },
+{TypeUnitNode::BOD_SOTA ,str_BOD_SOTA },
+{TypeUnitNode::Y4_SOTA ,str_Y4_SOTA },
+{TypeUnitNode::DD_SOTA ,str_DD_SOTA },
+{TypeUnitNode::NET_DEV ,str_NET_DEV },
+
+{TypeUnitNode::SSOI_SD ,str_SSOI_SD },
+{TypeUnitNode::SSOI_IU ,str_SSOI_IU },
+{TypeUnitNode::ADAM ,str_ADAM },
+{TypeUnitNode::TOROS ,str_TOROS },
+{TypeUnitNode::DEVLINE ,str_DEVLINE },
+{TypeUnitNode::RASTRMTV ,str_RASTRMTV },
+{TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
+
 };
 
 #endif // MY_CONFIG_H
