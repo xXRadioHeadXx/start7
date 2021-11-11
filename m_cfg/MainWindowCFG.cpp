@@ -1495,7 +1495,7 @@ if(this_name_is_free(this->ui->uName_combobox->currentText())==false)
 
 
     //qDebug()<<"[set_option]";
-int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
+int type=m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 
 current_wgt()->set_option(unit);
 setUdpTimeout_for_BL_IP(unit);
@@ -2317,7 +2317,7 @@ void MainWindowCFG::open_edit_menu()
 
     object_menu_change(unit->getType());
     current_wgt()->get_option(unit);
-    this->ui->uType_combobox->setCurrentText(this->m_TypeUnitNode.value(unit->getType()));
+    this->ui->uType_combobox->setCurrentText(m_TypeUnitNode.value(unit->getType()));
 
  //   this->object_menu_set_settings_from(unit);
  //   this->object_menu_set_enabled_for_edit(true);
@@ -3750,7 +3750,7 @@ bool MainWindowCFG::add_unit()
     }
 
 
-    int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
+    int type=m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 
     /*
     QString type_srtring=this->ui->uType_combobox->currentText();
@@ -3940,7 +3940,7 @@ void MainWindowCFG::show_the_tree()
     {
         //qDebug()<<"---------------------------------------------------------------------------";
         qDebug()<<"Name:  "<<unit->getName()
-        <<"/Type:  "<<this->m_TypeUnitNode.value(unit->getType())
+        <<"/Type:  "<<m_TypeUnitNode.value(unit->getType())
         <<"/Level: "<<unit->getLevel();
     }
 
@@ -3964,7 +3964,7 @@ void MainWindowCFG::get_option_SD_BL_IP(UnitNode *unit)
 //    int UdpPort=unit->getUdpPort();
 /*
     qDebug()<<"Name: "<<unit->getName()
-            <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
+            <<" Type:"<<m_TypeUnitNode.value(unit->getType())
             <<" Num2:"<<QString::number(unit->getNum2())
             <<" DK:"<<QString::number(unit->getDK())
             <<" Bazalt:"<<QString::number(unit->getBazalt())
@@ -5614,7 +5614,7 @@ void MainWindowCFG::set_option_SD_BL_IP(UnitNode *unit)
     SD_BL_IP_set_values_from_combobox(unit);
 
     qDebug()<<"Name: "<<unit->getName()
-            <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
+            <<" Type:"<<m_TypeUnitNode.value(unit->getType())
             <<" Num2:"<<QString::number(unit->getNum2())
             <<" DK:"<<QString::number(unit->getDK())
             <<" Bazalt:"<<QString::number(unit->getBazalt())
@@ -5912,7 +5912,7 @@ void MainWindowCFG::get_option_SSOI_SD(UnitNode *unit)
     //    int UdpPort=unit->getUdpPort();
 
         qDebug()<<"Name: "<<unit->getName()
-                <<" Type:"<<this->m_TypeUnitNode.value(unit->getType())
+                <<" Type:"<<m_TypeUnitNode.value(unit->getType())
                 <<" Num1:"<<QString::number(unit->getNum1())
                 <<" Num2:"<<QString::number(unit->getNum2())
                 <<" Num3:"<<QString::number(unit->getNum3())
@@ -7772,7 +7772,8 @@ void MainWindowCFG::on_uType_combobox_activated(const QString &arg1)
     this->object_menu_set_settings_default(type);
     this->object_menu_set_enabled_for_edit(false);
 
-   Name_update();
+    current_wgt()->update_name();
+   //Name_update();
 
 }
 
@@ -8006,7 +8007,7 @@ void MainWindowCFG::on_pushButton_3_clicked()
     unit->setTimeIntervalStatusRequest(0);
 
 
-    unit->setType(this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText()));
+    unit->setType(m_TypeUnitNode.key(this->ui->uType_combobox->currentText()));
 
 
     if(this->ui->stackedWidget_2->currentWidget()==this->ui->coordinates_for_all)
