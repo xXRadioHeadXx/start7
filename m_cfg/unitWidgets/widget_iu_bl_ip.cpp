@@ -85,10 +85,10 @@ void Widget_IU_BL_IP::update_name()
 
 }
 
-void Widget_IU_BL_IP::enable()
+void Widget_IU_BL_IP::setEnabled(bool val)
 {
     ui->Num2->setEnabled(true);
-    ui->communicationType->enable();
+    ui->communicationType->setEnabled(true);
 }
 
 QString Widget_IU_BL_IP::get_string(UnitNode *unit)

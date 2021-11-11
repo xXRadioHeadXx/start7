@@ -32,7 +32,7 @@ void Widget_NET_DEV::update_name()
 
 }
 
-void Widget_NET_DEV::enable()
+void Widget_NET_DEV::setEnabled(bool val)
 {
 
 }

@@ -19,9 +19,14 @@ public:
     void get_option(UnitNode* unit) override;
     void set_option(UnitNode* unit) override;
     void update_name() override;
-    void enable() override;
+    void setEnabled(bool) override;
 
     QString get_string(UnitNode* unit) override;
+private slots:
+    void on_Num1_currentIndexChanged(int index);
+
+    void on_Num2_currentIndexChanged(int index);
+
 private:
     Ui::Widget_ADAM *ui;
 };

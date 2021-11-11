@@ -32,7 +32,7 @@ void Widget_DD_T4K_M::update_name()
 
 }
 
-void Widget_DD_T4K_M::enable()
+void Widget_DD_T4K_M::setEnabled(bool val)
 {
 
 }

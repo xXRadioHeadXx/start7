@@ -32,7 +32,7 @@ void Widget_Y4_SOTA::update_name()
 
 }
 
-void Widget_Y4_SOTA::enable()
+void Widget_Y4_SOTA::setEnabled(bool val)
 {
 
 }

@@ -32,7 +32,7 @@ void Widget_RASTRMTV::update_name()
 
 }
 
-void Widget_RASTRMTV::enable()
+void Widget_RASTRMTV::setEnabled(bool val)
 {
 
 }

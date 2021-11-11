@@ -32,7 +32,7 @@ void Widget_DD_SOTA::update_name()
 
 }
 
-void Widget_DD_SOTA::enable()
+void Widget_DD_SOTA::setEnabled(bool val)
 {
 
 }

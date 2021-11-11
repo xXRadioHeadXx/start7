@@ -32,7 +32,7 @@ void Widget_RLM_KRL::update_name()
 
 }
 
-void Widget_RLM_KRL::enable()
+void Widget_RLM_KRL::setEnabled(bool val)
 {
 
 }

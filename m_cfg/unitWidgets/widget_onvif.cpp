@@ -32,7 +32,7 @@ void Widget_ONVIF::update_name()
 
 }
 
-void Widget_ONVIF::enable()
+void Widget_ONVIF::setEnabled(bool val)
 {
 
 }

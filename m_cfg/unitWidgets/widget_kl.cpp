@@ -32,7 +32,7 @@ void Widget_KL::update_name()
 
 }
 
-void Widget_KL::enable()
+void Widget_KL::setEnabled(bool val)
 {
 
 }

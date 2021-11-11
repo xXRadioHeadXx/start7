@@ -32,7 +32,7 @@ void Widget_TG::update_name()
 
 }
 
-void Widget_TG::enable()
+void Widget_TG::setEnabled(bool val)
 {
 
 }

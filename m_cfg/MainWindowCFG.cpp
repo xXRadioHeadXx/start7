@@ -1252,7 +1252,7 @@ void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
 
  this->ui->stackedWidget_3->setCurrentIndex(0);
-    current_wgt()->enable();
+    current_wgt()->setEnabled(true);
 
 this->ui->edit_unit_button->setDisabled(true);
     current_index=index;

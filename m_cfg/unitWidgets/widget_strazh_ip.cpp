@@ -32,7 +32,7 @@ void Widget_STRAZH_IP::update_name()
 
 }
 
-void Widget_STRAZH_IP::enable()
+void Widget_STRAZH_IP::setEnabled(bool val)
 {
 
 }

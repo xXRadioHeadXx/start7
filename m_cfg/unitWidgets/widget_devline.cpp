@@ -32,7 +32,7 @@ void Widget_DEVLINE::update_name()
 
 }
 
-void Widget_DEVLINE::enable()
+void Widget_DEVLINE::setEnabled(bool val)
 {
 
 }

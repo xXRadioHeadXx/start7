@@ -32,7 +32,7 @@ void Widget_TOROS::update_name()
 
 }
 
-void Widget_TOROS::enable()
+void Widget_TOROS::setEnabled(bool val)
 {
 
 }

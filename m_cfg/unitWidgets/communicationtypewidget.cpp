@@ -84,12 +84,12 @@ void communicationTypeWidget::set_options(UnitNode *unit)
     unit->setNum3(ui->Num3->currentText().toInt());
 }
 
-void communicationTypeWidget::enable()
+void communicationTypeWidget::setEnabled(bool val)
 {
-    ui->udpUse->setEnabled(true);
-    ui->udpAdress->setEnabled(true);
-    ui->udpPort->setEnabled(true);
-    ui->Num3->setEnabled(true);
+    ui->udpUse->setEnabled(val);
+    ui->udpAdress->setEnabled(val);
+    ui->udpPort->setEnabled(val);
+    ui->Num3->setEnabled(val);
 }
 
 QString communicationTypeWidget::get_udpAdress()

@@ -32,7 +32,7 @@ void Widget_GROUP::update_name()
 
 }
 
-void Widget_GROUP::enable()
+void Widget_GROUP::setEnabled(bool val)
 {
 
 }

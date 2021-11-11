@@ -7,6 +7,19 @@ Widget_INFO_TABLO::Widget_INFO_TABLO(QWidget *parent) :
 {
     ID=TypeUnitNode::INFO_TABLO;
     ui->setupUi(this);
+
+    //Num2
+    for(int i=1;i<1000;i++){
+        QString str;
+        if(i/10<1){
+        str.append("0");
+        }
+        if(i/100<1){
+         str.append("0");
+        }
+        str.append(QString::number(i));
+        ui->Num2->addItem(str);
+    }
 }
 
 Widget_INFO_TABLO::~Widget_INFO_TABLO()
@@ -32,7 +45,7 @@ void Widget_INFO_TABLO::update_name()
 
 }
 
-void Widget_INFO_TABLO::enable()
+void Widget_INFO_TABLO::setEnabled(bool val)
 {
 
 }

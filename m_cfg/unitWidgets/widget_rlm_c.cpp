@@ -32,7 +32,7 @@ void Widget_RLM_C::update_name()
 
 }
 
-void Widget_RLM_C::enable()
+void Widget_RLM_C::setEnabled(bool val)
 {
 
 }
