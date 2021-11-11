@@ -39,7 +39,8 @@ void communicationTypeWidget::get_options(UnitNode *unit)
 qDebug()<<"communicationTypeWidget::get_option";
 if(unit){
 
-    ui->udpUse->setCurrentText(QString::number(unit->getUdpUse()));
+    ui->udpUse->setCurrentText((unit->getUdpUse()==1)?" UDP":"RS485");
+     this->ui->UDP_RS485_stacked->setCurrentWidget((unit->getUdpUse()==1)?ui->UDP:ui->RS485);
     ui->udpAdress->setCurrentText(unit->getUdpAdress());
     ui->udpPort->setValue(unit->getUdpPort());
     ui->udpTimeout->setValue(unit->getUdpTimeout());
@@ -81,6 +82,14 @@ void communicationTypeWidget::set_options(UnitNode *unit)
     unit->setUdpPort(ui->udpPort->text().toInt());
     unit->setUdpTimeout(ui->udpTimeout->text().toInt());
     unit->setNum3(ui->Num3->currentText().toInt());
+}
+
+void communicationTypeWidget::enable()
+{
+    ui->udpUse->setEnabled(true);
+    ui->udpAdress->setEnabled(true);
+    ui->udpPort->setEnabled(true);
+    ui->Num3->setEnabled(true);
 }
 
 QString communicationTypeWidget::get_udpAdress()

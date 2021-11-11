@@ -19,6 +19,8 @@ public:
     void get_option(UnitNode* unit) override;
     void set_option(UnitNode* unit) override;
     void update_name() override;
+    void enable() override;
+
     QString get_string(UnitNode* unit) override;
 private slots:
     void on_Num2_currentIndexChanged(int index);

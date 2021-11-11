@@ -25,6 +25,7 @@ public:
     virtual void set_option(UnitNode* unit);
 
     virtual void update_name(){};
+    virtual void enable(){};
     virtual QString get_string(UnitNode* unit){return "";};
 
 protected:

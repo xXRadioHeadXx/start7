@@ -19,6 +19,8 @@ public:
     void get_options(UnitNode* Unit);
     void set_options(UnitNode* Unit);
 
+    void enable();
+
     QString get_udpAdress();
 
 

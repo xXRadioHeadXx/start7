@@ -1231,6 +1231,7 @@ void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
 
  this->ui->stackedWidget_3->setCurrentIndex(0);
+    current_wgt()->enable();
 
 this->ui->edit_unit_button->setDisabled(true);
     current_index=index;
@@ -1496,7 +1497,8 @@ if(this_name_is_free(this->ui->uName_combobox->currentText())==false)
     //qDebug()<<"[set_option]";
 int type=this->m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
 
- current_wgt()->set_option(unit);
+current_wgt()->set_option(unit);
+setUdpTimeout_for_BL_IP(unit);
 /*
        switch(type)
        {
@@ -2313,9 +2315,9 @@ void MainWindowCFG::open_edit_menu()
     QModelIndex index =this->ui->treeView->currentIndex();
     UnitNode *unit = static_cast<UnitNode*>(index.internalPointer());
 
-
+    object_menu_change(unit->getType());
     current_wgt()->get_option(unit);
- //   this->ui->uType_combobox->setCurrentText(this->m_TypeUnitNode.value(unit->getType()));
+    this->ui->uType_combobox->setCurrentText(this->m_TypeUnitNode.value(unit->getType()));
 
  //   this->object_menu_set_settings_from(unit);
  //   this->object_menu_set_enabled_for_edit(true);
@@ -3515,6 +3517,10 @@ void MainWindowCFG::func_to_edit_unit()
     unit->setName(this->ui->uName_combobox->currentText());
 
     current_wgt()->set_option(unit);
+    setUdpTimeout_for_BL_IP(unit);
+
+
+
     /*
     switch(unit->getType())
         {
@@ -3524,7 +3530,7 @@ void MainWindowCFG::func_to_edit_unit()
 
         case TypeUnitNode::SD_BL_IP:
 
-    qDebug()<<"SD_BL_IP:";
+        qDebug()<<"SD_BL_IP:";
         unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
         unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
         setUdpTimeout_for_BL_IP(unit);

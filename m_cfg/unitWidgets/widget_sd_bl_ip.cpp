@@ -34,7 +34,7 @@ void Widget_SD_BL_IP::get_option(UnitNode *unit)
     }else{
         ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(0));
         ui->Num2->setCurrentIndex(0);
-       ui->Num2->setEnabled(true);
+        ui->Num2->setEnabled(true);
 
 
     }
@@ -122,6 +122,12 @@ void Widget_SD_BL_IP::update_name()
 
 
 
+}
+
+void Widget_SD_BL_IP::enable()
+{
+         ui->Num2->setEnabled(true);
+         ui->communicationType->enable();
 }
 
 QString Widget_SD_BL_IP::get_string(UnitNode *unit)
