@@ -34,7 +34,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QComboBox" name="IU_BL_IP_num_combobox">
+   <widget class="QComboBox" name="Num2">
     <property name="geometry">
      <rect>
       <x>0</x>

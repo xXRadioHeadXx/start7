@@ -25,7 +25,40 @@
 
 #include <unitWidgets/widget_iu_bl_ip.h>
 #include <unitWidgets/widget_sd_bl_ip.h>
+#include <unitWidgets/widget_group.h>
+#include <unitWidgets/widget_adam.h>
 
+#include <unitWidgets/widget_kl.h>
+#include <unitWidgets/widget_tg.h>
+#include <unitWidgets/widget_rlm_krl.h>
+#include <unitWidgets/widget_rlm_c.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_strazh_ip.h>
+#include <unitWidgets/widget_onvif.h>
+#include <unitWidgets/widget_bod_t4k_m.h>
+#include <unitWidgets/widget_bod_sota.h>
+#include <unitWidgets/widget_y4_sota.h>
+#include <unitWidgets/widget_y4_t4k_m.h>
+#include <unitWidgets/widget_dd_sota.h>
+#include <unitWidgets/widget_dd_t4k_m.h>
+#include <unitWidgets/widget_devline.h>
+#include <unitWidgets/widget_net_dev.h>
+#include <unitWidgets/widget_ssoi_iu.h>
+#include <unitWidgets/widget_ssoi_sd.h>
+#include <unitWidgets/widget_toros.h>
+#include <unitWidgets/widget_rastrmtv.h>
+#include <unitWidgets/widget_info_tablo.h>
+#include <unitWidgets/widget_tg.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_adam.h>
 #include <my_config.h>
 
 QT_BEGIN_NAMESPACE
@@ -53,8 +86,31 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:    
 
-    Widget_IU_BL_IP w_IU_BL_IP;
+    Widget_GROUP w_GROUP;
+    Widget_KL w_KL;
     Widget_SD_BL_IP w_SD_BL_IP;
+    Widget_IU_BL_IP w_IU_BL_IP ;
+    Widget_TG w_TG ;
+    Widget_RLM_KRL w_RLM_KRL;
+    Widget_RLM_C w_RLM_C;
+    Widget_STRAZH_IP w_STRAZH_IP;
+    Widget_ONVIF w_ONVIF;
+    Widget_BOD_T4K_M w_BOD_T4K_M;
+    Widget_Y4_T4K_M w_Y4_T4K_M;
+    Widget_DD_T4K_M w_DD_T4K_M;
+    Widget_BOD_SOTA w_BOD_SOTA;
+    Widget_Y4_SOTA w_Y4_SOTA;
+    Widget_DD_SOTA w_DD_SOTA;
+    Widget_NET_DEV w_NET_DEV;
+
+
+    Widget_SSOI_SD w_SSOI_SD;
+    Widget_SSOI_IU w_SSOI_IU;
+    Widget_ADAM w_ADAM;
+    Widget_TOROS w_TOROS;
+    Widget_DEVLINE w_DEVLINE;
+    Widget_RASTRMTV w_RASTRMTV;
+    Widget_INFO_TABLO w_INFO_TABLO;
 
     QList<UnitWidget*> l_UnitWidgets;
 

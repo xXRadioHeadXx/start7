@@ -15,8 +15,15 @@ public:
     explicit Widget_IU_BL_IP(QWidget *parent = nullptr);
     ~Widget_IU_BL_IP();
 
-    virtual void get_option(UnitNode* unit){};
-    virtual void set_option(UnitNode* unit){};
+    void get_option(UnitNode* unit) override;
+    void set_option(UnitNode* unit) override;
+    void update_name() override;
+    void enable() override;
+
+    QString get_string(UnitNode* unit) override;
+
+private slots:
+    void on_Num2_currentIndexChanged(int index);
 
 private:
     Ui::Widget_IU_BL_IP *ui;

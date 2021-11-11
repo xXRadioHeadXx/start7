@@ -23,7 +23,6 @@ Widget_SD_BL_IP::~Widget_SD_BL_IP()
 
 void Widget_SD_BL_IP::get_option(UnitNode *unit)
 {
-    qDebug()<<"SD_BL_IP::get_option";
     ui->communicationType->get_options(unit);
 
     if(unit){
@@ -50,15 +49,10 @@ void Widget_SD_BL_IP::get_option(UnitNode *unit)
 
 void Widget_SD_BL_IP::set_option(UnitNode *unit)
 {
-    qDebug()<<"SD_BL_IP::set_option";
-
-  ui->communicationType->set_options(unit);
-
+    ui->communicationType->set_options(unit);
     unit->setNum1(255);
-
     unit->setNum2(ui->Num2->currentText().toInt());
-
-//Set OutType
+    //Set OutType
     int key=m_SD_BL_IP_OutType.key(ui->OutType->currentText());
 
         unit->setOutType(key);
@@ -81,7 +75,6 @@ void Widget_SD_BL_IP::set_option(UnitNode *unit)
 
 void Widget_SD_BL_IP::update_name()
 {
-    qDebug()<<"SD_BL_IP::update_name";
     QString name;
 
     name.append("БЛ");
