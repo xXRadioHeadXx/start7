@@ -131,7 +131,7 @@ m_ctrl=new Control_Unit_Manager();
 QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
         if(str_system==str_system_RIF)
         {
-         this->setWindowTitle("Настройка комплекса РИФ+ b." + date.toString("dd.MM.yyyy"));
+         this->setWindowTitle("[!!!] Настройка комплекса РИФ+ b." + date.toString("dd.MM.yyyy"));
         }
         if(str_system==str_system_SSOI)
         {
