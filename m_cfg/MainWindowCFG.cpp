@@ -123,8 +123,9 @@ w_SSOI_SD=new Widget_SSOI_SD(this,this->ui->communicationType) ;l_UnitWidgets.ap
 w_SSOI_IU=new Widget_SSOI_IU(this,this->ui->communicationType) ;l_UnitWidgets.append(w_SSOI_IU);
 w_TOROS=new Widget_TOROS(this,this->ui->communicationType) ;l_UnitWidgets.append(w_TOROS);
 w_DEVLINE=new Widget_DEVLINE(this,this->ui->communicationType) ;l_UnitWidgets.append(w_DEVLINE);
-w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType) ;l_UnitWidgets.append(w_RASTRMTV);
+w_INFO_TABLO=new Widget_INFO_TABLO(this,this->ui->communicationType) ;l_UnitWidgets.append(w_INFO_TABLO);
 
+w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType) ;l_UnitWidgets.append(w_RASTRMTV);
 /*
 l_UnitWidgets.append(w_KL);
 

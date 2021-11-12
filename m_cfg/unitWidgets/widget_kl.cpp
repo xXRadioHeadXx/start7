@@ -7,6 +7,16 @@ Widget_KL::Widget_KL(QWidget *parent, communicationTypeWidget *comm) :
 {
     ID=TypeUnitNode::KL;
     ui->setupUi(this);
+/*
+    for(int i=0;i<100;i++){
+        ui->Num1->addItem(QString::number(i));
+    }
+
+    for(int i=0;i<4;i++){
+        ui->Num2->addItem(QString::number(i));
+    }
+    */
+
 }
 
 Widget_KL::~Widget_KL()
@@ -16,14 +26,15 @@ Widget_KL::~Widget_KL()
 
 void Widget_KL::get_option(UnitNode *unit)
 {
-
+    ui->Num1->setCurrentText(QString::number(unit->getNum1()));
+    ui->Num2->setCurrentText(QString::number(unit->getNum2()));
 }
 
 void Widget_KL::set_option(UnitNode *unit)
 {
-    unit->setNum1(-1);
-    unit->setNum2(-1);
-    unit->setNum3(-1);
+    unit->setNum1(ui->Num1->currentText().toInt());
+    unit->setNum2(ui->Num2->currentText().toInt());
+
 }
 
 void Widget_KL::update_name()
@@ -44,4 +55,13 @@ QString Widget_KL::get_string(UnitNode *unit)
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
     string1.append(unit->getName());
    return string1;
+}
+
+void Widget_KL::on_Num1_currentIndexChanged(const QString &arg1)
+{
+    update_name();
+}
+void Widget_KL::on_Num2_currentIndexChanged(const QString &arg1)
+{
+    update_name();
 }
