@@ -27,10 +27,17 @@ Widget_INFO_TABLO::~Widget_INFO_TABLO()
     delete ui;
 }
 
-void Widget_INFO_TABLO::get_option(UnitNode *unit)
+void Widget_INFO_TABLO::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_INFO_TABLO::get_default()
+{
+
+}
+
+
 
 void Widget_INFO_TABLO::set_option(UnitNode *unit)
 {

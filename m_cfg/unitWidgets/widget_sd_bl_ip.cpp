@@ -21,33 +21,21 @@ Widget_SD_BL_IP::~Widget_SD_BL_IP()
     delete ui;
 }
 
-void Widget_SD_BL_IP::get_option(UnitNode *unit)
+void Widget_SD_BL_IP::get_from(UnitNode *unit)
 {
-    qDebug()<<"Widget_SD_BL_IP";
-    comm->setVisible(true);
-    comm->get_options(unit,getID());
-
-    if(unit){
-        ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
-        ui->Num2->setCurrentText(QString::number(unit->getNum2()));
-        ui->Num2->setEnabled(false);
-
-    }else{
-        ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(0));
-        ui->Num2->setCurrentIndex(0);
-        ui->Num2->setEnabled(true);
-
-
-    }
-
-
-
-
-
-
-
-
+    qDebug()<<"Widget_SD_BL_IP::get_from";
+    ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
+    ui->Num2->setCurrentText(QString::number(unit->getNum2()));
 }
+
+void Widget_SD_BL_IP::get_default()
+{
+    qDebug()<<"Widget_SD_BL_IP::get_default";
+    ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(0));
+    ui->Num2->setCurrentIndex(0);
+}
+
+
 
 void Widget_SD_BL_IP::set_option(UnitNode *unit)
 {
@@ -121,8 +109,8 @@ void Widget_SD_BL_IP::update_name()
 
 void Widget_SD_BL_IP::setEnabled(bool val)
 {
-         ui->Num2->setEnabled(true);
-         comm->setEnabled(true);
+         ui->Num2->setEnabled(val);
+         comm->setEnabled(val);
 }
 
 QString Widget_SD_BL_IP::get_string(UnitNode *unit)

@@ -15,10 +15,17 @@ Widget_SSOI_SD::~Widget_SSOI_SD()
     delete ui;
 }
 
-void Widget_SSOI_SD::get_option(UnitNode *unit)
+void Widget_SSOI_SD::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_SSOI_SD::get_default()
+{
+
+}
+
+
 
 void Widget_SSOI_SD::set_option(UnitNode *unit)
 {

@@ -14,10 +14,17 @@ Widget_RASTRMTV::~Widget_RASTRMTV()
     delete ui;
 }
 
-void Widget_RASTRMTV::get_option(UnitNode *unit)
+void Widget_RASTRMTV::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_RASTRMTV::get_default()
+{
+
+}
+
+
 
 void Widget_RASTRMTV::set_option(UnitNode *unit)
 {

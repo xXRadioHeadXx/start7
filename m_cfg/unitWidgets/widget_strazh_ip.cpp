@@ -14,10 +14,17 @@ Widget_STRAZH_IP::~Widget_STRAZH_IP()
     delete ui;
 }
 
-void Widget_STRAZH_IP::get_option(UnitNode *unit)
+void Widget_STRAZH_IP::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_STRAZH_IP::get_default()
+{
+
+}
+
+
 
 void Widget_STRAZH_IP::set_option(UnitNode *unit)
 {

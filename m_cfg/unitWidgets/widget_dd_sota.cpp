@@ -14,10 +14,17 @@ Widget_DD_SOTA::~Widget_DD_SOTA()
     delete ui;
 }
 
-void Widget_DD_SOTA::get_option(UnitNode *unit)
+void Widget_DD_SOTA::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_DD_SOTA::get_default()
+{
+
+}
+
+
 
 void Widget_DD_SOTA::set_option(UnitNode *unit)
 {

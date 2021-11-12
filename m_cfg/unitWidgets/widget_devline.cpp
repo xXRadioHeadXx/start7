@@ -14,10 +14,17 @@ Widget_DEVLINE::~Widget_DEVLINE()
     delete ui;
 }
 
-void Widget_DEVLINE::get_option(UnitNode *unit)
+void Widget_DEVLINE::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_DEVLINE::get_default()
+{
+
+}
+
+
 
 void Widget_DEVLINE::set_option(UnitNode *unit)
 {

@@ -14,10 +14,17 @@ Widget_NET_DEV::~Widget_NET_DEV()
     delete ui;
 }
 
-void Widget_NET_DEV::get_option(UnitNode *unit)
+void Widget_NET_DEV::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_NET_DEV::get_default()
+{
+
+}
+
+
 
 void Widget_NET_DEV::set_option(UnitNode *unit)
 {

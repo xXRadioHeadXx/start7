@@ -14,10 +14,17 @@ Widget_ONVIF::~Widget_ONVIF()
     delete ui;
 }
 
-void Widget_ONVIF::get_option(UnitNode *unit)
+void Widget_ONVIF::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_ONVIF::get_default()
+{
+
+}
+
+
 
 void Widget_ONVIF::set_option(UnitNode *unit)
 {

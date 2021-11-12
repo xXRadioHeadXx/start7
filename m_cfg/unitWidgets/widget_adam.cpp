@@ -32,6 +32,16 @@ Widget_ADAM::~Widget_ADAM()
     delete ui;
 }
 
+void Widget_ADAM::get_from(UnitNode *unit)
+{
+
+}
+
+void Widget_ADAM::get_default()
+{
+
+}
+/*
 void Widget_ADAM::get_option(UnitNode *unit)
 {
     comm->setVisible(false);
@@ -52,6 +62,7 @@ void Widget_ADAM::get_option(UnitNode *unit)
     setEnabled(true);
     }
 }
+*/
 
 void Widget_ADAM::set_option(UnitNode *unit)
 {

@@ -16,7 +16,8 @@ public:
     explicit Widget_Y4_T4K_M(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~Widget_Y4_T4K_M();
 
-    void get_option(UnitNode* unit) override;
+    void get_from(UnitNode* unit) override;
+    void get_default() override;
     void set_option(UnitNode* unit) override;
     void update_name() override;
     void setEnabled(bool) override;

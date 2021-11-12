@@ -21,16 +21,22 @@ public:
     int getID();
 
 
-    virtual void get_option(UnitNode* unit);
+
+
+    virtual void get_from(UnitNode* unit){};
+    virtual void get_default(){};
+
     virtual void set_option(UnitNode* unit);
 
     virtual void update_name(){};
     virtual void setEnabled(bool){};
     virtual QString get_string(UnitNode* unit){return "";};
 
+    void get_option(UnitNode* unit);
 protected:
     int ID;
     communicationTypeWidget* comm;
+
 //MainWindowCFG* wnd;
 
 

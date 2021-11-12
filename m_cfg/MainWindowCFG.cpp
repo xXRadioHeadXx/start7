@@ -103,6 +103,7 @@ m_ctrl=new Control_Unit_Manager();
 w_GROUP=new Widget_GROUP(this,this->ui->communicationType) ;l_UnitWidgets.append(w_GROUP);
 w_SD_BL_IP=new Widget_SD_BL_IP(this,this->ui->communicationType) ;l_UnitWidgets.append(w_SD_BL_IP);
 w_IU_BL_IP=new Widget_IU_BL_IP(this,this->ui->communicationType) ;l_UnitWidgets.append(w_IU_BL_IP );
+
 w_ADAM=new Widget_ADAM(this,this->ui->communicationType) ;l_UnitWidgets.append(w_ADAM);
 
 w_KL=new Widget_KL(this,this->ui->communicationType) ;l_UnitWidgets.append(w_KL);
@@ -126,6 +127,7 @@ w_DEVLINE=new Widget_DEVLINE(this,this->ui->communicationType) ;l_UnitWidgets.ap
 w_INFO_TABLO=new Widget_INFO_TABLO(this,this->ui->communicationType) ;l_UnitWidgets.append(w_INFO_TABLO);
 
 w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType) ;l_UnitWidgets.append(w_RASTRMTV);
+
 /*
 l_UnitWidgets.append(w_KL);
 

@@ -17,7 +17,8 @@ public:
 
     ~Widget_DD_T4K_M();
 
-    void get_option(UnitNode* unit) override;
+    void get_from(UnitNode* unit) override;
+    void get_default() override;
     void set_option(UnitNode* unit) override;
     void update_name() override;
     void setEnabled(bool) override;

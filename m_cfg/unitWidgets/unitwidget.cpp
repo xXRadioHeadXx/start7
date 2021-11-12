@@ -25,6 +25,19 @@ int UnitWidget::getID()
 void UnitWidget::get_option(UnitNode *unit)
 {
   qDebug()<<"UnitWidget::get_option";
+  comm->setVisible(true);
+  comm->get_options(unit,getID());
+
+  if(unit){
+        get_from(unit);
+        setEnabled(false);
+
+  }else{
+        get_default();
+        setEnabled(true);
+
+
+  }
 
 }
 

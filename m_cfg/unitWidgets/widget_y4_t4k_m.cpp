@@ -14,10 +14,17 @@ Widget_Y4_T4K_M::~Widget_Y4_T4K_M()
     delete ui;
 }
 
-void Widget_Y4_T4K_M::get_option(UnitNode *unit)
+void Widget_Y4_T4K_M::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_Y4_T4K_M::get_default()
+{
+
+}
+
+
 
 void Widget_Y4_T4K_M::set_option(UnitNode *unit)
 {

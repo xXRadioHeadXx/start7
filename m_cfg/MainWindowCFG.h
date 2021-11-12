@@ -87,9 +87,11 @@ class MainWindowCFG : public QMainWindow
 private:    
 
     Widget_GROUP* w_GROUP;
-    Widget_KL* w_KL;
     Widget_SD_BL_IP* w_SD_BL_IP;
     Widget_IU_BL_IP* w_IU_BL_IP ;
+
+    Widget_KL* w_KL;
+
     Widget_TG* w_TG ;
     Widget_RLM_KRL* w_RLM_KRL;
     Widget_RLM_C* w_RLM_C;

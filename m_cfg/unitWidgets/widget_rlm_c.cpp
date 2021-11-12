@@ -14,10 +14,17 @@ Widget_RLM_C::~Widget_RLM_C()
     delete ui;
 }
 
-void Widget_RLM_C::get_option(UnitNode *unit)
+void Widget_RLM_C::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_RLM_C::get_default()
+{
+
+}
+
+
 
 void Widget_RLM_C::set_option(UnitNode *unit)
 {

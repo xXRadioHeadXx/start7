@@ -14,10 +14,17 @@ Widget_Y4_SOTA::~Widget_Y4_SOTA()
     delete ui;
 }
 
-void Widget_Y4_SOTA::get_option(UnitNode *unit)
+void Widget_Y4_SOTA::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_Y4_SOTA::get_default()
+{
+
+}
+
+
 
 void Widget_Y4_SOTA::set_option(UnitNode *unit)
 {

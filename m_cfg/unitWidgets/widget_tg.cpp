@@ -17,10 +17,17 @@ Widget_TG::~Widget_TG()
     delete ui;
 }
 
-void Widget_TG::get_option(UnitNode *unit)
+void Widget_TG::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_TG::get_default()
+{
+
+}
+
+
 
 void Widget_TG::set_option(UnitNode *unit)
 {

@@ -24,11 +24,39 @@ Widget_KL::~Widget_KL()
     delete ui;
 }
 
+void Widget_KL::get_from(UnitNode *unit)
+{
+
+}
+
+void Widget_KL::get_default()
+{
+
+}
+/*
 void Widget_KL::get_option(UnitNode *unit)
 {
-    ui->Num1->setCurrentText(QString::number(unit->getNum1()));
-    ui->Num2->setCurrentText(QString::number(unit->getNum2()));
+    comm->setVisible(true);
+    comm->get_options(unit,getID());
+
+    if(unit){
+
+        ui->Num1->setCurrentText(QString::number(unit->getNum1()));
+        ui->Num2->setCurrentText(QString::number(unit->getNum2()));
+        setEnabled(false);
+    }else{
+
+        ui->Num1->setCurrentIndex(0);
+        ui->Num2->setCurrentText(0);
+        setEnabled(true);
+
+
+    }
+
+
 }
+*/
+
 
 void Widget_KL::set_option(UnitNode *unit)
 {
@@ -45,7 +73,8 @@ void Widget_KL::update_name()
 
 void Widget_KL::setEnabled(bool val)
 {
-
+    ui->Num1->setEnabled(val);
+    ui->Num2->setEnabled(val);
 }
 
 QString Widget_KL::get_string(UnitNode *unit)

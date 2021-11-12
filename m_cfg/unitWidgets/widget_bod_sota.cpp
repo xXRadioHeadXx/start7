@@ -14,10 +14,17 @@ Widget_BOD_SOTA::~Widget_BOD_SOTA()
     delete ui;
 }
 
-void Widget_BOD_SOTA::get_option(UnitNode *unit)
+void Widget_BOD_SOTA::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_BOD_SOTA::get_default()
+{
+
+}
+
+
 
 void Widget_BOD_SOTA::set_option(UnitNode *unit)
 {

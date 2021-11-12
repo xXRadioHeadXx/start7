@@ -15,10 +15,16 @@ Widget_GROUP::~Widget_GROUP()
     delete ui;
 }
 
-void Widget_GROUP::get_option(UnitNode *unit)
+void Widget_GROUP::get_from(UnitNode *unit)
 {
-    comm->setVisible(false);
+
 }
+
+void Widget_GROUP::get_default()
+{
+
+}
+
 
 void Widget_GROUP::set_option(UnitNode *unit)
 {

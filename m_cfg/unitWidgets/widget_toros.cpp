@@ -14,10 +14,17 @@ Widget_TOROS::~Widget_TOROS()
     delete ui;
 }
 
-void Widget_TOROS::get_option(UnitNode *unit)
+void Widget_TOROS::get_from(UnitNode *unit)
 {
 
 }
+
+void Widget_TOROS::get_default()
+{
+
+}
+
+
 
 void Widget_TOROS::set_option(UnitNode *unit)
 {
