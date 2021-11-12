@@ -13,7 +13,8 @@ class Widget_GROUP : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_GROUP(QWidget *parent = nullptr);
+    explicit Widget_GROUP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+
     ~Widget_GROUP();
 
     void get_option(UnitNode* unit) override;

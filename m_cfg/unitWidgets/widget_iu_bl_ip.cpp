@@ -2,8 +2,8 @@
 #include "ui_widget_iu_bl_ip.h"
 #include <QDebug>
 
-Widget_IU_BL_IP::Widget_IU_BL_IP(QWidget *parent) :
-    UnitWidget(parent),
+Widget_IU_BL_IP::Widget_IU_BL_IP(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_IU_BL_IP)
 {
     ID=TypeUnitNode::IU_BL_IP;
@@ -19,7 +19,8 @@ Widget_IU_BL_IP::~Widget_IU_BL_IP()
 
 void Widget_IU_BL_IP::get_option(UnitNode *unit)
 {
-    ui->communicationType->get_options(unit);
+    comm->setVisible(true);
+    comm->get_options(unit,getID());
 
     if(unit){
         ui->Num2->setCurrentText(QString::number(unit->getNum2()));
@@ -35,7 +36,7 @@ void Widget_IU_BL_IP::get_option(UnitNode *unit)
 
 void Widget_IU_BL_IP::set_option(UnitNode *unit)
 {
-    ui->communicationType->set_options(unit);
+    comm->set_options(unit);
     unit->setNum1(255);
     unit->setNum2(ui->Num2->currentText().toInt());
 }
@@ -48,7 +49,7 @@ void Widget_IU_BL_IP::update_name()
     name.append("БЛ");
 
 
-    QString ip_str=this->ui->communicationType->get_udpAdress();
+    QString ip_str=comm->get_udpAdress();
 
     QStringList myStringList = ip_str.split(".");
 
@@ -88,7 +89,7 @@ void Widget_IU_BL_IP::update_name()
 void Widget_IU_BL_IP::setEnabled(bool val)
 {
     ui->Num2->setEnabled(true);
-    ui->communicationType->setEnabled(true);
+    comm->setEnabled(true);
 }
 
 QString Widget_IU_BL_IP::get_string(UnitNode *unit)

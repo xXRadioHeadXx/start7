@@ -1,8 +1,8 @@
 #include "widget_rastrmtv.h"
 #include "ui_widget_rastrmtv.h"
 
-Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent) :
-    UnitWidget(parent),
+Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_RASTRMTV)
 {
     ID=TypeUnitNode::RASTRMTV;

@@ -1,8 +1,8 @@
 #include "widget_dd_t4k_m.h"
 #include "ui_widget_dd_t4k_m.h"
 
-Widget_DD_T4K_M::Widget_DD_T4K_M(QWidget *parent) :
-    UnitWidget(parent),
+Widget_DD_T4K_M::Widget_DD_T4K_M(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_DD_T4K_M)
 {
     ID=TypeUnitNode::DD_T4K_M;

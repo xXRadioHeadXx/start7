@@ -1,8 +1,8 @@
 #include "widget_info_tablo.h"
 #include "ui_widget_info_tablo.h"
 
-Widget_INFO_TABLO::Widget_INFO_TABLO(QWidget *parent) :
-    UnitWidget(parent),
+Widget_INFO_TABLO::Widget_INFO_TABLO(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_INFO_TABLO)
 {
     ID=TypeUnitNode::INFO_TABLO;

@@ -13,7 +13,8 @@ class Widget_BOD_T4K_M : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_BOD_T4K_M(QWidget *parent = nullptr);
+    explicit Widget_BOD_T4K_M(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+
     ~Widget_BOD_T4K_M();
 
     void get_option(UnitNode* unit) override;

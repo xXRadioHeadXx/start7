@@ -2,13 +2,14 @@
 #include "ui_unitwidget.h"
 #include <QDebug>
 
-UnitWidget::UnitWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::UnitWidget)
+
+UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm)
 {
     ID=0;
     ui->setupUi(this);
 
+    this->comm=comm;
+    comm->setEnabled(true);
 }
 
 UnitWidget::~UnitWidget()

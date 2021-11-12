@@ -19,25 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="coordinateWidget" name="widget_2" native="true">
-   <property name="geometry">
-    <rect>
-     <x>9</x>
-     <y>282</y>
-     <width>578</width>
-     <height>130</height>
-    </rect>
-   </property>
-  </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>coordinateWidget</class>
-   <extends>QWidget</extends>
-   <header>unitWidgets/coordinatewidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

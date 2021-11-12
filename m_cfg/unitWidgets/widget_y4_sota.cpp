@@ -1,8 +1,8 @@
 #include "widget_y4_sota.h"
 #include "ui_widget_y4_sota.h"
 
-Widget_Y4_SOTA::Widget_Y4_SOTA(QWidget *parent) :
-    UnitWidget(parent),
+Widget_Y4_SOTA::Widget_Y4_SOTA(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_Y4_SOTA)
 {
     ID=TypeUnitNode::Y4_SOTA;

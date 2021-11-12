@@ -13,7 +13,8 @@ class Widget_DD_SOTA : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_DD_SOTA(QWidget *parent = nullptr);
+    explicit Widget_DD_SOTA(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+
     ~Widget_DD_SOTA();
 
     void get_option(UnitNode* unit) override;

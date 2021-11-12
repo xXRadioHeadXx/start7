@@ -626,9 +626,9 @@
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="geometry">
              <rect>
-              <x>10</x>
+              <x>521</x>
               <y>230</y>
-              <width>531</width>
+              <width>20</width>
               <height>105</height>
              </rect>
             </property>
@@ -2769,9 +2769,19 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>80</y>
+              <y>160</y>
               <width>501</width>
-              <height>151</height>
+              <height>81</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="communicationTypeWidget" name="communicationType" native="true">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>80</y>
+              <width>521</width>
+              <height>80</height>
              </rect>
             </property>
            </widget>
@@ -2785,6 +2795,7 @@
            <zorder>uName_combobox</zorder>
            <zorder>checkBox</zorder>
            <zorder>stack</zorder>
+           <zorder>communicationType</zorder>
           </widget>
          </item>
         </layout>
@@ -3844,6 +3855,17 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>communicationTypeWidget</class>
+   <extends>QWidget</extends>
+   <header>unitWidgets/communicationtypewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>my_combobox</class>
+   <extends>QComboBox</extends>
+   <header>my_combobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>My_lineEdit</class>
    <extends>QWidget</extends>
    <header>my_lineedit.h</header>
@@ -3877,11 +3899,6 @@
    <extends>QWidget</extends>
    <header location="global">my_treeview.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>my_combobox</class>
-   <extends>QComboBox</extends>
-   <header>my_combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources>

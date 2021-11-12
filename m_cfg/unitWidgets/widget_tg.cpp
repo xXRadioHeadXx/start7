@@ -1,12 +1,15 @@
 #include "widget_tg.h"
 #include "ui_widget_tg.h"
 
-Widget_TG::Widget_TG(QWidget *parent) :
-    UnitWidget(parent),
+Widget_TG::Widget_TG(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_TG)
 {
     ID=TypeUnitNode::TG;
     ui->setupUi(this);
+
+
+
 }
 
 Widget_TG::~Widget_TG()

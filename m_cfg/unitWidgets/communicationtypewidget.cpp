@@ -1,6 +1,5 @@
 #include "communicationtypewidget.h"
 #include "ui_communicationtypewidget.h"
-#include <unitWidgets/unitwidget.h>
 #include <QDebug>
 #include <my_config.h>
 
@@ -9,9 +8,9 @@ communicationTypeWidget::communicationTypeWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::communicationTypeWidget)
 {
-    UnitWidget* wgt=dynamic_cast<UnitWidget*>(parent);
+//    UnitWidget* wgt=dynamic_cast<UnitWidget*>(parent);
 
-    ID=wgt->getID();
+//    ID=wgt->getID();
 
 
 
@@ -34,7 +33,7 @@ communicationTypeWidget::~communicationTypeWidget()
     delete ui;
 }
 
-void communicationTypeWidget::get_options(UnitNode *unit)
+void communicationTypeWidget::get_options(UnitNode *unit,int ID)
 {
 qDebug()<<"communicationTypeWidget::get_option";
 if(unit){
@@ -60,8 +59,8 @@ if(unit){
     ui->udpAdress->setCurrentText("");
     ui->udpPort->setValue(4001);
 
-    this->ui->udpTimeout->setMinimum(ID);
-    this->ui->udpTimeout->setValue(ID);
+    this->ui->udpTimeout->setMinimum(timeouts.value(ID));
+    this->ui->udpTimeout->setValue(timeouts.value(ID));
 
     ui->Num3->setCurrentIndex(0);
 

@@ -100,31 +100,39 @@ m_ctrl=new Control_Unit_Manager();
     //    this->ui->stack->addWidget(&w_IU_BL_IP);
     //    this->ui->stack->addWidget(w_SD_BL_IP);
 
-l_UnitWidgets.append(&w_GROUP);
-l_UnitWidgets.append(&w_KL);
-l_UnitWidgets.append(&w_SD_BL_IP);
-l_UnitWidgets.append(&w_IU_BL_IP );
-l_UnitWidgets.append(&w_TG );
-l_UnitWidgets.append(&w_RLM_KRL);
-l_UnitWidgets.append(&w_RLM_C);
-l_UnitWidgets.append(&w_STRAZH_IP);
-l_UnitWidgets.append(&w_ONVIF);
-l_UnitWidgets.append(&w_BOD_T4K_M);
-l_UnitWidgets.append(&w_Y4_T4K_M);
-l_UnitWidgets.append(&w_DD_T4K_M);
-l_UnitWidgets.append(&w_BOD_SOTA);
-l_UnitWidgets.append(&w_Y4_SOTA);
-l_UnitWidgets.append(&w_DD_SOTA);
-l_UnitWidgets.append(&w_NET_DEV);
-l_UnitWidgets.append(&w_SSOI_SD);
-l_UnitWidgets.append(&w_SSOI_IU);
-l_UnitWidgets.append(&w_ADAM);
-l_UnitWidgets.append(&w_TOROS);
-l_UnitWidgets.append(&w_DEVLINE);
-l_UnitWidgets.append(&w_RASTRMTV);
-l_UnitWidgets.append(&w_INFO_TABLO);
+w_GROUP=new Widget_GROUP(this,this->ui->communicationType) ;
+w_SD_BL_IP=new Widget_SD_BL_IP(this,this->ui->communicationType) ;
+w_IU_BL_IP=new Widget_IU_BL_IP(this,this->ui->communicationType) ;
+w_ADAM=new Widget_ADAM(this,this->ui->communicationType) ;
 
+l_UnitWidgets.append(w_GROUP);
+l_UnitWidgets.append(w_SD_BL_IP);
+l_UnitWidgets.append(w_IU_BL_IP );
+l_UnitWidgets.append(w_ADAM);
+/*
+l_UnitWidgets.append(w_KL);
 
+l_UnitWidgets.append(w_TG );
+l_UnitWidgets.append(w_RLM_KRL);
+l_UnitWidgets.append(w_RLM_C);
+l_UnitWidgets.append(w_STRAZH_IP);
+l_UnitWidgets.append(w_ONVIF);
+l_UnitWidgets.append(w_BOD_T4K_M);
+l_UnitWidgets.append(w_Y4_T4K_M);
+l_UnitWidgets.append(w_DD_T4K_M);
+l_UnitWidgets.append(w_BOD_SOTA);
+l_UnitWidgets.append(w_Y4_SOTA);
+l_UnitWidgets.append(w_DD_SOTA);
+l_UnitWidgets.append(w_NET_DEV);
+l_UnitWidgets.append(w_SSOI_SD);
+l_UnitWidgets.append(w_SSOI_IU);
+
+l_UnitWidgets.append(w_TOROS);
+l_UnitWidgets.append(w_DEVLINE);
+l_UnitWidgets.append(w_RASTRMTV);
+l_UnitWidgets.append(w_INFO_TABLO);
+
+*/
    //
 
      foreach(UnitWidget* wgt, l_UnitWidgets){

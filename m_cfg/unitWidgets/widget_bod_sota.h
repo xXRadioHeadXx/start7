@@ -13,7 +13,8 @@ class Widget_BOD_SOTA : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_BOD_SOTA(QWidget *parent = nullptr);
+    explicit Widget_BOD_SOTA(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+
     ~Widget_BOD_SOTA();
 
     void get_option(UnitNode* unit) override;

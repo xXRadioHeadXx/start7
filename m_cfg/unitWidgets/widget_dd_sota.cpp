@@ -1,8 +1,8 @@
 #include "widget_dd_sota.h"
 #include "ui_widget_dd_sota.h"
 
-Widget_DD_SOTA::Widget_DD_SOTA(QWidget *parent) :
-    UnitWidget(parent),
+Widget_DD_SOTA::Widget_DD_SOTA(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_DD_SOTA)
 {
     ID=TypeUnitNode::DD_SOTA;

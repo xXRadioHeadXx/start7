@@ -13,7 +13,7 @@ class Widget_TOROS : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_TOROS(QWidget *parent = nullptr);
+    explicit Widget_TOROS(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~Widget_TOROS();
 
     void get_option(UnitNode* unit) override;

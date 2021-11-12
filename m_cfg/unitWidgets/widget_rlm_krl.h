@@ -13,7 +13,7 @@ class Widget_RLM_KRL : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_RLM_KRL(QWidget *parent = nullptr);
+    explicit Widget_RLM_KRL(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~Widget_RLM_KRL();
 
     void get_option(UnitNode* unit) override;

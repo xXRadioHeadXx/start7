@@ -1,8 +1,8 @@
 #include "widget_kl.h"
 #include "ui_widget_kl.h"
 
-Widget_KL::Widget_KL(QWidget *parent) :
-    UnitWidget(parent),
+Widget_KL::Widget_KL(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_KL)
 {
     ID=TypeUnitNode::KL;

@@ -13,7 +13,7 @@ class Widget_RASTRMTV : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_RASTRMTV(QWidget *parent = nullptr);
+    explicit Widget_RASTRMTV(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~Widget_RASTRMTV();
 
     void get_option(UnitNode* unit) override;

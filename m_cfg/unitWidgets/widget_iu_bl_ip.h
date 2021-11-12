@@ -12,7 +12,7 @@ class Widget_IU_BL_IP : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_IU_BL_IP(QWidget *parent = nullptr);
+    explicit Widget_IU_BL_IP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~Widget_IU_BL_IP();
 
     void get_option(UnitNode* unit) override;

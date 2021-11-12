@@ -1,12 +1,13 @@
 #include "widget_group.h"
 #include "ui_widget_group.h"
 
-Widget_GROUP::Widget_GROUP(QWidget *parent) :
-    UnitWidget(parent),
+Widget_GROUP::Widget_GROUP(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_GROUP)
 {
     ID=TypeUnitNode::GROUP;
     ui->setupUi(this);
+    comm->setVisible(false);
 }
 
 Widget_GROUP::~Widget_GROUP()
@@ -16,7 +17,7 @@ Widget_GROUP::~Widget_GROUP()
 
 void Widget_GROUP::get_option(UnitNode *unit)
 {
-
+    comm->setVisible(false);
 }
 
 void Widget_GROUP::set_option(UnitNode *unit)

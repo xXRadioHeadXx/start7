@@ -86,31 +86,31 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:    
 
-    Widget_GROUP w_GROUP;
-    Widget_KL w_KL;
-    Widget_SD_BL_IP w_SD_BL_IP;
-    Widget_IU_BL_IP w_IU_BL_IP ;
-    Widget_TG w_TG ;
-    Widget_RLM_KRL w_RLM_KRL;
-    Widget_RLM_C w_RLM_C;
-    Widget_STRAZH_IP w_STRAZH_IP;
-    Widget_ONVIF w_ONVIF;
-    Widget_BOD_T4K_M w_BOD_T4K_M;
-    Widget_Y4_T4K_M w_Y4_T4K_M;
-    Widget_DD_T4K_M w_DD_T4K_M;
-    Widget_BOD_SOTA w_BOD_SOTA;
-    Widget_Y4_SOTA w_Y4_SOTA;
-    Widget_DD_SOTA w_DD_SOTA;
-    Widget_NET_DEV w_NET_DEV;
+    Widget_GROUP* w_GROUP;
+    Widget_KL* w_KL;
+    Widget_SD_BL_IP* w_SD_BL_IP;
+    Widget_IU_BL_IP* w_IU_BL_IP ;
+    Widget_TG* w_TG ;
+    Widget_RLM_KRL* w_RLM_KRL;
+    Widget_RLM_C* w_RLM_C;
+    Widget_STRAZH_IP* w_STRAZH_IP;
+    Widget_ONVIF* w_ONVIF;
+    Widget_BOD_T4K_M* w_BOD_T4K_M;
+    Widget_Y4_T4K_M* w_Y4_T4K_M;
+    Widget_DD_T4K_M* w_DD_T4K_M;
+    Widget_BOD_SOTA* w_BOD_SOTA;
+    Widget_Y4_SOTA* w_Y4_SOTA;
+    Widget_DD_SOTA* w_DD_SOTA;
+    Widget_NET_DEV* w_NET_DEV;
 
 
-    Widget_SSOI_SD w_SSOI_SD;
-    Widget_SSOI_IU w_SSOI_IU;
-    Widget_ADAM w_ADAM;
-    Widget_TOROS w_TOROS;
-    Widget_DEVLINE w_DEVLINE;
-    Widget_RASTRMTV w_RASTRMTV;
-    Widget_INFO_TABLO w_INFO_TABLO;
+    Widget_SSOI_SD* w_SSOI_SD;
+    Widget_SSOI_IU* w_SSOI_IU;
+    Widget_ADAM* w_ADAM;
+    Widget_TOROS* w_TOROS;
+    Widget_DEVLINE* w_DEVLINE;
+    Widget_RASTRMTV* w_RASTRMTV;
+    Widget_INFO_TABLO* w_INFO_TABLO;
 
     QList<UnitWidget*> l_UnitWidgets;
 

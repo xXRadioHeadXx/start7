@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <unitWidgets/unitwidget.h>
 
+
 namespace Ui {
 class Widget_SD_BL_IP;
 }
@@ -13,7 +14,7 @@ class Widget_SD_BL_IP : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_SD_BL_IP(QWidget *parent = nullptr);
+    explicit Widget_SD_BL_IP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~Widget_SD_BL_IP();
 
     void get_option(UnitNode* unit) override;

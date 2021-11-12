@@ -1,8 +1,8 @@
 #include "widget_onvif.h"
 #include "ui_widget_onvif.h"
 
-Widget_ONVIF::Widget_ONVIF(QWidget *parent) :
-    UnitWidget(parent),
+Widget_ONVIF::Widget_ONVIF(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_ONVIF)
 {
     ID=TypeUnitNode::ONVIF;

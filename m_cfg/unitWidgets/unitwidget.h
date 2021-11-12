@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <UnitNode.h>
 #include <my_config.h>
+#include <unitWidgets/communicationtypewidget.h>
 
 
 namespace Ui {
@@ -15,9 +16,8 @@ class UnitWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit UnitWidget(QWidget *parent = nullptr);
+    explicit UnitWidget(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~UnitWidget();
-
     int getID();
 
 
@@ -29,12 +29,14 @@ public:
     virtual QString get_string(UnitNode* unit){return "";};
 
 protected:
-int ID;
+    int ID;
+    communicationTypeWidget* comm;
 //MainWindowCFG* wnd;
 
 
 private:
     Ui::UnitWidget *ui;
+
 
 signals:
     void updateName(QString);

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <unitWidgets/unitwidget.h>
+#include <unitWidgets/communicationtypewidget.h>
 
 namespace Ui {
 class Widget_TG;
@@ -13,7 +14,10 @@ class Widget_TG : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_TG(QWidget *parent = nullptr);
+
+    communicationTypeWidget* comm;
+
+    explicit Widget_TG(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~Widget_TG();
 
     void get_option(UnitNode* unit) override;

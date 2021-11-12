@@ -1,8 +1,8 @@
 #include "widget_devline.h"
 #include "ui_widget_devline.h"
 
-Widget_DEVLINE::Widget_DEVLINE(QWidget *parent) :
-    UnitWidget(parent),
+Widget_DEVLINE::Widget_DEVLINE(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_DEVLINE)
 {
     ID=TypeUnitNode::DEVLINE;

@@ -2,8 +2,8 @@
 #include "ui_widget_sd_bl_ip.h"
 #include <QDebug>
 
-Widget_SD_BL_IP::Widget_SD_BL_IP(QWidget *parent) :
-    UnitWidget(parent),
+Widget_SD_BL_IP::Widget_SD_BL_IP(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_SD_BL_IP)
 {
     ID=TypeUnitNode::SD_BL_IP;
@@ -23,7 +23,9 @@ Widget_SD_BL_IP::~Widget_SD_BL_IP()
 
 void Widget_SD_BL_IP::get_option(UnitNode *unit)
 {
-    ui->communicationType->get_options(unit);
+    qDebug()<<"Widget_SD_BL_IP";
+    comm->setVisible(true);
+    comm->get_options(unit,getID());
 
     if(unit){
         ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
@@ -49,7 +51,7 @@ void Widget_SD_BL_IP::get_option(UnitNode *unit)
 
 void Widget_SD_BL_IP::set_option(UnitNode *unit)
 {
-    ui->communicationType->set_options(unit);
+    comm->set_options(unit);
     unit->setNum1(255);
     unit->setNum2(ui->Num2->currentText().toInt());
     //Set OutType
@@ -80,7 +82,7 @@ void Widget_SD_BL_IP::update_name()
     name.append("БЛ");
 
 
-    QString ip_str=this->ui->communicationType->get_udpAdress();
+    QString ip_str=comm->get_udpAdress();
 
     QStringList myStringList = ip_str.split(".");
 
@@ -120,7 +122,7 @@ void Widget_SD_BL_IP::update_name()
 void Widget_SD_BL_IP::setEnabled(bool val)
 {
          ui->Num2->setEnabled(true);
-         ui->communicationType->setEnabled(true);
+         comm->setEnabled(true);
 }
 
 QString Widget_SD_BL_IP::get_string(UnitNode *unit)

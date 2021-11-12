@@ -16,7 +16,7 @@ public:
     explicit communicationTypeWidget(QWidget *parent = nullptr);
     ~communicationTypeWidget();
 
-    void get_options(UnitNode* Unit);
+    void get_options(UnitNode* Unit,int ID);
     void set_options(UnitNode* Unit);
 
     void setEnabled(bool);

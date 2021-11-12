@@ -13,7 +13,8 @@ class Widget_ADAM : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_ADAM(QWidget *parent = nullptr);
+    explicit Widget_ADAM(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+
     ~Widget_ADAM();
 
     void get_option(UnitNode* unit) override;

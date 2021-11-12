@@ -3,12 +3,13 @@
 #include <QDebug>
 
 
-Widget_ADAM::Widget_ADAM(QWidget *parent) :
-    UnitWidget(parent),
+Widget_ADAM::Widget_ADAM(QWidget *parent, communicationTypeWidget *comm) :
+    UnitWidget(parent,comm),
     ui(new Ui::Widget_ADAM)
 {
     ID=TypeUnitNode::ADAM;
     ui->setupUi(this);
+
 //Num1
     for(int i=1;i<256;i++){
     //    QString str;
@@ -33,7 +34,7 @@ Widget_ADAM::~Widget_ADAM()
 
 void Widget_ADAM::get_option(UnitNode *unit)
 {
-
+    comm->setVisible(false);
     if(unit){
     qDebug()<<"1";
  qDebug()<<QString::number(unit->getNum1());
@@ -77,8 +78,16 @@ void Widget_ADAM::setEnabled(bool val)
 QString Widget_ADAM::get_string(UnitNode *unit)
 {
     QString string1;
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" ");//  Группа</b> ");
-    string1.append(unit->getName());
+
+    string1.append("Адам-406х/4168:");
+
+    if(unit->getNum1()/10<1)
+    string1.append("0");
+    if(unit->getNum1()/100<1)
+    string1.append("0");
+    string1.append(QString::number(unit->getNum1()));
+    string1.append("-");
+    string1.append(QString::number(unit->getNum2()));
    return string1;
 }
 

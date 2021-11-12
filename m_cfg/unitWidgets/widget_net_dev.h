@@ -13,7 +13,7 @@ class Widget_NET_DEV : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_NET_DEV(QWidget *parent = nullptr);
+    explicit Widget_NET_DEV(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
     ~Widget_NET_DEV();
 
     void get_option(UnitNode* unit) override;

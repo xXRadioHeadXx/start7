@@ -13,7 +13,8 @@ class Widget_DEVLINE : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_DEVLINE(QWidget *parent = nullptr);
+    explicit Widget_DEVLINE(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+
     ~Widget_DEVLINE();
 
     void get_option(UnitNode* unit) override;
