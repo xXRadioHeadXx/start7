@@ -181,7 +181,7 @@ private:
     void object_menu_change(int type);
     void object_menu_set_settings_default(int type);
     void object_menu_set_settings_from(UnitNode *unit);
-    void object_menu_set_enabled_for_edit(bool enabled);
+
 
     void RS485_UDP_set_default_with_timeout(int timeout);
     void RS485_UDP_set_from_unit(UnitNode *unit);
@@ -658,7 +658,7 @@ private slots:
     void on_change_operator_button_clicked();
 
 
-   void on_UDP_RS485_combobox_currentTextChanged(const QString &arg1);
+
    void on_SQL_find_server_pushButton_clicked();
    void on_SQL_connect_pushButton_clicked();
 
@@ -669,9 +669,8 @@ private slots:
    void on_BACKUP_pushButton_clicked();
 
 
-   void coordinate_menu(bool visible,bool active, double x, double y, QString text);
-   void coordinate_devline(bool active, int x, int y, int x1, int y1);
-   void on_pushButton_5_clicked();
+
+
    void on_uType_combobox_activated(const QString &arg1);
    void on_SQL_type_comboBox_currentTextChanged(const QString &arg1);
 
@@ -679,8 +678,7 @@ private slots:
    void on_pushButton_6_clicked();
    void on_devline_xy_pushButton_clicked();
    void on_uType_combobox_currentTextChanged(const QString &arg1);
-   void on_SSOI_SD_Num3_currentTextChanged(const QString &arg1);
-   void on_SD_BL_IP_num_combobox_currentIndexChanged(const QString &arg1);
+
    void on_pushButton_3_clicked();
    void on_findButton_reset_clicked();
    void on_findButton_prev_clicked();
