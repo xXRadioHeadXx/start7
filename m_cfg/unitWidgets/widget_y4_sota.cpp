@@ -45,3 +45,8 @@ QString Widget_Y4_SOTA::get_string(UnitNode *unit)
     string1.append(unit->getName());
    return string1;
 }
+
+void Widget_Y4_SOTA::on_Num2_currentIndexChanged(const QString &arg1)
+{
+
+}

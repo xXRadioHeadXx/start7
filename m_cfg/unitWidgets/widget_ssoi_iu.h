@@ -22,6 +22,13 @@ public:
     void setEnabled(bool) override;
 
     QString get_string(UnitNode* unit) override;
+private slots:
+    void on_Num1_currentIndexChanged(const QString &arg1);
+
+    void on_Num2_currentIndexChanged(const QString &arg1);
+
+    void on_Num3_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Widget_SSOI_IU *ui;
 };

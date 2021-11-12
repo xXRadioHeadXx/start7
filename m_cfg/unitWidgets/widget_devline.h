@@ -23,6 +23,11 @@ public:
     void setEnabled(bool) override;
 
     QString get_string(UnitNode* unit) override;
+private slots:
+    void on_Num1_valueChanged(const QString &arg1);
+
+    void on_OutType_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Widget_DEVLINE *ui;
 };

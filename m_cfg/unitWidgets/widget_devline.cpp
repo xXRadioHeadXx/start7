@@ -45,3 +45,13 @@ QString Widget_DEVLINE::get_string(UnitNode *unit)
     string1.append(unit->getName());
    return string1;
 }
+
+void Widget_DEVLINE::on_Num1_valueChanged(const QString &arg1)
+{
+    update_name();
+}
+
+void Widget_DEVLINE::on_OutType_currentIndexChanged(const QString &arg1)
+{
+    update_name();
+}

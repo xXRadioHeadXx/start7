@@ -45,3 +45,8 @@ QString Widget_BOD_SOTA::get_string(UnitNode *unit)
     string1.append(unit->getName());
    return string1;
 }
+
+void Widget_BOD_SOTA::on_Num1_currentTextChanged(const QString &arg1)
+{
+
+}

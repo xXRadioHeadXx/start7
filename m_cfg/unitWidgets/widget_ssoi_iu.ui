@@ -19,7 +19,7 @@
      <x>0</x>
      <y>0</y>
      <width>550</width>
-     <height>80</height>
+     <height>131</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -28,11 +28,57 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="label_103">
+   <widget class="QLabel" name="label_95">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>100</x>
       <y>0</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>БЛ</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Num3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>75</y>
+      <width>261</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_94">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Канал</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Num2">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>161</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_97">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>55</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -46,38 +92,9 @@
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>81</width>
+      <width>91</width>
       <height>30</height>
      </rect>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_102">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Адрес</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="Num2">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>20</y>
-      <width>171</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
     </property>
    </widget>
   </widget>

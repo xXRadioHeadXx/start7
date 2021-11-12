@@ -626,14 +626,14 @@
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="geometry">
              <rect>
-              <x>521</x>
-              <y>230</y>
-              <width>20</width>
-              <height>105</height>
+              <x>30</x>
+              <y>224</y>
+              <width>511</width>
+              <height>111</height>
              </rect>
             </property>
             <property name="currentIndex">
-             <number>10</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="U4_Sota_M_groupbox">
              <widget class="QComboBox" name="U4_Sota_M_combobox">
@@ -2771,7 +2771,7 @@
               <x>10</x>
               <y>160</y>
               <width>501</width>
-              <height>81</height>
+              <height>51</height>
              </rect>
             </property>
            </widget>

@@ -46,3 +46,18 @@ QString Widget_SSOI_IU::get_string(UnitNode *unit)
     string1.append(unit->getName());
    return string1;
 }
+
+void Widget_SSOI_IU::on_Num1_currentIndexChanged(const QString &arg1)
+{
+
+}
+
+void Widget_SSOI_IU::on_Num2_currentIndexChanged(const QString &arg1)
+{
+
+}
+
+void Widget_SSOI_IU::on_Num3_currentIndexChanged(const QString &arg1)
+{
+
+}

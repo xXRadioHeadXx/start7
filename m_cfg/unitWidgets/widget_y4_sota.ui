@@ -28,25 +28,12 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="label_103">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>0</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ИУ</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="Num1">
+   <widget class="QComboBox" name="Num2">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>81</width>
+      <width>261</width>
       <height>30</height>
      </rect>
     </property>
@@ -64,20 +51,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Адрес</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="Num2">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>20</y>
-      <width>171</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+     <string>Участок</string>
     </property>
    </widget>
   </widget>

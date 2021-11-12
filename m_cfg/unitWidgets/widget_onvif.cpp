@@ -45,3 +45,8 @@ QString Widget_ONVIF::get_string(UnitNode *unit)
     string1.append(unit->getName());
    return string1;
 }
+
+void Widget_ONVIF::on_ONVIF_IPaddr_combobox_currentTextChanged(const QString &arg1)
+{
+    update_name();
+}

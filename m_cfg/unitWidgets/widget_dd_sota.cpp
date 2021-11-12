@@ -45,3 +45,8 @@ QString Widget_DD_SOTA::get_string(UnitNode *unit)
     string1.append(unit->getName());
    return string1;
 }
+
+void Widget_DD_SOTA::on_Num2_2_currentTextChanged(const QString &arg1)
+{
+    update_name();
+}
