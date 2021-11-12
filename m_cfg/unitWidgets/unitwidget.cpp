@@ -9,7 +9,7 @@ UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm)
     ui->setupUi(this);
 
     this->comm=comm;
-    comm->setEnabled(true);
+    comm_is_needed=false;
 }
 
 UnitWidget::~UnitWidget()
@@ -25,8 +25,11 @@ int UnitWidget::getID()
 void UnitWidget::get_option(UnitNode *unit)
 {
   qDebug()<<"UnitWidget::get_option";
-  comm->setVisible(true);
+
+  comm->setVisible(comm_is_needed?true:false);
+
   comm->get_options(unit,getID());
+
 
   if(unit){
         get_from(unit);

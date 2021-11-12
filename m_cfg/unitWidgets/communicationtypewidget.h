@@ -19,7 +19,12 @@ public:
     void get_options(UnitNode* Unit,int ID);
     void set_options(UnitNode* Unit);
 
+
+
+    //Доступен для изменения настроек
     void setEnabled(bool);
+
+
 
     QString get_udpAdress();
 
@@ -33,6 +38,7 @@ private slots:
 private:
 
     int ID;
+
 
     Ui::communicationTypeWidget *ui;
 

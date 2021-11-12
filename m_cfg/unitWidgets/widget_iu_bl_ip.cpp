@@ -8,6 +8,7 @@ Widget_IU_BL_IP::Widget_IU_BL_IP(QWidget *parent, communicationTypeWidget *comm)
 {
     ID=TypeUnitNode::IU_BL_IP;
     ui->setupUi(this);
+    comm_is_needed=true;
 
 
 }

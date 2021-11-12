@@ -26,6 +26,7 @@ communicationTypeWidget::communicationTypeWidget(QWidget *parent) :
 
 
 
+
 }
 
 communicationTypeWidget::~communicationTypeWidget()
@@ -35,53 +36,63 @@ communicationTypeWidget::~communicationTypeWidget()
 
 void communicationTypeWidget::get_options(UnitNode *unit,int ID)
 {
-qDebug()<<"communicationTypeWidget::get_option";
+if(this->isVisible()){
+
 if(unit){
 
-    ui->udpUse->setCurrentText((unit->getUdpUse()==1)?" UDP":"RS485");
-     this->ui->UDP_RS485_stacked->setCurrentWidget((unit->getUdpUse()==1)?ui->UDP:ui->RS485);
-    ui->udpAdress->setCurrentText(unit->getUdpAdress());
-    ui->udpPort->setValue(unit->getUdpPort());
-    ui->udpTimeout->setValue(unit->getUdpTimeout());
+        ui->udpUse->setCurrentText((unit->getUdpUse()==1)?" UDP":"RS485");
+         this->ui->UDP_RS485_stacked->setCurrentWidget((unit->getUdpUse()==1)?ui->UDP:ui->RS485);
+        ui->udpAdress->setCurrentText(unit->getUdpAdress());
+        ui->udpPort->setValue(unit->getUdpPort());
+        ui->udpTimeout->setValue(unit->getUdpTimeout());
 
-    ui->Num3->setCurrentText(QString::number(unit->getNum3()));
+        ui->Num3->setCurrentText(QString::number(unit->getNum3()));
 
-    ui->udpUse->setEnabled(false);
-    ui->udpAdress->setEnabled(false);
-    ui->udpPort->setEnabled(false);
-    ui->Num3->setEnabled(false);
-
-
+        ui->udpUse->setEnabled(false);
+        ui->udpAdress->setEnabled(false);
+        ui->udpPort->setEnabled(false);
+        ui->Num3->setEnabled(false);
 
 
-}else{
-    ui->udpUse->setCurrentText(" UDP");
-    ui->udpAdress->setCurrentText("");
-    ui->udpPort->setValue(4001);
 
-    this->ui->udpTimeout->setMinimum(timeouts.value(ID));
-    this->ui->udpTimeout->setValue(timeouts.value(ID));
 
-    ui->Num3->setCurrentIndex(0);
+    }else{
+        ui->udpUse->setCurrentText(" UDP");
+        ui->udpAdress->setCurrentText("");
+        ui->udpPort->setValue(4001);
 
-    ui->udpUse->setEnabled(true);
-    ui->udpAdress->setEnabled(true);
-    ui->udpPort->setEnabled(true);
-    ui->Num3->setEnabled(true);
+        this->ui->udpTimeout->setMinimum(timeouts.value(ID));
+        this->ui->udpTimeout->setValue(timeouts.value(ID));
 
+        ui->Num3->setCurrentIndex(0);
+
+        ui->udpUse->setEnabled(true);
+        ui->udpAdress->setEnabled(true);
+        ui->udpPort->setEnabled(true);
+        ui->Num3->setEnabled(true);
+
+    }
 }
 
 }
 
 void communicationTypeWidget::set_options(UnitNode *unit)
 {
+    if(this->isVisible()){
 
     unit->setUdpUse((ui->udpUse->currentText()==" UDP")?1:0);
     unit->setUdpAdress(ui->udpAdress->currentText());
     unit->setUdpPort(ui->udpPort->text().toInt());
     unit->setUdpTimeout(ui->udpTimeout->text().toInt());
     unit->setNum3(ui->Num3->currentText().toInt());
+    }
 }
+
+
+
+
+
+
 
 void communicationTypeWidget::setEnabled(bool val)
 {

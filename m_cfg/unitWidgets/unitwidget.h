@@ -36,6 +36,8 @@ public:
 protected:
     int ID;
     communicationTypeWidget* comm;
+    bool comm_is_needed;
+
 
 //MainWindowCFG* wnd;
 
