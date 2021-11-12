@@ -1,5 +1,6 @@
 #include "widget_adam.h"
 #include "ui_widget_adam.h"
+#include <QDebug>
 
 
 Widget_ADAM::Widget_ADAM(QWidget *parent) :
@@ -10,14 +11,14 @@ Widget_ADAM::Widget_ADAM(QWidget *parent) :
     ui->setupUi(this);
 //Num1
     for(int i=1;i<256;i++){
-        QString str;
-        str.clear();
-        if(i/10<1)
-            str.append("0");
-        if(i/100<1)
-            str.append("0");
-        str.append(QString::number(i));
-        ui->Num1->addItem(str);
+    //    QString str;
+   //     str.clear();
+    //    if(i/10<1)
+   //         str.append("0");
+    //    if(i/100<1)
+     //       str.append("0");
+    //    str.append(QString::number(i));
+        ui->Num1->addItem(QString::number(i));
     }
 //Num2
     for(int i=0;i<8;i++){
@@ -32,18 +33,29 @@ Widget_ADAM::~Widget_ADAM()
 
 void Widget_ADAM::get_option(UnitNode *unit)
 {
+
     if(unit){
-    ui->Num1->setCurrentText(QString::number(unit->getNum1()));
-    ui->Num2->setCurrentText(QString::number(unit->getNum1()));
+    qDebug()<<"1";
+ qDebug()<<QString::number(unit->getNum1());
+  qDebug()<<ui->Num1->currentText();
+ ui->Num1->setCurrentText(QString::number(unit->getNum1()));
+
+
+     qDebug()<<QString::number(unit->getNum1());
+      qDebug()<<ui->Num1->currentText();
+
+    ui->Num2->setCurrentText(QString::number(unit->getNum2()));
     setEnabled(false);
     }else{
+    qDebug()<<"2";
     setEnabled(true);
     }
 }
 
 void Widget_ADAM::set_option(UnitNode *unit)
 {
-
+unit->setNum1(ui->Num1->currentText().toInt());
+unit->setNum2(ui->Num2->currentText().toInt());
 }
 
 void Widget_ADAM::update_name()
@@ -65,8 +77,7 @@ void Widget_ADAM::setEnabled(bool val)
 QString Widget_ADAM::get_string(UnitNode *unit)
 {
     QString string1;
-   //     string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" ");//  Группа</b> ");
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" ");//  Группа</b> ");
     string1.append(unit->getName());
    return string1;
 }

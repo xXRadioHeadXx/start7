@@ -41,19 +41,6 @@
      <string>ИУ</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="Num1">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>20</y>
-      <width>81</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_102">
     <property name="geometry">
      <rect>
@@ -73,6 +60,19 @@
       <x>90</x>
       <y>20</y>
       <width>171</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Num1">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>61</width>
       <height>30</height>
      </rect>
     </property>
