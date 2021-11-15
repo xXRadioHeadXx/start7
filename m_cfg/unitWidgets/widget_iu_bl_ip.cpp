@@ -2,8 +2,8 @@
 #include "ui_widget_iu_bl_ip.h"
 #include <QDebug>
 
-Widget_IU_BL_IP::Widget_IU_BL_IP(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_IU_BL_IP::Widget_IU_BL_IP(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_IU_BL_IP)
 {
     ID=TypeUnitNode::IU_BL_IP;
@@ -32,9 +32,9 @@ void Widget_IU_BL_IP::get_default()
 
 
 
-void Widget_IU_BL_IP::set_option(UnitNode *unit)
+void Widget_IU_BL_IP::set_to(UnitNode *unit)
 {
-    comm->set_options(unit);
+
     unit->setNum1(255);
     unit->setNum2(ui->Num2->currentText().toInt());
 }

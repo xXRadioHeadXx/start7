@@ -13,12 +13,12 @@ class Widget_ONVIF : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_ONVIF(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
+    explicit Widget_ONVIF(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
     ~Widget_ONVIF();
 
     void get_from(UnitNode* unit) override;
     void get_default() override;
-    void set_option(UnitNode* unit) override;
+    void set_to(UnitNode* unit) override;
     void update_name() override;
     void setEnabled(bool) override;
 

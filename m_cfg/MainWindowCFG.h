@@ -351,7 +351,7 @@ private:
 
     bool setUdpTimeout_for_TG(UnitNode *unit);
 
-
+    bool setUdpTimeout_for_KL(UnitNode *unit);
 
 
 

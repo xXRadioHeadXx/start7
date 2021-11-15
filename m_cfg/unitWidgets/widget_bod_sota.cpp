@@ -1,8 +1,8 @@
 #include "widget_bod_sota.h"
 #include "ui_widget_bod_sota.h"
 
-Widget_BOD_SOTA::Widget_BOD_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord):
-    UnitWidget(parent,comm,coord),
+Widget_BOD_SOTA::Widget_BOD_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN):
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_BOD_SOTA)
 {
     ID=TypeUnitNode::BOD_SOTA;
@@ -26,7 +26,7 @@ void Widget_BOD_SOTA::get_default()
 
 
 
-void Widget_BOD_SOTA::set_option(UnitNode *unit)
+void Widget_BOD_SOTA::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

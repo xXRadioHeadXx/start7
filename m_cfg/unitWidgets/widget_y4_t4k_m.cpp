@@ -1,8 +1,8 @@
 #include "widget_y4_t4k_m.h"
 #include "ui_widget_y4_t4k_m.h"
 
-Widget_Y4_T4K_M::Widget_Y4_T4K_M(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_Y4_T4K_M::Widget_Y4_T4K_M(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_Y4_T4K_M)
 {
     ID=TypeUnitNode::Y4_T4K_M;
@@ -26,7 +26,7 @@ void Widget_Y4_T4K_M::get_default()
 
 
 
-void Widget_Y4_T4K_M::set_option(UnitNode *unit)
+void Widget_Y4_T4K_M::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

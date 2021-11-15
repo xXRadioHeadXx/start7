@@ -3,8 +3,8 @@
 #include <QDebug>
 
 
-Widget_ADAM::Widget_ADAM(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_ADAM::Widget_ADAM(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_ADAM)
 {
     ID=TypeUnitNode::ADAM;
@@ -66,7 +66,7 @@ void Widget_ADAM::get_option(UnitNode *unit)
 }
 */
 
-void Widget_ADAM::set_option(UnitNode *unit)
+void Widget_ADAM::set_to(UnitNode *unit)
 {
 unit->setNum1(ui->Num1->currentText().toInt());
 unit->setNum2(ui->Num2->currentText().toInt());

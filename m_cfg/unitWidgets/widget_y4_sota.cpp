@@ -1,8 +1,8 @@
 #include "widget_y4_sota.h"
 #include "ui_widget_y4_sota.h"
 
-Widget_Y4_SOTA::Widget_Y4_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_Y4_SOTA::Widget_Y4_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_Y4_SOTA)
 {
     ID=TypeUnitNode::Y4_SOTA;
@@ -26,7 +26,7 @@ void Widget_Y4_SOTA::get_default()
 
 
 
-void Widget_Y4_SOTA::set_option(UnitNode *unit)
+void Widget_Y4_SOTA::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

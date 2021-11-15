@@ -1,8 +1,8 @@
 #include "widget_rastrmtv.h"
 #include "ui_widget_rastrmtv.h"
 
-Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_RASTRMTV)
 {
     ID=TypeUnitNode::RASTRMTV;
@@ -26,7 +26,7 @@ void Widget_RASTRMTV::get_default()
 
 
 
-void Widget_RASTRMTV::set_option(UnitNode *unit)
+void Widget_RASTRMTV::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

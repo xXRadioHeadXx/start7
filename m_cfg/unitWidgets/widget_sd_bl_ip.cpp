@@ -2,8 +2,8 @@
 #include "ui_widget_sd_bl_ip.h"
 #include <QDebug>
 
-Widget_SD_BL_IP::Widget_SD_BL_IP(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_SD_BL_IP::Widget_SD_BL_IP(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_SD_BL_IP)
 {
     ID=TypeUnitNode::SD_BL_IP;
@@ -38,7 +38,7 @@ void Widget_SD_BL_IP::get_default()
 
 
 
-void Widget_SD_BL_IP::set_option(UnitNode *unit)
+void Widget_SD_BL_IP::set_to(UnitNode *unit)
 {
 
 
@@ -64,8 +64,7 @@ void Widget_SD_BL_IP::set_option(UnitNode *unit)
         unit->setDK(0);
     }
 
-    comm->set_options(unit);
-    coord->set_options(unit);
+
 }
 
 void Widget_SD_BL_IP::update_name()

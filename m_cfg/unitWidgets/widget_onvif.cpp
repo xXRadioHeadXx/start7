@@ -1,8 +1,8 @@
 #include "widget_onvif.h"
 #include "ui_widget_onvif.h"
 
-Widget_ONVIF::Widget_ONVIF(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_ONVIF::Widget_ONVIF(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_ONVIF)
 {
     ID=TypeUnitNode::ONVIF;
@@ -26,7 +26,7 @@ void Widget_ONVIF::get_default()
 
 
 
-void Widget_ONVIF::set_option(UnitNode *unit)
+void Widget_ONVIF::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

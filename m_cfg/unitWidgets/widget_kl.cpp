@@ -1,8 +1,8 @@
 #include "widget_kl.h"
 #include "ui_widget_kl.h"
 
-Widget_KL::Widget_KL(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_KL::Widget_KL(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_KL)
 {
     ID=TypeUnitNode::KL;
@@ -41,13 +41,12 @@ void Widget_KL::get_default()
 }
 
 
-void Widget_KL::set_option(UnitNode *unit)
+void Widget_KL::set_to(UnitNode *unit)
 {
     unit->setNum1(ui->Num1->currentText().toInt());
     unit->setNum2(ui->Num2->currentText().toInt());
 
-    comm->set_options(unit);
-    coord->set_options(unit);
+
 }
 
 void Widget_KL::update_name()

@@ -1,8 +1,8 @@
 #include "widget_tg.h"
 #include "ui_widget_tg.h"
 
-Widget_TG::Widget_TG(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_TG::Widget_TG(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_TG)
 {
     ID=TypeUnitNode::TG;
@@ -29,7 +29,7 @@ void Widget_TG::get_default()
 
 
 
-void Widget_TG::set_option(UnitNode *unit)
+void Widget_TG::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

@@ -3,7 +3,7 @@
 #include <QDebug>
 
 
-UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord)
+UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN)
 {
     ID=0;
     ui->setupUi(this);
@@ -52,6 +52,14 @@ void UnitWidget::get_option(UnitNode *unit)
 }
 
 void UnitWidget::set_option(UnitNode *unit)
+{
+
+    comm->set_options(unit);
+    coord->set_options(unit);
+    set_to(unit);
+}
+
+void UnitWidget::set_to(UnitNode *unit)
 {
   qDebug()<<"UnitWidget::set_option";
 

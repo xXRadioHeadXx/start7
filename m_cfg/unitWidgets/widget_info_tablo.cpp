@@ -1,8 +1,8 @@
 #include "widget_info_tablo.h"
 #include "ui_widget_info_tablo.h"
 
-Widget_INFO_TABLO::Widget_INFO_TABLO(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_INFO_TABLO::Widget_INFO_TABLO(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_INFO_TABLO)
 {
     ID=TypeUnitNode::INFO_TABLO;
@@ -41,7 +41,7 @@ void Widget_INFO_TABLO::get_default()
 
 
 
-void Widget_INFO_TABLO::set_option(UnitNode *unit)
+void Widget_INFO_TABLO::set_to(UnitNode *unit)
 {
 
 }

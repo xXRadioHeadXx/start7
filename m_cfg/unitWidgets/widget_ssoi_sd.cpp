@@ -1,8 +1,8 @@
 #include "widget_ssoi_sd.h"
 #include "ui_widget_ssoi_sd.h"
 
-Widget_SSOI_SD::Widget_SSOI_SD(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_SSOI_SD::Widget_SSOI_SD(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_SSOI_SD)
 {
     ID=TypeUnitNode::SSOI_SD;
@@ -27,7 +27,7 @@ void Widget_SSOI_SD::get_default()
 
 
 
-void Widget_SSOI_SD::set_option(UnitNode *unit)
+void Widget_SSOI_SD::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

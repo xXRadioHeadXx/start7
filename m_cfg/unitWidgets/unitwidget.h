@@ -6,6 +6,7 @@
 #include <my_config.h>
 #include <unitWidgets/communicationtypewidget.h>
 #include "unitWidgets/coordinatewidget.h"
+#include <TreeModelUnitNode.h>
 
 namespace Ui {
 class UnitWidget;
@@ -16,7 +17,7 @@ class UnitWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit UnitWidget(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
+    explicit UnitWidget(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
     ~UnitWidget();
     int getID();
 
@@ -26,20 +27,26 @@ public:
     virtual void get_from(UnitNode* unit){};
     virtual void get_default(){};
 
-    virtual void set_option(UnitNode* unit);
+    virtual void set_to(UnitNode* unit);
 
     virtual void update_name(){};
     virtual void setEnabled(bool){};
     virtual QString get_string(UnitNode* unit){return "";};
 
     void get_option(UnitNode* unit);
+    void set_option(UnitNode* unit);
+
+    void setUdpTimeout_for_BL_IP(UnitNode* unit);
+ //   comm->set_options(unit);
+ //   coord->set_options(unit);
+
 protected:
     int ID;
     communicationTypeWidget* comm;
     coordinateWidget* coord;
     bool comm_is_needed;
     int coord_mode;
-
+    TreeModelUnitNode *modelTreeUN = nullptr;
 //MainWindowCFG* wnd;
 
 

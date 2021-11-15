@@ -17,12 +17,12 @@ public:
 
     communicationTypeWidget* comm;
 
-    explicit Widget_TG(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
+    explicit Widget_TG(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
     ~Widget_TG();
 
     void get_from(UnitNode* unit) override;
     void get_default() override;
-    void set_option(UnitNode* unit) override;
+    void set_to(UnitNode* unit) override;
     void update_name() override;
     void setEnabled(bool) override;
 

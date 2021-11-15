@@ -1,8 +1,8 @@
 #include "widget_rlm_c.h"
 #include "ui_widget_rlm_c.h"
 
-Widget_RLM_C::Widget_RLM_C(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_RLM_C::Widget_RLM_C(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_RLM_C)
 {
     ID=TypeUnitNode::RLM_C;
@@ -26,7 +26,7 @@ void Widget_RLM_C::get_default()
 
 
 
-void Widget_RLM_C::set_option(UnitNode *unit)
+void Widget_RLM_C::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

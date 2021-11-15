@@ -1,8 +1,8 @@
 #include "widget_rlm_krl.h"
 #include "ui_widget_rlm_krl.h"
 
-Widget_RLM_KRL::Widget_RLM_KRL(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_RLM_KRL::Widget_RLM_KRL(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_RLM_KRL)
 {
     ID=TypeUnitNode::RLM_KRL;
@@ -26,7 +26,7 @@ void Widget_RLM_KRL::get_default()
 
 
 
-void Widget_RLM_KRL::set_option(UnitNode *unit)
+void Widget_RLM_KRL::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

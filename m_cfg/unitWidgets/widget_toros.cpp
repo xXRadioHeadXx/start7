@@ -1,8 +1,8 @@
 #include "widget_toros.h"
 #include "ui_widget_toros.h"
 
-Widget_TOROS::Widget_TOROS(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
-    UnitWidget(parent,comm,coord),
+Widget_TOROS::Widget_TOROS(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
+    UnitWidget(parent,comm,coord,modelTreeUN),
     ui(new Ui::Widget_TOROS)
 {
     ID=TypeUnitNode::TOROS;
@@ -26,7 +26,7 @@ void Widget_TOROS::get_default()
 
 
 
-void Widget_TOROS::set_option(UnitNode *unit)
+void Widget_TOROS::set_to(UnitNode *unit)
 {
     unit->setNum1(-1);
     unit->setNum2(-1);

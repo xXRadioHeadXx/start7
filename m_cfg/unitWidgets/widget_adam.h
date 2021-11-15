@@ -13,13 +13,13 @@ class Widget_ADAM : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_ADAM(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
+    explicit Widget_ADAM(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
 
     ~Widget_ADAM();
 
     void get_from(UnitNode* unit) override;
     void get_default() override;
-    void set_option(UnitNode* unit) override;
+    void set_to(UnitNode* unit) override;
     void update_name() override;
     void setEnabled(bool) override;
 
