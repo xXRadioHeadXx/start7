@@ -11,6 +11,7 @@ UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinat
     this->comm=comm;
     this->coord=coord;
     coord_mode=coordinateWigget_mode::nothing;
+    comm_is_needed=false;
 
 }
 

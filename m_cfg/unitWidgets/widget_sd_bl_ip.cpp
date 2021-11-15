@@ -42,7 +42,8 @@ void Widget_SD_BL_IP::set_option(UnitNode *unit)
 {
 
 
-    comm->set_options(unit);
+
+
     unit->setNum1(255);
     unit->setNum2(ui->Num2->currentText().toInt());
     //Set OutType
@@ -63,7 +64,8 @@ void Widget_SD_BL_IP::set_option(UnitNode *unit)
         unit->setDK(0);
     }
 
-
+    comm->set_options(unit);
+    coord->set_options(unit);
 }
 
 void Widget_SD_BL_IP::update_name()

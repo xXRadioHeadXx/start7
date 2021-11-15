@@ -24,6 +24,7 @@ public:
     ~coordinateWidget();
 
     void get_options(UnitNode *unit);
+    void set_options(UnitNode *unit);
 
     void set_mode(int mode);
 

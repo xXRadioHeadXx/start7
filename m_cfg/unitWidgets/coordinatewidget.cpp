@@ -17,8 +17,59 @@ void coordinateWidget::get_options(UnitNode *unit)
 {
  if(this->isVisible()){
 
+     switch (mode) {
+
+     case coordinateWigget_mode::nothing:
+
+
+     break;
+
+     case coordinateWigget_mode::for_all:
+
+         ui->Lan->setValue(unit?unit->getLan():0);
+         ui->Lon->setValue(unit?unit->getLon():0);
+         ui->Description->setText(unit?unit->getDescription():"");
+
+
+     break;
+
+     case coordinateWigget_mode::devline:
+
+
+
+     break;
+
+     }
 
  }
+}
+
+void coordinateWidget::set_options(UnitNode *unit)
+{
+    this->mode=mode;
+    switch (mode) {
+
+    case coordinateWigget_mode::nothing:
+
+
+
+    break;
+
+    case coordinateWigget_mode::for_all:
+
+        unit->setLan(ui->Lan->value());
+        unit->setLon(ui->Lon->value());
+        unit->setDescription(ui->Description->text());
+
+    break;
+
+    case coordinateWigget_mode::devline:
+
+
+
+    break;
+
+    }
 }
 
 void coordinateWidget::set_mode(int mode)

@@ -28,6 +28,7 @@ private slots:
 
     void on_Num2_currentIndexChanged(const QString &arg1);
 
+
 private:
     Ui::Widget_KL *ui;
 };
