@@ -1,8 +1,8 @@
 #include "widget_bod_sota.h"
 #include "ui_widget_bod_sota.h"
 
-Widget_BOD_SOTA::Widget_BOD_SOTA(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_BOD_SOTA::Widget_BOD_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord):
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_BOD_SOTA)
 {
     ID=TypeUnitNode::BOD_SOTA;

@@ -1,12 +1,13 @@
 #include "widget_devline.h"
 #include "ui_widget_devline.h"
 
-Widget_DEVLINE::Widget_DEVLINE(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_DEVLINE::Widget_DEVLINE(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_DEVLINE)
 {
     ID=TypeUnitNode::DEVLINE;
     ui->setupUi(this);
+    coord_mode=coordinateWigget_mode::devline;
 }
 
 Widget_DEVLINE::~Widget_DEVLINE()

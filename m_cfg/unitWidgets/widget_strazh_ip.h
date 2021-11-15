@@ -13,7 +13,7 @@ class Widget_STRAZH_IP : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_STRAZH_IP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_STRAZH_IP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
     ~Widget_STRAZH_IP();
 
     void get_from(UnitNode* unit) override;

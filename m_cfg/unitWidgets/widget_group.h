@@ -13,7 +13,7 @@ class Widget_GROUP : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_GROUP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_GROUP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
 
     ~Widget_GROUP();
 

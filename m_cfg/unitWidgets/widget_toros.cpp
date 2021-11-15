@@ -1,8 +1,8 @@
 #include "widget_toros.h"
 #include "ui_widget_toros.h"
 
-Widget_TOROS::Widget_TOROS(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_TOROS::Widget_TOROS(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_TOROS)
 {
     ID=TypeUnitNode::TOROS;

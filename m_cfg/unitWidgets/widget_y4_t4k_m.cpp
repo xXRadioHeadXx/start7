@@ -1,8 +1,8 @@
 #include "widget_y4_t4k_m.h"
 #include "ui_widget_y4_t4k_m.h"
 
-Widget_Y4_T4K_M::Widget_Y4_T4K_M(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_Y4_T4K_M::Widget_Y4_T4K_M(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_Y4_T4K_M)
 {
     ID=TypeUnitNode::Y4_T4K_M;

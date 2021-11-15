@@ -5,7 +5,7 @@
 #include <UnitNode.h>
 #include <my_config.h>
 #include <unitWidgets/communicationtypewidget.h>
-
+#include "unitWidgets/coordinatewidget.h"
 
 namespace Ui {
 class UnitWidget;
@@ -16,7 +16,7 @@ class UnitWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit UnitWidget(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit UnitWidget(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
     ~UnitWidget();
     int getID();
 
@@ -36,8 +36,9 @@ public:
 protected:
     int ID;
     communicationTypeWidget* comm;
+    coordinateWidget* coord;
     bool comm_is_needed;
-
+    int coord_mode;
 
 //MainWindowCFG* wnd;
 

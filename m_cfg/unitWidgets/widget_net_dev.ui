@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>70</y>
+     <y>0</y>
      <width>550</width>
      <height>80</height>
     </rect>
@@ -28,60 +28,41 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="label_103">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>0</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ИУ</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="Num1">
+   <widget class="my_combobox" name="NET_DEV_IP_combobox">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>81</width>
+      <width>261</width>
       <height>30</height>
      </rect>
     </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+    <property name="editable">
+     <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_102">
+   <widget class="QLabel" name="label_48">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>71</width>
+      <width>201</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Адрес</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="Num2">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>20</y>
-      <width>171</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+     <string>IP-адрес или сетевое имя</string>
     </property>
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>my_combobox</class>
+   <extends>QComboBox</extends>
+   <header>my_combobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -13,7 +13,7 @@ class Widget_DD_SOTA : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_DD_SOTA(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_DD_SOTA(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
 
     ~Widget_DD_SOTA();
 
@@ -26,6 +26,8 @@ public:
     QString get_string(UnitNode* unit) override;
 private slots:
     void on_Num2_2_currentTextChanged(const QString &arg1);
+
+    void on_Num2_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::Widget_DD_SOTA *ui;

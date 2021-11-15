@@ -1,8 +1,8 @@
 #include "widget_strazh_ip.h"
 #include "ui_widget_strazh_ip.h"
 
-Widget_STRAZH_IP::Widget_STRAZH_IP(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_STRAZH_IP::Widget_STRAZH_IP(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_STRAZH_IP)
 {
     ID=TypeUnitNode::STRAZH_IP;

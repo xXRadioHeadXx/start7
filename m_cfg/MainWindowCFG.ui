@@ -909,9 +909,9 @@
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>160</y>
-              <width>501</width>
-              <height>151</height>
+              <y>140</y>
+              <width>551</width>
+              <height>111</height>
              </rect>
             </property>
            </widget>
@@ -920,8 +920,18 @@
              <rect>
               <x>10</x>
               <y>80</y>
-              <width>521</width>
-              <height>80</height>
+              <width>551</width>
+              <height>60</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="coordinateWidget" name="coord" native="true">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>251</y>
+              <width>568</width>
+              <height>100</height>
              </rect>
             </property>
            </widget>
@@ -2027,6 +2037,12 @@
    <class>My_treeView</class>
    <extends>QWidget</extends>
    <header location="global">my_treeview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>coordinateWidget</class>
+   <extends>QWidget</extends>
+   <header>unitWidgets/coordinatewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -13,7 +13,7 @@ class Widget_ONVIF : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_ONVIF(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_ONVIF(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
     ~Widget_ONVIF();
 
     void get_from(UnitNode* unit) override;

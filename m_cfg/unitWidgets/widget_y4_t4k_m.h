@@ -13,7 +13,7 @@ class Widget_Y4_T4K_M : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_Y4_T4K_M(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_Y4_T4K_M(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
     ~Widget_Y4_T4K_M();
 
     void get_from(UnitNode* unit) override;

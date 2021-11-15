@@ -74,6 +74,7 @@ enum op_tbl {
 
 
 
+
 struct SerNum_Name{
     QString SerNum;
     QString Name;
@@ -115,6 +116,10 @@ private:
     Widget_INFO_TABLO* w_INFO_TABLO;
 
     QList<UnitWidget*> l_UnitWidgets;
+
+
+
+
 
   bool eventFilter(QObject *obj, QEvent *event);
 

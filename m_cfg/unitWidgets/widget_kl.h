@@ -13,7 +13,7 @@ class Widget_KL : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_KL(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_KL(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
     ~Widget_KL();
 
     void get_from(UnitNode* unit) override;

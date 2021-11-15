@@ -1,8 +1,8 @@
 #include "widget_bod_t4k_m.h"
 #include "ui_widget_bod_t4k_m.h"
 
-Widget_BOD_T4K_M::Widget_BOD_T4K_M(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_BOD_T4K_M::Widget_BOD_T4K_M(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_BOD_T4K_M)
 {
     ID=TypeUnitNode::BOD_T4K_M;
@@ -51,4 +51,9 @@ QString Widget_BOD_T4K_M::get_string(UnitNode *unit)
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
     string1.append(unit->getName());
    return string1;
+}
+
+void Widget_BOD_T4K_M::on_Num1_currentIndexChanged(const QString &arg1)
+{
+    update_name();
 }

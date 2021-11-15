@@ -1,8 +1,8 @@
 #include "widget_group.h"
 #include "ui_widget_group.h"
 
-Widget_GROUP::Widget_GROUP(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_GROUP::Widget_GROUP(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_GROUP)
 {
     ID=TypeUnitNode::GROUP;

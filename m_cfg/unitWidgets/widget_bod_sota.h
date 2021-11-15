@@ -13,7 +13,7 @@ class Widget_BOD_SOTA : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_BOD_SOTA(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_BOD_SOTA(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
 
     ~Widget_BOD_SOTA();
 

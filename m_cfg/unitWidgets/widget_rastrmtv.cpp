@@ -1,8 +1,8 @@
 #include "widget_rastrmtv.h"
 #include "ui_widget_rastrmtv.h"
 
-Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_RASTRMTV)
 {
     ID=TypeUnitNode::RASTRMTV;
@@ -51,4 +51,14 @@ QString Widget_RASTRMTV::get_string(UnitNode *unit)
         string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
     string1.append(unit->getName());
    return string1;
+}
+
+void Widget_RASTRMTV::on_Icon1Path_currentIndexChanged(const QString &arg1)
+{
+    update_name();
+}
+
+void Widget_RASTRMTV::on_Num3_currentIndexChanged(const QString &arg1)
+{
+    update_name();
 }

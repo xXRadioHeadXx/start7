@@ -1,8 +1,8 @@
 #include "widget_net_dev.h"
 #include "ui_widget_net_dev.h"
 
-Widget_NET_DEV::Widget_NET_DEV(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_NET_DEV::Widget_NET_DEV(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_NET_DEV)
 {
     ID=TypeUnitNode::NET_DEV;

@@ -1,8 +1,8 @@
 #include "widget_rlm_krl.h"
 #include "ui_widget_rlm_krl.h"
 
-Widget_RLM_KRL::Widget_RLM_KRL(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_RLM_KRL::Widget_RLM_KRL(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_RLM_KRL)
 {
     ID=TypeUnitNode::RLM_KRL;

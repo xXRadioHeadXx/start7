@@ -13,7 +13,7 @@ class Widget_SSOI_SD : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_SSOI_SD(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_SSOI_SD(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
     ~Widget_SSOI_SD();
 
     void get_from(UnitNode* unit) override;

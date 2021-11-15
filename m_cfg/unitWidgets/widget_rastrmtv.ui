@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>550</width>
     <height>300</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>70</y>
+     <y>0</y>
      <width>550</width>
      <height>80</height>
     </rect>
@@ -28,56 +28,50 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="label_103">
+   <widget class="QLabel" name="label_108">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>270</x>
       <y>0</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ИУ</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="Num1">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>20</y>
       <width>81</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_102">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>71</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Адрес</string>
+     <string>ТВ-камера</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="Num2">
+   <widget class="QLabel" name="label_107">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>0</x>
+      <y>0</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Устройство</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Icon1Path">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
       <y>20</y>
-      <width>171</width>
+      <width>261</width>
       <height>30</height>
      </rect>
     </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+   </widget>
+   <widget class="QComboBox" name="Num3">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>20</y>
+      <width>141</width>
+      <height>30</height>
+     </rect>
     </property>
    </widget>
   </widget>

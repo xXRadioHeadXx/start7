@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>550</width>
+    <height>111</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>70</y>
+     <y>0</y>
      <width>550</width>
-     <height>80</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -28,60 +28,121 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="label_103">
+   <widget class="My_lineEdit" name="Icon2Path" native="true">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>0</y>
-      <width>71</width>
+      <x>270</x>
+      <y>20</y>
+      <width>281</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="My_lineEdit" name="Icon3Path" native="true">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>75</y>
+      <width>281</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_87">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>55</y>
+      <width>50</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>ИУ</string>
+     <string>Пароль</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="Num1">
+   <widget class="QLabel" name="label_86">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>20</y>
-      <width>81</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_102">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
+      <x>270</x>
       <y>0</y>
-      <width>71</width>
+      <width>47</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Адрес</string>
+     <string>Логин</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="Num2">
+   <widget class="QLabel" name="label_88">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>20</y>
-      <width>171</width>
+      <x>0</x>
+      <y>55</y>
+      <width>231</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IP-адрес поворотной платформы</string>
+    </property>
+   </widget>
+   <widget class="My_lineEdit" name="Icon4Path" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>75</y>
+      <width>261</width>
       <height>30</height>
      </rect>
     </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+    <property name="inputMask" stdset="0">
+     <string/>
+    </property>
+    <property name="clearButtonEnabled" stdset="0">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="my_combobox" name="Icon1Path">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>261</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_85">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>231</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IP-адрес камеры</string>
     </property>
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>my_combobox</class>
+   <extends>QComboBox</extends>
+   <header>my_combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

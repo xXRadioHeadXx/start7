@@ -41,7 +41,7 @@
    <property name="title">
     <string/>
    </property>
-   <widget class="My_lineEdit" name="lineEdit">
+   <widget class="My_lineEdit" name="lineEdit" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -77,7 +77,7 @@
      <string>Тип</string>
     </property>
    </widget>
-   <widget class="My_lineEdit" name="lineEdit_2">
+   <widget class="My_lineEdit" name="lineEdit_2" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -100,7 +100,7 @@
      <string>Тип (повторный ввод)</string>
     </property>
    </widget>
-   <widget class="My_lineEdit" name="lineEdit_3">
+   <widget class="My_lineEdit" name="lineEdit_3" native="true">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -112,6 +112,13 @@
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>My_lineEdit</class>
+   <extends>QWidget</extends>
+   <header>my_lineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

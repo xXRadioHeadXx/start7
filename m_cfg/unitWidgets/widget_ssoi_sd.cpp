@@ -1,8 +1,8 @@
 #include "widget_ssoi_sd.h"
 #include "ui_widget_ssoi_sd.h"
 
-Widget_SSOI_SD::Widget_SSOI_SD(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_SSOI_SD::Widget_SSOI_SD(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_SSOI_SD)
 {
     ID=TypeUnitNode::SSOI_SD;

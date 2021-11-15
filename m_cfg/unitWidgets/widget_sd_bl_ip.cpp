@@ -2,13 +2,14 @@
 #include "ui_widget_sd_bl_ip.h"
 #include <QDebug>
 
-Widget_SD_BL_IP::Widget_SD_BL_IP(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_SD_BL_IP::Widget_SD_BL_IP(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_SD_BL_IP)
 {
     ID=TypeUnitNode::SD_BL_IP;
     ui->setupUi(this);
     comm_is_needed=true;
+    coord_mode=coordinateWigget_mode::for_all;
     for(int i=0;i<m_SSOI_SD_OutType.size();i++)
     {
         this->ui->OutType->insertItem(i,m_SD_BL_IP_OutType.value(i));
@@ -39,6 +40,7 @@ void Widget_SD_BL_IP::get_default()
 
 void Widget_SD_BL_IP::set_option(UnitNode *unit)
 {
+
 
     comm->set_options(unit);
     unit->setNum1(255);

@@ -13,7 +13,7 @@ class Widget_Y4_SOTA : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_Y4_SOTA(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr);
+    explicit Widget_Y4_SOTA(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr);
     ~Widget_Y4_SOTA();
 
     void get_from(UnitNode* unit) override;

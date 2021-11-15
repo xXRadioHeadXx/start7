@@ -3,8 +3,8 @@
 #include <QDebug>
 
 
-Widget_ADAM::Widget_ADAM(QWidget *parent, communicationTypeWidget *comm) :
-    UnitWidget(parent,comm),
+Widget_ADAM::Widget_ADAM(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord) :
+    UnitWidget(parent,comm,coord),
     ui(new Ui::Widget_ADAM)
 {
     ID=TypeUnitNode::ADAM;
@@ -34,12 +34,14 @@ Widget_ADAM::~Widget_ADAM()
 
 void Widget_ADAM::get_from(UnitNode *unit)
 {
-
+    ui->Num1->setCurrentText(QString::number(unit->getNum1()));
+    ui->Num2->setCurrentText(QString::number(unit->getNum2()));
 }
 
 void Widget_ADAM::get_default()
 {
-
+ui->Num1->setCurrentIndex(0);
+ui->Num2->setCurrentIndex(0);
 }
 /*
 void Widget_ADAM::get_option(UnitNode *unit)
@@ -49,13 +51,13 @@ void Widget_ADAM::get_option(UnitNode *unit)
     qDebug()<<"1";
  qDebug()<<QString::number(unit->getNum1());
   qDebug()<<ui->Num1->currentText();
- ui->Num1->setCurrentText(QString::number(unit->getNum1()));
+
 
 
      qDebug()<<QString::number(unit->getNum1());
       qDebug()<<ui->Num1->currentText();
 
-    ui->Num2->setCurrentText(QString::number(unit->getNum2()));
+
     setEnabled(false);
     }else{
     qDebug()<<"2";
