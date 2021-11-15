@@ -28,7 +28,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QComboBox" name="RLM_KRL_adress_combobox">
+   <widget class="QComboBox" name="Num1">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -51,7 +51,7 @@
      <string>Адрес</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="RLM_KRL_type_comboBox">
+   <widget class="QComboBox" name="AdamOff">
     <property name="geometry">
      <rect>
       <x>70</x>

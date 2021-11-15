@@ -23,6 +23,11 @@ public:
     void setEnabled(bool) override;
 
     QString get_string(UnitNode* unit) override;
+private slots:
+    void on_Num1_currentIndexChanged(const QString &arg1);
+
+    void on_AdamOff_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Widget_RLM_KRL *ui;
 };

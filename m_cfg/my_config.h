@@ -133,4 +133,13 @@ static QMap <int,QString> m_TypeUnitNode{
 
 };
 
+QMap <int,QString> m_RLM_KRL_type{
+{0,str_RIF_RLM},
+{1,str_RIF_RLM_24},
+{2,str_RIF_RLM_B},
+{3,str_RIF_KRL},
+{4,str_Razriv},
+{5,str_trassa1l},
+};
+
 #endif // MY_CONFIG_H

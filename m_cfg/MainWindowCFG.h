@@ -515,7 +515,7 @@ private:
 
 
  };
- QMap <int,QString> m_RLM_KRL_type{
+QMap <int,QString> m_RLM_KRL_type{
 {0,str_RIF_RLM},
 {1,str_RIF_RLM_24},
 {2,str_RIF_RLM_B},
