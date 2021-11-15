@@ -25,7 +25,8 @@ Widget_RLM_KRL::~Widget_RLM_KRL()
 
 void Widget_RLM_KRL::get_from(UnitNode *unit)
 {
-
+ui->Num1->setCurrentText(QString::number(unit->getNum1()));
+ui->AdamOff->setCurrentText(m_RLM_KRL_type.value(unit->getAdamOff()));
 }
 
 void Widget_RLM_KRL::get_default()
@@ -37,6 +38,8 @@ void Widget_RLM_KRL::get_default()
 
 void Widget_RLM_KRL::set_to(UnitNode *unit)
 {
+    unit->setNum1(ui->Num1->currentText().toInt());
+    unit->setAdamOff(m_RLM_KRL_type.key(this->ui->AdamOff->currentText()));
 
 }
 
@@ -48,7 +51,8 @@ void Widget_RLM_KRL::update_name()
 
 void Widget_RLM_KRL::setEnabled(bool val)
 {
-
+    ui->Num1->setEnabled(val);
+    ui->AdamOff->setEnabled(val);
 }
 
 QString Widget_RLM_KRL::get_string(UnitNode *unit)

@@ -133,7 +133,7 @@ static QMap <int,QString> m_TypeUnitNode{
 
 };
 
-QMap <int,QString> m_RLM_KRL_type{
+static QMap <int,QString> m_RLM_KRL_type{
 {0,str_RIF_RLM},
 {1,str_RIF_RLM_24},
 {2,str_RIF_RLM_B},
