@@ -65,4 +65,11 @@ void UnitWidget::set_to(UnitNode *unit)
 
 }
 
+void UnitWidget::setEnabled(bool val)
+{
+   comm->setEnabled(val);
+
+   setEnabled_option_menu(val);
+}
+
 

@@ -39,7 +39,7 @@ void Widget_GROUP::update_name()
 
 }
 
-void Widget_GROUP::setEnabled(bool val)
+void Widget_GROUP::setEnabled_option_menu(bool val)
 {
 
 }

@@ -39,7 +39,7 @@ void Widget_DD_SOTA::update_name()
 
 }
 
-void Widget_DD_SOTA::setEnabled(bool val)
+void Widget_DD_SOTA::setEnabled_option_menu(bool val)
 {
 
 }

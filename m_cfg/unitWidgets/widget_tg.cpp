@@ -42,7 +42,7 @@ void Widget_TG::update_name()
 
 }
 
-void Widget_TG::setEnabled(bool val)
+void Widget_TG::setEnabled_option_menu(bool val)
 {
 
 }

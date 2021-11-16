@@ -58,10 +58,10 @@ void Widget_ADAM::get_option(UnitNode *unit)
       qDebug()<<ui->Num1->currentText();
 
 
-    setEnabled(false);
+    setEnabled_option_menu(false);
     }else{
     qDebug()<<"2";
-    setEnabled(true);
+    setEnabled_option_menu(true);
     }
 }
 */
@@ -82,7 +82,7 @@ void Widget_ADAM::update_name()
     emit updateName(name);
 }
 
-void Widget_ADAM::setEnabled(bool val)
+void Widget_ADAM::setEnabled_option_menu(bool val)
 {
     ui->Num1->setEnabled(val);
     ui->Num2->setEnabled(val);

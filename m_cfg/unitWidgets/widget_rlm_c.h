@@ -20,9 +20,12 @@ public:
     void get_default() override;
     void set_to(UnitNode* unit) override;
     void update_name() override;
-    void setEnabled(bool) override;
+    void setEnabled_option_menu(bool) override;
 
     QString get_string(UnitNode* unit) override;
+private slots:
+    void on_Num1_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Widget_RLM_C *ui;
 };

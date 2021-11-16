@@ -39,7 +39,7 @@ void Widget_TOROS::update_name()
 
 }
 
-void Widget_TOROS::setEnabled(bool val)
+void Widget_TOROS::setEnabled_option_menu(bool val)
 {
 
 }

@@ -40,7 +40,7 @@ void Widget_DEVLINE::update_name()
 
 }
 
-void Widget_DEVLINE::setEnabled(bool val)
+void Widget_DEVLINE::setEnabled_option_menu(bool val)
 {
 
 }

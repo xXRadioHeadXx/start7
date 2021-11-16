@@ -40,7 +40,7 @@ void Widget_SSOI_IU::update_name()
 
 }
 
-void Widget_SSOI_IU::setEnabled(bool val)
+void Widget_SSOI_IU::setEnabled_option_menu(bool val)
 {
 
 }

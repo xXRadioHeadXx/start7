@@ -39,7 +39,7 @@ void Widget_RASTRMTV::update_name()
 
 }
 
-void Widget_RASTRMTV::setEnabled(bool val)
+void Widget_RASTRMTV::setEnabled_option_menu(bool val)
 {
 
 }

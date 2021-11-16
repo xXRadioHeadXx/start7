@@ -30,9 +30,12 @@ public:
     virtual void set_to(UnitNode* unit);
 
     virtual void update_name(){};
-    virtual void setEnabled(bool){};
+
     virtual QString get_string(UnitNode* unit){return "";};
 
+    virtual void setEnabled_option_menu(bool){};
+
+    void setEnabled(bool);
     void get_option(UnitNode* unit);
     void set_option(UnitNode* unit);
 

@@ -21,7 +21,7 @@ public:
     void get_default() override;
     void set_to(UnitNode* unit) override;
     void update_name() override;
-    void setEnabled(bool) override;
+    void setEnabled_option_menu(bool) override;
 
     QString get_string(UnitNode* unit) override;
 private slots:

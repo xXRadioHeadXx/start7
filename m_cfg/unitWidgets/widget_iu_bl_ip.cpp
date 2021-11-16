@@ -84,7 +84,7 @@ void Widget_IU_BL_IP::update_name()
 
 }
 
-void Widget_IU_BL_IP::setEnabled(bool val)
+void Widget_IU_BL_IP::setEnabled_option_menu(bool val)
 {
     ui->Num2->setEnabled(val);
     comm->setEnabled(val);

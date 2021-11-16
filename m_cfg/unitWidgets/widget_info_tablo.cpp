@@ -55,7 +55,7 @@ void Widget_INFO_TABLO::update_name()
 
 }
 
-void Widget_INFO_TABLO::setEnabled(bool val)
+void Widget_INFO_TABLO::setEnabled_option_menu(bool val)
 {
 
 }

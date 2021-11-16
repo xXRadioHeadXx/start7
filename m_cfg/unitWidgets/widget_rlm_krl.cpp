@@ -8,6 +8,9 @@ Widget_RLM_KRL::Widget_RLM_KRL(QWidget *parent, communicationTypeWidget *comm, c
     ID=TypeUnitNode::RLM_KRL;
     ui->setupUi(this);
 
+    comm_is_needed=true;
+    coord_mode=coordinateWigget_mode::for_all;
+
     for(int i=1;i<100;i++) {
 
     ui->Num1->addItem(QString::number(i));
@@ -16,6 +19,8 @@ Widget_RLM_KRL::Widget_RLM_KRL(QWidget *parent, communicationTypeWidget *comm, c
     for(int i=0;i<m_RLM_KRL_type.size();i++)    {
     ui->AdamOff->addItem(m_RLM_KRL_type.value(i));
     }
+
+
 }
 
 Widget_RLM_KRL::~Widget_RLM_KRL()
@@ -45,11 +50,18 @@ void Widget_RLM_KRL::set_to(UnitNode *unit)
 
 void Widget_RLM_KRL::update_name()
 {
-    emit updateName("Группа ");
+    QString Name;
+    Name.clear();
+    Name.append(ui->AdamOff->currentText());
+    Name.append("-");
+    if(ui->Num1->currentText().toInt()<10)
+    Name.append("0");
+    Name.append(this->ui->Num1->currentText());
+    emit updateName(Name);
 
 }
 
-void Widget_RLM_KRL::setEnabled(bool val)
+void Widget_RLM_KRL::setEnabled_option_menu(bool val)
 {
     ui->Num1->setEnabled(val);
     ui->AdamOff->setEnabled(val);
@@ -58,9 +70,30 @@ void Widget_RLM_KRL::setEnabled(bool val)
 QString Widget_RLM_KRL::get_string(UnitNode *unit)
 {
     QString string1;
-   //     string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" ");//  Группа</b> ");
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
-    string1.append(unit->getName());
+
+    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));//  ");
+    if(0==unit->getAdamOff())
+    string1.append(str_RIF_RLM);
+
+    if(1==unit->getAdamOff())
+    string1.append(str_RIF_RLM_24);
+
+    if(2==unit->getAdamOff())
+    string1.append(str_RIF_RLM_B);
+
+    if(3==unit->getAdamOff())
+    string1.append(str_RIF_KRL);
+
+    if(4==unit->getAdamOff())
+    string1.append(str_Razriv);
+
+    if(5==unit->getAdamOff())
+    string1.append(str_trassa1l);
+
+    string1.append("</b>");
+    string1.append(" : ");
+    string1.append(QString::number(unit->getNum1()));
+    string1.append(" ");
    return string1;
 }
 

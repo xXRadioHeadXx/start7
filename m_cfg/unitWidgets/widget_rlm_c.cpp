@@ -51,7 +51,7 @@ void Widget_RLM_C::update_name()
 
 }
 
-void Widget_RLM_C::setEnabled(bool val)
+void Widget_RLM_C::setEnabled_option_menu(bool val)
 {
     ui->Num1->setEnabled(val);
 }
@@ -103,4 +103,9 @@ QString Widget_RLM_C::get_string(UnitNode *unit)
         string1.append("\n");
     }
    return string1;
+}
+
+void Widget_RLM_C::on_Num1_currentIndexChanged(const QString &arg1)
+{
+    update_name();
 }

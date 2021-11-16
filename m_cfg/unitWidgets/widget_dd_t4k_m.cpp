@@ -39,7 +39,7 @@ void Widget_DD_T4K_M::update_name()
 
 }
 
-void Widget_DD_T4K_M::setEnabled(bool val)
+void Widget_DD_T4K_M::setEnabled_option_menu(bool val)
 {
 
 }

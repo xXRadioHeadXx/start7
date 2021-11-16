@@ -39,7 +39,7 @@ void Widget_ONVIF::update_name()
 
 }
 
-void Widget_ONVIF::setEnabled(bool val)
+void Widget_ONVIF::setEnabled_option_menu(bool val)
 {
 
 }

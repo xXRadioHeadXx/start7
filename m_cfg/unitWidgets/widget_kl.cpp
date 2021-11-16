@@ -62,7 +62,7 @@ void Widget_KL::update_name()
 
 }
 
-void Widget_KL::setEnabled(bool val)
+void Widget_KL::setEnabled_option_menu(bool val)
 {
     ui->Num1->setEnabled(val);
     ui->Num2->setEnabled(val);

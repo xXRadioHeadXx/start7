@@ -39,7 +39,7 @@ void Widget_NET_DEV::update_name()
 
 }
 
-void Widget_NET_DEV::setEnabled(bool val)
+void Widget_NET_DEV::setEnabled_option_menu(bool val)
 {
 
 }
