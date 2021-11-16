@@ -60,6 +60,17 @@ void Widget_BOD_SOTA::setEnabled_option_menu(bool val)
     ui->Num1->setEnabled(val);
 }
 
+bool Widget_BOD_SOTA::timeout_brother(UnitNode *un)
+{
+    if(un->getType()==TypeUnitNode::Y4_SOTA)
+        return true;
+    if(un->getType()==TypeUnitNode::DD_SOTA)
+        return true;
+
+
+    return false;
+}
+
 QString Widget_BOD_SOTA::get_string(UnitNode *unit)
 {
     QString string1;
