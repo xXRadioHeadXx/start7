@@ -13,7 +13,7 @@ class Widget_SSOI_IU : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_SSOI_IU(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_SSOI_IU(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~Widget_SSOI_IU();
 
     void get_from(UnitNode* unit) override;

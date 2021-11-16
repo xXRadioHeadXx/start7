@@ -1,8 +1,8 @@
 #include "widget_net_dev.h"
 #include "ui_widget_net_dev.h"
 
-Widget_NET_DEV::Widget_NET_DEV(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
-    UnitWidget(parent,comm,coord,modelTreeUN),
+Widget_NET_DEV::Widget_NET_DEV(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
+    UnitWidget(parent,comm,coord,modelTreeUN,current),
     ui(new Ui::Widget_NET_DEV)
 {
     ID=TypeUnitNode::NET_DEV;

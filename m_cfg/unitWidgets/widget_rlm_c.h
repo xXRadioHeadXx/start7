@@ -13,7 +13,7 @@ class Widget_RLM_C : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_RLM_C(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_RLM_C(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~Widget_RLM_C();
 
     void get_from(UnitNode* unit) override;

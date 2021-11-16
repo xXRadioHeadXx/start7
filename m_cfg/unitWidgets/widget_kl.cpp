@@ -1,8 +1,8 @@
 #include "widget_kl.h"
 #include "ui_widget_kl.h"
 
-Widget_KL::Widget_KL(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
-    UnitWidget(parent,comm,coord,modelTreeUN),
+Widget_KL::Widget_KL(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
+    UnitWidget(parent,comm,coord,modelTreeUN,current),
     ui(new Ui::Widget_KL)
 {
     ID=TypeUnitNode::KL;

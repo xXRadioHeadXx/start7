@@ -3,11 +3,18 @@
 #include <QDebug>
 
 
-UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN)
+UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN, QModelIndex* current)
 {
     ID=0;
 
     this->modelTreeUN=modelTreeUN;
+    this->current=current;
+
+    if(current->isValid()){
+        qDebug()<<"+";
+    }else{
+        qDebug()<<"-";
+    }
 
     this->comm=comm;
     this->coord=coord;
@@ -46,15 +53,13 @@ void UnitWidget::get_option(UnitNode *unit)
   coord->get_options(unit);
 
 
-  if(unit){
+ if(unit){
         get_from(unit);
         setEnabled(false);
 
   }else{
         get_default();
         setEnabled(true);
-
-
   }
 
 }

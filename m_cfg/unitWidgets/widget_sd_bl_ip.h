@@ -14,7 +14,7 @@ class Widget_SD_BL_IP : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_SD_BL_IP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_SD_BL_IP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~Widget_SD_BL_IP();
 
     void get_from(UnitNode* unit) override;

@@ -13,7 +13,7 @@ class Widget_NET_DEV : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_NET_DEV(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_NET_DEV(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~Widget_NET_DEV();
 
     void get_from(UnitNode* unit) override;

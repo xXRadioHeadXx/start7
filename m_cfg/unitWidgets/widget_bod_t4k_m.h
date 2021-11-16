@@ -13,7 +13,7 @@ class Widget_BOD_T4K_M : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_BOD_T4K_M(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_BOD_T4K_M(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
 
     ~Widget_BOD_T4K_M();
 

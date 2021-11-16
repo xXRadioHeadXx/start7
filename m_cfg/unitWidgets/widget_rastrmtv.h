@@ -13,7 +13,7 @@ class Widget_RASTRMTV : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_RASTRMTV(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_RASTRMTV(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~Widget_RASTRMTV();
 
     void get_from(UnitNode* unit) override;

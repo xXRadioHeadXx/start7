@@ -1,8 +1,8 @@
 #include "widget_ssoi_iu.h"
 #include "ui_widget_ssoi_iu.h"
 
-Widget_SSOI_IU::Widget_SSOI_IU(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
-    UnitWidget(parent,comm,coord,modelTreeUN),
+Widget_SSOI_IU::Widget_SSOI_IU(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
+    UnitWidget(parent,comm,coord,modelTreeUN,current),
     ui(new Ui::Widget_SSOI_IU)
 {
     ID=TypeUnitNode::SSOI_IU;

@@ -17,7 +17,7 @@ public:
 
     communicationTypeWidget* comm;
 
-    explicit Widget_TG(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_TG(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~Widget_TG();
 
     void get_from(UnitNode* unit) override;

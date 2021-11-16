@@ -13,7 +13,7 @@ class Widget_DEVLINE : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_DEVLINE(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_DEVLINE(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
 
     ~Widget_DEVLINE();
 

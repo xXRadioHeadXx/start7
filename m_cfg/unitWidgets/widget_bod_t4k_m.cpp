@@ -1,8 +1,8 @@
 #include "widget_bod_t4k_m.h"
 #include "ui_widget_bod_t4k_m.h"
 
-Widget_BOD_T4K_M::Widget_BOD_T4K_M(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
-    UnitWidget(parent,comm,coord,modelTreeUN),
+Widget_BOD_T4K_M::Widget_BOD_T4K_M(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
+    UnitWidget(parent,comm,coord,modelTreeUN,current),
     ui(new Ui::Widget_BOD_T4K_M)
 {
     ID=TypeUnitNode::BOD_T4K_M;

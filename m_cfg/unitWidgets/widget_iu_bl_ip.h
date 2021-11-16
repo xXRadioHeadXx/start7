@@ -12,7 +12,7 @@ class Widget_IU_BL_IP : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_IU_BL_IP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_IU_BL_IP(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~Widget_IU_BL_IP();
 
     void get_from(UnitNode* unit) override;

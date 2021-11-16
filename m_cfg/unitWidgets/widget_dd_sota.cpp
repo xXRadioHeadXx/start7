@@ -1,8 +1,8 @@
 #include "widget_dd_sota.h"
 #include "ui_widget_dd_sota.h"
 
-Widget_DD_SOTA::Widget_DD_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN) :
-    UnitWidget(parent,comm,coord,modelTreeUN),
+Widget_DD_SOTA::Widget_DD_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
+    UnitWidget(parent,comm,coord,modelTreeUN,current),
     ui(new Ui::Widget_DD_SOTA)
 {
     ID=TypeUnitNode::DD_SOTA;

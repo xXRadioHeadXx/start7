@@ -13,7 +13,7 @@ class Widget_INFO_TABLO : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_INFO_TABLO(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_INFO_TABLO(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~Widget_INFO_TABLO();
 
     void get_from(UnitNode* unit) override;

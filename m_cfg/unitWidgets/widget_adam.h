@@ -13,7 +13,7 @@ class Widget_ADAM : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_ADAM(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit Widget_ADAM(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
 
     ~Widget_ADAM();
 

@@ -17,7 +17,7 @@ class UnitWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit UnitWidget(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr);
+    explicit UnitWidget(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
     ~UnitWidget();
     int getID();
 
@@ -40,6 +40,8 @@ public:
     void set_option(UnitNode* unit);
 
     void setUdpTimeout_for_BL_IP(UnitNode* unit);
+
+    QModelIndex* current;
  //   comm->set_options(unit);
  //   coord->set_options(unit);
 
@@ -50,6 +52,7 @@ protected:
     bool comm_is_needed;
     int coord_mode;
     TreeModelUnitNode *modelTreeUN = nullptr;
+
 //MainWindowCFG* wnd;
 
 
