@@ -353,6 +353,8 @@ private:
 
     bool setUdpTimeout_for_KL(UnitNode *unit);
 
+    bool setUdpTimeout_for_BOD_SOTA(UnitNode *unit);
+
 
 
 

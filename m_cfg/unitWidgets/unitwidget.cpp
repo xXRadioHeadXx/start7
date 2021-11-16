@@ -61,6 +61,7 @@ void UnitWidget::get_option(UnitNode *unit)
         get_default();
         setEnabled(true);
   }
+ update_name();
 
 }
 

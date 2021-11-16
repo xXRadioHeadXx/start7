@@ -1427,6 +1427,7 @@ current_wgt()->set_option(unit);
 setUdpTimeout_for_BL_IP(unit);
 setUdpTimeout_for_TG(unit);
 setUdpTimeout_for_KL(unit);
+setUdpTimeout_for_BOD_SOTA(unit);
 /*
        switch(type)
        {
@@ -2858,6 +2859,7 @@ void MainWindowCFG::func_to_edit_unit()
     setUdpTimeout_for_BL_IP(unit);
     setUdpTimeout_for_TG(unit);
     setUdpTimeout_for_KL(unit);
+    setUdpTimeout_for_BOD_SOTA(unit);
 
 
 
@@ -5143,6 +5145,80 @@ bool MainWindowCFG::setUdpTimeout_for_KL(UnitNode *unit)
 
 
 
+}
+
+bool MainWindowCFG::setUdpTimeout_for_BOD_SOTA(UnitNode *unit)
+{
+    qDebug()<<"setUdpTimeout_for_BL_IP ";
+    if(unit->getType()!=TypeUnitNode::BOD_SOTA)
+      return false;
+
+    int val=unit->getUdpTimeout();
+
+    qDebug()<<"timeout "<<val;
+
+    auto is_equal = [](UnitNode *my,UnitNode *unit)->bool
+       {
+        if(unit->getType()==TypeUnitNode::Y4_SOTA)
+            return true;
+
+        if(unit->getType()==TypeUnitNode::DD_SOTA)
+            return true;
+
+        return false;
+       };
+
+    QList<UnitNode *>  list;
+    modelTreeUN->getListFromModel(list,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+
+
+    if(unit->getUdpUse()==0)
+    {
+ qDebug()<<"---------------------";
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+        foreach(UnitNode *un, List1 )
+        {
+      //      qDebug()<<"------";
+      //    qDebug()<<unit->getName();
+
+
+         if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+         if(is_equal(unit,un))//проверяем не идентичны ли они
+         {
+            qDebug()<<un->getName();
+            un->setUdpTimeout(val);
+             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+
+             return false;
+         }
+
+
+        }
+
+
+    }
+    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==1)
+    {
+
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
+        foreach(UnitNode *un, List1 )
+        {
+
+         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+         if((un->getUdpPort()==unit->getUdpPort()))
+         if(is_equal(unit,un))//проверяем не идентичны ли они
+          {
+
+             un->setUdpTimeout(val);
+          }
+        }
+    }
+
+    return true;
 }
 
 

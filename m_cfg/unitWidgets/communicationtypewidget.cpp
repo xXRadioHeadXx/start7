@@ -58,7 +58,7 @@ if(unit){
 
     }else{
         ui->udpUse->setCurrentText(" UDP");
-        ui->udpAdress->setCurrentText("");
+        ui->udpAdress->setCurrentText("192.168.0.0");
         ui->udpPort->setValue(4001);
 
         this->ui->udpTimeout->setMinimum(timeouts.value(ID));
