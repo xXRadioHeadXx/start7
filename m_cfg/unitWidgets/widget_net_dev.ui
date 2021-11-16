@@ -28,7 +28,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="my_combobox" name="NET_DEV_IP_combobox">
+   <widget class="my_combobox" name="Icon1Path">
     <property name="geometry">
      <rect>
       <x>0</x>

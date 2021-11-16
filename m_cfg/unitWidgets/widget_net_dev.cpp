@@ -16,26 +16,27 @@ Widget_NET_DEV::~Widget_NET_DEV()
 
 void Widget_NET_DEV::get_from(UnitNode *unit)
 {
-
+    ui->Icon1Path->setCurrentText(unit->getIcon1Path());
 }
 
 void Widget_NET_DEV::get_default()
 {
-
+    ui->Icon1Path->setCurrentText("");
 }
 
 
 
 void Widget_NET_DEV::set_to(UnitNode *unit)
 {
-    unit->setNum1(-1);
-    unit->setNum2(-1);
-    unit->setNum3(-1);
+    unit->setIcon1Path(ui->Icon1Path->currentText());
 }
 
 void Widget_NET_DEV::update_name()
 {
-    emit updateName("Группа ");
+    QString Name;
+    Name.append("Сетевое ");
+    Name.append(this->ui->Icon1Path->currentText());
+    emit updateName(Name);
 
 }
 
@@ -47,8 +48,20 @@ void Widget_NET_DEV::setEnabled_option_menu(bool val)
 QString Widget_NET_DEV::get_string(UnitNode *unit)
 {
     QString string1;
-   //     string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" ");//  Группа</b> ");
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
-    string1.append(unit->getName());
+
+        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сетевое устройство</b> ");
+    string1.append(unit->getIcon1Path());
    return string1;
+}
+
+
+
+void Widget_NET_DEV::on_Icon1Path_currentIndexChanged(const QString &arg1)
+{
+    update_name();
+}
+
+void Widget_NET_DEV::on_Icon1Path_currentTextChanged(const QString &arg1)
+{
+    update_name();
 }
