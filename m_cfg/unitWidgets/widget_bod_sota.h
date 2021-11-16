@@ -27,6 +27,8 @@ public:
 private slots:
     void on_Num1_currentTextChanged(const QString &arg1);
 
+
+
 private:
     Ui::Widget_BOD_SOTA *ui;
 };

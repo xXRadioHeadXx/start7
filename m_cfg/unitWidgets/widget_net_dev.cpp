@@ -7,6 +7,7 @@ Widget_NET_DEV::Widget_NET_DEV(QWidget *parent, communicationTypeWidget *comm, c
 {
     ID=TypeUnitNode::NET_DEV;
     ui->setupUi(this);
+
 }
 
 Widget_NET_DEV::~Widget_NET_DEV()
