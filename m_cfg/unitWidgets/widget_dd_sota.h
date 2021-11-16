@@ -25,7 +25,6 @@ public:
 
     QString get_string(UnitNode* unit) override;
 private slots:
-    void on_Num2_2_currentTextChanged(const QString &arg1);
 
     void on_Num2_currentIndexChanged(const QString &arg1);
 

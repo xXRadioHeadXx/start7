@@ -39,6 +39,8 @@ public:
     void get_option(UnitNode* unit);
     void set_option(UnitNode* unit);
 
+    QString get_dd(UnitNode* unit);
+
     void set_timeouts(UnitNode* unit);
     virtual bool timeout_brother(UnitNode* un){return false;};
 

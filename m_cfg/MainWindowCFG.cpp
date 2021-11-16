@@ -1151,6 +1151,7 @@ void MainWindowCFG::set_x_y(QString Name, int x, int y)
 
 void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
 {
+    qDebug()<<"[on_treeView_clicked]";
 
  this->ui->stackedWidget_3->setCurrentIndex(0);
     current_wgt()->setEnabled(true);
@@ -2156,8 +2157,9 @@ void MainWindowCFG::setAdamOff_1_hour()
 
 void MainWindowCFG::open_edit_menu()
 {
+    qDebug()<<"[open_edit_menu]";
     this->ui->tabWidget->setCurrentIndex(2);
-    this->ui->edit_unit_button->setEnabled(true);
+
     //qDebug()<<"edit menu";
 
     QModelIndex index =this->ui->treeView->currentIndex();
@@ -2166,7 +2168,7 @@ void MainWindowCFG::open_edit_menu()
     object_menu_change(unit->getType());
     current_wgt()->get_option(unit);
     this->ui->uType_combobox->setCurrentText(m_TypeUnitNode.value(unit->getType()));
-
+    this->ui->edit_unit_button->setEnabled(true);
 
 }
 

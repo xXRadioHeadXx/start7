@@ -73,6 +73,20 @@ void UnitWidget::set_option(UnitNode *unit)
     set_to(unit);
     set_timeouts(unit);
 }
+QString UnitWidget::get_dd(UnitNode *unit)
+{
+    QModelIndex ind = modelTreeUN->findeIndexUN(unit);
+    QModelIndex ind_Y4 = modelTreeUN->parent(ind);
+    UnitNode* Y4= static_cast<UnitNode*>(ind_Y4.internalPointer());
+
+
+
+
+    QString str;
+    str.clear();
+    str.append(QString::number(unit->getNum2()-Y4->getNum2()+1));
+    return str;
+}
 
 void UnitWidget::set_timeouts(UnitNode *unit)
 {
