@@ -71,6 +71,68 @@ void UnitWidget::set_option(UnitNode *unit)
     comm->set_options(unit);
     coord->set_options(unit);
     set_to(unit);
+    set_timeouts(unit);
+}
+
+void UnitWidget::set_timeouts(UnitNode *unit)
+{
+
+
+    int val=unit->getUdpTimeout();
+
+    qDebug()<<"Set timeouts value "<<val<<" for "<<m_TypeUnitNode_d.value(unit->getType());
+
+
+
+    QList<UnitNode *>  list;
+    modelTreeUN->getListFromModel(list,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+
+
+    if(unit->getUdpUse()==0)
+    {
+ qDebug()<<"---------------------";
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+        foreach(UnitNode *un, List1 )
+        {
+      //      qDebug()<<"------";
+      //    qDebug()<<unit->getName();
+
+
+         if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+         if(timeout_brother(un))//проверяем не идентичны ли они
+         {
+            qDebug()<<un->getName();
+            un->setUdpTimeout(val);
+             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+
+
+         }
+
+
+        }
+
+
+    }
+    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==1)
+    {
+
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
+        foreach(UnitNode *un, List1 )
+        {
+
+         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+         if((un->getUdpPort()==unit->getUdpPort()))
+         if(timeout_brother(un))//проверяем не идентичны ли они
+          {
+
+             un->setUdpTimeout(val);
+          }
+        }
+    }
 }
 
 void UnitWidget::set_to(UnitNode *unit)

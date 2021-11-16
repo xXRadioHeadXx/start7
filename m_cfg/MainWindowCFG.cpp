@@ -1424,10 +1424,7 @@ if(current_index.isValid()){
 }
 
 current_wgt()->set_option(unit);
-setUdpTimeout_for_BL_IP(unit);
-setUdpTimeout_for_TG(unit);
-setUdpTimeout_for_KL(unit);
-setUdpTimeout_for_BOD_SOTA(unit);
+
 /*
        switch(type)
        {
@@ -2856,10 +2853,10 @@ void MainWindowCFG::func_to_edit_unit()
     unit->setName(this->ui->uName_combobox->currentText());
 
     current_wgt()->set_option(unit);
-    setUdpTimeout_for_BL_IP(unit);
-    setUdpTimeout_for_TG(unit);
-    setUdpTimeout_for_KL(unit);
-    setUdpTimeout_for_BOD_SOTA(unit);
+//    setUdpTimeout_for_BL_IP(unit);
+//    setUdpTimeout_for_TG(unit);
+//    setUdpTimeout_for_KL(unit);
+//    setUdpTimeout_for_BOD_SOTA(unit);
 
 
 

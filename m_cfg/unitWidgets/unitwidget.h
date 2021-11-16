@@ -39,7 +39,8 @@ public:
     void get_option(UnitNode* unit);
     void set_option(UnitNode* unit);
 
-    void setUdpTimeout_for_BL_IP(UnitNode* unit);
+    void set_timeouts(UnitNode* unit);
+    virtual bool timeout_brother(UnitNode* un){return false;};
 
     QModelIndex* current;
  //   comm->set_options(unit);
