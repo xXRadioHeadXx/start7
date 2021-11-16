@@ -102,39 +102,45 @@ m_ctrl=new Control_Unit_Manager();
 
 
 
+        this->modelTreeUN = new TreeModelUnitNode(this);
+
+        this->modelTreeUN->makeEmptyTree();
+
+        modelTreeUN->setTypeApp(SubTypeApp::configurator);
+
+        ui->treeView->setModel(this->modelTreeUN);
 
 
 
 
 
+w_GROUP=new Widget_GROUP(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_GROUP);
+w_SD_BL_IP=new Widget_SD_BL_IP(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_SD_BL_IP);
+w_IU_BL_IP=new Widget_IU_BL_IP(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_IU_BL_IP );
 
-w_GROUP=new Widget_GROUP(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_GROUP);
-w_SD_BL_IP=new Widget_SD_BL_IP(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_SD_BL_IP);
-w_IU_BL_IP=new Widget_IU_BL_IP(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_IU_BL_IP );
+w_ADAM=new Widget_ADAM(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_ADAM);
 
-w_ADAM=new Widget_ADAM(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_ADAM);
+w_KL=new Widget_KL(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_KL);
+w_TG=new Widget_TG(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_TG);
+w_RLM_KRL=new Widget_RLM_KRL(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_RLM_KRL);
+w_RLM_C=new Widget_RLM_C(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_RLM_C);
+w_STRAZH_IP=new Widget_STRAZH_IP(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_STRAZH_IP);
+w_ONVIF=new Widget_ONVIF(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_ONVIF);
+w_BOD_T4K_M=new Widget_BOD_T4K_M(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_BOD_T4K_M);
+w_Y4_T4K_M=new Widget_Y4_T4K_M(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_Y4_T4K_M);
+w_DD_T4K_M=new Widget_DD_T4K_M(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_DD_T4K_M);
+w_BOD_SOTA=new Widget_BOD_SOTA(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_BOD_SOTA);
 
-w_KL=new Widget_KL(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_KL);
-w_TG=new Widget_TG(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_TG);
-w_RLM_KRL=new Widget_RLM_KRL(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_RLM_KRL);
-w_RLM_C=new Widget_RLM_C(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_RLM_C);
-w_STRAZH_IP=new Widget_STRAZH_IP(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_STRAZH_IP);
-w_ONVIF=new Widget_ONVIF(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_ONVIF);
-w_BOD_T4K_M=new Widget_BOD_T4K_M(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_BOD_T4K_M);
-w_Y4_T4K_M=new Widget_Y4_T4K_M(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_Y4_T4K_M);
-w_DD_T4K_M=new Widget_DD_T4K_M(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_DD_T4K_M);
-w_BOD_SOTA=new Widget_BOD_SOTA(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_BOD_SOTA);
+w_Y4_SOTA=new Widget_Y4_SOTA(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_Y4_SOTA);
+w_DD_SOTA=new Widget_DD_SOTA(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_DD_SOTA);
+w_NET_DEV=new Widget_NET_DEV(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_NET_DEV);
+w_SSOI_SD=new Widget_SSOI_SD(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_SSOI_SD);
+w_SSOI_IU=new Widget_SSOI_IU(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_SSOI_IU);
+w_TOROS=new Widget_TOROS(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_TOROS);
+w_DEVLINE=new Widget_DEVLINE(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_DEVLINE);
+w_INFO_TABLO=new Widget_INFO_TABLO(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_INFO_TABLO);
 
-w_Y4_SOTA=new Widget_Y4_SOTA(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_Y4_SOTA);
-w_DD_SOTA=new Widget_DD_SOTA(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_DD_SOTA);
-w_NET_DEV=new Widget_NET_DEV(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_NET_DEV);
-w_SSOI_SD=new Widget_SSOI_SD(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_SSOI_SD);
-w_SSOI_IU=new Widget_SSOI_IU(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_SSOI_IU);
-w_TOROS=new Widget_TOROS(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_TOROS);
-w_DEVLINE=new Widget_DEVLINE(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_DEVLINE);
-w_INFO_TABLO=new Widget_INFO_TABLO(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_INFO_TABLO);
-
-w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType,this->ui->coord) ;l_UnitWidgets.append(w_RASTRMTV);
+w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType,this->ui->coord,modelTreeUN);  l_UnitWidgets.append(w_RASTRMTV);
 
 /*
 l_UnitWidgets.append(w_KL);
@@ -517,13 +523,7 @@ this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
 
  //   QString patch="C:/WORK1/start7/rifx.ini";
 
-    this->modelTreeUN = new TreeModelUnitNode(this);
 
-    this->modelTreeUN->makeEmptyTree();
-
-    modelTreeUN->setTypeApp(SubTypeApp::configurator);
-
-    ui->treeView->setModel(this->modelTreeUN);
 
     dlgt = new Delegate(this);
     this->ui->treeView->setItemDelegate(dlgt);

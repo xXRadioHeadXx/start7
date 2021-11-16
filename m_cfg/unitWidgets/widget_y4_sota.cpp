@@ -28,9 +28,7 @@ void Widget_Y4_SOTA::get_default()
 
 void Widget_Y4_SOTA::set_to(UnitNode *unit)
 {
-    unit->setNum1(-1);
-    unit->setNum2(-1);
-    unit->setNum3(-1);
+
 }
 
 void Widget_Y4_SOTA::update_name()

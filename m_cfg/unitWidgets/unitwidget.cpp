@@ -6,12 +6,20 @@
 UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN)
 {
     ID=0;
-    ui->setupUi(this);
+
+    this->modelTreeUN=modelTreeUN;
 
     this->comm=comm;
     this->coord=coord;
     coord_mode=coordinateWigget_mode::nothing;
     comm_is_needed=false;
+
+    ui->setupUi(this);
+
+
+
+
+
 
 }
 

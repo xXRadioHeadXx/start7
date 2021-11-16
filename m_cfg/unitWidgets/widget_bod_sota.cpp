@@ -37,6 +37,14 @@ void Widget_BOD_SOTA::get_default()
 void Widget_BOD_SOTA::set_to(UnitNode *unit)
 {
     unit->setNum1(ui->Num1->currentText().toInt());
+
+    if(modelTreeUN){
+        qDebug()<<"[PROFIT]";
+    }else{
+        qDebug()<<"[NULLPTR]";
+    }
+
+
 }
 
 void Widget_BOD_SOTA::update_name()
