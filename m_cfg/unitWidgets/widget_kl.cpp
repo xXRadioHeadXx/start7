@@ -68,6 +68,40 @@ void Widget_KL::setEnabled_option_menu(bool val)
     ui->Num2->setEnabled(val);
 }
 
+bool Widget_KL::accepted(UnitNode *unit)
+{
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+
+    if(unit->getNum2()<0||unit->getNum2()>4)
+    {
+//        QMessageBox::critical(0,"Ошибка","СД от одного до четырех !");
+        return false;
+
+    }
+
+
+  // может быть добавлен только к группе
+      if(parent->getType()!=TypeUnitNode::GROUP)
+      if(parent->getType()!=TypeUnitNode::SYSTEM)
+      {
+//          QMessageBox::critical(0,"Ошибка"," может быть добавлен только к группе");
+          return false;
+      }
+
+      return no_equal_unit(unit);
+
+}
+
+bool Widget_KL::equal(UnitNode *origin, UnitNode *current)
+{
+    if(origin->getType()==current->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
+    if(origin->getNum1()==current->getNum1())
+    if(origin->getNum2()==current->getNum2())
+    return true;
+    return false;
+}
+
 QString Widget_KL::get_string(UnitNode *unit)
 {
     QString string1;
