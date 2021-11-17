@@ -1406,130 +1406,11 @@ void MainWindowCFG::update()
 bool MainWindowCFG::set_option(UnitNode *unit, UnitNode* parent)
 {
 
-/*
-if(this_name_is_free(this->ui->uName_combobox->currentText())==false)
-{
-    //qDebug()<<"[ERROR]";
-    return false;
-}*/
 
-    //По умолчанию - если не является устройством, которое подключается по RS-485 к БЛ-IP
-    //если является - то значение Num1 присвоится далее в одной из функций
-
-
-    //qDebug()<<"[set_option]";
-int type=m_TypeUnitNode.key(this->ui->uType_combobox->currentText());
-
-if(current_index.isValid()){
-        qDebug()<<"[current->isValid]";
-}
 
 current_wgt()->set_option(unit);
 
-/*
-       switch(type)
-       {
 
-       case TypeUnitNode::SD_BL_IP:
-       this->set_option_SD_BL_IP(unit);
-       break;
-
-       case TypeUnitNode::IU_BL_IP:
-       this->set_option_IU_BL_IP(unit);
-       break;
-
-       case TypeUnitNode::TG:
-       this->set_option_TG(unit);
-       break;
-
-       case TypeUnitNode::RLM_KRL:
-       this->set_option_RLM_KRL(unit);
-       break;
-
-       case TypeUnitNode::RLM_C:
-       this->set_option_RLM_C(unit);
-       break;
-
-       case TypeUnitNode::BOD_T4K_M:
-       this->set_option_BOD_T4K_M(unit);
-       break;
-
-       case TypeUnitNode::Y4_T4K_M:
-       this->set_option_Y4_T4K_M(unit,parent);
-       break;
-
-       case TypeUnitNode::DD_T4K_M:
-       this->set_option_DD_T4K_M(unit,parent);
-       break;
-
-       case TypeUnitNode::BOD_SOTA:
-       this->set_option_BOD_SOTA(unit);
-       break;
-
-       case TypeUnitNode::Y4_SOTA:
-       this->set_option_Y4_SOTA(unit,parent);
-       break;
-
-       case TypeUnitNode::DD_SOTA:
-       this->set_option_DD_SOTA(unit,parent);
-       break;
-
-       case TypeUnitNode::KL:
-       this->set_option_KL(unit);
-       break;
-
-       case TypeUnitNode::ONVIF:
-       this->set_option_ONVIF(unit);
-       break;
-
-       case TypeUnitNode::STRAZH_IP:
-       this->set_option_STRAZH_IP(unit);
-       break;
-
-       case TypeUnitNode::NET_DEV:
-       this->set_option_NET_DEV(unit);
-       break;
-
-       case TypeUnitNode::INFO_TABLO:
-       this->set_option_INFO_TABLO(unit);
-       break;
-
-       case TypeUnitNode::SSOI_IU:
-       this->set_option_SSOI_IU(unit);
-       break;
-
-       case TypeUnitNode::SSOI_SD:
-       this->set_option_SSOI_SD(unit);
-       break;
-
-       case TypeUnitNode::RASTRMTV:
-       this->set_option_RASTRMTV(unit);
-       break;
-
-       case TypeUnitNode::TOROS:
-       this->set_option_TOROS(unit);
-       break;
-
-       case TypeUnitNode::ADAM:
-       this->set_option_ADAM(unit);
-       break;
-
-       case TypeUnitNode::DEVLINE:
-       this->set_option_DEVLINE(unit);
-       break;
-
-       case TypeUnitNode::BL_IP:
-  //     this->get_option_BL_IP(unit);
-       break;
-
-
-
-
-
-
-       }
-
-      */
 return true;
 
 }
@@ -2855,179 +2736,7 @@ void MainWindowCFG::func_to_edit_unit()
     unit->setName(this->ui->uName_combobox->currentText());
 
     current_wgt()->set_option(unit);
-//    setUdpTimeout_for_BL_IP(unit);
-//    setUdpTimeout_for_TG(unit);
-//    setUdpTimeout_for_KL(unit);
-//    setUdpTimeout_for_BOD_SOTA(unit);
 
-
-
-
-    /*
-    switch(unit->getType())
-        {
-        case TypeUnitNode::GROUP:
-
-        break;
-
-        case TypeUnitNode::SD_BL_IP:
-
-        qDebug()<<"SD_BL_IP:";
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        setUdpTimeout_for_BL_IP(unit);
-
-        qDebug()<<this->ui->coordinate_X_doubleSpinBox->value();
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-        SD_BL_IP_set_values_from_combobox(unit);
-
-
-        break;
-
-    case TypeUnitNode::IU_BL_IP:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        qDebug()<<"unit->setUdpTimeout "<<this->ui->timeout_doubleSpinBox->value();
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        setUdpTimeout_for_BL_IP(unit);
-        set_AdamOff_for_all_IU_BL_IP_instances(unit);
-
-
-
-    break;
-
-    case TypeUnitNode::TG:
-
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-        setUdpTimeout_for_TG(unit);
-    break;
-
-    case TypeUnitNode::RLM_KRL:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-
-    break;
-
-    case TypeUnitNode::RLM_C:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-
-
-    break;
-
-    case TypeUnitNode::BOD_T4K_M:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-
-    break;
-
-    case TypeUnitNode::Y4_T4K_M:
-
-    break;
-
-    case TypeUnitNode::DD_T4K_M:
-
-
-    break;
-
-    case TypeUnitNode::BOD_SOTA:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-    break;
-
-    case TypeUnitNode::Y4_SOTA:
-
-    break;
-
-    case TypeUnitNode::DD_SOTA:
-
-
-    break;
-
-    case TypeUnitNode::KL:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-    break;
-
-    case TypeUnitNode::ONVIF:
-
-    break;
-
-    case TypeUnitNode::STRAZH_IP:
-
-    break;
-
-    case TypeUnitNode::NET_DEV:
-
-    break;
-
-    case TypeUnitNode::SSOI_SD:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-        SSOI_SD_set_values_from_combobox(unit);
-    break;
-
-    case TypeUnitNode::SSOI_IU:
-
-    break;
-
-    case TypeUnitNode::ADAM:
-
-    break;
-
-    case TypeUnitNode::TOROS:
-        unit->setUdpAdress(this->ui->ipadress_combobox->currentText());
-        unit->setUdpTimeout(this->ui->timeout_doubleSpinBox->value());
-        unit->setLan(this->ui->coordinate_X_doubleSpinBox->value());
-        unit->setLon(this->ui->coordinate_Y_doubleSpinBox->value());
-        unit->setDescription(ui->Dop_info_description_lineedit->text());
-
-    case TypeUnitNode::DEVLINE:
-    //qDebug()<<"[DEVLINE]";
-        unit->setNum2(this->ui->coordinate_X_doubleSpinBox_2->value());
-        unit->setNum3(this->ui->coordinate_X_doubleSpinBox_3->value());
-        unit->setX(this->ui->coordinate_X_doubleSpinBox_4->value());
-        unit->setY(this->ui->coordinate_X_doubleSpinBox_5->value());
-    break;
-
-    case TypeUnitNode::RASTRMTV:
-
-    break;
-
-    case TypeUnitNode::INFO_TABLO:
-
-    break;
-
-        }
-
-    */
     this->get_option(unit);
 
     }
@@ -3165,7 +2874,7 @@ bool MainWindowCFG::add_unit()
 
 
 
-set_option(unit,parrent);
+current_wgt()->set_option(unit);
     //Проверить можно ли добавлять юнит к этому родителю
     //Определить тип родителя
 //    int parrent_type;
@@ -3178,7 +2887,7 @@ set_option(unit,parrent);
     if (index.isValid())
     {
 
-        if(m_ctrl->pass_to_add(unit,parrent,modelTreeUN))
+        if(current_wgt()->set_option(unit))
         {
       this->modelTreeUN->appendNewUNInStructure(index,unit);
   //      map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());

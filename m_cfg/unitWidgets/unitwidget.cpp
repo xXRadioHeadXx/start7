@@ -65,13 +65,24 @@ void UnitWidget::get_option(UnitNode *unit)
 
 }
 
-void UnitWidget::set_option(UnitNode *unit)
+bool UnitWidget::set_option(UnitNode *unit)
 {
 
     comm->set_options(unit);
     coord->set_options(unit);
     set_to(unit);
+    if(accepted(unit)){
     set_timeouts(unit);
+    return true;
+    }
+
+    return false;
+
+}
+
+bool UnitWidget::accepted(UnitNode *unit)
+{
+    return false;
 }
 QString UnitWidget::get_dd(UnitNode *unit)
 {

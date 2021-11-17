@@ -44,6 +44,22 @@ void Widget_GROUP::setEnabled_option_menu(bool val)
 
 }
 
+bool Widget_GROUP::accepted(UnitNode *unit)
+{
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+
+    //группа может быть добавлена только к системе
+        if((parent->getType()==TypeUnitNode::SYSTEM)||(parent->getType()==TypeUnitNode::GROUP))
+        {
+    //        QMessageBox::critical(0,"Ошибка",("Груп к системе");
+    //        dialog.exec();
+            return true;
+
+        }
+        return false;
+}
+
 QString Widget_GROUP::get_string(UnitNode *unit)
 {
     QString string1;

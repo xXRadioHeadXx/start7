@@ -37,7 +37,11 @@ public:
 
     void setEnabled(bool);
     void get_option(UnitNode* unit);
-    void set_option(UnitNode* unit);
+    bool set_option(UnitNode* unit);
+
+    //Проверка на допустимость вводимых параметров для каждого юнита
+    virtual bool accepted(UnitNode* unit);
+
 
     QString get_dd(UnitNode* unit);
 
