@@ -67,6 +67,55 @@ void Widget_RLM_KRL::setEnabled_option_menu(bool val)
     ui->AdamOff->setEnabled(val);
 }
 
+bool Widget_RLM_KRL::accepted(UnitNode *unit)
+{
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+
+    // может быть добавлен только к группе
+        if(parent->getType()!=TypeUnitNode::GROUP)
+        if(parent->getType()!=TypeUnitNode::SYSTEM)
+        {
+       //     QMessageBox::critical(0,"Ошибка"," может быть добавлен только к группе");
+            return false;
+
+        }
+
+    //    Если связь по RS485 - контроль по RS485 порту
+    //    Если связь по UDP - контроль по IP адресу
+
+
+
+        return no_equal_unit(unit);
+
+
+}
+
+bool Widget_RLM_KRL::equal(UnitNode *un, UnitNode *unit)
+{
+    bool res=false;
+    if(unit->getUdpUse()==0)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+    res=true;
+                //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==1)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+    if((un->getUdpPort()==unit->getUdpPort()))
+    res=true;
+
+    if(res==true)
+    {
+            if(un->getType()==unit->getType())
+return ((un->getNum1()==unit->getNum1()));
+    }
+    return false;
+
+
+}
+
 QString Widget_RLM_KRL::get_string(UnitNode *unit)
 {
     QString string1;
