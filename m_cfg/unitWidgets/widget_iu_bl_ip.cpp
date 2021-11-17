@@ -101,6 +101,61 @@ bool Widget_IU_BL_IP::timeout_brother(UnitNode *un)
     return false;
 }
 
+bool Widget_IU_BL_IP::accepted(UnitNode *unit)
+{
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+
+    //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
+    if((parent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parent->getType()==TypeUnitNode::ONVIF)||
+       (parent->getType()==TypeUnitNode::DEVLINE)||
+       (parent->getType()==TypeUnitNode::RASTRMTV)||
+       (parent->getType()==TypeUnitNode::INFO_TABLO)||
+       (parent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parent->getType()==TypeUnitNode::IU_BL_IP)||
+        (parent->getType()==TypeUnitNode::ADAM))
+    {
+
+        return false;
+
+    }
+
+
+
+        //Num2 от нуля до четырех
+         if(unit->getNum2()<0||unit->getNum2()>4)
+
+             return false;
+//Может повторяться в дереве. Не должен повторяться у одного предка.
+         return UnitWidget::no_equal_unit_from_one_parent(unit);
+
+}
+
+bool Widget_IU_BL_IP::equal(UnitNode *origin, UnitNode *current)
+{
+    bool res=false;
+    if(current->getUdpUse()==0)
+    if((origin->getUdpUse()==current->getUdpUse()))
+    if((origin->getNum3()==current->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+    res=true;
+                //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(current->getUdpUse()==1)
+    if((origin->getUdpUse()==current->getUdpUse()))
+    if((origin->getUdpAdress()==current->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+    if((origin->getUdpPort()==current->getUdpPort()))
+    res=true;
+
+    if(res==true)
+if(origin->getType()==current->getType())
+if(origin->getNum2()==current->getNum2())
+return true;
+
+
+return false;
+}
+
 QString Widget_IU_BL_IP::get_string(UnitNode *unit)
 {
 

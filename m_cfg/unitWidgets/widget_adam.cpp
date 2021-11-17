@@ -111,10 +111,7 @@ bool Widget_ADAM::accepted(UnitNode *unit)
         return true;
     }
 
-    qDebug()<<"-------------[1]";
-    QMessageBox::critical(0,"Ошибка","Токой обьект уже существует.");
-    qDebug()<<"-------------[2]";
-    return false;
+     return false;
 
 }
 

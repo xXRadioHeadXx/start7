@@ -118,7 +118,7 @@ qDebug()<<"["<<cnt<<"]";cnt++;
             double_unit_index=modelTreeUN->findeIndexUN(un);
         //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
             qDebug()<<"@@Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
-            // QMessageBox::critical(0,"Ошибка","Такой обьект уже существует!!");
+             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует!!");
              res=false;
 
          }
