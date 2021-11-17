@@ -1,7 +1,7 @@
 #include "unitwidget.h"
 #include "ui_unitwidget.h"
 #include <QDebug>
-
+#include <QMessageBox>
 
 UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN, QModelIndex* current)
 {
@@ -83,6 +83,50 @@ bool UnitWidget::set_option(UnitNode *unit)
 bool UnitWidget::accepted(UnitNode *unit)
 {
     return false;
+}
+
+bool UnitWidget::no_equal_unit_from_one_parent(UnitNode *unit)
+{
+    bool res=true;
+    qDebug()<<"[no_equal_unit_from_one_parent]";
+    QModelIndex double_unit_index;
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+    //Если общий родитель
+    int cnt=0;
+    qDebug()<<"["<<cnt<<"]";cnt++;
+    QModelIndex ind = modelTreeUN->findeIndexUN(parent);
+
+qDebug()<<"["<<cnt<<"]";cnt++;
+    QList<UnitNode *> List1;
+    modelTreeUN->getListFromModel(List1,parent);
+qDebug()<<"["<<cnt<<"]";cnt++;
+    foreach(UnitNode *un, List1 )
+    {
+
+        qDebug()<<"смотрим: "<<un->getName();
+
+       QModelIndex index=modelTreeUN->findeIndexUN(un);
+       QModelIndex un_parent_index= modelTreeUN->parent(index);
+
+     if(ind==un_parent_index) //ищем юнитов с тем же родителем
+      {
+         qDebug()<<"[+]";
+         if(un->getType()==unit->getType())
+         if(equal(unit,un))//проверяем не идентичны ли они
+         {
+            double_unit_index=modelTreeUN->findeIndexUN(un);
+        //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+            qDebug()<<"@@Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
+            // QMessageBox::critical(0,"Ошибка","Такой обьект уже существует!!");
+             res=false;
+
+         }
+      }
+    }
+
+
+    return res;
 }
 QString UnitWidget::get_dd(UnitNode *unit)
 {

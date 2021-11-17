@@ -42,6 +42,9 @@ public:
     //Проверка на допустимость вводимых параметров для каждого юнита
     virtual bool accepted(UnitNode* unit);
 
+    virtual bool equal(UnitNode* one,UnitNode* second){return true;};
+
+    bool no_equal_unit_from_one_parent(UnitNode* unit);
 
     QString get_dd(UnitNode* unit);
 
@@ -69,7 +72,7 @@ private:
 
 signals:
     void updateName(QString);
-
+    void double_unit_signal(UnitNode *un);
 };
 
 #endif // UNITWIDGET_H

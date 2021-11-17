@@ -22,9 +22,7 @@ public:
     void set_to(UnitNode* unit) override;
     void update_name() override;
     void setEnabled_option_menu(bool) override;
-
     bool accepted(UnitNode* unit) override;
-
     QString get_string(UnitNode* unit) override;
 private:
     Ui::Widget_GROUP *ui;

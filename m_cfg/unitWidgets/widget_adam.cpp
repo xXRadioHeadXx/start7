@@ -1,7 +1,7 @@
 #include "widget_adam.h"
 #include "ui_widget_adam.h"
 #include <QDebug>
-
+#include <QMessageBox>
 
 Widget_ADAM::Widget_ADAM(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
     UnitWidget(parent,comm,coord,modelTreeUN,current),
@@ -87,6 +87,48 @@ void Widget_ADAM::setEnabled_option_menu(bool val)
     ui->Num1->setEnabled(val);
     ui->Num2->setEnabled(val);
 }
+
+bool Widget_ADAM::accepted(UnitNode *unit)
+{
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+
+    //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
+    if((parent->getType()==TypeUnitNode::STRAZH_IP)||
+       (parent->getType()==TypeUnitNode::ONVIF)||
+       (parent->getType()==TypeUnitNode::DEVLINE)||
+       (parent->getType()==TypeUnitNode::RASTRMTV)||
+       (parent->getType()==TypeUnitNode::INFO_TABLO)||
+       (parent->getType()==TypeUnitNode::SSOI_IU) ||
+       (parent->getType()==TypeUnitNode::IU_BL_IP)||
+       (parent->getType()==TypeUnitNode::ADAM))
+    {
+
+        return false;
+
+    }
+    if (no_equal_unit_from_one_parent(unit)){
+        return true;
+    }
+
+    qDebug()<<"-------------[1]";
+    QMessageBox::critical(0,"Ошибка","Токой обьект уже существует.");
+    qDebug()<<"-------------[2]";
+    return false;
+
+}
+
+bool Widget_ADAM::equal(UnitNode *one, UnitNode *second)
+{
+    if(one->getType()==second->getType())
+    if(one->getNum1()==second->getNum1())
+    if(one->getNum2()==second->getNum2())
+    return true;
+
+    return false;
+}
+
+
 
 QString Widget_ADAM::get_string(UnitNode *unit)
 {

@@ -1794,7 +1794,7 @@ bool MainWindowCFG::no_equal_unit(MainWindowCFG* m_cfg,UnitNode *unit,UnitNode *
          {
 
              //this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+   //          QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
              return false;
          }
 
@@ -1849,7 +1849,7 @@ bool MainWindowCFG::no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *
          if(is_equal(cfg,unit,un))
          {
              this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+   //          QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
              return false;
 
          }
