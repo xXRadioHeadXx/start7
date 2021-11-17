@@ -85,6 +85,56 @@ bool UnitWidget::accepted(UnitNode *unit)
     return false;
 }
 
+bool UnitWidget::no_equal_unit(UnitNode *unit)
+{
+    QModelIndex double_unit_index;
+    {
+ qDebug()<<"---------------------";
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+        foreach(UnitNode *un, List1 )
+        {
+        //    qDebug()<<"------";
+       //     qDebug()<<unit->getName();
+       //     qDebug()<<un->getName();
+
+            bool res=false;
+            //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
+
+         if(unit->getUdpUse()==0)
+         if((un->getUdpUse()==unit->getUdpUse()))
+         if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+            res=true;
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+            if(unit->getUdpUse()==1)
+         if((un->getUdpUse()==unit->getUdpUse()))
+         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+         if((un->getUdpPort()==unit->getUdpPort()))
+            res=true;
+
+             if(res==true)
+         if(equal(unit,un))
+         {
+            double_unit_index=modelTreeUN->findeIndexUN(un);
+
+             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+            qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
+             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+             emit double_unit_signal(un);
+             return false;
+         }
+
+
+        }
+
+
+    }
+
+
+    return true;
+}
+
 bool UnitWidget::no_equal_unit_from_one_parent(UnitNode *unit)
 {
     bool res=true;

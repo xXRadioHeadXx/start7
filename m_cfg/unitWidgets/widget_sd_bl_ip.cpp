@@ -129,6 +129,52 @@ bool Widget_SD_BL_IP::timeout_brother(UnitNode *un)
     return false;
 }
 
+bool Widget_SD_BL_IP::accepted(UnitNode *unit)
+{
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+
+    if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))
+    {
+
+//        QMessageBox::critical(0,"Ошибка","СД может быть добавлен только к группе или к системе");
+
+        return false;
+
+    }
+//Num2 от нуля до восьми
+if(unit->getNum2()<0||unit->getNum2()>8)
+    return false;
+
+//Не должен повторяться в дереве
+return no_equal_unit(unit);
+}
+
+bool Widget_SD_BL_IP::equal(UnitNode *unit, UnitNode *un)
+{
+
+    bool res=false;
+    if(unit->getUdpUse()==0)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+    res=true;
+                //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==1)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+    if((un->getUdpPort()==unit->getUdpPort()))
+    res=true;
+
+    if(res==true)
+    if(un->getType()==unit->getType())
+    if(un->getNum2()==unit->getNum2())
+    return true;
+
+
+    return false;
+}
+
 QString Widget_SD_BL_IP::get_string(UnitNode *unit)
 {
 

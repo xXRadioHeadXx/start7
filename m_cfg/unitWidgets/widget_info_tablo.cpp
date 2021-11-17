@@ -60,6 +60,49 @@ void Widget_INFO_TABLO::setEnabled_option_menu(bool val)
 
 }
 
+bool Widget_INFO_TABLO::accepted(UnitNode *unit)
+{
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+
+
+    if(parent->getType()!=TypeUnitNode::SSOI_SD)
+    {
+    //    QMessageBox::critical(0,"Ошибка"," может быть добавлен только к ССОИ-СД");
+        return false;
+
+    }
+    //проверка по участку (Num2)
+    QList<UnitNode *> List1;
+    modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
+    foreach(UnitNode *un, List1 )
+    {
+
+     if((un->getNum2()==unit->getNum2()))
+     {
+
+       //  this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+         qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
+      //   QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+         return false;
+     }
+
+
+    }
+
+    return true;
+
+}
+
+bool Widget_INFO_TABLO::equal(UnitNode *one, UnitNode *second)
+{
+    if(one->getType()==second->getType())
+    if(one->getNum2()==second->getNum2())
+        return true;
+
+        return false;
+}
+
 QString Widget_INFO_TABLO::get_string(UnitNode *unit)
 {
     QString string1;

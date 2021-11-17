@@ -44,6 +44,7 @@ public:
 
     virtual bool equal(UnitNode* one,UnitNode* second){return true;};
 
+    bool no_equal_unit(UnitNode* unit);
     bool no_equal_unit_from_one_parent(UnitNode* unit);
 
     QString get_dd(UnitNode* unit);

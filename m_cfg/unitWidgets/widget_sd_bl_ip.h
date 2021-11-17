@@ -24,6 +24,9 @@ public:
     void setEnabled_option_menu(bool) override;
     bool timeout_brother(UnitNode* un) override;
 
+    bool accepted(UnitNode* unit) override;
+    bool equal(UnitNode* one,UnitNode* secons) override;
+
     QString get_string(UnitNode* unit) override;
 private slots:
     void on_Num2_currentIndexChanged(int index);
