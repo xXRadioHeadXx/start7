@@ -47,6 +47,16 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
 
+#if __cplusplus == 201703L
+  qDebug() << "It's C++17";
+#elif __cplusplus == 201402L
+ qDebug() << "It's C++14";
+#elif __cplusplus == 201103L
+ qDebug() << "It's C++11";
+#else
+ qDebug() << "It's C++";
+#endif
+
 
 
 m_ctrl=new Control_Unit_Manager();

@@ -71,6 +71,61 @@ bool Widget_BOD_SOTA::timeout_brother(UnitNode *un)
     return false;
 }
 
+bool Widget_BOD_SOTA::accepted(UnitNode *unit)
+{
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+
+    //БОД может быть добавлен только к группе
+    if((parent->getType()!=TypeUnitNode::GROUP)&&
+       (parent->getType()!=TypeUnitNode::SYSTEM)
+      )
+           {
+          //     QMessageBox::critical(0,"Ошибка","БОД может быть добавлен только к группе");
+               return false;
+           }
+       //    Если связь по RS485 - контроль по RS485 порту
+       //    Если связь по UDP - контроль по IP адресу
+          return no_equal_unit(unit);
+
+
+}
+
+bool Widget_BOD_SOTA::equal(UnitNode *unit, UnitNode *un)
+{
+    bool res=false;
+    if(unit->getUdpUse()==0)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+    res=true;
+                //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==1)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+    if((un->getUdpPort()==unit->getUdpPort()))
+    res=true;
+
+
+
+    if(res==true)
+    {
+
+        if(((unit->getType()==TypeUnitNode::BOD_SOTA)||(unit->getType()==TypeUnitNode::BOD_T4K_M))&&
+           ((un->getType()==TypeUnitNode::BOD_SOTA)||(un->getType()==TypeUnitNode::BOD_T4K_M)))
+        {
+
+
+          return true;
+        }
+
+
+    }
+
+    return false;
+
+}
+
 QString Widget_BOD_SOTA::get_string(UnitNode *unit)
 {
     QString string1;

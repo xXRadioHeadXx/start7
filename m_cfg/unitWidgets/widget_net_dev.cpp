@@ -46,6 +46,33 @@ void Widget_NET_DEV::setEnabled_option_menu(bool val)
 
 }
 
+bool Widget_NET_DEV::accepted(UnitNode *unit)
+{
+
+    UnitNode* parent;
+    parent = static_cast<UnitNode*>(current->internalPointer());
+    if(parent->getType()!=TypeUnitNode::GROUP)
+    if(parent->getType()!=TypeUnitNode::SYSTEM)
+    {
+   //     QMessageBox::critical(0,"Ошибка","БОД может быть добавлен только к группе");
+        return false;
+
+    }
+
+    QList<UnitNode *> List1;
+    modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
+
+    return true;
+}
+
+bool Widget_NET_DEV::equal(UnitNode *un, UnitNode *unit)
+{
+    if(un->getType()==unit->getType())
+    if(un->getIcon1Path()==unit->getIcon1Path())
+    return true;
+    return false;
+}
+
 QString Widget_NET_DEV::get_string(UnitNode *unit)
 {
     QString string1;
