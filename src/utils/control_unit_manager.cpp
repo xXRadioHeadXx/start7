@@ -1549,7 +1549,9 @@ bool Control_Unit_Manager::can_be_together(UnitNode *un, UnitNode *unit)
         if(un->getType()==unit->getType())
         if(un->getNum2()==unit->getNum1())
         if(un->getNum2()==unit->getNum2())
-        if(un->getNum2()==unit->getNum3())
+        if(un->getNum3()==unit->getNum3())
+            return true;
+            return false;
     break;
 
     case TypeUnitNode::ADAM:
@@ -1557,6 +1559,7 @@ bool Control_Unit_Manager::can_be_together(UnitNode *un, UnitNode *unit)
         if(un->getType()==unit->getType())
         if(un->getNum1()==unit->getNum1())
         if(un->getNum2()==unit->getNum2())
+
         {
             qDebug()<<"[равны]";
         return true;

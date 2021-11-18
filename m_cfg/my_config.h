@@ -43,6 +43,15 @@ static const QMap <int,QString> m_SD_BL_IP_OutType{
     {8,"УЗ Монолит"},
 };
 
+static QMap <int,QString> m_SSOI_IU_Num3{
+{1 , "ИУ1"},
+{2 , "ИУ2" },
+{3 , "ИУ3" },
+{4 , "ВК1" },
+{5 , "ВК2" },
+{6 , "ВК3" },
+};
+
 static QString str_NOTHING=          "";
 static QString str_GROUP=          " ГРУППА";
 static QString str_SD_BL_IP=       " БЛ-IP СД";

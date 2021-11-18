@@ -196,7 +196,7 @@ get_value(settings.value( "lon" , -1 ));
 
                  tmpUN->setTreeParentUN(old);
 
-
+                /*
                 bool res=m_ctrl->pass_to_add(tmpUN,old,model);//вот для этой проверки
                 if(res)//если юнит прошел проверку
                 {
@@ -215,6 +215,7 @@ get_value(settings.value( "lon" , -1 ));
 
                     return listTreeUnitNodes;
                 }
+                */
 
                 //Double
                 /*for(UnitNode * un : as_const(getListTreeUnitNodes())) {
