@@ -63,7 +63,8 @@ void Widget_DD_SOTA::update_name()
     Name.clear();
 
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){
+    parent = static_cast<UnitNode*>(current->internalPointer());
+    if(parent){
 
 
     Name.append(" ДД");

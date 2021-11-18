@@ -106,7 +106,7 @@ bool Widget_Y4_T4K_M::accepted(UnitNode *unit)
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
     //Участок может быть добавлен только к БОД Сота/Сота-М
-    if(parent->getType()!=TypeUnitNode::BOD_SOTA)
+    if(parent->getType()!=TypeUnitNode::BOD_T4K_M)
     {
     //    QMessageBox::critical(0,"Ошибка","Участок может быть добавлен только к БОД Сота/Сота-М!");
 

@@ -8,7 +8,7 @@ Widget_DD_T4K_M::Widget_DD_T4K_M(QWidget *parent, communicationTypeWidget *comm,
     ID=TypeUnitNode::DD_T4K_M;
     ui->setupUi(this);
 
-    for(int i=1;i<101;i++){
+    for(int i=1;i<27;i++){
         ui->Num2->addItem(QString::number(i));
     }
 }
@@ -63,7 +63,8 @@ void Widget_DD_T4K_M::update_name()
     Name.clear();
 
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){
+    parent = static_cast<UnitNode*>(current->internalPointer());
+    if(parent){
 
 
     Name.append(" ДД");
@@ -104,7 +105,7 @@ return false;
 }
 
 //добавлять только к участку Сота
-if(parent->getType()!=TypeUnitNode::Y4_SOTA)
+if(parent->getType()!=TypeUnitNode::Y4_T4K_M)
 {
  //    QMessageBox::critical(0,"Ошибка","ДД может быть добавлен только к участку !");
        return false;
