@@ -199,6 +199,76 @@ qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
 
 }
 
+if(numberArea==3){
+
+//Если номер участка 3 - дд должно быть меньше чем наименьший ДД с участка 4
+
+//Находим наименьший ДД участка 4
+
+int min=100;
+foreach(UnitNode *un, List )
+    {
+        //его индекс
+        QModelIndex ind = modelTreeUN->findeIndexUN(un);
+        //индекс его родителя
+        QModelIndex parent_ind =  modelTreeUN->parent(ind);
+        //юнит его родителя
+        UnitNode *parent = static_cast<UnitNode*>(parent_ind.internalPointer());
+    //если участок 4
+
+        if(parent->getNum2()/100==4){
+            qDebug()<<"юнит на участке 2";
+            qDebug()<<"dd  "<<QString::number((un->getNum2()-parent->getNum2()));
+
+            if(un->getNum2()-parent->getNum2()<min){
+
+                min = un->getNum2()-parent->getNum2();
+            }
+        }
+    }
+
+    qDebug()<<"min "<<min;
+    qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
+    if(!(unit->getNum2()-numberArea*100<min))
+        res=false;
+
+}
+
+
+if(numberArea==4){
+
+//Если номер участка 4 - дд должно быть больше чем наибольший ДД с участка 3
+
+//Находим наименьший ДД участка 1
+
+int max=0;
+foreach(UnitNode *un, List )
+    {
+        //его индекс
+        QModelIndex ind = modelTreeUN->findeIndexUN(un);
+        //индекс его родителя
+        QModelIndex parent_ind =  modelTreeUN->parent(ind);
+        //юнит его родителя
+        UnitNode *parent = static_cast<UnitNode*>(parent_ind.internalPointer());
+    //если участок 3
+
+        if(parent->getNum2()/100==3){
+            qDebug()<<"юнит на участке 1";
+            qDebug()<<"dd  "<<QString::number(un->getNum2()-parent->getNum2());
+            if(un->getNum2()-parent->getNum2()>max){
+
+                max = un->getNum2()-parent->getNum2();
+            }
+        }
+    }
+qDebug()<<"max "<<max;
+qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
+
+    if(!(unit->getNum2()-numberArea*100>max))
+        res=false;
+
+}
+
 if(res==false)
     return false;
 
