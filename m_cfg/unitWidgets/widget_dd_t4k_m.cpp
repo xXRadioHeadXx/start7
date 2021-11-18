@@ -7,6 +7,7 @@ Widget_DD_T4K_M::Widget_DD_T4K_M(QWidget *parent, communicationTypeWidget *comm,
 {
     ID=TypeUnitNode::DD_T4K_M;
     ui->setupUi(this);
+
 }
 
 Widget_DD_T4K_M::~Widget_DD_T4K_M()

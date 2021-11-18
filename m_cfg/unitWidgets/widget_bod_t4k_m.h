@@ -22,10 +22,16 @@ public:
     void set_to(UnitNode* unit) override;
     void update_name() override;
     void setEnabled_option_menu(bool) override;
+    bool timeout_brother(UnitNode* un) override;
+
+    bool accepted(UnitNode* unit) override;
+    bool equal(UnitNode* one,UnitNode* secons) override;
 
     QString get_string(UnitNode* unit) override;
 private slots:
-    void on_Num1_currentIndexChanged(const QString &arg1);
+
+
+    void on_Num1_currentTextChanged(const QString &arg1);
 
 private:
     Ui::Widget_BOD_T4K_M *ui;
