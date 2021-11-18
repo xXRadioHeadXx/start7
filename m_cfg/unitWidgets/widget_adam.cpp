@@ -91,7 +91,7 @@ void Widget_ADAM::setEnabled_option_menu(bool val)
 bool Widget_ADAM::accepted(UnitNode *unit)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
     //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
     if((parent->getType()==TypeUnitNode::STRAZH_IP)||

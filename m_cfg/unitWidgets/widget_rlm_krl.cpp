@@ -70,7 +70,7 @@ void Widget_RLM_KRL::setEnabled_option_menu(bool val)
 bool Widget_RLM_KRL::accepted(UnitNode *unit)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
     // может быть добавлен только к группе
         if(parent->getType()!=TypeUnitNode::GROUP)

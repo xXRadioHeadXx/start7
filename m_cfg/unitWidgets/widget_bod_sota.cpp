@@ -74,7 +74,7 @@ bool Widget_BOD_SOTA::timeout_brother(UnitNode *un)
 bool Widget_BOD_SOTA::accepted(UnitNode *unit)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
     //БОД может быть добавлен только к группе
     if((parent->getType()!=TypeUnitNode::GROUP)&&

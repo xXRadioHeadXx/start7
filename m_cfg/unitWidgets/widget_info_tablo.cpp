@@ -63,7 +63,7 @@ void Widget_INFO_TABLO::setEnabled_option_menu(bool val)
 bool Widget_INFO_TABLO::accepted(UnitNode *unit)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
 
     if(parent->getType()!=TypeUnitNode::SSOI_SD)

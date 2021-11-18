@@ -53,3 +53,8 @@ QString Widget_DD_T4K_M::get_string(UnitNode *unit)
     string1.append(unit->getName());
    return string1;
 }
+
+void Widget_DD_T4K_M::on_Num2_currentIndexChanged(const QString &arg1)
+{
+
+}

@@ -104,7 +104,7 @@ bool Widget_IU_BL_IP::timeout_brother(UnitNode *un)
 bool Widget_IU_BL_IP::accepted(UnitNode *unit)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
     //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
     if((parent->getType()==TypeUnitNode::STRAZH_IP)||

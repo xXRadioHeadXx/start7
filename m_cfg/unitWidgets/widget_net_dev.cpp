@@ -50,7 +50,7 @@ bool Widget_NET_DEV::accepted(UnitNode *unit)
 {
 
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
     if(parent->getType()!=TypeUnitNode::GROUP)
     if(parent->getType()!=TypeUnitNode::SYSTEM)
     {

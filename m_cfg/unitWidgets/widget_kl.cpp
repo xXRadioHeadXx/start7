@@ -71,7 +71,7 @@ void Widget_KL::setEnabled_option_menu(bool val)
 bool Widget_KL::accepted(UnitNode *unit)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
     if(unit->getNum2()<0||unit->getNum2()>4)
     {

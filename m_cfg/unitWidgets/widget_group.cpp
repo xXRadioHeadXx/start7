@@ -47,7 +47,8 @@ void Widget_GROUP::setEnabled_option_menu(bool val)
 bool Widget_GROUP::accepted(UnitNode *unit)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;} if(!parent){return false;}
+
 
     //группа может быть добавлена только к системе
         if((parent->getType()==TypeUnitNode::SYSTEM)||(parent->getType()==TypeUnitNode::GROUP))

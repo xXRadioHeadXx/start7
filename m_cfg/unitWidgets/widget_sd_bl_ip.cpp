@@ -132,7 +132,7 @@ bool Widget_SD_BL_IP::timeout_brother(UnitNode *un)
 bool Widget_SD_BL_IP::accepted(UnitNode *unit)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
     if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))
     {

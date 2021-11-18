@@ -67,7 +67,8 @@ void UnitWidget::get_option(UnitNode *unit)
 
 bool UnitWidget::set_option(UnitNode *unit)
 {
-
+    qDebug()<<"set_options "<<m_TypeUnitNode_d.value(unit->getType());
+    if(current){
     comm->set_options(unit);
     coord->set_options(unit);
     set_to(unit);
@@ -75,7 +76,7 @@ bool UnitWidget::set_option(UnitNode *unit)
     set_timeouts(unit);
     return true;
     }
-
+    }
     return false;
 
 }
@@ -141,7 +142,7 @@ bool UnitWidget::no_equal_unit_from_one_parent(UnitNode *unit)
     qDebug()<<"[no_equal_unit_from_one_parent]";
     QModelIndex double_unit_index;
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
     //Если общий родитель
     int cnt=0;
     qDebug()<<"["<<cnt<<"]";cnt++;

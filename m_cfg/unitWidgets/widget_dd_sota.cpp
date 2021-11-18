@@ -32,9 +32,11 @@ ui->Num2->setCurrentIndex(0);
 
 void Widget_DD_SOTA::set_to(UnitNode *unit)
 {
-
+    qDebug()<<"set_to "<<m_TypeUnitNode_d.value(unit->getType());
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer());
+
+    if(parent){
 
 
     int val=parent->getNum2();
@@ -50,6 +52,9 @@ void Widget_DD_SOTA::set_to(UnitNode *unit)
     unit->setUdpPort(parent->getUdpPort());
     unit->setUdpAdress(parent->getUdpAdress());
     unit->setUdpTimeout(parent->getUdpTimeout());
+
+    qDebug()<<"end set_to "<<m_TypeUnitNode_d.value(unit->getType());
+    }
 }
 
 void Widget_DD_SOTA::update_name()
@@ -58,7 +63,7 @@ void Widget_DD_SOTA::update_name()
     Name.clear();
 
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer());
+    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){
 
 
     Name.append(" ДД");
@@ -69,6 +74,7 @@ void Widget_DD_SOTA::update_name()
     Name.append(this->ui->Num2->currentText());
 
     emit updateName(Name);
+    }
 
 }
 
@@ -79,12 +85,23 @@ void Widget_DD_SOTA::setEnabled_option_menu(bool val)
 
 bool Widget_DD_SOTA::accepted(UnitNode *unit)
 {
+
+qDebug()<<"accepted "<<m_TypeUnitNode_d.value(unit->getType());
 bool res=true;
+
+if(!current){
+return false;
+
+}
 
 
 UnitNode* parent;
-parent = static_cast<UnitNode*>(current->internalPointer());
+parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
+if(!parent){
+return false;
+
+}
 
 //добавлять только к участку Сота
 if(parent->getType()!=TypeUnitNode::Y4_SOTA)
@@ -92,6 +109,8 @@ if(parent->getType()!=TypeUnitNode::Y4_SOTA)
  //    QMessageBox::critical(0,"Ошибка","ДД может быть добавлен только к участку !");
        return false;
 }
+
+
 
 //Формируем список всех ДД этого БОДа
 
@@ -269,86 +288,13 @@ qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
 
 }
 
-if(res==false)
-    return false;
+
 
 if(res==true)
     return no_equal_unit_from_one_parent(unit);
-/*
-if(numberArea==3){
 
-//Если номер участка 3 - дд должно быть меньше чем наименьший ДД с участка 4
-
-//Находим наименьший ДД участка 4
-
-int min=100;
-foreach(UnitNode *un, List )
-    {
-        //его индекс
-        QModelIndex ind = modelTreeUN->findeIndexUN(un);
-        //индекс его родителя
-        QModelIndex parent_ind =  modelTreeUN->parent(ind);
-        //юнит его родителя
-        UnitNode *parent = static_cast<UnitNode*>(parent_ind.internalPointer());
-    //если участок 2
-
-        if(parent->getNum2()/100==4){
-            qDebug()<<"юнит на участке 4";
-            qDebug()<<"dd  "<<QString::number((un->getNum2()-numberArea*100));
-            if(un->getNum2()-numberArea*100<min){
-
-                min = un->getNum2()-numberArea*100;
-            }
-        }
-    }
-qDebug()<<"min "<<min;
-qDebug()<<"dd  "<<unit->getNum2()-numberArea*100;
-
-    if(unit->getNum2()-numberArea*100<min)
-        return true;
 
     return false;
-
-}
-
-if(numberArea==4){
-
-//Если номер участка 4 - дд должно быть больше чем наибольший ДД с участка 3
-
-//Находим наименьший ДД участка 4
-
-int max=0;
-foreach(UnitNode *un, List )
-    {
-        //его индекс
-        QModelIndex ind = modelTreeUN->findeIndexUN(un);
-        //индекс его родителя
-        QModelIndex parent_ind =  modelTreeUN->parent(ind);
-        //юнит его родителя
-        UnitNode *parent = static_cast<UnitNode*>(parent_ind.internalPointer());
-    //если участок 2
-
-        if(parent->getNum2()/100==3){
-            qDebug()<<"юнит на участке 3";
-            qDebug()<<"dd  "<<QString::number((un->getNum2()-numberArea*100));
-            if(un->getNum2()-numberArea*100>max){
-
-                max = un->getNum2()-numberArea*100;
-            }
-        }
-    }
-qDebug()<<"max "<<max;
-qDebug()<<"dd  "<<unit->getNum2()-numberArea*100;
-    if(unit->getNum2()-numberArea*100>max)
-        return true;
-
-    return false;
-
-}
-*/
-
-
-    return true;
 }
 
 bool Widget_DD_SOTA::equal(UnitNode *un, UnitNode *unit)
