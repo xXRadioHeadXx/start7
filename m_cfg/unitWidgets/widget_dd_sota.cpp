@@ -42,7 +42,7 @@ void Widget_DD_SOTA::set_to(UnitNode *unit)
     int val=parent->getNum2();
 
 
-    unit->setNum2(this->ui->Num2->currentText().toInt()+val-1);
+    unit->setNum2(this->ui->Num2->currentText().toInt()+val);
 
 
     unit->setNum1(parent->getNum1());
