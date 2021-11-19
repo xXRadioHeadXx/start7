@@ -28,7 +28,6 @@ void Widget_GROUP::get_default()
 
 void Widget_GROUP::set_to(UnitNode *unit)
 {
-    unit->setBroken(true);
     unit->setNum1(-1);
     unit->setNum2(-1);
     unit->setNum3(-1);

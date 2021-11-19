@@ -18,6 +18,18 @@ class IDMaster
         virtual int getID() = 0;
 };
 
+static QMap <int,QString> m_SSOI_SD_Num3{
+{1 , "1"},
+{2 , "2" },
+{3 , "3" },
+{4 , "4" },
+{5 , "5" },
+{6 , "6" },
+{7 , "7" },
+{8 , "8" },
+{9 , "вскрытие" },
+};
+
 static const QMap <int,QString> m_SSOI_SD_OutType{
     {0,"не указан"},
     {1,"РИФ-РЛМ"},

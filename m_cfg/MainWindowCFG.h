@@ -87,6 +87,11 @@ class MainWindowCFG : public QMainWindow
     Q_OBJECT
 private:    
 
+    template< class T >
+   void add( T* a);
+
+
+
     Widget_GROUP* w_GROUP;
     Widget_SD_BL_IP* w_SD_BL_IP;
     Widget_IU_BL_IP* w_IU_BL_IP ;
