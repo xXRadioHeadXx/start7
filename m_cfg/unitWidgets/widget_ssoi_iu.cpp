@@ -87,7 +87,7 @@ bool Widget_SSOI_IU::accepted(UnitNode *unit)
            (parent->getType()==TypeUnitNode::INFO_TABLO)||
            (parent->getType()==TypeUnitNode::SSOI_IU) ||
            (parent->getType()==TypeUnitNode::IU_BL_IP)||
-                (parent->getType()==TypeUnitNode::ADAM))    {
+           (parent->getType()==TypeUnitNode::ADAM))    {
 
             return false;
 
