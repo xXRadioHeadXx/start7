@@ -1231,10 +1231,20 @@ void UnitNode::show()
     ;
 }
 
+bool UnitNode::getBroken() const
+{
+    return broken;
+}
+
+void UnitNode::setBroken(bool value)
+{
+    broken = value;
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
-       ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
+            ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
         TypeUnitNode::RLM_C == getType() ||
         TypeUnitNode::RLM_KRL == getType() ||
         TypeUnitNode::TG == getType()))
@@ -1278,6 +1288,7 @@ UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 
 UnitNode::UnitNode(const UnitNode & parent) :
     QObject(nullptr),
+    broken(false),
     stateWord(parent.stateWord),
     stateWordType0x31(parent.stateWordType0x31),
     stateWordType0x32(parent.stateWordType0x32),

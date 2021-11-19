@@ -111,6 +111,10 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
 
      if(role == Qt::BackgroundRole)
      {
+         if(item->getBroken())
+              return QVariant(QColor(Qt::red));
+
+
          foreach(QModelIndex ind, list_Equals_for_chanell)
          {
          if(ind.parent()==index.parent()&&

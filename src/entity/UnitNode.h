@@ -110,6 +110,7 @@ class UnitNode : public QObject
 private:
 
 
+    bool broken;
 
     int neededStateWordType = 0;
     QByteArray stateWord;
@@ -222,6 +223,8 @@ public:
 
     int getType() const;
     void setType(int value);
+
+
 
     int getNum1() const;
     void setNum1(int value);
@@ -456,6 +459,9 @@ public:
     const SWPTGType0x33 swpTGType0x33() const {return SWPTGType0x33(getStateWordType0x33());}
     const SWPTGType0x32 swpTGType0x32() const {return SWPTGType0x32(getStateWordType0x32());}
 
+
+    bool getBroken() const;
+    void setBroken(bool value);
 
 public slots:
 
