@@ -102,6 +102,14 @@ bool UnitWidget::no_equal_unit(UnitNode *unit)
             bool res=false;
             //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
 
+           if(unit==un){
+
+
+               qDebug()<<"указатели "<<unit->getName()<<" и  "<< un->getName() <<"  ссылаются на один  и тот же обьект";
+
+           }
+           else
+            {
          if(unit->getUdpUse()==0)
          if((un->getUdpUse()==unit->getUdpUse()))
          if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
@@ -125,9 +133,10 @@ bool UnitWidget::no_equal_unit(UnitNode *unit)
              emit double_unit_signal(un);
              return false;
          }
-
+               }
 
         }
+
 
 
     }
@@ -154,26 +163,35 @@ qDebug()<<"["<<cnt<<"]";cnt++;
 qDebug()<<"["<<cnt<<"]";cnt++;
     foreach(UnitNode *un, List1 )
     {
+        if(unit==un){
 
-        qDebug()<<"смотрим: "<<un->getName();
 
-       QModelIndex index=modelTreeUN->findeIndexUN(un);
-       QModelIndex un_parent_index= modelTreeUN->parent(index);
+            qDebug()<<"указатели "<<unit->getName()<<" и  "<< un->getName() <<"  ссылаются на один  и тот же обьект";
 
-     if(ind==un_parent_index) //ищем юнитов с тем же родителем
-      {
-         qDebug()<<"[+]";
-         if(un->getType()==unit->getType())
-         if(equal(unit,un))//проверяем не идентичны ли они
-         {
-            double_unit_index=modelTreeUN->findeIndexUN(un);
-        //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
-            qDebug()<<"@@Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
-             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует!!");
-             res=false;
+        }else{
+                qDebug()<<"смотрим: "<<un->getName();
 
-         }
-      }
+               QModelIndex index=modelTreeUN->findeIndexUN(un);
+               QModelIndex un_parent_index= modelTreeUN->parent(index);
+
+
+
+
+             if(ind==un_parent_index) //ищем юнитов с тем же родителем
+              {
+                 qDebug()<<"[+]";
+                 if(un->getType()==unit->getType())
+                 if(equal(unit,un))//проверяем не идентичны ли они
+                 {
+                    double_unit_index=modelTreeUN->findeIndexUN(un);
+                //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+                    qDebug()<<"@@Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
+                     QMessageBox::critical(0,"Ошибка","Такой обьект уже существует!!");
+                     res=false;
+
+                 }
+              }
+        }
     }
 
 

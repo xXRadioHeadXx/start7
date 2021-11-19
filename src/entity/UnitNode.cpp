@@ -1227,7 +1227,9 @@ void UnitNode::show()
     <<"; Icon1Path "<<this->getIcon1Path()
     <<"; Icon2Path "<<this->getIcon2Path()
     <<"; Icon3Path "<<this->getIcon3Path()
-    <<"; Icon4Path "<<this->getIcon4Path();
+    <<"; Icon4Path "<<this->getIcon4Path()
+    <<"; Broken "<<this->getBroken()
+    <<"; BrokeInfo "<<this->getBrokeInfo()
     ;
 }
 
@@ -1239,6 +1241,16 @@ bool UnitNode::getBroken() const
 void UnitNode::setBroken(bool value)
 {
     broken = value;
+}
+
+QString UnitNode::getBrokeInfo() const
+{
+    return brokeInfo;
+}
+
+void UnitNode::setBrokeInfo(const QString &value)
+{
+    brokeInfo = value;
 }
 
 void UnitNode::matchEditableControl()
@@ -1284,11 +1296,14 @@ bool UnitNode::isEditableOnOff() const
 UnitNode::UnitNode(UnitNode *parent) : QObject(parent)
 {
     this->parentUN = parent;
+    this->setBroken(false);
+    this->setBrokeInfo("");
 }
 
 UnitNode::UnitNode(const UnitNode & parent) :
     QObject(nullptr),
     broken(false),
+    brokeInfo(""),
     stateWord(parent.stateWord),
     stateWordType0x31(parent.stateWordType0x31),
     stateWordType0x32(parent.stateWordType0x32),

@@ -110,6 +110,7 @@ bool Widget_Y4_SOTA::accepted(UnitNode *unit)
     {
     //    QMessageBox::critical(0,"Ошибка","Участок может быть добавлен только к БОД Сота/Сота-М!");
 
+        unit->setBrokeInfo("1");
         return false;
 
     }
@@ -139,11 +140,14 @@ bool Widget_Y4_SOTA::accepted(UnitNode *unit)
     foreach(UnitNode *un, List )
     {
      qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
+
+     if(un!=unit)
      if(un->getNum2()==unit->getNum2())
      {
       //   this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
 qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
       //   QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+        unit->setBrokeInfo("2");
          return false;
      }
     }

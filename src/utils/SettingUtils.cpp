@@ -63,6 +63,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitN
 
 
     root->setDK(0);
+    root->setBroken(false);
     root->setAlarmMsgOn(0);
 
     //qDebug() << "cntTrItm" << cntTrItm;
@@ -196,16 +197,14 @@ get_value(settings.value( "lon" , -1 ));
 
                  tmpUN->setTreeParentUN(old);
 
+                 old->addTreeChild(tmpUN);
+                 listTreeUnitNodes.append(tmpUN);
                 /*
                 bool res=m_ctrl->pass_to_add(tmpUN,old,model);//вот для этой проверки
                 if(res)//если юнит прошел проверку
                 {
 
-                    old->addTreeChild(tmpUN);
 
-
-
-                    listTreeUnitNodes.append(tmpUN);
                 }
 
                 else

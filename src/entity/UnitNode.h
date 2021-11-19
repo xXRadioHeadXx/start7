@@ -111,6 +111,7 @@ private:
 
 
     bool broken;
+    QString brokeInfo;
 
     int neededStateWordType = 0;
     QByteArray stateWord;
@@ -462,6 +463,9 @@ public:
 
     bool getBroken() const;
     void setBroken(bool value);
+
+    QString getBrokeInfo() const;
+    void setBrokeInfo(const QString &value);
 
 public slots:
 

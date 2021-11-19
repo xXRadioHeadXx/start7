@@ -1458,8 +1458,34 @@ void MainWindowCFG::on_actionOpen_triggered()
           this->modelTreeUN->rootItemUN->deleteAll();
           this->modelTreeUN->loadSettings(patch);
 
+//----------------------------------------------------------
+
+          QList<UnitNode *> List;
+          this->modelTreeUN->getListFromModel(List,modelTreeUN->rootItemUN);//this->modelTreeUN->rootItemUN
+          foreach(UnitNode *un, List )
+          {
+              un->setBroken(false);
+              foreach(UnitWidget* wgt,l_UnitWidgets){
 
 
+                  if(un->getType()==wgt->getID()){
+
+                  QModelIndex index=this->modelTreeUN->findeIndexUN(un);
+                  current_index= this->modelTreeUN->parent(index);
+
+                  un->setBroken(!(wgt->accepted(un)));
+
+
+                  }
+
+              }
+          }
+
+
+
+
+
+//----------------------------------------------------------
           if(modelTreeUN->rowCount()==0)
           {
           this->modelTreeUN->makeEmptyTree();
@@ -2829,6 +2855,9 @@ bool MainWindowCFG::add_unit()
     //qDebug()<<"[Type: "<<type<<"]";
 
     UnitNode *unit=new UnitNode();
+
+    unit->setBroken(false);
+
     unit->setType(0);
     unit->setNum1(255);
     unit->setNum2(0);
