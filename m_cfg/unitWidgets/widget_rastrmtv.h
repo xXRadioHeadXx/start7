@@ -13,7 +13,7 @@ class Widget_RASTRMTV : public UnitWidget
     Q_OBJECT
 
 public:
-    explicit Widget_RASTRMTV(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
+    explicit Widget_RASTRMTV(QWidget *parent = nullptr,communicationTypeWidget* comm=nullptr,coordinateWidget* coord=nullptr,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr,QMap<QString, SerNum_Name>* mSerNum_Name=nullptr);
     ~Widget_RASTRMTV();
 
     void get_from(UnitNode* unit) override;
@@ -30,6 +30,8 @@ private slots:
 
 private:
     Ui::Widget_RASTRMTV *ui;
+
+ QMap <QString, SerNum_Name>* mSerNum_Name;
 };
 
 #endif // WIDGET_RASTRMTV_H

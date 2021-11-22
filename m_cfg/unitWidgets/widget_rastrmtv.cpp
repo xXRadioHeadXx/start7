@@ -1,11 +1,12 @@
 #include "widget_rastrmtv.h"
 #include "ui_widget_rastrmtv.h"
 
-Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
+Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current,QMap<QString, SerNum_Name>* mSerNum_Name) :
     UnitWidget(parent,comm,coord,modelTreeUN,current),
     ui(new Ui::Widget_RASTRMTV)
 {
     ID=TypeUnitNode::RASTRMTV;
+    this->mSerNum_Name=mSerNum_Name;
     ui->setupUi(this);
 }
 
@@ -17,10 +18,53 @@ Widget_RASTRMTV::~Widget_RASTRMTV()
 void Widget_RASTRMTV::get_from(UnitNode *unit)
 {
 
+    ui->Icon1Path->clear();
+    foreach(SerNum_Name snn, *mSerNum_Name)    {
+
+        QString str;
+        str.clear();
+        str.append(snn.Name);
+        str.append(" (");
+        str.append(snn.SerNum);
+        str.append(")");
+        this->ui->Icon1Path->addItem(str);
+
+
+    }
+
+
 }
 
 void Widget_RASTRMTV::get_default()
 {
+
+    qDebug()<<"mSerNum_Name:";
+
+    if(mSerNum_Name){
+
+  foreach(SerNum_Name snn, *mSerNum_Name)    {
+
+      qDebug()<<snn.Name<<" "<<snn.SerNum;
+  }
+
+    ui->Icon1Path->clear();
+
+
+    foreach(SerNum_Name snn, *mSerNum_Name)    {
+
+        QString str;
+        str.clear();
+        str.append(snn.Name);
+        str.append(" (");
+        str.append(snn.SerNum);
+        str.append(")");
+        this->ui->Icon1Path->addItem(str);
+
+    }
+
+}else{
+        qDebug()<<"YOU FUCKING FAIL !!!!!";
+    }
 
 }
 

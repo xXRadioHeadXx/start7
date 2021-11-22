@@ -75,10 +75,7 @@ enum op_tbl {
 
 
 
-struct SerNum_Name{
-    QString SerNum;
-    QString Name;
-};
+
 
 
 
@@ -123,7 +120,7 @@ private:
     QList<UnitWidget*> l_UnitWidgets;
 
 
-
+QMap <QString, SerNum_Name> mSerNum_Name;
 
 
   bool eventFilter(QObject *obj, QEvent *event);
@@ -143,7 +140,7 @@ private:
     Control_Unit_Manager* m_ctrl;
 
     QTimer *timer;
-    QMap <QString, SerNum_Name> mSerNum_Name;
+
 
     Ui::MainWindowCFG *ui;
 

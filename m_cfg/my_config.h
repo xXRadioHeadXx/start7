@@ -18,6 +18,13 @@ class IDMaster
         virtual int getID() = 0;
 };
 
+struct SerNum_Name{
+    QString SerNum;
+    QString Name;
+};
+
+
+
 static QMap <int,QString> m_SSOI_SD_Num3{
 {1 , "1"},
 {2 , "2" },

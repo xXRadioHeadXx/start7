@@ -5,6 +5,8 @@
 #include <QHostInfo>
 #include <QDir>
 #include <QMessageBox>
+#include <QSettings>
+#include <my_config.h>
 
 RASTR_Widget::RASTR_Widget(QWidget *parent) :
     QWidget(parent),
@@ -165,6 +167,83 @@ void RASTR_Widget::setSOLID__Port(int value)
 
 }
 
+void RASTR_Widget::set_pointer(QMap<QString, SerNum_Name> *mSerNum_Name)
+{
+    this->mSerNum_Name=mSerNum_Name;
+    get_from_rastr_ini();
+}
+
+void RASTR_Widget::get_from_rastr_ini()
+{
+
+    mSerNum_Name->clear();
+   QFileInfo info(rastrmtv_cfg__path());
+    if(info.exists())
+    {
+        QSettings settings(rastrmtv_cfg__path(), QSettings::IniFormat);
+      #if (defined (_WIN32) || defined (_WIN64))
+          settings.setIniCodec( "Windows-1251" );
+      #else
+          settings.setIniCodec( "UTF-8" );
+      #endif
+
+
+          for(int index = 0; index < 4; index++)
+          {
+              QString strGroup("DEVICE_%1");
+              strGroup = strGroup.arg(index);
+              if(settings.childGroups().contains(strGroup))
+              {
+                  settings.beginGroup(strGroup);
+
+                  QString SerNum = settings.value("SerNum","").toString();
+                  QString Name = settings.value("Name","").toString();
+                  if((SerNum!="")&&(Name!=""))
+                  {
+                      QString str;
+                      str.clear();
+                      str.append(Name);
+                      str.append(" (");
+                      str.append(SerNum);
+                      str.append(")");
+
+                      SerNum_Name snn;
+                      snn.SerNum=SerNum;
+                      snn.Name=Name;
+                      mSerNum_Name->insert(str,snn);
+
+                  }
+                  settings.endGroup();
+              }
+          }
+
+             qDebug()<<"mSerNum_Name:";
+           foreach(SerNum_Name snn, *mSerNum_Name)    {
+
+               qDebug()<<snn.Name<<" "<<snn.SerNum;
+           }
+
+//Смотрим четыре группы DEVICE
+//Смотрим параметр SerNum
+//Если он не равен нулю
+//Добавляем его в Combobox
+
+
+    }
+    else
+    {
+
+//         dialog.showMessage("Файл rastrmtv_cfg.ini не найден");
+//         dialog.exec();
+        QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
+        this->ui->Use->setCurrentIndex(0);
+
+
+    }
+
+
+}
+
 
 
 QString RASTR_Widget::getRASTRMSSOI__SerNum() const
@@ -199,25 +278,12 @@ void RASTR_Widget::setRASTRMSSOI__Timeout(int value)
 
 void RASTR_Widget::on_Use_activated(const QString &arg1)
 {
+
     if(arg1==Use_1)
     {
-
-     QFileInfo info(rastrmtv_cfg__path());
-     if(info.exists())
-     {
-
-     }
-     else
-     {
-
-//         dialog.showMessage("Файл rastrmtv_cfg.ini не найден");
-//         dialog.exec();
-         QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
-         this->ui->Use->setCurrentIndex(0);
-
-
-     }
+    get_from_rastr_ini();
     }
+
 }
 
 void RASTR_Widget::on_pushButton_clicked()

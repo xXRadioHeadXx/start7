@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QMap>
 #include <QErrorMessage>
+#include <my_config.h>
 
 namespace Ui {
 class RASTR_Widget;
@@ -21,6 +22,8 @@ public:
     QErrorMessage dialog;
 
     void default_options();
+
+
 
     int getUse() const;
     void setUse(int value);
@@ -52,7 +55,8 @@ public:
     int getSOLID__Port() const;
     void setSOLID__Port(int value);
 
-
+    void set_pointer(QMap <QString, SerNum_Name>* mSerNum_Name);
+    void get_from_rastr_ini();
 
     QString getRASTRMSSOI__SerNum() const;
     void setRASTRMSSOI__SerNum(const QString &value);
@@ -71,6 +75,8 @@ private slots:
     void on_pushButton_clicked();
 
 private:
+
+    QMap <QString, SerNum_Name>* mSerNum_Name;
 
     Ui::RASTR_Widget *ui;
     

@@ -121,7 +121,7 @@ m_ctrl=new Control_Unit_Manager();
         ui->treeView->setModel(this->modelTreeUN);
 
 
-
+ui->RASTR_wgt->set_pointer(&mSerNum_Name);
 
 
 w_GROUP=new Widget_GROUP(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_GROUP);
@@ -155,7 +155,7 @@ w_TOROS=new Widget_TOROS(this,this->ui->communicationType,this->ui->coord,modelT
 w_DEVLINE=new Widget_DEVLINE(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_DEVLINE);
 w_INFO_TABLO=new Widget_INFO_TABLO(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_INFO_TABLO);
 
-w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_RASTRMTV);
+w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index, &mSerNum_Name);  l_UnitWidgets.append(w_RASTRMTV);
 
 /*
 l_UnitWidgets.append(w_KL);
@@ -274,7 +274,7 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
     this->setMouseTracking(true);
     this->ui->centralwidget->setMouseTracking(true);
 //    this->ui->tabWidget->setMouseTracking(true);
-
+/*
 
     QString filepath="C:/Program Files/RIFx/rastrmtv_cfg.ini" ;
     QFileInfo info(this->ui->RASTR_wgt->rastrmtv_cfg__path());
@@ -316,6 +316,13 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
                   settings.endGroup();
               }
           }
+
+             qDebug()<<"mSerNum_Name:";
+           foreach(SerNum_Name snn, mSerNum_Name)    {
+
+               qDebug()<<snn.Name<<" "<<snn.SerNum;
+           }
+
 //Смотрим четыре группы DEVICE
 //Смотрим параметр SerNum
 //Если он не равен нулю
@@ -325,7 +332,7 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
 
 
     }
-/*    else
+    else
     {
 
         QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
@@ -333,9 +340,9 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
 
         this->ui->RASTRMTV_Name_SerNum->addItem("не определено");
 //        this->ui->Use->setCurrentIndex(0);
-    }*/
+    }
 
-
+*/
 
 
 
