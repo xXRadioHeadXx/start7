@@ -93,6 +93,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitN
         tmpUN->setNum3(0);
         tmpUN->setLevel(0);
         tmpUN->setDK(0);
+        tmpUN->setAlarmMsgOn(0);
         tmpUN->setName(QObject::tr("Система"));
         tmpUN->setMetaNames("Obj_0");
 
@@ -345,6 +346,7 @@ QList<UnitNode *> SettingUtils::loadEmptyTree(UnitNode *root)
         tmpUN->setNum3(0);
         tmpUN->setLevel(0);
         tmpUN->setDK(0);
+        tmpUN->setAlarmMsgOn(0);
         tmpUN->setName(QObject::tr("Система"));
         tmpUN->setMetaNames("Obj_0");
 

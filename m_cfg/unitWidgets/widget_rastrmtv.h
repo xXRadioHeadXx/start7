@@ -22,11 +22,16 @@ public:
     void update_name() override;
     void setEnabled_option_menu(bool) override;
 
+    bool accepted(UnitNode* unit) override;
+    bool equal(UnitNode* one,UnitNode* secons) override;
+
     QString get_string(UnitNode* unit) override;
 private slots:
     void on_Icon1Path_currentIndexChanged(const QString &arg1);
 
     void on_Num3_currentIndexChanged(const QString &arg1);
+
+    void get_cameras();
 
 private:
     Ui::Widget_RASTRMTV *ui;
