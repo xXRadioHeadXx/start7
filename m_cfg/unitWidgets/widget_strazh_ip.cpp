@@ -63,6 +63,12 @@ bool Widget_STRAZH_IP::accepted(UnitNode *unit)
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
+    //Проверка на адекватность айпишников.
+    if(!UnitWidget::ip_is_valid(unit->getIcon1Path()))
+        return false;
+
+    if(!UnitWidget::ip_is_valid(unit->getIcon4Path()))
+        return false;
 
 
     //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор

@@ -52,6 +52,8 @@ public:
     void set_timeouts(UnitNode* unit);
     virtual bool timeout_brother(UnitNode* un){return false;};
 
+    bool ip_is_valid(QString ip);
+
     QModelIndex* current;
  //   comm->set_options(unit);
  //   coord->set_options(unit);

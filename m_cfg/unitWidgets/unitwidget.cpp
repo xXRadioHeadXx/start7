@@ -2,6 +2,7 @@
 #include "ui_unitwidget.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <QHostAddress>
 
 UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN, QModelIndex* current)
 {
@@ -72,6 +73,15 @@ bool UnitWidget::set_option(UnitNode *unit)
     comm->set_options(unit);
     coord->set_options(unit);
     set_to(unit);
+
+    if(comm_is_needed){
+        if (!ip_is_valid(unit->getUdpAdress())){
+            return false;
+        }
+
+    }
+
+
     if(accepted(unit)){
     set_timeouts(unit);
     return true;
@@ -271,6 +281,24 @@ void UnitWidget::set_timeouts(UnitNode *unit)
           }
         }
     }
+}
+
+bool UnitWidget::ip_is_valid(QString ip)
+{
+    QHostAddress myIP;
+       if(myIP.setAddress( ip))
+       {
+      qDebug()<<"Valid IP Address";
+       }
+       else
+       {
+       qDebug()<<"Invalid IP address";
+
+    QMessageBox::critical(0,"Ошибка","Не заданы параметры UDP протокола (IP адрес или порт)");
+
+    return false;
+       }
+    return true;
 }
 
 void UnitWidget::set_to(UnitNode *unit)

@@ -73,6 +73,12 @@ bool Widget_ONVIF::accepted(UnitNode *unit)
         return false;
 
     }
+
+
+    if(!UnitWidget::ip_is_valid(unit->getIcon1Path()))
+        return false;
+
+
 return no_equal_unit_from_one_parent(unit);
 
 }
