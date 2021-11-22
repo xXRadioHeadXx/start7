@@ -170,7 +170,9 @@ void RASTR_Widget::setSOLID__Port(int value)
 void RASTR_Widget::set_pointer(QMap<QString, SerNum_Name> *mSerNum_Name)
 {
     this->mSerNum_Name=mSerNum_Name;
+    if(ui->Use->currentText()==Use_1){
     get_from_rastr_ini();
+    }
 }
 
 void RASTR_Widget::get_from_rastr_ini()

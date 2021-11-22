@@ -8,6 +8,18 @@ Widget_RASTRMTV::Widget_RASTRMTV(QWidget *parent, communicationTypeWidget *comm,
     ID=TypeUnitNode::RASTRMTV;
     this->mSerNum_Name=mSerNum_Name;
     ui->setupUi(this);
+
+    for(int i=1;i<129;i++)
+    {
+        QString str;
+        str.clear();
+        if(i/10<1)
+            str.append("0");
+        str.append(QString::number(i));
+        ui->Num3->addItem(str);
+
+
+    }
 }
 
 Widget_RASTRMTV::~Widget_RASTRMTV()
