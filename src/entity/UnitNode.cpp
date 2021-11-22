@@ -90,7 +90,7 @@ QString UnitNode::getName() const
 
 void UnitNode::setName(const QString &value)
 {
-    QRegExp re("[а-яА-Яa-zA-Z0-9 :_-]{1,40}");
+    QRegExp re("[а-яА-Яa-zA-Z0-9 :_-()]{1,40}");
 
       qDebug()<< re.exactMatch(value);
 

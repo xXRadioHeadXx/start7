@@ -3,6 +3,7 @@
 
 #include <UnitNode.h>
 #include <QWidget>
+#include <QTimer>
 
 enum coordinateWigget_mode
 {
@@ -28,9 +29,13 @@ public:
 
     void set_mode(int mode);
 
+private slots:
+    void update_coordinates();
+
 private:
     Ui::coordinateWidget *ui;
     int mode;
+    QTimer* timer;
 };
 
 #endif // COORDINATEWIDGET_H

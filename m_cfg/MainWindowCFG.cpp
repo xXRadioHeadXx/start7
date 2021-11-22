@@ -789,7 +789,7 @@ void MainWindowCFG::updateName(QString name)
 {
     if(this->ui->checkBox->isChecked())
     {
-    qDebug()<<"update: ";
+//    qDebug()<<"update: ";
     this->ui->uName_combobox->setCurrentText(name);
     }
 }
@@ -1458,6 +1458,7 @@ void MainWindowCFG::on_actionOpen_triggered()
           this->modelTreeUN->rootItemUN->deleteAll();
           this->modelTreeUN->loadSettings(patch);
 
+
 //----------------------------------------------------------
 
           QList<UnitNode *> List;
@@ -1486,6 +1487,7 @@ void MainWindowCFG::on_actionOpen_triggered()
 
 
 //----------------------------------------------------------
+
           if(modelTreeUN->rowCount()==0)
           {
           this->modelTreeUN->makeEmptyTree();
@@ -2863,7 +2865,7 @@ bool MainWindowCFG::add_unit()
     unit->setNum2(0);
     unit->setNum3(0);
     unit->setLevel(0);
-    unit->setName("");
+    unit->setName(" ");
     unit->setIconVisible(0);
     unit->setX(0);
     unit->setY(0);
@@ -2905,8 +2907,8 @@ bool MainWindowCFG::add_unit()
     unit->setName(this->ui->uName_combobox->currentText());
     unit->setType(type);
 
-
-
+ qDebug()<<"его имя "<<this->ui->uName_combobox->currentText();
+ qDebug()<<"его имя "<<unit->getName();
 
 
     unit->setLevel(parrent->getLevel()+1);
@@ -2928,6 +2930,7 @@ current_wgt()->set_option(unit);
 
         if(current_wgt()->set_option(unit))
         {
+            qDebug()<<"его имя "<<unit->getName();
       this->modelTreeUN->appendNewUNInStructure(index,unit);
   //      map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
       ui->treeView->setCurrentIndex(index);

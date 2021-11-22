@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="coordinates_for_all">
     <widget class="QGroupBox" name="groupBox_4">
@@ -239,19 +239,6 @@
        <string>X прав.низ</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="devline_xy_pushButton">
-      <property name="geometry">
-       <rect>
-        <x>344</x>
-        <y>40</y>
-        <width>91</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Изменить</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_36">
       <property name="geometry">
        <rect>
@@ -390,7 +377,7 @@
        <string>Y лев.верх</string>
       </property>
      </widget>
-     <widget class="QDoubleSpinBox" name="Num5">
+     <widget class="QDoubleSpinBox" name="Y">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -409,7 +396,7 @@
        <double>10000.000000000000000</double>
       </property>
      </widget>
-     <widget class="QDoubleSpinBox" name="Num4">
+     <widget class="QDoubleSpinBox" name="X">
       <property name="geometry">
        <rect>
         <x>175</x>

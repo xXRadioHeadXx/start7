@@ -62,7 +62,27 @@ void Widget_SSOI_SD::set_to(UnitNode *unit)
 
 void Widget_SSOI_SD::update_name()
 {
-    emit updateName("Группа ");
+    QString Name("");
+    Name.append("Канал");
+    Name.append(this->ui->Num1->currentText());
+    Name.append("-БЛ");
+    Name.append(this->ui->Num2->currentText());
+
+
+    Name.append("-СД");
+    if(this->ui->Num3->currentText()=="вскрытие")
+    Name.append("-Вскрытие");
+    else
+    Name.append(this->ui->Num3->currentText());
+
+
+    if(this->ui->OutType->currentIndex()>0)
+    {
+    Name.append(" тип:");
+    Name.append(this->ui->OutType->currentText());
+    }
+
+    emit updateName(Name);
 
 }
 
@@ -207,27 +227,7 @@ QString Widget_SSOI_SD::get_string(UnitNode *unit)
 
 void Widget_SSOI_SD::on_Num1_currentIndexChanged(const QString &arg1)
 {
-    QString Name("");
-    Name.append("Канал");
-    Name.append(this->ui->Num1->currentText());
-    Name.append("-БЛ");
-    Name.append(this->ui->Num2->currentText());
-
-
-    Name.append("-СД");
-    if(this->ui->Num3->currentText()=="вскрытие")
-    Name.append("-Вскрытие");
-    else
-    Name.append(this->ui->Num3->currentText());
-
-
-    if(this->ui->OutType->currentIndex()>0)
-    {
-    Name.append(" тип:");
-    Name.append(this->ui->OutType->currentText());
-    }
-
-    emit updateName(Name);
+    update_name();
 }
 
 void Widget_SSOI_SD::on_Num2_currentIndexChanged(const QString &arg1)
