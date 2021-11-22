@@ -95,3 +95,8 @@ void Widget_ONVIF::on_Icon1Path_currentIndexChanged(const QString &arg1)
 {
     update_name();
 }
+
+void Widget_ONVIF::on_Icon1Path_currentTextChanged(const QString &arg1)
+{
+    update_name();
+}

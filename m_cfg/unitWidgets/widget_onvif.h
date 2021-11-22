@@ -30,6 +30,8 @@ private slots:
 
     void on_Icon1Path_currentIndexChanged(const QString &arg1);
 
+    void on_Icon1Path_currentTextChanged(const QString &arg1);
+
 private:
     Ui::Widget_ONVIF *ui;
 };
