@@ -16,6 +16,24 @@ public:
 
     ~Widget_SSOI_IP_SD();
 
+    void get_from(UnitNode* unit) override;
+    void get_default() override;
+    void set_to(UnitNode* unit) override;
+    void update_name() override;
+    void setEnabled_option_menu(bool) override;
+
+    bool accepted(UnitNode* unit) override;
+    bool equal(UnitNode* one,UnitNode* secons) override;
+
+    QString get_string(UnitNode* unit) override;
+
+private slots:
+    void on_Num1_currentIndexChanged(const QString &arg1);
+
+    void on_Num2_currentIndexChanged(const QString &arg1);
+
+    void on_OutType_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Widget_SSOI_IP_SD *ui;
 };
