@@ -104,6 +104,9 @@ static QString str_DEVLINE =       " ТВ-камера DevLine";
 static QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
 static QString str_INFO_TABLO =    " Информационное табло";
 
+static QString str_SSOI_IP_SD =    " ССОИ IP СД";
+
+
 static QMap <int,QString> m_TypeUnitNode_d{
 {-1, str_NOTHING},
 {TypeUnitNode::GROUP, str_GROUP},
@@ -130,7 +133,7 @@ static QMap <int,QString> m_TypeUnitNode_d{
 {TypeUnitNode::DEVLINE ,str_DEVLINE },
 {TypeUnitNode::RASTRMTV ,str_RASTRMTV },
 {TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
-
+{TypeUnitNode::SSOI_IP_SD ,str_SSOI_IP_SD },
 };
 
 static QMap <int,QString> m_TypeUnitNode{
@@ -158,6 +161,7 @@ static QMap <int,QString> m_TypeUnitNode{
 {TypeUnitNode::DEVLINE ,str_DEVLINE },
 {TypeUnitNode::RASTRMTV ,str_RASTRMTV },
 {TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
+{TypeUnitNode::SSOI_IP_SD ,str_SSOI_IP_SD },
 
 };
 

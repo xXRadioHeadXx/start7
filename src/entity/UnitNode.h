@@ -58,7 +58,10 @@ enum TypeUnitNode {
     TOROS = 8, //Торос
     DEVLINE = 32, //камера DevLine
     RASTRMTV =42, //камера РАСТР-М-ТВ
-    INFO_TABLO = 71 //информационное табло
+    INFO_TABLO = 71, //информационное табло
+
+    SSOI_IP_SD = 303, //ССОИ СД
+    SSOI_IP_IU = 304 //ССОИ ИУ
 };
 
 static QMap <int,int> timeouts{

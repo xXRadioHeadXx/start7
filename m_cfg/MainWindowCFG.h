@@ -49,7 +49,8 @@
 #include <unitWidgets/widget_rastrmtv.h>
 #include <unitWidgets/widget_info_tablo.h>
 #include <unitWidgets/widget_tg.h>
-#include <unitWidgets/widget_adam.h>
+#include <unitWidgets/widget_ssoi_ip_sd.h>
+
 #include <unitWidgets/widget_adam.h>
 #include <unitWidgets/widget_adam.h>
 #include <unitWidgets/widget_adam.h>
@@ -116,6 +117,8 @@ private:
     Widget_DEVLINE* w_DEVLINE;
     Widget_RASTRMTV* w_RASTRMTV;
     Widget_INFO_TABLO* w_INFO_TABLO;
+
+    Widget_SSOI_IP_SD* w_SSOI_IP_SD;
 
     QList<UnitWidget*> l_UnitWidgets;
 
@@ -505,7 +508,8 @@ QMap <QString, SerNum_Name> mSerNum_Name;
         str_TOROS,
         str_DEVLINE,
         str_RASTRMTV,
-        str_INFO_TABLO
+        str_INFO_TABLO,
+        str_SSOI_IP_SD
  };
 
     QList<QString> l_Unittype_ssoi={
