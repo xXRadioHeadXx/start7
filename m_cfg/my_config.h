@@ -105,7 +105,7 @@ static QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
 static QString str_INFO_TABLO =    " Информационное табло";
 
 static QString str_SSOI_IP_SD =    " ССОИ IP СД";
-
+static QString str_SSOI_IP_IU =    " ССОИ IP ИУ";
 
 static QMap <int,QString> m_TypeUnitNode_d{
 {-1, str_NOTHING},
@@ -134,6 +134,7 @@ static QMap <int,QString> m_TypeUnitNode_d{
 {TypeUnitNode::RASTRMTV ,str_RASTRMTV },
 {TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
 {TypeUnitNode::SSOI_IP_SD ,str_SSOI_IP_SD },
+{TypeUnitNode::SSOI_IP_IU ,str_SSOI_IP_IU }
 };
 
 static QMap <int,QString> m_TypeUnitNode{
@@ -162,7 +163,7 @@ static QMap <int,QString> m_TypeUnitNode{
 {TypeUnitNode::RASTRMTV ,str_RASTRMTV },
 {TypeUnitNode::INFO_TABLO ,str_INFO_TABLO },
 {TypeUnitNode::SSOI_IP_SD ,str_SSOI_IP_SD },
-
+{TypeUnitNode::SSOI_IP_IU ,str_SSOI_IP_IU }
 };
 
 static QMap <int,QString> m_RLM_KRL_type{
@@ -172,6 +173,49 @@ static QMap <int,QString> m_RLM_KRL_type{
 {3,str_RIF_KRL},
 {4,str_Razriv},
 {5,str_trassa1l},
+};
+
+static QList<QString> l_Unittype_rif={
+
+    str_GROUP,
+    str_SD_BL_IP,
+    str_IU_BL_IP,
+    str_KL,
+    str_TG,
+    str_RLM_KRL,
+    str_RLM_C,
+    str_STRAZH_IP,
+    str_NET_DEV,
+    str_ONVIF,
+    str_BOD_T4K_M,
+    str_Y4_T4K_M,
+    str_DD_T4K_M,
+    str_BOD_SOTA,
+    str_Y4_SOTA,
+    str_DD_SOTA,
+
+
+    str_SSOI_SD,
+    str_SSOI_IU,
+    str_ADAM,
+    str_TOROS,
+    str_DEVLINE,
+    str_RASTRMTV,
+    str_INFO_TABLO,
+    str_SSOI_IP_SD,
+    str_SSOI_IP_IU
+};
+
+static QList<QString> l_Unittype_ssoi={
+
+
+    str_GROUP,
+    str_INFO_TABLO,
+    str_SSOI_SD,
+    str_SSOI_IU,
+    str_RASTRMTV,
+
+
 };
 
 #endif // MY_CONFIG_H

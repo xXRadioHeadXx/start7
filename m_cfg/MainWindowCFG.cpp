@@ -158,6 +158,7 @@ w_INFO_TABLO=new Widget_INFO_TABLO(this,this->ui->communicationType,this->ui->co
 w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index, &mSerNum_Name);  l_UnitWidgets.append(w_RASTRMTV);
 
 w_SSOI_IP_SD=new Widget_SSOI_IP_SD(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_SSOI_IP_SD);
+//w_SSOI_IP_IU=new Widget_SSOI_IP_IU(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_SSOI_IP_IU);
 
 /*
 l_UnitWidgets.append(w_KL);

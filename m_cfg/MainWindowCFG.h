@@ -50,6 +50,7 @@
 #include <unitWidgets/widget_info_tablo.h>
 #include <unitWidgets/widget_tg.h>
 #include <unitWidgets/widget_ssoi_ip_sd.h>
+#include <unitWidgets/widget_ssoi_ip_iu.h>
 
 #include <unitWidgets/widget_adam.h>
 #include <unitWidgets/widget_adam.h>
@@ -119,6 +120,7 @@ private:
     Widget_INFO_TABLO* w_INFO_TABLO;
 
     Widget_SSOI_IP_SD* w_SSOI_IP_SD;
+    Widget_SSOI_IP_IU* w_SSOI_IP_IU;
 
     QList<UnitWidget*> l_UnitWidgets;
 
@@ -482,47 +484,7 @@ QMap <QString, SerNum_Name> mSerNum_Name;
 
 
 
-    QList<QString> l_Unittype_rif={
 
-        str_GROUP,
-        str_SD_BL_IP,
-        str_IU_BL_IP,
-        str_KL,
-        str_TG,
-        str_RLM_KRL,
-        str_RLM_C,
-        str_STRAZH_IP,
-        str_NET_DEV,
-        str_ONVIF,
-        str_BOD_T4K_M,
-        str_Y4_T4K_M,
-        str_DD_T4K_M,
-        str_BOD_SOTA,
-        str_Y4_SOTA,
-        str_DD_SOTA,
-
-
-        str_SSOI_SD,
-        str_SSOI_IU,
-        str_ADAM,
-        str_TOROS,
-        str_DEVLINE,
-        str_RASTRMTV,
-        str_INFO_TABLO,
-        str_SSOI_IP_SD
- };
-
-    QList<QString> l_Unittype_ssoi={
-
-
-        str_GROUP,
-        str_INFO_TABLO,
-        str_SSOI_SD,
-        str_SSOI_IU,
-        str_RASTRMTV,
-
-
- };
 QMap <int,QString> m_RLM_KRL_type{
 {0,str_RIF_RLM},
 {1,str_RIF_RLM_24},

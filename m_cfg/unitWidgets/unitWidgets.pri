@@ -18,6 +18,7 @@ FORMS += \
     $$PWD/widget_rlm_c.ui \
     $$PWD/widget_rlm_krl.ui \
     $$PWD/widget_sd_bl_ip.ui \
+    $$PWD/widget_ssoi_ip_iu.ui \
     $$PWD/widget_ssoi_ip_sd.ui \
     $$PWD/widget_ssoi_iu.ui \
     $$PWD/widget_ssoi_sd.ui \
@@ -47,6 +48,7 @@ HEADERS += \
     $$PWD/widget_rlm_c.h \
     $$PWD/widget_rlm_krl.h \
     $$PWD/widget_sd_bl_ip.h \
+    $$PWD/widget_ssoi_ip_iu.h \
     $$PWD/widget_ssoi_ip_sd.h \
     $$PWD/widget_ssoi_iu.h \
     $$PWD/widget_ssoi_sd.h \
@@ -76,6 +78,7 @@ SOURCES += \
     $$PWD/widget_rlm_c.cpp \
     $$PWD/widget_rlm_krl.cpp \
     $$PWD/widget_sd_bl_ip.cpp \
+    $$PWD/widget_ssoi_ip_iu.cpp \
     $$PWD/widget_ssoi_ip_sd.cpp \
     $$PWD/widget_ssoi_iu.cpp \
     $$PWD/widget_ssoi_sd.cpp \
