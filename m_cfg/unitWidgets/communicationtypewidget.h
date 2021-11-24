@@ -19,6 +19,8 @@ public:
     void get_options(UnitNode* Unit,int ID);
     void set_options(UnitNode* Unit);
 
+    void set_udpTimeout(int val);
+
 
 
     //Доступен для изменения настроек
@@ -35,12 +37,18 @@ public:
 private slots:
     void on_udpUse_currentTextChanged(const QString &arg1);
 
+    void on_udpAdress_currentTextChanged(const QString &arg1);
+
 private:
+
 
     int ID;
 
 
     Ui::communicationTypeWidget *ui;
+
+signals:
+    void updateIP();
 
 
 };

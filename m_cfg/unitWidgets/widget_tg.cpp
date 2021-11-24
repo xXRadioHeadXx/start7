@@ -8,7 +8,7 @@ Widget_TG::Widget_TG(QWidget *parent, communicationTypeWidget *comm, coordinateW
     ID=TypeUnitNode::TG;
     ui->setupUi(this);
 
-    for(int i=1;i<100;i++)                         {
+    for(int i=1;i<101;i++)                         {
         this->ui->Num1->addItem(QString::number(i));
     }
 

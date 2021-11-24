@@ -50,13 +50,14 @@ public:
     QString get_dd(UnitNode* unit);
 
     void set_timeouts(UnitNode* unit);
-    virtual bool timeout_brother(UnitNode* un){return false;};
+    virtual bool timeout_brother(UnitNode *unit,UnitNode* un){return false;};
 
     bool ip_is_valid(QString ip);
 
     QModelIndex* current;
  //   comm->set_options(unit);
  //   coord->set_options(unit);
+
 
 protected:
     int ID;
@@ -72,6 +73,8 @@ protected:
 private:
     Ui::UnitWidget *ui;
 
+public slots:
+    void updateName_slot();
 
 signals:
     void updateName(QString);

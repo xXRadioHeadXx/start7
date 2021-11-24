@@ -90,7 +90,7 @@ void Widget_IU_BL_IP::setEnabled_option_menu(bool val)
     comm->setEnabled(val);
 }
 
-bool Widget_IU_BL_IP::timeout_brother(UnitNode *un)
+bool Widget_IU_BL_IP::timeout_brother(UnitNode *unit,UnitNode *un)
 {
     if(un->getType()==TypeUnitNode::SD_BL_IP)
         return true;

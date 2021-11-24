@@ -7,6 +7,13 @@ Widget_SSOI_IP_IU::Widget_SSOI_IP_IU(QWidget *parent, communicationTypeWidget *c
 {
     ID=TypeUnitNode::SSOI_IP_IU;
     ui->setupUi(this);
+
+    for (int i=1;i<100;i++)
+        ui->Num1->addItem(QString::number(i));
+
+    for (int i=1;i<4;i++)
+        ui->Num2->addItem(QString::number(i));
+
     comm_is_needed=true;
 }
 
@@ -25,12 +32,14 @@ void Widget_SSOI_IP_IU::get_default()
 {
     ui->Num1->setCurrentIndex(0);
     ui->Num2->setCurrentIndex(0);
+    comm->set_udpTimeout(50*ui->Num1->currentText().toInt());
 }
 
 void Widget_SSOI_IP_IU::set_to(UnitNode *unit)
 {
     unit->setNum1(ui->Num1->currentText().toInt());
     unit->setNum2(ui->Num2->currentText().toInt());
+    unit->setUdpTimeout(unit->getNum1()*50);
 }
 
 void Widget_SSOI_IP_IU::update_name()
@@ -82,6 +91,17 @@ void Widget_SSOI_IP_IU::setEnabled_option_menu(bool val)
     comm->setEnabled(val);
 }
 
+bool Widget_SSOI_IP_IU::timeout_brother(UnitNode *unit,UnitNode *un)
+{
+    if(un->getType()==TypeUnitNode::SSOI_IP_IU)
+        return true;
+    if(un->getType()==TypeUnitNode::SSOI_IP_SD)
+        return true;
+
+
+    return false;
+}
+
 bool Widget_SSOI_IP_IU::accepted(UnitNode *unit)
 {
     UnitNode* parent;
@@ -101,6 +121,12 @@ bool Widget_SSOI_IP_IU::accepted(UnitNode *unit)
         return false;
 
     }
+
+    if((unit->getUdpPort()!=4001)&&
+            (unit->getUdpPort()!=4002)&&
+            (unit->getUdpPort()!=4003)&&
+            (unit->getUdpPort()!=4004))
+        return false;
 
 
 
@@ -163,4 +189,15 @@ QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
     }
 
     return str;
+}
+
+void Widget_SSOI_IP_IU::on_Num1_currentTextChanged(const QString &arg1)
+{
+    update_name();
+    comm->set_udpTimeout(50*ui->Num1->currentText().toInt());
+}
+
+void Widget_SSOI_IP_IU::on_Num2_currentTextChanged(const QString &arg1)
+{
+    update_name();
 }

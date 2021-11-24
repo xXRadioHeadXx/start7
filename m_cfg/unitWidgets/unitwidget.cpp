@@ -22,9 +22,11 @@ UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinat
     coord_mode=coordinateWigget_mode::nothing;
     comm_is_needed=false;
 
+
+
     ui->setupUi(this);
 
-
+    connect(comm,SIGNAL(updateIP),this,SLOT(updateName_slot()));
 
 
 
@@ -83,6 +85,7 @@ bool UnitWidget::set_option(UnitNode *unit)
 
 
     if(accepted(unit)){
+        qDebug()<<"SET TIMEOUTS";
     set_timeouts(unit);
     return true;
     }
@@ -248,7 +251,7 @@ void UnitWidget::set_timeouts(UnitNode *unit)
 
 
          if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
-         if(timeout_brother(un))//проверяем не идентичны ли они
+         if(timeout_brother(unit,un))//проверяем не идентичны ли они
          {
             qDebug()<<un->getName();
             un->setUdpTimeout(val);
@@ -274,7 +277,7 @@ void UnitWidget::set_timeouts(UnitNode *unit)
 
          if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
          if((un->getUdpPort()==unit->getUdpPort()))
-         if(timeout_brother(un))//проверяем не идентичны ли они
+         if(timeout_brother(unit,un))//проверяем не идентичны ли они
           {
 
              un->setUdpTimeout(val);
@@ -298,7 +301,13 @@ bool UnitWidget::ip_is_valid(QString ip)
 
     return false;
        }
-    return true;
+       return true;
+}
+
+void UnitWidget::updateName_slot()
+{
+    qDebug()<<"!";
+  update_name();
 }
 
 void UnitWidget::set_to(UnitNode *unit)

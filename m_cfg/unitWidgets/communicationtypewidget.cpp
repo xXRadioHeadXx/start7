@@ -57,6 +57,9 @@ if(unit){
 
 
     }else{
+
+        ui->udpTimeout->setMinimum(0);
+
         ui->udpUse->setCurrentText(" UDP");
         ui->udpAdress->setCurrentText("192.168.0.0");
         ui->udpPort->setValue(4001);
@@ -88,6 +91,15 @@ void communicationTypeWidget::set_options(UnitNode *unit)
     }
 }
 
+void communicationTypeWidget::set_udpTimeout(int val)
+{
+
+
+    ui->udpTimeout->setMinimum(val);
+     ui->udpTimeout->setValue(0);
+
+}
+
 
 
 
@@ -116,4 +128,10 @@ void communicationTypeWidget::on_udpUse_currentTextChanged(const QString &arg1)
 
      this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
     }
+}
+
+void communicationTypeWidget::on_udpAdress_currentTextChanged(const QString &arg1)
+{
+    qDebug()<<".";
+    emit updateIP();
 }

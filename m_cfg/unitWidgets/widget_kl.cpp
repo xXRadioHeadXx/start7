@@ -12,7 +12,7 @@ Widget_KL::Widget_KL(QWidget *parent, communicationTypeWidget *comm, coordinateW
     coord_mode=coordinateWigget_mode::for_all;
 
 
-    for(int i=0;i<100;i++){
+    for(int i=1;i<101;i++){
         ui->Num1->addItem(QString::number(i));
     }
 

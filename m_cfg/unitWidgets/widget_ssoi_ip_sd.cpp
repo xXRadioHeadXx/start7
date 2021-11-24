@@ -9,10 +9,20 @@ Widget_SSOI_IP_SD::Widget_SSOI_IP_SD(QWidget *parent, communicationTypeWidget *c
     ui->setupUi(this);
     comm_is_needed=true;
     coord_mode=coordinateWigget_mode::for_all;
+
+    for (int i=1;i<100;i++)
+        ui->Num1->addItem(QString::number(i));
+
     for(int i=0;i<m_SSOI_SD_OutType.size();i++)
     {
-        this->ui->OutType->insertItem(i,m_SD_BL_IP_OutType.value(i));
+        this->ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
     }
+
+    foreach(QString str, m_SSOI_SD_Num3){
+        this->ui->Num2->addItem(str);
+
+    }
+
 }
 
 Widget_SSOI_IP_SD::~Widget_SSOI_IP_SD()
@@ -34,6 +44,7 @@ void Widget_SSOI_IP_SD::get_default()
     qDebug()<<"Widget_SD_BL_IP::get_default";
     ui->Num1->setCurrentIndex(0);
     ui->Num2->setCurrentIndex(0);
+    comm->set_udpTimeout(50*ui->Num1->currentText().toInt());
     ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(0));
 }
 
@@ -58,6 +69,8 @@ void Widget_SSOI_IP_SD::set_to(UnitNode *unit)
         unit->setConnectBlock(0);
         unit->setDK(0);
     }
+
+//    unit->setUdpTimeout(unit->getNum1()*50);
 
 }
 
@@ -109,10 +122,30 @@ void Widget_SSOI_IP_SD::setEnabled_option_menu(bool val)
     comm->setEnabled(val);
 }
 
+bool Widget_SSOI_IP_SD::timeout_brother(UnitNode *unit,UnitNode *un)
+{
+    if(unit->getNum1()==un->getNum1())
+    {
+        if(un->getType()==TypeUnitNode::SSOI_IP_IU)
+            return true;
+        if(un->getType()==TypeUnitNode::SSOI_IP_SD)
+            return true;
+    }
+
+    return false;
+}
+
 bool Widget_SSOI_IP_SD::accepted(UnitNode *unit)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
+
+
+    if((unit->getUdpPort()!=4001)&&
+            (unit->getUdpPort()!=4002)&&
+            (unit->getUdpPort()!=4003)&&
+            (unit->getUdpPort()!=4004))
+        return false;
 
     if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))
     {
@@ -204,6 +237,9 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
 void Widget_SSOI_IP_SD::on_Num1_currentIndexChanged(const QString &arg1)
 {
     update_name();
+    qDebug()<<ui->Num1->currentText();
+    comm->set_udpTimeout(50*ui->Num1->currentText().toInt());
+
 }
 
 void Widget_SSOI_IP_SD::on_Num2_currentIndexChanged(const QString &arg1)

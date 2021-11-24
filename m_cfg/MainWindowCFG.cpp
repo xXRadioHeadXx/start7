@@ -206,7 +206,7 @@ l_UnitWidgets.append(w_INFO_TABLO);
 QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
         if(str_system==str_system_RIF)
         {
-         this->setWindowTitle("[!!!] Настройка комплекса РИФ+ b." + date.toString("dd.MM.yyyy"));
+         this->setWindowTitle("Настройка комплекса РИФ+ b." + date.toString("dd.MM.yyyy"));
         }
         if(str_system==str_system_SSOI)
         {
@@ -2784,6 +2784,7 @@ void MainWindowCFG::func_to_edit_unit()
     unit->setName(this->ui->uName_combobox->currentText());
 
     current_wgt()->set_option(unit);
+    current_wgt()->set_timeouts(unit);
 
     this->get_option(unit);
 
@@ -2925,7 +2926,7 @@ bool MainWindowCFG::add_unit()
 
 
 
-current_wgt()->set_option(unit);
+//current_wgt()->set_option(unit);
     //Проверить можно ли добавлять юнит к этому родителю
     //Определить тип родителя
 //    int parrent_type;

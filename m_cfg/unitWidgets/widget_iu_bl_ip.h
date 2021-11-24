@@ -20,7 +20,7 @@ public:
     void set_to(UnitNode* unit) override;
     void update_name() override;
     void setEnabled_option_menu(bool) override;
-    bool timeout_brother(UnitNode* un) override;
+    bool timeout_brother(UnitNode *unit,UnitNode* un) override;
 
     bool accepted(UnitNode* unit) override;
     bool equal(UnitNode* one,UnitNode* secons) override;

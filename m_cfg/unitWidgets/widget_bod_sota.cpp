@@ -60,7 +60,7 @@ void Widget_BOD_SOTA::setEnabled_option_menu(bool val)
     ui->Num1->setEnabled(val);
 }
 
-bool Widget_BOD_SOTA::timeout_brother(UnitNode *un)
+bool Widget_BOD_SOTA::timeout_brother(UnitNode *unit,UnitNode *un)
 {
     if(un->getType()==TypeUnitNode::Y4_SOTA)
         return true;

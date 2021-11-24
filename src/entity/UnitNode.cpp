@@ -301,6 +301,7 @@ int UnitNode::getUdpTimeout() const
 
 void UnitNode::setUdpTimeout(int value)
 {
+    qDebug()<<"set udpTimeout for "<<this->getName();
     UdpTimeout = value;
 
     int udpTimeout = 50;
@@ -642,7 +643,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
          return Icons::fldr_empt();
          }
          else
-             if(TypeUnitNode::SD_BL_IP    == getType())
+             if((TypeUnitNode::SD_BL_IP    == getType())||(TypeUnitNode::SSOI_IP_SD   == getType()))
              {
                  if(this->getBazalt()==1)
                      return Icons_cfg::sd_basalt();
@@ -651,6 +652,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type)
                  return Icons_cfg::sd();
              }
          else if(TypeUnitNode::IU_BL_IP    == getType()) {return Icons_cfg::iu();        }
+         else if(TypeUnitNode::SSOI_IP_IU  == getType()) {return Icons_cfg::iu();        }
          else if(TypeUnitNode::BOD_T4K_M   == getType()) {return Icons_cfg::BOD_T4K_M(); }
          else if(TypeUnitNode::BOD_SOTA    == getType()) {return Icons_cfg::BOD_T4K_M(); }
          else if(TypeUnitNode::Y4_T4K_M    == getType()) {return Icons_cfg::Y4_T4K_M();  }
@@ -721,6 +723,7 @@ QPixmap UnitNode::getPxm(SubTypeApp type, int column)
                      return Icons_cfg::sd();
                  }
              else if(TypeUnitNode::IU_BL_IP    == getType()) {return Icons_cfg::iu();        }
+             else if(TypeUnitNode::SSOI_IP_IU  == getType()) {return Icons_cfg::iu();        }
              else if(TypeUnitNode::BOD_T4K_M   == getType()) {return Icons_cfg::BOD_T4K_M(); }
              else if(TypeUnitNode::BOD_SOTA    == getType()) {return Icons_cfg::BOD_T4K_M(); }
              else if(TypeUnitNode::Y4_T4K_M    == getType()) {return Icons_cfg::Y4_T4K_M();  }
@@ -748,6 +751,18 @@ QPixmap UnitNode::getPxm(SubTypeApp type, int column)
                      return Icons_cfg::sd();
                  }
 
+                 else if(TypeUnitNode::SSOI_IP_SD   == getType())
+
+                     {
+                         if(this->getBazalt()==1)
+                             return Icons_cfg::sd_basalt();
+
+
+                         if(this->getConnectBlock()==1)
+                             return Icons_cfg::sd_connect_block();
+
+                         return Icons_cfg::sd();
+                     }
 
              else if(TypeUnitNode::SSOI_IU   == getType()) {return Icons_cfg::default_square_gray();     }
 

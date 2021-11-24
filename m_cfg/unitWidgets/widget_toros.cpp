@@ -8,7 +8,7 @@ Widget_TOROS::Widget_TOROS(QWidget *parent, communicationTypeWidget *comm, coord
     ID=TypeUnitNode::TOROS;
     ui->setupUi(this);
 
-    for(int i=1;i<100;i++)
+    for(int i=1;i<101;i++)
     {
      /*
     QString str;
