@@ -253,6 +253,18 @@ void Widget_SSOI_IP_SD::on_Num1_currentIndexChanged(const QString &arg1)
 void Widget_SSOI_IP_SD::on_Num2_currentIndexChanged(const QString &arg1)
 {
     update_name();
+    int res=arg1.toInt();
+    ui->OutType->clear();
+    for(int i=0;i<8;i++)    {
+        ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+    }
+    switch(res)
+    {
+    case 1:
+    case 2:
+    case 3:
+    ui->OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
+    }
 }
 
 void Widget_SSOI_IP_SD::on_OutType_currentIndexChanged(const QString &arg1)
