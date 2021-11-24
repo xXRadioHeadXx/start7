@@ -78,7 +78,7 @@ void Widget_SSOI_IP_SD::update_name()
 {
     QString name;
 
-    name.append("CCOИ IP СД ");
+    name.append("CCOИ IP ");
 
 
     QString ip_str=comm->get_udpAdress();
@@ -101,6 +101,8 @@ void Widget_SSOI_IP_SD::update_name()
 
     name.append(ip_str);
 
+   name.append(" Канал ");
+   name.append(ui->Num1->currentText());
 
     name.append(" СД");
     name.append("-");
@@ -182,20 +184,11 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
 
     QString UdpAdress=unit->getUdpAdress();
     QString str;
-    str.append("<b>");str.append(m_TypeUnitNode_d.value(unit->getType()));str.append("</b> ");//  БЛ-IP</b> ");
-    str.append(" :");
-    str.append(" СД:");
-    str.append(QString::number(unit->getNum2()));
+    str.append("<b>");str.append("ССОИ IP");str.append("</b> ");//  БЛ-IP</b> ");
+    str.append(" ");
 
-    if(unit->getBazalt()==1)
-    {
-        str.append(" +");
-        str.append(" ИУ:");
-        str.append(QString::number(unit->getNum2()));
-    }
 
-        str.append("\n");
-        str.append(" Кан:");
+
 
     if(unit->getUdpUse()==0)
     {
@@ -213,6 +206,21 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
         str.append(unit->getUdpAdress());
         str.append("::");
         str.append(QString::number(unit->getUdpPort()));
+
+        str.append("\n");
+        str.append(" Канал ");
+        str.append(QString::number(unit->getNum1()));
+
+        str.append(" СД:");
+        str.append(QString::number(unit->getNum2()));
+
+        if(unit->getBazalt()==1)
+        {
+            str.append(" +");
+            str.append(" ИУ:");
+            str.append(QString::number(unit->getNum2()));
+        }
+
 
         str.append("\n");
         str.append("Таймаут: ");

@@ -39,7 +39,7 @@ void Widget_SSOI_IP_IU::set_to(UnitNode *unit)
 {
     unit->setNum1(ui->Num1->currentText().toInt());
     unit->setNum2(ui->Num2->currentText().toInt());
-    unit->setUdpTimeout(unit->getNum1()*50);
+
 }
 
 void Widget_SSOI_IP_IU::update_name()
@@ -70,6 +70,8 @@ void Widget_SSOI_IP_IU::update_name()
 
     name.append(ip_str);
 
+    name.append(" Канал ");
+    name.append(ui->Num1->currentText());
 
     name.append(" ИУ");
     name.append("-");
@@ -156,14 +158,14 @@ QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
 
     QString str;
 
-    str.append("<b>");str.append(m_TypeUnitNode_d.value(unit->getType()));str.append("</b> ");//  БЛ-IP</b> ");
-            str.append(": Кан:");
+    str.append("<b>");str.append("ССОИ IP");str.append("</b> ");//  БЛ-IP</b> ");
+
 
 
     if(unit->getUdpUse()==0)
     {
     str.append(QString::number(unit->getNum3()));
-    str.append(" ССОИ IP ИУ:");
+    str.append(" ССОИ IP ИУ ");
     str.append(QString::number(unit->getNum2()));
 
     if(unit->getUdpAdress()!="")
@@ -179,10 +181,16 @@ QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
     str.append(unit->getUdpAdress());
     str.append("::");
     str.append(QString::number(unit->getUdpPort()));
-    str.append(" ");
-    str.append("ИУ:");
+
+    str.append(" Канал ");
+    str.append(QString::number(unit->getNum1()));
+
+    str.append(" ИУ:");
     str.append(QString::number(unit->getNum2()));
     str.append("\n");
+
+
+
     str.append("Таймаут: ");
     str.append(QString::number(unit->getUdpTimeout()));
     str.append("\n");
