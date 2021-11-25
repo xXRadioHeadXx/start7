@@ -398,10 +398,10 @@ this->ui->uType_combobox->setCurrentIndex(0);
     dlgt = new Delegate(this);
     this->ui->treeView->setItemDelegate(dlgt);
 
- //   ui->treeView->setColumnWidth(0,220);
- //   ui->treeView->setColumnWidth(1,40);
- //   ui->treeView->setColumnWidth(2,65);
- //   ui->treeView->setColumnWidth(3,60);
+    ui->treeView->setColumnWidth(0,220);
+    ui->treeView->setColumnWidth(1,40);
+    ui->treeView->setColumnWidth(2,65);
+    ui->treeView->setColumnWidth(3,60);
 
 
 

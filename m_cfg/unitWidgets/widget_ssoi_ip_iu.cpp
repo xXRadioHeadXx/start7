@@ -70,7 +70,7 @@ void Widget_SSOI_IP_IU::update_name()
 
     name.append(ip_str);
 
-    name.append(" Канал ");
+    name.append("-");
     name.append(ui->Num1->currentText());
 
     name.append(" ИУ");
@@ -182,7 +182,7 @@ QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
     str.append("::");
     str.append(QString::number(unit->getUdpPort()));
 
-    str.append(" Канал ");
+    str.append("-");
     str.append(QString::number(unit->getNum1()));
 
     str.append(" ИУ:");
