@@ -606,6 +606,9 @@
               <height>30</height>
              </rect>
             </property>
+            <property name="maxVisibleItems">
+             <number>5</number>
+            </property>
             <property name="maxCount">
              <number>40</number>
             </property>
