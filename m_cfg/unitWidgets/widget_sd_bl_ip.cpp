@@ -10,7 +10,7 @@ Widget_SD_BL_IP::Widget_SD_BL_IP(QWidget *parent, communicationTypeWidget *comm,
     ui->setupUi(this);
     comm_is_needed=true;
     coord_mode=coordinateWigget_mode::for_all;
-    for(int i=0;i<m_SSOI_SD_OutType.size();i++)
+    for(int i=0;i<m_SD_BL_IP_OutType.size();i++)
     {
         this->ui->OutType->insertItem(i,m_SD_BL_IP_OutType.value(i));
     }
@@ -32,7 +32,7 @@ void Widget_SD_BL_IP::get_from(UnitNode *unit)
 void Widget_SD_BL_IP::get_default()
 {
     qDebug()<<"Widget_SD_BL_IP::get_default";
-    ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(0));
+    ui->OutType->setCurrentText(m_SD_BL_IP_OutType.value(0));
     ui->Num2->setCurrentIndex(0);
 }
 
@@ -256,14 +256,14 @@ void Widget_SD_BL_IP::on_Num2_currentTextChanged(const QString &arg1)
 
     ui->OutType->clear();
     for(int i=0;i<8;i++)    {
-        ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+        ui->OutType->insertItem(i,m_SD_BL_IP_OutType.value(i));
     }
     switch(res)
     {
     case 1:
     case 2:
     case 3:
-    ui->OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
+    ui->OutType->insertItem(8,m_SD_BL_IP_OutType.value(8));
     }
 
 
