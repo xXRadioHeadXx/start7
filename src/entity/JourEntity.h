@@ -62,7 +62,7 @@ public:
         eAllEvent = 0,//"Все"
         eAlarm = 1,//"Тревоги"
         eAlarmWorked = 2,//"Тревога - СРАБОТКА"
-        eAlarmOpening = 3,//"Тревога - ВСКРЫТИЕ"
+        eAlarmOpening = 3,//"Тревога - Вскрытие"
         eFault = 4,//"Неисправности"
         eFaultNoConnect = 5,//"Нет связи"
         eFaultDK = 6,//"Ком. ДК не выполнена"

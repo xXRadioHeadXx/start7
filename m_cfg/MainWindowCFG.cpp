@@ -2694,7 +2694,7 @@ Name.append(this->ui->SSOI_SD_Num2->currentText());
 
 
 Name.append("-СД");
-if(this->ui->SSOI_SD_Num3->currentText()=="вскрытие")
+if(this->ui->SSOI_SD_Num3->currentText()=="Вскрытие")
 Name.append("-Вскрытие");
 else
 Name.append(this->ui->SSOI_SD_Num3->currentText());

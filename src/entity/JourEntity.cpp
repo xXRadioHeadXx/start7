@@ -25,7 +25,7 @@ QMap<int, QString> JourEntity::mapTypeObject = {{TypeObject::oAllObject, tr("В�
 QMap<int, QString> JourEntity::mapTypeEvent = {{TypeEvent::eAllEvent, tr("Все")},
                                                {TypeEvent::eAlarm, tr("Тревоги")},
                                                {TypeEvent::eAlarmWorked, tr("Тревога - СРАБОТКА")},
-                                               {TypeEvent::eAlarmOpening, tr("Тревога - ВСКРЫТИЕ")},
+                                               {TypeEvent::eAlarmOpening, tr("Тревога - Вскрытие")},
                                                {TypeEvent::eFault, tr("Неисправности")},
                                                {TypeEvent::eFaultNoConnect, tr("Нет связи")},
                                                {TypeEvent::eFaultDK, tr("Ком. ДК не выполнена")},

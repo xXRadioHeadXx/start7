@@ -251,6 +251,9 @@ void Widget_SD_BL_IP::on_Num2_currentTextChanged(const QString &arg1)
 {
     update_name();
     int res=arg1.toInt();
+
+
+
     ui->OutType->clear();
     for(int i=0;i<8;i++)    {
         ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
@@ -262,4 +265,6 @@ void Widget_SD_BL_IP::on_Num2_currentTextChanged(const QString &arg1)
     case 3:
     ui->OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
     }
+
+
 }

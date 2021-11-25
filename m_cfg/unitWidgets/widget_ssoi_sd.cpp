@@ -24,7 +24,7 @@ Widget_SSOI_SD::Widget_SSOI_SD(QWidget *parent, communicationTypeWidget *comm, c
     }
 
     for(int i=0;i<9;i++)                                           {
-        this->ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+   //     this->ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
     }
 
 }
@@ -38,7 +38,7 @@ void Widget_SSOI_SD::get_from(UnitNode *unit)
 {
     ui->Num1->setCurrentText(QString::number(unit->getNum1()));
     ui->Num2->setCurrentText(QString::number(unit->getNum2()));
-    ui->Num2->setCurrentText(m_SSOI_SD_Num3.value(unit->getNum3()));
+    ui->Num3->setCurrentText(m_SSOI_SD_Num3.value(unit->getNum3()));
     ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
 }
 
@@ -46,7 +46,7 @@ void Widget_SSOI_SD::get_default()
 {
     ui->Num1->setCurrentIndex(0);
     ui->Num2->setCurrentIndex(0);
-    ui->Num2->setCurrentIndex(0);
+    ui->Num3->setCurrentIndex(0);
     ui->OutType->setCurrentIndex(0);
 }
 
@@ -55,9 +55,22 @@ void Widget_SSOI_SD::get_default()
 void Widget_SSOI_SD::set_to(UnitNode *unit)
 {
     unit->setNum1(ui->Num1->currentText().toInt());
-    unit->setNum2(ui->Num1->currentText().toInt());
+    unit->setNum2(ui->Num2->currentText().toInt());
     unit->setNum3(m_SSOI_SD_Num3.key(ui->Num3->currentText()));
     unit->setOutType(m_SSOI_SD_OutType.key(ui->OutType->currentText()));
+
+    int key=m_SD_BL_IP_OutType.key(ui->OutType->currentText());
+
+        unit->setOutType(key);
+    if(key==8){
+
+        unit->setBazalt(1);
+        unit->setDK(0);
+
+    }else{
+
+        unit->setBazalt(0);
+    }
 }
 
 void Widget_SSOI_SD::update_name()
@@ -70,7 +83,7 @@ void Widget_SSOI_SD::update_name()
 
 
     Name.append("-СД");
-    if(this->ui->Num3->currentText()=="вскрытие")
+    if(this->ui->Num3->currentText()=="Вскрытие")
     Name.append("-Вскрытие");
     else
     Name.append(this->ui->Num3->currentText());
@@ -100,6 +113,7 @@ bool Widget_SSOI_SD::accepted(UnitNode *unit)
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer());
     //СД может быть добавлен только к группе или к системе
+    if(parent){
         if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))
         {
    //         QMessageBox::critical(0,"Ошибка","СД может быть добавлен только к группе или к системе");
@@ -115,7 +129,8 @@ bool Widget_SSOI_SD::accepted(UnitNode *unit)
            return no_equal_unit(unit);
 
 
-
+}
+    return false;
 
 }
 
@@ -237,7 +252,40 @@ void Widget_SSOI_SD::on_Num2_currentIndexChanged(const QString &arg1)
 
 void Widget_SSOI_SD::on_Num3_currentIndexChanged(const QString &arg1)
 {
-    update_name();
+    ui->OutType->clear();
+
+
+
+
+    if(arg1=="Вскрытие"){
+        ui->OutType->setCurrentIndex(0);
+        ui->OutType->setVisible(false);
+        ui->label_111->setVisible(false);
+
+    }else{
+
+
+
+
+        for(int i=0;i<8;i++)    {
+            ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+        }
+        switch(arg1.toInt())
+        {
+        case 1:
+        case 2:
+        case 3:
+        ui->OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
+        }
+
+        ui->OutType->setVisible(true);
+        ui->label_111->setVisible(true);
+
+
+
+    }
+     update_name();
+
 }
 
 void Widget_SSOI_SD::on_OutType_currentIndexChanged(const QString &arg1)

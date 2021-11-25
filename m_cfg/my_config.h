@@ -34,7 +34,7 @@ static QMap <int,QString> m_SSOI_SD_Num3{
 {6 , "6" },
 {7 , "7" },
 {8 , "8" },
-{9 , "вскрытие" },
+{9 , "Вскрытие" },
 };
 
 static const QMap <int,QString> m_SSOI_SD_OutType{

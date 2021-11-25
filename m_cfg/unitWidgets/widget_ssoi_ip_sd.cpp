@@ -252,21 +252,38 @@ void Widget_SSOI_IP_SD::on_Num1_currentIndexChanged(const QString &arg1)
 
 void Widget_SSOI_IP_SD::on_Num2_currentIndexChanged(const QString &arg1)
 {
-    update_name();
-    int res=arg1.toInt();
     ui->OutType->clear();
-    for(int i=0;i<8;i++)    {
-        ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
-    }
-    switch(res)
-    {
-    case 1:
-    case 2:
-    case 3:
-    ui->OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
-    }
-}
 
+
+    if(arg1=="Вскрытие"){
+        ui->OutType->setCurrentIndex(0);
+        ui->OutType->setVisible(false);
+        ui->label_112->setVisible(false);
+
+    }else{
+
+
+
+
+        for(int i=0;i<8;i++)    {
+            ui->OutType->insertItem(i,m_SSOI_SD_OutType.value(i));
+        }
+        switch(arg1.toInt())
+        {
+        case 1:
+        case 2:
+        case 3:
+        ui->OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
+        }
+
+        ui->OutType->setVisible(true);
+        ui->label_112->setVisible(true);
+
+
+
+    }
+     update_name();
+}
 void Widget_SSOI_IP_SD::on_OutType_currentIndexChanged(const QString &arg1)
 {
     update_name();
