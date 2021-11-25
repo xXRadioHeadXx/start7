@@ -101,7 +101,7 @@ bool UnitWidget::accepted(UnitNode *unit)
 
 bool UnitWidget::no_equal_unit(UnitNode *unit)
 {
-    QModelIndex double_unit_index;
+    double_unit_index=QModelIndex();
     {
  qDebug()<<"---------------------";
         QList<UnitNode *> List1;
@@ -138,7 +138,7 @@ bool UnitWidget::no_equal_unit(UnitNode *unit)
              if(res==true)
          if(equal(unit,un))
          {
-            double_unit_index=modelTreeUN->findeIndexUN(un);
+           this->double_unit_index=modelTreeUN->findeIndexUN(un);
 
              //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
             qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
@@ -162,7 +162,7 @@ bool UnitWidget::no_equal_unit_from_one_parent(UnitNode *unit)
 {
     bool res=true;
     qDebug()<<"[no_equal_unit_from_one_parent]";
-    QModelIndex double_unit_index;
+
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
     //Если общий родитель
@@ -196,7 +196,7 @@ qDebug()<<"["<<cnt<<"]";cnt++;
                  if(un->getType()==unit->getType())
                  if(equal(unit,un))//проверяем не идентичны ли они
                  {
-                    double_unit_index=modelTreeUN->findeIndexUN(un);
+                    this->double_unit_index=modelTreeUN->findeIndexUN(un);
                 //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
                     qDebug()<<"@@Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
                      QMessageBox::critical(0,"Ошибка","Такой обьект уже существует!!");
@@ -304,10 +304,15 @@ bool UnitWidget::ip_is_valid(QString ip)
        return true;
 }
 
+QModelIndex UnitWidget::getDouble_unit_index()
+{
+    return this->double_unit_index;
+}
+
 void UnitWidget::updateName_slot()
 {
     qDebug()<<"!";
-  update_name();
+    update_name();
 }
 
 void UnitWidget::set_to(UnitNode *unit)

@@ -131,9 +131,15 @@ bool Widget_SD_BL_IP::timeout_brother(UnitNode *unit,UnitNode *un)
 
 bool Widget_SD_BL_IP::accepted(UnitNode *unit)
 {
+
+
+
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
+
+    qDebug()<<"тип юнита    "<<m_TypeUnitNode.value(unit->getType());
+    qDebug()<<"тип родителя "<<m_TypeUnitNode.value(parent->getType())<<" имя родителя "<<parent->getName();
     if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))
     {
 

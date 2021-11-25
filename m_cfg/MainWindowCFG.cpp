@@ -2648,6 +2648,7 @@ bool MainWindowCFG::add_unit()
 
 
 
+
     QModelIndex index=this->ui->treeView->currentIndex();
     UnitNode* parrent;
     if(index.isValid())
@@ -2760,20 +2761,21 @@ bool MainWindowCFG::add_unit()
         }
         else
         {
-            /*
-            QModelIndex double_index=find_Double_unit_index();
+
+            QModelIndex double_index=current_wgt()->getDouble_unit_index();
             UnitNode* un= static_cast<UnitNode*>(double_index.internalPointer());
             if(un)
             {
                 get_option(un);
                 qDebug()<<"двойник "<<un->getName();
                 this->ui->treeView->setCurrentIndex(double_index);
+                current_index=this->ui->treeView->currentIndex();
 
             }
 
 
         //qDebug()<<"Нельзя добавить юнит к этому родителю";
-            */
+
         }
 
     }

@@ -59,6 +59,8 @@ public:
  //   coord->set_options(unit);
 
 
+    QModelIndex getDouble_unit_index();
+
 protected:
     int ID;
     communicationTypeWidget* comm;
@@ -66,7 +68,7 @@ protected:
     bool comm_is_needed;
     int coord_mode;
     TreeModelUnitNode *modelTreeUN = nullptr;
-
+    QModelIndex double_unit_index;
 //MainWindowCFG* wnd;
 
 
