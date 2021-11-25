@@ -59,18 +59,29 @@ void Widget_SSOI_SD::set_to(UnitNode *unit)
     unit->setNum3(m_SSOI_SD_Num3.key(ui->Num3->currentText()));
     unit->setOutType(m_SSOI_SD_OutType.key(ui->OutType->currentText()));
 
-    int key=m_SD_BL_IP_OutType.key(ui->OutType->currentText());
+    int key=m_SSOI_SD_OutType.key(ui->OutType->currentText());
 
         unit->setOutType(key);
-    if(key==8){
+        if(key<8)
+        {
 
-        unit->setBazalt(1);
-        unit->setDK(0);
-
-    }else{
-
-        unit->setBazalt(0);
-    }
+            unit->setBazalt(0);
+            unit->setConnectBlock(0);
+        }
+        else if(key==8)
+        {
+     //       unit->setOutType(0);
+            unit->setBazalt(1);
+            unit->setConnectBlock(0);
+            unit->setDK(0);
+        }
+        else if(key=9)
+        {
+    //        unit->setOutType(0);
+            unit->setBazalt(0);
+            unit->setConnectBlock(1);
+            unit->setDK(0);
+        }
 }
 
 void Widget_SSOI_SD::update_name()
@@ -276,6 +287,16 @@ void Widget_SSOI_SD::on_Num3_currentIndexChanged(const QString &arg1)
         case 2:
         case 3:
         ui->OutType->insertItem(8,m_SSOI_SD_OutType.value(8));
+
+            break;
+
+        case 4:
+        case 5:
+        case 6:
+    this->ui->OutType->insertItem(9,m_SSOI_SD_OutType.value(9));
+
+        break;
+
         }
 
         ui->OutType->setVisible(true);
