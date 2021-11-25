@@ -164,6 +164,10 @@ w_SSOI_IP_IU=new Widget_SSOI_IP_IU(this,this->ui->communicationType,this->ui->co
       connect(wgt,SIGNAL(updateName(QString)),this,SLOT(updateName(QString)));
      }
 
+     ui->uType_combobox->setCurrentIndex(0);
+     ui->communicationType->setVisible(false);
+     ui->coord->setVisible(false);
+
 //connect(&w_IU_BL_IP,SIGNAL(updateName(QString)),this,SLOT(updateName(QString)));
 //connect(w_SD_BL_IP,SIGNAL(updateName(QString)),this,SLOT(updateName(QString)));
 
