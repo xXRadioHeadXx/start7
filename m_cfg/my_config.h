@@ -104,8 +104,8 @@ static QString str_DEVLINE =       " ТВ-камера DevLine";
 static QString str_RASTRMTV =      " ТВ-камера РАСТР-М-ТВ";
 static QString str_INFO_TABLO =    " Информационное табло";
 
-static QString str_SSOI_IP_SD =    " ССОИ IP СД";
-static QString str_SSOI_IP_IU =    " ССОИ IP ИУ";
+static QString str_SSOI_IP_SD =    " ССОИ-IP СД";
+static QString str_SSOI_IP_IU =    " ССОИ-IP ИУ";
 
 static QMap <int,QString> m_TypeUnitNode_d{
 {-1, str_NOTHING},

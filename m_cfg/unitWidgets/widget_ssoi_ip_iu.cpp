@@ -47,7 +47,7 @@ void Widget_SSOI_IP_IU::update_name()
 
     QString name;
 
-    name.append("ССОИ IP ");
+    name.append("ССОИ-IP ");
 
 
     QString ip_str=comm->get_udpAdress();
@@ -158,7 +158,7 @@ QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
 
     QString str;
 
-    str.append("<b>");str.append("ССОИ IP");str.append("</b> ");//  БЛ-IP</b> ");
+    str.append("<b>");str.append("ССОИ-IP");str.append("</b> ");//  БЛ-IP</b> ");
 
 
 

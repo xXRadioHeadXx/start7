@@ -47,15 +47,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
     , ui(new Ui::MainWindowCFG)
 {
 
-#if __cplusplus == 201703L
-  qDebug() << "It's C++17";
-#elif __cplusplus == 201402L
- qDebug() << "It's C++14";
-#elif __cplusplus == 201103L
- qDebug() << "It's C++11";
-#else
- qDebug() << "It's C++";
-#endif
+
 
 
 
@@ -63,11 +55,11 @@ m_ctrl=new Control_Unit_Manager();
     QStringList list;
     list<<str_system_RIF;
     list<<str_system_SSOI;
-/*
-    Если программа лежит в папке :/RIFx/ - открывать версию РИФ
-    Если программа лежит в папке :/SSOI/ - открывать версию ССОИ-М
-    Если ни там ни там - предлагать выбор версии
-    */
+
+//    Если программа лежит в папке :/RIFx/ - открывать версию РИФ
+//    Если программа лежит в папке :/SSOI/ - открывать версию ССОИ-М
+//    Если ни там ни там - предлагать выбор версии
+
 
 
 
@@ -125,6 +117,8 @@ ui->RASTR_wgt->set_pointer(&mSerNum_Name);
 
 
 w_GROUP=new Widget_GROUP(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_GROUP);
+
+
 w_SD_BL_IP=new Widget_SD_BL_IP(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_SD_BL_IP);
 w_IU_BL_IP=new Widget_IU_BL_IP(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_IU_BL_IP );
 
@@ -160,30 +154,8 @@ w_RASTRMTV=new Widget_RASTRMTV(this,this->ui->communicationType,this->ui->coord,
 w_SSOI_IP_SD=new Widget_SSOI_IP_SD(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_SSOI_IP_SD);
 w_SSOI_IP_IU=new Widget_SSOI_IP_IU(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_SSOI_IP_IU);
 
-/*
-l_UnitWidgets.append(w_KL);
 
-l_UnitWidgets.append(w_TG );
-l_UnitWidgets.append(w_RLM_KRL);
-l_UnitWidgets.append(w_RLM_C);
-l_UnitWidgets.append(w_STRAZH_IP);
-l_UnitWidgets.append(w_ONVIF);
-l_UnitWidgets.append(w_BOD_T4K_M);
-l_UnitWidgets.append(w_Y4_T4K_M);
-l_UnitWidgets.append(w_DD_T4K_M);
-l_UnitWidgets.append(w_BOD_SOTA);
-l_UnitWidgets.append(w_Y4_SOTA);
-l_UnitWidgets.append(w_DD_SOTA);
-l_UnitWidgets.append(w_NET_DEV);
-l_UnitWidgets.append(w_SSOI_SD);
-l_UnitWidgets.append(w_SSOI_IU);
 
-l_UnitWidgets.append(w_TOROS);
-l_UnitWidgets.append(w_DEVLINE);
-l_UnitWidgets.append(w_RASTRMTV);
-l_UnitWidgets.append(w_INFO_TABLO);
-
-*/
    //
 
      foreach(UnitWidget* wgt, l_UnitWidgets){
@@ -235,28 +207,7 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
     unitFinder_f->setVisible(false);
 
     this->ui->tabWidget->setCurrentIndex(0);
- /*
 
-    // Создаем строку для регулярного выражения
-    QString ipRange = "(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
-
-
-    QString str1="([0-1][0-9][0-9])";
-    //* Создаем регулярное выражение с применением строки, как
-    // повторяющегося элемента
-    //
-    QRegExp ipRegex ("^" + ipRange
-                     + "\\." + ipRange
-                     + "\\." + ipRange
-                     + "\\." + ipRange + "$");
-    // Создаем Валидатор регулярного выражения с применением
-     // созданного регулярного выражения
-     //
-    ipValidator = new QRegExpValidator(ipRegex, this);
-  //   Устанавливаем Валидатор на QLineEdit
-
-    this->ui->ipadress_combobox->setValidator(ipValidator);
-   */
 
 //    this->ui->ipadress_combobox->setValidator( new QRegExpValidator( QRegExp( "[0-1][0-9][0-9]\\.[0-1][0-9][0-9]" ) ) );
 
@@ -277,75 +228,7 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
     this->setMouseTracking(true);
     this->ui->centralwidget->setMouseTracking(true);
 //    this->ui->tabWidget->setMouseTracking(true);
-/*
 
-    QString filepath="C:/Program Files/RIFx/rastrmtv_cfg.ini" ;
-    QFileInfo info(this->ui->RASTR_wgt->rastrmtv_cfg__path());
-    if(info.exists())
-    {
-        QSettings settings(filepath, QSettings::IniFormat);
-      #if (defined (_WIN32) || defined (_WIN64))
-          settings.setIniCodec( "Windows-1251" );
-      #else
-          settings.setIniCodec( "UTF-8" );
-      #endif
-
-
-          for(int index = 0; index < 4; index++)
-          {
-              QString strGroup("DEVICE_%1");
-              strGroup = strGroup.arg(index);
-              if(settings.childGroups().contains(strGroup))
-              {
-                  settings.beginGroup(strGroup);
-
-                  QString SerNum = settings.value("SerNum","").toString();
-                  QString Name = settings.value("Name","").toString();
-                  if((SerNum!="")&&(Name!=""))
-                  {
-                      QString str;
-                      str.clear();
-                      str.append(Name);
-                      str.append(" (");
-                      str.append(SerNum);
-                      str.append(")");
-
-                      SerNum_Name snn;
-                      snn.SerNum=SerNum;
-                      snn.Name=Name;
-                      mSerNum_Name.insert(str,snn);
-
-                  }
-                  settings.endGroup();
-              }
-          }
-
-             qDebug()<<"mSerNum_Name:";
-           foreach(SerNum_Name snn, mSerNum_Name)    {
-
-               qDebug()<<snn.Name<<" "<<snn.SerNum;
-           }
-
-//Смотрим четыре группы DEVICE
-//Смотрим параметр SerNum
-//Если он не равен нулю
-//Добавляем его в Combobox
-
-
-
-
-    }
-    else
-    {
-
-        QMessageBox::critical(0,"Ошибка","Файл rastrmtv_cfg.ini не найден");
-
-
-        this->ui->RASTRMTV_Name_SerNum->addItem("не определено");
-//        this->ui->Use->setCurrentIndex(0);
-    }
-
-*/
 
 
 
@@ -367,37 +250,9 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
 
 
     this->ui->SQL_server_lineEdit->setText("localhost");
-/*
-    foreach(QString str, m_SSOI_SD_OutType)
-    {
-        this->ui->SSOI_SD_OutType->addItem(str);
-    }
 
 
 
-    */
-
- /*
-AnsiString str;
-
-   char pwchar[255];
-   for( int i = 0; i < 255; i++ ) pwchar[i] = 0;
-   char dr[10];
-
-   GetLogicalDriveStrings(255,pwchar);
-   for( int i = 0; i < 255; i++ )
-   {
-      if( pwchar[i] == ':' )
-      dr[0] = pwchar[i-1];
-      dr[1] = pwchar[i];
-      dr[2] = pwchar[i+1];
-      dr[3] = pwchar[i+2];
-
-      AnsiString str = dr;
-
-      if( GetDriveType(dr) == DRIVE_REMOVABLE )
-
-   */
 
 
     map_BACKUP_MaxBdStringCnt.insert(0,"1 000 000");
@@ -449,11 +304,7 @@ AnsiString str;
      this->ui->PlanType_comboBox->addItem(str);
      }
 
- /*   for(int i=1;i<map_PARAMS_PlanType.count();i++)
-    {
-        this->ui->PlanType_comboBox->addItem(map_PARAMS_PlanType[i]);
-    }
-*/
+
 
 
     map_PARAMS_SoundType[0]=" звуковая карта";
@@ -535,13 +386,7 @@ this->ui->uType_combobox->setCurrentIndex(0);
 
 
 
-/*
-this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM_24);
-this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_RLM_B);
-this->ui->RLM_KRL_type_comboBox->addItem(str_RIF_KRL);
-this->ui->RLM_KRL_type_comboBox->addItem(str_Razriv);
-this->ui->RLM_KRL_type_comboBox->addItem(str_trassa1l);
-*/
+
 
   //  this->current_index=nullptr;
 
@@ -694,16 +539,7 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
         connect(this->db_f, SIGNAL(   use_db(QString)  ) , this,SLOT     (   use_db(QString)));
         connect(this->ui->treeView, SIGNAL(   new_current_index(QModelIndex)) , this,SLOT     (   slot_to_get_options(QModelIndex)));
 
-/*
-        connect(this->m_ctrl, SIGNAL(double_unit_signal(UnitNode *un)) , this,SLOT (double_unit_slot(UnitNode* un)));
 
-        connect(this->ui->unitFinder,SIGNAL(options_to_find(QList<QString>)),this,SLOT(find_from_options(QList<QString>)));
-
-        connect(this->ui->unitFinder,SIGNAL(next()),this,SLOT(next()));
-        connect(this->ui->unitFinder,SIGNAL(prev()),this,SLOT(prev()));
-
-        connect(this->ui->unitFinder,SIGNAL(clear_list_equals()),this,SLOT(clear_list_equals()));
-*/
 
 
         connect(this->unitFinder_f,SIGNAL(options_to_find(QList<QString>)),this,SLOT(find_from_options(QList<QString>)));
@@ -727,14 +563,21 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 //QRegExpValidator*  validator = new QRegExpValidator(QRegExp ( "[а-яА-ЯёЁa-zA-Z0-9]{0,50}"));
 
      //           this->ui->uName_combobox->setValidator(validator);
+
 }
 
 MainWindowCFG::~MainWindowCFG()
 {
+    foreach(UnitWidget* wgt, l_UnitWidgets){
+
+     ui->stack->removeWidget(wgt);
+
+    }
+
     delete ui;
 }
 
-bool MainWindowCFG::load(QString /*patch*/)
+bool MainWindowCFG::load(QString)
 {
     bool res=true;
 
