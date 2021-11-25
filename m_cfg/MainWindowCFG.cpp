@@ -51,7 +51,7 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 
 
-m_ctrl=new Control_Unit_Manager();
+
     QStringList list;
     list<<str_system_RIF;
     list<<str_system_SSOI;
@@ -615,7 +615,9 @@ void MainWindowCFG::show_equals(UnitNode *unit)
     //    qDebug()<<unit->getName();
     //    qDebug()<<un->getName();
 
-        bool res=m_ctrl->compare(unit,un);
+
+
+        bool res=compare(unit,un);
 
         if(res==true)
         {
@@ -1570,8 +1572,26 @@ bool MainWindowCFG::eventFilter(QObject *obj, QEvent *event)
 
 UnitWidget *MainWindowCFG::current_wgt()
 {
- return dynamic_cast<UnitWidget*>(this->ui->stack->currentWidget());
+    return dynamic_cast<UnitWidget*>(this->ui->stack->currentWidget());
 }
+
+bool MainWindowCFG::compare(UnitNode *unit, UnitNode *un)
+{
+
+    foreach(UnitWidget* wgt,l_UnitWidgets){
+        if(wgt->getID()==unit->getType()){
+
+        if (wgt->equal(unit,un)){
+            return true;
+        }
+
+        }
+    }
+
+    return false;
+}
+
+
 
 void MainWindowCFG::operator_add(Operator * op)
 {
@@ -1674,85 +1694,6 @@ QString MainWindowCFG::get_unit_name(int /*type*/)
     return QString();
 }
 
-bool MainWindowCFG::no_equal_unit(MainWindowCFG* m_cfg,UnitNode *unit,UnitNode *supreme, bool (*is_equal)(MainWindowCFG* cfg,UnitNode *unit, UnitNode *un))
-{
-    if(unit->getUdpUse()==0)
-    {
-  //            //qDebug()<<"[getUdpUse()==0]";
-        QList<UnitNode *> List1;
-        this->modelTreeUN->getListFromModel(List1,supreme);//this->modelTreeUN->rootItemUN
-        foreach(UnitNode *un, List1 )
-        {
-
-    //qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-         if((un->getNum3()==unit->getNum3()))
-         if(is_equal(m_cfg,unit,un))
-         {
-
-             //this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-   //          QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-             return false;
-         }
-
-
-        }
-     //проконтроилровать отсутствие в дереве такого же порта
-
-    }
-
-    if(unit->getUdpUse()==1)
-    {
-      //проконтроилровать отсутствие в дереве такого же IP адреса
-        QList<UnitNode *> List1;
-        this->modelTreeUN->getListFromModel(List1,this->modelTreeUN->rootItemUN);
-        foreach(UnitNode *un, List1 )
-        {
-//     //qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-         if((un->getUdpAdress()==unit->getUdpAdress()))
-         if((un->getUdpPort()==unit->getUdpPort()))
-         if(is_equal(m_cfg,unit,un))
-          {
-
-             QMessageBox::critical(0,"Ошибка","Объект с такими параметрами уже существует");
-             return false;
-          }
-        }
-    }
-    return true;
-}
-
-bool MainWindowCFG::no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *unit, UnitNode *parent, bool (*is_equal)(MainWindowCFG *, UnitNode *, UnitNode *))
-{
-    //Если общий родитель
-    QModelIndex ind = this->modelTreeUN->findeIndexUN(parent);
-
-
-    QList<UnitNode *> List1;
-    this->modelTreeUN->getListFromModel(List1,parent);
-
-    foreach(UnitNode *un, List1 )
-    {
-
-       //qDebug()<<".";
-//     //qDebug()<<QString::number(un->getNum3())<<" "<<QString::number(unit->getNum3());
-       QModelIndex index=this->modelTreeUN->findeIndexUN(un);
-       QModelIndex un_parent_index= this->modelTreeUN->parent(index);
-
-     if(ind==un_parent_index)
-      {
-         //qDebug()<<"[+]";
-         if(un->getType()==unit->getType())
-         if(is_equal(cfg,unit,un))
-         {
-             this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-   //          QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-             return false;
-
-         }
-      }
-    }
-    return true;
-}
 
 
 
@@ -2702,7 +2643,7 @@ QString MainWindowCFG::get_y4(UnitNode *unit)
 
 bool MainWindowCFG::add_unit()
 {
-    //qDebug()<<"[add_unit()]";
+
     bool res=1;
 
 
@@ -2819,7 +2760,8 @@ bool MainWindowCFG::add_unit()
         }
         else
         {
-            QModelIndex double_index=m_ctrl->getDouble_unit_index();
+            /*
+            QModelIndex double_index=find_Double_unit_index();
             UnitNode* un= static_cast<UnitNode*>(double_index.internalPointer());
             if(un)
             {
@@ -2831,6 +2773,7 @@ bool MainWindowCFG::add_unit()
 
 
         //qDebug()<<"Нельзя добавить юнит к этому родителю";
+            */
         }
 
     }
@@ -6398,7 +6341,7 @@ set_option(unit,parrent);
         bool res=false;
 
 
-        res=m_ctrl->compare(unit,un);
+        res=compare(unit,un);
         /*
         if(UdpUse==0)
         if(un->getUdpUse()==UdpUse)

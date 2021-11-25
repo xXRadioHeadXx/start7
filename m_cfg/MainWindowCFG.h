@@ -20,7 +20,6 @@
 #include <rif_widget_delegate.h>
 #include <QMessageBox>
 #include <my_settings.h>
-#include<control_unit_manager.h>
 #include <unitfinder.h>
 
 #include <unitWidgets/widget_iu_bl_ip.h>
@@ -136,16 +135,16 @@ QMap <QString, SerNum_Name> mSerNum_Name;
 
     UnitWidget* current_wgt();
 
+    bool compare(UnitNode* unit,UnitNode* un);
+
     int cfg_type;
+
+
+    QTimer *timer;
 
     QString last_ini_patch;
 
     My_settings* my;
-
-    Control_Unit_Manager* m_ctrl;
-
-    QTimer *timer;
-
 
     Ui::MainWindowCFG *ui;
 
@@ -182,8 +181,6 @@ QMap <QString, SerNum_Name> mSerNum_Name;
 
     QString get_unit_name(int type);
 
-    bool no_equal_unit(MainWindowCFG* cfg,UnitNode *unit,UnitNode *supreme,bool (*is_equal)(MainWindowCFG* cfg,UnitNode* unit,UnitNode* un));
-    bool no_equal_unit_from_one_parent(MainWindowCFG *cfg, UnitNode *unit, UnitNode *parent, bool (*is_equal)(MainWindowCFG *, UnitNode *, UnitNode *));
 
 
 

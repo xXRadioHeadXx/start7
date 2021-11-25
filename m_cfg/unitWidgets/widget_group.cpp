@@ -61,6 +61,11 @@ bool Widget_GROUP::accepted(UnitNode *unit)
         return false;
 }
 
+bool Widget_GROUP::equal(UnitNode *one, UnitNode *secons)
+{
+    return false;
+}
+
 QString Widget_GROUP::get_string(UnitNode *unit)
 {
     QString string1;

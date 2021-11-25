@@ -143,7 +143,7 @@ bool UnitWidget::no_equal_unit(UnitNode *unit)
              //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
             qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
              QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
-             emit double_unit_signal(un);
+//             emit double_unit_signal(un);
              return false;
          }
                }

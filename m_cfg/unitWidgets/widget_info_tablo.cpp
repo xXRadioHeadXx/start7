@@ -83,7 +83,7 @@ bool Widget_INFO_TABLO::accepted(UnitNode *unit)
 
        //  this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
          qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
-      //   QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
          return false;
      }
 

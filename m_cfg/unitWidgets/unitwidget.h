@@ -78,7 +78,7 @@ public slots:
 
 signals:
     void updateName(QString);
-    void double_unit_signal(UnitNode *un);
+//    void double_unit_signal(UnitNode *un);
 };
 
 #endif // UNITWIDGET_H

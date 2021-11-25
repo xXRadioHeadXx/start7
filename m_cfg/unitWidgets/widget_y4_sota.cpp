@@ -146,7 +146,7 @@ bool Widget_Y4_SOTA::accepted(UnitNode *unit)
      {
       //   this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
 qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
-      //   QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+
         unit->setBrokeInfo("2");
          return false;
      }
