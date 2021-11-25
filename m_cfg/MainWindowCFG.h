@@ -577,6 +577,8 @@ private slots:
 
     void setAdamOff();
 
+    void keyPressEvent ( QKeyEvent * event ) override;
+
 
 
     void setAdamOff_off();

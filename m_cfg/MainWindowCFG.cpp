@@ -568,6 +568,7 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 
 MainWindowCFG::~MainWindowCFG()
 {
+    ui->stack->setCurrentWidget(w_GROUP);
     foreach(UnitWidget* wgt, l_UnitWidgets){
 
      ui->stack->removeWidget(wgt);
@@ -1017,7 +1018,7 @@ void MainWindowCFG::on_treeView_clicked(const QModelIndex &index)
     qDebug()<<"[on_treeView_clicked]";
 
  this->ui->stackedWidget_3->setCurrentIndex(0);
-    current_wgt()->setEnabled(true);
+ current_wgt()->setEnabled(true);
 
 this->ui->edit_unit_button->setDisabled(true);
     current_index=index;
@@ -1845,6 +1846,28 @@ bool MainWindowCFG::set_AdamOff_for_all_IU_BL_IP_instances(UnitNode *unit)
 void MainWindowCFG::setAdamOff()
 {
     //qDebug()<<QString::number(val_for_setAdamoff);
+}
+
+
+
+
+void MainWindowCFG::keyPressEvent(QKeyEvent *event)
+{
+  //  qDebug()<<ui->tabWidget->currentIndex();
+
+    if(ui->tabWidget->currentIndex()==2){
+
+            qDebug()<<event->key();
+       if(event->key()==16777220)        {
+
+            qDebug()<<"PROFIT";
+            add_unit();
+
+
+        }
+
+
+    }
 }
 
 void MainWindowCFG::setAdamOff_off()
