@@ -35,7 +35,7 @@ UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinat
 
 UnitWidget::~UnitWidget()
 {
-    delete ui;
+//    delete ui;
 }
 
 int UnitWidget::getID()
