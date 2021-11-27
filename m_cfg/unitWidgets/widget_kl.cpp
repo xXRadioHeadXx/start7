@@ -68,7 +68,7 @@ void Widget_KL::setEnabled_option_menu(bool val)
     ui->Num2->setEnabled(val);
 }
 
-bool Widget_KL::accepted(UnitNode *unit)
+bool Widget_KL::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}

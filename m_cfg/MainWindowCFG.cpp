@@ -165,6 +165,12 @@ w_SSOI_IP_IU=new Widget_SSOI_IP_IU(this,this->ui->communicationType,this->ui->co
      }
 
      ui->uType_combobox->setCurrentIndex(0);
+
+      int type=m_TypeUnitNode.key(ui->uType_combobox->currentText());
+      this->object_menu_change(type);
+     this->object_menu_set_settings_default(type);
+     current_wgt()->update_name();
+
      ui->communicationType->setVisible(false);
      ui->coord->setVisible(false);
 
@@ -1334,7 +1340,7 @@ void MainWindowCFG::on_actionOpen_triggered()
                   QModelIndex index=this->modelTreeUN->findeIndexUN(un);
                   current_index= this->modelTreeUN->parent(index);
 
-                  un->setBroken(!(wgt->accepted(un)));
+                  un->setBroken(!(wgt->accepted(un,modelTreeUN,&current_index)));
 
 
                   }

@@ -104,7 +104,7 @@ bool Widget_SSOI_IP_IU::timeout_brother(UnitNode *unit,UnitNode *un)
     return false;
 }
 
-bool Widget_SSOI_IP_IU::accepted(UnitNode *unit)
+bool Widget_SSOI_IP_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
@@ -137,7 +137,8 @@ bool Widget_SSOI_IP_IU::accepted(UnitNode *unit)
 
              return false;
 //Может повторяться в дереве. Не должен повторяться у одного предка.
-         return UnitWidget::no_equal_unit_from_one_parent(unit);
+         return UnitWidget::
+already_on_the_branch(unit);
 
 }
 

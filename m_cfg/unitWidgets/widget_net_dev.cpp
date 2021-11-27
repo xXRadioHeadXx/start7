@@ -46,7 +46,7 @@ void Widget_NET_DEV::setEnabled_option_menu(bool val)
 
 }
 
-bool Widget_NET_DEV::accepted(UnitNode *unit)
+bool Widget_NET_DEV::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
 
     UnitNode* parent;

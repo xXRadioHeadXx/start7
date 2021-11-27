@@ -60,7 +60,7 @@ void Widget_DEVLINE::setEnabled_option_menu(bool val)
 
 }
 
-bool Widget_DEVLINE::accepted(UnitNode *unit)
+bool Widget_DEVLINE::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
 
     UnitNode* parent;
@@ -82,7 +82,8 @@ bool Widget_DEVLINE::accepted(UnitNode *unit)
     }
 
 //не должен повторяться у одного родителя
-    return no_equal_unit_from_one_parent(unit);
+    return 
+already_on_the_branch(unit);
 
     return false;
 }

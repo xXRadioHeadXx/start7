@@ -68,6 +68,7 @@ void Widget_ADAM::get_option(UnitNode *unit)
 
 void Widget_ADAM::set_to(UnitNode *unit)
 {
+unit->setUdpUse(0);
 unit->setNum1(ui->Num1->currentText().toInt());
 unit->setNum2(ui->Num2->currentText().toInt());
 }
@@ -88,13 +89,35 @@ void Widget_ADAM::setEnabled_option_menu(bool val)
     ui->Num2->setEnabled(val);
 }
 
-bool Widget_ADAM::accepted(UnitNode *unit)
+bool Widget_ADAM::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
-    UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
+/*
+ * Это исполнительное устройство - может быть добавлено в нескольких местах дерева
+ * Вход - RS485
+ * На выходе 8 реле
 
-    //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
-    if((parent->getType()==TypeUnitNode::STRAZH_IP)||
+
+ * Два АДАМА сравнивай по след параметрам
+ *
+ *
+ * Num1 - адрес на линии
+ * Num2 - номер реле
+ *
+ *
+ *
+*/
+
+ //Это устройство висит только на RS485
+ //Но это устройство висит на автономной линии - не принимай его во внимание,
+ //когда будешь проверять другие устройства на адреса в линии.
+
+
+//Куда может быть доабавлен
+// АДАМ может быть добавлен ни к чему кроме как
+// к любому датчику группе системе сморти ссои конфигуратор
+  UnitNode* parent;
+  parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
+  if((parent->getType()==TypeUnitNode::STRAZH_IP)||
        (parent->getType()==TypeUnitNode::ONVIF)||
        (parent->getType()==TypeUnitNode::DEVLINE)||
        (parent->getType()==TypeUnitNode::RASTRMTV)||
@@ -102,16 +125,17 @@ bool Widget_ADAM::accepted(UnitNode *unit)
        (parent->getType()==TypeUnitNode::SSOI_IU) ||
        (parent->getType()==TypeUnitNode::IU_BL_IP)||
        (parent->getType()==TypeUnitNode::ADAM))
-    {
-
         return false;
 
-    }
-    if (no_equal_unit_from_one_parent(unit)){
-        return true;
-    }
 
+//В дереве есть двойник? - может появляться несколько раз в дереве
+//проверку на двойника в дереве не проводим
+
+//Проверка на двойника в ветке
+    if(already_on_the_branch(unit))
      return false;
+
+    return true;
 
 }
 

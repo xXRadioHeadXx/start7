@@ -101,7 +101,7 @@ void Widget_Y4_SOTA::setEnabled_option_menu(bool val)
     ui->Num2->setEnabled(val);
 }
 
-bool Widget_Y4_SOTA::accepted(UnitNode *unit)
+bool Widget_Y4_SOTA::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}

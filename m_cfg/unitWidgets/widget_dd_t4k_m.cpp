@@ -84,7 +84,7 @@ void Widget_DD_T4K_M::setEnabled_option_menu(bool val)
     ui->Num2->setEnabled(val);
 }
 
-bool Widget_DD_T4K_M::accepted(UnitNode *unit)
+bool Widget_DD_T4K_M::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
 
 qDebug()<<"accepted "<<m_TypeUnitNode_d.value(unit->getType());
@@ -292,7 +292,8 @@ qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
 
 
 if(res==true)
-    return no_equal_unit_from_one_parent(unit);
+    return
+already_on_the_branch(unit);
 
 
     return false;

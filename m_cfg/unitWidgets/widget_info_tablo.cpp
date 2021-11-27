@@ -60,7 +60,7 @@ void Widget_INFO_TABLO::setEnabled_option_menu(bool val)
 
 }
 
-bool Widget_INFO_TABLO::accepted(UnitNode *unit)
+bool Widget_INFO_TABLO::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}

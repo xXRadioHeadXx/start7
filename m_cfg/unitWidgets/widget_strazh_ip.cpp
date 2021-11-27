@@ -57,7 +57,7 @@ void Widget_STRAZH_IP::setEnabled_option_menu(bool val)
     ui->Icon4Path->setEnabled(val);
 }
 
-bool Widget_STRAZH_IP::accepted(UnitNode *unit)
+bool Widget_STRAZH_IP::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
 
     UnitNode* parent;
@@ -85,7 +85,8 @@ bool Widget_STRAZH_IP::accepted(UnitNode *unit)
 
     }
 
-    return no_equal_unit_from_one_parent(unit);
+    return 
+already_on_the_branch(unit);
 }
 
 bool Widget_STRAZH_IP::equal(UnitNode *un, UnitNode *unit)

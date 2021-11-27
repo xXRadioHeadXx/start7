@@ -37,6 +37,7 @@ void Widget_GROUP::update_name()
 {
     emit updateName("Группа ");
 
+
 }
 
 void Widget_GROUP::setEnabled_option_menu(bool val)
@@ -44,7 +45,7 @@ void Widget_GROUP::setEnabled_option_menu(bool val)
 
 }
 
-bool Widget_GROUP::accepted(UnitNode *unit)
+bool Widget_GROUP::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;} if(!parent){return false;}

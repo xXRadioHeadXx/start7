@@ -74,7 +74,7 @@ void Widget_SSOI_IU::setEnabled_option_menu(bool val)
     ui->Num3->setEnabled(val);
 }
 
-bool Widget_SSOI_IU::accepted(UnitNode *unit)
+bool Widget_SSOI_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer());
@@ -94,7 +94,8 @@ bool Widget_SSOI_IU::accepted(UnitNode *unit)
         }
 
 
-        return no_equal_unit_from_one_parent(unit);
+        return 
+already_on_the_branch(unit);
 
     }
     return false;

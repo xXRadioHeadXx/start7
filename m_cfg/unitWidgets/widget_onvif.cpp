@@ -54,7 +54,7 @@ void Widget_ONVIF::setEnabled_option_menu(bool val)
     ui->Icon3Path->setEnabled(val) ;
 }
 
-bool Widget_ONVIF::accepted(UnitNode *unit)
+bool Widget_ONVIF::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
 
     UnitNode* parent;
@@ -79,7 +79,8 @@ bool Widget_ONVIF::accepted(UnitNode *unit)
         return false;
 
 
-return no_equal_unit_from_one_parent(unit);
+return 
+already_on_the_branch(unit);
 
 }
 

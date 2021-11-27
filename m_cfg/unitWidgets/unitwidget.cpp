@@ -42,6 +42,54 @@ int UnitWidget::getID()
 {
     return ID;
 }
+/*Перебираем юниты
+ * Если у нашего - RS485
+ * ищем юниты с тем же типом связи портом и адресом
+ * если находим - возвращаем false
+ *
+ *
+ *
+ *
+ */
+bool UnitWidget::free_adress(UnitNode* unit)
+{
+
+    QList<UnitNode *> List1;
+    modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+    //перебираем юниты
+    foreach(UnitNode *un, List1 )
+    {
+         if(un->getUdpUse()==unit->getUdpUse()){
+
+//Если  RS485
+              if(unit->getUdpUse()==0){
+                  if(un->getNum3()==unit->getNum3())
+                  if(un->getNum1()==unit->getNum1()){
+
+                      this->double_unit_index=modelTreeUN->findeIndexUN(un);
+                      QString str="Адрес уже занят устройством ";
+                      str.append(un->getName());
+                      QMessageBox::critical(0,"Ошибка",str);
+                  }
+              }
+
+              if(unit->getUdpUse()==1){
+                  if(un->getUdpAdress()==unit->getUdpAdress())
+                  if(un->getUdpPort()==unit->getUdpPort()){
+
+                      this->double_unit_index=modelTreeUN->findeIndexUN(un);
+                      QString str="Адрес уже занят устройством ";
+                      str.append(un->getName());
+                      QMessageBox::critical(0,"Ошибка",str);
+                  }
+              }
+         }
+
+
+
+
+    }
+}
 
 void UnitWidget::get_option(UnitNode *unit)
 {
@@ -84,7 +132,7 @@ bool UnitWidget::set_option(UnitNode *unit)
     }
 
 
-    if(accepted(unit)){
+    if(accepted(unit,modelTreeUN,current)){
         qDebug()<<"SET TIMEOUTS";
     set_timeouts(unit);
     return true;
@@ -94,7 +142,7 @@ bool UnitWidget::set_option(UnitNode *unit)
 
 }
 
-bool UnitWidget::accepted(UnitNode *unit)
+bool UnitWidget::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     return false;
 }
@@ -123,19 +171,22 @@ bool UnitWidget::no_equal_unit(UnitNode *unit)
            }
            else
             {
-         if(unit->getUdpUse()==0)
+         if(unit->getUdpUse()==0){
          if((un->getUdpUse()==unit->getUdpUse()))
          if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
-            res=true;
+          res=true;
+         }
+
                     //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
 
-            if(unit->getUdpUse()==1)
+            if(unit->getUdpUse()==1){
          if((un->getUdpUse()==unit->getUdpUse()))
          if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
          if((un->getUdpPort()==unit->getUdpPort()))
-            res=true;
+         res=true;
+         }
 
-             if(res==true)
+         if(res==true)
          if(equal(unit,un))
          {
            this->double_unit_index=modelTreeUN->findeIndexUN(un);
@@ -146,7 +197,7 @@ bool UnitWidget::no_equal_unit(UnitNode *unit)
 //             emit double_unit_signal(un);
              return false;
          }
-               }
+         }
 
         }
 
@@ -158,10 +209,10 @@ bool UnitWidget::no_equal_unit(UnitNode *unit)
     return true;
 }
 
-bool UnitWidget::no_equal_unit_from_one_parent(UnitNode *unit)
+bool UnitWidget::already_on_the_branch(UnitNode *unit)
 {
-    bool res=true;
-    qDebug()<<"[no_equal_unit_from_one_parent]";
+    bool res=false;
+    qDebug()<<"[already_on_the_branch]";
 
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
@@ -200,7 +251,7 @@ qDebug()<<"["<<cnt<<"]";cnt++;
                 //     this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
                     qDebug()<<"@@Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
                      QMessageBox::critical(0,"Ошибка","Такой обьект уже существует!!");
-                     res=false;
+                     res=true;
 
                  }
               }
@@ -210,6 +261,120 @@ qDebug()<<"["<<cnt<<"]";cnt++;
 
     return res;
 }
+
+bool UnitWidget::already_in_the_tree(UnitNode *unit)
+{
+    double_unit_index=QModelIndex();
+    {
+
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
+        foreach(UnitNode *un, List1 )
+        {
+
+         if(unit!=un)
+         if(equal(unit,un))
+         {
+           this->double_unit_index=modelTreeUN->findeIndexUN(un);
+
+             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+            qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
+             QMessageBox::critical(0,"Ошибка","Такой обьект уже существует");
+//             emit double_unit_signal(un);
+             return true;
+         }
+         }
+
+        }
+
+
+
+
+
+
+    return false;
+}
+
+bool UnitWidget::line_is_busy(UnitNode *unit)
+{
+    double_unit_index=QModelIndex();
+    {
+ qDebug()<<"---------------------";
+        QList<UnitNode *> List1;
+        modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+        foreach(UnitNode *un, List1 )
+        {
+        //    qDebug()<<"------";
+       //     qDebug()<<unit->getName();
+       //     qDebug()<<un->getName();
+
+            bool res=false;
+            //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
+
+           if(unit==un){
+
+
+               qDebug()<<"указатели "<<unit->getName()<<" и  "<< un->getName() <<"  ссылаются на один  и тот же обьект";
+
+           }
+           else
+
+            {
+         if(unit->getUdpUse()==0){
+         if(neigbors(unit,un))
+         if((un->getUdpUse()==unit->getUdpUse()))
+         if((un->getNum3()==unit->getNum3()))
+         if((un->getNum1()==unit->getNum1())){
+             QMessageBox::critical(0,"Ошибка","Адрес занят");
+            return true;
+         }
+         }
+
+                    //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+            if(unit->getUdpUse()==1){
+         if(neigbors(unit,un))
+         if((un->getUdpUse()==unit->getUdpUse()))
+         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+         if((un->getUdpPort()==unit->getUdpPort())){
+             QMessageBox::critical(0,"Ошибка","Адрес занят");
+             return true;
+         }
+         }
+
+
+         }
+
+        }
+
+
+
+    }
+
+
+    return false;
+}
+
+bool UnitWidget::neigbors(UnitNode *unit_one, UnitNode *unit_second)
+{
+    int one=unit_one->getType();
+    int second=unit_second->getType();
+
+    if((one==TypeUnitNode::SD_BL_IP)||(one==TypeUnitNode::IU_BL_IP)){
+
+        if(second==TypeUnitNode::SD_BL_IP)
+            return false;
+
+        if(second==TypeUnitNode::IU_BL_IP)
+            return false;
+
+        if(second==TypeUnitNode::SYSTEM)
+            return false;
+    }
+
+    return true;
+}
+
 QString UnitWidget::get_dd(UnitNode *unit)
 {
     QModelIndex ind = modelTreeUN->findeIndexUN(unit);

@@ -64,7 +64,7 @@ void Widget_TG::setEnabled_option_menu(bool val)
     ui->Num2->setEnabled(val);
 }
 
-bool Widget_TG::accepted(UnitNode *unit)
+bool Widget_TG::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
 
     UnitNode* parent;

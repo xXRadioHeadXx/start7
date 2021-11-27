@@ -56,7 +56,7 @@ void Widget_RLM_C::setEnabled_option_menu(bool val)
     ui->Num1->setEnabled(val);
 }
 
-bool Widget_RLM_C::accepted(UnitNode *unit)
+bool Widget_RLM_C::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}

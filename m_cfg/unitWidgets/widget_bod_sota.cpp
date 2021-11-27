@@ -71,7 +71,7 @@ bool Widget_BOD_SOTA::timeout_brother(UnitNode *unit,UnitNode *un)
     return false;
 }
 
-bool Widget_BOD_SOTA::accepted(UnitNode *unit)
+bool Widget_BOD_SOTA::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}

@@ -67,7 +67,7 @@ void Widget_RLM_KRL::setEnabled_option_menu(bool val)
     ui->AdamOff->setEnabled(val);
 }
 
-bool Widget_RLM_KRL::accepted(UnitNode *unit)
+bool Widget_RLM_KRL::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}

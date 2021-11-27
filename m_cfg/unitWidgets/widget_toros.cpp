@@ -62,7 +62,7 @@ void Widget_TOROS::setEnabled_option_menu(bool val)
     ui->Num1->setEnabled(val);
 }
 
-bool Widget_TOROS::accepted(UnitNode *unit)
+bool Widget_TOROS::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}

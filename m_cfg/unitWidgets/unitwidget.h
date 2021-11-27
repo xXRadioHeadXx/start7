@@ -22,6 +22,8 @@ public:
     int getID();
 
 
+    bool free_adress(UnitNode* unit);
+
 
 
     virtual void get_from(UnitNode* unit){};
@@ -40,12 +42,18 @@ public:
     bool set_option(UnitNode* unit);
 
     //Проверка на допустимость вводимых параметров для каждого юнита
-    virtual bool accepted(UnitNode* unit);
+    virtual bool accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
 
     virtual bool equal(UnitNode* one,UnitNode* second){return true;};
 
     bool no_equal_unit(UnitNode* unit);
-    bool no_equal_unit_from_one_parent(UnitNode* unit);
+
+    bool already_on_the_branch(UnitNode* unit);
+    bool already_in_the_tree(UnitNode* unit);
+
+    bool line_is_busy(UnitNode* unit);
+
+    bool neigbors(UnitNode* one,UnitNode* second);
 
     QString get_dd(UnitNode* unit);
 

@@ -118,7 +118,7 @@ void Widget_SSOI_SD::setEnabled_option_menu(bool val)
 
 }
 
-bool Widget_SSOI_SD::accepted(UnitNode *unit)
+bool Widget_SSOI_SD::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
 
     UnitNode* parent;

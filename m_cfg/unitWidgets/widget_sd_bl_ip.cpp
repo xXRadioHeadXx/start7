@@ -1,6 +1,7 @@
 #include "widget_sd_bl_ip.h"
 #include "ui_widget_sd_bl_ip.h"
 #include <QDebug>
+#include <QMessageBox>
 
 Widget_SD_BL_IP::Widget_SD_BL_IP(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
     UnitWidget(parent,comm,coord,modelTreeUN,current),
@@ -129,31 +130,33 @@ bool Widget_SD_BL_IP::timeout_brother(UnitNode *unit,UnitNode *un)
     return false;
 }
 
-bool Widget_SD_BL_IP::accepted(UnitNode *unit)
+bool Widget_SD_BL_IP::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
 
 
+//Куда может быть добавлен
 
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
-
-
-    qDebug()<<"тип юнита    "<<m_TypeUnitNode.value(unit->getType());
-    qDebug()<<"тип родителя "<<m_TypeUnitNode.value(parent->getType())<<" имя родителя "<<parent->getName();
-    if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))
-    {
-
-//        QMessageBox::critical(0,"Ошибка","СД может быть добавлен только к группе или к системе");
-
-        return false;
+    if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))    {
+    QMessageBox::critical(0,"Ошибка","СД может быть добавлен только к группе или к системе");
+    return false;
 
     }
 //Num2 от нуля до восьми
-if(unit->getNum2()<0||unit->getNum2()>8)
+if(unit->getNum2()<0||unit->getNum2()>8){
+    QMessageBox::critical(0,"Ошибка","СД - от нуля до восьми!!");
+    return false;
+}
+
+//Проверка на двойника в дереве
+if(already_in_the_tree(unit))
     return false;
 
-//Не должен повторяться в дереве
-return no_equal_unit(unit);
+if(line_is_busy(unit))
+    return false;
+
+return true;
 }
 
 bool Widget_SD_BL_IP::equal(UnitNode *unit, UnitNode *un)

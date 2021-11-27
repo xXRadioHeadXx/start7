@@ -24,7 +24,7 @@ public:
     void setEnabled_option_menu(bool) override;
 
 
-    bool accepted(UnitNode* unit) override;
+    bool accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr) override;
     bool equal(UnitNode* one,UnitNode* secons) override;
 
 

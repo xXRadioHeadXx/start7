@@ -137,7 +137,7 @@ bool Widget_SSOI_IP_SD::timeout_brother(UnitNode *unit,UnitNode *un)
     return false;
 }
 
-bool Widget_SSOI_IP_SD::accepted(UnitNode *unit)
+bool Widget_SSOI_IP_SD::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
