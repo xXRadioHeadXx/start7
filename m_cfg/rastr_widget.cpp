@@ -6,7 +6,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QSettings>
-#include <my_config.h>
+#include <my/my_config.h>
 
 RASTR_Widget::RASTR_Widget(QWidget *parent) :
     QWidget(parent),

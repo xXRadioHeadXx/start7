@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QStyledItemDelegate>
 #include<QLineEdit>
-#include <my_lineedit.h>
+#include <my/my_lineedit.h>
 
 class Delegate : public QStyledItemDelegate
 {

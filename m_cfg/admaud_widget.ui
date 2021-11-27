@@ -122,7 +122,7 @@
   <customwidget>
    <class>My_lineEdit</class>
    <extends>QWidget</extends>
-   <header>my_lineedit.h</header>
+   <header>my/my_lineedit.h</header>
   </customwidget>
   <customwidget>
    <class>adm_aud_combobox</class>

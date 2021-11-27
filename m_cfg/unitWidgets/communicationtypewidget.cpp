@@ -1,7 +1,7 @@
 #include "communicationtypewidget.h"
 #include "ui_communicationtypewidget.h"
 #include <QDebug>
-#include <my_config.h>
+#include "my/my_config.h"
 
 
 communicationTypeWidget::communicationTypeWidget(QWidget *parent) :

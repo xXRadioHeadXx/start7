@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <UnitNode.h>
-#include <my_config.h>
+#include "my/my_config.h"
 #include <unitWidgets/communicationtypewidget.h>
 #include "unitWidgets/coordinatewidget.h"
 #include <TreeModelUnitNode.h>

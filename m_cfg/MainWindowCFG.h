@@ -60,7 +60,7 @@
 #include <unitWidgets/widget_adam.h>
 #include <unitWidgets/widget_adam.h>
 #include <unitWidgets/widget_adam.h>
-#include <my_config.h>
+#include <my/my_config.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowCFG; }

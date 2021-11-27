@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QMap>
 #include <QErrorMessage>
-#include <my_config.h>
+#include <my/my_config.h>
 
 namespace Ui {
 class RASTR_Widget;

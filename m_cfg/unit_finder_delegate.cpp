@@ -5,9 +5,9 @@
 #include <QDebug>
 #include <QApplication>
 #include "UnitNode.h"
-#include <my_lineedit.h>
+#include <my/my_lineedit.h>
 
-#include <my_config.h>
+#include <my/my_config.h>
 
 
 
