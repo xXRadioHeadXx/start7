@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="coordinates_for_all">
     <widget class="QGroupBox" name="groupBox_4">
@@ -449,7 +449,7 @@
   <customwidget>
    <class>My_lineEdit</class>
    <extends>QWidget</extends>
-   <header>my_lineedit.h</header>
+   <header>my/my_lineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

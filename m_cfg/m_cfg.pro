@@ -51,7 +51,6 @@ SOURCES += \
     main.cpp \
     model_unit_params.cpp \
     my_doublespinbox.cpp \
-    my_lineedit.cpp \
     my_settings.cpp \
     my_treeview.cpp \
     mydrawobject.cpp \
@@ -93,7 +92,6 @@ HEADERS += \
     model_unit_params.h \
     my_config.h \
     my_doublespinbox.h \
-    my_lineedit.h \
     my_settings.h \
     my_treeview.h \
     mydrawobject.h \
