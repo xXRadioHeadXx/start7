@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -1978,20 +1978,20 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>communicationTypeWidget</class>
-   <extends>QWidget</extends>
-   <header>unitWidgets/communicationtypewidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>my_combobox</class>
    <extends>QComboBox</extends>
-   <header>my_combobox.h</header>
+   <header>my/my_combobox.h</header>
   </customwidget>
   <customwidget>
    <class>My_lineEdit</class>
    <extends>QWidget</extends>
    <header>my_lineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>communicationTypeWidget</class>
+   <extends>QWidget</extends>
+   <header>unitWidgets/communicationtypewidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>ssoi_widget</class>

@@ -31,6 +31,7 @@ include(../src/database/database.pri)
 include(../src/requester/requester.pri)
 include(../src/global.pri)
 include(../m_cfg/unitWidgets/unitWidgets.pri)
+include(../m_cfg/my/my.pri)
 
 SOURCES += \
     MainWindowCFG.cpp \
@@ -49,7 +50,6 @@ SOURCES += \
     group.cpp \
     main.cpp \
     model_unit_params.cpp \
-    my_combobox.cpp \
     my_doublespinbox.cpp \
     my_lineedit.cpp \
     my_settings.cpp \
@@ -91,7 +91,6 @@ HEADERS += \
     group.h \
     adm_aud_combobox.h \
     model_unit_params.h \
-    my_combobox.h \
     my_config.h \
     my_doublespinbox.h \
     my_lineedit.h \
@@ -144,4 +143,5 @@ RESOURCES += \
 
 DISTFILES += \
     icons/info_tablo.png \
+    my/my.pri \
     unitWidgets/unitWidgets.pri

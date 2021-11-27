@@ -106,7 +106,7 @@
   <customwidget>
    <class>my_combobox</class>
    <extends>QComboBox</extends>
-   <header>my_combobox.h</header>
+   <header>my/my_combobox.h</header>
   </customwidget>
   <customwidget>
    <class>My_lineEdit</class>
