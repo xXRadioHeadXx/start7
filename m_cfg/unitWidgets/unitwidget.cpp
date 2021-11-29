@@ -348,6 +348,7 @@ bool UnitWidget::line_is_busy(UnitNode *unit)
                  if((un->getType()==TypeUnitNode::BOD_SOTA)||((un->getType()==TypeUnitNode::BOD_T4K_M)))
                  if((unit->getType()==TypeUnitNode::BOD_SOTA)||((unit->getType()==TypeUnitNode::BOD_T4K_M))){
                      QMessageBox::critical(0,"Ошибка","На линии уже есть БОД ");
+                     this->double_unit_index=modelTreeUN->findeIndexUN(un);
                      return true;
                  }
 
@@ -355,7 +356,7 @@ bool UnitWidget::line_is_busy(UnitNode *unit)
 
 
 
-
+                     this->double_unit_index=modelTreeUN->findeIndexUN(un);
                      QMessageBox::critical(0,"Ошибка","Адрес занят");
                      return true;
 
@@ -376,11 +377,13 @@ bool UnitWidget::line_is_busy(UnitNode *unit)
                      if((un->getType()==TypeUnitNode::BOD_SOTA)||((un->getType()==TypeUnitNode::BOD_T4K_M)))
                      if((unit->getType()==TypeUnitNode::BOD_SOTA)||((unit->getType()==TypeUnitNode::BOD_T4K_M))){
                          QMessageBox::critical(0,"Ошибка","На линии уже есть БОД ");
+                         this->double_unit_index=modelTreeUN->findeIndexUN(un);
                          return true;
                      }
 
                      if((un->getNum1()==unit->getNum1())){
                          QMessageBox::critical(0,"Ошибка","Адрес занят");
+                         this->double_unit_index=modelTreeUN->findeIndexUN(un);
                          return true;
 
                     }
