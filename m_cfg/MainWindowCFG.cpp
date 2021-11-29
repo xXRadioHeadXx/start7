@@ -5251,7 +5251,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 
             case TypeUnitNode::SD_BL_IP:
             case TypeUnitNode::SSOI_SD:
-
+            case TypeUnitNode::SSOI_IP_SD:
 
                 if(un->getBazalt()==0)
                 if(un->getConnectBlock()==0)
@@ -5304,8 +5304,9 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
             break;
 
             case TypeUnitNode::IU_BL_IP:
-
             case TypeUnitNode::SSOI_IU:
+            case TypeUnitNode::SSOI_IP_IU:
+
                 action_setAlarmMsgOn->setChecked(true);
                 action_setAdamOff_off->setChecked(false);
                 action_setAdamOff_5_sec->setChecked(false);

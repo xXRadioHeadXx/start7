@@ -792,6 +792,9 @@ QPixmap UnitNode::getPxm(SubTypeApp type, int column)
 
                      if(this->getType()==TypeUnitNode::KL)
                      return Icons_cfg::DK();
+
+                     if(this->getType()==TypeUnitNode::SSOI_IP_SD)
+                     return Icons_cfg::DK();
                  }
 
 
@@ -1502,7 +1505,8 @@ QVariant UnitNode::data(int column) const noexcept
             case 3:
             {
             if((this->getType()==TypeUnitNode::IU_BL_IP)||
-               (this->getType()==TypeUnitNode::SSOI_IU))
+               (this->getType()==TypeUnitNode::SSOI_IU)||
+               (this->getType()==TypeUnitNode::SSOI_IP_IU))
                 switch(this->getAdamOff())
                 {
                 case 0:
