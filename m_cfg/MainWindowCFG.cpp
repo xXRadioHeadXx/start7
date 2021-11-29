@@ -1990,174 +1990,7 @@ void MainWindowCFG::object_menu_change(int type)
 
     }
 
-    /*
-    this->ui->stackedWidget_2->setCurrentWidget(this->ui->nothing);
-    this->ui->UDP_RS485_Widget->setVisible(false);
-    switch(type)
-    {
 
-    case TypeUnitNode::GROUP:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->Group_groupbox);
-    break;
-
-    case TypeUnitNode::SD_BL_IP:
-    //qDebug()<<"[!!!!!!!!!!!!!!!!!!!!!!!!!!!CD!!!]";
-
-    this->ui->stackedWidget->setCurrentWidget(this->ui->SD_BL_IP_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-    coordinate_menu(true,false,0,0,"");
-    break;
-
-    case TypeUnitNode::IU_BL_IP:
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-
-    this->ui->stackedWidget->setCurrentWidget(this->ui->IU_BL_IP_groupbox);
-    break;
-
-    case TypeUnitNode::TG:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->TG_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-    coordinate_menu(true,false,0,0,"");
-    break;
-
-    case TypeUnitNode::RLM_KRL:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_KRL_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-    coordinate_menu(true,false,0,0,"");
-
-    break;
-
-    case TypeUnitNode::RLM_C:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->RLM_C_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-    coordinate_menu(true,false,0,0,"");
-    break;
-
-    case TypeUnitNode::BOD_T4K_M:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_T4K_M_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-    coordinate_menu(true,false,0,0,"");
-    break;
-
-    case TypeUnitNode::Y4_T4K_M:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->Y4_T4K_M_groupbox);
-    break;
-
-    case TypeUnitNode::DD_T4K_M:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_T4K_M_groupbox);
-    break;
-
-    case TypeUnitNode::BOD_SOTA:
-
-    this->ui->stackedWidget->setCurrentWidget(this->ui->BOD_Sota_M_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-    coordinate_menu(true,false,0,0,"");
-    break;
-
-    case TypeUnitNode::Y4_SOTA:
-
-    this->ui->stackedWidget->setCurrentWidget(this->ui->U4_Sota_M_groupbox);
-    break;
-
-    case TypeUnitNode::DD_SOTA:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->DD_Sota_M_groupbox);
-    break;
-
-    case TypeUnitNode::KL:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->KL_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-    coordinate_menu(true,false,0,0,"");
-    break;
-
-    case TypeUnitNode::ONVIF:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->ONVIF_groupbox);
-    break;
-
-    case TypeUnitNode::STRAZH_IP:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->STRAZH_IP_groupbox);
-    break;
-
-    case TypeUnitNode::NET_DEV:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->NET_DEV_groupbox);
-    break;
-
-    case TypeUnitNode::SSOI_SD:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_SD_groupbox);
-    coordinate_menu(true,false,0,0,"");
-    break;
-
-    case TypeUnitNode::SSOI_IU:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->SSOI_IU_groupbox);
-    break;
-
-    case TypeUnitNode::ADAM:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->ADAM_groupbox);
-    break;
-
-    case TypeUnitNode::TOROS:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->TOROS_groupbox);
-    this->ui->UDP_RS485_Widget->setVisible(true);
-    this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->RS485);
-    this->ui->UDP_RS485_combobox->setCurrentText(" UDP");
-    this->ui->timeout_doubleSpinBox->setMinimum(timeouts.value(type));
-    this->ui->timeout_doubleSpinBox->setValue(timeouts.value(type));
-    coordinate_menu(true,false,0,0,"");
-    break;
-
-    case TypeUnitNode::DEVLINE:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->DEVLINE_groupbox);
-    this->ui->stackedWidget_2->setCurrentWidget(this->ui->devline_coordinates);
-    coordinate_devline(false,0,0,0,0);
-    break;
-
-    case TypeUnitNode::RASTRMTV:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->RASTRMTV_groupbox);
-    break;
-
-    case TypeUnitNode::INFO_TABLO:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->INFO_TABLO_groupbox);
-    break;
-
-    default:
-        //qDebug()<<"EMPTY";
-    this->ui->stackedWidget->setCurrentWidget(this->ui->empty_space_groupbox);
-    break;
-    }
-
-    */
 }
 
 void MainWindowCFG::object_menu_set_settings_default(int type)
@@ -5356,16 +5189,7 @@ void MainWindowCFG::on_pushButton_8_clicked()
     show_the_tree();
 
 }
-/*
-void MainWindowCFG::on_BOD_SOTA_M_type_combobox_currentTextChanged(const QString &arg1)
-{
 
-    if(this->ui->UDP_RS485_combobox->currentText()==" UDP")
-     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->UDP);
-    else
-     this->ui->UDP_RS485_stacked->setCurrentWidget(this->ui->BOD_RS485);
-
-}*/
 
 void MainWindowCFG::on_pushButton_9_clicked()
 {
@@ -5712,21 +5536,7 @@ void MainWindowCFG::on_change_operator_button_clicked()
 
 
 
-/*
 
-
-
-void MainWindowCFG::on_RLM_C_UDP_RS485_combobox_currentTextChanged(const QString &arg1)
-{
-    if(this->ui->RLM_C_UDP_RS485_combobox->currentText()==" UDP")
-     this->ui->RLM_C_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_C_UDP);
-    else
-    {
-        //qDebug()<<"[!!!!!!!!!!!!!!!]";
-     this->ui->RLM_C_UDP_RS485_stacked->setCurrentWidget(this->ui->RLM_C_RS485);
-    }
-}
-*/
 
 
 void MainWindowCFG::on_SQL_find_server_pushButton_clicked()

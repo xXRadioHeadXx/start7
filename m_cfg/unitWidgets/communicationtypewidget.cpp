@@ -43,10 +43,10 @@ if(unit){
 
         if(unit->getUdpUse()==1){
             ui->udpUse->setCurrentText(" UDP");
-             this->ui->UDP_RS485_stacked->setCurrentWidget(ui->UDP);
+      //       this->ui->UDP_RS485_stacked->setCurrentWidget(ui->UDP);
         }else{
             ui->udpUse->setCurrentText("RS485");
-             this->ui->UDP_RS485_stacked->setCurrentWidget(ui->RS485);
+      //       this->ui->UDP_RS485_stacked->setCurrentWidget(ui->RS485);
         }
 
 
