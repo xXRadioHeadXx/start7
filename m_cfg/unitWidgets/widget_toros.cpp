@@ -6,6 +6,8 @@ Widget_TOROS::Widget_TOROS(QWidget *parent, communicationTypeWidget *comm, coord
     ui(new Ui::Widget_TOROS)
 {
     ID=TypeUnitNode::TOROS;
+    comm_is_needed=true;
+    coord_mode=coordinateWigget_mode::for_all;
     ui->setupUi(this);
 
     for(int i=1;i<101;i++)
@@ -83,6 +85,20 @@ bool Widget_TOROS::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModel
 
 bool Widget_TOROS::equal(UnitNode *un, UnitNode *unit)
 {
+    bool res=false;
+    if(unit->getUdpUse()==0)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+    res=true;
+                //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(unit->getUdpUse()==1)
+    if((un->getUdpUse()==unit->getUdpUse()))
+    if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+    if((un->getUdpPort()==unit->getUdpPort()))
+    res=true;
+
+    if(res==true)
     if(un->getType()==unit->getType())
     if(un->getNum1()==unit->getNum1())
         return  true;

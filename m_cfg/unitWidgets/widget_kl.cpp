@@ -100,6 +100,20 @@ bool Widget_KL::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelInd
 
 bool Widget_KL::equal(UnitNode *origin, UnitNode *current)
 {
+    bool res=false;
+    if(origin->getUdpUse()==0)
+    if((current->getUdpUse()==origin->getUdpUse()))
+    if((current->getNum3()==origin->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+    res=true;
+                //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
+
+    if(origin->getUdpUse()==1)
+    if((current->getUdpUse()==origin->getUdpUse()))
+    if((current->getUdpAdress()==origin->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+    if((current->getUdpPort()==origin->getUdpPort()))
+    res=true;
+
+    if(res==true)
     if(origin->getType()==current->getType()) //если на этом адресе этого порта есть СД - проверить на номер СД
     if(origin->getNum1()==current->getNum1())
     if(origin->getNum2()==current->getNum2())
