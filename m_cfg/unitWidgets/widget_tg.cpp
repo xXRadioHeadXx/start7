@@ -88,7 +88,10 @@ bool Widget_TG::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelInd
 
      }
 
-     return no_equal_unit(unit);
+     if(already_in_the_tree(unit,modelTreeUN,current))
+         return false;
+
+     return true;
 
 }
 

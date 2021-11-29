@@ -75,7 +75,10 @@ bool Widget_TOROS::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModel
 
     }
 
-    return no_equal_unit(unit);
+    if(already_in_the_tree(unit,modelTreeUN,current))
+        return false;
+
+    return true;
 }
 
 bool Widget_TOROS::equal(UnitNode *un, UnitNode *unit)

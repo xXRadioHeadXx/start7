@@ -40,8 +40,17 @@ if(this->isVisible()){
 
 if(unit){
 
-        ui->udpUse->setCurrentText((unit->getUdpUse()==1)?" UDP":"RS485");
-         this->ui->UDP_RS485_stacked->setCurrentWidget((unit->getUdpUse()==1)?ui->UDP:ui->RS485);
+
+        if(unit->getUdpUse()==1){
+            ui->udpUse->setCurrentText(" UDP");
+             this->ui->UDP_RS485_stacked->setCurrentWidget(ui->UDP);
+        }else{
+            ui->udpUse->setCurrentText("RS485");
+             this->ui->UDP_RS485_stacked->setCurrentWidget(ui->RS485);
+        }
+
+
+
         ui->udpAdress->setCurrentText(unit->getUdpAdress());
         ui->udpPort->setValue(unit->getUdpPort());
         ui->udpTimeout->setValue(unit->getUdpTimeout());

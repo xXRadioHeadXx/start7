@@ -145,7 +145,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>8</number>
        </property>
        <widget class="QWidget" name="Parametres">
         <attribute name="title">
@@ -1985,7 +1985,7 @@
   <customwidget>
    <class>My_lineEdit</class>
    <extends>QWidget</extends>
-   <header>my_lineedit.h</header>
+   <header>my/my_lineedit.h</header>
   </customwidget>
   <customwidget>
    <class>communicationTypeWidget</class>

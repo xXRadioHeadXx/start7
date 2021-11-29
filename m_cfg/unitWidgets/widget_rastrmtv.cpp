@@ -93,8 +93,13 @@ bool Widget_RASTRMTV::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
         return false;
 
     }
+
+    if(unit->getIcon1Path()==""){
+        return false;
+    }
+
     return 
-already_on_the_branch(unit,modelTreeUN,current);
+!already_on_the_branch(unit,modelTreeUN,current);
 
 }
 

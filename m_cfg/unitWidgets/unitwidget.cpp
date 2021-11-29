@@ -340,25 +340,52 @@ bool UnitWidget::line_is_busy(UnitNode *unit)
 
             {
          if(unit->getUdpUse()==0){
-         if(neigbors(unit,un))
-         if((un->getUdpUse()==unit->getUdpUse()))
-         if((un->getNum3()==unit->getNum3()))
-         if((un->getNum1()==unit->getNum1())){
-             QMessageBox::critical(0,"Ошибка","Адрес занят");
-            return true;
-         }
+             if(neigbors(unit,un))
+             if((un->getUdpUse()==unit->getUdpUse()))
+             if((un->getNum3()==unit->getNum3())){
+
+
+                 if((un->getType()==TypeUnitNode::BOD_SOTA)||((un->getType()==TypeUnitNode::BOD_T4K_M)))
+                 if((unit->getType()==TypeUnitNode::BOD_SOTA)||((unit->getType()==TypeUnitNode::BOD_T4K_M))){
+                     QMessageBox::critical(0,"Ошибка","На линии уже есть БОД ");
+                     return true;
+                 }
+
+                 if((un->getNum1()==unit->getNum1())){
+
+
+
+
+                     QMessageBox::critical(0,"Ошибка","Адрес занят");
+                     return true;
+
+                 }
+             }
+
          }
 
                     //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
 
             if(unit->getUdpUse()==1){
-         if(neigbors(unit,un))
-         if((un->getUdpUse()==unit->getUdpUse()))
-         if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
-         if((un->getUdpPort()==unit->getUdpPort())){
-             QMessageBox::critical(0,"Ошибка","Адрес занят");
-             return true;
-         }
+                 if(neigbors(unit,un))
+                 if((un->getUdpUse()==unit->getUdpUse()))
+                 if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+                 if((un->getUdpPort()==unit->getUdpPort())){
+
+
+                     if((un->getType()==TypeUnitNode::BOD_SOTA)||((un->getType()==TypeUnitNode::BOD_T4K_M)))
+                     if((unit->getType()==TypeUnitNode::BOD_SOTA)||((unit->getType()==TypeUnitNode::BOD_T4K_M))){
+                         QMessageBox::critical(0,"Ошибка","На линии уже есть БОД ");
+                         return true;
+                     }
+
+                     if((un->getNum1()==unit->getNum1())){
+                         QMessageBox::critical(0,"Ошибка","Адрес занят");
+                         return true;
+
+                    }
+
+                 }
          }
 
 
