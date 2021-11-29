@@ -1,5 +1,6 @@
 #include "widget_y4_sota.h"
 #include "ui_widget_y4_sota.h"
+#include <QMessageBox>
 
 Widget_Y4_SOTA::Widget_Y4_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current ) :
     UnitWidget(parent,comm,coord,modelTreeUN,current),
@@ -108,7 +109,7 @@ bool Widget_Y4_SOTA::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
     //Участок может быть добавлен только к БОД Сота/Сота-М
     if(parent->getType()!=TypeUnitNode::BOD_SOTA)
     {
-    //    QMessageBox::critical(0,"Ошибка","Участок может быть добавлен только к БОД Сота/Сота-М!");
+        QMessageBox::critical(0,"Ошибка","Участок может быть добавлен только к БОД Сота/Сота-М!");
 
         unit->setBrokeInfo("1");
         return false;
@@ -148,6 +149,7 @@ bool Widget_Y4_SOTA::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
 qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
 
         unit->setBrokeInfo("2");
+         QMessageBox::critical(0,"Ошибка","Уже есть");
          return false;
      }
     }

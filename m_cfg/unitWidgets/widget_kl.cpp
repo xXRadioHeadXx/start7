@@ -89,8 +89,13 @@ bool Widget_KL::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelInd
           return false;
       }
 
-      return no_equal_unit(unit);
 
+      //Проверка на двойника в дереве
+      if(already_in_the_tree(unit,modelTreeUN,current))
+          return false;
+
+
+    return true;
 }
 
 bool Widget_KL::equal(UnitNode *origin, UnitNode *current)

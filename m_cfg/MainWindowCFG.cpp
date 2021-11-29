@@ -2600,7 +2600,7 @@ void MainWindowCFG::func_to_edit_unit()
     //qDebug()<<"[PROFIT]";
     unit->setName(this->ui->uName_combobox->currentText());
 
-    current_wgt()->set_option(unit);
+    current_wgt()->edit(unit);
     current_wgt()->set_timeouts(unit);
 
     this->get_option(unit);

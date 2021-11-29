@@ -114,7 +114,12 @@ bool Widget_IU_BL_IP::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
        (parent->getType()==TypeUnitNode::INFO_TABLO)||
        (parent->getType()==TypeUnitNode::SSOI_IU) ||
        (parent->getType()==TypeUnitNode::IU_BL_IP)||
-        (parent->getType()==TypeUnitNode::ADAM))
+       (parent->getType()==TypeUnitNode::ADAM)||
+
+       (parent->getType()==TypeUnitNode::BOD_SOTA)||
+       (parent->getType()==TypeUnitNode::BOD_T4K_M)||
+       (parent->getType()==TypeUnitNode::Y4_SOTA)||
+       (parent->getType()==TypeUnitNode::Y4_T4K_M))
     {
 
         return false;
@@ -128,7 +133,7 @@ bool Widget_IU_BL_IP::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
 
              return false;
 //Может повторяться в дереве. Не должен повторяться у одного предка.
-         if(UnitWidget::already_on_the_branch(unit))
+         if(UnitWidget::already_on_the_branch(unit,modelTreeUN,current))
              return false;
 
          return true;

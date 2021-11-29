@@ -71,8 +71,10 @@ bool Widget_RLM_C::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModel
 //    Если связь по RS485 - контроль по RS485 порту
 //    Если связь по UDP - контроль по IP адресу
 
+    if(already_in_the_tree(unit,modelTreeUN,current))
+        return false;
 
-    return no_equal_unit(unit);
+    return true;
 }
 
 bool Widget_RLM_C::equal(UnitNode *unit, UnitNode *un)

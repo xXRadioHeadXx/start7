@@ -83,7 +83,7 @@ bool Widget_DEVLINE::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
 
 //не должен повторяться у одного родителя
     return 
-already_on_the_branch(unit);
+already_on_the_branch(unit,modelTreeUN,current);
 
     return false;
 }

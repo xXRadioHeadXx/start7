@@ -293,7 +293,7 @@ qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
 
 if(res==true)
     return
-already_on_the_branch(unit);
+already_on_the_branch(unit,modelTreeUN,current);
 
 
     return false;

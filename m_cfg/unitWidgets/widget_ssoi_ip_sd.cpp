@@ -1,5 +1,6 @@
 #include "widget_ssoi_ip_sd.h"
 #include "ui_widget_ssoi_ip_sd.h"
+#include <QMessageBox>
 
 Widget_SSOI_IP_SD::Widget_SSOI_IP_SD(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
     UnitWidget(parent,comm,coord,modelTreeUN,current),
@@ -34,6 +35,7 @@ void Widget_SSOI_IP_SD::get_from(UnitNode *unit)
 {
     qDebug()<<"Widget_SD_BL_IP::get_from";
 
+
     ui->Num1->setCurrentText(QString::number(unit->getNum1()));
     ui->Num2->setCurrentText(QString::number(unit->getNum2()));
     ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
@@ -41,6 +43,8 @@ void Widget_SSOI_IP_SD::get_from(UnitNode *unit)
 
 void Widget_SSOI_IP_SD::get_default()
 {
+
+
     qDebug()<<"Widget_SD_BL_IP::get_default";
     ui->Num1->setCurrentIndex(0);
     ui->Num2->setCurrentIndex(0);
@@ -149,6 +153,14 @@ bool Widget_SSOI_IP_SD::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,Q
             (unit->getUdpPort()!=4004))
         return false;
 
+
+    if(unit->getUdpUse()!=1){
+
+        QMessageBox::critical(0,"Ошибка","Только UDP !!!");
+
+        return false;
+    }
+
     if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))
     {
 
@@ -162,13 +174,20 @@ if(unit->getNum2()<0||unit->getNum2()>8)
     return false;
 
 //Не должен повторяться в дереве
-return no_equal_unit(unit);
+//Проверка на двойника в дереве
+if(already_in_the_tree(unit,modelTreeUN,current))
+    return false;
+
+
+
+return true;
 }
 
 bool Widget_SSOI_IP_SD::equal(UnitNode *unit, UnitNode *un)
 {
 
-
+    if((un->getUdpAdress()==unit->getUdpAdress()))//ищем юниты котрые всият на одном адресе с нашим
+    if((un->getUdpPort()==unit->getUdpPort()))
     if(un->getType()==unit->getType())
     if(un->getNum1()==unit->getNum1())
     if(un->getNum2()==unit->getNum2())

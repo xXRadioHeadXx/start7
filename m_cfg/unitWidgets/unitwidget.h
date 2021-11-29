@@ -41,6 +41,8 @@ public:
     void get_option(UnitNode* unit);
     bool set_option(UnitNode* unit);
 
+    bool edit(UnitNode* unit);
+
     //Проверка на допустимость вводимых параметров для каждого юнита
     virtual bool accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr);
 
@@ -48,8 +50,8 @@ public:
 
     bool no_equal_unit(UnitNode* unit);
 
-    bool already_on_the_branch(UnitNode* unit);
-    bool already_in_the_tree(UnitNode* unit);
+    bool already_on_the_branch(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current);
+    bool already_in_the_tree(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current);
 
     bool line_is_busy(UnitNode* unit);
 

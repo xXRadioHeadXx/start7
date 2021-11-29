@@ -111,6 +111,19 @@ bool Widget_ADAM::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelI
  //Но это устройство висит на автономной линии - не принимай его во внимание,
  //когда будешь проверять другие устройства на адреса в линии.
 
+int Num1 = unit->getNum1();
+if((Num1>255)||
+    (Num1<0)){
+    QMessageBox::critical(0,"Ошибка","Num1 некорректное значение");
+    return false;
+}
+
+int Num2 = unit->getNum2();
+if((Num2>255)||
+    (Num2<0)){
+    QMessageBox::critical(0,"Ошибка","Num2 некорректное значение");
+    return false;
+}
 
 //Куда может быть доабавлен
 // АДАМ может быть добавлен ни к чему кроме как
@@ -132,7 +145,7 @@ bool Widget_ADAM::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelI
 //проверку на двойника в дереве не проводим
 
 //Проверка на двойника в ветке
-    if(already_on_the_branch(unit))
+    if(already_on_the_branch(unit,modelTreeUN,current))
      return false;
 
     return true;

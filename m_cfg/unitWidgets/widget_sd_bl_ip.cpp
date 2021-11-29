@@ -143,6 +143,11 @@ bool Widget_SD_BL_IP::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
     return false;
 
     }
+    //Num2 от нуля до восьми
+    if(unit->getNum1()!=255){
+        QMessageBox::critical(0,"Ошибка","У БЛ IP СД Num1 должен быть равен 255");
+        return false;
+    }
 //Num2 от нуля до восьми
 if(unit->getNum2()<0||unit->getNum2()>8){
     QMessageBox::critical(0,"Ошибка","СД - от нуля до восьми!!");
@@ -150,11 +155,10 @@ if(unit->getNum2()<0||unit->getNum2()>8){
 }
 
 //Проверка на двойника в дереве
-if(already_in_the_tree(unit))
+if(already_in_the_tree(unit,modelTreeUN,current))
     return false;
 
-if(line_is_busy(unit))
-    return false;
+
 
 return true;
 }

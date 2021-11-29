@@ -86,7 +86,7 @@ bool Widget_STRAZH_IP::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QM
     }
 
     return 
-already_on_the_branch(unit);
+already_on_the_branch(unit,modelTreeUN,current);
 }
 
 bool Widget_STRAZH_IP::equal(UnitNode *un, UnitNode *unit)

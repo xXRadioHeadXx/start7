@@ -78,7 +78,9 @@ bool Widget_SSOI_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
 {
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer());
-    if(parent)  {
+    if(!parent)
+        return false;
+
         //может быть добавлен к любому датчику группе системе сморти ссои конфигуратор
         if((parent->getType()==TypeUnitNode::STRAZH_IP)||
            (parent->getType()==TypeUnitNode::ONVIF)||
@@ -87,18 +89,24 @@ bool Widget_SSOI_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
            (parent->getType()==TypeUnitNode::INFO_TABLO)||
            (parent->getType()==TypeUnitNode::SSOI_IU) ||
            (parent->getType()==TypeUnitNode::IU_BL_IP)||
-           (parent->getType()==TypeUnitNode::ADAM))    {
+           (parent->getType()==TypeUnitNode::ADAM)||
+            (parent->getType()==TypeUnitNode::BOD_SOTA)||
+            (parent->getType()==TypeUnitNode::BOD_T4K_M)||
+            (parent->getType()==TypeUnitNode::Y4_SOTA)||
+            (parent->getType()==TypeUnitNode::Y4_T4K_M))
+
+        {
 
             return false;
 
         }
 
 
-        return 
-already_on_the_branch(unit);
+        if(already_on_the_branch(unit,modelTreeUN,current))
+            return false;
 
-    }
-    return false;
+
+    return true;
 
 }
 

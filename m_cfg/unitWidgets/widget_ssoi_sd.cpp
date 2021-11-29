@@ -124,7 +124,11 @@ bool Widget_SSOI_SD::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer());
     //СД может быть добавлен только к группе или к системе
-    if(parent){
+
+
+    if(!parent)
+    return false;
+
         if((parent->getType()!=TypeUnitNode::GROUP)&&(parent->getType()!=TypeUnitNode::SYSTEM))
         {
    //         QMessageBox::critical(0,"Ошибка","СД может быть добавлен только к группе или к системе");
@@ -137,11 +141,11 @@ bool Widget_SSOI_SD::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
 
 
 
-           return no_equal_unit(unit);
+    if(already_in_the_tree(unit,modelTreeUN,current))
+        return false;
 
 
-}
-    return false;
+   return true;
 
 }
 

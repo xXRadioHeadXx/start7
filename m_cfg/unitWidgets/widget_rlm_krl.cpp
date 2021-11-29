@@ -86,7 +86,10 @@ bool Widget_RLM_KRL::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
 
 
 
-        return no_equal_unit(unit);
+        if(already_in_the_tree(unit,modelTreeUN,current))
+            return false;
+
+        return true;
 
 
 }

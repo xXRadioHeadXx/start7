@@ -133,13 +133,32 @@ bool UnitWidget::set_option(UnitNode *unit)
 
 
     if(accepted(unit,modelTreeUN,current)){
-        qDebug()<<"SET TIMEOUTS";
-    set_timeouts(unit);
-    return true;
+
+        if(comm_is_needed){
+            if(!line_is_busy(unit)){
+
+                qDebug()<<"SET TIMEOUTS";
+            set_timeouts(unit);
+            return true;
+            }
+        }
+        else{
+            return true;
+        }
+
     }
+
+
     }
     return false;
 
+}
+
+bool UnitWidget::edit(UnitNode *unit)
+{
+    comm->set_options(unit);
+    coord->set_options(unit);
+    set_to(unit);
 }
 
 bool UnitWidget::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
@@ -209,7 +228,7 @@ bool UnitWidget::no_equal_unit(UnitNode *unit)
     return true;
 }
 
-bool UnitWidget::already_on_the_branch(UnitNode *unit)
+bool UnitWidget::already_on_the_branch(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     bool res=false;
     qDebug()<<"[already_on_the_branch]";
@@ -262,7 +281,7 @@ qDebug()<<"["<<cnt<<"]";cnt++;
     return res;
 }
 
-bool UnitWidget::already_in_the_tree(UnitNode *unit)
+bool UnitWidget::already_in_the_tree(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     double_unit_index=QModelIndex();
     {
@@ -366,6 +385,18 @@ bool UnitWidget::neigbors(UnitNode *unit_one, UnitNode *unit_second)
             return false;
 
         if(second==TypeUnitNode::IU_BL_IP)
+            return false;
+
+        if(second==TypeUnitNode::SYSTEM)
+            return false;
+    }
+
+    if((one==TypeUnitNode::SSOI_IP_IU)||(one==TypeUnitNode::SSOI_IP_SD)){
+
+        if(second==TypeUnitNode::SSOI_IP_IU)
+            return false;
+
+        if(second==TypeUnitNode::SSOI_IP_SD)
             return false;
 
         if(second==TypeUnitNode::SYSTEM)

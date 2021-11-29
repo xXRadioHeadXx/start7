@@ -1,5 +1,6 @@
 #include "widget_ssoi_ip_iu.h"
 #include "ui_widget_ssoi_ip_iu.h"
+#include <QMessageBox>
 
 Widget_SSOI_IP_IU::Widget_SSOI_IP_IU(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
     UnitWidget(parent,comm,coord,modelTreeUN,current),
@@ -117,11 +118,22 @@ bool Widget_SSOI_IP_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,Q
        (parent->getType()==TypeUnitNode::INFO_TABLO)||
        (parent->getType()==TypeUnitNode::SSOI_IU) ||
        (parent->getType()==TypeUnitNode::IU_BL_IP)||
-        (parent->getType()==TypeUnitNode::ADAM))
+        (parent->getType()==TypeUnitNode::ADAM)||
+            (parent->getType()==TypeUnitNode::BOD_SOTA)||
+            (parent->getType()==TypeUnitNode::BOD_T4K_M)||
+            (parent->getType()==TypeUnitNode::Y4_SOTA)||
+            (parent->getType()==TypeUnitNode::Y4_T4K_M))
     {
 
         return false;
 
+    }
+
+    if(unit->getUdpUse()!=1){
+
+        QMessageBox::critical(0,"Ошибка","Только UDP !!!");
+
+        return false;
     }
 
     if((unit->getUdpPort()!=4001)&&
@@ -134,11 +146,9 @@ bool Widget_SSOI_IP_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,Q
 
         //Num2 от нуля до четырех
          if(unit->getNum2()<0||unit->getNum2()>4)
-
-             return false;
+        return false;
 //Может повторяться в дереве. Не должен повторяться у одного предка.
-         return UnitWidget::
-already_on_the_branch(unit);
+         return !UnitWidget::already_on_the_branch(unit,modelTreeUN,current);
 
 }
 

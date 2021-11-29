@@ -94,7 +94,7 @@ bool Widget_RASTRMTV::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
 
     }
     return 
-already_on_the_branch(unit);
+already_on_the_branch(unit,modelTreeUN,current);
 
 }
 

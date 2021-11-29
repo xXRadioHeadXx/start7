@@ -74,7 +74,8 @@ bool Widget_BOD_SOTA::timeout_brother(UnitNode *unit,UnitNode *un)
 bool Widget_BOD_SOTA::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModelIndex* current)
 {
     UnitNode* parent;
-    parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
+    parent = static_cast<UnitNode*>(current->internalPointer());
+    if(!parent){return false;}
 
     //БОД может быть добавлен только к группе
     if((parent->getType()!=TypeUnitNode::GROUP)&&
@@ -86,7 +87,12 @@ bool Widget_BOD_SOTA::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
            }
        //    Если связь по RS485 - контроль по RS485 порту
        //    Если связь по UDP - контроль по IP адресу
-          return no_equal_unit(unit);
+
+    if(already_in_the_tree(unit,modelTreeUN,current))
+        return false;
+
+    return true;
+
 
 
 }

@@ -1,6 +1,6 @@
 #include "widget_dd_sota.h"
 #include "ui_widget_dd_sota.h"
-
+#include <QMessageBox>
 Widget_DD_SOTA::Widget_DD_SOTA(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
     UnitWidget(parent,comm,coord,modelTreeUN,current),
     ui(new Ui::Widget_DD_SOTA)
@@ -107,7 +107,7 @@ return false;
 //добавлять только к участку Сота
 if(parent->getType()!=TypeUnitNode::Y4_SOTA)
 {
- //    QMessageBox::critical(0,"Ошибка","ДД может быть добавлен только к участку !");
+     QMessageBox::critical(0,"Ошибка","ДД может быть добавлен только к участку !");
        return false;
 }
 
@@ -179,9 +179,11 @@ foreach(UnitNode *un, List )
 
     qDebug()<<"min "<<min;
     qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
-    if(!(unit->getNum2()-numberArea*100<min))
-        res=false;
+    if(!(unit->getNum2()-numberArea*100<min)){
+        QMessageBox::critical(0,"Ошибка","Может быть только меньше чем на втором");
 
+        res=false;
+    }
 }
 
 
@@ -214,8 +216,11 @@ foreach(UnitNode *un, List )
 qDebug()<<"max "<<max;
 qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
 
-    if(!(unit->getNum2()-numberArea*100>max))
+    if(!(unit->getNum2()-numberArea*100>max)){
+        QMessageBox::critical(0,"Ошибка","Может быть только больше чем на первом");
+
         res=false;
+    }
 
 }
 
@@ -249,8 +254,11 @@ foreach(UnitNode *un, List )
 
     qDebug()<<"min "<<min;
     qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
-    if(!(unit->getNum2()-numberArea*100<min))
+    if(!(unit->getNum2()-numberArea*100<min)){
+        QMessageBox::critical(0,"Ошибка","Может быть только меньше чем на четвертом");
+
         res=false;
+    }
 
 }
 
@@ -284,16 +292,18 @@ foreach(UnitNode *un, List )
 qDebug()<<"max "<<max;
 qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
 
-    if(!(unit->getNum2()-numberArea*100>max))
+    if(!(unit->getNum2()-numberArea*100>max)){
+        QMessageBox::critical(0,"Ошибка","Может быть только больше чем на третьем");
+
         res=false;
+    }
 
 }
 
 
 
 if(res==true)
-    return
-already_on_the_branch(unit);
+    return !already_on_the_branch(unit,modelTreeUN,current);
 
 
     return false;

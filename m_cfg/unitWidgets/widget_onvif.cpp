@@ -80,7 +80,7 @@ bool Widget_ONVIF::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QModel
 
 
 return 
-already_on_the_branch(unit);
+already_on_the_branch(unit,modelTreeUN,current);
 
 }
 
