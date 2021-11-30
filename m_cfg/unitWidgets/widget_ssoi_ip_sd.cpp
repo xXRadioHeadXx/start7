@@ -215,8 +215,7 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
 
     QString UdpAdress=unit->getUdpAdress();
     QString str;
-    str.append("<b>");str.append("ССОИ-IP СД");str.append("</b> ");//  БЛ-IP</b> ");
-    str.append(" ");
+
 
 
 

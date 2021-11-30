@@ -93,6 +93,8 @@ bool res=true;
 if(!current){
 return false;
 
+return true;
+
 }
 
 
@@ -320,7 +322,8 @@ bool Widget_DD_SOTA::equal(UnitNode *un, UnitNode *unit)
 
 QString Widget_DD_SOTA::get_string(UnitNode *unit)
 {
-    QString string1;
+
+    QString str;
     QModelIndex ind = this->modelTreeUN->findeIndexUN(unit);
     QModelIndex ind_Y4 = this->modelTreeUN->parent(ind);
     UnitNode* Y4= static_cast<UnitNode*>(ind_Y4.internalPointer());
@@ -330,19 +333,19 @@ QString Widget_DD_SOTA::get_string(UnitNode *unit)
 
 
 
+    str+=" БОД ";
 
+    str+=QString::number(BOD->getNum1());
 
-    string1.append(QString::number(BOD->getNum1()));
+    str+=" Участок ";
 
-    string1.append(" Участок ");
+    str+=QString::number(Y4->getNum2()/100);
 
-    string1.append(QString::number(Y4->getNum2()/100));
+    str+=" ДД ";
 
-    string1.append(" ДД ");
+    str+=UnitWidget::get_dd(unit);
 
-    string1.append(UnitWidget::get_dd(unit));
-
-   return string1;
+       return str;
 }
 
 

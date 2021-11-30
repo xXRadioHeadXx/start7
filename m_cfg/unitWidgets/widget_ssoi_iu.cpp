@@ -128,12 +128,12 @@ QString Widget_SSOI_IU::get_string(UnitNode *unit)
 
 
 
-    str.append("ССОИ ИУ");
 
-    str.append(" Канал: ");
+
+    str.append(" Канал");
     str.append(QString::number(unit->getNum1()));
 
-    str.append(" БЛ: ");
+    str.append(" БЛ");
     str.append(QString::number(unit->getNum2()));
 
     str.append(" ");

@@ -166,62 +166,40 @@ QString Widget_SSOI_SD::get_string(UnitNode *unit)
     QString string1;
     QString UdpAdress=unit->getUdpAdress();
 
-    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  БЛ-IP</b> ");
 
-    //Канал
-    string1.append(" Кан:");
+    string1.append(" Канал");
 
-    if(unit->getUdpUse()==0)
-    {
+
         string1.append(QString::number(unit->getNum1()));
 
 
-            if(unit->getUdpAdress()!="")
-        {
-            string1.append(" (");
-            string1.append(unit->getUdpAdress());
-            string1.append(")");
-        }
-    }
-    if(unit->getUdpUse()==1)
-    {
-        string1.append(unit->getUdpAdress());
-        string1.append("::");
-        string1.append(QString::number(unit->getUdpPort()));
-
-
-        string1.append("\n");
-        string1.append("Таймаут: ");
-        string1.append(QString::number(unit->getUdpTimeout()));
-        string1.append("\n");
-    }
-    //БЛ
-
-    string1.append(" БЛ:");
+    string1.append(" БЛ");
     string1.append(QString::number(unit->getNum2()));
     string1.append(" ");
 
     //СД
 
 
-    string1.append(" СД:");
-    int val=unit->getNum3();
-            if(val==9)
-    string1.append("Вскрытие ");
-            else
-    string1.append(QString::number(unit->getNum3()));
+
+
+    if(unit->getNum3()==9){
+        string1.append("Вскрытие ");
+    }else{
+        string1.append(" СД");
+        string1.append(QString::number(unit->getNum3()));
+    }
 
     if(unit->getBazalt()==1)
         {
             string1.append(" +");
-            string1.append(" ИУ:");
+            string1.append(" ИУ");
             string1.append(QString::number(unit->getNum3()));
         }
     else
     if(unit->getConnectBlock()==1)
         {
             string1.append(" +");
-            string1.append(" ИУ:");
+            string1.append(" ИУ");
             string1.append(QString::number(unit->getNum3()-3));
         }
 

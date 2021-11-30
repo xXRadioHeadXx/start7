@@ -93,6 +93,8 @@ bool res=true;
 if(!current){
 return false;
 
+
+
 }
 
 
@@ -293,7 +295,7 @@ qDebug()<<"dd  "<<QString::number(unit->getNum2()-numberArea*100);
 
 if(res==true)
     return
-already_on_the_branch(unit,modelTreeUN,current);
+!already_on_the_branch(unit,modelTreeUN,current);
 
 
     return false;
@@ -310,26 +312,33 @@ bool Widget_DD_T4K_M::equal(UnitNode *un, UnitNode *unit)
 
 QString Widget_DD_T4K_M::get_string(UnitNode *unit)
 {
-    QString string1;
+
+    QString str;
     QModelIndex ind = this->modelTreeUN->findeIndexUN(unit);
     QModelIndex ind_Y4 = this->modelTreeUN->parent(ind);
     UnitNode* Y4= static_cast<UnitNode*>(ind_Y4.internalPointer());
 
     QModelIndex ind_BOD = this->modelTreeUN->parent(ind_Y4);
+
+
+
     UnitNode* BOD= static_cast<UnitNode*>(ind_BOD.internalPointer());
 
+    str+=" БОД ";
 
 
 
-    string1.append(" Участок ");
+    str+=QString::number(BOD->getNum1());
 
-    string1.append(QString::number(Y4->getNum2()/100));
+    str+=" Участок ";
 
-    string1.append(" ДД ");
+    str+=QString::number(Y4->getNum2()/100);
 
-    string1.append(UnitWidget::get_dd(unit));
+    str+=" ДД ";
 
-   return string1;
+    str+=UnitWidget::get_dd(unit);
+
+    return str;
 }
 
 

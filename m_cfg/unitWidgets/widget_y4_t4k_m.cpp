@@ -180,6 +180,7 @@ bool Widget_Y4_T4K_M::equal(UnitNode *unit, UnitNode *un)
 
 QString Widget_Y4_T4K_M::get_string(UnitNode *unit)
 {
+
     QString string1;
     QModelIndex ind = this->modelTreeUN->findeIndexUN(unit);
     QModelIndex ind_BOD = this->modelTreeUN->parent(ind);
@@ -187,22 +188,18 @@ QString Widget_Y4_T4K_M::get_string(UnitNode *unit)
 
 
 
-    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
 
-    string1.append("Кан:");
 
-    string1.append(QString::number(BOD->getNum3()));
-
-    string1.append(" БОД:");
+    string1.append(" БОД ");
 
     string1.append(QString::number(BOD->getNum1()));
 
-    string1.append(" Участок:");
+    string1.append(" Участок ");
 
     string1.append(QString::number(unit->getNum2()/100));
 
 
-   return string1;
+    return string1;
 }
 
 void Widget_Y4_T4K_M::on_Num2_currentIndexChanged(const QString &arg1)
