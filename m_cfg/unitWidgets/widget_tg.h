@@ -29,11 +29,17 @@ public:
     bool accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr) override;
     bool equal(UnitNode* one,UnitNode* secons) override;
 
+    virtual bool timeout_brother(UnitNode *unit,UnitNode* un);;
+
+
+
     QString get_string(UnitNode* unit) override;
 private slots:
     void on_Num1_currentIndexChanged(const QString &arg1);
 
     void on_Num2_currentIndexChanged(const QString &arg1);
+
+
 
 private:
     Ui::Widget_TG *ui;

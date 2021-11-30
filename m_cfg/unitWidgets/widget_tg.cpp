@@ -120,11 +120,20 @@ bool Widget_TG::equal(UnitNode *origin, UnitNode *current)
         return false;
 }
 
+bool Widget_TG::timeout_brother(UnitNode *unit, UnitNode *un){
+
+    if(unit->getType()==un->getType())
+    if(unit->getNum1()==un->getNum1())
+        return true;
+
+    return false;
+     }
+
 QString Widget_TG::get_string(UnitNode *unit)
 {
     QString string1;
 
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка/Гарда</b> ");
+    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка/Гарда</b> ");
             string1.append(" : ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" : ");
