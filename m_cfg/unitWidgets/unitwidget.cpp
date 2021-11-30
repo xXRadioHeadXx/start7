@@ -417,8 +417,7 @@ bool UnitWidget::neigbors(UnitNode *unit_one, UnitNode *unit_second)
         if(second==TypeUnitNode::IU_BL_IP)
             return false;
 
-        if(second==TypeUnitNode::SYSTEM)
-            return false;
+
     }
 
     if((one==TypeUnitNode::SSOI_IP_IU)||(one==TypeUnitNode::SSOI_IP_SD)){
@@ -428,10 +427,20 @@ bool UnitWidget::neigbors(UnitNode *unit_one, UnitNode *unit_second)
 
         if(second==TypeUnitNode::SSOI_IP_SD)
             return false;
-
-        if(second==TypeUnitNode::SYSTEM)
-            return false;
     }
+
+
+    if(one==TypeUnitNode::TG){
+
+        if(second==TypeUnitNode::TG)
+            return false;
+
+
+
+    }
+
+    if(second==TypeUnitNode::SYSTEM)
+        return false;
 
     return true;
 }
