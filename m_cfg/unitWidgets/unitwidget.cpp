@@ -597,12 +597,14 @@ QString UnitWidget::get_full_string(UnitNode *unit)
             str+="::";
             str+=QString::number(unit->getUdpPort());
 
+            if(unit->getNum1()!=255)
+                str+=" Адрес "+QString::number(unit->getNum1());
         }else{
 
             str+=" COM ";
             str+=QString::number(unit->getNum3());
-            str+=" Адрес ";
-            str+=QString::number(unit->getNum1());
+            if(unit->getNum1()!=255)
+                str+=" Адрес "+QString::number(unit->getNum1());
 
             if(unit->getUdpAdress()!=""){
              str+=" ("+ unit->getUdpAdress()+ ")";
@@ -610,7 +612,11 @@ QString UnitWidget::get_full_string(UnitNode *unit)
         }
 
 
+
     }
+
+
+
     str+=get_string(unit);
 
  if(comm_is_needed)
