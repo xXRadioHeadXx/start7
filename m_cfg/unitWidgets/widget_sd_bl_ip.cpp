@@ -68,33 +68,14 @@ void Widget_SD_BL_IP::set_to(UnitNode *unit)
 
 }
 
-void Widget_SD_BL_IP::update_name()
-{
-    QString name;
+void Widget_SD_BL_IP::update_name(){
 
-    name.append("БЛ");
+    QString name="БЛ"+UnitWidget::get_ip_str()+" СД-"+this->ui->Num2->currentText();
 
+    if(ui->OutType->currentText()!="не указан")
+    name+=" "+ui->OutType->currentText();
 
-
-    //разделить на подстроки через символ точку
-    //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
-
-    name.append(UnitWidget::get_ip_str());
-
-
-    name.append(" СД");
-    name.append("-");
-
-    //if(this->ui->SD_BL_IP_num_combobox->currentText().toInt()<10)
-    //name.append("0");
-
-    name.append(this->ui->Num2->currentText());
-
-
-  //  updater->updateName(name);
     emit updateName(name);
-
-
 
 }
 

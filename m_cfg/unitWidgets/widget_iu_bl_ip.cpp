@@ -39,49 +39,13 @@ void Widget_IU_BL_IP::set_to(UnitNode *unit)
     unit->setNum2(ui->Num2->currentText().toInt());
 }
 
-void Widget_IU_BL_IP::update_name()
-{
+void Widget_IU_BL_IP::update_name(){
 
-    QString name;
-
-    name.append("БЛ");
+    QString name="БЛ"+UnitWidget::get_ip_str()+" ИУ"+this->ui->Num2->currentText();
 
 
-    QString ip_str=comm->get_udpAdress();
 
-    QStringList myStringList = ip_str.split(".");
-
-    if(myStringList.count()==4)
-    {
-        ip_str=myStringList[3];
-        if(ip_str.toInt()<100)
-            ip_str="0"+ip_str;
-        if(ip_str.toInt()<10)
-            ip_str="0"+ip_str;
-        if(ip_str.toInt()<1)
-            ip_str="0"+ip_str;
-    }
-    else
-        ip_str="-IP";
-
-    //разделить на подстроки через символ точку
-    //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
-
-    name.append(UnitWidget::get_ip_str());
-
-
-    name.append(" ИУ");
-    name.append("-");
-
-    //if(this->ui->SD_BL_IP_num_combobox->currentText().toInt()<10)
-    //name.append("0");
-
-    name.append(this->ui->Num2->currentText());
-
-
-  //  updater->updateName(name);
     emit updateName(name);
-
 
 
 }
