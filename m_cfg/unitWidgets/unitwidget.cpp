@@ -583,8 +583,7 @@ void UnitWidget::set_to(UnitNode *unit)
 
 }
 
-QString UnitWidget::get_full_string(UnitNode *unit)
-{
+QString UnitWidget::get_full_string(UnitNode *unit){
     QString str;
     str+="<b>";
     str+=m_TypeUnitNode.value(unit->getType());
@@ -601,7 +600,7 @@ QString UnitWidget::get_full_string(UnitNode *unit)
                 str+=" Адрес "+QString::number(unit->getNum1());
         }else{
 
-            str+=" COM ";
+            str+=" COM";
             str+=QString::number(unit->getNum3());
             if(unit->getNum1()!=255)
                 str+=" Адрес "+QString::number(unit->getNum1());

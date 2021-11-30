@@ -25,7 +25,7 @@ public:
     bool accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN=nullptr,QModelIndex* current=nullptr) override;
     bool equal(UnitNode* one,UnitNode* secons) override;
 
-    QString get_string(UnitNode* unit) override;
+
 private slots:
     void on_Num1_currentIndexChanged(const QString &arg1);
 

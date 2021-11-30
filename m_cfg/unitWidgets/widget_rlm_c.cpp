@@ -100,54 +100,7 @@ return ((un->getNum1()==unit->getNum1()));
     return false;
 }
 
-QString Widget_RLM_C::get_string(UnitNode *unit)
-{
-    QString string1;
 
-
-
-
-
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  РИФ-РЛМ-С</b>");
-        string1.append(":");
-    string1.append(QString::number(unit->getNum1()));
-    string1.append(" ");
-
-
-
-
-    if(unit->getUdpUse()==0)
-    {
-        string1.append("Кан:");
-
-        string1.append(QString::number(unit->getNum3()));
-        string1.append(" ");
-
- //  string1.append(QString::number(unit->getNum3()));
-   if(unit->getUdpAdress()!="")
-   {
-       string1.append(" ");
-       string1.append("(");
-       string1.append(unit->getUdpAdress());
-       string1.append(")");
-   }
-
-
-    }
-
-    if(unit->getUdpUse()==1)
-    {
-        string1.append(unit->getUdpAdress());
-        string1.append("::");
-        string1.append(QString::number(unit->getUdpPort()));
-        string1.append(" ");
-        string1.append("\n");
-        string1.append("Таймаут: ");
-        string1.append(QString::number(unit->getUdpTimeout()));
-        string1.append("\n");
-    }
-   return string1;
-}
 
 void Widget_RLM_C::on_Num1_currentIndexChanged(const QString &arg1)
 {
