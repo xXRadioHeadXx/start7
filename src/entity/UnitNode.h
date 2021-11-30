@@ -243,7 +243,7 @@ public:
     void setLevel(int value);
 
     QString getName() const;
-    void setName(const QString &value);
+    bool setName(const QString &value);
 
     int getIconVisible() const;
     void setIconVisible(int value);

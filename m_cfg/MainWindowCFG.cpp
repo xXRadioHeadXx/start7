@@ -1,6 +1,7 @@
 #include "MainWindowCFG.h"
 #include "ui_MainWindowCFG.h"
 #include <global.h>
+#include <QMessageBox>
 
 
 #include "QFileDialog"
@@ -2431,13 +2432,18 @@ void MainWindowCFG::func_to_edit_unit()
     if(m_TypeUnitNode.key(this->ui->uType_combobox->currentText())==unit->getType())
     {
     //qDebug()<<"[PROFIT]";
-    unit->setName(this->ui->uName_combobox->currentText());
+        if(unit->setName(this->ui->uName_combobox->currentText())){
 
-    current_wgt()->edit(unit);
-    current_wgt()->set_timeouts(unit);
 
-    this->get_option(unit);
 
+        current_wgt()->edit(unit);
+        current_wgt()->set_timeouts(unit);
+
+        this->get_option(unit);
+        }else{
+            QMessageBox::critical(0,"Ошибка","Некорректное имя");
+
+        }
     }
 
     else
@@ -2566,7 +2572,10 @@ bool MainWindowCFG::add_unit()
 
 
 
-    unit->setName(this->ui->uName_combobox->currentText());
+    if(!unit->setName(this->ui->uName_combobox->currentText())){
+        QMessageBox::critical(0,"Ошибка","Некорректное имя");
+        return false;
+    }
     unit->setType(type);
 
  qDebug()<<"его имя "<<this->ui->uName_combobox->currentText();

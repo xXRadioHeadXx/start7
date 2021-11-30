@@ -88,16 +88,20 @@ QString UnitNode::getName() const
     return Name;
 }
 
-void UnitNode::setName(const QString &value)
+bool UnitNode::setName(const QString &value)
 {
     QRegExp re("[а-яА-Яa-zA-Z0-9 :_-()]{1,40}");
 
       qDebug()<< re.exactMatch(value);
 
-      if(re.exactMatch(value))
+      if(re.exactMatch(value)){
     Name = value;
-      else
+    return true;
+      }
+      else{
+           return false;
           qDebug()<<"FAIL !!!";
+      }
 }
 
 int UnitNode::getIconVisible() const
