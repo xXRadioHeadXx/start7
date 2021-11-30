@@ -219,60 +219,31 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
 
 
 
-
-    if(unit->getUdpUse()==0)
-    {
-        str.append(QString::number(unit->getNum3()));
-
-    if(unit->getUdpAdress()!="")
-    {
-        str.append(" (");
-        str.append(unit->getUdpAdress());
-        str.append(")");
-    }
-    }
-    if(unit->getUdpUse()==1)
-    {
-        str.append(unit->getUdpAdress());
-        str.append("::");
-        str.append(QString::number(unit->getUdpPort()));
-
-        str.append("\n");
-        str.append("-");
-        str.append(QString::number(unit->getNum1()));
-
-        str.append(" СД:");
-
         if(unit->getNum2()==9){
-        str.append("Вскрытие");
+        str+="Вскрытие";
         }else{
-        str.append(QString::number(unit->getNum2()));
+
+        str+=" СД";
+        str+=QString::number(unit->getNum2());
         }
 
         if(unit->getBazalt()==1)
         {
-            str.append(" +");
-            str.append(" ИУ:");
-            str.append(QString::number(unit->getNum2()));
+            str+=" +";
+            str+=" ИУ";
+            str+=QString::number(unit->getNum2());
         }
 
 
-        str.append("\n");
-        str.append("Таймаут: ");
-        str.append(QString::number(unit->getUdpTimeout()));
-        str.append("\n");
-    }
-
-        str.append(" ");
     if(unit->getBazalt())
     {
-        str.append(m_SD_BL_IP_OutType.value(8));
+        str+=m_SD_BL_IP_OutType.value(8);
     }
     else
     {
         int val = unit->getOutType();
         if(val)
-        str.append(m_SD_BL_IP_OutType.value(unit->getOutType()));
+        str+=m_SD_BL_IP_OutType.value(unit->getOutType());
     }
     return str;
 }

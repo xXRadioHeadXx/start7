@@ -167,47 +167,9 @@ return false;
 QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
 {
 
-    QString str;
-
-    str.append("<b>");str.append("ССОИ-IP ИУ");str.append("</b> ");//  БЛ-IP</b> ");
+    return " ИУ"+QString::number(unit->getNum2());
 
 
-
-    if(unit->getUdpUse()==0)
-    {
-    str.append(QString::number(unit->getNum3()));
-    str.append(" ССОИ IP ИУ ");
-    str.append(QString::number(unit->getNum2()));
-
-    if(unit->getUdpAdress()!="")
-    {
-    str.append(" ");
-    str.append("(");
-    str.append(unit->getUdpAdress());
-    str.append(")");
-    }
-    }
-    if(unit->getUdpUse()==1)
-    {
-    str.append(unit->getUdpAdress());
-    str.append("::");
-    str.append(QString::number(unit->getUdpPort()));
-
-    str.append("-");
-    str.append(QString::number(unit->getNum1()));
-
-    str.append(" ИУ:");
-    str.append(QString::number(unit->getNum2()));
-    str.append("\n");
-
-
-
-    str.append("Таймаут: ");
-    str.append(QString::number(unit->getUdpTimeout()));
-    str.append("\n");
-    }
-
-    return str;
 }
 
 void Widget_SSOI_IP_IU::on_Num1_currentTextChanged(const QString &arg1)
