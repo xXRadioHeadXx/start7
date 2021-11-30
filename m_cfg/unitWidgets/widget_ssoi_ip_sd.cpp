@@ -37,7 +37,14 @@ void Widget_SSOI_IP_SD::get_from(UnitNode *unit)
 
 
     ui->Num1->setCurrentText(QString::number(unit->getNum1()));
+
+    if(unit->getNum2()==9){
+    ui->Num2->setCurrentText("Вскрытие");
+    }else{
     ui->Num2->setCurrentText(QString::number(unit->getNum2()));
+    }
+
+
     ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
 }
 
@@ -56,6 +63,11 @@ void Widget_SSOI_IP_SD::set_to(UnitNode *unit)
 {
     unit->setNum1(ui->Num1->currentText().toInt());
     unit->setNum2(ui->Num2->currentText().toInt());
+
+    if(ui->Num2->currentText()=="Вскрытие")
+        unit->setNum2(9);
+
+
     //Set OutType
     int key=m_SD_BL_IP_OutType.key(ui->OutType->currentText());
 
@@ -170,7 +182,7 @@ bool Widget_SSOI_IP_SD::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,Q
 
     }
 //Num2 от нуля до восьми
-if(unit->getNum2()<0||unit->getNum2()>8)
+if(unit->getNum2()<0||unit->getNum2()>9)
     return false;
 
 //Не должен повторяться в дереве
@@ -231,7 +243,12 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
         str.append(QString::number(unit->getNum1()));
 
         str.append(" СД:");
+
+        if(unit->getNum2()==9){
+        str.append("Вскрытие");
+        }else{
         str.append(QString::number(unit->getNum2()));
+        }
 
         if(unit->getBazalt()==1)
         {
