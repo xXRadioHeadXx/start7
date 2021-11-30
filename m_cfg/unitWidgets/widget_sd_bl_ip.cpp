@@ -82,7 +82,11 @@ void Widget_SD_BL_IP::update_name()
     name.append(UnitWidget::get_ip_str());
 
 
-    name.append(" СД ");
+    name.append(" СД");
+    name.append("-");
+
+    //if(this->ui->SD_BL_IP_num_combobox->currentText().toInt()<10)
+    //name.append("0");
 
     name.append(this->ui->Num2->currentText());
 
