@@ -103,6 +103,7 @@ bool Widget_BOD_SOTA::equal(UnitNode *unit, UnitNode *un)
     if(unit->getUdpUse()==0)
     if((un->getUdpUse()==unit->getUdpUse()))
     if((un->getNum3()==unit->getNum3())) //ищем юниты котрые всият на одном порте с нашим
+
     res=true;
                 //Если тип связи UDP, на одном сетевом адресе с портом не должно висеть двух юнитов с одинаковыми параметрами
 
@@ -117,14 +118,8 @@ bool Widget_BOD_SOTA::equal(UnitNode *unit, UnitNode *un)
     if(res==true)
     {
 
-        if(((unit->getType()==TypeUnitNode::BOD_SOTA)||(unit->getType()==TypeUnitNode::BOD_T4K_M))&&
-           ((un->getType()==TypeUnitNode::BOD_SOTA)||(un->getType()==TypeUnitNode::BOD_T4K_M)))
-        {
-
-
-          return true;
-        }
-
+        if(un->getType()==unit->getType())
+return ((un->getNum1()==unit->getNum1()));
 
     }
 

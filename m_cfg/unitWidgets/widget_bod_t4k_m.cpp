@@ -110,14 +110,8 @@ bool Widget_BOD_T4K_M::equal(UnitNode *unit, UnitNode *un)
 
     if(res==true)
     {
-
-        if(((unit->getType()==TypeUnitNode::BOD_T4K_M)||(unit->getType()==TypeUnitNode::BOD_T4K_M))&&
-           ((un->getType()==TypeUnitNode::BOD_T4K_M)||(un->getType()==TypeUnitNode::BOD_T4K_M)))
-        {
-
-
-          return true;
-        }
+        if(un->getType()==unit->getType())
+return ((un->getNum1()==unit->getNum1()));
 
 
     }
