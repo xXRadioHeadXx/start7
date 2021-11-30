@@ -121,32 +121,8 @@ return ((un->getNum1()==unit->getNum1()));
 
 QString Widget_RLM_KRL::get_string(UnitNode *unit)
 {
-    QString string1;
 
-    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));//  ");
-    if(0==unit->getAdamOff())
-    string1.append(str_RIF_RLM);
-
-    if(1==unit->getAdamOff())
-    string1.append(str_RIF_RLM_24);
-
-    if(2==unit->getAdamOff())
-    string1.append(str_RIF_RLM_B);
-
-    if(3==unit->getAdamOff())
-    string1.append(str_RIF_KRL);
-
-    if(4==unit->getAdamOff())
-    string1.append(str_Razriv);
-
-    if(5==unit->getAdamOff())
-    string1.append(str_trassa1l);
-
-    string1.append("</b>");
-    string1.append(" : ");
-    string1.append(QString::number(unit->getNum1()));
-    string1.append(" ");
-   return string1;
+   return " : "+QString::number(unit->getNum1());
 }
 
 void Widget_RLM_KRL::on_Num1_currentIndexChanged(const QString &arg1)

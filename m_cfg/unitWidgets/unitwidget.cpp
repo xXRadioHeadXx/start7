@@ -586,7 +586,29 @@ void UnitWidget::set_to(UnitNode *unit)
 QString UnitWidget::get_full_string(UnitNode *unit){
     QString str;
     str+="<b>";
+
+    if(unit->getType()==TypeUnitNode::RLM_KRL){
+        if(0==unit->getAdamOff())
+        str+=str_RIF_RLM;
+
+        if(1==unit->getAdamOff())
+        str+=str_RIF_RLM_24;
+
+        if(2==unit->getAdamOff())
+        str+=str_RIF_RLM_B;
+
+        if(3==unit->getAdamOff())
+        str+=str_RIF_KRL;
+
+        if(4==unit->getAdamOff())
+        str+=str_Razriv;
+
+        if(5==unit->getAdamOff())
+        str+=str_trassa1l;
+
+    }else{
     str+=m_TypeUnitNode.value(unit->getType());
+    }
     str+="</b> ";
     str+=": ";
     if(comm_is_needed){
