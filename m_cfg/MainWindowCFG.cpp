@@ -5188,6 +5188,7 @@ void MainWindowCFG::save_option_BOD_SOTA(QSettings */*settings*/, UnitNode */*un
 void MainWindowCFG::on_pushButton_2_clicked()
 {
 delete_unit();
+this->ui->textEdit->clear();
 }
 
 

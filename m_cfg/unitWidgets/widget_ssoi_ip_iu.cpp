@@ -169,7 +169,7 @@ QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
 
     QString str;
 
-    str.append("<b>");str.append("ССОИ-IP");str.append("</b> ");//  БЛ-IP</b> ");
+    str.append("<b>");str.append("ССОИ-IP ИУ");str.append("</b> ");//  БЛ-IP</b> ");
 
 
 
