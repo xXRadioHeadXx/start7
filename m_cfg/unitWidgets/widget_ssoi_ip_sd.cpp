@@ -115,7 +115,7 @@ void Widget_SSOI_IP_SD::update_name()
     //разделить на подстроки через символ точку
     //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
 
-    name.append(ip_str);
+    name.append(UnitWidget::get_ip_str());
 
    name.append("-");
    name.append(ui->Num1->currentText());

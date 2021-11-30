@@ -58,6 +58,8 @@ void Widget_IU_BL_IP::update_name()
             ip_str="0"+ip_str;
         if(ip_str.toInt()<10)
             ip_str="0"+ip_str;
+        if(ip_str.toInt()<1)
+            ip_str="0"+ip_str;
     }
     else
         ip_str="-IP";
@@ -65,7 +67,7 @@ void Widget_IU_BL_IP::update_name()
     //разделить на подстроки через символ точку
     //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
 
-    name.append(ip_str);
+    name.append(UnitWidget::get_ip_str());
 
 
     name.append(" ИУ");
@@ -164,44 +166,12 @@ return true;
 return false;
 }
 
-QString Widget_IU_BL_IP::get_string(UnitNode *unit)
-{
-
-QString str;
-
-str.append("<b>");str.append(m_TypeUnitNode_d.value(unit->getType()));str.append("</b> ");//  БЛ-IP</b> ");
-        str.append(": Кан:");
+QString Widget_IU_BL_IP::get_string(UnitNode *unit){
 
 
-if(unit->getUdpUse()==0)
-{
-str.append(QString::number(unit->getNum3()));
-str.append(" ИУ:");
-str.append(QString::number(unit->getNum2()));
 
-if(unit->getUdpAdress()!="")
-{
-str.append(" ");
-str.append("(");
-str.append(unit->getUdpAdress());
-str.append(")");
-}
-}
-if(unit->getUdpUse()==1)
-{
-str.append(unit->getUdpAdress());
-str.append("::");
-str.append(QString::number(unit->getUdpPort()));
-str.append(" ");
-str.append("ИУ:");
-str.append(QString::number(unit->getNum2()));
-str.append("\n");
-str.append("Таймаут: ");
-str.append(QString::number(unit->getUdpTimeout()));
-str.append("\n");
-}
 
-return str;
+return  " ИУ "+QString::number(unit->getNum2())+" ";
 
 
 }

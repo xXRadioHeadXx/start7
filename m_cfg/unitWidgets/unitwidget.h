@@ -66,6 +66,8 @@ public:
 
     bool ip_is_valid(QString ip);
 
+
+    QString get_ip_str();
     QModelIndex* current;
  //   comm->set_options(unit);
  //   coord->set_options(unit);

@@ -127,53 +127,7 @@ return ((un->getNum1()==unit->getNum1()));
 
 }
 
-QString Widget_BOD_SOTA::get_string(UnitNode *unit)
-{
-    QString string1;
 
-
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
-
-    string1.append("Кан:");
-
-    if(unit->getUdpUse()==0)
-    {
-        string1.append(QString::number(unit->getNum3()));
-
-
-    }
-    if(unit->getUdpUse()==1)
-    {
-        string1.append(unit->getUdpAdress());
-        string1.append("::");
-        string1.append(QString::number(unit->getUdpPort()));
-        string1.append(" ");
-        string1.append("\n");
-        string1.append("Таймаут: ");
-        string1.append(QString::number(unit->getUdpTimeout()));
-        string1.append("\n");
-    }
-
-
-
-    string1.append(" БОД:");
-    string1.append(QString::number(unit->getNum1()));
-
-    if(unit->getUdpUse()==0)
-    {
-
-
-        if(unit->getUdpAdress()!="")
-        {
-
-            string1.append(" (");
-            string1.append(unit->getUdpAdress());
-            string1.append(")");
-
-        }
-    }
-   return string1;
-}
 
 void Widget_BOD_SOTA::on_Num1_currentTextChanged(const QString &arg1)
 {

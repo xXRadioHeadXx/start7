@@ -320,21 +320,12 @@ QString Widget_DD_T4K_M::get_string(UnitNode *unit)
 
 
 
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Сота/Сота-М</b> ");
 
-    string1.append("Кан:");
-
-    string1.append(QString::number(BOD->getNum3()));
-
-    string1.append(" БОД:");
-
-    string1.append(QString::number(BOD->getNum1()));
-
-    string1.append(" Участок:");
+    string1.append(" Участок ");
 
     string1.append(QString::number(Y4->getNum2()/100));
 
-    string1.append(" ДД:");
+    string1.append(" ДД ");
 
     string1.append(UnitWidget::get_dd(unit));
 

@@ -166,18 +166,8 @@ bool Widget_ADAM::equal(UnitNode *one, UnitNode *second)
 
 QString Widget_ADAM::get_string(UnitNode *unit)
 {
-    QString string1;
+ return " Адрес "+QString::number(unit->getNum1())+" ИУ "+QString::number(unit->getNum2());
 
-    string1.append("Адам-406х/4168:");
-
-    if(unit->getNum1()/10<1)
-    string1.append("0");
-    if(unit->getNum1()/100<1)
-    string1.append("0");
-    string1.append(QString::number(unit->getNum1()));
-    string1.append("-");
-    string1.append(QString::number(unit->getNum2()));
-   return string1;
 }
 
 void Widget_ADAM::on_Num1_currentIndexChanged(int index)

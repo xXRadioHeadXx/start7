@@ -75,32 +75,14 @@ void Widget_SD_BL_IP::update_name()
     name.append("БЛ");
 
 
-    QString ip_str=comm->get_udpAdress();
-
-    QStringList myStringList = ip_str.split(".");
-
-    if(myStringList.count()==4)
-    {
-        ip_str=myStringList[3];
-        if(ip_str.toInt()<100)
-            ip_str="0"+ip_str;
-        if(ip_str.toInt()<10)
-            ip_str="0"+ip_str;
-    }
-    else
-        ip_str="-IP";
 
     //разделить на подстроки через символ точку
     //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
 
-    name.append(ip_str);
+    name.append(UnitWidget::get_ip_str());
 
 
-    name.append(" СД");
-    name.append("-");
-
-    //if(this->ui->SD_BL_IP_num_combobox->currentText().toInt()<10)
-    //name.append("0");
+    name.append(" СД ");
 
     name.append(this->ui->Num2->currentText());
 
@@ -190,59 +172,22 @@ bool Widget_SD_BL_IP::equal(UnitNode *unit, UnitNode *un)
 
 QString Widget_SD_BL_IP::get_string(UnitNode *unit)
 {
+    QString str=" СД";
+    str+=QString::number(unit->getNum2());
 
-QString UdpAdress=unit->getUdpAdress();
-QString str;
-str.append("<b>");str.append(m_TypeUnitNode_d.value(unit->getType()));str.append("</b> ");//  БЛ-IP</b> ");
-str.append(" :");
-str.append(" СД:");
-str.append(QString::number(unit->getNum2()));
+    if(unit->getBazalt()==1){
+        str+=" + ИУ"+QString::number(unit->getNum2());
+    }
 
-if(unit->getBazalt()==1)
-{
-    str.append(" +");
-    str.append(" ИУ:");
-    str.append(QString::number(unit->getNum2()));
-}
 
-    str.append("\n");
-    str.append(" Кан:");
-
-if(unit->getUdpUse()==0)
-{
-    str.append(QString::number(unit->getNum3()));
-
-if(unit->getUdpAdress()!="")
-{
-    str.append(" (");
-    str.append(unit->getUdpAdress());
-    str.append(")");
-}
-}
-if(unit->getUdpUse()==1)
-{
-    str.append(unit->getUdpAdress());
-    str.append("::");
-    str.append(QString::number(unit->getUdpPort()));
-
-    str.append("\n");
-    str.append("Таймаут: ");
-    str.append(QString::number(unit->getUdpTimeout()));
-    str.append("\n");
-}
-
-    str.append(" ");
-if(unit->getBazalt())
-{
-    str.append(m_SD_BL_IP_OutType.value(8));
-}
-else
-{
-    int val = unit->getOutType();
-    if(val)
-    str.append(m_SD_BL_IP_OutType.value(unit->getOutType()));
-}
-return str;
+    if(unit->getBazalt()){
+        str+=" "+m_SD_BL_IP_OutType.value(8);
+    }else{
+        int val = unit->getOutType();
+        if(val)
+        str+=" "+m_SD_BL_IP_OutType.value(unit->getOutType());
+    }
+    return str;
 }
 
 

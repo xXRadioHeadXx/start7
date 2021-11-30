@@ -26,7 +26,7 @@ UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinat
 
     ui->setupUi(this);
 
-    connect(comm,SIGNAL(updateIP),this,SLOT(updateName_slot()));
+    connect(comm,SIGNAL(updateIP()),this,SLOT(updateName_slot()));
 
 
 
@@ -539,6 +539,32 @@ bool UnitWidget::ip_is_valid(QString ip)
        return true;
 }
 
+QString UnitWidget::get_ip_str()
+{
+    QString ip_str=comm->get_udpAdress();
+
+    QStringList myStringList = ip_str.split(".");
+
+    if(myStringList.count()==4)
+    {
+        ip_str=myStringList[3];
+
+        if(ip_str.length()<3)
+            ip_str="0"+ip_str;
+
+        if(ip_str.length()<3)
+            ip_str="0"+ip_str;
+
+        if(ip_str.length()<3)
+            ip_str="0"+ip_str;
+
+    }
+    else
+        ip_str="-IP";
+
+    return ip_str;
+}
+
 QModelIndex UnitWidget::getDouble_unit_index()
 {
     return this->double_unit_index;
@@ -547,7 +573,7 @@ QModelIndex UnitWidget::getDouble_unit_index()
 void UnitWidget::updateName_slot()
 {
 
-
+    qDebug()<<"!";
     update_name();
 }
 
@@ -583,7 +609,12 @@ QString UnitWidget::get_full_string(UnitNode *unit)
             }
         }
 
+
     }
+    str+=get_string(unit);
+
+ if(comm_is_needed)
+     str+=" Таймаут "+QString::number(unit->getUdpTimeout());
 
 
    return str;

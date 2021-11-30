@@ -2192,7 +2192,7 @@ else
 //разделить на подстроки через символ точку
 //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
 
-Name.append(ip_str);
+name.append(ip_str);
 Name.append(" СД");
 Name.append("-");
 
@@ -2222,7 +2222,7 @@ Name.append(this->ui->SD_BL_IP_num_combobox->currentText());
         //разделить на подстроки через символ точку
         //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
 
-        Name.append(ip_str);
+        name.append(UnitWidget::get_ip_str());
         Name.append(" ИУ");
 Name.append("-");
 //if(this->ui->IU_BL_IP_num_combobox->currentText().toInt()<10)
