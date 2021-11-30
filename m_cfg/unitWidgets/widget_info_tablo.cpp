@@ -1,5 +1,6 @@
 #include "widget_info_tablo.h"
 #include "ui_widget_info_tablo.h"
+#include <QMessageBox>
 
 Widget_INFO_TABLO::Widget_INFO_TABLO(QWidget *parent, communicationTypeWidget *comm, coordinateWidget* coord,TreeModelUnitNode *modelTreeUN,QModelIndex* current) :
     UnitWidget(parent,comm,coord,modelTreeUN,current),
@@ -66,29 +67,21 @@ bool Widget_INFO_TABLO::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,Q
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
 
+
     if(parent->getType()!=TypeUnitNode::SSOI_SD)
     {
-    //    QMessageBox::critical(0,"Ошибка"," может быть добавлен только к ССОИ-СД");
+        QMessageBox::critical(0,"Ошибка"," может быть добавлен только к ССОИ-СД");
         return false;
 
     }
-    //проверка по участку (Num2)
-    QList<UnitNode *> List1;
-    modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);
-    foreach(UnitNode *un, List1 )
-    {
 
-     if((un->getNum2()==unit->getNum2()))
-     {
+    if(already_on_the_branch(unit,modelTreeUN,current))
+     return false;
 
-       //  this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
-         qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
-
-         return false;
-     }
+    return true;
 
 
-    }
+
 
     return true;
 
