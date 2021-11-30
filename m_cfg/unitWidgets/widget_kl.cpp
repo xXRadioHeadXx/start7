@@ -51,14 +51,14 @@ void Widget_KL::set_to(UnitNode *unit)
 
 void Widget_KL::update_name()
 {
-    QString Name;
-    Name.append("КЛ-");
+    QString name="КЛ";
     if(this->ui->Num1->currentText().toInt()<10)
-    Name.append("0");
-    Name.append(this->ui->Num1->currentText());
-    Name.append(" СД");
-    Name.append(this->ui->Num2->currentText());
-    emit updateName(Name);
+    name+="0";
+    name+=this->ui->Num1->currentText();
+    name+=" СД";
+    name+=this->ui->Num2->currentText();
+
+    emit updateName(name);
 
 }
 
@@ -123,46 +123,13 @@ bool Widget_KL::equal(UnitNode *origin, UnitNode *current)
 
 QString Widget_KL::get_string(UnitNode *unit)
 {
-    QString string1;
-
-    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Концентратор</b> ");
-    string1.append(" : ");
-    string1.append(QString::number(unit->getNum1()));
-    string1.append(" ");
-    string1.append("СД: ");
-    string1.append(QString::number(unit->getNum2()));
-    string1.append(" ");
-    string1.append("Кан: ");
-
-    if(unit->getUdpUse()==0)
-    {
+    QString str;
 
 
-
-   string1.append(QString::number(unit->getNum3()));
-   if(unit->getUdpAdress()!="")
-   {
-       string1.append(" ");
-       string1.append("(");
-       string1.append(unit->getUdpAdress());
-       string1.append(")");
-   }
+    str+=" СД"+QString::number(unit->getNum2());
 
 
-    }
-
-    if(unit->getUdpUse()==1)
-    {
-        string1.append(unit->getUdpAdress());
-        string1.append("::");
-        string1.append(QString::number(unit->getUdpPort()));
-        string1.append(" ");
-        string1.append("\n");
-        string1.append("Таймаут: ");
-        string1.append(QString::number(unit->getUdpTimeout()));
-        string1.append("\n");
-    }
-   return string1;
+   return str;
 }
 
 void Widget_KL::on_Num1_currentIndexChanged(const QString &arg1)

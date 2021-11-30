@@ -26,15 +26,15 @@ Widget_SD_BL_IP::~Widget_SD_BL_IP()
 void Widget_SD_BL_IP::get_from(UnitNode *unit)
 {
     qDebug()<<"Widget_SD_BL_IP::get_from";
-    ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
     ui->Num2->setCurrentText(QString::number(unit->getNum2()));
+    ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(unit->getOutType()));
 }
 
-void Widget_SD_BL_IP::get_default()
-{
+void Widget_SD_BL_IP::get_default(){
     qDebug()<<"Widget_SD_BL_IP::get_default";
-    ui->OutType->setCurrentText(m_SD_BL_IP_OutType.value(0));
     ui->Num2->setCurrentIndex(0);
+    ui->OutType->setCurrentText(m_SD_BL_IP_OutType.value(0));
+
 }
 
 
@@ -70,7 +70,7 @@ void Widget_SD_BL_IP::set_to(UnitNode *unit)
 
 void Widget_SD_BL_IP::update_name(){
 
-    QString name="БЛ"+UnitWidget::get_ip_str()+" СД-"+this->ui->Num2->currentText();
+    QString name="БЛ"+UnitWidget::get_ip_str()+" СД"+this->ui->Num2->currentText();
 
     if(ui->OutType->currentText()!="не указан")
     name+=" "+ui->OutType->currentText();
