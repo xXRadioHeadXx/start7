@@ -33,6 +33,8 @@ public:
 
     virtual void update_name(){};
 
+    virtual QString get_full_string(UnitNode* unit);
+
     virtual QString get_string(UnitNode* unit){return "";};
 
     virtual void setEnabled_option_menu(bool){};

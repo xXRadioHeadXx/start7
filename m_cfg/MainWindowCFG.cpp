@@ -1069,8 +1069,8 @@ void MainWindowCFG::get_option(UnitNode* unit)
     foreach(UnitWidget* wgt,l_UnitWidgets){
         if(wgt->getID()==selected_type){
 
-     wgt->get_string(unit);
-     this->ui->textEdit->append(wgt->get_string(unit));
+   //  wgt->get_string(unit);
+     this->ui->textEdit->append(wgt->get_full_string(unit));
 
         }
     }

@@ -546,7 +546,8 @@ QModelIndex UnitWidget::getDouble_unit_index()
 
 void UnitWidget::updateName_slot()
 {
-    qDebug()<<"!";
+
+
     update_name();
 }
 
@@ -554,6 +555,38 @@ void UnitWidget::set_to(UnitNode *unit)
 {
   qDebug()<<"UnitWidget::set_option";
 
+}
+
+QString UnitWidget::get_full_string(UnitNode *unit)
+{
+    QString str;
+    str+="<b>";
+    str+=m_TypeUnitNode.value(unit->getType());
+    str+="</b> ";
+    str+=": ";
+    if(comm_is_needed){
+
+        if(unit->getUdpUse()){
+            str+=unit->getUdpAdress();
+            str+="::";
+            str+=QString::number(unit->getUdpPort());
+
+        }else{
+
+            str+=" COM ";
+            str+=QString::number(unit->getNum3());
+            str+=" Адрес ";
+            str+=QString::number(unit->getNum1());
+
+            if(unit->getUdpAdress()!=""){
+             str+=" ("+ unit->getUdpAdress()+ ")";
+            }
+        }
+
+    }
+
+
+   return str;
 }
 
 void UnitWidget::setEnabled(bool val)
