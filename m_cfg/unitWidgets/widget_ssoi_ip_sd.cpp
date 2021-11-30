@@ -237,13 +237,13 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
 
     if(unit->getBazalt())
     {
-        str+=m_SD_BL_IP_OutType.value(8);
+        str+=" "+m_SD_BL_IP_OutType.value(8);
     }
     else
     {
         int val = unit->getOutType();
         if(val)
-        str+=m_SD_BL_IP_OutType.value(unit->getOutType());
+        str+=" "+m_SD_BL_IP_OutType.value(unit->getOutType());
     }
     return str;
 }
