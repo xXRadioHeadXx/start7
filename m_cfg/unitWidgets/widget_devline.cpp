@@ -105,7 +105,7 @@ QString Widget_DEVLINE::get_string(UnitNode *unit)
     QString string1;
     string1="";
 
-    string1.append("ТВ-камера DevLine: ");
+    string1.append(" ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" ");
     string1.append("Поток: ");

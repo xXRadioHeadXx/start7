@@ -91,10 +91,7 @@ bool Widget_ONVIF::equal(UnitNode *un, UnitNode *unit)
 
 QString Widget_ONVIF::get_string(UnitNode *unit)
 {
-    QString string1;
-    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ONVIF-камера</b> ");
-    string1.append(unit->getIcon1Path());
-    return string1;
+    return unit->getIcon1Path();
 }
 
 

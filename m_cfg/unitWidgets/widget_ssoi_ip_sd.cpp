@@ -119,14 +119,20 @@ void Widget_SSOI_IP_SD::update_name()
 
    name.append("-");
    name.append(ui->Num1->currentText());
+   name.append(" ");
 
-    name.append(" СД");
-    name.append("-");
+ if(ui->Num2->currentText()!="Вскрытие"){
+      name.append("СД");
+ }
+    name.append(ui->Num2->currentText());
+
+
+
 
     //if(this->ui->SD_BL_IP_num_combobox->currentText().toInt()<10)
     //name.append("0");
 
-    name.append(this->ui->Num2->currentText());
+
 
 
   //  updater->updateName(name);
@@ -217,13 +223,13 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
     QString str;
 
 
-
+        str+=" ";
 
         if(unit->getNum2()==9){
         str+="Вскрытие";
         }else{
 
-        str+=" СД";
+        str+="СД";
         str+=QString::number(unit->getNum2());
         }
 

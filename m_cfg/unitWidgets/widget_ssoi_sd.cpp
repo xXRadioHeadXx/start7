@@ -93,16 +93,16 @@ void Widget_SSOI_SD::update_name()
     Name.append(this->ui->Num2->currentText());
 
 
-    Name.append("-СД");
-    if(this->ui->Num3->currentText()=="Вскрытие")
-    Name.append("-Вскрытие");
-    else
+    Name.append(" ");
+    if(this->ui->Num3->currentText()!="Вскрытие"){
+    Name.append("СД");
+    }
     Name.append(this->ui->Num3->currentText());
 
 
     if(this->ui->OutType->currentIndex()>0)
     {
-    Name.append(" тип:");
+    Name.append(" ");
     Name.append(this->ui->OutType->currentText());
     }
 
@@ -182,11 +182,12 @@ QString Widget_SSOI_SD::get_string(UnitNode *unit)
 
 
 
-    if(unit->getNum3()==9){
-        string1.append("Вскрытие ");
+    if(unit->getNum2()==9){
+    string1+="Вскрытие";
     }else{
-        string1.append(" СД");
-        string1.append(QString::number(unit->getNum3()));
+
+    string1+=" СД";
+    string1+=QString::number(unit->getNum2());
     }
 
     if(unit->getBazalt()==1)

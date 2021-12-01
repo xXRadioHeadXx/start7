@@ -119,11 +119,7 @@ return ((un->getNum1()==unit->getNum1()));
 
 }
 
-QString Widget_RLM_KRL::get_string(UnitNode *unit)
-{
 
-   return " : "+QString::number(unit->getNum1());
-}
 
 void Widget_RLM_KRL::on_Num1_currentIndexChanged(const QString &arg1)
 {

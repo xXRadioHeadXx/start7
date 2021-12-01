@@ -69,9 +69,6 @@ bool Widget_GROUP::equal(UnitNode *one, UnitNode *secons)
 
 QString Widget_GROUP::get_string(UnitNode *unit)
 {
-    QString string1;
-   //     string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append(" ");//  Группа</b> ");
-        string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  ");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b>");//
-    string1.append(unit->getName());
-   return string1;
+
+   return unit->getName();
 }

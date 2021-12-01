@@ -101,7 +101,6 @@ bool Widget_STRAZH_IP::equal(UnitNode *un, UnitNode *unit)
 QString Widget_STRAZH_IP::get_string(UnitNode *unit)
 {
     QString string1;
-    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Страж- IP</b> ");
     string1.append(unit->getIcon1Path());
     string1.append("; ");
     string1.append(unit->getIcon4Path());
