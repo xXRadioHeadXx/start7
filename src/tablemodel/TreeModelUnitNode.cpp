@@ -62,6 +62,7 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
         2 == index.column()
              ))
      {
+         qDebug()<<"!!  Qt::DecorationRole  !!";
          QPixmap pxm;
          switch(index.column())
          {
@@ -287,6 +288,12 @@ QModelIndex TreeModelUnitNode::findeIndexUNL(UnitNode *tc,
                                              UnitNode *parentTC)
 {
     return this->findeIndexUN(tc, 0, parentTC);
+}
+
+void TreeModelUnitNode::updateModel()
+{
+    this->beginResetModel();
+    this->endResetModel();
 }
 
 QModelIndex TreeModelUnitNode::findeIndexUNR(UnitNode *tc,

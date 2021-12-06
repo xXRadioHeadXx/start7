@@ -39,6 +39,8 @@ public:
     QModelIndex findeIndexUNL(UnitNode *tc,
                               UnitNode *parentTC = nullptr);
 
+    void updateModel();
+
 //    QModelIndex findeIndexUNR(UnitNode *un,
 //                              UnitNode *parentUN = nullptr);
     QModelIndex findeIndexUNR(UnitNode *tc,

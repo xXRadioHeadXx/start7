@@ -156,7 +156,7 @@ w_SSOI_IP_SD=new Widget_SSOI_IP_SD(this,this->ui->communicationType,this->ui->co
 w_SSOI_IP_IU=new Widget_SSOI_IP_IU(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_SSOI_IP_IU);
 
 
-
+ui->stackedWidget_3->setCurrentWidget(ui->find_button_page_0);
    //
 
      foreach(UnitWidget* wgt, l_UnitWidgets){
@@ -2440,6 +2440,10 @@ void MainWindowCFG::func_to_edit_unit()
         current_wgt()->set_timeouts(unit);
 
         this->get_option(unit);
+        this->modelTreeUN->updateModel();
+         ui->treeView->setCurrentIndex(index);
+        this->ui->treeView->expand(index);
+ //       this->ui->treeView->repaint();
         }else{
             QMessageBox::critical(0,"Ошибка","Некорректное имя");
 
