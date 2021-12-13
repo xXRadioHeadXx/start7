@@ -609,23 +609,27 @@ QString UnitWidget::get_full_string(UnitNode *unit){
     }else{
     str+=m_TypeUnitNode.value(unit->getType());
     }
-    str+="</b> ";
-    str+=": ";
-    if(comm_is_needed){
+    str+="</b>";
 
-        if(unit->getUdpUse()){
+    if(comm_is_needed){
+         if(unit->getUdpUse()){
+
+            str+=" : ";
             str+=unit->getUdpAdress();
             str+="::";
             str+=QString::number(unit->getUdpPort());
 
+
             if(unit->getNum1()!=255)
-                str+=" Адрес"+QString::number(unit->getNum1());
+                str+=" : Адрес "+QString::number(unit->getNum1());
         }else{
 
-            str+=" COM";
-            str+=QString::number(unit->getNum3());
+
+            str+=" : COM"+QString::number(unit->getNum3());
+
+
             if(unit->getNum1()!=255)
-                str+=" Адрес"+QString::number(unit->getNum1());
+                str+=" : Адрес "+QString::number(unit->getNum1());
 
             if(unit->getUdpAdress()!=""){
              str+=" ("+ unit->getUdpAdress()+ ")";
@@ -641,7 +645,7 @@ QString UnitWidget::get_full_string(UnitNode *unit){
     str+=get_string(unit);
 
  if(comm_is_needed)
-     str+=" Таймаут "+QString::number(unit->getUdpTimeout());
+     str+=" : Таймаут "+QString::number(unit->getUdpTimeout());
 
 
    return str;

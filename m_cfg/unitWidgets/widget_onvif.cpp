@@ -91,7 +91,7 @@ bool Widget_ONVIF::equal(UnitNode *un, UnitNode *unit)
 
 QString Widget_ONVIF::get_string(UnitNode *unit)
 {
-    return unit->getIcon1Path();
+    return " "+unit->getIcon1Path();
 }
 
 

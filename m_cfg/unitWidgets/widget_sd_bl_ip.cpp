@@ -157,11 +157,11 @@ bool Widget_SD_BL_IP::equal(UnitNode *unit, UnitNode *un)
 
 QString Widget_SD_BL_IP::get_string(UnitNode *unit)
 {
-    QString str=" СД";
+    QString str=" : СД";
     str+=QString::number(unit->getNum2());
 
     if(unit->getBazalt()==1){
-        str+=" + ИУ"+QString::number(unit->getNum2());
+        str+="+ИУ"+QString::number(unit->getNum2());
     }
 
 

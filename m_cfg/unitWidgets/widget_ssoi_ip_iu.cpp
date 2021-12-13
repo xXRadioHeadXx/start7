@@ -167,7 +167,7 @@ return false;
 QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
 {
 
-    return " ИУ"+QString::number(unit->getNum2());
+    return " : ИУ"+QString::number(unit->getNum2());
 
 
 }

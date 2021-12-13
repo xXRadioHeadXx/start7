@@ -333,15 +333,15 @@ QString Widget_DD_SOTA::get_string(UnitNode *unit)
 
 
 
-    str+=" БОД ";
+    str+=" : БОД ";
 
     str+=QString::number(BOD->getNum1());
 
-    str+=" Участок ";
+    str+=" : Участок ";
 
     str+=QString::number(Y4->getNum2()/100);
 
-    str+=" ДД ";
+    str+=" : ДД ";
 
     str+=UnitWidget::get_dd(unit);
 

@@ -223,7 +223,7 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
     QString str;
 
 
-        str+=" ";
+        str+=" : ";
 
         if(unit->getNum2()==9){
         str+="Вскрытие";
@@ -235,8 +235,8 @@ QString Widget_SSOI_IP_SD::get_string(UnitNode *unit)
 
         if(unit->getBazalt()==1)
         {
-            str+=" +";
-            str+=" ИУ";
+            str+="+";
+            str+="ИУ";
             str+=QString::number(unit->getNum2());
         }
 

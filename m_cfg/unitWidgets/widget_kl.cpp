@@ -126,7 +126,7 @@ QString Widget_KL::get_string(UnitNode *unit)
     QString str;
 
 
-    str+=" СД"+QString::number(unit->getNum2());
+    str+=" : СД"+QString::number(unit->getNum2());
 
 
    return str;

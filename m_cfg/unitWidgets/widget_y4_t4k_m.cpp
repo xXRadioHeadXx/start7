@@ -190,11 +190,11 @@ QString Widget_Y4_T4K_M::get_string(UnitNode *unit)
 
 
 
-    string1.append(" БОД ");
+    string1.append(" : БОД ");
 
     string1.append(QString::number(BOD->getNum1()));
 
-    string1.append(" Участок ");
+    string1.append(" : Участок ");
 
     string1.append(QString::number(unit->getNum2()/100));
 

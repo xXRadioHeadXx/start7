@@ -193,11 +193,11 @@ QString Widget_Y4_SOTA::get_string(UnitNode *unit)
     UnitNode* BOD= static_cast<UnitNode*>(ind_BOD.internalPointer());
 
 
-    string1.append(" БОД ");
+    string1.append(" : БОД ");
 
     string1.append(QString::number(BOD->getNum1()));
 
-    string1.append(" Участок ");
+    string1.append(" : Участок ");
 
     string1.append(QString::number(unit->getNum2()/100));
 

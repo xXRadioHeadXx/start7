@@ -62,7 +62,7 @@ int TreeModelUnitNode::sizeHintForRow(int /*row*/) const
         2 == index.column()
              ))
      {
-         qDebug()<<"!!  Qt::DecorationRole  !!";
+
          QPixmap pxm;
          switch(index.column())
          {

@@ -166,7 +166,7 @@ bool Widget_ADAM::equal(UnitNode *one, UnitNode *second)
 
 QString Widget_ADAM::get_string(UnitNode *unit)
 {
- return " Адрес "+QString::number(unit->getNum1())+" ИУ "+QString::number(unit->getNum2());
+ return " : Адрес "+QString::number(unit->getNum1())+" ИУ "+QString::number(unit->getNum2());
 
 }
 

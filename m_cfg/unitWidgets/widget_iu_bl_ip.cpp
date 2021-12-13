@@ -135,7 +135,7 @@ QString Widget_IU_BL_IP::get_string(UnitNode *unit){
 
 
 
-return  " ИУ "+QString::number(unit->getNum2())+" ";
+return  " : ИУ"+QString::number(unit->getNum2());
 
 
 }

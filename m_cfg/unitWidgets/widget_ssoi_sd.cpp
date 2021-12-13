@@ -87,23 +87,29 @@ void Widget_SSOI_SD::set_to(UnitNode *unit)
 void Widget_SSOI_SD::update_name()
 {
     QString Name("");
-    Name.append("Канал");
-    Name.append(this->ui->Num1->currentText());
-    Name.append("-БЛ");
-    Name.append(this->ui->Num2->currentText());
+    Name+="Канал ";
+
+    auto val=ui->Num1->currentText().toInt();
+    if(val<10)
+    Name+="0";
 
 
-    Name.append(" ");
+    Name+=this->ui->Num1->currentText();
+    Name+="-БЛ";
+    Name+=this->ui->Num2->currentText();
+
+
+    Name+=" ";
     if(this->ui->Num3->currentText()!="Вскрытие"){
-    Name.append("СД");
+    Name+="СД";
     }
-    Name.append(this->ui->Num3->currentText());
+    Name+=this->ui->Num3->currentText();
 
 
     if(this->ui->OutType->currentIndex()>0)
     {
-    Name.append(" ");
-    Name.append(this->ui->OutType->currentText());
+    Name+=" ";
+    Name+=this->ui->OutType->currentText();
     }
 
     emit updateName(Name);
@@ -163,19 +169,22 @@ bool Widget_SSOI_SD::equal(UnitNode *un, UnitNode *unit)
 
 QString Widget_SSOI_SD::get_string(UnitNode *unit)
 {
-    QString string1;
+    QString str;
     QString UdpAdress=unit->getUdpAdress();
 
 
-    string1.append(" Канал");
+    str.append(" : Канал");
+
+    auto val=unit->getNum1();
+    if(val<10)
+    str.append("0");
+
+        str.append(QString::number(unit->getNum1()));
 
 
-        string1.append(QString::number(unit->getNum1()));
-
-
-    string1.append(" БЛ");
-    string1.append(QString::number(unit->getNum2()));
-    string1.append(" ");
+    str.append(" : БЛ");
+    str.append(QString::number(unit->getNum2()));
+    str.append(" : ");
 
     //СД
 
@@ -183,28 +192,28 @@ QString Widget_SSOI_SD::get_string(UnitNode *unit)
 
 
     if(unit->getNum2()==9){
-    string1+="Вскрытие";
+    str+="Вскрытие";
     }else{
 
-    string1+=" СД";
-    string1+=QString::number(unit->getNum2());
+    str+=" СД";
+    str+=QString::number(unit->getNum2());
     }
 
     if(unit->getBazalt()==1)
         {
-            string1.append(" +");
-            string1.append(" ИУ");
-            string1.append(QString::number(unit->getNum3()));
+            str.append("+");
+            str.append("ИУ");
+            str.append(QString::number(unit->getNum3()));
         }
     else
     if(unit->getConnectBlock()==1)
         {
-            string1.append(" +");
-            string1.append(" ИУ");
-            string1.append(QString::number(unit->getNum3()-3));
+            str.append("+");
+            str.append("ИУ");
+            str.append(QString::number(unit->getNum3()-3));
         }
 
-    string1.append("  ");
+    str.append("  ");
 
 
 
@@ -213,25 +222,25 @@ QString Widget_SSOI_SD::get_string(UnitNode *unit)
     if(unit->getBazalt())
     {
 
-        string1.append(m_SSOI_SD_OutType.value(8));
+        str.append(m_SSOI_SD_OutType.value(8));
     }
     else if(unit->getConnectBlock())
     {
 
-        string1.append(m_SSOI_SD_OutType.value(9));
+        str.append(m_SSOI_SD_OutType.value(9));
     }
     else
     {
 
         int val = unit->getOutType();
         if(val)
-        string1.append(m_SSOI_SD_OutType.value(unit->getOutType()));
+        str.append(m_SSOI_SD_OutType.value(unit->getOutType()));
     }
 
 
 
 
-   return string1;
+   return str;
 }
 
 void Widget_SSOI_SD::on_Num1_currentIndexChanged(const QString &arg1)

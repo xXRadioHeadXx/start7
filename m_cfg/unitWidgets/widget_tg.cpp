@@ -137,10 +137,9 @@ QString Widget_TG::get_string(UnitNode *unit)
             string1.append(" : ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" : ");
-    string1.append("ЧЭ: ");
+    string1.append("ЧЭ ");
     string1.append(QString::number(unit->getNum2()));
-    string1.append("\r\n");
-    string1.append("Кан: ");
+    string1.append(" :Кан ");
 
     if(unit->getUdpUse()==0)
     {

@@ -555,8 +555,8 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 
         connect(this->unitFinder_f,SIGNAL(options_to_find(QList<QString>)),this,SLOT(find_from_options(QList<QString>)));
 
-        connect(this->unitFinder_f,SIGNAL(next()),this,SLOT(next()));
-        connect(this->unitFinder_f,SIGNAL(prev()),this,SLOT(prev()));
+        connect(this->unitFinder_f,SIGNAL(next()),this,SLOT(finder_next()));
+        connect(this->unitFinder_f,SIGNAL(prev()),this,SLOT(finder_prev()));
 
         connect(this->unitFinder_f,SIGNAL(clear_list_equals()),this,SLOT(clear_list_equals()));
 
@@ -670,26 +670,10 @@ void MainWindowCFG::clear_list_equals()
 
 void MainWindowCFG::prev()
 {
-    if(modelTreeUN->list_Equals_for_chanell.count()>0)
-    {
-                bool res=false;
-    for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
-    {
-        QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
-        if(this->ui->treeView->currentIndex()==ind){
-          if(i>0)
-           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i-1));
+    /*
 
-            else
-          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(modelTreeUN->list_Equals_for_chanell.count()-1));
-           break;
-        }
-
-    }
-    if(res==false)
-          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
-    }
     else
+        */
         if(modelTreeUN->list_Equals.count()>0)
         {
         for(int i=0;i<(modelTreeUN->list_Equals.count());i++)
@@ -716,10 +700,36 @@ void MainWindowCFG::prev()
     this->get_option(unit);
 }
 
-void MainWindowCFG::next()
+
+
+void MainWindowCFG::finder_prev()
 {
     if(modelTreeUN->list_Equals_for_chanell.count()>0)
     {
+                bool res=false;
+    for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
+    {
+        QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
+        if(this->ui->treeView->currentIndex()==ind){
+          if(i>0)
+           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i-1));
+
+            else
+          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(modelTreeUN->list_Equals_for_chanell.count()-1));
+           break;
+        }
+
+    }
+    if(res==false)
+          this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+    }
+}
+
+void MainWindowCFG::finder_next()
+{
+    if(modelTreeUN->list_Equals_for_chanell.count()>0)
+    {
+        qDebug()<<"1";
         bool res=false;
         for(int i=0;i<(modelTreeUN->list_Equals_for_chanell.count());i++)
         {
@@ -745,9 +755,17 @@ void MainWindowCFG::next()
           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
 
     }
+}
+
+void MainWindowCFG::next()
+{
+    /*
+
     else
+        */
     if(modelTreeUN->list_Equals.count()>0)
     {
+                qDebug()<<"2";
         for(int i=0;i<(modelTreeUN->list_Equals.count());i++)
         {
             QModelIndex ind=modelTreeUN->list_Equals.at(i);

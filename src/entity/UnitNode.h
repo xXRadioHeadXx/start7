@@ -60,8 +60,8 @@ enum TypeUnitNode {
     RASTRMTV =42, //камера РАСТР-М-ТВ
     INFO_TABLO = 71, //информационное табло
 
-    SSOI_IP_SD = 303, //ССОИ СД
-    SSOI_IP_IU = 304 //ССОИ ИУ
+    SSOI_IP_SD = 44, //ССОИ СД
+    SSOI_IP_IU = 45 //ССОИ ИУ
 };
 
 static QMap <int,int> timeouts{

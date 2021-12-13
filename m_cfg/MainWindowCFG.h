@@ -554,8 +554,10 @@ private slots:
     void  clear_list_equals();
 
     void next();
-
     void prev();
+
+    void finder_next();
+    void finder_prev();
 
     void find_from_options(QList<QString>);
 
