@@ -54,6 +54,8 @@ void Widget_TOROS::set_to(UnitNode *unit)
 void Widget_TOROS::update_name()
 {
     QString Name("Торос-");
+    if(ui->Num1->currentText().toInt()<10)
+    Name.append("0");
     Name.append(this->ui->Num1->currentText());
     emit updateName(Name);
 

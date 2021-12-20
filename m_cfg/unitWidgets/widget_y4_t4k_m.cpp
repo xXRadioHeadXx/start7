@@ -84,7 +84,7 @@ UnitNode* parent;
 parent = static_cast<UnitNode*>(current->internalPointer());
 
     if(parent){
-        Name.append("БОД");
+        Name.append("БОД-");
         if(parent->getNum1()<100)
         Name.append("0");
         Name.append(QString::number(parent->getNum1()));
