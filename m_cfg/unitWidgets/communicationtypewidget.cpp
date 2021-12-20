@@ -142,5 +142,10 @@ void communicationTypeWidget::on_udpUse_currentTextChanged(const QString &arg1)
 void communicationTypeWidget::on_udpAdress_currentTextChanged(const QString &arg1)
 {
     qDebug()<<".";
-    emit updateIP();
+    emit updateIP(ID);
+}
+
+void communicationTypeWidget::setID(int value)
+{
+    ID = value;
 }

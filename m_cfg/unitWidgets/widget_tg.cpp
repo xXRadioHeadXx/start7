@@ -135,7 +135,7 @@ QString Widget_TG::get_string(UnitNode *unit)
 
 
     string1.append(" : ");
-    string1.append("ЧЭ ");
+    string1.append("ЧЭ");
     string1.append(QString::number(unit->getNum2()));
 
 

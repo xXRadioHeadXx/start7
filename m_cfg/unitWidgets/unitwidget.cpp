@@ -26,7 +26,7 @@ UnitWidget::UnitWidget(QWidget *parent, communicationTypeWidget *comm, coordinat
 
     ui->setupUi(this);
 
-    connect(comm,SIGNAL(updateIP()),this,SLOT(updateName_slot()));
+    connect(comm,SIGNAL(updateIP(int)),this,SLOT(updateName_slot(int)));
 
 
 
@@ -96,6 +96,19 @@ void UnitWidget::get_option(UnitNode *unit)
   qDebug()<<"UnitWidget::get_option";
 
   comm->setVisible(comm_is_needed?true:false);
+
+  if(comm_is_needed){
+
+      comm->setID(this->getID());
+      comm->setVisible(true);
+
+  }else{
+
+      comm->setVisible(false);
+  }
+
+
+
   comm->get_options(unit,getID());
 
  // coord->setVisible(false);
@@ -570,11 +583,12 @@ QModelIndex UnitWidget::getDouble_unit_index()
     return this->double_unit_index;
 }
 
-void UnitWidget::updateName_slot()
+void UnitWidget::updateName_slot(int ID)
 {
-
-    qDebug()<<"!";
+    if(ID==this->ID){
+    qDebug()<<m_TypeUnitNode.value(this->getID());
     update_name();
+    }
 }
 
 void UnitWidget::set_to(UnitNode *unit)

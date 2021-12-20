@@ -34,6 +34,8 @@ public:
 
 
 
+    void setID(int value);
+
 private slots:
     void on_udpUse_currentTextChanged(const QString &arg1);
 
@@ -48,7 +50,7 @@ private:
     Ui::communicationTypeWidget *ui;
 
 signals:
-    void updateIP();
+    void updateIP(int ID);
 
 
 };

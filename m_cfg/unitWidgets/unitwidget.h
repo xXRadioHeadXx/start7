@@ -90,7 +90,7 @@ private:
     Ui::UnitWidget *ui;
 
 public slots:
-    void updateName_slot();
+    void updateName_slot(int ID);
 
 signals:
     void updateName(QString);
