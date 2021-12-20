@@ -51,7 +51,7 @@ void Widget_KL::set_to(UnitNode *unit)
 
 void Widget_KL::update_name()
 {
-    QString name="КЛ";
+    QString name="КЛ-";
     if(this->ui->Num1->currentText().toInt()<10)
     name+="0";
     name+=this->ui->Num1->currentText();

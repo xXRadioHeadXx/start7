@@ -46,7 +46,7 @@ void Widget_BOD_T4K_M::set_to(UnitNode *unit)
 void Widget_BOD_T4K_M::update_name()
 {
     QString Name;
-    Name.append("Точка-М: БОД");
+    Name.append("Точка-М: БОД-");
     if(ui->Num1->currentText().toInt()<10)
     Name.append("0");
     Name.append(ui->Num1->currentText());

@@ -75,7 +75,7 @@ void Widget_SSOI_IP_IU::update_name()
     name.append(ui->Num1->currentText());
 
     name.append(" ИУ");
-    name.append(" ");
+  //  name.append(" ");
 
     //if(this->ui->SD_BL_IP_num_combobox->currentText().toInt()<10)
     //name.append("0");

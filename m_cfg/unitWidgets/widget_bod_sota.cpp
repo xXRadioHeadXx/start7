@@ -46,7 +46,7 @@ void Widget_BOD_SOTA::set_to(UnitNode *unit)
 void Widget_BOD_SOTA::update_name()
 {
     QString Name;
-    Name.append("Сота: БОД");
+    Name.append("Сота: БОД-");
     if(ui->Num1->currentText().toInt()<10)
     Name.append("0");
     Name.append(ui->Num1->currentText());

@@ -43,7 +43,7 @@ unit->setNum1(ui->Num1->currentText().toInt());
 void Widget_RLM_C::update_name()
 {
     QString Name;
-    Name.append("РИФ-РЛМ-С ");
+    Name.append("РИФ-РЛМ-С-");
     if(ui->Num1->currentText().toInt()<10)
     Name.append("0");
     Name.append(ui->Num1->currentText());
