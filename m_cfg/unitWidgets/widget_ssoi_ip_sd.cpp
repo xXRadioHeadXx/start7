@@ -126,6 +126,10 @@ void Widget_SSOI_IP_SD::update_name()
  }
     name.append(ui->Num2->currentText());
 
+    if(ui->OutType->currentText()!="не указан")
+    name+=" "+ui->OutType->currentText();
+
+
 
 
 
