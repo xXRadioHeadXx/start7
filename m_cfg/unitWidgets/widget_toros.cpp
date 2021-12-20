@@ -108,16 +108,8 @@ bool Widget_TOROS::equal(UnitNode *un, UnitNode *unit)
 
 QString Widget_TOROS::get_string(UnitNode *unit)
 {
-    QString string1;
 
-
-    string1.append(" : Трасса ");
-    string1.append(QString::number(unit->getNum1()));
-    string1.append(" : Канал ");
-    string1.append(QString::number(unit->getUdpPort()));
-
-
-   return string1;
+   return "";
 }
 
 void Widget_TOROS::on_Num1_currentIndexChanged(const QString &arg1)
