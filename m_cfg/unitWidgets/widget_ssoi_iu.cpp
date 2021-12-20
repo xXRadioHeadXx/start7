@@ -67,7 +67,7 @@ void Widget_SSOI_IU::update_name()
     Name+=ui->Num1->currentText();
     Name+="-БЛ";
     Name+=ui->Num2->currentText();
-    Name+="-";
+    Name+=" ";
     Name+=ui->Num3->currentText();
     emit updateName(Name);
 
@@ -95,11 +95,12 @@ bool Widget_SSOI_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMod
            (parent->getType()==TypeUnitNode::INFO_TABLO)||
            (parent->getType()==TypeUnitNode::SSOI_IU) ||
            (parent->getType()==TypeUnitNode::IU_BL_IP)||
+           (parent->getType()==TypeUnitNode::SSOI_IP_IU) ||
            (parent->getType()==TypeUnitNode::ADAM)||
-            (parent->getType()==TypeUnitNode::BOD_SOTA)||
-            (parent->getType()==TypeUnitNode::BOD_T4K_M)||
-            (parent->getType()==TypeUnitNode::Y4_SOTA)||
-            (parent->getType()==TypeUnitNode::Y4_T4K_M))
+           (parent->getType()==TypeUnitNode::BOD_SOTA)||
+           (parent->getType()==TypeUnitNode::BOD_T4K_M)||
+           (parent->getType()==TypeUnitNode::Y4_SOTA)||
+           (parent->getType()==TypeUnitNode::Y4_T4K_M))
 
         {
 

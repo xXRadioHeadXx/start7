@@ -75,7 +75,7 @@ void Widget_SSOI_IP_IU::update_name()
     name.append(ui->Num1->currentText());
 
     name.append(" ИУ");
-    name.append("-");
+    name.append(" ");
 
     //if(this->ui->SD_BL_IP_num_combobox->currentText().toInt()<10)
     //name.append("0");
@@ -118,6 +118,7 @@ bool Widget_SSOI_IP_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,Q
        (parent->getType()==TypeUnitNode::INFO_TABLO)||
        (parent->getType()==TypeUnitNode::SSOI_IU) ||
        (parent->getType()==TypeUnitNode::IU_BL_IP)||
+       (parent->getType()==TypeUnitNode::SSOI_IP_IU)||
         (parent->getType()==TypeUnitNode::ADAM)||
             (parent->getType()==TypeUnitNode::BOD_SOTA)||
             (parent->getType()==TypeUnitNode::BOD_T4K_M)||

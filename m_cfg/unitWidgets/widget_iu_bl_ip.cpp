@@ -80,6 +80,7 @@ bool Widget_IU_BL_IP::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
        (parent->getType()==TypeUnitNode::INFO_TABLO)||
        (parent->getType()==TypeUnitNode::SSOI_IU) ||
        (parent->getType()==TypeUnitNode::IU_BL_IP)||
+       (parent->getType()==TypeUnitNode::SSOI_IP_IU) ||
        (parent->getType()==TypeUnitNode::ADAM)||
 
        (parent->getType()==TypeUnitNode::BOD_SOTA)||
