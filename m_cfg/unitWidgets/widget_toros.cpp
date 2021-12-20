@@ -110,13 +110,12 @@ QString Widget_TOROS::get_string(UnitNode *unit)
 {
     QString string1;
 
-    string1.append("Торос ");
+
     string1.append(" : Трасса ");
     string1.append(QString::number(unit->getNum1()));
     string1.append(" : Канал ");
     string1.append(QString::number(unit->getUdpPort()));
-    string1.append(" : Таймаут ");
-    string1.append(QString::number(unit->getUdpTimeout()));
+
 
    return string1;
 }

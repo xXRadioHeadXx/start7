@@ -133,39 +133,13 @@ QString Widget_TG::get_string(UnitNode *unit)
 {
     QString string1;
 
-    string1.append("<b>");string1.append(m_TypeUnitNode_d.value(unit->getType()));string1.append("</b> ");//  Точка/Гарда</b> ");
-            string1.append(" : ");
-    string1.append(QString::number(unit->getNum1()));
+
     string1.append(" : ");
     string1.append("ЧЭ ");
     string1.append(QString::number(unit->getNum2()));
-    string1.append(" :Кан ");
-
-    if(unit->getUdpUse()==0)
-    {
-   string1.append(QString::number(unit->getNum3()));
-   if(unit->getUdpAdress()!="")
-   {
-       string1.append(" ");
-       string1.append("(");
-       string1.append(unit->getUdpAdress());
-       string1.append(")");
-   }
 
 
-    }
 
-    if(unit->getUdpUse()==1)
-    {
-        string1.append(unit->getUdpAdress());
-        string1.append("::");
-        string1.append(QString::number(unit->getUdpPort()));
-        string1.append(" ");
-        string1.append("\r\n");
-        string1.append("Таймаут: ");
-        string1.append(QString::number(unit->getUdpTimeout()));
-        string1.append("\r\n");
-    }
    return string1;
 }
 

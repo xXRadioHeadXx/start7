@@ -87,15 +87,11 @@ void Widget_SSOI_SD::set_to(UnitNode *unit)
 void Widget_SSOI_SD::update_name()
 {
     QString Name("");
-    Name+="Канал ";
-
-    auto val=ui->Num1->currentText().toInt();
-    if(val<10)
-    Name+="0";
+    Name+="Канал";
 
 
     Name+=this->ui->Num1->currentText();
-    Name+="-БЛ";
+    Name+=" БЛ";
     Name+=this->ui->Num2->currentText();
 
 
@@ -175,11 +171,7 @@ QString Widget_SSOI_SD::get_string(UnitNode *unit)
 
     str.append(" : Канал");
 
-    auto val=unit->getNum1();
-    if(val<10)
-    str.append("0");
-
-        str.append(QString::number(unit->getNum1()));
+    str.append(QString::number(unit->getNum1()));
 
 
     str.append(" : БЛ");
