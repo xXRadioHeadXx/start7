@@ -52,7 +52,7 @@ void Widget_RLM_KRL::update_name()
 {
     QString Name;
     Name.clear();
-    Name.append(ui->AdamOff->currentText());
+    Name.append(ui->AdamOff->currentText().remove(0,1));
     Name.append("-");
     if(ui->Num1->currentText().toInt()<10)
     Name.append("0");

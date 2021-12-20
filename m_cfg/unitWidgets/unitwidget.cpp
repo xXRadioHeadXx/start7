@@ -603,22 +603,24 @@ QString UnitWidget::get_full_string(UnitNode *unit){
 
     if(unit->getType()==TypeUnitNode::RLM_KRL){
         if(0==unit->getAdamOff())
-        str+=str_RIF_RLM;
+        str+=str_RIF_RLM.remove(0,1);
 
         if(1==unit->getAdamOff())
-        str+=str_RIF_RLM_24;
+        str+=str_RIF_RLM_24.remove(0,1);
 
         if(2==unit->getAdamOff())
-        str+=str_RIF_RLM_B;
+        str+=str_RIF_RLM_B.remove(0,1);
 
         if(3==unit->getAdamOff())
-        str+=str_RIF_KRL;
+        str+=str_RIF_KRL.remove(0,1);
 
         if(4==unit->getAdamOff())
-        str+=str_Razriv;
+        str+=str_Razriv.remove(0,1);
 
         if(5==unit->getAdamOff())
-        str+=str_trassa1l;
+        str+=str_trassa1l.remove(0,1);
+
+
 
     }else{
     str+=m_TypeUnitNode.value(unit->getType());
