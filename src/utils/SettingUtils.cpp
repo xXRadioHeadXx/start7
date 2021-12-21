@@ -53,7 +53,7 @@ QList<UnitNode *> SettingUtils::loadTreeUnitNodes(TreeModelUnitNode *model,UnitN
 
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
      QTextCodec::setCodecForLocale(codec);
-   settings.setIniCodec(codec);
+    settings.setIniCodec(codec);
 
     settings.beginGroup("TREE");
 
