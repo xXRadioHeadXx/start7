@@ -18,7 +18,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-/*
+
     {
         RunGuard guardCopyCfg( "start7_cfg" );
         if ( !guardCopyCfg.tryToRun() ) {
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 
 }
 #endif
-*/
+
     MainWindowCFG w;
     w.setWindowIcon(QIcon::fromTheme(":icons/exec.ico"));
     w.show();
