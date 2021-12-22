@@ -168,13 +168,13 @@ bool Widget_SSOI_IP_SD::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,Q
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer()); if(!parent){return false;}
 
-
+/*
     if((unit->getUdpPort()!=4001)&&
             (unit->getUdpPort()!=4002)&&
             (unit->getUdpPort()!=4003)&&
             (unit->getUdpPort()!=4004))
         return false;
-
+*/
 
     if(unit->getUdpUse()!=1){
 
