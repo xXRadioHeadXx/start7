@@ -136,13 +136,13 @@ bool Widget_SSOI_IP_IU::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,Q
 
         return false;
     }
-
+/*
     if((unit->getUdpPort()!=4001)&&
             (unit->getUdpPort()!=4002)&&
             (unit->getUdpPort()!=4003)&&
             (unit->getUdpPort()!=4004))
         return false;
-
+*/
 
 
         //Num2 от нуля до четырех
