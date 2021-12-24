@@ -190,7 +190,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
    qDebug()<<"before:";
    foreach(MY_GROUP* val,list)
    {
-       qDebug()<<val->header;
+       qDebug()<<val->header<<" "<<val->id;
    }
 
 
@@ -246,7 +246,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
    qDebug()<<"after:";
    foreach(MY_GROUP* val,list)
    {
-       qDebug()<<val->header;
+       qDebug()<<val->header<<" "<<val->id;
    }
 
 
@@ -326,6 +326,12 @@ void My_settings::save_ini(QString filepath)
         list.append(val);
     }
 
+    qDebug()<<"before:";
+    foreach(MY_GROUP* val,list)
+    {
+    qDebug()<<val->header<<" "<<val->id;
+    }
+
     qSort(list.begin(), list.end(), [](const MY_GROUP* v1,
                                                    const MY_GROUP* v2)
                                                                 ->bool
@@ -336,13 +342,20 @@ void My_settings::save_ini(QString filepath)
 
      //   qDebug()<<v1->header;
      //   qDebug()<<v2->header;
-        if(h1.contains("Obj_")&&h2.contains("Obj_")){
+        if(h1.contains("Obj_")){
 
-         int v1=h1.remove(0,4).toInt();
-         int v2=h2.remove(0,4).toInt();
+            if(h2.contains("Obj_")){
 
-         if(v1>v2)
-             return false;
+                    int v1=h1.remove(0,4).toInt();
+                    int v2=h2.remove(0,4).toInt();
+
+                    if(v1>v2)
+                        return false;
+                   }else{
+
+                     return false;
+
+                     }
         }
         else
         if(h1.contains("Operator_")&&h2.contains("Operator_")){
@@ -353,6 +366,12 @@ void My_settings::save_ini(QString filepath)
                 return false;
         }
         else{
+
+            if(h2.contains("Obj_")){
+
+                     return true;
+
+                   }else
             if(v1->id>v2->id)
                 return false;
         }
@@ -361,13 +380,23 @@ void My_settings::save_ini(QString filepath)
        return true;
     }
     );
+    qDebug()<<"after:";
+    foreach(MY_GROUP* val,list)
+    {
+    qDebug()<<val->header<<" "<<val->id;
+    }
 
 
+
+    qDebug()<<" ";
+    qDebug()<<"сохраняю:";
+        qDebug()<<" ";
     if(file.open(QIODevice::WriteOnly))
     {
        QDataStream stream(&file);
        for (int i = 0; i <list.count(); ++i)
        {
+          qDebug()<<list.at(i)->header;
           write_group(&stream,map.key(list.at(i)));
 
           MY_GROUP* group=list.at(i);
