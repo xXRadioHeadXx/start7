@@ -187,7 +187,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
        list.append(val);
    }
 
-   qDebug()<<"до сортировки:";
+   qDebug()<<"before:";
    foreach(MY_GROUP* val,list)
    {
        qDebug()<<val->header;
@@ -230,7 +230,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
    }
    );
 
-   qDebug()<<"после сортировки:";
+   qDebug()<<"after:";
    foreach(MY_GROUP* val,list)
    {
        qDebug()<<val->header;
@@ -255,7 +255,7 @@ My_settings::~My_settings()
 
 void My_settings::save_ini(QString filepath)
 {
-    qDebug()<<"[11111111111]";
+    qDebug()<<"[save_ini]";
 
 
     QByteArray next_string;
@@ -276,7 +276,6 @@ void My_settings::save_ini(QString filepath)
       res.append(0x0D);
       res.append(0x0A);
 
-    qDebug()<<"[2]";
       stream->writeRawData(res,res.size());
     };
 
@@ -313,43 +312,42 @@ void My_settings::save_ini(QString filepath)
     {
         list.append(val);
     }
- // qDebug()<<"[5]";
-// qDebug()<<"-- До сортировки ------------------------";
 
-    int res=1;
-    int cnt=0;
-    while((res==1)&&(cnt<2000))
+    qSort(list.begin(), list.end(), [](const MY_GROUP* v1,
+                                                   const MY_GROUP* v2)
+                                                                ->bool
     {
-    res=0;
-    for (int i = 0; i <list.count()-1; ++i)
-    {
-      if(list.at(i)->get_id()<(list.at(i+1)->get_id()))
-      {
-      //   qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" меньше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
-      }
-      else
-      {
-  //       qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" больше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
-           list.move(i+1,i);
-           res=1;
-      }
+     //   qDebug()<<"заголовки:";
+        QString h1=v1->header;
+        QString h2=v2->header;
+
+     //   qDebug()<<v1->header;
+     //   qDebug()<<v2->header;
+        if(h1.contains("Obj_")&&h2.contains("Obj_")){
+
+         int v1=h1.remove(0,4).toInt();
+         int v2=h2.remove(0,4).toInt();
+
+         if(v1>v2)
+             return false;
+        }
+        else
+        if(h1.contains("Operator_")&&h2.contains("Operator_")){
+            int v1=h1.remove(0,9).toInt();
+            int v2=h2.remove(0,9).toInt();
+
+            if(v1>v2)
+                return false;
+        }
+        else{
+            if(v1->id>v2->id)
+                return false;
+        }
+
+
+       return true;
     }
-     cnt++;
- //  qDebug()<<"-----------------cnt "<<cnt<<" res"<<res;
-    }
-
-
-  //  qDebug()<<"-- После сортировки ------------------------";
-
-    for (int i = 0; i <list.count(); ++i)
-    {
-    //  qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
-
-    }
-  //  qDebug()<<"-- После сортировки ------------------------";
-
-
-
+    );
 
 
     if(file.open(QIODevice::WriteOnly))
