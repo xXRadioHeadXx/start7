@@ -17,14 +17,19 @@ public:
 
     void sort();
 
+    QString header;
 
     bool operator<(const MY_GROUP other) const {
         //qDebug()<<"Сравнение "<<id<<" и другой "<<other.id;
            return id<other.id;
        }
 
-private:
     long id;
+
+private:
+
+
+
 
 
 signals:

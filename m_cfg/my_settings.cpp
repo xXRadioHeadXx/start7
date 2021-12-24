@@ -134,6 +134,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
          //       //qDebug()<<"id "<<gr->get_id();
 
                 map.insert(str_group,gr);
+                gr->header=str_group;
 
                 cnt_group++;
 
@@ -172,10 +173,70 @@ My_settings::My_settings(QString filepath, QObject *parent)
    //qDebug()<<"size"<<map.size();
 
    QList<MY_GROUP*> list;
+
+   qDebug()<<"смотри:";
+   foreach(QString key,map.keys())
+   {
+       qDebug()<<key;
+   }
+
+
+
    foreach(MY_GROUP* val,map.values())
    {
        list.append(val);
    }
+
+   qDebug()<<"до сортировки:";
+   foreach(MY_GROUP* val,list)
+   {
+       qDebug()<<val->header;
+   }
+
+
+   qSort(list.begin(), list.end(), [](const MY_GROUP* v1,
+                                                  const MY_GROUP* v2)
+                                                               ->bool
+   {
+    //   qDebug()<<"заголовки:";
+       QString h1=v1->header;
+       QString h2=v2->header;
+
+    //   qDebug()<<v1->header;
+    //   qDebug()<<v2->header;
+       if(h1.contains("Obj_")&&h2.contains("Obj_")){
+
+        int v1=h1.remove(0,4).toInt();
+        int v2=h2.remove(0,4).toInt();
+
+        if(v1>v2)
+            return false;
+       }
+       else
+       if(h1.contains("Operator_")&&h2.contains("Operator_")){
+           int v1=h1.remove(0,9).toInt();
+           int v2=h2.remove(0,9).toInt();
+
+           if(v1>v2)
+               return false;
+       }
+       else{
+           if(v1->id>v2->id)
+               return false;
+       }
+
+
+      return true;
+   }
+   );
+
+   qDebug()<<"после сортировки:";
+   foreach(MY_GROUP* val,list)
+   {
+       qDebug()<<val->header;
+   }
+
+
 ////qDebug()<<"[1]";
    for (int i = 0; i <list.count(); ++i)
    {
@@ -264,7 +325,7 @@ void My_settings::save_ini(QString filepath)
     {
       if(list.at(i)->get_id()<(list.at(i+1)->get_id()))
       {
-   //      qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" меньше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
+      //   qDebug()<<map.key(list.at(i))<<" id "<<(list.at(i))->get_id()<<" pos "<<list.count(list.at(i))<<" меньше чем "<<map.key(list.at(i+1))<<" id "<<(list.at(i+1))->get_id()<<" pos "<<list.count((list.at(i))+1);
       }
       else
       {
@@ -282,10 +343,12 @@ void My_settings::save_ini(QString filepath)
 
     for (int i = 0; i <list.count(); ++i)
     {
-      qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
+    //  qDebug()<<map.key(list.at(i))<<"  id= "<<list.at(i)->get_id();
 
     }
   //  qDebug()<<"-- После сортировки ------------------------";
+
+
 
 
 

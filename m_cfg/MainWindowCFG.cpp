@@ -1432,7 +1432,7 @@ void MainWindowCFG::on_actionSave_triggered()
 
              my.set_value(strGroup, "PW", &ar);
              }
-//     my->save_ini(path);
+        //     my->save_ini(path);
 
          qDebug()<<"пароль 3 "<<ui->SQL_password_lineEdit->text();
 
@@ -5235,26 +5235,19 @@ this->modelTreeUN->getListFromModel(List, this->modelTreeUN->rootItemUN);
 void MainWindowCFG::on_pushButton_moveUp_clicked()
 {
     QModelIndex current=this->ui->treeView->currentIndex();
-    int current_row=this->ui->treeView->currentIndex().row();
-    //qDebug()<<QString::number(current_row);
-
-this->modelTreeUN->moveUNUp(current);
-
-
-
-
-
+    UnitNode *unit = static_cast<UnitNode*>(current.internalPointer());
+    this->modelTreeUN->moveUNUp(current);
+    QModelIndex frash=this->modelTreeUN->findeIndexUN(unit);
+    ui->treeView->scrollTo(frash);
 }
 
 void MainWindowCFG::on_pushButton_moveDown_clicked()
 {
     QModelIndex current=this->ui->treeView->currentIndex();
-    int current_row=this->ui->treeView->currentIndex().row();
-    //qDebug()<<QString::number(current_row);
-
-
-        this->modelTreeUN->moveUNDown(current);
-
+    UnitNode *unit = static_cast<UnitNode*>(current.internalPointer());
+    this->modelTreeUN->moveUNDown(current);
+    QModelIndex frash=this->modelTreeUN->findeIndexUN(unit);
+    ui->treeView->scrollTo(frash);
 }
 
 
