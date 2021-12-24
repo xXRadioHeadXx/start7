@@ -204,13 +204,20 @@ My_settings::My_settings(QString filepath, QObject *parent)
 
     //   qDebug()<<v1->header;
     //   qDebug()<<v2->header;
-       if(h1.contains("Obj_")&&h2.contains("Obj_")){
+       if(h1.contains("Obj_")){
 
-        int v1=h1.remove(0,4).toInt();
-        int v2=h2.remove(0,4).toInt();
+           if(h2.contains("Obj_")){
 
-        if(v1>v2)
-            return false;
+                   int v1=h1.remove(0,4).toInt();
+                   int v2=h2.remove(0,4).toInt();
+
+                   if(v1>v2)
+                       return false;
+                  }else{
+
+                    return false;
+
+                    }
        }
        else
        if(h1.contains("Operator_")&&h2.contains("Operator_")){
@@ -221,6 +228,12 @@ My_settings::My_settings(QString filepath, QObject *parent)
                return false;
        }
        else{
+
+           if(h2.contains("Obj_")){
+
+                    return true;
+
+                  }else
            if(v1->id>v2->id)
                return false;
        }
