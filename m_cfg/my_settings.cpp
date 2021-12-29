@@ -177,7 +177,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
    qDebug()<<"смотри:";
    foreach(QString key,map.keys())
    {
-       qDebug()<<key;
+ //      qDebug()<<key;
    }
 
 
@@ -246,7 +246,7 @@ My_settings::My_settings(QString filepath, QObject *parent)
    qDebug()<<"after:";
    foreach(MY_GROUP* val,list)
    {
-       qDebug()<<val->header<<" "<<val->id;
+ //      qDebug()<<val->header<<" "<<val->id;
    }
 
 
@@ -329,7 +329,7 @@ void My_settings::save_ini(QString filepath)
     qDebug()<<"before:";
     foreach(MY_GROUP* val,list)
     {
-    qDebug()<<val->header<<" "<<val->id;
+  //  qDebug()<<val->header<<" "<<val->id;
     }
 
     qSort(list.begin(), list.end(), [](const MY_GROUP* v1,
@@ -380,23 +380,23 @@ void My_settings::save_ini(QString filepath)
        return true;
     }
     );
-    qDebug()<<"after:";
+  //  qDebug()<<"after:";
     foreach(MY_GROUP* val,list)
     {
-    qDebug()<<val->header<<" "<<val->id;
+//    qDebug()<<val->header<<" "<<val->id;
     }
 
 
 
-    qDebug()<<" ";
-    qDebug()<<"сохраняю:";
-        qDebug()<<" ";
+ //   qDebug()<<" ";
+ //   qDebug()<<"сохраняю:";
+ //       qDebug()<<" ";
     if(file.open(QIODevice::WriteOnly))
     {
        QDataStream stream(&file);
        for (int i = 0; i <list.count(); ++i)
        {
-          qDebug()<<list.at(i)->header;
+      //    qDebug()<<list.at(i)->header;
           write_group(&stream,map.key(list.at(i)));
 
           MY_GROUP* group=list.at(i);

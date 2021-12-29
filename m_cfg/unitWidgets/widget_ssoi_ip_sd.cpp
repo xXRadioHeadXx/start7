@@ -94,7 +94,7 @@ void Widget_SSOI_IP_SD::update_name()
 {
     QString name;
 
-    name.append("CCOИ-IP ");
+    name+="CCOИ-IP ";
 
 
     QString ip_str=comm->get_udpAdress();
@@ -115,19 +115,25 @@ void Widget_SSOI_IP_SD::update_name()
     //разделить на подстроки через символ точку
     //четвертая подстрока. если менше сотни - ноль; меньше десяти - два нуля
 
-    name.append(UnitWidget::get_ip_str());
+    name+=UnitWidget::get_ip_str();
 
-   name.append("-");
-   name.append(ui->Num1->currentText());
-   name.append(" ");
+   name+="-";
+   name+=ui->Num1->currentText();
+   name+=" ";
 
  if(ui->Num2->currentText()!="Вскрытие"){
-      name.append("СД");
+      name+="СД";
  }
-    name.append(ui->Num2->currentText());
 
-    if(ui->OutType->currentText()!="не указан")
-    name+=" "+ui->OutType->currentText();
+    name+=ui->Num2->currentText();
+
+ //   if(ui->OutType->currentText()!="не указан")
+ //   name+=" "+ui->OutType->currentText();
+    if(this->ui->OutType->currentIndex()>0)
+    {
+    name+=" ";
+    name+=this->ui->OutType->currentText();
+    }
 
 
 
@@ -139,6 +145,7 @@ void Widget_SSOI_IP_SD::update_name()
 
 
 
+    qDebug()<<":::: "<<name;
   //  updater->updateName(name);
     emit updateName(name);
 }
