@@ -67,7 +67,7 @@ void Widget_DD_SOTA::update_name()
     if(parent){
 
 
-    Name.append(" ДД");
+    Name.append("ДД");
     if(parent){
         Name.append(QString::number(parent->getNum2()/100));
     Name.append("-");

@@ -469,7 +469,7 @@ QString UnitWidget::get_dd(UnitNode *unit)
 
     QString str;
     str.clear();
-    str.append(QString::number(unit->getNum2()-Y4->getNum2()+1));
+    str.append(QString::number(unit->getNum2()-Y4->getNum2()));
     return str;
 }
 

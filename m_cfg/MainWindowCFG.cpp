@@ -5276,8 +5276,26 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
 
             case TypeUnitNode::SD_BL_IP:
             case TypeUnitNode::SSOI_SD:
+
+                if(un->getBazalt()==0)
+                if(un->getConnectBlock()==0)
+                {
+                    menu->addAction(action_setDK);
+                    if(un->getDK()==0)
+                    {
+                        //qDebug()<<"[0]";
+                        action_setDK->setChecked(false);
+                    }
+                    else
+                    {
+                        //qDebug()<<"[1]";
+                       action_setDK->setChecked(true);
+                    }
+
+                }
             case TypeUnitNode::SSOI_IP_SD:
 
+                if(un->getNum2()!=9)
                 if(un->getBazalt()==0)
                 if(un->getConnectBlock()==0)
                 {

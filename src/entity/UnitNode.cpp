@@ -1880,9 +1880,9 @@ QString UnitNode::toString() const
     case RLM_C: result.append("РИФ-РЛМ-С"); break; // 111, //РИФ- РЛМ-С
     case STRAZH_IP: result.append("Страж IP"); break; // 24, //Страж IP
     case ONVIF: result.append("ONVIF Камера"); break; // 25, //ONVIF камера
-    case BOD_T4K_M: result.append("ОД Точка-М/Гарда"); break; // 26,БОД Точка-М/Гарда
-    case Y4_T4K_M: result.append("Участок Точка-М/Гарда"); break; // 27,Участок Точка-М/Гарда
-    case DD_T4K_M: result.append("ДД Точка-М/Гарда"); break; // 28,ДД Точка-М/Гарда
+    case BOD_T4K_M: result.append("ОД Точка-М/Гарда-М"); break; // 26,БОД Точка-М/Гарда-М
+    case Y4_T4K_M: result.append("Участок Точка-М/Гарда-М"); break; // 27,Участок Точка-М/Гарда-М
+    case DD_T4K_M: result.append("ДД Точка-М/Гарда-М"); break; // 28,ДД Точка-М/Гарда-М
     case BOD_SOTA: result.append("БОД Сота"); break; // 29,БОД Сота
     case Y4_SOTA: result.append("Участок Сота"); break; // 30,Участок Сота
     case DD_SOTA: result.append("ДД Сота"); break; // 31,ДД Сота
