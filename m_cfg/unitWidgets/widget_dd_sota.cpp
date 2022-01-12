@@ -109,7 +109,7 @@ return false;
 //добавлять только к участку Сота
 if(parent->getType()!=TypeUnitNode::Y4_SOTA)
 {
-     QMessageBox::critical(0,"Ошибка","ДД может быть добавлен только к участку !");
+     QMessageBox::critical(0,"Ошибка","ДД может быть добавлен только к своему участку !");
        return false;
 }
 
@@ -313,7 +313,10 @@ if(res==true)
 
 bool Widget_DD_SOTA::equal(UnitNode *un, UnitNode *unit)
 {
+    if(un->getType()==unit->getType())
     if(un->getNum2()==unit->getNum2())
+    if(un->getUdpPort()==unit->getUdpPort())
+    if(un->getUdpAdress()==unit->getUdpAdress())
     return true;
 
 
