@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <global.h>
 #include <QStorageInfo>
+#include <QProcess>
 
 #if (defined (_WIN32) || defined (_WIN64))
 #include <Windows.h>
@@ -80,18 +81,19 @@ this->ui->comboBox->clear();
 
 
 #else
-    //qDebug()<<"[LINUX]";
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+    qDebug()<<"[LINUX]";
 
-    //qDebug() << storage.rootPath();
-    if (storage.isReadOnly())
-   //qDebug() << "isReadOnly:" << storage.isReadOnly();
-    //qDebug() << "name:" << storage.name();
-    //qDebug() << "fileSystemType:" << storage.fileSystemType();
-    //qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
-    //qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
-    this->ui->comboBox->addItem(storage.rootPath());
-    }
+        QProcess process;
+        QString LProc("devs=`ls -al /dev/disk/by-path/*usb*part* 2>/dev/null | awk '{print($11)}'`; for dev in $devs; do dev=${dev##*\/};  echo -n $(mount |  grep \`echo -n ${dev}\` | awk '{print($3)}');echo -n \" \"; done");
+        process.start("sh", QStringList() << "-c" << LProc);
+        process.waitForFinished(-1); // will wait forever until finished
+        QString stdout = process.readAllStandardOutput();
+        QString stderr = process.readAllStandardError();
+        QStringList query = stdout.split(" ");
+        for (int i = 0; i < query.size()-1; ++i)      {
+             qDebug() << query.at(i);
+             this->ui->comboBox->addItem(query.at(i));
+        }
 
   /*  for (auto volume : QStorageInfo::mountedVolumes()) {
            //qDebug() << "Name:" << volume.name();
