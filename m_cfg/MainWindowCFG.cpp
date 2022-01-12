@@ -5790,26 +5790,53 @@ void MainWindowCFG::create_db(QString db_name)
 
                        sql_cmd.clear();
 
-                       sql_cmd.append("CREATE TABLE public.jour");
-                       sql_cmd.append("(id integer NOT NULL DEFAULT nextval('jour_id_seq'::regclass),");
-                       sql_cmd.append("cdate timestamp without time zone NOT NULL DEFAULT now(),");
-                       sql_cmd.append("mdate timestamp without time zone NOT NULL DEFAULT now(),");
-                       sql_cmd.append("objectid integer,");
-                       sql_cmd.append("object character varying(128),");
-                       sql_cmd.append("comment character varying(256) NOT NULL,");
-                       sql_cmd.append("reason character varying(256),");
-                       sql_cmd.append("measures character varying(256),");
-                       sql_cmd.append("operator character varying(256),");
-                       sql_cmd.append("operatorid character varying(256),");
-                       sql_cmd.append("status character varying(32),");
-                       sql_cmd.append("direction character varying(32),");
-                       sql_cmd.append("type bigint,");
-                       sql_cmd.append("flag bigint,");
-                       sql_cmd.append("d1 bigint,");
-                       sql_cmd.append("d2 bigint,");
-                       sql_cmd.append("d3 bigint,");
-                       sql_cmd.append("d4 bigint,");
-                       sql_cmd.append("objecttype bigint)");
+                       sql_cmd.append(
+                       "CREATE TABLE public.jour \
+                       ( \
+                         id integer NOT NULL DEFAULT nextval('jour_id_seq'::regclass), \
+                         cdate timestamp without time zone NOT NULL DEFAULT now(), \
+                         mdate timestamp without time zone NOT NULL DEFAULT now(), \
+                         objectid integer, \
+                         object character varying(128), \
+                         comment character varying(256) NOT NULL, \
+                         reason character varying(256), \
+                         measures character varying(256), \
+                         operator character varying(256), \
+                         operatorid character varying(256), \
+                         status character varying(32), \
+                         direction character varying(32), \
+                         type bigint, \
+                         flag bigint, \
+                         d1 bigint, \
+                         d2 bigint, \
+                         d3 bigint, \
+                         d4 bigint, \
+                         objecttype bigint, \
+                         params json \
+                       )"
+                       );
+
+
+//                       sql_cmd.append("CREATE TABLE public.jour");
+//                       sql_cmd.append("(id integer NOT NULL DEFAULT nextval('jour_id_seq'::regclass),");
+//                       sql_cmd.append("cdate timestamp without time zone NOT NULL DEFAULT now(),");
+//                       sql_cmd.append("mdate timestamp without time zone NOT NULL DEFAULT now(),");
+//                       sql_cmd.append("objectid integer,");
+//                       sql_cmd.append("object character varying(128),");
+//                       sql_cmd.append("comment character varying(256) NOT NULL,");
+//                       sql_cmd.append("reason character varying(256),");
+//                       sql_cmd.append("measures character varying(256),");
+//                       sql_cmd.append("operator character varying(256),");
+//                       sql_cmd.append("operatorid character varying(256),");
+//                       sql_cmd.append("status character varying(32),");
+//                       sql_cmd.append("direction character varying(32),");
+//                       sql_cmd.append("type bigint,");
+//                       sql_cmd.append("flag bigint,");
+//                       sql_cmd.append("d1 bigint,");
+//                       sql_cmd.append("d2 bigint,");
+//                       sql_cmd.append("d3 bigint,");
+//                       sql_cmd.append("d4 bigint,");
+//                       sql_cmd.append("objecttype bigint)");
 
                        query_current.prepare(sql_cmd);
 
