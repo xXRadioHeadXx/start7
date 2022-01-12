@@ -75,7 +75,10 @@ void adm_aud_combobox::showPopup()
         QStringList query = stdout.split(" ");
         for (int i = 0; i < query.size()-1; ++i)      {
              qDebug() << query.at(i);
-             this->addItem(query.at(i));
+             QString str="";
+             str+=query.at(i);
+             str+="/";
+             this->addItem(str);
         }
 
       /*  for (auto volume : QStorageInfo::mountedVolumes()) {

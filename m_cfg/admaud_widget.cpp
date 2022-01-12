@@ -92,7 +92,10 @@ this->ui->comboBox->clear();
         QStringList query = stdout.split(" ");
         for (int i = 0; i < query.size()-1; ++i)      {
              qDebug() << query.at(i);
-             this->ui->comboBox->addItem(query.at(i));
+             QString str="";
+             str+=query.at(i);
+             str+="/";
+             this->ui->comboBox->addItem(str);
         }
 
   /*  for (auto volume : QStorageInfo::mountedVolumes()) {
@@ -141,8 +144,12 @@ void AdmAud_widget::on_Create_clicked()
 
     QString filepath=this->ui->comboBox->currentText();
 
+ qDebug()<<"filepath: "<<filepath;
+
+ //если в конце пути нет слэша - добавь.
+
      filepath.append("auidit.adm");
-    //qDebug()<<filepath;
+
     AdmKey.create_key(filepath);
 }
 
@@ -151,7 +158,7 @@ void AdmAud_widget::on_ChekIn_clicked()
     QString filepath=this->ui->comboBox->currentText();
 
      filepath.append("auidit.adm");
-//qDebug()<<filepath;
+qDebug()<<filepath;
  AdmKey.check_key(filepath);
 
 this->ui->version->setText(QString::number(AdmKey.getVersion()));
