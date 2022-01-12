@@ -106,14 +106,14 @@ bool Widget_Y4_T4K_M::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
     UnitNode* parent;
     parent = static_cast<UnitNode*>(current->internalPointer());
     if(!parent){
-                   qDebug()<<"-----[1]";
+
         return false;
     }
     //Участок может быть добавлен только к БОД Сота/Сота-М
     if(parent->getType()!=TypeUnitNode::BOD_T4K_M)
     {
     //    QMessageBox::critical(0,"Ошибка","Участок может быть добавлен только к БОД Сота/Сота-М!");
-           qDebug()<<"-----[2]";
+
         return false;
 
     }
@@ -149,7 +149,7 @@ bool Widget_Y4_T4K_M::accepted(UnitNode* unit,TreeModelUnitNode *modelTreeUN,QMo
      {
       //   this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
 qDebug()<<"Name: "<<un->getName()<<" и "<<unit->getName();un->show();unit->show();
-           qDebug()<<"-----[3]";
+
          return false;
      }
     }
