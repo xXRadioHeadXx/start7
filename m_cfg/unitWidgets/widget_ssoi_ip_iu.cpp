@@ -96,11 +96,13 @@ void Widget_SSOI_IP_IU::setEnabled_option_menu(bool val)
 
 bool Widget_SSOI_IP_IU::timeout_brother(UnitNode *unit,UnitNode *un)
 {
+    if(unit->getNum1()==un->getNum1())
+    {
     if(un->getType()==TypeUnitNode::SSOI_IP_IU)
         return true;
     if(un->getType()==TypeUnitNode::SSOI_IP_SD)
         return true;
-
+    }
 
     return false;
 }
