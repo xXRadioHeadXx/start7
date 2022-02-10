@@ -27,7 +27,7 @@ ssoi_widget::ssoi_widget(QWidget *parent) :
     }
 
     l_SsoiMOprosVariant.insert(0,SsoiMOprosVariant_0);
-    l_SsoiMOprosVariant.insert(1,SsoiMOprosVariant_1);
+//    l_SsoiMOprosVariant.insert(1,SsoiMOprosVariant_1);
     l_SsoiMOprosVariant.insert(2,SsoiMOprosVariant_2);
     foreach (QString str, l_SsoiMOprosVariant)
     {
