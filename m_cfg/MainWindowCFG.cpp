@@ -1932,6 +1932,7 @@ void MainWindowCFG::open_edit_menu()
 
     object_menu_change(unit->getType());
     current_wgt()->get_option(unit);
+    this->ui->uName_combobox->setCurrentText(unit->getName());
     this->ui->uType_combobox->setCurrentText(m_TypeUnitNode.value(unit->getType()));
     this->ui->edit_unit_button->setEnabled(true);
 
