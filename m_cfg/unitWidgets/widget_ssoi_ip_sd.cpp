@@ -55,7 +55,7 @@ void Widget_SSOI_IP_SD::get_default()
     qDebug()<<"Widget_SD_BL_IP::get_default";
     ui->Num1->setCurrentIndex(0);
     ui->Num2->setCurrentIndex(0);
-    comm->set_udpTimeout(50*ui->Num1->currentText().toInt());
+    comm->set_udpTimeout(50+50*ui->Num1->currentText().toInt());
     ui->OutType->setCurrentText(m_SSOI_SD_OutType.value(0));
 }
 
@@ -269,7 +269,7 @@ void Widget_SSOI_IP_SD::on_Num1_currentIndexChanged(const QString &arg1)
 {
     update_name();
     qDebug()<<ui->Num1->currentText();
-    comm->set_udpTimeout(50*ui->Num1->currentText().toInt());
+    comm->set_udpTimeout(50+50*ui->Num1->currentText().toInt());
 
 }
 

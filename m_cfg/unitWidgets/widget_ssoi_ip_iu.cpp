@@ -33,7 +33,8 @@ void Widget_SSOI_IP_IU::get_default()
 {
     ui->Num1->setCurrentIndex(0);
     ui->Num2->setCurrentIndex(0);
-    comm->set_udpTimeout(50*ui->Num1->currentText().toInt());
+
+    comm->set_udpTimeout(50+50*ui->Num1->currentText().toInt());
 }
 
 void Widget_SSOI_IP_IU::set_to(UnitNode *unit)
@@ -178,7 +179,7 @@ QString Widget_SSOI_IP_IU::get_string(UnitNode *unit)
 void Widget_SSOI_IP_IU::on_Num1_currentTextChanged(const QString &arg1)
 {
     update_name();
-    comm->set_udpTimeout(50*ui->Num1->currentText().toInt());
+    comm->set_udpTimeout(50+50*ui->Num1->currentText().toInt());
 }
 
 void Widget_SSOI_IP_IU::on_Num2_currentTextChanged(const QString &arg1)
