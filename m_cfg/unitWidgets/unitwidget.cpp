@@ -136,6 +136,7 @@ bool UnitWidget::set_option(UnitNode *unit)
     comm->set_options(unit);
     coord->set_options(unit);
     set_to(unit);
+    set_AdamOff(unit);
 
     if(comm_is_needed){
         if (!ip_is_valid(unit->getUdpAdress())){
@@ -161,6 +162,8 @@ bool UnitWidget::set_option(UnitNode *unit)
 
     }
 
+    //Автовыключение для ИУ ставим таким же как автовыключение у уже присутствующих в дереве таких же ИУ
+    set_AdamOff(unit);
 
     }
     return false;
@@ -531,6 +534,28 @@ void UnitWidget::set_timeouts(UnitNode *unit)
              un->setUdpTimeout(val);
           }
         }
+    }
+}
+
+void UnitWidget::set_AdamOff(UnitNode *unit)
+{
+    if(unit->getType()!=TypeUnitNode::IU_BL_IP)
+    if(unit->getType()!=TypeUnitNode::SSOI_IU)
+    if(unit->getType()!=TypeUnitNode::SSOI_IP_IU)
+        return;
+
+//ищем двойников
+    QList<UnitNode *> List1;
+    modelTreeUN->getListFromModel(List1,modelTreeUN->rootItemUN);//modelTreeUN->rootItemUN
+    foreach(UnitNode *un, List1 )
+    {
+        if(equal(unit,un)){
+            qDebug()<<"найден двойник: "<<un->getName()<<"; AdamOff: "<<un->getAdamOff();
+            unit->setAdamOff(un->getAdamOff());
+            break;
+        }
+
+
     }
 }
 

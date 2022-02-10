@@ -62,6 +62,7 @@ public:
     QString get_dd(UnitNode* unit);
 
     void set_timeouts(UnitNode* unit);
+    void set_AdamOff(UnitNode* unit);
     virtual bool timeout_brother(UnitNode *unit,UnitNode* un){return false;};
 
     bool ip_is_valid(QString ip);
