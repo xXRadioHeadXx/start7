@@ -189,7 +189,7 @@ ui->stackedWidget_3->setCurrentWidget(ui->find_button_page_0);
 QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
         if(str_system==str_system_RIF)
         {
-         this->setWindowTitle("Настройка комплекса РИФ+ b." + date.toString("dd.MM.yyyy"));
+         this->setWindowTitle("Настройка комплекса РИФ+ r." + date.toString("dd.MM.yyyy"));
         }
         if(str_system==str_system_SSOI)
         {
@@ -203,7 +203,7 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
          //  this->ui->Subsystem_RIF->setVisible(false);
          //   this->ui->Subsystem_ADAM->setVisible(false);
             this->ui->DevLine_groupbox->setVisible(false);
-            this->setWindowTitle("Настройка комплекса ССОИ-М b." + date.toString("dd.MM.yyyy"));
+            this->setWindowTitle("Настройка комплекса ССОИ-М r." + date.toString("dd.MM.yyyy"));
 
 
         }
@@ -2627,8 +2627,14 @@ bool MainWindowCFG::add_unit()
             qDebug()<<"его имя "<<unit->getName();
       this->modelTreeUN->appendNewUNInStructure(index,unit);
   //      map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
-      ui->treeView->setCurrentIndex(index);
+     // ui->treeView->setCurrentIndex(index);
       this->ui->treeView->expand(index);
+
+      QModelIndex newIndex=this->modelTreeUN->findeIndexUN(unit);
+
+ ui->treeView->setCurrentIndex(newIndex);
+
+
         }
         else
         {
