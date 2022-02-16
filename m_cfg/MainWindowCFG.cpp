@@ -646,7 +646,7 @@ void MainWindowCFG::show_equals(UnitNode *unit)
         }
 
 
-    //  this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
+
 
         }
 
@@ -680,11 +680,14 @@ void MainWindowCFG::prev()
         {
             QModelIndex ind=modelTreeUN->list_Equals.at(i);
             if(this->ui->treeView->currentIndex()==ind){
-              if(i>0)
+              if(i>0){
                this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(i-1));
-
-                else
+                    current_index=this->ui->treeView->currentIndex();
+}
+                else{
               this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(modelTreeUN->list_Equals.count()-1));
+                    current_index=this->ui->treeView->currentIndex();
+              }
                break;
             }
 
@@ -694,8 +697,7 @@ void MainWindowCFG::prev()
 
 
 
-    //    modelTreeUN->list_Equals_for_chanell.
-    //    this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+
     UnitNode *unit = static_cast<UnitNode*>(this->ui->treeView->currentIndex().internalPointer());
     this->get_option(unit);
 }
@@ -711,17 +713,22 @@ void MainWindowCFG::finder_prev()
     {
         QModelIndex ind=modelTreeUN->list_Equals_for_chanell.at(i);
         if(this->ui->treeView->currentIndex()==ind){
-          if(i>0)
+          if(i>0){
            this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i-1));
-
-            else
+                current_index=this->ui->treeView->currentIndex();
+}
+            else{
           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(modelTreeUN->list_Equals_for_chanell.count()-1));
+                current_index=this->ui->treeView->currentIndex();
+          }
            break;
         }
 
     }
-    if(res==false)
+    if(res==false){
           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+          current_index=this->ui->treeView->currentIndex();
+    }
     }
 }
 
@@ -739,20 +746,26 @@ void MainWindowCFG::finder_next()
                 qDebug()<<i;
                 if(i<(modelTreeUN->list_Equals_for_chanell.count()-1))
                 {
-                 qDebug()<<"[1]";
+                    qDebug()<<"[1]";{
                this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(i+1));
+                          current_index=this->ui->treeView->currentIndex();
+                    }
                 }
                 else
                 {
-                 qDebug()<<"[2]";
+                    qDebug()<<"[2]";{
                this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+                          current_index=this->ui->treeView->currentIndex();
+                    }
                 }
                break;
             }
 
         }
-        if(res==false)
+        if(res==false){
           this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
+              current_index=this->ui->treeView->currentIndex();
+        }
 
     }
 }
@@ -773,13 +786,16 @@ void MainWindowCFG::next()
                 qDebug()<<i;
                 if(i<(modelTreeUN->list_Equals.count()-1))
                 {
-                 qDebug()<<"[1]";
+                    qDebug()<<"[1]";
                this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(i+1));
+                          current_index=this->ui->treeView->currentIndex();
+
                 }
                 else
                 {
                  qDebug()<<"[2]";
                this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals.at(0));
+                   current_index=this->ui->treeView->currentIndex();
                 }
                break;
             }
@@ -987,7 +1003,7 @@ qDebug()<<"[2]";
 
 
       this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
-
+  current_index=this->ui->treeView->currentIndex();
         }
 
 
@@ -997,6 +1013,7 @@ void MainWindowCFG::double_unit_slot(UnitNode *un)
 {
     qDebug()<<"[double_unit_slot]";
     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(un));
+      current_index=this->ui->treeView->currentIndex();
 }
 
 void MainWindowCFG::slot_to_get_options(QModelIndex index)
@@ -1019,6 +1036,7 @@ foreach(UnitNode* un,this->modelTreeUN->listItemUN)
     {
         get_option(un);
         this->ui->treeView->setCurrentIndex( this->modelTreeUN->findeIndexUN(un));
+          current_index=this->ui->treeView->currentIndex();
     }
 
 
@@ -1824,7 +1842,7 @@ void MainWindowCFG::setAdamOff()
 void MainWindowCFG::keyPressEvent(QKeyEvent *event)
 {
   //  qDebug()<<ui->tabWidget->currentIndex();
-
+ qDebug()<<event->key();
     if(ui->tabWidget->currentIndex()==2){
 
             qDebug()<<event->key();
@@ -1835,6 +1853,31 @@ void MainWindowCFG::keyPressEvent(QKeyEvent *event)
 
 
         }
+
+       if(event->key()==16777249)        {
+
+            qDebug()<<"К РОДИТЕЛЮ.";
+
+            //еСЛИ ЕСТЬ РОДИТЕЛЬ
+             QModelIndex index=this->ui->treeView->currentIndex();
+
+              UnitNode* unit= static_cast<UnitNode*>(index.internalPointer());
+
+              if(unit->getType()!=-1){
+
+            QModelIndex parent=this->modelTreeUN->parent(index);
+
+           // if(parent){
+                this->ui->treeView->setCurrentIndex(parent);
+              current_index=this->ui->treeView->currentIndex();
+                }
+          //  }
+
+
+
+        }
+
+
 
 
     }
@@ -2461,6 +2504,7 @@ void MainWindowCFG::func_to_edit_unit()
         this->get_option(unit);
         this->modelTreeUN->updateModel();
          ui->treeView->setCurrentIndex(index);
+           current_index=this->ui->treeView->currentIndex();
         this->ui->treeView->expand(index);
  //       this->ui->treeView->repaint();
         }else{
@@ -2527,6 +2571,7 @@ bool MainWindowCFG::add_unit()
     {
     parrent = this->modelTreeUN->rootItemUN;
     this->ui->treeView->setCurrentIndex(this->modelTreeUN->findeIndexUN(parrent));
+      current_index=this->ui->treeView->currentIndex();
     }
 
 
@@ -2626,14 +2671,13 @@ bool MainWindowCFG::add_unit()
         {
             qDebug()<<"его имя "<<unit->getName();
       this->modelTreeUN->appendNewUNInStructure(index,unit);
-  //      map.Add(unit->getName(),unit->getPxm(SubTypeApp::configurator),unit->getX(),unit->getY());
-     // ui->treeView->setCurrentIndex(index);
+
       this->ui->treeView->expand(index);
 
       QModelIndex newIndex=this->modelTreeUN->findeIndexUN(unit);
 
  ui->treeView->setCurrentIndex(newIndex);
-
+ current_index=this->ui->treeView->currentIndex();
 
         }
         else
@@ -4413,7 +4457,7 @@ bool MainWindowCFG::setUdpTimeout_for_BL_IP(UnitNode *unit)
          {
             qDebug()<<un->getName();
             un->setUdpTimeout(val);
-             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+
 
              return false;
          }
@@ -4492,7 +4536,7 @@ bool MainWindowCFG::setUdpTimeout_for_TG(UnitNode *unit)
          {
 
             un->setUdpTimeout(val);
-             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+
 
              return false;
          }
@@ -4564,7 +4608,7 @@ bool MainWindowCFG::setUdpTimeout_for_KL(UnitNode *unit)
          {
             qDebug()<<un->getName();
             un->setUdpTimeout(val);
-             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+
 
              return false;
          }
@@ -4641,7 +4685,7 @@ bool MainWindowCFG::setUdpTimeout_for_BOD_SOTA(UnitNode *unit)
          {
             qDebug()<<un->getName();
             un->setUdpTimeout(val);
-             //this->ui->treeView->setCurrentIndex(modelTreeUN->findeIndexUN(un));
+
 
              return false;
          }
@@ -6273,7 +6317,7 @@ set_option(unit,parrent);
 
 
       this->ui->treeView->setCurrentIndex(modelTreeUN->list_Equals_for_chanell.at(0));
-
+          current_index=this->ui->treeView->currentIndex();
         }
 
 
