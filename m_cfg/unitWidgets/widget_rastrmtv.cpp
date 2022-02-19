@@ -51,7 +51,10 @@ ui->Num3->setCurrentIndex(0);
 
 void Widget_RASTRMTV::set_to(UnitNode *unit)
 {
-unit->setIcon1Path(ui->Icon1Path->currentText());
+
+
+unit->setIcon1Path(mSerNum_Name->value(ui->Icon1Path->currentText()).SerNum);
+unit->setIcon2Path(mSerNum_Name->value(ui->Icon1Path->currentText()).Name);
 unit->setNum3(ui->Num3->currentText().toInt());
 }
 
@@ -149,14 +152,10 @@ void Widget_RASTRMTV::get_cameras()
     ui->Icon1Path->clear();
 
 
-    foreach(SerNum_Name snn, *mSerNum_Name)    {
+    foreach(QString str, mSerNum_Name->keys())    {
 
-        QString str;
-        str.clear();
-        str.append(snn.Name);
-        str.append(" (");
-        str.append(snn.SerNum);
-        str.append(")");
+
+
         this->ui->Icon1Path->addItem(str);
 
     }

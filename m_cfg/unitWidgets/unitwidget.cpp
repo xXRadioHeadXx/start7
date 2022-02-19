@@ -699,6 +699,7 @@ QString UnitWidget::get_full_string(UnitNode *unit){
      str+=" : Таймаут "+QString::number(unit->getUdpTimeout());
 
 
+
    return str;
 }
 

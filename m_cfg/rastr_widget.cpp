@@ -196,15 +196,25 @@ void RASTR_Widget::get_from_rastr_ini()
               strGroup = strGroup.arg(index);
               if(settings.childGroups().contains(strGroup))
               {
+                  qDebug()<<"найден "<<strGroup;
                   settings.beginGroup(strGroup);
 
                   QString SerNum = settings.value("SerNum","").toString();
                   QString Name = settings.value("Name","").toString();
-                  if((SerNum!="")&&(Name!=""))
+
+
+               //   if((SerNum!="")&&(Name!=""))
+                   if(SerNum!="")
                   {
+
                       QString str;
                       str.clear();
+
+                      if(Name!=""){
                       str.append(Name);
+                      }else{
+                       str.append("(null)");
+                      }
                       str.append(" (");
                       str.append(SerNum);
                       str.append(")");

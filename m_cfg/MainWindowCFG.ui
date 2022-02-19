@@ -566,333 +566,362 @@
         <attribute name="title">
          <string>Объект</string>
         </attribute>
-        <layout class="QGridLayout" name="gridLayout_7">
-         <item row="0" column="0">
-          <widget class="QGroupBox" name="groupBox_3">
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="geometry">
+          <rect>
+           <x>9</x>
+           <y>9</y>
+           <width>572</width>
+           <height>421</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>500</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>572</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>Обьект</string>
+         </property>
+         <widget class="QLabel" name="label_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>47</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Тип</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="uType_combobox">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>40</y>
+            <width>261</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="maxVisibleItems">
+           <number>5</number>
+          </property>
+          <property name="maxCount">
+           <number>40</number>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>20</y>
+            <width>47</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Имя</string>
+          </property>
+         </widget>
+         <widget class="QWidget" name="widget1" native="true">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>342</y>
+            <width>571</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="geometry">
+            <rect>
+             <x>139</x>
+             <y>0</y>
+             <width>130</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>500</width>
-             <height>0</height>
+             <width>108</width>
+             <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>572</width>
-             <height>16777215</height>
+             <width>999</width>
+             <height>30</height>
             </size>
            </property>
-           <property name="title">
-            <string>Обьект</string>
+           <property name="text">
+            <string>Удалить</string>
            </property>
-           <widget class="QLabel" name="label_3">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>20</y>
-              <width>47</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Тип</string>
-            </property>
-           </widget>
-           <widget class="QComboBox" name="uType_combobox">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>40</y>
-              <width>261</width>
-              <height>30</height>
-             </rect>
-            </property>
-            <property name="maxVisibleItems">
-             <number>5</number>
-            </property>
-            <property name="maxCount">
-             <number>40</number>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_4">
-            <property name="geometry">
-             <rect>
-              <x>280</x>
-              <y>20</y>
-              <width>47</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Имя</string>
-            </property>
-           </widget>
-           <widget class="QWidget" name="widget1" native="true">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>342</y>
-              <width>571</width>
-              <height>71</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <widget class="QPushButton" name="pushButton_2">
-             <property name="geometry">
-              <rect>
-               <x>139</x>
-               <y>0</y>
-               <width>130</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>108</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>999</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Удалить</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="pushButton_moveUp">
-             <property name="geometry">
-              <rect>
-               <x>434</x>
-               <y>0</y>
-               <width>127</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>999</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Вверх</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="pushButton_moveDown">
-             <property name="geometry">
-              <rect>
-               <x>434</x>
-               <y>31</y>
-               <width>127</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>999</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Вниз</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="pushButton_6">
-             <property name="geometry">
-              <rect>
-               <x>9</x>
-               <y>0</y>
-               <width>130</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>Добавить</string>
-             </property>
-            </widget>
-            <widget class="QStackedWidget" name="stackedWidget_3">
-             <property name="geometry">
-              <rect>
-               <x>270</x>
-               <y>-1</y>
-               <width>161</width>
-               <height>61</height>
-              </rect>
-             </property>
-             <property name="currentIndex">
-              <number>1</number>
-             </property>
-             <widget class="QWidget" name="find_button_page_0"/>
-             <widget class="QWidget" name="page2">
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <widget class="QPushButton" name="findButton_reset">
-                 <property name="text">
-                  <string>X</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="findButton_prev">
-                 <property name="text">
-                  <string>&lt;</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_next">
-                 <property name="text">
-                  <string>&gt;</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-            <widget class="QPushButton" name="edit_unit_button">
-             <property name="geometry">
-              <rect>
-               <x>139</x>
-               <y>30</y>
-               <width>130</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>108</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>999</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Изменить</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="findButton">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>30</y>
-               <width>130</width>
-               <height>30</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>ПОИСК</string>
-             </property>
-            </widget>
-           </widget>
-           <widget class="my_combobox" name="uName_combobox">
-            <property name="geometry">
-             <rect>
-              <x>280</x>
-              <y>40</y>
-              <width>281</width>
-              <height>30</height>
-             </rect>
-            </property>
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QCheckBox" name="checkBox">
-            <property name="geometry">
-             <rect>
-              <x>380</x>
-              <y>20</y>
-              <width>181</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Автоввод</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QStackedWidget" name="stack">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>140</y>
-              <width>551</width>
-              <height>111</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="communicationTypeWidget" name="communicationType" native="true">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>80</y>
-              <width>551</width>
-              <height>60</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="coordinateWidget" name="coord" native="true">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>251</y>
-              <width>568</width>
-              <height>91</height>
-             </rect>
-            </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_moveUp">
+           <property name="geometry">
+            <rect>
+             <x>434</x>
+             <y>0</y>
+             <width>127</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>999</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Вверх</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_moveDown">
+           <property name="geometry">
+            <rect>
+             <x>434</x>
+             <y>31</y>
+             <width>127</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>999</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Вниз</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_6">
+           <property name="geometry">
+            <rect>
+             <x>9</x>
+             <y>0</y>
+             <width>130</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Добавить</string>
+           </property>
+          </widget>
+          <widget class="QStackedWidget" name="stackedWidget_3">
+           <property name="geometry">
+            <rect>
+             <x>270</x>
+             <y>-1</y>
+             <width>161</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
+           <widget class="QWidget" name="find_button_page_0"/>
+           <widget class="QWidget" name="page2">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QPushButton" name="findButton_reset">
+               <property name="text">
+                <string>X</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="findButton_prev">
+               <property name="text">
+                <string>&lt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_next">
+               <property name="text">
+                <string>&gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </widget>
-         </item>
-        </layout>
+          <widget class="QPushButton" name="edit_unit_button">
+           <property name="geometry">
+            <rect>
+             <x>139</x>
+             <y>30</y>
+             <width>130</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>108</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>999</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Изменить</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="findButton">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>130</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>ПОИСК</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="my_combobox" name="uName_combobox">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>40</y>
+            <width>281</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="geometry">
+           <rect>
+            <x>380</x>
+            <y>20</y>
+            <width>181</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Автоввод</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QStackedWidget" name="stack">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>140</y>
+            <width>551</width>
+            <height>111</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="communicationTypeWidget" name="communicationType" native="true">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>80</y>
+            <width>551</width>
+            <height>60</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="coordinateWidget" name="coord" native="true">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>251</y>
+            <width>568</width>
+            <height>91</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>410</y>
+           <width>576</width>
+           <height>15</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>15</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>15</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Используй Enter для добавления, Cntrl для перемещения на уровень выше</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="Subsystem_RIF">
         <attribute name="title">
