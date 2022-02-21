@@ -116,6 +116,8 @@ MainWindowCFG::MainWindowCFG(QWidget *parent)
 
 ui->RASTR_wgt->set_pointer(&mSerNum_Name);
 
+connect(this->ui->RASTR_wgt,SIGNAL(from_rastr_widget(QString)),this,SLOT(from_rastr_widget(QString)));
+
 
 w_GROUP=new Widget_GROUP(this,this->ui->communicationType,this->ui->coord,modelTreeUN,&current_index);  l_UnitWidgets.append(w_GROUP);
 
@@ -660,6 +662,28 @@ void MainWindowCFG::updateName(QString name)
     this->ui->uName_combobox->setCurrentText(name);
     }
 }
+
+void MainWindowCFG::from_rastr_widget(QString msg)
+{
+    qDebug()<<msg;
+
+    if(msg=="Выкл"){
+
+        this->mSerNum_Name.clear();
+
+    }
+
+    foreach(UnitWidget* wgt, l_UnitWidgets){
+
+     if(wgt->getID()==TypeUnitNode::RASTRMTV){
+         qDebug()<<"Найден виджет камера Растр-М-ТВ";
+         wgt->get_default();
+     }
+
+    }
+}
+
+
 
 void MainWindowCFG::clear_list_equals()
 {
@@ -3620,6 +3644,22 @@ void MainWindowCFG::default_options()
 
     default_SSOI();
     default_TABLO();
+
+    //Виджет для Камера-Растр-М сбросить комбобокс с серийниками
+    //Найти Виджет для Камера-Растр-М
+
+    /*
+    this->mSerNum_Name.clear();
+
+    foreach(UnitWidget* wgt, l_UnitWidgets){
+
+     if(wgt->getID()==TypeUnitNode::RASTRMTV){
+         qDebug()<<"Найден виджет камера Растр-М-ТВ";
+         wgt->get_default();
+     }
+
+    }
+    */
 
     default_ASOOSD();
     this->ui->RASTR_wgt->default_options();

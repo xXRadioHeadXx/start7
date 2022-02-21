@@ -184,6 +184,8 @@ QMap <QString, SerNum_Name> mSerNum_Name;
 
 
 
+
+
     void expandChildren(const QModelIndex &index);
     void collapseChildren(const QModelIndex &index);
 
@@ -545,6 +547,8 @@ public:
 
 public slots:
     void updateName(QString);
+
+    void from_rastr_widget(QString);
 
 
 private slots:

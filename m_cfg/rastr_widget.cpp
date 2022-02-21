@@ -173,6 +173,7 @@ void RASTR_Widget::set_pointer(QMap<QString, SerNum_Name> *mSerNum_Name)
     if(ui->Use->currentText()==Use_1){
     get_from_rastr_ini();
     }
+
 }
 
 void RASTR_Widget::get_from_rastr_ini()
@@ -295,6 +296,14 @@ void RASTR_Widget::on_Use_activated(const QString &arg1)
     {
     get_from_rastr_ini();
     }
+    if(arg1==Use_0)
+    {
+    mSerNum_Name->clear();
+    }
+
+    emit from_rastr_widget(arg1);
+
+
 
 }
 

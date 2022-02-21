@@ -120,7 +120,10 @@ private:
 //    [RASTRMSSOI]
     QString RASTRMSSOI__SerNum="";
     int RASTRMSSOI__Speed=0;
-    int RASTRMSSOI__Timeout=50 ;           
+    int RASTRMSSOI__Timeout=50 ;
+
+signals:
+    void from_rastr_widget(QString msg);
 };
 
 #endif // RASTR_WIDGET_H
