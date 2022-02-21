@@ -39,7 +39,7 @@ void Widget_DD_SOTA::set_to(UnitNode *unit)
     if(parent){
 
 
-    int val=parent->getNum2();
+    int val=parent->getNum2()-1;
 
 
     unit->setNum2(this->ui->Num2->currentText().toInt()+val);
@@ -346,7 +346,8 @@ QString Widget_DD_SOTA::get_string(UnitNode *unit)
 
     str+=" : ДД ";
 
-    str+=UnitWidget::get_dd(unit);
+
+    str+=QString::number((UnitWidget::get_dd(unit).toInt()+1));
 
        return str;
 }
