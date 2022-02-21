@@ -291,7 +291,7 @@ void RASTR_Widget::setRASTRMSSOI__Timeout(int value)
 
 void RASTR_Widget::on_Use_activated(const QString &arg1)
 {
-
+/*
     if(arg1==Use_1)
     {
     get_from_rastr_ini();
@@ -303,7 +303,7 @@ void RASTR_Widget::on_Use_activated(const QString &arg1)
 
     emit from_rastr_widget(arg1);
 
-
+*/
 
 }
 
@@ -317,4 +317,24 @@ QString RASTR_Widget::rastrmtv_cfg__path() const
     QString path=QCoreApplication::applicationDirPath() + "/rastrmtv_cfg.ini";
     qDebug()<<path;
     return path;
+}
+
+
+
+void RASTR_Widget::on_Use_currentTextChanged(const QString &arg1)
+{
+qDebug()<<"on_Use_currentTextChanged "<<arg1;
+
+    if(arg1==Use_1)
+    {
+    get_from_rastr_ini();
+    }
+    if(arg1==Use_0)
+    {
+//    mSerNum_Name->clear();
+    }
+
+    emit from_rastr_widget(arg1);
+
+
 }

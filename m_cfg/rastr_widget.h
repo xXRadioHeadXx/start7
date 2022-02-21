@@ -74,6 +74,10 @@ private slots:
 
     void on_pushButton_clicked();
 
+
+
+    void on_Use_currentTextChanged(const QString &arg1);
+
 private:
 
     QMap <QString, SerNum_Name>* mSerNum_Name;

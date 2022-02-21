@@ -577,6 +577,7 @@ connect (action_open_edit_menu, SIGNAL(triggered()  ) , this,SLOT     (open_edit
 
      //           this->ui->uName_combobox->setValidator(validator);
 
+            default_options();
 }
 
 MainWindowCFG::~MainWindowCFG()
@@ -665,7 +666,7 @@ void MainWindowCFG::updateName(QString name)
 
 void MainWindowCFG::from_rastr_widget(QString msg)
 {
-    qDebug()<<msg;
+    qDebug()<<"from_rastr_widget "<<msg;
 
     if(msg=="Выкл"){
 
