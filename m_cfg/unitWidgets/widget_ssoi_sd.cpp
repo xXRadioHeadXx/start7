@@ -183,7 +183,7 @@ QString Widget_SSOI_SD::get_string(UnitNode *unit)
 
 
 
-    if(unit->getNum2()==9){
+    if(unit->getNum3()==9){
     str+="Вскрытие";
     }else{
 

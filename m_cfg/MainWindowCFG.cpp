@@ -5367,7 +5367,7 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
             break;
 
             case TypeUnitNode::SD_BL_IP:
-            case TypeUnitNode::SSOI_SD:
+
 
                 if(un->getBazalt()==0)
                 if(un->getConnectBlock()==0)
@@ -5385,6 +5385,55 @@ void MainWindowCFG::on_treeView_customContextMenuRequested(const QPoint &pos)
                     }
 
                 }
+
+                menu->addAction(action_setAlarmMsgOn);
+
+                   if(un->getAlarmMsgOn()==0)
+                   {
+                       //qDebug()<<"[0]";
+                       action_setAlarmMsgOn->setChecked(false);
+                   }
+                   else
+                   {
+                       //qDebug()<<"[1]";
+                   }
+
+            break;
+
+            case TypeUnitNode::SSOI_SD:
+
+                 if(un->getNum3()!=9)
+                if(un->getBazalt()==0)
+                if(un->getConnectBlock()==0)
+                {
+                    menu->addAction(action_setDK);
+                    if(un->getDK()==0)
+                    {
+                        //qDebug()<<"[0]";
+                        action_setDK->setChecked(false);
+                    }
+                    else
+                    {
+                        //qDebug()<<"[1]";
+                       action_setDK->setChecked(true);
+                    }
+
+                }
+
+                menu->addAction(action_setAlarmMsgOn);
+
+                   if(un->getAlarmMsgOn()==0)
+                   {
+                       //qDebug()<<"[0]";
+                       action_setAlarmMsgOn->setChecked(false);
+                   }
+                   else
+                   {
+                       //qDebug()<<"[1]";
+                   }
+
+            break;
+
             case TypeUnitNode::SSOI_IP_SD:
 
                 if(un->getNum2()!=9)
