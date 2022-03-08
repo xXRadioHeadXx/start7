@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="Z:\Projects\Start7\RIFx\Exe\32\m_db.exe"/>
+    <OBJFILES value="..\Obj\m_db.obj ..\Obj\MainUnit.obj ..\Obj\MyApiUnit.obj 
+      ..\Obj\MySQLDlgUnit.obj ..\Obj\WriteFormUnit.obj ..\Obj\TNetClientUnit.obj 
+      ..\Obj\TRifSysUnit.obj ..\Obj\TGobiSysUnit.obj"/>
+    <RESFILES value="m_db.res"/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) MainUnit.dfm MySQLDlgUnit.dfm WriteFormUnit.dfm"/>
+    <LIBFILES value="libmysql.lib"/>
+    <LIBRARIES value="FSDB6.lib frxDB6.lib FS6.lib frx6.lib vclx.lib bcbsmp.lib vcldb.lib 
+      EhLibB60.lib bdertl.lib dbrtl.lib rtl.lib vcl.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib dbrtl.lib bdertl.lib EhLibB60.lib vcldb.lib bcbsmp.lib 
+      vclx.lib frx6.lib FS6.lib frxDB6.lib FSDB6.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi dbrtl.bpi adortl.bpi vcldb.bpi vclx.bpi bdertl.bpi 
+      vcldbx.bpi ibxpress.bpi dsnap.bpi cds.bpi bdecds.bpi qrpt.bpi teeui.bpi 
+      teedb.bpi tee.bpi dss.bpi teeqr.bpi visualclx.bpi visualdbclx.bpi 
+      dsnapcrba.bpi dsnapcon.bpi bcbsmp.bpi vclie.bpi xmlrtl.bpi inet.bpi 
+      inetdbbde.bpi inetdbxpress.bpi inetdb.bpi nmfast.bpi webdsnap.bpi 
+      bcbie.bpi websnap.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
+      indy.bpi bcb2kaxserver.bpi EhLibB60.bpi EhLibDataDriversB60.bpi rxctl6.bpi 
+      rxdb6.bpi rxbde6.bpi FS6.bpi frx6.bpi FSDB6.bpi frxDB6.bpi frxe6.bpi 
+      FSTee6.bpi frxTee6.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value=""/>
+    <SYSDEFINES value="NO_STRICT"/>
+    <MAINSOURCE value="m_db.cpp"/>
+    <INCLUDEPATH value="$(BCB)\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;Z:\Projects\Start7\MySQL\include;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\Psdk;C:\WinStudio\CBuilder6\Lib\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\EhLib"/>
+    <LIBPATH value="C:\WinStudio\CBuilder6\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\Psdk;C:\WinStudio\CBuilder6\Lib\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\EhLib"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I$(BCB)\Lib\FastReport4\LibBCB6 -I$(BCB)\Lib\EhLib\Common 
+      -IC:\winstudio\CBuilder6\Projects -IZ:\Projects\Start7\RIFx\m_db\Src 
+      -I$(BCB)\include -I$(BCB)\include\vcl -IZ:\Projects\Start7\MySQL\include 
+      -IC:\WinStudio\CBuilder6\Components\EhLib\Lib 
+      -IC:\WinStudio\CBuilder6\Lib\Psdk -IC:\WinStudio\CBuilder6\Lib\EhLib\Lib 
+      -IC:\WinStudio\CBuilder6\Lib\EhLib -src_suffix cpp -boa"/>
+    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -c -tW -tWM"/>
+    <PFLAGS value="-N2Z:\Projects\Start7\RIFx\m_db\Obj -N0Z:\Projects\Start7\RIFx\m_db\Obj 
+      -$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zn"/>
+    <LFLAGS value="-IZ:\Projects\Start7\RIFx\m_db\Obj -D&quot;&quot; -aa -Tpe -x -Gn"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0w32.obj sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mt.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="m_db.res" FORMNAME="" UNITNAME="m_db.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="m_db.cpp" FORMNAME="" UNITNAME="m_db" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MainUnit.cpp" FORMNAME="MainForm" UNITNAME="MainUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MyApiUnit.cpp" FORMNAME="" UNITNAME="MyApiUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="libmysql.lib" FORMNAME="" UNITNAME="libmysql.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MySQLDlgUnit.cpp" FORMNAME="MySQLDlg" UNITNAME="MySQLDlgUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="WriteFormUnit.cpp" FORMNAME="ReadForm" UNITNAME="WriteFormUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TNetClientUnit.cpp" FORMNAME="" UNITNAME="TNetClientUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRifSysUnit.cpp" FORMNAME="" UNITNAME="TRifSysUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TGobiSysUnit.cpp" FORMNAME="" UNITNAME="TGobiSysUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1049
+CodePage=1251
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[Excluded Packages]
+c:\winstudio\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+c:\winstudio\cbuilder6\Projects\Bpl\DclEhLibDataDriversB60.bpl=EhLib 5.6 DataDrivers
+
+[HistoryLists\hlIncludePath]
+Count=10
+Item0=$(BCB)\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;Z:\Projects\Start7\MySQL\include;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\Psdk;C:\WinStudio\CBuilder6\Lib\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\EhLib
+Item1=$(BCB)\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;Z:\Projects\Start7\MySQL\include;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\Psdk;C:\WinStudio\CBuilder6\Lib\EhLib\Lib
+Item2=$(BCB)\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;Z:\Projects\Start7\MySQL\include;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\Psdk
+Item3=$(BCB)\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;Z:\Projects\Start7\MySQL\include;C:\WinStudio\CBuilder6\Components\EhLib\Lib
+Item4=$(BCB)\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;C:\WinStudio\CBuilder6\Components\EhLib\Lib;Z:\Projects\Start7\MySQL\include
+Item5=$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;C:\WinStudio\CBuilder6\Components\EhLib\Lib;Z:\Projects\Start7\MySQL\include
+Item6=$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\Program Files\MySQL\MySQL Server 5.5\include
+Item7=$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl;C:\WinStudio\CBuilder6\Components\EhLib\Lib
+Item8=$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl
+Item9=C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=7
+Item0=C:\WinStudio\CBuilder6\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\Psdk;C:\WinStudio\CBuilder6\Lib\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\EhLib
+Item1=C:\WinStudio\CBuilder6\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\Psdk;C:\WinStudio\CBuilder6\Lib\EhLib\Lib
+Item2=C:\WinStudio\CBuilder6\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\WinStudio\CBuilder6\Components\EhLib\Lib;C:\WinStudio\CBuilder6\Lib\Psdk
+Item3=C:\WinStudio\CBuilder6\Lib\FastReport4\LibBCB6;$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\WinStudio\CBuilder6\Components\EhLib\Lib
+Item4=$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\WinStudio\CBuilder6\Components\EhLib\Lib
+Item5=$(BCB)\Lib\EhLib\Common;C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item6=C:\winstudio\CBuilder6\Projects;Z:\Projects\Start7\RIFx\m_db\Src;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=1
+Item0=Z:\Projects\Start7\RIFx\m_db\Obj
+
+[HistoryLists\hlFinalOutputDir]
+Count=4
+Item0=Z:\Projects\Start7\RIFx\Exe\32\
+Item1=Z:\Projects\Start7\RIFx\Exe\32
+Item2=Z:\Projects\Start7\RIFx\Exe\
+Item3=Z:\Projects\Start7\RIFx\Exe
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+  </IDEOPTIONS>
+</PROJECT>

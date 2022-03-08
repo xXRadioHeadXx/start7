@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/cross2_green_20_20.png</file>
+        <file>icons/line_red_20_20.png</file>
+        <file>icons/logo.png</file>
+    </qresource>
+</RCC>

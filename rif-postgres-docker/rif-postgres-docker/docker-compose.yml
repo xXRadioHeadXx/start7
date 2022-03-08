@@ -1,0 +1,17 @@
+version: '3'
+services:
+
+  postgres:
+    image: library/postgres:9.6-bullseye
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Start7
+      - POSTGRES_DB=rif_db3
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker-data/postgres/init:/docker-entrypoint-initdb.d/
+
+volumes:
+  db-data:
