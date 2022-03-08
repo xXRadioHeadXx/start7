@@ -343,15 +343,21 @@ void ServerTableModelJour::updateAllRecords()
 //обновление выборки
 void ServerTableModelJour::updateListRecords()
 {
+    qDebug() << QTime::currentTime() << "ServerTableModelJour::updateListRecords() -->";
     int lastRecordMSG = -1;
     if(!m_listJour.isEmpty())
         lastRecordMSG = m_listJour.last().getId();
 
+    qDebug() << QTime::currentTime() << "ServerTableModelJour::updateListRecords() -- lastRecordMSG " << lastRecordMSG;
 
     QList<JourEntity> newRecords(DataBaseManager::getMSGRecordAfter(lastRecordMSG));
 
-    if(newRecords.isEmpty())
+    if(newRecords.isEmpty()) {
+        qDebug() << QTime::currentTime() << "ServerTableModelJour::updateListRecords() <--";
+
         return;
+    }
+    qDebug() << QTime::currentTime() << "ServerTableModelJour::updateListRecords() -- newRecords.size() " << newRecords.size();
 
     this->beginInsertRows(QModelIndex(), m_listJour.size(), m_listJour.size() + newRecords.size() - 1);
 
@@ -360,6 +366,8 @@ void ServerTableModelJour::updateListRecords()
     this->endInsertRows();
 
     emitNeedScrollToBottom();
+    qDebug() << QTime::currentTime() << "ServerTableModelJour::updateListRecords() <--";
+
 }
 
 void ServerTableModelJour::updateListRecords(const uint32_t idMSG)
