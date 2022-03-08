@@ -5,23 +5,23 @@
 #include "Utils.h"
 
 QMap<int, QString> JourEntity::mapTypeObject = {{TypeObject::oAllObject, tr("Все")},
-                                                {TypeObject::oSD, tr("СД")},
-                                                {TypeObject::oIU, tr("ИУ")},
-                                                {TypeObject::oRIFRLM, tr("РИФ-РЛМ(КРЛ), Трасса")},
-                                                {TypeObject::oSDCollector, tr("СД концентратора")},
+                                                {TypeObject::oSD, tr("ССОИ СД")},
+                                                {TypeObject::oIU, tr("ССОИ ИУ")},
+                                                {TypeObject::oRIFRLM, tr("РИФ-РЛМ/КРЛ/Трасса")},
+                                                {TypeObject::oSDCollector, tr("КЛ1 (концентратор) СД")},
                                                 {TypeObject::oToros, tr("Торос")},
                                                 {TypeObject::oNast, tr("Наст")},
                                                 {TypeObject::oRadar, tr("Радар")},
-                                                {TypeObject::oRazrivBO, tr("Разрыв БО")},
+                                                {TypeObject::oRazrivBO, tr("Разрыв")},
                                                 {TypeObject::oTochkaGard, tr("Точка/Гарда")},
-                                                {TypeObject::oAdam, tr("Адам-406x/4168")},
-                                                {TypeObject::oSDBLIP, tr("СД БЛ-IP")},
-                                                {TypeObject::oIUBLIP, tr("ИУ БЛ-IP")},
+                                                {TypeObject::oAdam, tr("ADAM")},
+                                                {TypeObject::oSDBLIP, tr("БЛ-IP СД")},
+                                                {TypeObject::oIUBLIP, tr("БЛ-IP ИУ")},
                                                 {TypeObject::oRIFRLMS, tr("РИФ-РЛМ-С")},
-                                                {TypeObject::oBODTochkaM, tr("БОД Точка-М/Гарда-М")},
-                                                {TypeObject::oDDTochkaM, tr("ДД Точка-М/Гарда-М")},
-                                                {TypeObject::oBODSota, tr("БОД Сота/Сота-М")},
-                                                {TypeObject::oDDSota, tr("ДД Сота/Сота-М")}};
+                                                {TypeObject::oBODTochkaM, tr("Точка-М/Гарда БОД")},
+                                                {TypeObject::oDDTochkaM, tr("Точка-М/Гарда ДД")},
+                                                {TypeObject::oBODSota, tr("Сота/Сота-М БОД")},
+                                                {TypeObject::oDDSota, tr("Сота/Сота-М ДД")}};
 
 QMap<int, QString> JourEntity::mapTypeEvent = {{TypeEvent::eAllEvent, tr("Все")},
                                                {TypeEvent::eAlarm, tr("Тревоги")},
@@ -280,6 +280,16 @@ QColor JourEntity::getColor() const
     }
 }
 
+const QJsonDocument &JourEntity::getParams() const
+{
+    return params;
+}
+
+void JourEntity::setParams(const QJsonDocument &newParams)
+{
+    params = newParams;
+}
+
 JourEntity::JourEntity(QObject *parent) : QObject(parent)
 {
     
@@ -304,7 +314,8 @@ JourEntity::JourEntity(const JourEntity & parent) :
     d4(parent.getD4()),
     type(parent.getType()),
     objecttype(parent.getObjecttype()),
-    flag(parent.getFlag())
+    flag(parent.getFlag()),
+    params(parent.getParams())
 {
 }
 
@@ -425,6 +436,7 @@ JourEntity & JourEntity::operator=(const JourEntity& c) {
     setType(c.getType());
     setObjecttype(c.getObjecttype());
     setFlag(c.getFlag());
+    setParams(c.getParams());
 
     return *this;
 }

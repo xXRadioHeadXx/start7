@@ -1,5 +1,52 @@
 #include "AbstractRequester.h"
 
+QTime AbstractRequester::getLastPushTime() const
+{
+    auto result = lastPushTime;
+    if(getManagerFirstMsg())
+        result = qMax(result, getManagerFirstMsg()->getLastMakeTine());
+    if(getManagerSecondMsg())
+        result = qMax(result, getManagerSecondMsg()->getLastMakeTine());
+    if(getManagerEndMsg())
+        result = qMax(result, getManagerEndMsg()->getLastMakeTine());
+    return result;
+}
+
+QTime AbstractRequester::updLastPushTime()
+{
+    return lastPushTime = QTime::currentTime();
+}
+
+int AbstractRequester::getTimeIntervalPauseFromFirstToSecond() const
+{
+    return timeIntervalPauseFromFirstToSecond;
+}
+
+void AbstractRequester::setTimeIntervalPauseFromFirstToSecond(int value)
+{
+    timeIntervalPauseFromFirstToSecond = value;
+}
+
+int AbstractRequester::getTimeIntervalPauseFromSecondToEnd() const
+{
+    return timeIntervalPauseFromSecondToEnd;
+}
+
+void AbstractRequester::setTimeIntervalPauseFromSecondToEnd(int value)
+{
+    timeIntervalPauseFromSecondToEnd = value;
+}
+
+const std::function<void()> &AbstractRequester::getUpdateStateConditionReactor() const
+{
+    return updateStateConditionReactor;
+}
+
+void AbstractRequester::setUpdateStateConditionReactor(const std::function<void()> &newUpdateStateConditionReactor)
+{
+    updateStateConditionReactor = newUpdateStateConditionReactor;
+}
+
 void AbstractRequester::timerTripleStop() {
     timerFirstStop();
     timerSecondStop();
@@ -7,7 +54,7 @@ void AbstractRequester::timerTripleStop() {
 }
 
 AbstractRequester::AbstractRequester(QSharedPointer<UnitNode> target, RequesterType requesterType) : QObject(target.data()) {
-//        //qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -->";
+    //        //qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -->";
     setUnTarget(target);
     setRequesterType(requesterType);
 //        //qDebug() << "AbstractRequester::AbstractRequester(" << this << ") -- getRequesterType( " << getRequesterType() << " )";
@@ -18,6 +65,7 @@ AbstractRequester::AbstractRequester(QSharedPointer<UnitNode> target, RequesterT
 AbstractRequester::~AbstractRequester() {
 //        //qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") -->";
     timerTripleStop();
+    getUnTarget()->setUpdateStateConditionReactor(getUpdateStateConditionReactor());
     ptrPort = nullptr;
 //        //qDebug() << "AbstractRequester::~AbstractRequester(" << this << ") <--";
 }
@@ -108,7 +156,7 @@ void AbstractRequester::firstRequest() {
 //        qDebug() << "beatRepeatFirstRequest("<<this<<") -- makeFirstMsg " << getUnReciver()->toString();
     setFirstMsg(makeFirstMsg());
 
-    if(!getFirstMsg().isValid()) {
+    if(!getFirstMsg().isValid() && getManagerFirstMsg().isNull()) {
         timerTripleStop();
         setBeatStatus(BeatStatus::Unsuccessful);
         emit importantBeatStatus();
@@ -117,18 +165,20 @@ void AbstractRequester::firstRequest() {
         return;
     }
 
-//        qDebug() << "beatRepeatFirstRequest("<<this<<") -- write " << QTime::currentTime().toString("hh:mm:ss.zzz") << getFirstMsg().data().toHex();
-    if(ConnectRequester == getRequesterType()) {
-//        qDebug() << "ConnectRequester firstRequest() " << getFirstMsg().data().toHex();
-    }
+////        qDebug() << "beatRepeatFirstRequest("<<this<<") -- write " << QTime::currentTime().toString("hh:mm:ss.zzz") << getFirstMsg().data().toHex();
+//    if(ConnectRequester == getRequesterType()) {
+////        qDebug() << "ConnectRequester firstRequest() " << getFirstMsg().data().toHex();
+//    }
 
-    if(DKWaiter == getRequesterType() ||
-       AutoOnOffWaiter == getRequesterType() ||
-       ConfirmWaiter == getRequesterType() ||
-       LockRequester == getRequesterType()) {
+    if(RequesterType::ConnectRequester != getRequesterType() && !getManagerFirstMsg().isNull()) {
+        getUnReciver()->pushBackUniqManagerSingleMsg(getManagerFirstMsg());
+//        updLastPushTime();
+    } else if(RequesterType::ConnectRequester != getRequesterType() && getFirstMsg().isValid()) {
         getUnReciver()->pushUniqQueueMsg(getFirstMsg());
+//        updLastPushTime();
     } else {
         Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
+//        updLastPushTime();
     }
 //        Port::typeDefPort(getPtrPort())->write(getFirstMsg(), false);
     setBeatCount(getBeatCount() + 1);
@@ -212,10 +262,15 @@ void AbstractRequester::secondRequest() {
 //            //qDebug() << "AbstractRequester::beatRepeatSecondRequest(" << this << ") <-- Unsuccessful";
         return;
     }
+    if(0 != getTimeIntervalPauseFromFirstToSecond()) {
+        timerSecondStart(getTimeIntervalPauseFromFirstToSecond());
+        setTimeIntervalPauseFromFirstToSecond(0);
+        return;
+    }
 
     setSecondMsg(makeSecondMsg());
 
-    if(!getSecondMsg().isValid()) {
+    if(!getSecondMsg().isValid() && getManagerSecondMsg().isNull()) {
         timerTripleStop();
         setBeatStatus(BeatStatus::Unsuccessful);
         emit importantBeatStatus();
@@ -224,13 +279,15 @@ void AbstractRequester::secondRequest() {
         return;
     }
 
-    if(DKWaiter == getRequesterType() ||
-       AutoOnOffWaiter == getRequesterType() ||
-       ConfirmWaiter == getRequesterType() ||
-       LockRequester == getRequesterType()) {
+    if(RequesterType::ConnectRequester != getRequesterType() && !getManagerSecondMsg().isNull()) {
+        getUnReciver()->pushBackUniqManagerSingleMsg(getManagerSecondMsg());
+//        updLastPushTime();
+    } else if(RequesterType::ConnectRequester != getRequesterType() && getSecondMsg().isValid()) {
         getUnReciver()->pushUniqQueueMsg(getSecondMsg());
+//        updLastPushTime();
     } else {
         Port::typeDefPort(getPtrPort())->write(getSecondMsg(), false);
+//        updLastPushTime();
     }
 //        Port::typeDefPort(ptrPort)->write(getSecondMsg(), false);
     setBeatCount(getBeatCount() + 1);
@@ -316,7 +373,7 @@ void AbstractRequester::endRequest() {
 
     setEndMsg(makeEndMsg());
 
-    if(!getEndMsg().isValid()) {
+    if(!getEndMsg().isValid() && getManagerEndMsg().isNull()) {
         timerTripleStop();
         setBeatStatus(BeatStatus::Unsuccessful);
         emit importantBeatStatus();
@@ -325,13 +382,15 @@ void AbstractRequester::endRequest() {
         return;
     }
 
-    if(DKWaiter == getRequesterType() ||
-       AutoOnOffWaiter == getRequesterType() ||
-       ConfirmWaiter == getRequesterType() ||
-       LockRequester == getRequesterType()) {
+    if(RequesterType::ConnectRequester != getRequesterType() && !getManagerEndMsg().isNull()) {
+        getUnReciver()->pushBackUniqManagerSingleMsg(getManagerEndMsg());
+//        updLastPushTime();
+    } else if(RequesterType::ConnectRequester != getRequesterType() && getEndMsg().isValid()) {
         getUnReciver()->pushUniqQueueMsg(getEndMsg());
+//        updLastPushTime();
     } else {
         Port::typeDefPort(getPtrPort())->write(getEndMsg(), false);
+//        updLastPushTime();
     }
 //        Port::typeDefPort(ptrPort)->write(getEndMsg(), false);
     setBeatCount(getBeatCount() + 1);

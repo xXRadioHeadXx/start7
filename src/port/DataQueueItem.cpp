@@ -1,7 +1,11 @@
 #include "DataQueueItem.h"
 #include "global.h"
 #include "UnitNode.h"
-#include "SWPBLIPType0x41.h"
+#include "swpblip/SWPBLIPType0x41.h"
+#include "swptg/SWPTGType0x34.h"
+#include "swpssoiblip/SWPSSOIBLIPType0x41.h"
+
+#include "TopologyService.h"
 
 QByteArray DataQueueItem::preamble() const
 {
@@ -33,11 +37,25 @@ void DataQueueItem::setSpecialSkipTimeCount(int value)
     specialSkipTimeCount = value;
 }
 
-DataQueueItem::DataQueueItem() noexcept : m_port(0), m_data(QByteArray()), m_portIndex(0) {}
+DataQueueItem::DataQueueItem() :
+    m_port(0)
+  , m_data(QByteArray())
+  , m_portIndex(0) {
 
-DataQueueItem::DataQueueItem(const QByteArray data, QHostAddress address, int port, const int index) noexcept : m_port(port), m_address(address), m_data(data), m_portIndex(index) {}
+}
 
-DataQueueItem::DataQueueItem(const DataQueueItem & parent)
+DataQueueItem::DataQueueItem(const QByteArray data
+                           , QHostAddress address
+                           , int port
+                           , const int index) :
+    m_port(port)
+  , m_address(address)
+  , m_data(data)
+  , m_portIndex(index) {
+
+}
+
+DataQueueItem::DataQueueItem(const DataQueueItem &parent)
 {
     m_data = parent.data();
     m_portIndex = parent.portIndex();
@@ -45,7 +63,7 @@ DataQueueItem::DataQueueItem(const DataQueueItem & parent)
     m_port = parent.port();
 }
 
-DataQueueItem::DataQueueItem(DataQueueItem && parent)
+DataQueueItem::DataQueueItem(DataQueueItem &&parent)
 {
     m_data = parent.data();
     m_portIndex = parent.portIndex();
@@ -73,7 +91,7 @@ int DataQueueItem::port() const {return m_port;}
 
 bool DataQueueItem::isValid() {return !data().isEmpty() && !address().isNull() && 0 < port() && -1 < portIndex();}
 
-DataQueueItem& DataQueueItem::operator=(const DataQueueItem& right) {
+DataQueueItem& DataQueueItem::operator=(const DataQueueItem &right) {
     m_data = right.data();
     m_portIndex = right.portIndex();
     m_address = right.address();
@@ -116,45 +134,181 @@ DataQueueItem DataQueueItem::fillOnOff0x20(DataQueueItem &item, const QSharedPoi
 {
     item.setData(DataQueueItem::makeOnOff0x20(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
 QByteArray DataQueueItem::makeOnOff0x20(const QSharedPointer<UnitNode> un)
 {
     if(DataQueueItem::data0x20.isEmpty()) {
-        DataQueueItem::data0x20.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x20.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x20.append(static_cast<quint8>(0x01));      //<NBB> 0x00
-        DataQueueItem::data0x20.append(static_cast<quint8>(0x20));      //<CMD> 0x20
-//        DataQueueItem::data0x20.append(static_cast<quint8>(0xFF));      //<D1>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xB5));      //<SB>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x01));      //<NBB> 0x00
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
+//        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<D1>
 //        DataQueueItem::data0x20.append(Utils::getByteSumm(DataQueueItem::data0x20)); //<CHKS>
     }
 
     QByteArray out = DataQueueItem::data0x20;
     if(nullptr != un) {
-        if(TypeUnitNode::BL_IP == un->getType() ||
-           TypeUnitNode::SD_BL_IP == un->getType() ||
-           TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = static_cast<quint8>(0xFF);
-            out[2] = static_cast<quint8>(0x01);        //<NBB> 0x00
-            out.append(static_cast<quint8>(0xFF));
-        } else if(TypeUnitNode::RLM_C == un->getType()) {
-            out[1] = static_cast<quint8>(un->getNum1());
-            out[2] = static_cast<quint8>(0x02);        //<NBB> 0x02
-            out.append(un->getStateWord(0x31u).getByteWord().right(2));
-        } else if(TypeUnitNode::RLM_KRL == un->getType()) {
-            out[1] = static_cast<quint8>(un->getNum1());
-            out[2] = static_cast<quint8>(0x01);        //<NBB> 0x01
-            out.append(un->getStateWord(0x31u).getByteWord().left(1));
-        } else if(TypeUnitNode::TG_Base == un->getType() ||
-                  TypeUnitNode::TG == un->getType()) {
-            out[1] = static_cast<quint8>(un->getNum1());
-            out[2] = static_cast<quint8>(0x07);        //<NBB> 0x07
+        if(TypeUnitNodeEnum::BL_IP == un->getType() ||
+           TypeUnitNodeEnum::SD_BL_IP == un->getType() ||
+           TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            out[1] = static_cast<uint8_t>(0xFF);
+            out[2] = static_cast<uint8_t>(0x01);        //<NBB> 0x00
+            out.append(static_cast<uint8_t>(0xFF));
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType() ||
+                  TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType() ||
+                  TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()) {
+            out[1] = static_cast<uint8_t>(un->getNum1());
+            out[2] = static_cast<uint8_t>(0x01);        //<NBB> 0x00
+            out.append(static_cast<uint8_t>(0xFF));
+        } else if(TypeUnitNodeEnum::RLM_C == un->getType()) {
+                    out[1] = static_cast<uint8_t>(un->getNum1());
+            out[2] = static_cast<uint8_t>(0x02);        //<NBB> 0x02
+            out.append(un->getStateWord(0x31u).getByteWord().isEmpty() ? QByteArray() : un->getStateWord(0x31u).getByteWord().right(2));
+        } else if(TypeUnitNodeEnum::RLM_KRL == un->getType()) {
+            out[1] = static_cast<uint8_t>(un->getNum1());
+            out[2] = static_cast<uint8_t>(0x01);        //<NBB> 0x01
+            out.append(un->getStateWord(0x31u).getByteWord().isEmpty() ? QByteArray() : un->getStateWord(0x31u).getByteWord().left(1));
+        } else if(TypeUnitNodeEnum::TG_Base == un->getType() ||
+                  TypeUnitNodeEnum::TG == un->getType()) {
+            out[1] = static_cast<uint8_t>(un->getNum1());
+            out[2] = static_cast<uint8_t>(0x07);        //<NBB> 0x07
             out.append(QByteArray().fill(0x00, 7));
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    return out;
+}
+
+QByteArray DataQueueItem::makeOn0x20(const QSharedPointer<UnitNode> target)
+{
+    if(DataQueueItem::data0x20.isEmpty()) {
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xB5));      //<SB>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x01));      //<NBB> 0x00
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
+//        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<D1>
+//        DataQueueItem::data0x20.append(Utils::getByteSumm(DataQueueItem::data0x20)); //<CHKS>
+    }
+
+    QByteArray out = DataQueueItem::data0x20;
+    if(target.isNull()) {
+        out.append(Utils::getByteSumm(out)); //<CHKS>
+        return out;
+    }
+
+    if(TypeUnitNodeEnum::SD_BL_IP != target->getType()
+    && TypeUnitNodeEnum::SSOI_SD_BL_IP != target->getType()) {
+        out.append(Utils::getByteSumm(out)); //<CHKS>
+        return out;
+    }
+
+//    out[1] = static_cast<uint8_t>(0xFF);
+    out[1] = static_cast<uint8_t>(target->getNum1());
+    out[2] = static_cast<uint8_t>(0x01);        //<NBB> 0x00
+    out.append(static_cast<uint8_t>(0xFF));
+
+    uint8_t D1 = (target->getStateWord(0x41u).getByteWord().isEmpty() ? 0x00 : target->getStateWord(0x41u).getByteWord().at(3)); // байт для БЛ
+    uint8_t mask = target->swpSDBLIPType0x41().mask();
+
+    D1 = D1 | mask;
+    out[4] = D1;
+
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    qDebug() << "DataQueueItem::makeOn0x20(" << target->toString() << ")" << out.toHex();
+
+    return out;
+}
+
+QByteArray DataQueueItem::makeOff0x20(const QSharedPointer<UnitNode> target)
+{
+    if(DataQueueItem::data0x20.isEmpty()) {
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xB5));      //<SB>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x01));      //<NBB> 0x00
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
+//        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<D1>
+//        DataQueueItem::data0x20.append(Utils::getByteSumm(DataQueueItem::data0x20)); //<CHKS>
+    }
+
+    QByteArray out = DataQueueItem::data0x20;
+    if(target.isNull()) {
+        out.append(Utils::getByteSumm(out)); //<CHKS>
+        return out;
+    }
+
+    if(TypeUnitNodeEnum::SD_BL_IP != target->getType()
+    && TypeUnitNodeEnum::SSOI_SD_BL_IP != target->getType()) {
+        out.append(Utils::getByteSumm(out)); //<CHKS>
+        return out;
+    }
+
+//    out[1] = static_cast<uint8_t>(0xFF);
+    out[1] = static_cast<uint8_t>(target->getNum1());
+    out[2] = static_cast<uint8_t>(0x01);        //<NBB> 0x00
+    out.append(static_cast<uint8_t>(0xFF));
+
+    uint8_t D1 = (target->getStateWord(0x41u).getByteWord().isEmpty() ? 0x00 : target->getStateWord(0x41u).getByteWord().at(3)); // байт для БЛ
+    uint8_t mask = target->swpSDBLIPType0x41().mask();
+
+    D1 = D1 & ~mask;
+    out[4] = D1;
+
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    qDebug() << "DataQueueItem::makeOff0x20(" << target->toString() << ")" << out.toHex();
+
+    return out;
+}
+
+QByteArray DataQueueItem::makeMode0x20(const QSharedPointer<UnitNode> target)
+{
+    if(DataQueueItem::data0x20.isEmpty()) {
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xB5));      //<SB>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x01));      //<NBB> 0x00
+        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
+//        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<D1>
+//        DataQueueItem::data0x20.append(Utils::getByteSumm(DataQueueItem::data0x20)); //<CHKS>
+    }
+
+    QByteArray out = DataQueueItem::data0x20;
+    if(target.isNull()) {
+        out.append(Utils::getByteSumm(out)); //<CHKS>
+        return out;
+    }
+
+    QByteArray stateWord;
+
+    if(TypeUnitNodeEnum::RLM_C == target->getType()){
+        stateWord = target->getStateWord(0x31u).getByteWord();
+        out[1] = static_cast<uint8_t>(target->getNum1());
+        out[2] = static_cast<uint8_t>(0x02);        //<NBB> 0x02
+        out.append(stateWord.right(2));
+        out[4] = stateWord.at(2);
+        out[5] = stateWord.at(3);
+    } else if(TypeUnitNodeEnum::RLM_KRL == target->getType()){
+        stateWord = target->getStateWord(0x31u).getByteWord();
+        out[1] = static_cast<uint8_t>(target->getNum1());
+        out[2] = static_cast<uint8_t>(0x01);        //<NBB> 0x01
+        out.append(stateWord.left(1));
+        out[4] = stateWord.at(0);
+    } else if(TypeUnitNodeEnum::TG_Base == target->getType()
+           || TypeUnitNodeEnum::TG == target->getType()){
+        stateWord = target->swpTGType0x34().C(target->getNum1()).byteWord();
+        out[1] = static_cast<uint8_t>(target->getNum1());
+        out[2] = static_cast<uint8_t>(0x07);        //<NBB> 0x07
+        out.append(QByteArray().fill(0x00, 7));
+        out = out.replace(4, 7, stateWord);
+    }
+
+    out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    qDebug() << "DataQueueItem::makeMode0x20(" << target->toString() << ")" << out.toHex();
 
     return out;
 }
@@ -164,37 +318,61 @@ QByteArray DataQueueItem::data0x21 = QByteArray();
 DataQueueItem DataQueueItem::fillDK0x21(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeDK0x21(un));
-    if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(!un.isNull()
+    && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
 QByteArray DataQueueItem::makeDK0x21(const QSharedPointer<UnitNode> un)
 {
-    if(DataQueueItem::data0x21.isEmpty()) {
-        DataQueueItem::data0x21.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x21.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x21.append(static_cast<char>(0x00));        //<NBB> 0x00
-        DataQueueItem::data0x21.append(static_cast<quint8>(0x21));      //<CMD> 0x21
-//        DataQueueItem::data0x21.append(Utils::getByteSumm(DataQueueItem::data0x21)); //<CHKS>
-    }
+    QByteArray data0x21;
 
-    QByteArray out = DataQueueItem::data0x21;
-    if(nullptr != un) {
-        if(TypeUnitNode::BL_IP == un->getType() ||
-           TypeUnitNode::SD_BL_IP == un->getType() ||
-           TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType() ||
-                  TypeUnitNode::RLM_KRL == un->getType() ||
-                  TypeUnitNode::TG == un->getType() ||
-                  TypeUnitNode::TG_Base == un->getType()) {
-            out[1] = static_cast<quint8>(un->getNum1());
+    data0x21.append(static_cast<uint8_t>(0xB5));      //<SB>
+    data0x21.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+    data0x21.append(static_cast<uint8_t>(0xFE));      //<ADDR>
+    data0x21.append(static_cast<char>(0x00));        //<NBB> 0x00
+    data0x21.append(static_cast<uint8_t>(0x21));      //<CMD> 0x21
+
+    if(!un.isNull()) {
+        if(TypeUnitNodeEnum::BL_IP == un->getType()
+        || TypeUnitNodeEnum::SD_BL_IP == un->getType()
+        || TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            data0x21.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x21.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+            data0x21.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x21.append(static_cast<uint8_t>(0x21));      //<CMD> 0x21
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
+
+               || TypeUnitNodeEnum::RLM_C == un->getType()
+
+               || TypeUnitNodeEnum::RLM_KRL == un->getType()
+
+               || TypeUnitNodeEnum::TG == un->getType()
+               || TypeUnitNodeEnum::TG_Base == un->getType()) {
+            data0x21.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x21.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+            data0x21.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x21.append(static_cast<uint8_t>(0x21));      //<CMD> 0x21
+        } else if(TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+               || TypeUnitNodeEnum::Y4_T4K_M == un->getType()
+               || TypeUnitNodeEnum::DD_T4K_M == un->getType()
+
+               || TypeUnitNodeEnum::BOD_SOTA == un->getType()
+               || TypeUnitNodeEnum::Y4_SOTA == un->getType()
+               || TypeUnitNodeEnum::DD_SOTA == un->getType()) {
+            data0x21.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x21.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+            data0x21.append(static_cast<uint8_t>(0xFE));      //<ADDR>
+            data0x21.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x21.append(static_cast<uint8_t>(0x21));      //<CMD> 0x21
         }
     }
-    out.append(Utils::getByteSumm(out)); //<CHKS>
+    data0x21.append(Utils::getByteSumm(data0x21)); //<CHKS>
 
-    return out;
+    return data0x21;
 }
 
 QByteArray DataQueueItem::data0x22 = QByteArray();
@@ -203,34 +381,37 @@ DataQueueItem DataQueueItem::fillStatusRequest0x22(DataQueueItem &item, const QS
 {
     item.setData(DataQueueItem::makeStatusRequest0x22(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
 QByteArray DataQueueItem::makeStatusRequest0x22(const QSharedPointer<UnitNode> un)
 {
     if(DataQueueItem::data0x22.isEmpty()) {
-        DataQueueItem::data0x22.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x22.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x22.append(static_cast<uint8_t>(0xB5));      //<SB>
+        DataQueueItem::data0x22.append(static_cast<uint8_t>(0xFF));      //<ADDR>
         DataQueueItem::data0x22.append(static_cast<char>(0x00));        //<NBB> 0x00
-        DataQueueItem::data0x22.append(static_cast<quint8>(0x22));      //<CMD> 0x22
+        DataQueueItem::data0x22.append(static_cast<uint8_t>(0x22));      //<CMD> 0x22
 //        DataQueueItem::data0x22.append(Utils::getByteSumm(DataQueueItem::data0x22)); //<CHKS>
     }
 
     QByteArray out = DataQueueItem::data0x22;
     if(nullptr != un) {
-        if(TypeUnitNode::BL_IP == un->getType() ||
-           TypeUnitNode::SD_BL_IP == un->getType() ||
-           TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType() ||
-                  TypeUnitNode::RLM_KRL == un->getType() ||
-                  TypeUnitNode::TG == un->getType() ||
-                  TypeUnitNode::TG_Base == un->getType()) {
-            out[1] = static_cast<quint8>(un->getNum1());
+        if(TypeUnitNodeEnum::BL_IP == un->getType() ||
+           TypeUnitNodeEnum::SD_BL_IP == un->getType() ||
+           TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            out[1] = static_cast<uint8_t>(0xFF);
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType() ||
+                  TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType() ||
+                  TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType() ||
+                  TypeUnitNodeEnum::RLM_C == un->getType() ||
+                  TypeUnitNodeEnum::RLM_KRL == un->getType() ||
+                  TypeUnitNodeEnum::TG == un->getType() ||
+                  TypeUnitNodeEnum::TG_Base == un->getType()) {
+            out[1] = static_cast<uint8_t>(un->getNum1());
         }
     } else {
-        out[1] = static_cast<quint8>(0xFF);
+        out[1] = static_cast<uint8_t>(0xFF);
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
 
@@ -239,155 +420,248 @@ QByteArray DataQueueItem::makeStatusRequest0x22(const QSharedPointer<UnitNode> u
 
 QByteArray DataQueueItem::data0x23 = QByteArray();
 
-DataQueueItem DataQueueItem::fillOnOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un)
+DataQueueItem DataQueueItem::fillOnOff0x23(DataQueueItem &item, const QSharedPointer<UnitNode> &un)
 {
     item.setData(DataQueueItem::makeOnOff0x23(un, true));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
-QByteArray DataQueueItem::makeOnOff0x23(QSharedPointer<UnitNode> un, bool onOff)
+QByteArray DataQueueItem::makeOnOff0x23(const QSharedPointer<UnitNode> &un, bool onOff)
 {
     if(DataQueueItem::data0x23.isEmpty()) {
-        DataQueueItem::data0x23.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x23.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x23.append(static_cast<quint8>(0x01));        //<NBB> 0x00
-        DataQueueItem::data0x23.append(static_cast<quint8>(0x23));      //<CMD> 0x23
-        DataQueueItem::data0x23.append(static_cast<quint8>(0xFF));      //<D1>
+        DataQueueItem::data0x23.append(static_cast<uint8_t>(0xB5));      //<SB>
+        DataQueueItem::data0x23.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        DataQueueItem::data0x23.append(static_cast<uint8_t>(0x01));        //<NBB> 0x00
+        DataQueueItem::data0x23.append(static_cast<uint8_t>(0x23));      //<CMD> 0x23
+        DataQueueItem::data0x23.append(static_cast<uint8_t>(0xFF));      //<D1>
         DataQueueItem::data0x23.append(Utils::getByteSumm(DataQueueItem::data0x23)); //<CHKS>
     }
 
-    if(un.isNull())
+    if(un.isNull()) {
         return QByteArray(DataQueueItem::data0x23);
-    else if(TypeUnitNode::IU_BL_IP != un->getType())
-        return QByteArray(DataQueueItem::data0x23);
+    } else if(TypeUnitNodeEnum::SSOI_IU_BL_IP != un->getType()
+           && TypeUnitNodeEnum::SSOI_SD_BL_IP != un->getType()
+           && TypeUnitNodeEnum::SD_BL_IP != un->getType()
+           && TypeUnitNodeEnum::IU_BL_IP != un->getType()
+           && TypeUnitNodeEnum::BL_IP != un->getType()
+           && TypeUnitNodeEnum::SSOI_BL_IP != un->getType()) {
+        QByteArray out = DataQueueItem::data0x23;
+        if(TypeUnitNodeEnum::SD_BL_IP != un->getType()
+        && TypeUnitNodeEnum::IU_BL_IP != un->getType()
+        && TypeUnitNodeEnum::BL_IP != un->getType()) {
+            out[1] = static_cast<uint8_t>(un->getNum1());
+            out.chop(1);
+            out.append(Utils::getByteSumm(out)); //<CHKS>
+        }
+//        qDebug() << "DataQueueItem::makeOnOff0x23(" << un->toString() << ")" << onOff << out.toHex();
+
+        return out;
+    }
 
     QSharedPointer<UnitNode> target = un;
 
-//    if(pun.isNull()) {
-//        pun = target;
-//    }
-//    if(TypeUnitNode::BL_IP != pun->getType()) {
-//        while(nullptr != pun) {
-//            if(TypeUnitNode::BL_IP == pun->getType()) {
-//                break;
-//            }
-//            pun = pun->getParentUN();
-//        }
-//    }
-    auto reciver = UnitNode::findReciver(un);
+    auto reciver = TopologyService::findReciver(un);
 
-    quint8 D1 = 0x00;
+    uint8_t D1 = 0x00;
     int type = target->getType();
 
-    const auto &swpReciver = reciver->swpBLIPType0x41();
-    if(!reciver.isNull() && !swpReciver.isNull()) {
-        D1 = swpReciver.byteWord().at(1) & 0b00001111;
-        quint8 mask = 0x00;
-        if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIPType0x41().isNull())
-            mask = un->swpSDBLIPType0x41().mask();
-        else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIPType0x41().isNull())
-            mask = un->swpIUBLIPType0x41().mask();
-        if(onOff)
-            D1 = D1 | mask;
-        else if(!onOff)
-            D1 = D1 & ~mask;
-    } else {
-        for(auto un : as_const(reciver->getListChilde())) {
-            if(type != un->getType())
-                continue;
-            quint8 mask = 0x00;
-            if(TypeUnitNode::SD_BL_IP == un->getType() && !un->swpSDBLIPType0x41().isNull())
+    if(TypeUnitNodeEnum::SD_BL_IP == un->getType()
+    || TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+        const auto& swpTarget = target->swpBLIPType0x41();
+        if(!swpTarget.isNull()) {
+            D1 = swpTarget.byteWord().at(1) & 0b00001111;
+            uint8_t mask = 0x00;
+            if(TypeUnitNodeEnum::SD_BL_IP == un->getType()
+            && !un->swpSDBLIPType0x41().isNull())
                 mask = un->swpSDBLIPType0x41().mask();
-            else if(TypeUnitNode::IU_BL_IP == un->getType() && !un->swpIUBLIPType0x41().isNull())
+            else if(TypeUnitNodeEnum::IU_BL_IP == un->getType()
+                 && !un->swpIUBLIPType0x41().isNull())
                 mask = un->swpIUBLIPType0x41().mask();
-
-            if(TypeUnitNode::SD_BL_IP == un->getType() &&
-                    !un->swpSDBLIPType0x41().isNull() &&
-                    1 == un->swpSDBLIPType0x41().isOff())
-                D1 = D1 & ~mask;
-            else if(TypeUnitNode::IU_BL_IP == un->getType() &&
-                    !un->swpIUBLIPType0x41().isNull() &&
-                    1 == un->swpIUBLIPType0x41().isOff())
-                D1 = D1 & ~mask;
-            else
+            if(onOff)
                 D1 = D1 | mask;
-
-            if(un == target && onOff)
-                D1 = D1 | mask;
-            else if(un == target && !onOff)
+            else if(!onOff)
                 D1 = D1 & ~mask;
+        } else {
+            for(const auto& un : as_const(reciver->getListChilde())) {
+                if(type != un->getType())
+                    continue;
+                uint8_t mask = 0x00;
+                if(TypeUnitNodeEnum::SD_BL_IP == un->getType()
+                && !un->swpSDBLIPType0x41().isNull())
+                    mask = un->swpSDBLIPType0x41().mask();
+                else if(TypeUnitNodeEnum::IU_BL_IP == un->getType()
+                     && !un->swpIUBLIPType0x41().isNull())
+                    mask = un->swpIUBLIPType0x41().mask();
+
+                if(TypeUnitNodeEnum::SD_BL_IP == un->getType()
+                && !un->swpSDBLIPType0x41().isNull()
+                && 1 == un->swpSDBLIPType0x41().isOff())
+                    D1 = D1 & ~mask;
+                else if(TypeUnitNodeEnum::IU_BL_IP == un->getType() &&
+                        !un->swpIUBLIPType0x41().isNull() &&
+                        1 == un->swpIUBLIPType0x41().isOff())
+                    D1 = D1 & ~mask;
+                else
+                    D1 = D1 | mask;
+
+                if(un == target && onOff)
+                    D1 = D1 | mask;
+                else if(un == target && !onOff)
+                    D1 = D1 & ~mask;
+            }
         }
+
+    } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+           || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()) {
+        const auto& swpTarget = target->swpSSOIBLIPType0x41();
+        if(!swpTarget.isNull()) {
+            D1 = swpTarget.byteWord().at(1) & 0b00001111;
+            uint8_t mask = 0x00;
+            if(TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+            && !un->swpSSOISDBLIPType0x41().isNull())
+                mask = un->swpSSOISDBLIPType0x41().mask();
+            else if(TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
+                 && !un->swpSSOIIUBLIPType0x41().isNull())
+                mask = un->swpSSOIIUBLIPType0x41().mask();
+            if(onOff)
+                D1 = D1 | mask;
+            else if(!onOff)
+                D1 = D1 & ~mask;
+        } else {
+            for(const auto& un : as_const(reciver->getListChilde())) {
+                if(type != un->getType())
+                    continue;
+                uint8_t mask = 0x00;
+                if(TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+                && !un->swpSSOISDBLIPType0x41().isNull())
+                    mask = un->swpSSOISDBLIPType0x41().mask();
+                else if(TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
+                     && !un->swpSSOIIUBLIPType0x41().isNull())
+                    mask = un->swpSSOIIUBLIPType0x41().mask();
+
+                if(TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+                && !un->swpSSOISDBLIPType0x41().isNull()
+                && 1 == un->swpSSOISDBLIPType0x41().isOff())
+                    D1 = D1 & ~mask;
+                else if(TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType() &&
+                        !un->swpSSOIIUBLIPType0x41().isNull() &&
+                        1 == un->swpSSOIIUBLIPType0x41().isOff())
+                    D1 = D1 & ~mask;
+                else
+                    D1 = D1 | mask;
+
+                if(un == target && onOff)
+                    D1 = D1 | mask;
+                else if(un == target && !onOff)
+                    D1 = D1 & ~mask;
+            }
+        }
+
     }
 
     QByteArray data = DataQueueItem::data0x23;
+    if(TypeUnitNodeEnum::BL_IP != un->getType()
+    && TypeUnitNodeEnum::SD_BL_IP != un->getType()
+    && TypeUnitNodeEnum::IU_BL_IP != un->getType()) {
+        data[1] = static_cast<uint8_t>(un->getNum1());
+    }
     data[4] = D1;
     data.chop(1);
     data.append(Utils::getByteSumm(data)); //<CHKS>
 
+//    qDebug() << "DataQueueItem::makeOnOff0x23(" << un->toString() << ", " << onOff << ")" << data.toHex() << swpTarget.byteWord().toHex() << swpTarget.cdate();
+
+//    qDebug() << "DataQueueItem::makeOnOff0x23(" << un->toString() << ")" << onOff << data.toHex();
+
     return data;
 }
 
-DataQueueItem DataQueueItem::fillOn0x23(DataQueueItem &item, QSharedPointer<UnitNode>un)
+DataQueueItem DataQueueItem::fillOn0x23(DataQueueItem &item, const QSharedPointer<UnitNode> &un)
 {
     item.setData(DataQueueItem::makeOn0x23(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
-QByteArray DataQueueItem::makeOn0x23(QSharedPointer<UnitNode> un)
+QByteArray DataQueueItem::makeOn0x23(const QSharedPointer<UnitNode> un)
 {
 return DataQueueItem::makeOnOff0x23(un, true);
 }
 
-DataQueueItem DataQueueItem::fillOff0x23(DataQueueItem &item, QSharedPointer<UnitNode>un)
+DataQueueItem DataQueueItem::fillOff0x23(DataQueueItem &item, const QSharedPointer<UnitNode> &un)
 {
     item.setData(DataQueueItem::makeOff0x23(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
-QByteArray DataQueueItem::makeOff0x23(QSharedPointer<UnitNode> un)
+QByteArray DataQueueItem::makeOff0x23(const QSharedPointer<UnitNode> un)
 {
     return DataQueueItem::makeOnOff0x23(un, false);
 }
 
 QByteArray DataQueueItem::data0x24 = QByteArray();
 
-DataQueueItem DataQueueItem::fillAlarmReset0x24(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+DataQueueItem DataQueueItem::fillResetFlags0x24(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
-    item.setData(DataQueueItem::makeAlarmReset0x24(un));
+    item.setData(DataQueueItem::makeResetFlags0x24(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
-QByteArray DataQueueItem::makeAlarmReset0x24(const QSharedPointer<UnitNode> un)
+QByteArray DataQueueItem::makeResetFlags0x24(const QSharedPointer<UnitNode> un)
 {
-    if(DataQueueItem::data0x24.isEmpty()) {
-        DataQueueItem::data0x24.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x24.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x24.append(static_cast<char>(0x00));        //<NBB> 0x00
-        DataQueueItem::data0x24.append(static_cast<quint8>(0x24));      //<CMD> 0x24
-//        DataQueueItem::data0x24.append(Utils::getByteSumm(DataQueueItem::data0x24)); //<CHKS>
-    }
+    QByteArray data0x24;
 
-    QByteArray out = DataQueueItem::data0x24;
-    if(nullptr != un) {
-        if(TypeUnitNode::BL_IP == un->getType() ||
-           TypeUnitNode::SD_BL_IP == un->getType() ||
-           TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType() || TypeUnitNode::TG == un->getType() ) {
-            out[1] = static_cast<quint8>(un->getNum1());
-        }
-    }
-    out.append(Utils::getByteSumm(out)); //<CHKS>
+    if(!un.isNull()) {
+        if(TypeUnitNodeEnum::BL_IP == un->getType()
+        || TypeUnitNodeEnum::SD_BL_IP == un->getType()
+        || TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            data0x24.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x24.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+            data0x24.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x24.append(static_cast<uint8_t>(0x24));
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
 
-    return out;
+               || TypeUnitNodeEnum::RLM_C == un->getType()
+
+               || TypeUnitNodeEnum::RLM_KRL == un->getType()
+
+               || TypeUnitNodeEnum::TG_Base == un->getType()
+               || TypeUnitNodeEnum::TG == un->getType()) {
+            data0x24.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x24.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+            data0x24.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x24.append(static_cast<uint8_t>(0x24));
+        } else if(   TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+                  || TypeUnitNodeEnum::Y4_T4K_M == un->getType()
+                  || TypeUnitNodeEnum::DD_T4K_M == un->getType()
+
+                  || TypeUnitNodeEnum::BOD_SOTA == un->getType()
+                  || TypeUnitNodeEnum::Y4_SOTA == un->getType()
+                  || TypeUnitNodeEnum::DD_SOTA == un->getType()) {
+            data0x24.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x24.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+            data0x24.append(static_cast<char>(0xFE));        //<ADDR> 0xFE
+            data0x24.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x24.append(static_cast<uint8_t>(0x24));
+           }
+    } else {
+        data0x24.append(static_cast<uint8_t>(0xB5));      //<SB>
+        data0x24.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        data0x24.append(static_cast<char>(0x00));        //<NBB> 0x00
+        data0x24.append(static_cast<uint8_t>(0x24));
+    }
+    data0x24.append(Utils::getByteSumm(data0x24)); //<CHKS>
+
+    return data0x24;
 }
 
 QByteArray DataQueueItem::data0x25 = QByteArray();
@@ -396,31 +670,39 @@ DataQueueItem DataQueueItem::fillOff0x25(DataQueueItem &item, const QSharedPoint
 {
     item.setData(DataQueueItem::makeOff0x25(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
 QByteArray DataQueueItem::makeOff0x25(const QSharedPointer<UnitNode> un)
 {
     if(DataQueueItem::data0x25.isEmpty()) {
-        DataQueueItem::data0x25.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x25.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x25.append(static_cast<uint8_t>(0xB5));      //<SB>
+        DataQueueItem::data0x25.append(static_cast<uint8_t>(0xFF));      //<ADDR>
         DataQueueItem::data0x25.append(static_cast<char>(0x00));        //<NBB> 0x00
-        DataQueueItem::data0x25.append(static_cast<quint8>(0x25));      //<CMD> 0x25
+        DataQueueItem::data0x25.append(static_cast<uint8_t>(0x25));      //<CMD> 0x25
 //        DataQueueItem::data0x25.append(Utils::getByteSumm(DataQueueItem::data0x25)); //<CHKS>
     }
 
     QByteArray out = DataQueueItem::data0x25;
     if(nullptr != un) {
-        if(TypeUnitNode::BL_IP == un->getType() ||
-           TypeUnitNode::SD_BL_IP == un->getType() ||
-           TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()) {
-            out[1] = static_cast<quint8>(un->getNum1());
+        if(TypeUnitNodeEnum::BL_IP == un->getType() ||
+           TypeUnitNodeEnum::SD_BL_IP == un->getType() ||
+           TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            out[1] = static_cast<uint8_t>(0xFF);
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
+               || TypeUnitNodeEnum::RLM_C == un->getType()
+               || TypeUnitNodeEnum::RLM_KRL == un->getType()
+               || TypeUnitNodeEnum::TG_Base == un->getType()
+               || TypeUnitNodeEnum::TG == un->getType()) {
+            out[1] = static_cast<uint8_t>(un->getNum1());
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
+
+//    qDebug() << "DataQueueItem::makeOff0x25(" << un->toString() << ")" << out.toHex();
 
     return out;
 }
@@ -431,41 +713,49 @@ DataQueueItem DataQueueItem::fillOn0x26(DataQueueItem &item, const QSharedPointe
 {
     item.setData(DataQueueItem::makeOn0x26(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     return item;
 }
 
 QByteArray DataQueueItem::makeOn0x26(const QSharedPointer<UnitNode> un)
 {
     if(DataQueueItem::data0x26.isEmpty()) {
-        DataQueueItem::data0x26.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x26.append(static_cast<quint8>(0xFF));      //<ADDR>
+        DataQueueItem::data0x26.append(static_cast<uint8_t>(0xB5));      //<SB>
+        DataQueueItem::data0x26.append(static_cast<uint8_t>(0xFF));      //<ADDR>
         DataQueueItem::data0x26.append(static_cast<char>(0x00));        //<NBB> 0x00
-        DataQueueItem::data0x26.append(static_cast<quint8>(0x26));      //<CMD> 0x26
+        DataQueueItem::data0x26.append(static_cast<uint8_t>(0x26));      //<CMD> 0x26
 //        DataQueueItem::data0x26.append(Utils::getByteSumm(DataQueueItem::data0x26)); //<CHKS>
     }
 
     QByteArray out = DataQueueItem::data0x26;
     if(nullptr != un) {
-        if(TypeUnitNode::BL_IP == un->getType() ||
-           TypeUnitNode::SD_BL_IP == un->getType() ||
-           TypeUnitNode::IU_BL_IP == un->getType()) {
-            out[1] = static_cast<quint8>(0xFF);
-        } else if(TypeUnitNode::RLM_C == un->getType() || TypeUnitNode::RLM_KRL == un->getType()) {
-            out[1] = static_cast<quint8>(un->getNum1());
+        if(TypeUnitNodeEnum::BL_IP == un->getType() ||
+           TypeUnitNodeEnum::SD_BL_IP == un->getType() ||
+           TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            out[1] = static_cast<uint8_t>(0xFF);
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
+               || TypeUnitNodeEnum::RLM_C == un->getType()
+               || TypeUnitNodeEnum::RLM_KRL == un->getType()
+               || TypeUnitNodeEnum::TG_Base == un->getType()
+               || TypeUnitNodeEnum::TG == un->getType()) {
+            out[1] = static_cast<uint8_t>(un->getNum1());
         }
     }
     out.append(Utils::getByteSumm(out)); //<CHKS>
+
+    qDebug() << "DataQueueItem::makeOn0x26(" << un->toString() << ")" << out.toHex();
+
     return out;
 }
 
-QByteArray DataQueueItem::data0x2A = QByteArray();
 
 DataQueueItem DataQueueItem::fillStatusRequest0x2A(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x2A(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     item.setSpecialSkipTimeInterval(300);
     item.setSpecialSkipTimeCount(2);
     return item;
@@ -473,31 +763,78 @@ DataQueueItem DataQueueItem::fillStatusRequest0x2A(DataQueueItem &item, const QS
 
 QByteArray DataQueueItem::makeStatusRequest0x2A(const QSharedPointer<UnitNode> un)
 {
-    if(DataQueueItem::data0x2A.isEmpty()) {
-        DataQueueItem::data0x2A.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x2A.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x2A.append(static_cast<char>(0x00));        //<NBB> 0x00
-        DataQueueItem::data0x2A.append(static_cast<quint8>(0x2A));      //<CMD> 0x2A
-//        DataQueueItem::data0x2A.append(Utils::getByteSumm(DataQueueItem::data0x2A)); //<CHKS>
+    QByteArray data0x2A;
+    if(un.isNull()) {
+        data0x2A.append(static_cast<uint8_t>(0xB5));      //<SB>
+        data0x2A.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        data0x2A.append(static_cast<char>(0x00));        //<NBB> 0x00
+        data0x2A.append(static_cast<uint8_t>(0x2A));      //<CMD> 0x2A
+    } else {
+        if(TypeUnitNodeEnum::BL_IP == un->getType() ||
+           TypeUnitNodeEnum::SD_BL_IP == un->getType() ||
+           TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            data0x2A.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x2A.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+            data0x2A.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x2A.append(static_cast<uint8_t>(0x2A));      //<CMD> 0x2A
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
+
+               || TypeUnitNodeEnum::RLM_C == un->getType()
+
+               || TypeUnitNodeEnum::RLM_KRL == un->getType()
+
+               || TypeUnitNodeEnum::TG_Base == un->getType()
+               || TypeUnitNodeEnum::TG == un->getType()) {
+            data0x2A.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x2A.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+            data0x2A.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x2A.append(static_cast<uint8_t>(0x2A));      //<CMD> 0x2A
+        } else if(TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+               || TypeUnitNodeEnum::Y4_T4K_M == un->getType()
+               || TypeUnitNodeEnum::DD_T4K_M == un->getType()
+
+               || TypeUnitNodeEnum::BOD_SOTA == un->getType()
+               || TypeUnitNodeEnum::Y4_SOTA == un->getType()
+               || TypeUnitNodeEnum::DD_SOTA == un->getType()) {
+               data0x2A.append(static_cast<uint8_t>(0xB5));      //<SB>
+               data0x2A.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+               data0x2A.append(static_cast<char>(0x01));        //<NBB> 0x00
+               data0x2A.append(static_cast<uint8_t>(0x2A));      //<CMD> 0x2A
+
+               auto getY4 = [](QSharedPointer<UnitNode> un) {
+                   auto num2 = un->getNum2();
+                   return (num2 / 100);
+               };
+
+               auto getDDNum = [](QSharedPointer<UnitNode> un) {
+                   auto num2 = un->getNum2();
+                   return static_cast<uint8_t>(num2 % 100);
+               };
+
+               uint8_t d1 = 0x00;
+               if(un->getInterrogationUN().isNull()) {
+                   d1 = ((2 < getY4(un)) ? 0b10000000 : 0b00000000) | (0b01111111 & getDDNum(un));
+               } else {
+                   d1 = ((2 < getY4(un->getInterrogationUN())) ? 0b10000000 : 0b00000000) | (0b01111111 & getDDNum(un->getInterrogationUN()));
+               }
+
+               data0x2A.append(d1);      //<D1>
+           }
     }
 
-    QByteArray out = DataQueueItem::data0x2A;
-    if(nullptr != un) {
-        out[1] = static_cast<quint8>(un->getNum1());
-    }
-    out.append(Utils::getByteSumm(out)); //<CHKS>
+    data0x2A.append(Utils::getByteSumm(data0x2A)); //<CHKS>
 
-    return out;
+    return data0x2A;
 }
 
-
-QByteArray DataQueueItem::data0x2C = QByteArray();
 
 DataQueueItem DataQueueItem::fillStatusRequest0x2C(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x2C(un));
     if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     item.setSpecialSkipTimeInterval(300);
     item.setSpecialSkipTimeCount(2);
     return item;
@@ -505,21 +842,146 @@ DataQueueItem DataQueueItem::fillStatusRequest0x2C(DataQueueItem &item, const QS
 
 QByteArray DataQueueItem::makeStatusRequest0x2C(const QSharedPointer<UnitNode> un)
 {
-    if(DataQueueItem::data0x2C.isEmpty()) {
-        DataQueueItem::data0x2C.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x2C.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x2C.append(static_cast<char>(0x00));        //<NBB> 0x00
-        DataQueueItem::data0x2C.append(static_cast<quint8>(0x2C));      //<CMD> 0x2C
-//        DataQueueItem::data0x2C.append(Utils::getByteSumm(DataQueueItem::data0x2C)); //<CHKS>
+    QByteArray data0x2C;
+    if(un.isNull()) {
+        data0x2C.append(static_cast<uint8_t>(0xB5));      //<SB>
+        data0x2C.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        data0x2C.append(static_cast<char>(0x00));        //<NBB> 0x00
+        data0x2C.append(static_cast<uint8_t>(0x2C));      //<CMD> 0x2C
+    } else {
+        if(TypeUnitNodeEnum::BL_IP == un->getType() ||
+           TypeUnitNodeEnum::SD_BL_IP == un->getType() ||
+           TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            data0x2C.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x2C.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+            data0x2C.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x2C.append(static_cast<uint8_t>(0x2C));      //<CMD> 0x2C
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
+
+               || TypeUnitNodeEnum::RLM_C == un->getType()
+
+               || TypeUnitNodeEnum::RLM_KRL == un->getType()
+
+               || TypeUnitNodeEnum::TG_Base == un->getType()
+               || TypeUnitNodeEnum::TG == un->getType()) {
+            data0x2C.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x2C.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+            data0x2C.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x2C.append(static_cast<uint8_t>(0x2C));      //<CMD> 0x2C
+        } else if(TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+               || TypeUnitNodeEnum::Y4_T4K_M == un->getType()
+               || TypeUnitNodeEnum::DD_T4K_M == un->getType()
+
+               || TypeUnitNodeEnum::BOD_SOTA == un->getType()
+               || TypeUnitNodeEnum::Y4_SOTA == un->getType()
+               || TypeUnitNodeEnum::DD_SOTA == un->getType()) {
+               data0x2C.append(static_cast<uint8_t>(0xB5));      //<SB>
+               data0x2C.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+               data0x2C.append(static_cast<char>(0x01));        //<NBB> 0x00
+               data0x2C.append(static_cast<uint8_t>(0x2C));      //<CMD> 0x2C
+
+               auto getY4 = [](QSharedPointer<UnitNode> un) {
+                   auto num2 = un->getNum2();
+                   return (num2 / 100);
+               };
+
+               auto getDDNum = [](QSharedPointer<UnitNode> un) {
+                   auto num2 = un->getNum2();
+                   return static_cast<uint8_t>(num2 % 100);
+               };
+
+               uint8_t d1 = ((2 < getY4(un)) ? 0b10000000 : 0b00000000) | (0b01111111 & getDDNum(un));
+
+               data0x2C.append(d1);      //<D1>
+           }
     }
 
-    QByteArray out = DataQueueItem::data0x2C;
-    if(nullptr != un) {
-        out[1] = static_cast<quint8>(un->getNum1());
-    }
-    out.append(Utils::getByteSumm(out)); //<CHKS>
+    data0x2C.append(Utils::getByteSumm(data0x2C)); //<CHKS>
 
-    return out;
+    return data0x2C;
+}
+
+
+DataQueueItem DataQueueItem::fillStatusRequest0x2D(DataQueueItem &item, const QSharedPointer<UnitNode> un)
+{
+    item.setData(DataQueueItem::makeStatusRequest0x2D(un));
+    if(!un.isNull()
+    && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
+    item.setSpecialSkipTimeInterval(300);
+    item.setSpecialSkipTimeCount(2);
+    return item;
+}
+
+QByteArray DataQueueItem::makeStatusRequest0x2D(const QSharedPointer<UnitNode> un)
+{
+    QByteArray data0x2D;
+    if(un.isNull()) {
+        data0x2D.append(static_cast<uint8_t>(0xB5));      //<SB>
+        data0x2D.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+        data0x2D.append(static_cast<char>(0x00));        //<NBB> 0x00
+        data0x2D.append(static_cast<uint8_t>(0x2D));      //<CMD> 0x2D
+    } else {
+        if(TypeUnitNodeEnum::BL_IP == un->getType() ||
+           TypeUnitNodeEnum::SD_BL_IP == un->getType() ||
+           TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+            data0x2D.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x2D.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+            data0x2D.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x2D.append(static_cast<uint8_t>(0x2D));      //<CMD> 0x2D
+        } else if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_SD_BL_IP == un->getType()
+               || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType()
+
+               || TypeUnitNodeEnum::RLM_C == un->getType()
+
+               || TypeUnitNodeEnum::RLM_KRL == un->getType()
+
+               || TypeUnitNodeEnum::TG_Base == un->getType()
+               || TypeUnitNodeEnum::TG == un->getType()) {
+            data0x2D.append(static_cast<uint8_t>(0xB5));      //<SB>
+            data0x2D.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+            data0x2D.append(static_cast<char>(0x00));        //<NBB> 0x00
+            data0x2D.append(static_cast<uint8_t>(0x2D));      //<CMD> 0x2D
+        } else if(TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+               || TypeUnitNodeEnum::Y4_T4K_M == un->getType()
+               || TypeUnitNodeEnum::DD_T4K_M == un->getType()
+
+               || TypeUnitNodeEnum::BOD_SOTA == un->getType()
+               || TypeUnitNodeEnum::Y4_SOTA == un->getType()
+               || TypeUnitNodeEnum::DD_SOTA == un->getType()) {
+               data0x2D.append(static_cast<uint8_t>(0xB5));      //<SB>
+               data0x2D.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+               data0x2D.append(static_cast<uint8_t>(0xFE));      //<ADDR>
+               data0x2D.append(static_cast<char>(0x01));        //<NBB> 0x00
+               data0x2D.append(static_cast<uint8_t>(0x2D));      //<CMD> 0x2D
+
+               auto getY4 = [](QSharedPointer<UnitNode> un) {
+                   auto num2 = un->getNum2();
+                   return (num2 / 100);
+               };
+
+               auto getDDNum = [](QSharedPointer<UnitNode> un) {
+                   auto num2 = un->getNum2();
+                   return static_cast<uint8_t>(num2 % 100);
+               };
+
+               uint8_t d1 = 0x00;
+               if(un->getInterrogationUN().isNull()) {
+                   d1 = ((2 < getY4(un)) ? 0b10000000 : 0b00000000) | (0b01111111 & getDDNum(un));
+               } else {
+                   d1 = ((2 < getY4(un->getInterrogationUN())) ? 0b10000000 : 0b00000000) | (0b01111111 & getDDNum(un->getInterrogationUN()));
+               }
+
+               data0x2D.append(d1);      //<D1>
+           }
+    }
+
+    data0x2D.append(Utils::getByteSumm(data0x2D)); //<CHKS>
+
+    return data0x2D;
 }
 
 
@@ -528,8 +990,9 @@ QByteArray DataQueueItem::data0x2E = QByteArray();
 DataQueueItem DataQueueItem::fillStatusRequest0x2E(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
     item.setData(DataQueueItem::makeStatusRequest0x2E(un));
-    if(nullptr != un && un->isNeedsPreamble())
-        item.setPreamble(QByteArray().fill(static_cast<quint8>(0xFF), 3));
+    if(!un.isNull()
+    && un->isNeedsPreamble())
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
     item.setSpecialSkipTimeInterval(300);
     item.setSpecialSkipTimeCount(2);
     return item;
@@ -537,89 +1000,230 @@ DataQueueItem DataQueueItem::fillStatusRequest0x2E(DataQueueItem &item, const QS
 
 QByteArray DataQueueItem::makeStatusRequest0x2E(const QSharedPointer<UnitNode> un)
 {
-    if(DataQueueItem::data0x2E.isEmpty()) {
-        DataQueueItem::data0x2E.append(static_cast<quint8>(0xB5));      //<SB>
-        DataQueueItem::data0x2E.append(static_cast<quint8>(0xFF));      //<ADDR>
-        DataQueueItem::data0x2E.append(static_cast<char>(0x00));        //<NBB> 0x00
-        DataQueueItem::data0x2E.append(static_cast<quint8>(0x2E));      //<CMD> 0x2E
-//        DataQueueItem::data0x2E.append(Utils::getByteSumm(DataQueueItem::data0x2E)); //<CHKS>
+    auto rcvr = TopologyService::findReciver(un);
+    while(rcvr != TopologyService::findReciver(rcvr)) {
+        rcvr = TopologyService::findReciver(rcvr);
     }
 
-    QByteArray out = DataQueueItem::data0x2E;
-    if(nullptr != un) {
-        out[1] = static_cast<quint8>(un->getNum1());
+    QByteArray data;
+    data.append(static_cast<uint8_t>(0xB5));      //<SB>
+    data.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+    if(TypeUnitNodeEnum::BOD_T4K_M == rcvr->getType()) {
+        data.append(static_cast<char>(0xFE));        //<ADDR> 0xFE
+    } else if(TypeUnitNodeEnum::BOD_SOTA == rcvr->getType()) {
+        data.append(static_cast<uint8_t>(0xFE));        //<ADDR> 0xFE
     }
-    out.append(Utils::getByteSumm(out)); //<CHKS>
+    data.append(static_cast<char>(0x00));        //<NBB> 0x00
+    data.append(static_cast<uint8_t>(0x2E));      //<CMD> 0x2E
 
-    return out;
+    if(!un.isNull()) {
+        data[1] = static_cast<uint8_t>(un->getNum1());
+    }
+    data.append(Utils::getByteSumm(data)); //<CHKS>
+
+    return data;
 }
 
-bool DataQueueItem::isValideDirectionI(DataQueueItem &item)
+DataQueueItem DataQueueItem::fillSpecifyingSettingsBOD0x20(DataQueueItem &item, const QSharedPointer<UnitNode> un)
 {
-    if(item.data().isEmpty() ||
-       item.address().isNull() ||
-       0 > item.port() ||
-       -1 > item.portIndex())
+    item.setData(DataQueueItem::makeSpecifyingSettingsBOD0x20(un));
+    if(!un.isNull()
+    && un->isNeedsPreamble()) {
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
+    }
+    item.setSpecialSkipTimeInterval(300);
+    item.setSpecialSkipTimeCount(2);
+    return item;
+}
+
+QByteArray DataQueueItem::makeSpecifyingSettingsBOD0x20(const QSharedPointer<UnitNode> un)
+{
+
+    auto bod = TopologyService::findReciver(un);
+    while(bod != TopologyService::findReciver(bod)) {
+        bod = TopologyService::findReciver(bod);
+    }
+
+    QByteArray data;
+    data.append(static_cast<uint8_t>(0xB5));      //<SB>
+    data.append(static_cast<uint8_t>(bod->getNum1()));      //<ADDR bod>
+    data.append(static_cast<uint8_t>(0xFE));      //<ADDR>
+
+    if(TypeUnitNodeEnum::BOD_T4K_M == bod->getType()) {
+        data.append(static_cast<uint8_t>(0x0B)); // 11 //<NBB> 0x00
+    } else if(TypeUnitNodeEnum::BOD_SOTA == bod->getType()) {
+        data.append(static_cast<uint8_t>(0x1D)); // 29 //<NBB> 0x00
+    }
+
+    data.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
+
+    if(TypeUnitNodeEnum::BOD_T4K_M == bod->getType()) {
+        data.append(static_cast<char>(0x00));        //<NBB> 0x00
+    } else if(TypeUnitNodeEnum::BOD_SOTA == bod->getType()) {
+        data.append(static_cast<uint8_t>(0x01));        //<NBB> 0x00
+    }
+
+    if(TypeUnitNodeEnum::BOD_T4K_M == bod->getType()) {
+        data.append(8, static_cast<char>(0x00)); // 11 - 3 //<NBB> 0x00
+    } else if(TypeUnitNodeEnum::BOD_SOTA == bod->getType()) {
+        data.append(26, static_cast<char>(0x00)); // 29 - 3 //<NBB> 0x00
+    }
+
+//    uint8_t maxDD = 0x00;
+//    if(TypeUnitNodeEnum::BOD_T4K_M == bod->getType()) {
+//        maxDD = 0x1A; // 26
+//    } else if(TypeUnitNodeEnum::BOD_SOTA == bod->getType()) {
+//        maxDD = 0x64; // 100
+//    }
+
+    auto makeByteMask = [](QSharedPointer<UnitNode> un) {
+        auto num2 = un->getNum2();
+        switch ((num2 % 100) % 8) {
+        case 0:
+            return static_cast<uint8_t>(0x80);
+        case 1:
+            return static_cast<uint8_t>(0x01);
+        case 2:
+            return static_cast<uint8_t>(0x02);
+        case 3:
+            return static_cast<uint8_t>(0x04);
+        case 4:
+            return static_cast<uint8_t>(0x08);
+        case 5:
+            return static_cast<uint8_t>(0x10);
+        case 6:
+            return static_cast<uint8_t>(0x20);
+        case 7:
+            return static_cast<uint8_t>(0x40);
+        case 8:
+            return static_cast<uint8_t>(0x80);
+        default:
+            return static_cast<uint8_t>(0x00);
+        }
+    };
+
+    auto makeIndex = [](QSharedPointer<UnitNode> un) {
+        auto num2 = un->getNum2();
+        return ((num2 % 100) / 8);
+    };
+
+    auto makeDisplacementCoefficient = [](QSharedPointer<UnitNode> un) {
+        auto num2 = un->getNum2();
+        return (2 < (num2 / 100) ? 1 : 0);
+    };
+
+    auto makeDisplacement = [](QSharedPointer<UnitNode> un) {
+        if(TypeUnitNodeEnum::DD_T4K_M == un->getType()) {
+            return 4;
+        } else if(TypeUnitNodeEnum::DD_SOTA == un->getType()) {
+            return 13;
+        }
+        return 0;
+    };
+
+    auto getY4 = [](QSharedPointer<UnitNode> un) {
+        auto num2 = un->getNum2();
+        return (num2 / 100);
+    };
+
+    auto getDDNum = [](QSharedPointer<UnitNode> un) {
+        auto num2 = un->getNum2();
+        return static_cast<uint8_t>(num2 % 100);
+    };
+
+    uint8_t ddNumY4_2 = static_cast<uint8_t>(0x00);
+    uint8_t ddNumY4_4 = static_cast<uint8_t>(0x00);
+    for(const auto& un : as_const(TopologyService::findChildByType(TypeUnitNodeEnum::DD_T4K_M, bod))) {
+        const auto index = makeIndex(un) + (makeDisplacement(un) * makeDisplacementCoefficient(un)) + 6;
+        data[index] = static_cast<uint8_t>(data.at(index)) | makeByteMask(un);
+        if(static_cast<uint8_t>(0x00) == ddNumY4_2
+        && 2 == getY4(un)) {
+            ddNumY4_2 = getDDNum(un);
+        }
+        if(static_cast<uint8_t>(0x00) == ddNumY4_4
+        && 4 == getY4(un)) {
+            ddNumY4_4 = getDDNum(un);
+        }
+    }
+
+    data.append(ddNumY4_2);
+    data.append(ddNumY4_4);
+
+    data.append(Utils::getByteSumm(data)); //<CHKS>
+
+    return data;
+}
+
+bool DataQueueItem::isValideDirectionI(const DataQueueItem &item)
+{
+    if(item.data().isEmpty()
+    || item.address().isNull()
+    || 0 > item.port()
+    || -1 > item.portIndex())
         return false;
     auto itemData = item.data();
-    while(0 == itemData.indexOf(static_cast<quint8>(0xFF))) {
+    while(0 == itemData.indexOf(static_cast<uint8_t>(0xFF))) {
         itemData.remove(0, 1);
     }
     try {
         if(6 > itemData.size())
             return false;
-        quint8 SB = itemData.at(0),
+        uint8_t SB = itemData.at(0),
                 ADDR_r = itemData.at(1),
 //                ADDR_s = itemData.at(2),
                 NBB = itemData.at(3),
                 CMD = itemData.at(4);
         if((6 + NBB) > itemData.size())
             return false;
-        quint8 CHKS = itemData.at(5 + NBB);
+        uint8_t CHKS = itemData.at(5 + NBB);
 
-        if(static_cast<quint8>(0xB5) != SB ||
-                static_cast<quint8>(0xFE) != ADDR_r /*||
-                static_cast<quint8>(0xFF != ADDR_s*/)
+        if(static_cast<uint8_t>(0xB5) != SB ||
+                static_cast<uint8_t>(0xFE) != ADDR_r /*||
+                static_cast<uint8_t>(0xFF != ADDR_s*/)
             return false;
 
         QByteArray tmpData = itemData;
-        quint8 crc = Utils::getByteSumm(tmpData, 1, 5 + NBB - 1);
+        uint8_t crc = Utils::getByteSumm(tmpData, 1, 5 + NBB - 1);
         if(crc != CHKS)
             return false;
 
         switch (CMD) {
-        case static_cast<quint8>(0x30): {
-            if(static_cast<quint8>(0x00) != NBB)
+        case static_cast<uint8_t>(0x30): {
+            if(static_cast<uint8_t>(0x00) != NBB)
                 return false;
             return true;
         }
-        case static_cast<quint8>(0x31): {
-            if(static_cast<quint8>(0x04) != NBB && static_cast<quint8>(0x03) != NBB)
+        case static_cast<uint8_t>(0x31): {
+            if(static_cast<uint8_t>(0x04) != NBB
+            && static_cast<uint8_t>(0x03) != NBB)
                 return false;
             return true;
         }
-        case static_cast<quint8>(0x32): {
-            if(static_cast<quint8>(0x0D) != NBB)
+        case static_cast<uint8_t>(0x32): {
+            if(static_cast<uint8_t>(0x0D) != NBB
+            && static_cast<uint8_t>(0x36) != NBB
+            && static_cast<uint8_t>(0x66) != NBB)
                 return false;
             return true;
         }
-        case static_cast<quint8>(0x33): {
-            if(static_cast<quint8>(0x03) != NBB)
+        case static_cast<uint8_t>(0x33): {
+            if(static_cast<uint8_t>(0x03) != NBB
+            && static_cast<uint8_t>(0x09) != NBB)
                 return false;
             return true;
         }
-        case static_cast<quint8>(0x34): {
-            if(static_cast<quint8>(0x1C) != NBB)
+        case static_cast<uint8_t>(0x34): {
+            if(static_cast<uint8_t>(0x1C) != NBB)
                 return false;
             return true;
         }
-        case static_cast<quint8>(0x41): {
-            if(static_cast<quint8>(0x04) != NBB)
+        case static_cast<uint8_t>(0x41): {
+            if(static_cast<uint8_t>(0x04) != NBB)
                 return false;
             return true;
         }
-        case static_cast<quint8>(0x42): {
-            if(static_cast<quint8>(0x02) != NBB)
+        case static_cast<uint8_t>(0x42): {
+            if(static_cast<uint8_t>(0x02) != NBB)
                 return false;
             return true;
         }

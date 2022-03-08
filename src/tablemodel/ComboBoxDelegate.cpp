@@ -35,6 +35,7 @@ QWidget* ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 
 void ComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    QComboBox *comboBox = static_cast<QComboBox*>(editor);
-    model->setData(index, comboBox->currentText());
+    const auto& comboBox = dynamic_cast<QComboBox*>(editor);
+    if(nullptr != comboBox)
+        model->setData(index, comboBox->currentText());
 }

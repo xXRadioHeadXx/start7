@@ -50,10 +50,17 @@ private:
     int timeIntervalRequest = 1'000;
     int timeIntervalWaiteFirst = 0;
     int timeIntervalWaiteSecond = 0;
+    int timeIntervalPauseFromFirstToSecond = 0;
+    int timeIntervalPauseFromSecondToEnd = 0;
+
     AbstractPort * ptrPort = nullptr;
 
     int beatCount = 0;
     int maxBeatCount = 3;
+
+    QTime lastPushTime;
+protected:
+    std::function<void()> updateStateConditionReactor;
 
 public:
 
@@ -200,6 +207,18 @@ public:
     int getTimeIntervalWaiteSecond() const;
     void setTimeIntervalWaiteSecond(int value);
 
+
+    QTime getLastPushTime() const;
+    QTime updLastPushTime();
+
+    int getTimeIntervalPauseFromFirstToSecond() const;
+    void setTimeIntervalPauseFromFirstToSecond(int value);
+
+    int getTimeIntervalPauseFromSecondToEnd() const;
+    void setTimeIntervalPauseFromSecondToEnd(int value);
+
+    const std::function<void()> &getUpdateStateConditionReactor() const;
+    void setUpdateStateConditionReactor(const std::function<void()> &newUpdateStateConditionReactor);
 
 signals:
     void importantBeatStatus();

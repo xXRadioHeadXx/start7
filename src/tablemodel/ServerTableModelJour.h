@@ -5,20 +5,28 @@
 #include "JourEntity.h"
 #include <QFont>
 
+enum class SwitchOffCondition {
+    AlvaysOn = 0,
+    AlvaysOff = 1,
+    RegularOn = 2,
+    RegularOff = 3
+};
+
 class ServerTableModelJour : public QAbstractTableModel
 {
     Q_OBJECT
 
     static QList<JourEntity> m_listJour;
-    quint32 newRecordMSG;
-    quint32 updRecordMSG;
+    uint32_t newRecordMSG;
+    uint32_t updRecordMSG;
     bool needScroll;
     QFont font;
+    bool enabledReasonMeasure = true;
 
-    bool foregroundRoleFlag = true;
-    bool decorationRoleFlag = true;
+    SwitchOffCondition foregroundRoleFlag = SwitchOffCondition::RegularOn;
+    SwitchOffCondition decorationRoleFlag = SwitchOffCondition::RegularOn;
 public:
-    explicit ServerTableModelJour(QObject *parent = nullptr);
+    explicit ServerTableModelJour(QObject *parent = nullptr, bool firstLoad = true);
     ~ServerTableModelJour();
 
 
@@ -44,11 +52,11 @@ public:
 
     static QList<JourEntity> getListJour();
 
-    bool getForegroundRoleFlag() const;
-    void setForegroundRoleFlag(bool value);
+    SwitchOffCondition getForegroundRoleFlag() const;
+    void setForegroundRoleFlag(SwitchOffCondition value);
 
-    bool getDecorationRoleFlag() const;
-    void setDecorationRoleFlag(bool value);
+    SwitchOffCondition getDecorationRoleFlag() const;
+    void setDecorationRoleFlag(SwitchOffCondition value);
 
     inline QModelIndex index(int row, int column, const QModelIndex &parent) const {
         if(hasIndex(row, column, parent))
@@ -62,6 +70,9 @@ public:
 
     JourEntity indexToJour(const QModelIndex &index) const;
     QList<JourEntity> listIndexsToListJours(const QModelIndexList &listIndex) const;
+    bool getEnabledReasonMeasure() const;
+    void setEnabledReasonMeasure(bool newEnabledReasonMeasure);
+
 signals:
     void needScrollToBottom();
     void selectedMsg(QList<JourEntity> listUN);
@@ -77,8 +88,8 @@ public slots:
     void castomUpdateListRecords(QString sql);
     void updateAllRecords();
     void updateListRecords();
-    void updateListRecords(const quint32 idMSG);
-    void updateRecord(const quint32 idMSG);
+    void updateListRecords(const uint32_t idMSG);
+    void updateRecord(const uint32_t idMSG);
     void setNeedScroll(bool value);
     void emitNeedScrollToBottom();
     void needResetModel();

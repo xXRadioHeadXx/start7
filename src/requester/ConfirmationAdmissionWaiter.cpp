@@ -4,6 +4,8 @@
 #include "Utils.h"
 #include "global.h"
 
+#include "TopologyService.h"
+
 ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
 //    qDebug() << "ConfirmationAdmissionWaiter::ConfirmationAdmissionWaiter(" << this << ") -->";
@@ -17,7 +19,7 @@ ConfirmationAdmissionWaiter::~ConfirmationAdmissionWaiter()
 void ConfirmationAdmissionWaiter::init()
 {
     if(!getUnTarget().isNull()) {
-        setUnReciver(UnitNode::findReciver(getUnTarget()));
+        setUnReciver(TopologyService::findReciver(getUnTarget()));
     }
 
     if(getUnTarget().isNull() || getUnReciver().isNull())

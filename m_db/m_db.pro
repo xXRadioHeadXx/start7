@@ -1,4 +1,4 @@
-QT       += core gui widgets sql network printsupport
+QT += core gui widgets sql network printsupport 
 
 TARGET = m_db
 TEMPLATE = app
@@ -58,3 +58,6 @@ CODECFORSRC     = UTF-8
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc

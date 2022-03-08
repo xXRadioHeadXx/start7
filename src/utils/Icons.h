@@ -54,7 +54,10 @@ public:
     static QPixmap accept_reason_measure_v();
     static QPixmap accept_reason_measure_vv();
 
+    static QPixmap ln_rd();
+    static QPixmap crs2_grn();
 
+    static QPixmap sqr_gry_qstn();
 
 };
 

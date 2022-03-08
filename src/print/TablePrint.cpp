@@ -195,7 +195,7 @@ bool TablePrint::printPreview()
 
     QPrintPreviewDialog *dialog = new QPrintPreviewDialog(&printer, NULL);
 
-    connect(dialog, SIGNAL(paintRequested(QPrinter *)), this, SLOT(slotPreview(QPrinter *)));
+    connect(dialog, SIGNAL(paintRequested(QPrinter*)), this, SLOT(slotPreview(QPrinter*)));
 
     if (dialog->exec() == QDialog::Accepted) {
         document->print(&printer);

@@ -2,6 +2,7 @@
 #include "ServerSettingUtils.h"
 #include "SignalSlotCommutator.h"
 #include <QPixmap>
+#include "TopologyService.h"
 
 SubTypeApp ServerTreeModelUnitNode::getTypeApp() const
 {
@@ -15,7 +16,8 @@ void ServerTreeModelUnitNode::setTypeApp(const SubTypeApp &value)
 
 ServerTreeModelUnitNode::ServerTreeModelUnitNode(QObject *parent) :
     QAbstractItemModel(parent),
-    sortOrder(Qt::AscendingOrder)
+    sortOrder(Qt::AscendingOrder),
+    rootItemUN(TopologyService::getTreeRootUnitNodes())
 {
 //    rootItemUN = QSharedPointer<UnitNode>::create();
     rootItemUN->setLevel(0); //rootItemUN->treeParent().isNull();
@@ -79,7 +81,7 @@ int ServerTreeModelUnitNode::sizeHintForRow(int /*row*/) const
 //         }
          case 0:
          {
-             pxm = item->getPxm(typeApp);
+             pxm = item->getPxm();
              break;
          }
          default:
@@ -87,8 +89,8 @@ int ServerTreeModelUnitNode::sizeHintForRow(int /*row*/) const
              break;
          }
          }
-         if(!pxm.isNull())
-             pxm = pxm.scaled(17,17);
+//         if(!pxm.isNull())
+//             pxm = pxm.scaled(20,20);
 
          return QVariant(pxm);
      }
@@ -122,7 +124,7 @@ bool ServerTreeModelUnitNode::setData(const QModelIndex &index, const QVariant &
      {
          auto un = static_cast<UnitNode*>(index.internalPointer());
 
-         if(TypeUnitNode::SYSTEM != un->getType()){
+         if(TypeUnitNodeEnum::SYSTEM != un->getType()){
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
          } else {
              return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
@@ -336,8 +338,11 @@ void ServerTreeModelUnitNode::updateUNs()
 
 void ServerTreeModelUnitNode::loadSettings(QString fileName)
 {
+    Q_UNUSED(fileName)
     this->beginResetModel();
-    listItemUN = ServerSettingUtils::loadTreeUnitNodes(rootItemUN, fileName);
+//    listItemUN = ServerSettingUtils::loadTreeUnitNodes(rootItemUN, fileName);
+//    TopologyService::loadTreeUnitNodes();
+    listItemUN = TopologyService::getListTreeUnitNodes();
     this->endResetModel();
 }
 

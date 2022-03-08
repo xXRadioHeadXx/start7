@@ -1,3 +1,4 @@
+#include <IniFileService.h>
 #include <QByteArray>
 
 #include "ServerTableModelJour.h"
@@ -24,22 +25,22 @@ QList<JourEntity> ServerTableModelJour::getListJour()
     return m_listJour;
 }
 
-bool ServerTableModelJour::getForegroundRoleFlag() const
+SwitchOffCondition ServerTableModelJour::getForegroundRoleFlag() const
 {
     return foregroundRoleFlag;
 }
 
-void ServerTableModelJour::setForegroundRoleFlag(bool value)
+void ServerTableModelJour::setForegroundRoleFlag(SwitchOffCondition value)
 {
     foregroundRoleFlag = value;
 }
 
-bool ServerTableModelJour::getDecorationRoleFlag() const
+SwitchOffCondition ServerTableModelJour::getDecorationRoleFlag() const
 {
     return decorationRoleFlag;
 }
 
-void ServerTableModelJour::setDecorationRoleFlag(bool value)
+void ServerTableModelJour::setDecorationRoleFlag(SwitchOffCondition value)
 {
     decorationRoleFlag = value;
 }
@@ -49,16 +50,27 @@ bool ServerTableModelJour::getNeedScroll() const
     return needScroll;
 }
 
-ServerTableModelJour::ServerTableModelJour(QObject *parent) :
+bool ServerTableModelJour::getEnabledReasonMeasure() const
+{
+    return enabledReasonMeasure;
+}
+
+void ServerTableModelJour::setEnabledReasonMeasure(bool newEnabledReasonMeasure)
+{
+    enabledReasonMeasure = newEnabledReasonMeasure;
+}
+
+ServerTableModelJour::ServerTableModelJour(QObject *parent, bool firstLoad) :
     QAbstractTableModel(parent)
 {
     needScroll = true;
-    m_listJour = DataBaseManager::getOneMSGRecord();
+    if(firstLoad)
+        m_listJour = DataBaseManager::getOneMSGRecord();
 
     connect(&SignalSlotCommutator::instance(),
-            SIGNAL(insNewJourMSG(const quint32)),
+            SIGNAL(insNewJourMSG(uint32_t)),
             this,
-            SLOT(updateListRecords(const quint32)));
+            SLOT(updateListRecords(uint32_t)));
 
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG()),
@@ -66,9 +78,9 @@ ServerTableModelJour::ServerTableModelJour(QObject *parent) :
             SLOT(updateListRecords()));
 
     connect(&SignalSlotCommutator::instance(),
-            SIGNAL(updJourMSG(const quint32)),
+            SIGNAL(updJourMSG(uint32_t)),
             this,
-            SLOT(updateRecord(const quint32)));
+            SLOT(updateRecord(uint32_t)));
 
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(updJourMSG()),
@@ -135,8 +147,8 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
     {
         QColor resultColor(Qt::white);
 
-        int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
-        int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+        int needReason = IniFileService::getValueBySectionKey("PostgresSQL", "P1", "0").toInt();
+        int needMeasure = IniFileService::getValueBySectionKey("PostgresSQL", "P2", "0").toInt();
         if(0 != needReason || 0 != needMeasure) {
             if(0 != needReason && 4 == index.column() && ServerSettingUtils::getPriorityJoutTyper().contains(msgRecord.getType()) && msgRecord.getReason().isEmpty()) {
                 resultColor.setRgb(0xF0E68C);
@@ -155,8 +167,8 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
         return font;
     }
 
-    if (Qt::ForegroundRole == role && getForegroundRoleFlag()) {
-        if(0 != msgRecord.getFlag()) {
+    if (Qt::ForegroundRole == role && (SwitchOffCondition::AlvaysOn == getForegroundRoleFlag() || SwitchOffCondition::RegularOn == getForegroundRoleFlag())) {
+        if(0 != msgRecord.getFlag() || SwitchOffCondition::AlvaysOn == getForegroundRoleFlag()) {
             return msgRecord.getColor();
         }
     }
@@ -167,12 +179,12 @@ QVariant ServerTableModelJour::data(const QModelIndex &index, int role) const
 
 
     // Если необходимо отобразить картинку - ловим роль Qt::DecorationRole
-    if (index.isValid() && role == Qt::DecorationRole && getDecorationRoleFlag()) {
+    if (index.isValid() && role == Qt::DecorationRole && (SwitchOffCondition::AlvaysOn == getDecorationRoleFlag() || SwitchOffCondition::RegularOn == getDecorationRoleFlag())) {
         switch(index.column())
         {
             case 0:
             {
-                if(0 != msgRecord.getFlag()) {
+                if(0 != msgRecord.getFlag() || SwitchOffCondition::AlvaysOn == getDecorationRoleFlag()) {
                     return msgRecord.getPxm();
                 }
                 return result;
@@ -270,7 +282,7 @@ Qt::ItemFlags ServerTableModelJour::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags result = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     // разрешаем редактирование
-    if(4 == index.column() || 5 == index.column())
+    if(getEnabledReasonMeasure() && (4 == index.column() || 5 == index.column()))
         result |= Qt::ItemIsEditable;
     return result;
 }
@@ -350,7 +362,7 @@ void ServerTableModelJour::updateListRecords()
     emitNeedScrollToBottom();
 }
 
-void ServerTableModelJour::updateListRecords(const quint32 idMSG)
+void ServerTableModelJour::updateListRecords(const uint32_t idMSG)
 {
     newRecordMSG = idMSG;
 //    QList<JourEntity> newRecords(DataBaseManager::getOneMSGRecord(idMSG));
@@ -360,7 +372,7 @@ void ServerTableModelJour::updateListRecords(const quint32 idMSG)
     emitNeedScrollToBottom();
 }
 
-void ServerTableModelJour::updateRecord(const quint32 idMSG)
+void ServerTableModelJour::updateRecord(const uint32_t idMSG)
 {
     updRecordMSG = idMSG;
     QList<JourEntity> updRecord(DataBaseManager::getOneMSGRecord(idMSG));

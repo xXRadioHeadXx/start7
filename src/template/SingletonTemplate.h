@@ -2,13 +2,23 @@
 // Created by gavrilin on 04.06.2021.
 //
 
-#ifndef ABONENT_SIMULATOR_SINGLETONTEMPLATE_H
-#define ABONENT_SIMULATOR_SINGLETONTEMPLATE_H
+
+#ifndef SINGLETONTEMPLATE_H
+#define SINGLETONTEMPLATE_H
+//#include <QDebug>
+
+#include "AfterConstructInitialization.h"
+
 template<typename T>
 class SingletonTemplate {
 public:
     static T& instance(){
         static T instance;
+        const auto& iAfterConstructInitialization = dynamic_cast<AfterConstructInitialization *>(&instance);
+        if (nullptr != iAfterConstructInitialization)
+        {
+            iAfterConstructInitialization->afterConstructInitialization();
+        }
         return instance;
     }
 
@@ -22,4 +32,4 @@ public:
 protected:
     SingletonTemplate() {}
 };
-#endif //ABONENT_SIMULATOR_SINGLETONTEMPLATE_H
+#endif //SINGLETONTEMPLATE_H

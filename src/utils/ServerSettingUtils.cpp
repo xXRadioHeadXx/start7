@@ -1,3 +1,5 @@
+#include "IniFileService.h"
+#include "MessageBoxServer.h"
 #include "ServerSettingUtils.h"
 
 #include <QDebug>
@@ -9,477 +11,439 @@
 #include "SimpleIni.h"
 #include <QStringList>
 #include <QFile>
+#include <QStorageInfo>
+
+
 
 ServerSettingUtils::ServerSettingUtils()
 {
 
 }
 
-QList<QSharedPointer<UnitNode>> ServerSettingUtils::listTreeUnitNodes;
-QSet<QSharedPointer<UnitNode>> ServerSettingUtils::listMetaRealUnitNodes;
-QList<QSharedPointer<UnitNode>> ServerSettingUtils::sortedMetaRealUnitNodes;
+//QList<QSharedPointer<UnitNode>> ServerSettingUtils::listTreeUnitNodes;
+//QSet<QSharedPointer<UnitNode>> ServerSettingUtils::listMetaRealUnitNodes;
+//QList<QSharedPointer<UnitNode>> ServerSettingUtils::sortedMetaRealUnitNodes;
+//QSharedPointer<UnitNode> ServerSettingUtils::systemUnitNodes;
 
-QList<QSharedPointer<UnitNode> > ServerSettingUtils::getLinkedUI(QSharedPointer<UnitNode> un)
-{
-    QList<QSharedPointer<UnitNode> > result;
+//QList<QSharedPointer<UnitNode> > ServerSettingUtils::getLinkedUI(QSharedPointer<UnitNode> un)
+//{
+//    QList<QSharedPointer<UnitNode> > result;
 
-    auto setMasterUN = un->getDoubles();
-    setMasterUN.insert(un);
+//    auto setMasterUN = un->getDoubles();
+//    setMasterUN.insert(un);
 
-    QSet<QSharedPointer<UnitNode> > setSlaveUN;
-    for(const auto &m : as_const(setMasterUN)) {
-        for(const auto &c : as_const(m->listTreeChilds())) {
-            auto cun = c.dynamicCast<UnitNode>();
-            if(TypeUnitNode::IU_BL_IP == cun->getType()) {
-                setSlaveUN.insert(cun);
-                setSlaveUN.unite(cun->getDoubles());
-            }
-        }
-    }
+//    QSet<QSharedPointer<UnitNode> > setSlaveUN;
+//    for(const auto& m : as_const(setMasterUN)) {
+//        for(const auto& c : as_const(m->listTreeChilds())) {
+//            auto cun = c.dynamicCast<UnitNode>();
+//            if(TypeUnitNodeEnum::IU_BL_IP == cun->getType()) {
+//                setSlaveUN.insert(cun);
+//                setSlaveUN.unite(cun->getDoubles());
+//            }
+//        }
+//    }
 
-    setSlaveUN = setSlaveUN.intersect(ServerSettingUtils::getSetMetaRealUnitNodes());
+//    setSlaveUN = setSlaveUN.intersect(ServerSettingUtils::getSetMetaRealUnitNodes());
 
-    result = setSlaveUN.values();
+//    result = setSlaveUN.values();
 
-    return result;
-}
+//    return result;
+//}
 
-int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> &un)
-{
-    int result = 0;
-    for(const QSharedPointer<UnitNode> &dblUN : as_const(getListTreeUnitNodes())) {
-        if(dblUN->getType() == un->getType() &&
-                dblUN->getUdpAdress() == un->getUdpAdress() &&
-                dblUN->getUdpPort() == un->getUdpPort() &&
-//                dblUN->getNum3() == un->getNum3() &&
-                dblUN->getNum2() == un->getNum2() &&
-                dblUN->getNum1() == un->getNum1() &&
-                dblUN != un) {
-            un->setDoubles(dblUN->getDoubles());
-            un->setDoubles(dblUN);
-            dblUN->setDoubles(un->getDoubles());
-            dblUN->setDoubles(un);
-            result++;
-        }
-    }
-    return result;
-}
+//int ServerSettingUtils::linkDoubles(QSharedPointer<UnitNode> &un)
+//{
+//    int result = 0;
+//    QSet<QSharedPointer<UnitNode>> tmp;
+//    tmp.unite(QSet<QSharedPointer<UnitNode>>::fromList(getListTreeUnitNodes()));
+//    tmp.unite(getSetMetaRealUnitNodes());
+//    for(const QSharedPointer<UnitNode> &dblUN : as_const(tmp)) {
+//        if(dblUN->getType() == un->getType() &&
+//                dblUN->getUdpAdress() == un->getUdpAdress() &&
+//                dblUN->getUdpPort() == un->getUdpPort() &&
+////                dblUN->getNum3() == un->getNum3() &&
+//                dblUN->getNum2() == un->getNum2() &&
+//                dblUN->getNum1() == un->getNum1() &&
+//                dblUN != un) {
+//            un->setDoubles(dblUN->getDoubles());
+//            un->setDoubles(dblUN);
+//            dblUN->setDoubles(un->getDoubles());
+//            dblUN->setDoubles(un);
+//            result++;
+//        }
+//    }
+//    return result;
+//}
 
-QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName) {
-//    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -->";
-    if(!getListTreeUnitNodes().isEmpty()) {
-        getListTreeUnitNodes().clear();
-    }
+//QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadTreeUnitNodes(QSharedPointer<UnitNode> root, QString fileName) {
+////    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -->";
+//    if(!getListTreeUnitNodes().isEmpty()) {
+//        getListTreeUnitNodes().clear();
+//    }
 
-    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+//    int cntTrItm = IniFileService::getValueBySectionKey("TREE", "Count").toInt();
 
-    CSimpleIniA ini;
-    QString filePath = (fileName.isEmpty() ? QCoreApplication::applicationDirPath() + "/rifx.ini" : fileName);
-    ini.LoadFile(filePath.toStdString().c_str());
+//    if(0 >= cntTrItm)
+//        return getListTreeUnitNodes();
 
-    int cntTrItm = codec->toUnicode(ini.GetValue("TREE", "Count")).toInt();
+//    {
+//        auto tmpUN = UnitNodeFactory::makeShare(TypeUnitNodeEnum::SYSTEM, root);
 
-    if(0 >= cntTrItm)
-        return getListTreeUnitNodes();
+//        tmpUN->setType(TypeUnitNodeEnum::SYSTEM);
+//        tmpUN->setNum1(0);
+//        tmpUN->setNum2(0);
+//        tmpUN->setNum3(0);
+//        tmpUN->setLevel(0);
+//        tmpUN->setName(QObject::tr("Система"));
+//        tmpUN->setMetaNames("Obj_0");
+//        tmpUN->setPublishedState(10);
 
-    {
-        auto tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
-
-        tmpUN->setType(TypeUnitNode::SYSTEM);
-        tmpUN->setNum1(0);
-        tmpUN->setNum2(0);
-        tmpUN->setNum3(0);
-        tmpUN->setLevel(0);
-        tmpUN->setName(QObject::tr("Система"));
-        tmpUN->setMetaNames("Obj_0");
-        tmpUN->setPublishedState(10);
-
-        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
-        root = tmpUN;
-        getListTreeUnitNodes().append(QSharedPointer<UnitNode>(tmpUN));
-    }
-
-    for(int index = 0; index < cntTrItm; index++)
-    {
-        QString strGroup("Obj_%1");
-        strGroup = strGroup.arg(index + 1);
-
-//        qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse";
-
-        if(0 != ini.GetSection(strGroup.toStdString().c_str())) {
-            auto tmpUN = UnitNodeFactory::makeShare(static_cast<TypeUnitNode>(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Type")).toInt()), root);
-            tmpUN->setMetaNames(strGroup);
-
-            QString isEnable = codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Enable"));
-            if("false" == isEnable) {
-//                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " disabled";
-                continue;
-            }
-
-            tmpUN->setType(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Type")).toInt());
-            tmpUN->setNum1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Num1")).toInt());
-            tmpUN->setNum2(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Num2")).toInt());
-            tmpUN->setNum3(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Num3")).toInt());
-            tmpUN->setLevel(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Level")).toInt());
-            tmpUN->setName(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Name")));
-            tmpUN->setIconVisible(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "IconVisible")).toInt());
-            tmpUN->setX(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "X")).toInt());
-            tmpUN->setY(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Y")).toInt());
-            tmpUN->setDK(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "DK")).toInt());
-            tmpUN->setBazalt(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Bazalt")).toInt());
-            tmpUN->setMetka(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka")).toInt());
-            tmpUN->setRazriv(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Razriv")).toInt());
-            tmpUN->setAdamOff(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "AdamOff")).toInt());
-            tmpUN->setAlarmMsgOn(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "AlarmMsgOn")).toInt());
-            tmpUN->setConnectBlock(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "ConnectBlock")).toInt());
-            tmpUN->setOutType(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "OutType")).toInt());
-            tmpUN->setAsoosd_kk(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "asoosd_kk")).toInt());
-            tmpUN->setAsoosd_nn(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "asoosd_nn")).toInt());
-            tmpUN->setDescription(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Description")));
-            tmpUN->setLan(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "lan")).toInt());
-            tmpUN->setLon(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "lon")).toInt());
-            tmpUN->setUdpUse(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "UdpUse")).toInt());
-            tmpUN->setUdpAdress(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "UdpAdress")));
-            tmpUN->setUdpPort(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "UpdPort")).toInt());
-            tmpUN->setMetka1Time_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka1Time_0")).toInt());
-            tmpUN->setMetka1Time_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka1Time_1")).toInt());
-            tmpUN->setMetka2Time_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka2Time_0")).toInt());
-            tmpUN->setMetka2Time_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka2Time_1")).toInt());
-            tmpUN->setMetka3Time_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka3Time_0")).toInt());
-            tmpUN->setMetka3Time_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka3Time_1")).toInt());
-            tmpUN->setMetka4Time_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka4Time_0")).toInt());
-            tmpUN->setMetka4Time_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Metka4Time_1")).toInt());
-            tmpUN->setMetkaDopuskTime_0(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "MetkaDopuskTime_0")).toInt());
-            tmpUN->setMetkaDopuskTime_1(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "MetkaDopuskTime_1")).toInt());
-            tmpUN->setUdpTimeout(qMax(50, codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "UdpTimeout")).toInt()));
-
-            tmpUN->setIcon1Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon1Path")));
-            tmpUN->setIcon2Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon2Path")));
-            tmpUN->setIcon3Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon3Path")));
-            tmpUN->setIcon4Path(codec->toUnicode(ini.GetValue(strGroup.toStdString().c_str(), "Icon4Path")));
-
-            tmpUN->setPublishedState(10);
-
-            if(!tmpUN->getName().isEmpty())
-            {
-//                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse successfully " << tmpUN->toString();
-//                qDebug() << tmpUN->metaName << tmpUN->toString();
-                getListTreeUnitNodes().append(QSharedPointer<UnitNode>(tmpUN));
-                bool key = true;
-                for (auto rit = getListTreeUnitNodes().rbegin(); rit != getListTreeUnitNodes().rend(); ++rit) {
-                    if((*rit)->getLevel() < tmpUN->getLevel())
-                    {
-                        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, (*rit));
-                        key = false;
-                        break;
-                    }
-                }
-
-                if(key) {
-                    ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
-                }
-
-                //Double паходим дубли
-                ServerSettingUtils::linkDoubles(tmpUN);
-
-                key = false;
-
-                if(!tmpUN->getDoubles().isEmpty()) {
-
-                    QSharedPointer<UnitNode> posybleParent;
-                    for(const auto &dbl : as_const(tmpUN->getDoubles().values())) {
-                        auto posybleParent = UnitNode::findReciver(dbl);
-                        if(!posybleParent.isNull()) {
-                            tmpUN->setParentUN(posybleParent);
-//                            qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " set parrent " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
-                            break;
-                        }
-                    }
-                } else if(tmpUN->getDoubles().isEmpty() &&
-                          (TypeUnitNode::RLM_C == tmpUN->getType() ||
-                           TypeUnitNode::RLM_KRL == tmpUN->getType())) {
-
-//                    tmpUN->addChild(tmpUN);
-                    tmpUN->setParentUN(tmpUN);
-//                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
-                    insertMetaRealUnitNodes(tmpUN);
-
-                } else if(tmpUN->getDoubles().isEmpty() &&
-                        (TypeUnitNode::SD_BL_IP == tmpUN->getType() ||
-                        TypeUnitNode::IU_BL_IP == tmpUN->getType())) {
-                    key = true;
-
-                    QSharedPointer<UnitNode> tmpParentUN;
-                    // find reciver in meta set
-                    for(auto &parentUN : sortMetaRealUnitNodes()) {
-                        if(parentUN->getType() == TypeUnitNode::BL_IP &&
-                           parentUN->getUdpAdress() == tmpUN->getUdpAdress() &&
-                           parentUN->getUdpPort() == tmpUN->getUdpPort()) {
-                            tmpParentUN = parentUN;
-                            break;
-                        }
-                    }
-                    // create reciver
-                    if(tmpParentUN.isNull()){
-                        tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNode::BL_IP);
-                        tmpParentUN->setType(TypeUnitNode::BL_IP);
-                        tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
-                        tmpParentUN->setUdpPort(tmpUN->getUdpPort());
-                        tmpParentUN->setName("MetaBLIP");
-                        tmpParentUN->setNum1(static_cast<quint8>(0xFF));
-                        tmpParentUN->setControl(false);
-                        tmpParentUN->setMetaEntity(1);
-
-                        tmpParentUN->setPublishedState(10);
-                        \
-                        insertMetaRealUnitNodes(tmpParentUN);
-                        ServerSettingUtils::linkDoubles(tmpParentUN);
-                    }
-
-                    tmpParentUN->addChild(tmpUN);
-                    tmpUN->setParentUN(tmpParentUN);
-
-//                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
-                    insertMetaRealUnitNodes(tmpUN);
-
-                } else if(tmpUN->getDoubles().isEmpty() &&
-                          TypeUnitNode::TG == tmpUN->getType()) {
-                    // find reciver in meta set
-                    QSharedPointer<UnitNode> tmpParentUN;// = UnitNodeFactory::make(TypeUnitNode::BL_IP);
-                    for(QSharedPointer<UnitNode> parentUN : as_const(getSetMetaRealUnitNodes().values())) {
-                        if(parentUN->getType() == TypeUnitNode::TG_Base &&
-                           parentUN->getUdpAdress() == tmpUN->getUdpAdress() &&
-                           parentUN->getUdpPort() == tmpUN->getUdpPort() &&
-                           parentUN->getNum1() == tmpUN->getNum1()) {
-                            tmpParentUN = parentUN;
-                            break;
-                        }
-                    }
-                    // create reciver
-                    if(tmpParentUN.isNull()){
-                        tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNode::TG_Base);
-//                        *(tmpParentUN.data()) = *(tmpUN.data());
-
-                        tmpParentUN->setType(TypeUnitNode::TG_Base);
-                        tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
-                        tmpParentUN->setUdpPort(tmpUN->getUdpPort());
-                        tmpParentUN->setNum1(tmpUN->getNum1());
-                        tmpParentUN->setNum2(0);
-                        tmpParentUN->setNum3(0);
-
-                        tmpParentUN->setName("MetaTG_" + QString::number(tmpParentUN->getNum1()));
-                        tmpParentUN->setControl(false);
-                        tmpParentUN->setMetaEntity(1);
-
-                        tmpParentUN->setPublishedState(10);
-
-                        insertMetaRealUnitNodes(tmpParentUN);
-                        ServerSettingUtils::linkDoubles(tmpParentUN);
-                    }
-
-                    tmpParentUN->addChild(tmpUN);
-                    tmpUN->setParentUN(tmpParentUN);
-
-//                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
-                    insertMetaRealUnitNodes(tmpUN);
-                } else {
-//                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " not insert " << tmpUN->toString();
-                }
-
-            }
-        }
-    }
-
-//    for(const auto &un : ServerSettingUtils::getSetMetaRealUnitNodes()) {
-    for(auto it = ServerSettingUtils::sortMetaRealUnitNodes().begin(); it != ServerSettingUtils::sortMetaRealUnitNodes().end();) {
-        const auto &un = *it;
-        if(TypeUnitNode::SD_BL_IP == un->getType() &&
-           !un->getParentUN().isNull() &&
-           1 <= un->getNum2() && 4 >= un->getNum2()) {
-            QSharedPointer<UnitNode> parent = un->getParentUN();
-            bool needAddUI = true;
-
-            for(int i = 0, n = parent->childCount(); i < n; i++) {
-                auto unChild = parent->child(i);
-                if(!unChild.isNull() &&
-                   TypeUnitNode::IU_BL_IP == unChild->getType() &&
-                   un->getNum2() == unChild->getNum2() &&
-                   un->getUdpPort() == unChild->getUdpPort() &&
-                   un->getUdpAdress() == unChild->getUdpAdress()) {
-                    needAddUI = false;
-                    break;
-                }
-            }
-
-            if(needAddUI) {
-                auto newMetaUnIuBlIp = UnitNodeFactory::makeShare(TypeUnitNode::IU_BL_IP, parent);
-                newMetaUnIuBlIp->setNum2(un->getNum2());
-                newMetaUnIuBlIp->setUdpPort(un->getUdpPort());
-                newMetaUnIuBlIp->setUdpAdress(un->getUdpAdress());
-                newMetaUnIuBlIp->setUdpTimeout(un->getUdpTimeout());
-                newMetaUnIuBlIp->setNum1(un->getNum1());
-                newMetaUnIuBlIp->setStateWord(0x41u, un->getStateWord(0x41u));
-
-                newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
-                newMetaUnIuBlIp->setControl(false);
-                newMetaUnIuBlIp->setMetaEntity(1);
-                newMetaUnIuBlIp->setPublishedState(10);
-
-                parent->addChild(newMetaUnIuBlIp);
-                newMetaUnIuBlIp->setParentUN(parent);
-//                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- meta insert " << newMetaUnIuBlIp->toString() << " parent " << newMetaUnIuBlIp->getParentUN()->toString();
-                insertMetaRealUnitNodes(newMetaUnIuBlIp);
-                ServerSettingUtils::linkDoubles(newMetaUnIuBlIp);
-                it = ServerSettingUtils::sortMetaRealUnitNodes().begin();
-                continue;
-            }
-        }
-        ++it;
-    }
-
-//    for(const auto &un : ServerSettingUtils::sortMetaRealUnitNodes()) {
-    for(auto it = ServerSettingUtils::sortMetaRealUnitNodes().begin(); it != ServerSettingUtils::sortMetaRealUnitNodes().end();) {
-        const auto &un = *it;
-        if(!UnitNode::findReciver(un).isNull()) {
-            ++it;
-            continue;
-        }
-
-        const auto &doubles = un->getDoubles().values();
-
-        QSharedPointer<UnitNode> possibleParent;
-        for(const auto &dbl : doubles) {
-            possibleParent = UnitNode::findReciver(dbl);
-            if(!possibleParent.isNull())
-                break;
-        }
-
-        if(possibleParent.isNull()) {
-            if(TypeUnitNode::SD_BL_IP == un->getType()
-            || TypeUnitNode::IU_BL_IP == un->getType()) {
-                possibleParent = UnitNodeFactory::makeShare(TypeUnitNode::BL_IP);
-                possibleParent->setType(TypeUnitNode::BL_IP);
-                possibleParent->setUdpAdress(un->getUdpAdress());
-                possibleParent->setUdpPort(un->getUdpPort());
-                possibleParent->setName("MetaBLIP");
-                possibleParent->setNum1(static_cast<quint8>(0xFF));
-                possibleParent->setControl(false);
-                possibleParent->setMetaEntity(1);
-            } else if (TypeUnitNode::TG == un->getType()) {
-                possibleParent = UnitNodeFactory::makeShare(TypeUnitNode::TG_Base);
-                possibleParent->setType(TypeUnitNode::TG_Base);
-                possibleParent->setUdpAdress(un->getUdpAdress());
-                possibleParent->setUdpPort(un->getUdpPort());
-                possibleParent->setNum1(un->getNum1());
-                possibleParent->setNum2(0);
-                possibleParent->setNum3(0);
-                possibleParent->setName("MetaTG_" + QString::number(un->getNum1()));
-                possibleParent->setControl(false);
-                possibleParent->setMetaEntity(1);
-            } else if (TypeUnitNode::RLM_C == un->getType()
-                    || TypeUnitNode::RLM_KRL == un->getType()) {
-                possibleParent = un;
-            }
-        }
-
-        if(!possibleParent.isNull()) {
-            possibleParent->setPublishedState(10);
-            insertMetaRealUnitNodes(possibleParent);
-            ServerSettingUtils::linkDoubles(possibleParent);
-            un->setParentUN(possibleParent);
-            for(const auto &dbl : doubles) {
-                dbl->setParentUN(possibleParent);
-            }
-            it = ServerSettingUtils::sortMetaRealUnitNodes().begin();
-            continue;
-        }
-        ++it;
-    }
-
-    std::sort(ServerSettingUtils::listTreeUnitNodes.begin(), ServerSettingUtils::listTreeUnitNodes.end());
-//    for(auto un : getListTreeUnitNodes())
-//        qDebug() << un->toString();
-//    for(auto un : getSetMetaRealUnitNodes())
-//        qDebug() << un->toString();
-
-    qDebug() << "ServerSettingUtils::loadTreeUnitNodes <--";
-
-    return getListTreeUnitNodes();
-}
-
-QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointer<UnitNode> root)
-{
-    if(!getListTreeUnitNodes().isEmpty()) {
-   //     for(UnitNode*un : getListTreeUnitNodes())
-   //         delete un;
-        getListTreeUnitNodes().clear();
-        root->removeAllTreeChildren();
-    }
-
-
-
-
-    {
-        auto tmpUN = UnitNodeFactory::makeShare(TypeUnitNode::SYSTEM, root);
-
-        tmpUN->setType(TypeUnitNode::SYSTEM);
-        tmpUN->setNum1(0);
-        tmpUN->setNum2(0);
-        tmpUN->setNum3(0);
-        tmpUN->setLevel(0);
-        tmpUN->setName(QObject::tr("Система"));
-        tmpUN->setMetaNames("Obj_0");
-
-        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
+//        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
 //        root = tmpUN;
-        getListTreeUnitNodes().append(tmpUN);
+//        getListTreeUnitNodes().append(tmpUN);
+//        ServerSettingUtils::setSystemUnitNodes(tmpUN);
+//    }
+
+//    for(int index = 0; index < cntTrItm; index++)
+//    {
+//        QString strGroup("Obj_%1");
+//        strGroup = strGroup.arg(index + 1);
+
+////        qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse";
+
+//        auto tmpUN = IniFileService::makeSharedUnitNodeBySection(strGroup);
+//        if(!tmpUN.isNull()) {
+
+//            tmpUN->setPublishedState(10);
+
+//            if(!tmpUN->getName().isEmpty())
+//            {
+////                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " parse successfully " << tmpUN->toString();
+////                qDebug() << tmpUN->metaName << tmpUN->toString();
+//                getListTreeUnitNodes().append(QSharedPointer<UnitNode>(tmpUN));
+//                bool key = true;
+//                for (auto rit = getListTreeUnitNodes().rbegin(); rit != getListTreeUnitNodes().rend(); ++rit) {
+//                    if((*rit)->getLevel() < tmpUN->getLevel())
+//                    {
+//                        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, (*rit));
+//                        key = false;
+//                        break;
+//                    }
+//                }
+
+//                if(key) {
+//                    ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
+//                }
+
+//                //Double паходим дубли
+//                ServerSettingUtils::linkDoubles(tmpUN);
+
+//                key = false;
+
+//                if(!tmpUN->getDoubles().isEmpty()) {
+
+//                    QSharedPointer<UnitNode> posybleParent;
+//                    for(const auto& dbl : as_const(tmpUN->getDoubles().values())) {
+//                        auto posybleParent = TopologyService::findReciver(dbl);
+//                        if(!posybleParent.isNull()) {
+//                            tmpUN->setParentUN(posybleParent);
+////                            qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " set parrent " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
+//                            break;
+//                        }
+//                    }
+//                } else if(tmpUN->getDoubles().isEmpty() &&
+//                          (TypeUnitNodeEnum::RLM_C == tmpUN->getType() ||
+//                           TypeUnitNodeEnum::RLM_KRL == tmpUN->getType())) {
+
+////                    tmpUN->addChild(tmpUN);
+//                    tmpUN->setParentUN(tmpUN);
+////                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
+//                    insertMetaRealUnitNodes(tmpUN);
+
+//                } else if(tmpUN->getDoubles().isEmpty() &&
+//                        (TypeUnitNodeEnum::SD_BL_IP == tmpUN->getType() ||
+//                        TypeUnitNodeEnum::IU_BL_IP == tmpUN->getType())) {
+//                    key = true;
+
+//                    QSharedPointer<UnitNode> tmpParentUN;
+//                    // find reciver in meta set
+//                    for(auto& parentUN : sortMetaRealUnitNodes()) {
+//                        if(parentUN->getType() == TypeUnitNodeEnum::BL_IP &&
+//                           parentUN->getUdpAdress() == tmpUN->getUdpAdress() &&
+//                           parentUN->getUdpPort() == tmpUN->getUdpPort()) {
+//                            tmpParentUN = parentUN;
+//                            break;
+//                        }
+//                    }
+//                    // create reciver
+//                    if(tmpParentUN.isNull()){
+//                        tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNodeEnum::BL_IP);
+//                        tmpParentUN->setType(TypeUnitNodeEnum::BL_IP);
+//                        tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
+//                        tmpParentUN->setUdpPort(tmpUN->getUdpPort());
+//                        tmpParentUN->setName("MetaBLIP");
+//                        tmpParentUN->setNum1(static_cast<uint8_t>(0xFF));
+//                        tmpParentUN->setControl(false);
+//                        tmpParentUN->setMetaEntity(1);
+
+//                        tmpParentUN->setPublishedState(10);
+//
+//                        insertMetaRealUnitNodes(tmpParentUN);
+//                        ServerSettingUtils::linkDoubles(tmpParentUN);
+//                    }
+
+//                    tmpParentUN->addChild(tmpUN);
+//                    tmpUN->setParentUN(tmpParentUN);
+
+////                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
+//                    insertMetaRealUnitNodes(tmpUN);
+
+//                } else if(tmpUN->getDoubles().isEmpty() &&
+//                          TypeUnitNodeEnum::TG == tmpUN->getType()) {
+//                    // find reciver in meta set
+//                    QSharedPointer<UnitNode> tmpParentUN;// = UnitNodeFactory::make(TypeUnitNode::BL_IP);
+//                    for(QSharedPointer<UnitNode> parentUN : as_const(getSetMetaRealUnitNodes().values())) {
+//                        if(parentUN->getType() == TypeUnitNodeEnum::TG_Base &&
+//                           parentUN->getUdpAdress() == tmpUN->getUdpAdress() &&
+//                           parentUN->getUdpPort() == tmpUN->getUdpPort() &&
+//                           parentUN->getNum1() == tmpUN->getNum1()) {
+//                            tmpParentUN = parentUN;
+//                            break;
+//                        }
+//                    }
+//                    // create reciver
+//                    if(tmpParentUN.isNull()){
+//                        tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNodeEnum::TG_Base);
+////                        *(tmpParentUN.data()) = *(tmpUN.data());
+
+//                        tmpParentUN->setType(TypeUnitNodeEnum::TG_Base);
+//                        tmpParentUN->setUdpAdress(tmpUN->getUdpAdress());
+//                        tmpParentUN->setUdpPort(tmpUN->getUdpPort());
+//                        tmpParentUN->setNum1(tmpUN->getNum1());
+//                        tmpParentUN->setNum2(0);
+//                        tmpParentUN->setNum3(0);
+
+//                        tmpParentUN->setName("MetaTG_" + QString::number(tmpParentUN->getNum1()));
+//                        tmpParentUN->setControl(false);
+//                        tmpParentUN->setMetaEntity(1);
+
+//                        tmpParentUN->setPublishedState(10);
+
+//                        insertMetaRealUnitNodes(tmpParentUN);
+//                        ServerSettingUtils::linkDoubles(tmpParentUN);
+//                    }
+
+//                    tmpParentUN->addChild(tmpUN);
+//                    tmpUN->setParentUN(tmpParentUN);
+
+////                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " insert " << tmpUN->toString() << " parent " << tmpUN->getParentUN()->toString();
+//                    insertMetaRealUnitNodes(tmpUN);
+//                } else {
+////                    qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- " << strGroup << " not insert " << tmpUN->toString();
+//                }
+
+//            }
+//        }
+//    }
+
+////    for(const auto& un : ServerSettingUtils::getSetMetaRealUnitNodes()) {
+//    for(auto it = ServerSettingUtils::sortMetaRealUnitNodes().begin(); it != ServerSettingUtils::sortMetaRealUnitNodes().end();) {
+//        const auto& un = *it;
+//        if(TypeUnitNodeEnum::SD_BL_IP == un->getType() &&
+//           !un->getParentUN().isNull() &&
+//           1 <= un->getNum2() && 4 >= un->getNum2()) {
+//            QSharedPointer<UnitNode> parent = un->getParentUN();
+//            bool needAddUI = true;
+
+//            for(int i = 0, n = parent->childCount(); i < n; i++) {
+//                auto unChild = parent->child(i);
+//                if(!unChild.isNull() &&
+//                   TypeUnitNodeEnum::IU_BL_IP == unChild->getType() &&
+//                   un->getNum2() == unChild->getNum2() &&
+//                   un->getUdpPort() == unChild->getUdpPort() &&
+//                   un->getUdpAdress() == unChild->getUdpAdress()) {
+//                    needAddUI = false;
+//                    break;
+//                }
+//            }
+
+//            if(needAddUI) {
+//                auto newMetaUnIuBlIp = UnitNodeFactory::makeShare(TypeUnitNodeEnum::IU_BL_IP, parent);
+//                newMetaUnIuBlIp->setNum2(un->getNum2());
+//                newMetaUnIuBlIp->setUdpPort(un->getUdpPort());
+//                newMetaUnIuBlIp->setUdpAdress(un->getUdpAdress());
+//                newMetaUnIuBlIp->setUdpTimeout(un->getUdpTimeout());
+//                newMetaUnIuBlIp->setNum1(un->getNum1());
+//                newMetaUnIuBlIp->setStateWord(0x41u, un->getStateWord(0x41u));
+
+//                newMetaUnIuBlIp->setName("MetaIU_" + QString::number(newMetaUnIuBlIp->getNum2()));
+//                newMetaUnIuBlIp->setControl(false);
+//                newMetaUnIuBlIp->setMetaEntity(1);
+//                newMetaUnIuBlIp->setPublishedState(10);
+
+//                parent->addChild(newMetaUnIuBlIp);
+//                newMetaUnIuBlIp->setParentUN(parent);
+////                qDebug() << "ServerSettingUtils::loadTreeUnitNodes -- meta insert " << newMetaUnIuBlIp->toString() << " parent " << newMetaUnIuBlIp->getParentUN()->toString();
+//                insertMetaRealUnitNodes(newMetaUnIuBlIp);
+//                ServerSettingUtils::linkDoubles(newMetaUnIuBlIp);
+//                it = ServerSettingUtils::sortMetaRealUnitNodes().begin();
+//                continue;
+//            }
+//        }
+//        ++it;
+//    }
+
+////    for(const auto& un : ServerSettingUtils::sortMetaRealUnitNodes()) {
+//    for(auto it = ServerSettingUtils::sortMetaRealUnitNodes().begin(); it != ServerSettingUtils::sortMetaRealUnitNodes().end();) {
+//        const auto& un = *it;
+//        if(!TopologyService::findReciver(un).isNull()) {
+//            ++it;
+//            continue;
+//        }
+
+//        const auto& doubles = un->getDoubles().values();
+
+//        QSharedPointer<UnitNode> possibleParent;
+//        for(const auto& dbl : doubles) {
+//            possibleParent = TopologyService::findReciver(dbl);
+//            if(!possibleParent.isNull())
+//                break;
+//        }
+
+//        if(possibleParent.isNull()) {
+//            if(TypeUnitNodeEnum::SD_BL_IP == un->getType()
+//            || TypeUnitNodeEnum::IU_BL_IP == un->getType()) {
+//                possibleParent = UnitNodeFactory::makeShare(TypeUnitNodeEnum::BL_IP);
+//                possibleParent->setType(TypeUnitNodeEnum::BL_IP);
+//                possibleParent->setUdpAdress(un->getUdpAdress());
+//                possibleParent->setUdpPort(un->getUdpPort());
+//                possibleParent->setName("MetaBLIP");
+//                possibleParent->setNum1(static_cast<uint8_t>(0xFF));
+//                possibleParent->setControl(false);
+//                possibleParent->setMetaEntity(1);
+//            } else if (TypeUnitNodeEnum::TG == un->getType()) {
+//                possibleParent = UnitNodeFactory::makeShare(TypeUnitNodeEnum::TG_Base);
+//                possibleParent->setType(TypeUnitNodeEnum::TG_Base);
+//                possibleParent->setUdpAdress(un->getUdpAdress());
+//                possibleParent->setUdpPort(un->getUdpPort());
+//                possibleParent->setNum1(un->getNum1());
+//                possibleParent->setNum2(0);
+//                possibleParent->setNum3(0);
+//                possibleParent->setName("MetaTG_" + QString::number(un->getNum1()));
+//                possibleParent->setControl(false);
+//                possibleParent->setMetaEntity(1);
+//            } else if (TypeUnitNodeEnum::RLM_C == un->getType()
+//                    || TypeUnitNodeEnum::RLM_KRL == un->getType()) {
+//                possibleParent = un;
+//            }
+//        }
+
+//        if(!possibleParent.isNull()) {
+//            possibleParent->setPublishedState(10);
+//            insertMetaRealUnitNodes(possibleParent);
+//            ServerSettingUtils::linkDoubles(possibleParent);
+//            un->setParentUN(possibleParent);
+//            for(const auto& dbl : doubles) {
+//                dbl->setParentUN(possibleParent);
+//            }
+//            it = ServerSettingUtils::sortMetaRealUnitNodes().begin();
+//            continue;
+//        }
+//        ++it;
+//    }
+
+////    std::sort(ServerSettingUtils::listTreeUnitNodes.begin(), ServerSettingUtils::listTreeUnitNodes.end());
+////    for(auto un : getListTreeUnitNodes())
+////        qDebug() << un->toString();
+////    for(auto un : getSetMetaRealUnitNodes())
+////        qDebug() << un->toString();
+
+//    qDebug() << "ServerSettingUtils::loadTreeUnitNodes <--";
+
+//    return getListTreeUnitNodes();
+//}
+
+//QList<QSharedPointer<UnitNode> > ServerSettingUtils::loadEmptyTree(QSharedPointer<UnitNode> root)
+//{
+//    if(!getListTreeUnitNodes().isEmpty()) {
+//   //     for(UnitNode*un : getListTreeUnitNodes())
+//   //         delete un;
+//        getListTreeUnitNodes().clear();
+//        root->removeAllTreeChildren();
+//    }
 
 
-    }
-
-      return getListTreeUnitNodes();
-}
-
-QList<QSharedPointer<UnitNode> > & ServerSettingUtils::getListTreeUnitNodes() {
-    return ServerSettingUtils::listTreeUnitNodes;
-}
-
-QSharedPointer<UnitNode> ServerSettingUtils::getTreeUnitNodes(UnitNode* target)
-{
-    for(QSharedPointer<UnitNode> & un : getListTreeUnitNodes()) {
-        if(target == un.data()) {
-            return un;
-        }
-    }
-    return QSharedPointer<UnitNode>();
-}
-
-const QList<QSharedPointer<UnitNode>> &ServerSettingUtils::sortMetaRealUnitNodes() {
-    return ServerSettingUtils::sortedMetaRealUnitNodes;
-}
-
-QSet<QSharedPointer<UnitNode>> & ServerSettingUtils::getSetMetaRealUnitNodes() {
-    return ServerSettingUtils::listMetaRealUnitNodes;
-}
-
-QSet<QSharedPointer<UnitNode>>::iterator ServerSettingUtils::insertMetaRealUnitNodes(const QSharedPointer<UnitNode> &value) {
-//    qDebug() << "ServerSettingUtils::insertMetaRealUnitNodes";
-    auto it = ServerSettingUtils::listMetaRealUnitNodes.insert(value);
-    ServerSettingUtils::sortedMetaRealUnitNodes = ServerSettingUtils::listMetaRealUnitNodes.values();
-    std::sort(ServerSettingUtils::sortedMetaRealUnitNodes.begin(), ServerSettingUtils::sortedMetaRealUnitNodes.end());
-    return it;
-}
 
 
-QSharedPointer<UnitNode> ServerSettingUtils::getMetaRealUnitNodes(UnitNode* target)
-{
-    for(QSharedPointer<UnitNode> & un : getSetMetaRealUnitNodes().values()) {
-        if(target == un.data()) {
-            return un;
-        }
-    }
-    return QSharedPointer<UnitNode>();
-}
+//    {
+//        auto tmpUN = UnitNodeFactory::makeShare(TypeUnitNodeEnum::SYSTEM, root);
+
+//        tmpUN->setType(TypeUnitNodeEnum::SYSTEM);
+//        tmpUN->setNum1(0);
+//        tmpUN->setNum2(0);
+//        tmpUN->setNum3(0);
+//        tmpUN->setLevel(0);
+//        tmpUN->setName(QObject::tr("Система"));
+//        tmpUN->setMetaNames("Obj_0");
+
+//        ServerUnitNodeTreeItem::addTreeChildrenToParent(tmpUN, root);
+////        root = tmpUN;
+//        getListTreeUnitNodes().append(tmpUN);
+
+
+//    }
+
+//      return getListTreeUnitNodes();
+//}
+
+//QList<QSharedPointer<UnitNode> > & ServerSettingUtils::getListTreeUnitNodes() {
+//    return ServerSettingUtils::listTreeUnitNodes;
+//}
+
+//QSharedPointer<UnitNode> ServerSettingUtils::getTreeUnitNodes(UnitNode* target)
+//{
+//    for(QSharedPointer<UnitNode> & un : getListTreeUnitNodes()) {
+//        if(target == un.data()) {
+//            return un;
+//        }
+//    }
+//    return QSharedPointer<UnitNode>();
+//}
+
+//const QList<QSharedPointer<UnitNode>> &ServerSettingUtils::sortMetaRealUnitNodes() {
+//    return ServerSettingUtils::sortedMetaRealUnitNodes;
+//}
+
+//QSet<QSharedPointer<UnitNode>> & ServerSettingUtils::getSetMetaRealUnitNodes() {
+//    return ServerSettingUtils::listMetaRealUnitNodes;
+//}
+
+//QSet<QSharedPointer<UnitNode>>::iterator ServerSettingUtils::insertMetaRealUnitNodes(const QSharedPointer<UnitNode> &value) {
+////    qDebug() << "ServerSettingUtils::insertMetaRealUnitNodes";
+//    auto it = ServerSettingUtils::listMetaRealUnitNodes.insert(value);
+//    ServerSettingUtils::sortedMetaRealUnitNodes = ServerSettingUtils::listMetaRealUnitNodes.values();
+//    std::sort(ServerSettingUtils::sortedMetaRealUnitNodes.begin(), ServerSettingUtils::sortedMetaRealUnitNodes.end());
+//    return it;
+//}
+
+//QSharedPointer<UnitNode> ServerSettingUtils::getMetaRealUnitNodes(const QSharedPointer<UnitNode> &target)
+//{
+//    for(QSharedPointer<UnitNode> & un : getSetMetaRealUnitNodes().values()) {
+//        if(target->equale(*un.data())) {
+//            return un;
+//        }
+//    }
+//    return QSharedPointer<UnitNode>();
+//}
+
+//QSharedPointer<UnitNode> ServerSettingUtils::getMetaRealUnitNodes(UnitNode* target)
+//{
+//    for(QSharedPointer<UnitNode> & un : getSetMetaRealUnitNodes().values()) {
+//        if(target == un.data()) {
+//            return un;
+//        }
+//    }
+//    return QSharedPointer<UnitNode>();
+//}
 
 QVariant ServerSettingUtils::getValueSettings(const QString key, const QString group, const QString fileName) {
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
@@ -554,3 +518,85 @@ const QStringList &ServerSettingUtils::getReasonTemplate()
     return reasonTemplate;
 }
 
+//QSharedPointer<UnitNode> &ServerSettingUtils::getSystemUnitNodes()
+//{
+//    return systemUnitNodes;
+//}
+
+//void ServerSettingUtils::setSystemUnitNodes(const QSharedPointer<UnitNode> &newSystemUnitNodes)
+//{
+//    systemUnitNodes = newSystemUnitNodes;
+//}
+
+//void ServerSettingUtils::systemUnitNodesSetDkInvolvedFalse()
+//{
+//    for(const auto& un : ServerSettingUtils::sortMetaRealUnitNodes()) {
+//        if(un->getDkInvolved())
+//            return;
+//    }
+//    if(!ServerSettingUtils::getSystemUnitNodes().isNull())
+//        ServerSettingUtils::getSystemUnitNodes()->setDkInvolved(false);
+//}
+
+bool ServerSettingUtils::checkAuditAdm() {
+    qDebug() << "ServerSettingUtils::checkAuditAdm() -->";
+    for (const auto& storage : as_const(QStorageInfo::mountedVolumes())) {
+        const auto& rootPath = storage.rootPath();
+        if(!rootPath.contains("/media/"))
+            continue;
+
+        QString fileName("auidit.adm");
+        if(!QFileInfo::exists(rootPath + "/" + fileName))
+            continue;
+
+       if (storage.isReadOnly())
+           qDebug() << "isReadOnly:" << storage.isReadOnly();
+
+       qDebug() << "name:" << storage.name();
+       qDebug() << "fileSystemType:" << storage.fileSystemType();
+       qDebug() << "size:" << storage.bytesTotal()/1000/1000 << "MB";
+       qDebug() << "availableSize:" << storage.bytesAvailable()/1000/1000 << "MB";
+
+       QFile file(rootPath + "/" + fileName);
+       if(file.open(QIODevice::ReadOnly)) {
+           QDataStream in1(&file);    // read the data serialized from the file
+           in1.setByteOrder(QDataStream::LittleEndian);
+           double a;
+           double b;
+           double c;
+
+           in1  >> b >> a >> c;
+           file.close();
+
+           if(c == a+b) {
+               qDebug() << "ServerSettingUtils::checkAuditAdm <-- [true]";
+               return true;
+           } else {
+               continue;
+           }
+       }
+    }
+    qDebug() << "ServerSettingUtils::checkAuditAdm <-- [false]";
+#ifdef QT_DEBUG
+    return true;
+#endif
+    return false;
+}
+
+bool ServerSettingUtils::checkDialogAuditAdm()
+{
+    bool result = ServerSettingUtils::checkAuditAdm();
+    if(!result) {
+        const auto ret = MessageBoxServer::questionInsertAdminKeyAndClickOK();
+        if(QMessageBox::Ok == ret) {
+            result = ServerSettingUtils::checkAuditAdm();
+            if(!result) {
+                MessageBoxServer::infoAdminKeyNotFound();
+            }
+        }
+    }
+#ifdef QT_DEBUG
+    return true;
+#endif
+    return result;
+}

@@ -1,4 +1,4 @@
-QT += core multimedia
+QT += core multimedia 
 
 CONFIG += c++14 -std=gnu++14 -std=c++14
 
@@ -7,11 +7,15 @@ INCLUDEPATH += $$PWD/
 SOURCES += \
 #    $$PWD/AppTranslator.cpp \
     $$PWD/AlarmSwitchOffLogger.cpp \
+    $$PWD/ContextArgMap.cpp \
     $$PWD/ConvertUTF.c \
     $$PWD/Icons.cpp \
 #    $$PWD/ProcessDKWaiter.cpp \
     $$PWD/Icons_cfg.cpp \
+    $$PWD/IniFileService.cpp \
+    $$PWD/IniFileServiceImpl.cpp \
     $$PWD/IntervalSheduler.cpp \
+    $$PWD/MessageBoxServer.cpp \
     $$PWD/RunGuard.cpp \
 #    $$PWD/TablePrint.cpp \
     $$PWD/ServerSettingUtils.cpp \
@@ -20,6 +24,8 @@ SOURCES += \
     $$PWD/ShedulerDK.cpp \
     $$PWD/ShedulerNewDuty.cpp \
     $$PWD/SoundAdjuster.cpp \
+    $$PWD/TopologyService.cpp \
+    $$PWD/TopologyServiceImpl.cpp \
     $$PWD/Utils.cpp \
 #    $$PWD/ConfirmationAdmissionWaiter.cpp \
 #    $$PWD/StatusRequester.cpp \
@@ -30,11 +36,15 @@ HEADERS += \
 #    $$PWD/AbstractRequester.h \
 #    $$PWD/AppTranslator.h \
     $$PWD/AlarmSwitchOffLogger.h \
+    $$PWD/ContextArgMap.h \
     $$PWD/ConvertUTF.h \
     $$PWD/Icons.h \
 #    $$PWD/ProcessDKWaiter.h \
     $$PWD/Icons_cfg.h \
+    $$PWD/IniFileService.h \
+    $$PWD/IniFileServiceImpl.h \
     $$PWD/IntervalSheduler.h \
+    $$PWD/MessageBoxServer.h \
     $$PWD/RunGuard.h \
 #    $$PWD/TablePrint.h \
     $$PWD/ServerSettingUtils.h \
@@ -44,6 +54,8 @@ HEADERS += \
     $$PWD/ShedulerNewDuty.h \
     $$PWD/SimpleIni.h \
     $$PWD/SoundAdjuster.h \
+    $$PWD/TopologyService.h \
+    $$PWD/TopologyServiceImpl.h \
     $$PWD/Utils.h \
 #    $$PWD/ConfirmationAdmissionWaiter.h \
 #    $$PWD/StatusRequester.h \

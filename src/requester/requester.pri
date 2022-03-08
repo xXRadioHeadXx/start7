@@ -1,4 +1,4 @@
-QT += core
+QT += core 
 
 CONFIG += c++14 -std=gnu++14 -std=c++14
 
@@ -7,7 +7,6 @@ INCLUDEPATH += $$PWD/
 SOURCES += \
     $$PWD/AbstractRequester.cpp \
     $$PWD/ManagerSingleMsg.cpp \
-    $$PWD/ManagerSingleMsgAlarmReset.cpp \
     $$PWD/MultiUNStatusConnectRequester.cpp \
     $$PWD/ProcessDKWaiter.cpp \
     $$PWD/ConfirmationAdmissionWaiter.cpp \
@@ -18,7 +17,6 @@ SOURCES += \
 HEADERS += \
     $$PWD/AbstractRequester.h \
     $$PWD/ManagerSingleMsg.h \
-    $$PWD/ManagerSingleMsgAlarmReset.h \
     $$PWD/MultiUNStatusConnectRequester.h \
     $$PWD/ProcessDKWaiter.h \
     $$PWD/ConfirmationAdmissionWaiter.h \

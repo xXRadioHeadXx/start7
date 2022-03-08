@@ -50,9 +50,9 @@ TableModelMSG::TableModelMSG(QObject *parent) :
     m_listMSG = DataBaseManager::getOneMSGRecord();
 
     connect(&SignalSlotCommutator::instance(),
-            SIGNAL(insNewJourMSG(const quint32)),
+            SIGNAL(insNewJourMSG(uint32_t)),
             this,
-            SLOT(updateListRecords(const quint32)));
+            SLOT(updateListRecords(uint32_t)));
 
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG()),
@@ -60,9 +60,9 @@ TableModelMSG::TableModelMSG(QObject *parent) :
             SLOT(updateListRecords()));
 
     connect(&SignalSlotCommutator::instance(),
-            SIGNAL(updJourMSG(const quint32)),
+            SIGNAL(updJourMSG(uint32_t)),
             this,
-            SLOT(updateRecord(const quint32)));
+            SLOT(updateRecord(uint32_t)));
 
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(updJourMSG()),
@@ -316,7 +316,7 @@ void TableModelMSG::updateListRecords()
     emitNeedScrollToBottom();
 }
 
-void TableModelMSG::updateListRecords(const quint32 idMSG)
+void TableModelMSG::updateListRecords(const uint32_t idMSG)
 {
     newRecordMSG = idMSG;
 //    QList<JourEntity> newRecords(DataBaseManager::getOneMSGRecord(idMSG));
@@ -326,7 +326,7 @@ void TableModelMSG::updateListRecords(const quint32 idMSG)
     emitNeedScrollToBottom();
 }
 
-void TableModelMSG::updateRecord(const quint32 idMSG)
+void TableModelMSG::updateRecord(const uint32_t idMSG)
 {
     updRecordMSG = idMSG;
     QList<JourEntity> updRecord(DataBaseManager::getOneMSGRecord(idMSG));

@@ -6,20 +6,31 @@
 #include "Icons_cfg.h"
 #include "SignalSlotCommutator.h"
 #include "global.h"
-#include "SWPBLIPType0x41.h"
-#include "SWPBLIPType0x42.h"
-#include "SWPRLMType0x31.h"
-#include "SWPRLMCType0x31.h"
-#include "SWPSDBLIPType0x42.h"
-#include "SWPSDBLIPType0x41.h"
-#include "SWPIUBLIPType0x41.h"
-#include "SWPTGType0x31.h"
-#include "SWPTGType0x34.h"
-#include "SWPTGType0x33.h"
-#include "SWPTGType0x32.h"
-#include "SWPTGSubType0x32.h"
-#include "SWPTGSubType0x33.h"
+#include "swpblip/SWPBLIPType0x41.h"
+#include "swpblip/SWPBLIPType0x42.h"
+#include "swprlm/SWPRLMType0x31.h"
+#include "swprlmc/SWPRLMCType0x31.h"
+#include "swpblip/SWPSDBLIPType0x42.h"
+#include "swpblip/SWPSDBLIPType0x41.h"
+#include "swpblip/SWPIUBLIPType0x41.h"
+#include "swpt4k/SWPT4KBODType0x32.h"
+#include "swpt4k/SWPT4KBODType0x33.h"
+#include "swptg/SWPTGType0x31.h"
+#include "swptg/SWPTGType0x34.h"
+#include "swptg/SWPTGType0x33.h"
+#include "swptg/SWPTGType0x32.h"
+#include "swptg/SWPTGSubType0x32.h"
+#include "swptg/SWPTGSubType0x33.h"
+#include "swpt4k/SWPT4KBODType0x32.h"
+#include "swpt4k/SWPT4KY4Type0x32.h"
+#include "swpt4k/SWPT4KBODType0x33.h"
+#include "swpt4k/SWPT4KY4Type0x33.h"
+
+
 #include "DataQueueItem.h"
+
+#include "swpssoiblip/SWPSSOIBLIPType0x41.h"
+#include "swpssoiblip/SWPSSOIBLIPType0x42.h"
 
 QSet<QString> UnitNode::getMetaNames() const
 {
@@ -100,240 +111,302 @@ QList<QSharedPointer<UnitNode> > UnitNode::getListChilde() const
     return listChilde;
 }
 
-QPixmap UnitNode::getPxm(SubTypeApp type)
+QPixmap UnitNode::getPxm() const
 {
-    if(SubTypeApp::server == type) {
-        if(TypeUnitNode::SYSTEM == getType()) {
-            return Icons::fldr();
-        } else if(TypeUnitNode::GROUP == getType()) {
-            if(childCount())
-                return Icons::fldr();
-            else
-                return Icons::fldr_empt();
-        } else if(TypeUnitNode::SD_BL_IP == getType()) {
-            const SWPSDBLIPType0x41 swp = swpSDBLIPType0x41();
-            if(0 == getBazalt()) {
-                if(getControl() && swp.isNull()) {
-                    return Icons::sqr_ylw();
-                } else if(!getControl() && swp.isNull()) {
-                    return Icons::sqr_blk_crs_ylw();
-                } else if(1 == swp.isWasAlarm() && getControl()) {
-                    return Icons::sqr_rd();
-                } else if(1 == swp.isWasAlarm() && !getControl()) {
-                    return Icons::sqr_blk_crs_rd();
-                } else if(1 == swp.isAlarm() && getControl()) {
-                    return Icons::sqr_rd();
-                } else if(1 == swp.isAlarm() && !getControl()) {
-                    return Icons::sqr_blk_crs_rd();
-                } else if(1 == swp.isOff() && getControl()) {
-                    return Icons::sqr_blk();
-                } else if(1 == swp.isOff() && !getControl()) {
-                    return Icons::sqr_blk_crs_gry();
-                } else if(1 == swp.isNorm() && getControl()) {
-                    return Icons::sqr_grn();
-                } else if(1 == swp.isNorm() && !getControl()) {
-                    return Icons::sqr_blk_crs_grn();
-                } else if(getControl()) {
-                    return Icons::sqr_ylw();
-                } else if(!getControl()) {
-                    return Icons::sqr_blk_crs_ylw();
-                }
-            } else {
-                if(getControl() && swp.isNull()) {
-                    return Icons::sqr_ylw();
-                } else if(!getControl() && swp.isNull()) {
-                    return Icons::sqr_blk_crs_ylw();
-                } else if(1 == swp.isAlarm()) {
-                    return Icons::sqr_rd_opn();
-                } else if(1 == swp.isNorm()) {
-                    return Icons::sqr_grn_cls();
-                } else {
-                    return Icons::sqr_ylw();
-                }
-            }
+//    if(TypeUnitNodeEnum::SYSTEM == getType()) {
+//        return Icons::fldr();
+//    } else if(TypeUnitNodeEnum::GROUP == getType()) {
+//        if(childCount())
+//            return Icons::fldr();
+//        else
+//            return Icons::fldr_empt();
+//    } else if(13 == getPublishedState() && !(TypeUnitNodeEnum::SD_BL_IP == getType() && 1 == getBazalt())) {
+//        if(getControl()) {
+//            return Icons::sqr_blu();
+//        } else if(!getControl()) {
+//            return Icons::sqr_blk_crs_blu();
+//        }
+//    } else if(TypeUnitNodeEnum::SD_BL_IP == getType()) {
+//        const SWPSDBLIPType0x41 swp = swpSDBLIPType0x41();
+//        if(0 == getBazalt()) {
+//            if(getControl()
+//            && swp.isNull()) {
+//                return Icons::sqr_ylw();
+//            } else if(!getControl()
+//                   && swp.isNull()) {
+//                return Icons::sqr_blk_crs_ylw();
+//            } else if(1 == swp.isWasAlarm()
+//                   && getControl()) {
+//                return Icons::sqr_rd();
+//            } else if(1 == swp.isWasAlarm()
+//                   && !getControl()) {
+//                return Icons::sqr_blk_crs_rd();
+//            } else if(1 == swp.isAlarm()
+//                   && getControl()) {
+//                return Icons::sqr_rd();
+//            } else if(1 == swp.isAlarm()
+//                   && !getControl()) {
+//                return Icons::sqr_blk_crs_rd();
+//            } else if(1 == swp.isOff()
+//                   && getControl()) {
+//                return Icons::sqr_blk();
+//            } else if(1 == swp.isOff()
+//                   && !getControl()) {
+//                return Icons::sqr_blk_crs_gry();
+//            } else if(1 == swp.isNorm()
+//                   && getControl()) {
+//                return Icons::sqr_grn();
+//            } else if(1 == swp.isNorm()
+//                   && !getControl()) {
+//                return Icons::sqr_blk_crs_grn();
+//            } else if(getControl()) {
+//                return Icons::sqr_ylw();
+//            } else if(!getControl()) {
+//                return Icons::sqr_blk_crs_ylw();
+//            }
+//        } else { // это узо
+//            if(getControl()
+//            && swp.isNull()) {
+//                return Icons::sqr_ylw();
+//            } else if(!getControl()
+//                   && swp.isNull()) {
+//                return Icons::sqr_blk_crs_ylw();
+//            } else if(1 == swp.isOff()) {
+//                return Icons::sqr_blk();
+//            } else if(13 == getPublishedState()
+//                   && 1 == swp.isAlarm()) {
+//                return Icons::sqr_blu_opn();
+//            } else if(13 == getPublishedState()
+//                   && 1 == swp.isNorm()) {
+//                return Icons::sqr_blu_cls();
+//            } else if(1 == swp.isAlarm()) {
+//                return Icons::sqr_rd_opn();
+//            } else if(1 == swp.isNorm()) {
+//                return Icons::sqr_grn_cls();
+//            } else {
+//                return Icons::sqr_ylw();
+//            }
+//        }
 
-        } else if(TypeUnitNode::IU_BL_IP == getType()) {
-            const SWPIUBLIPType0x41 swp = swpIUBLIPType0x41();
-            if(swp.isNull()) {
-                return Icons::sqr_ylw();
-            } else if(1 == swp.isOn()) {
-                return Icons::sqr_grn_crs2_rd();
-            } else if(1 == swp.isOff()) {
-                return Icons::sqr_grn_mns_gry();
-            } else
-                return Icons::sqr_ylw();
-        } else if(TypeUnitNode::RLM_C == getType()) {
-            const SWPRLMCType0x31 swp = swpRLMCType0x31();
-            if(getControl() && swp.isNull()) {
-                return Icons::sqr_ylw();
-            } else if(!getControl() && swp.isNull()) {
-                return Icons::sqr_blk_crs_ylw();
-            } else if(1 == swp.isOff() && getControl()) {
-                return Icons::sqr_blk();
-            } else if(1 == swp.isOff() && !getControl()) {
-                return Icons::sqr_blk_crs_gry();
-            } else if(1 == swp.isFault() && getControl()) {
-                return Icons::sqr_blu();
-            } else if(1 == swp.isFault() && !getControl()) {
-                return Icons::sqr_blk_crs_blu();
-            } else if((1 == swp.isAlarm() || 1 == swp.isWasAlarm()) && 1 == swp.isOn() && getControl()) {
-                return Icons::sqr_rd();
-            } else if((1 == swp.isAlarm() || 1 == swp.isWasAlarm()) && 1 == swp.isOn() && !getControl()) {
-                return Icons::sqr_blk_crs_rd();
-            } else if(1 == swp.isNorm() && getControl()) {
-                return Icons::sqr_grn();
-            } else if(1 == swp.isNorm() && !getControl()) {
-                return Icons::sqr_blk_crs_grn();
-            } else if(getControl()) {
-                return Icons::sqr_ylw();
-            } else if(!getControl()) {
-                return Icons::sqr_blk_crs_ylw();
-            }
-        } else if(TypeUnitNode::RLM_KRL == getType()) {
-            const SWPRLMType0x31 swp = swpRLMType0x31();
-            if(getControl() && swp.isNull()) {
-                return Icons::sqr_ylw();
-            } else if(!getControl() && swp.isNull()) {
-                return Icons::sqr_blk_crs_ylw();
-            } else if(1 == swp.isOff() && getControl()) {
-                return Icons::sqr_blk();
-            } else if(1 == swp.isOff() && !getControl()) {
-                return Icons::sqr_blk_crs_gry();
-            } else if(1 == swp.isFault() && getControl()) {
-                return Icons::sqr_blu();
-            } else if(1 == swp.isFault() && !getControl()) {
-                return Icons::sqr_blk_crs_blu();
-            } else if((1 == swp.isAlarm() || 1 == swp.isWasAlarm()) && 1 == swp.isOn() && getControl()) {
-                return Icons::sqr_rd();
-            } else if((1 == swp.isAlarm() || 1 == swp.isWasAlarm()) && 1 == swp.isOn() && !getControl()) {
-                return Icons::sqr_blk_crs_rd();
-            } else if(1 == swp.isNorm() && getControl()) {
-                return Icons::sqr_grn();
-            } else if(1 == swp.isNorm() && !getControl()) {
-                return Icons::sqr_blk_crs_grn();
-            } else if(getControl()) {
-                return Icons::sqr_ylw();
-            } else if(!getControl()) {
-                return Icons::sqr_blk_crs_ylw();
-            }
-        } else if(TypeUnitNode::TG == getType() || TypeUnitNode::TG_Base == getType()) {
-            const SWPTGType0x31 swp31 = swpTGType0x31();
-            const SWPTGType0x32 swp32 = swpTGType0x32();
-            const SWPTGType0x33 swp33 = swpTGType0x33();
-            const SWPTGType0x34 swp34 = swpTGType0x34();
+//    } else if(TypeUnitNodeEnum::IU_BL_IP == getType()) {
+//        const SWPIUBLIPType0x41 swp = swpIUBLIPType0x41();
+//        if(swp.isNull()) {
+//            return Icons::sqr_ylw();
+//        } else if(1 == swp.isOn()) {
+//            return Icons::sqr_grn_crs2_rd();
+//        } else if(1 == swp.isOff()) {
+//            return Icons::sqr_grn_mns_gry();
+//        } else
+//            return Icons::sqr_ylw();
+//    } else if(TypeUnitNodeEnum::RLM_C == getType()) {
+//        const SWPRLMCType0x31 swp = swpRLMCType0x31();
+//        if(getControl()
+//        && swp.isNull()) {
+//            return Icons::sqr_ylw();
+//        } else if(!getControl()
+//               && swp.isNull()) {
+//            return Icons::sqr_blk_crs_ylw();
+//        } else if(1 == swp.isOff()
+//               && getControl()) {
+//            return Icons::sqr_blk();
+//        } else if(1 == swp.isOff()
+//               && !getControl()) {
+//            return Icons::sqr_blk_crs_gry();
+//        } else if(1 == swp.isFault()
+//               && getControl()) {
+//            return Icons::sqr_blu();
+//        } else if(1 == swp.isFault()
+//               && !getControl()) {
+//            return Icons::sqr_blk_crs_blu();
+//        } else if(((1 == swp.isAlarm()
+//                 || 1 == swp.isWasAlarm())
+//                && !(getIsAutoDkInvolved()
+//                  && getDkInvolved()))
+//               && 1 == swp.isOn()
+//               && getControl()) {
+//            return Icons::sqr_rd();
+//        } else if(((1 == swp.isAlarm()
+//                 || 1 == swp.isWasAlarm())
+//                && !(getIsAutoDkInvolved()
+//                  && getDkInvolved()))
+//               && 1 == swp.isOn()
+//               && !getControl()) {
+//            return Icons::sqr_blk_crs_rd();
+//        } else if(1 == swp.isNorm()
+//               && getControl()) {
+//            return Icons::sqr_grn();
+//        } else if(1 == swp.isNorm()
+//               && !getControl()) {
+//            return Icons::sqr_blk_crs_grn();
+//        } else if(getControl()) {
+//            return Icons::sqr_grn();
+//        } else if(!getControl()) {
+//            return Icons::sqr_blk_crs_grn();
+//        }
+//    } else if(TypeUnitNodeEnum::RLM_KRL == getType()) {
+//        const SWPRLMType0x31 swp = swpRLMType0x31();
+//        if(getControl()
+//        && swp.isNull()) {
+//            return Icons::sqr_ylw();
+//        } else if(!getControl()
+//               && swp.isNull()) {
+//            return Icons::sqr_blk_crs_ylw();
+//        } else if(1 == swp.isOff()
+//               && getControl()) {
+//            return Icons::sqr_blk();
+//        } else if(1 == swp.isOff()
+//               && !getControl()) {
+//            return Icons::sqr_blk_crs_gry();
+//        } else if(1 == swp.isFault()
+//               && getControl()) {
+//            return Icons::sqr_blu();
+//        } else if(1 == swp.isFault()
+//               && !getControl()) {
+//            return Icons::sqr_blk_crs_blu();
+//        } else if(((1 == swp.isAlarm()
+//                 || 1 == swp.isWasAlarm())
+//                && !(getIsAutoDkInvolved()
+//                  && getDkInvolved()))
+//               && 1 == swp.isOn()
+//               && getControl()) {
+//            return Icons::sqr_rd();
+//        } else if(((1 == swp.isAlarm()
+//                 || 1 == swp.isWasAlarm())
+//                && !(getIsAutoDkInvolved()
+//                  && getDkInvolved()))
+//               && 1 == swp.isOn()
+//               && !getControl()) {
+//            return Icons::sqr_blk_crs_rd();
+//        } else if(1 == swp.isNorm()
+//               && getControl()) {
+//            return Icons::sqr_grn();
+//        } else if(1 == swp.isNorm()
+//               && !getControl()) {
+//            return Icons::sqr_blk_crs_grn();
+//        } else if(getControl()) {
+//            return Icons::sqr_grn();
+//        } else if(!getControl()) {
+//            return Icons::sqr_blk_crs_grn();
+//        }
+//    } else if(TypeUnitNodeEnum::TG == getType() || TypeUnitNodeEnum::TG_Base == getType()) {
+//        const SWPTGType0x31 swp31 = swpTGType0x31();
+//        const SWPTGType0x32 swp32 = swpTGType0x32();
+//        const SWPTGType0x33 swp33 = swpTGType0x33();
+//        const SWPTGType0x34 swp34 = swpTGType0x34();
+//        if(getControl() && swp31.isNull() && swp32.isNull() && swp33.isNull() && swp34.isNull()) {
+//            return Icons::sqr_ylw();
+//        } else if(!getControl() && swp31.isNull() && swp32.isNull() && swp33.isNull() && swp34.isNull()) {
+//            return Icons::sqr_blk_crs_ylw();
+//        } else if(!swp31.isNull() && (swp32.cdate() < swp31.cdate() && swp33.cdate() < swp31.cdate())) {
+//            if(1 == swp31.isOff() && getControl()) {
+//                return Icons::sqr_blk();
+//            } else if(1 == swp31.isOff() && !getControl()) {
+//                return Icons::sqr_blk_crs_gry();
+//            } else if((((1 == swp31.isAlarm()
+//                      || 1 == swp31.isInAlarm()
+//                      || 1 == swp31.isOutAlarm())
+//                     && !(getIsAutoDkInvolved()
+//                       && getDkInvolved()))
+//                     || 1 == swp31.isOpened()
+//                     || 1 == swp31.isWasOpened()
+//                     || 1 == swp31.isInOpened())
+//                    && getControl()) {
+//                return Icons::sqr_rd();
+//            } else if((((1 == swp31.isAlarm()
+//                      || 1 == swp31.isInAlarm()
+//                      || 1 == swp31.isOutAlarm())
+//                     && !(getIsAutoDkInvolved()
+//                       && getDkInvolved()))
+//                     || 1 == swp31.isOpened()
+//                     || 1 == swp31.isWasOpened()
+//                     || 1 == swp31.isInOpened())
+//                    && !getControl()) {
+//                return Icons::sqr_blk_crs_rd();
+//            } else if(1 == swp31.isNorm() && getControl()) {
+//                return Icons::sqr_grn();
+//            } else if(1 == swp31.isNorm() && !getControl()) {
+//                return Icons::sqr_blk_crs_grn();
+//            } else if(getControl()) {
+//                return Icons::sqr_grn();
+//            } else if(!getControl()) {
+//                return Icons::sqr_blk_crs_grn();
+//            }
+//        } else if(!swp32.isNull() && (swp31.cdate() < swp32.cdate() && swp33.cdate() < swp32.cdate())) {
+//            if(1 == swp32.C(getNum2()).isFault() && getControl()) {
+//                return Icons::sqr_blu();
+//            } else if(1 == swp32.C(getNum2()).isFault() && !getControl()) {
+//                return Icons::sqr_blk_crs_blu();
+//            } else if((((1 == swp32.C(getNum2()).isAlarm()
+//                      || 1 == swp32.C(getNum2()).isOutAlarm()
+//                      || 1 == swp32.C(getNum2()).isInAlarm())
+//                     && !(getIsAutoDkInvolved()
+//                       && getDkInvolved()))
+//                     || 1 == swp32.C(getNum2()).isOpened()
+//                     || 1 == swp32.C(getNum2()).isWasOpened()
+//                     || 1 == swp32.C(getNum2()).isInOpened())
+//                    && getControl()) {
+//                return Icons::sqr_rd();
+//            } else if((((1 == swp32.C(getNum2()).isAlarm()
+//                      || 1 == swp32.C(getNum2()).isOutAlarm()
+//                      || 1 == swp32.C(getNum2()).isInAlarm())
+//                     && !(getIsAutoDkInvolved()
+//                       && getDkInvolved()))
+//                     || 1 == swp32.C(getNum2()).isOpened()
+//                     || 1 == swp32.C(getNum2()).isWasOpened()
+//                     || 1 == swp32.C(getNum2()).isInOpened())
+//                    && !getControl()) {
+//                return Icons::sqr_blk_crs_rd();
+//            } else if(1 == swp32.C(getNum2()).isNorm() && getControl()) {
+//                return Icons::sqr_grn();
+//            } else if(1 == swp32.C(getNum2()).isNorm() && !getControl()) {
+//                return Icons::sqr_blk_crs_grn();
+//            } else if(getControl()) {
+//                return Icons::sqr_grn();
+//            } else if(!getControl()) {
+//                return Icons::sqr_blk_crs_grn();
+//            }
+//        } else if(!swp33.isNull() && (swp31.cdate() < swp33.cdate() && swp32.cdate() < swp33.cdate())) {
+//            if(1 == swp33.C(getNum2()).isFault() && getControl()) {
+//                return Icons::sqr_blu();
+//            } else if(1 == swp33.C(getNum2()).isFault() && !getControl()) {
+//                return Icons::sqr_blk_crs_blu();
+//            } else if((((1 == swp33.C(getNum2()).isAlarm()
+//                      || 1 == swp33.C(getNum2()).isInAlarm()
+//                      || 1 == swp33.C(getNum2()).isOutAlarm())
+//                     && !(getIsAutoDkInvolved()
+//                       && getDkInvolved()))
+//                     || 1 == swp33.C(getNum2()).isOpened()
+//                     || 1 == swp33.C(getNum2()).isWasOpened()
+//                     || 1 == swp33.C(getNum2()).isInOpened())
+//                    && getControl()) {
+//                return Icons::sqr_rd();
+//            } else if((((1 == swp33.C(getNum2()).isAlarm()
+//                      || 1 == swp33.C(getNum2()).isInAlarm()
+//                      || 1 == swp33.C(getNum2()).isOutAlarm())
+//                     && !(getIsAutoDkInvolved()
+//                       && getDkInvolved()))
+//                     || 1 == swp33.C(getNum2()).isOpened()
+//                     || 1 == swp33.C(getNum2()).isWasOpened()
+//                     || 1 == swp33.C(getNum2()).isInOpened())
+//                    && !getControl()) {
+//                return Icons::sqr_blk_crs_rd();
+//            } else if(1 == swp33.C(getNum2()).isNorm() && getControl()) {
+//                return Icons::sqr_grn();
+//            } else if(1 == swp33.C(getNum2()).isNorm() && !getControl()) {
+//                return Icons::sqr_blk_crs_grn();
+//            } else if(getControl()) {
+//                return Icons::sqr_grn();
+//            } else if(!getControl()) {
+//                return Icons::sqr_blk_crs_grn();
+//            }
+//        } /*else if(!swp34.isNull()) {
 
-            if(getControl() && swp31.isNull() && swp32.isNull() && swp33.isNull() && swp34.isNull()) {
-                return Icons::sqr_ylw();
-            } else if(!getControl() && swp31.isNull() && swp32.isNull() && swp33.isNull() && swp34.isNull()) {
-                return Icons::sqr_blk_crs_ylw();
-            } else if(!swp31.isNull()) {
-                if(1 == swp31.isOff() && getControl()) {
-                    return Icons::sqr_blk();
-                } else if(1 == swp31.isOff() && !getControl()) {
-                    return Icons::sqr_blk_crs_gry();
-                } else if((1 == swp31.isAlarm() || 1 == swp31.isOpened() ||
-                           1 == swp31.isInAlarm() || 1 == swp31.isOutAlarm() || 1 == swp31.isWasOpened() || 1 == swp31.isInOpened()) &&
-                          getControl()) {
-                    return Icons::sqr_rd();
-                } else if((1 == swp31.isAlarm() || 1 == swp31.isOpened() ||
-                           1 == swp31.isInAlarm() || 1 == swp31.isOutAlarm() || 1 == swp31.isWasOpened() || 1 == swp31.isInOpened()) &&
-                          !getControl()) {
-                    return Icons::sqr_blk_crs_rd();
-                } else if(1 == swp31.isNorm() && getControl()) {
-                    return Icons::sqr_grn();
-                } else if(1 == swp31.isNorm() && !getControl()) {
-                    return Icons::sqr_blk_crs_grn();
-                }
-            } else if(!swp32.isNull()) {
-                if(1 == swp32.C(getNum2()).isFault() && getControl()) {
-                    return Icons::sqr_blu();
-                } else if(1 == swp32.C(getNum2()).isFault() && !getControl()) {
-                    return Icons::sqr_blk_crs_blu();
-                } else if((1 == swp32.C(getNum2()).isAlarm() || 1 == swp32.C(getNum2()).isOpened() ||
-                           1 == swp32.C(getNum2()).isOutAlarm() || 1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isWasOpened() || 1 == swp32.C(getNum2()).isInOpened()) &&
-                          getControl()) {
-                    return Icons::sqr_rd();
-                } else if((1 == swp32.C(getNum2()).isAlarm() || 1 == swp32.C(getNum2()).isOpened() ||
-                           1 == swp32.C(getNum2()).isOutAlarm() || 1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isWasOpened() || 1 == swp32.C(getNum2()).isInOpened()) &&
-                          !getControl()) {
-                    return Icons::sqr_blk_crs_rd();
-                } else if(1 == swp32.C(getNum2()).isNorm() && getControl()) {
-                    return Icons::sqr_grn();
-                } else if(1 == swp32.C(getNum2()).isNorm() && !getControl()) {
-                    return Icons::sqr_blk_crs_grn();
-                }
-            } else if(!swp33.isNull()) {
-                if(1 == swp33.C(getNum2()).isFault() && getControl()) {
-                    return Icons::sqr_blu();
-                } else if(1 == swp33.C(getNum2()).isFault() && !getControl()) {
-                    return Icons::sqr_blk_crs_blu();
-                } else if((1 == swp33.C(getNum2()).isAlarm() || 1 == swp33.C(getNum2()).isOpened() ||
-                           1 == swp33.C(getNum2()).isInAlarm() || 1 == swp33.C(getNum2()).isOutAlarm() || 1 == swp33.C(getNum2()).isWasOpened() || 1 == swp33.C(getNum2()).isInOpened()) &&
-                          getControl()) {
-                    return Icons::sqr_rd();
-                } else if((1 == swp33.C(getNum2()).isAlarm() || 1 == swp33.C(getNum2()).isOpened() ||
-                           1 == swp33.C(getNum2()).isInAlarm() || 1 == swp33.C(getNum2()).isOutAlarm() || 1 == swp33.C(getNum2()).isWasOpened() || 1 == swp33.C(getNum2()).isInOpened()) &&
-                          !getControl()) {
-                    return Icons::sqr_blk_crs_rd();
-                } else if(1 == swp33.C(getNum2()).isNorm() && getControl()) {
-                    return Icons::sqr_grn();
-                } else if(1 == swp33.C(getNum2()).isNorm() && !getControl()) {
-                    return Icons::sqr_blk_crs_grn();
-                }
-            } /*else if(!swp34.isNull()) {
-
-            } */else if(getControl()) {
-                return Icons::sqr_ylw();
-            } else if(!getControl()) {
-                return Icons::sqr_blk_crs_ylw();
-            }
-        }
-    } else if(SubTypeApp::configurator == type) {
-
-
-         if(TypeUnitNode::GROUP == getType()||TypeUnitNode::SYSTEM == getType())
-         {
-         if(childCount())
-         return Icons::fldr();
-         else
-         return Icons::fldr_empt();
-         }
-         else
-             if(TypeUnitNode::SD_BL_IP    == getType())
-             {
-                 if(this->getBazalt()==1)
-                     return Icons_cfg::sd_basalt();
-                 return Icons_cfg::sd();
-             }
-         else if(TypeUnitNode::IU_BL_IP    == getType()) {return Icons_cfg::iu();        }
-         else if(TypeUnitNode::BOD_T4K_M   == getType()) {return Icons_cfg::BOD_T4K_M(); }
-         else if(TypeUnitNode::BOD_SOTA    == getType()) {return Icons_cfg::BOD_T4K_M(); }
-         else if(TypeUnitNode::Y4_T4K_M    == getType()) {return Icons_cfg::Y4_T4K_M();  }
-         else if(TypeUnitNode::DD_T4K_M    == getType()) {return Icons_cfg::Y4_T4K_M();  }
-         else if(TypeUnitNode::TG          == getType()) {return Icons_cfg::TG();        }
-         else if(TypeUnitNode::RLM_KRL     == getType()) {return Icons_cfg::RLM_KRL();   }
-         else if(TypeUnitNode::RLM_C       == getType()) {return Icons_cfg::RLM_KRL();   }
-         else if(TypeUnitNode::Y4_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
-         else if(TypeUnitNode::DD_SOTA     == getType()) {return Icons_cfg::Y4_SOTA();   }
-         else if(TypeUnitNode::KL          == getType()) {return Icons_cfg::KL();        }
-         else if(TypeUnitNode::NET_DEV     == getType()) {return Icons_cfg::NET_DEV();   }
-         else if(TypeUnitNode::ONVIF       == getType()) {return Icons_cfg::ONVIF();     }
-         else if(TypeUnitNode::STRAZH_IP   == getType()) {return Icons_cfg::ONVIF();     }
-
-         else if(TypeUnitNode::SSOI_SD   == getType()) {return Icons_cfg::default_square_gray();     }
-         else if(TypeUnitNode::SSOI_IU   == getType()) {return Icons_cfg::default_square_gray();     }
-         else if(TypeUnitNode::ADAM   == getType()) {return Icons_cfg::default_square_gray();     }
-         else if(TypeUnitNode::TOROS   == getType()) {return Icons_cfg::default_square_gray();     }
-         else if(TypeUnitNode::DEVLINE   == getType()) {return Icons_cfg::ONVIF();       }
-         else if(TypeUnitNode::RASTRMTV   == getType()) {return Icons_cfg::ONVIF();       }
-         else if(TypeUnitNode::INFO_TABLO   == getType()) {return Icons_cfg::default_square_gray();     }
-
-
-
-//         Y4_SOTA = 30,//Участок Сота
-//         DD_SOTA = 28,//ДД Сота
-
-      }
+//        } */else if(getControl()) {
+//            return Icons::sqr_ylw();
+//        } else if(!getControl()) {
+//            return Icons::sqr_blk_crs_ylw();
+//        }
+//    }
 
     return QPixmap();
 }
@@ -399,6 +472,7 @@ void UnitNode::updDoubl()
         c->setDkInvolved(this->getDkInvolved());
         c->setIsAutoDkInvolved(this->getIsAutoDkInvolved());
         c->setWaitAutoCommand(this->getWaitAutoCommand());
+        c->setPublishedState(this->getPublishedState());
     }
 }
 
@@ -407,7 +481,7 @@ StateWord UnitNode::getStateWord(const uint8_t key) const
     if(0 != stateWords.count(key)) {
         try {
             return stateWords.at(key);
-        }  catch (std::out_of_range e) {
+        }  catch (const std::out_of_range &e) {
             return StateWord();
         }
     }
@@ -503,20 +577,6 @@ int UnitNode::getDefaultNeededStateWordType() const
     return defaultNeededStateWordType;
 }
 
-QSharedPointer<UnitNode> UnitNode::findReciver(QSharedPointer<UnitNode> reciver)
-{
-    while(!reciver.isNull()) {
-        if(TypeUnitNode::BL_IP == reciver->getType() ||
-           TypeUnitNode::RLM_KRL == reciver->getType() ||
-           TypeUnitNode::RLM_C == reciver->getType() ||
-           TypeUnitNode::TG_Base == reciver->getType()) {
-            return reciver;
-        }
-        reciver = reciver->getParentUN();
-    }
-    return reciver;
-}
-
 void UnitNode::setDefaultNeededStateWordType(int value)
 {
     defaultNeededStateWordType = value;
@@ -581,8 +641,8 @@ bool UnitNode::takeResetWaitAutoCommand()
 
 void UnitNode::calkStateUN(QString &comment, int &code) const
 {
-    if(TypeUnitNode::SD_BL_IP == getType() && !swpSDBLIPType0x41().isNull()) {
-        const auto &swpCurrent = swpSDBLIPType0x41();
+    if(TypeUnitNodeEnum::SD_BL_IP == getType() && !swpSDBLIPType0x41().isNull()) {
+        const auto& swpCurrent = swpSDBLIPType0x41();
 
         if(1 == swpCurrent.isOff()) {
             comment = QObject::tr("Выкл");
@@ -602,8 +662,8 @@ void UnitNode::calkStateUN(QString &comment, int &code) const
             comment = QObject::tr("Тревога-СРАБОТКА");
             code = 20;
         }
-    } else if(TypeUnitNode::IU_BL_IP == getType() && !swpIUBLIPType0x41().isNull()) {
-        const auto &swpCurrent = swpIUBLIPType0x41();
+    } else if(TypeUnitNodeEnum::IU_BL_IP == getType() && !swpIUBLIPType0x41().isNull()) {
+        const auto& swpCurrent = swpIUBLIPType0x41();
 
         if(1 == swpCurrent.isOff()) {
             comment = QObject::tr("Выкл");
@@ -612,8 +672,8 @@ void UnitNode::calkStateUN(QString &comment, int &code) const
             comment = QObject::tr("Вкл");
             code = 101;
         }
-    } else if(TypeUnitNode::RLM_KRL == getType() && !swpRLMType0x31().isNull()) {
-        const auto &swpCurrent = swpRLMType0x31();
+    } else if(TypeUnitNodeEnum::RLM_KRL == getType() && !swpRLMType0x31().isNull()) {
+        const auto& swpCurrent = swpRLMType0x31();
 
         if(1 == swpCurrent.isOff()) {
             comment = QObject::tr("Выкл");
@@ -643,8 +703,8 @@ void UnitNode::calkStateUN(QString &comment, int &code) const
             comment = QObject::tr("Тревога-СРАБОТКА");
             code = 20;
         }
-    } else if(TypeUnitNode::RLM_C == getType() && !swpRLMCType0x31().isNull()) {
-        const auto &swpCurrent = swpRLMCType0x31();
+    } else if(TypeUnitNodeEnum::RLM_C == getType() && !swpRLMCType0x31().isNull()) {
+        const auto& swpCurrent = swpRLMCType0x31();
 
         if(1 == swpCurrent.isOff()) {
             comment= QObject::tr("Выкл");
@@ -668,9 +728,9 @@ void UnitNode::calkStateUN(QString &comment, int &code) const
             comment = QObject::tr("Тревога-СРАБОТКА");
             code = 20;
         }
-    } else if(TypeUnitNode::TG == getType() && !swpTGType0x33().isNull()) {
-        const auto &swpCurrent = swpTGType0x33();
-        const auto &swpCurrentCi = swpCurrent.C(getNum2());
+    } else if(TypeUnitNodeEnum::TG == getType() && !swpTGType0x33().isNull()) {
+        const auto& swpCurrent = swpTGType0x33();
+        const auto& swpCurrentCi = swpCurrent.C(getNum2());
 
         if(1 == swpCurrentCi.isFault()) {
             //сохранение неисправность или Норма
@@ -691,9 +751,9 @@ void UnitNode::calkStateUN(QString &comment, int &code) const
             comment = QObject::tr("Тревога-СРАБОТКА");
             code = 20;
         }
-    } else if(TypeUnitNode::TG == getType() && !swpTGType0x32().isNull()) {
-        const auto &swpCurrent = swpTGType0x32();
-        const auto &swpCurrentCi = swpCurrent.C(getNum2());
+    } else if(TypeUnitNodeEnum::TG == getType() && !swpTGType0x32().isNull()) {
+        const auto& swpCurrent = swpTGType0x32();
+        const auto& swpCurrentCi = swpCurrent.C(getNum2());
 
         if(1 == swpCurrentCi.isFault()) {
             //сохранение неисправность или Норма
@@ -714,8 +774,8 @@ void UnitNode::calkStateUN(QString &comment, int &code) const
             comment = QObject::tr("Тревога-СРАБОТКА");
             code = 20;
         }
-    } else if(TypeUnitNode::TG == getType() && !swpTGType0x31().isNull()) {
-        const auto &swpCurrent = swpTGType0x31();
+    } else if(TypeUnitNodeEnum::TG == getType() && !swpTGType0x31().isNull()) {
+        const auto& swpCurrent = swpTGType0x31();
 
         if(1 == swpCurrent.isOff()) {
             comment = QObject::tr("Выкл");
@@ -748,24 +808,98 @@ void UnitNode::calkStateUN(QString &comment, int &code) const
     }
 }
 
+bool UnitNode::getNeedPostponeQueueMsg() const
+{
+    return needPostponeQueueMsg;
+}
+
+void UnitNode::setNeedPostponeQueueMsg(bool newNeedPostponeQueueMsg)
+{
+    needPostponeQueueMsg = newNeedPostponeQueueMsg;
+}
+
+int UnitNode::getTimeStatusConnectRequesterWaitAnswer() const
+{
+    return timeStatusConnectRequesterWaitAnswer;
+}
+
+void UnitNode::setTimeStatusConnectRequesterWaitAnswer(int newTimeStatusConnectRequesterWaitAnswer)
+{
+    timeStatusConnectRequesterWaitAnswer = newTimeStatusConnectRequesterWaitAnswer;
+}
+
+void UnitNode::resetTimeStatusConnectRequesterWaitAnswer()
+{
+    setTimeStatusConnectRequesterWaitAnswer(0);
+}
+
+void UnitNode::incrementTimeStatusConnectRequesterWaitAnswer(int incrementDelay)
+{
+    setTimeStatusConnectRequesterWaitAnswer(getTimeStatusConnectRequesterWaitAnswer() + incrementDelay);
+}
+
+void UnitNode::decrementTimeStatusConnectRequesterWaitAnswer(int decrementDelay)
+{
+    setTimeStatusConnectRequesterWaitAnswer(getTimeStatusConnectRequesterWaitAnswer() < decrementDelay ? 0 : getTimeStatusConnectRequesterWaitAnswer() - decrementDelay);
+}
+
+QSharedPointer<UnitNode> UnitNode::getInterrogationUN() const
+{
+    return interrogationUN;
+}
+
+void UnitNode::setInterrogationUN(QSharedPointer<UnitNode> newInterrogationUN)
+{
+    interrogationUN = newInterrogationUN;
+}
+
+bool UnitNode::isClearedAlarm() const
+{
+    return -1 == getClearedAlarm();
+}
+
+int UnitNode::getClearedAlarm() const
+{
+    return clearedAlarm;
+}
+
+void UnitNode::setClearedAlarm(int newClearedAlarm)
+{
+    clearedAlarm = newClearedAlarm;
+}
+
+void UnitNode::resetClearedAlarm()
+{
+    setClearedAlarm(-1);
+}
+
 void UnitNode::matchEditableControl()
 {
     if(!editableControl &&
-            ((TypeUnitNode::SD_BL_IP == getType() && 0 == getBazalt()) ||
-             TypeUnitNode::RLM_C == getType() ||
-             TypeUnitNode::RLM_KRL == getType() ||
-        TypeUnitNode::TG == getType() ||
-        TypeUnitNode::TG_Base == getType()))
+            ((TypeUnitNodeEnum::SSOI_SD_BL_IP == getType() && 0 == getBazalt())
+          || (TypeUnitNodeEnum::SD_BL_IP == getType() && 0 == getBazalt())
+          || TypeUnitNodeEnum::RLM_C == getType()
+          || TypeUnitNodeEnum::RLM_KRL == getType()
+          || TypeUnitNodeEnum::TG == getType()
+          || TypeUnitNodeEnum::TG_Base == getType()
+          || TypeUnitNodeEnum::BOD_T4K_M == getType()
+          || TypeUnitNodeEnum::Y4_T4K_M == getType()
+          || TypeUnitNodeEnum::DD_T4K_M == getType()
+          || TypeUnitNodeEnum::BOD_SOTA == getType()
+          || TypeUnitNodeEnum::Y4_SOTA == getType()
+          || TypeUnitNodeEnum::DD_SOTA == getType()))
         editableControl = true;
 }
 
 void UnitNode::matchEditableOnOff()
 {
     if(!editableOnOff &&
-       ((0 == getBazalt() && TypeUnitNode::SD_BL_IP == getType()) ||
-        TypeUnitNode::IU_BL_IP == getType() ||
-        TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType()/* ||
+       ((0 == getBazalt() && TypeUnitNodeEnum::SSOI_SD_BL_IP == getType())
+     || (0 == getBazalt() && TypeUnitNodeEnum::SD_BL_IP == getType())
+     || TypeUnitNodeEnum::IU_BL_IP == getType()
+     || TypeUnitNodeEnum::SSOI_IU_BL_IP == getType()
+     || TypeUnitNodeEnum::RLM_C == getType()
+     ||  TypeUnitNodeEnum::RLM_KRL == getType()/* ||
         TypeUnitNode::TG == getType()*/))
         editableOnOff = true;
 }
@@ -778,10 +912,24 @@ bool UnitNode::isNeedsPreamble() const
 void UnitNode::matchNeedsPreamble()
 {
     if(!needsPreamble &&
-       (TypeUnitNode::RLM_C == getType() ||
-        TypeUnitNode::RLM_KRL == getType() ||
-        TypeUnitNode::TG == getType() ||
-        TypeUnitNode::TG_Base == getType()))
+       (TypeUnitNodeEnum::SSOI_SD_BL_IP == getType()
+     || TypeUnitNodeEnum::SSOI_IU_BL_IP == getType()
+     || TypeUnitNodeEnum::SSOI_BL_IP == getType()
+
+     || TypeUnitNodeEnum::RLM_C == getType()
+
+     || TypeUnitNodeEnum::RLM_KRL == getType()
+
+     || TypeUnitNodeEnum::TG == getType()
+     || TypeUnitNodeEnum::TG_Base == getType()
+
+     || TypeUnitNodeEnum::BOD_T4K_M == getType()
+     || TypeUnitNodeEnum::Y4_T4K_M == getType()
+     || TypeUnitNodeEnum::DD_T4K_M == getType()
+
+     || TypeUnitNodeEnum::BOD_SOTA == getType()
+     || TypeUnitNodeEnum::Y4_SOTA == getType()
+     || TypeUnitNodeEnum::DD_SOTA == getType()))
         needsPreamble = true;
 }
 
@@ -792,7 +940,7 @@ bool UnitNode::isEditableOnOff() const
 
 UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
     /*UnitNodeCFG(static_cast<UnitNodeCFG*>(parent.data()))
-  , */ServerUnitNodeTreeItem(parent)
+  , */UnitNodeTreeItem(parent)
 {
     this->parentUN = parent;
 }
@@ -800,6 +948,11 @@ UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
 const SWPBLIPType0x41 UnitNode::swpBLIPType0x41() const {return SWPBLIPType0x41(getStateWord(0x41u));}
 const SWPSDBLIPType0x41 UnitNode::swpSDBLIPType0x41() const {return SWPSDBLIPType0x41(getStateWord(0x41u), getNum2());}
 const SWPIUBLIPType0x41 UnitNode::swpIUBLIPType0x41() const {return SWPIUBLIPType0x41(getStateWord(0x41u), getNum2());}
+const SWPSSOIBLIPType0x41 UnitNode::swpSSOIBLIPType0x41() const {return SWPSSOIBLIPType0x41(getStateWord(0x41u));}
+const SWPSSOISDBLIPType0x41 UnitNode::swpSSOISDBLIPType0x41() const {return SWPSSOISDBLIPType0x41(getStateWord(0x41u), getNum2());}
+const SWPSSOIIUBLIPType0x41 UnitNode::swpSSOIIUBLIPType0x41() const {return SWPSSOIIUBLIPType0x41(getStateWord(0x41u), getNum2());}
+const SWPSSOIBLIPType0x42 UnitNode::swpSSOIBLIPType0x42() const {return SWPSSOIBLIPType0x42(getStateWord(0x42u));}
+const SWPSSOISDBLIPType0x42 UnitNode::swpSSOISDBLIPType0x42() const {return SWPSSOISDBLIPType0x42(getStateWord(0x42u), getNum2());}
 const SWPBLIPType0x42 UnitNode::swpBLIPType0x42() const {return SWPBLIPType0x42(getStateWord(0x42u));}
 const SWPSDBLIPType0x42 UnitNode::swpSDBLIPType0x42() const {return SWPSDBLIPType0x42(getStateWord(0x42u), getNum2());}
 const SWPRLMType0x31 UnitNode::swpRLMType0x31() const {return SWPRLMType0x31(getStateWord(0x31u));}
@@ -808,25 +961,35 @@ const SWPTGType0x31 UnitNode::swpTGType0x31() const {return SWPTGType0x31(getSta
 const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getStateWord(0x34u));}
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWord(0x33u));}
 const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWord(0x32u));}
+const SWPT4KBODType0x32 UnitNode::swpT4KBODType0x32() const {return SWPT4KBODType0x32(getStateWord(0x32u));}
+const SWPT4KBODType0x33 UnitNode::swpT4KBODType0x33() const {return SWPT4KBODType0x33(getStateWord(0x33u));}
 
-const QQueue<QSharedPointer<ManagerSingleMsg>> &UnitNode::getQueueManagersSingleMsg()
+const QList<QSharedPointer<ManagerSingleMsg>> &UnitNode::getListManagersSingleMsg()
 {
     return queueManagersSingleMsg;
 }
 
-void UnitNode::pushUniqManagerSingleMsg(const QSharedPointer<ManagerSingleMsg> &mngr){
-    for(const auto &content : as_const(queueManagersSingleMsg)) {
+bool UnitNode::pushBackUniqManagerSingleMsg(const QSharedPointer<ManagerSingleMsg> &mngr){
+    for(const auto& content : as_const(queueManagersSingleMsg)) {
         if(content.data() == mngr.data())
-            return;
+            return false;
         if(content->equale(*mngr.data()))
-            return;
+            return false;
     }
-    queueManagersSingleMsg.enqueue(mngr);
+    queueManagersSingleMsg.push_back(mngr);
+    return true;
 };
 
-QSharedPointer<ManagerSingleMsg> UnitNode::pullManagerSingleMsg() {
+QSharedPointer<ManagerSingleMsg> UnitNode::takeFirstManagerSingleMsg() {
     if(!queueManagersSingleMsg.isEmpty())
-        return queueManagersSingleMsg.dequeue();
+        return queueManagersSingleMsg.takeFirst();
+    return QSharedPointer<ManagerSingleMsg>();
+}
+
+QSharedPointer<ManagerSingleMsg> UnitNode::getFirstManagerSingleMsg()
+{
+    if(!queueManagersSingleMsg.isEmpty())
+        return queueManagersSingleMsg.first();
     return QSharedPointer<ManagerSingleMsg>();
 };
 
@@ -836,7 +999,7 @@ const QQueue<DataQueueItem> &UnitNode::getQueueMsg()
 }
 
 void UnitNode::pushUniqQueueMsg(const DataQueueItem &msg){
-    for(const auto &content : as_const(queueMsg)) {
+    for(const auto& content : as_const(queueMsg)) {
         if(content.data() == msg.data())
             return;
     }
@@ -851,14 +1014,15 @@ DataQueueItem UnitNode::pullQueueMsg() {
 
 UnitNode::UnitNode(const UnitNode & parent) :
 //    UnitNodeCFG(static_cast<UnitNodeCFG>(parent)),
-    ServerUnitNodeTreeItem(),
+    UnitNodeTreeItem(),
     stateWords(parent.stateWords),
     metaNames(parent.metaNames),
+    parentUN(parent.parentUN),
     dkStatus(parent.dkStatus),
     dkInvolved(parent.dkInvolved),
-    publishedState(parent.publishedState),
     isAutoDkInvolved(parent.isAutoDkInvolved),
-    waitAutoCommand(parent.waitAutoCommand)
+    waitAutoCommand(parent.waitAutoCommand),
+    publishedState(parent.publishedState)
 {
     UnitNodeCFG::operator=(parent);
     TreeItem::operator=(parent);
@@ -902,35 +1066,33 @@ UnitNode & UnitNode::operator=(const UnitNode& c) {
     return *this;
 }
 
-bool &UnitNode::operator>(const UnitNode & un)
+bool UnitNode::operator>(const UnitNode & un) const
 {
-    bool result = true;
-
     if(0 >this->getUdpAdress().compare(un.getUdpAdress(), Qt::CaseInsensitive)) {
-        return result &= false;
+        return false;
     }
 
     if(this->getUdpPort() < un.getUdpPort()) {
-        return result &= false;
+        return false;
     }
 
     if(this->getType() < un.getType()) {
-        return result &= false;
+        return false;
     }
 
     if(this->getNum1() < un.getNum1()) {
-        return result &= false;
+        return false;
     }
 
     if(this->getNum2() < un.getNum2()) {
-        return result &= false;
+        return false;
     }
 
     if(this->getNum2() < un.getNum2()) {
-        return result &= false;
+        return false;
     }
 
-    return result;
+    return true;
 }
 
 QVariant UnitNode::dataTreeColumn(int column) const
@@ -943,7 +1105,49 @@ QVariant UnitNode::dataTreeColumn(int column) const
         }
         case 1:
         {
-            return this->getName();
+#ifdef QT_DEBUG
+            QString str = "{%7 ps:%1, n1:%2, n2:%3, n3:%4, dbl:%5} %6";
+            QString dbl;
+//            for(const auto& d : getDoubles()) {
+//                dbl.append(d->getName());
+//                dbl.append(",");
+//            }
+//            dbl.append("}");
+//            dbl.prepend("{");
+
+//            QMap<int, QString> mapDKCiclStatus = {
+//                {0,"DKIgnore"},
+//                {1,"DKReady"},
+//                {2,"DKNorm"},
+//                {3,"DKWasAlarn"},
+//                {4,"DKWas"},
+//                {5,"DKDone"},
+//                {-1,"DKWrong"}
+//            };
+            QString dk;
+            const auto& swp31 = swpTGType0x31();
+            const auto& swp32 = swpTGType0x32().C(getNum2());
+            const auto& swp33 = swpTGType0x33();
+            if(!swp31.isNull() && (swp32.cdate() < swp31.cdate() && swp33.cdate() < swp31.cdate())) {
+                dk.append(swp31.isExistDK() ? "1" : "0").append(swp31.isWasDK() ? "1" : "0");
+            } else if(!swp32.isNull() && (swp31.cdate() < swp32.cdate() && swp33.cdate() < swp32.cdate())) {
+                dk.append(swp32.isExistDK()).append(swp32.isWasDK());
+            } else if(!swp33.isNull() && (swp31.cdate() < swp33.cdate() && swp32.cdate() < swp33.cdate())) {
+                dk.append(swp33.isExistDK()).append(swp33.isWasDK());
+            }
+            str = str.arg(QString::number(getPublishedState()),
+                          QString::number(getNum1()),
+                          QString::number(getNum2()),
+                          QString::number(getNum3()),
+                          dbl,
+                          getName(),
+//                          mapDKCiclStatus.value(getDkStatus())
+                          dk
+                          );
+            return str;
+#else
+        return this->getName();
+#endif
         }
         default:
             return QVariant();
@@ -959,7 +1163,7 @@ QVariant UnitNode::dataTreeColumn(int column) const
 //    }
 //    tc->setTreeParentUN(QSharedPointer<UnitNode>());
 
-//    for(QSharedPointer<UnitNode> un : as_const(ServerSettingUtils::getListTreeUnitNodes())) {
+//    for(QSharedPointer<UnitNode> un : as_const(TopologyService::getListTreeUnitNodes())) {
 //        QMutableListIterator<QSharedPointer<UnitNode> > i(un->listTreeChilde);
 //        while (i.hasNext()) {
 //            if (tc.data() == i.next().data())
@@ -1053,39 +1257,76 @@ int UnitNode_BL_IP::isExistDK() const
 {
     if(getStateWord(0x41u).getByteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord(0x41u).getByteWord().at(1)) & 0x80)
+    if(static_cast<uint8_t>(getStateWord(0x41u).getByteWord().at(1)) & 0x80)
         return 1; // Status::Exists);
     else
         return 0; // Status::Not);
 }
 
-int UnitNode_BL_IP::isWasAlarm() const
+//int UnitNode_BL_IP::isWasAlarm() const
+//{
+//    if(getStateWord(0x41u).getByteWord().isEmpty())
+//        return -1;
+//    if(static_cast<uint8_t>(getStateWord(0x41u).getByteWord().at(1)) & 0x40)
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not);
+//}
+
+int UnitNode_SSOI_BL_IP::isExistDK() const
 {
     if(getStateWord(0x41u).getByteWord().isEmpty())
         return -1;
-    if(static_cast<quint8>(getStateWord(0x41u).getByteWord().at(1)) & 0x40)
-        return 1; //Status::Was);
+    if(static_cast<uint8_t>(getStateWord(0x41u).getByteWord().at(1)) & 0x80)
+        return 1; // Status::Exists);
     else
-        return 0; //Status::Not);
+        return 0; // Status::Not);
 }
 
+//int UnitNode_SSOI_BL_IP::isWasAlarm() const
+//{
+//    if(getStateWord(0x41u).getByteWord().isEmpty())
+//        return -1;
+//    if(static_cast<uint8_t>(getStateWord(0x41u).getByteWord().at(1)) & 0x40)
+//        return 1; //Status::Was);
+//    else
+//        return 0; //Status::Not);
+//}
+
 int UnitNode_SD_BL_IP::calcDKStatus() const {
+
     if(1 == swpSDBLIPType0x41().isWasAlarm() && 1 == swpSDBLIPType0x41().isAlarm()) {
-        return DKCiclStatus::DKWasAlarn;
+        return DKCiclStatus::DKWasAlarm;
     } else if(1 == swpSDBLIPType0x41().isNorm() && 1 == swpSDBLIPType0x41().isWasAlarm()) {
         return DKCiclStatus::DKWas;
 //            return DKCiclStatus::DKWrong;
-    } else if(1 == swpSDBLIPType0x41().isAlarm()) {
-        return DKCiclStatus::DKWrong;
-//            return DKCiclStatus::DKWasAlarn;
+//    } else if(1 == swpSDBLIPType0x41().isAlarm()) {
+//        return DKCiclStatus::DKWrong;
+////            return DKCiclStatus::DKWasAlarn;
     } else if(1 == swpSDBLIPType0x41().isOff()) {
         return DKCiclStatus::DKWrong;
     } else if(1 == swpSDBLIPType0x41().isNorm()) {
         return DKCiclStatus::DKNorm;
     }
-    return DKCiclStatus::DKWrong;
+    return getDkStatus();
+//    return DKCiclStatus::DKWrong;
 }
 
+int UnitNode_SSOI_SD_BL_IP::calcDKStatus() const {
+
+    if(1 == swpSSOISDBLIPType0x41().isWasAlarm()
+    && 1 == swpSSOISDBLIPType0x41().isAlarm()) {
+        return DKCiclStatus::DKWasAlarm;
+    } else if(1 != swpSSOISDBLIPType0x41().isInAlarm()
+           && 1 == swpSSOISDBLIPType0x41().isWasAlarm()) {
+        return DKCiclStatus::DKWas;
+    } else if(1 == swpSSOISDBLIPType0x41().isOff()) {
+        return DKCiclStatus::DKWrong;
+    } else if(1 == swpSSOISDBLIPType0x41().isNorm()) {
+        return DKCiclStatus::DKNorm;
+    }
+    return getDkStatus();
+}
 
 int UnitNode_TG::calcDKStatus() const {
 //    const auto swp31 = swpTGType0x31();
@@ -1103,7 +1344,7 @@ int UnitNode_TG::calcDKStatus() const {
     } else*/ if(!swp32.isNull() && !swp33.isNull() && (swp32.cdate() >= swp33.cdate())) {
         //
         if(1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isSideAlarm()) {
-            return DKCiclStatus::DKWasAlarn;
+            return DKCiclStatus::DKWasAlarm;
         } else if(0 == swp32.C(getNum2()).isInAlarm() && 0 == swp32.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKNorm;
         }
@@ -1111,7 +1352,7 @@ int UnitNode_TG::calcDKStatus() const {
     } else if(!swp33.isNull()) {
         //
         if(1 == swp33.C(getNum2()).isInAlarm() || 1 == swp33.C(getNum2()).isSideAlarm()) {
-            return DKCiclStatus::DKWasAlarn;
+            return DKCiclStatus::DKWasAlarm;
         } else if(0 == swp33.C(getNum2()).isInAlarm() && 0 == swp33.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKNorm;
         }
@@ -1119,7 +1360,7 @@ int UnitNode_TG::calcDKStatus() const {
     } else if(!swp32.isNull()) {
         //
         if(1 == swp32.C(getNum2()).isInAlarm() || 1 == swp32.C(getNum2()).isSideAlarm()) {
-            return DKCiclStatus::DKWasAlarn;
+            return DKCiclStatus::DKWasAlarm;
         } else if(0 == swp32.C(getNum2()).isInAlarm() && 0 == swp32.C(getNum2()).isOutAlarm()) {
             return DKCiclStatus::DKNorm;
         }
@@ -1141,7 +1382,7 @@ int UnitNode_RLM_KRL::calcDKStatus() const {
 
     if(!swp.isNull()) {
         if(1 == swp.isAlarm() && 1 == swp.isWasAlarm()) {
-            return DKCiclStatus::DKWasAlarn;
+            return DKCiclStatus::DKWasAlarm;
         } else if(1 == swp.isOn() && 1 == swp.isNorm()) {
             return DKCiclStatus::DKNorm;
         }
@@ -1154,10 +1395,719 @@ int UnitNode_RLM_C::calcDKStatus() const {
 
     if(!swp.isNull()) {
         if(1 == swp.isAlarm() && 1 == swp.isWasAlarm()) {
-            return DKCiclStatus::DKWasAlarn;
+            return DKCiclStatus::DKWasAlarm;
         } else if(1 == swp.isOn() && 1 == swp.isNorm()) {
             return DKCiclStatus::DKNorm;
         }
     }
     return DKCiclStatus::DKWas;
+}
+
+std::function<void ()> UnitNode::getUpdateStateConditionReactor() const
+{
+    return updateStateConditionReactor;
+}
+
+void UnitNode::setUpdateStateConditionReactor(const std::function<void ()> &value)
+{
+    updateStateConditionReactor = value;
+}
+
+void UnitNode::callUpdateStateConditionReactor()
+{
+    if(updateStateConditionReactor) {
+        const auto tmp = getUpdateStateConditionReactor();
+
+        std::function<void()> empty;
+        setUpdateStateConditionReactor(empty);
+
+        tmp();
+    }
+}
+
+QPixmap UnitNode_SYSTEM::getPxm() const
+{
+    return Icons::fldr();
+}
+
+QPixmap UnitNode_GROUP::getPxm() const
+{
+    if(childCount())
+        return Icons::fldr();
+    else
+        return Icons::fldr_empt();
+    return QPixmap();
+}
+
+QPixmap UnitNode_SD_BL_IP::getPxm() const
+{
+    if(13 == getPublishedState() && !(TypeUnitNodeEnum::SD_BL_IP == getType() && 1 == getBazalt())) {
+        if(getControl()) {
+            return Icons::sqr_blu();
+        } else if(!getControl()) {
+            return Icons::sqr_blk_crs_blu();
+        }
+    } else if(TypeUnitNodeEnum::SD_BL_IP == getType()) {
+        const SWPSDBLIPType0x41 swp = swpSDBLIPType0x41();
+        if(0 == getBazalt()) {
+            if(getControl()
+            && swp.isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()
+                   && swp.isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swp.isWasAlarm()
+                   && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swp.isWasAlarm()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swp.isAlarm()
+                   && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swp.isAlarm()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swp.isOff()
+                   && getControl()) {
+                return Icons::sqr_blk();
+            } else if(1 == swp.isOff()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_gry();
+            } else if(1 == swp.isNorm()
+                   && getControl()) {
+                return Icons::sqr_grn();
+            } else if(1 == swp.isNorm()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_grn();
+            } else if(getControl()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()) {
+                return Icons::sqr_blk_crs_ylw();
+            }
+        } else { // это узо
+            if(getControl()
+            && swp.isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()
+                   && swp.isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swp.isOff()) {
+                return Icons::sqr_blk();
+            } else if(13 == getPublishedState()
+                   && 1 == swp.isAlarm()) {
+                return Icons::sqr_blu_opn();
+            } else if(13 == getPublishedState()
+                   && 1 == swp.isNorm()) {
+                return Icons::sqr_blu_cls();
+            } else if(1 == swp.isAlarm()) {
+                return Icons::sqr_rd_opn();
+            } else if(1 == swp.isNorm()) {
+                return Icons::sqr_grn_cls();
+            } else {
+                return Icons::sqr_ylw();
+            }
+        }
+    }
+
+    return QPixmap();
+}
+
+QPixmap UnitNode_IU_BL_IP::getPxm() const
+{
+    const SWPIUBLIPType0x41 swp = swpIUBLIPType0x41();
+    if(swp.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(1 == swp.isOn()) {
+        return Icons::sqr_grn_crs2_rd();
+    } else if(1 == swp.isOff()) {
+        return Icons::sqr_grn_mns_gry();
+    } else
+        return Icons::sqr_ylw();
+    return QPixmap();
+}
+
+QPixmap UnitNode_RLM_C::getPxm() const {
+    const SWPRLMCType0x31 swp = swpRLMCType0x31();
+    if(getControl()
+    && swp.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()
+           && swp.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(1 == swp.isOff()
+           && getControl()) {
+        return Icons::sqr_blk();
+    } else if(1 == swp.isOff()
+           && !getControl()) {
+        return Icons::sqr_blk_crs_gry();
+    } else if(1 == swp.isFault()
+           && getControl()) {
+        return Icons::sqr_blu();
+    } else if(1 == swp.isFault()
+           && !getControl()) {
+        return Icons::sqr_blk_crs_blu();
+    } else if(((1 == swp.isAlarm()
+             || 1 == swp.isWasAlarm())
+            && !(getIsAutoDkInvolved()
+              && getDkInvolved()))
+           && 1 == swp.isOn()
+           && getControl()) {
+        return Icons::sqr_rd();
+    } else if(((1 == swp.isAlarm()
+             || 1 == swp.isWasAlarm())
+            && !(getIsAutoDkInvolved()
+              && getDkInvolved()))
+           && 1 == swp.isOn()
+           && !getControl()) {
+        return Icons::sqr_blk_crs_rd();
+    } else if(1 == swp.isNorm()
+           && getControl()) {
+        return Icons::sqr_grn();
+    } else if(1 == swp.isNorm()
+           && !getControl()) {
+        return Icons::sqr_blk_crs_grn();
+    } else if(getControl()) {
+        return Icons::sqr_grn();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_grn();
+    }
+    return QPixmap();
+}
+
+QPixmap UnitNode_RLM_KRL::getPxm() const {
+    const SWPRLMType0x31 swp = swpRLMType0x31();
+    if(getControl()
+    && swp.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()
+           && swp.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(1 == swp.isOff()
+           && getControl()) {
+        return Icons::sqr_blk();
+    } else if(1 == swp.isOff()
+           && !getControl()) {
+        return Icons::sqr_blk_crs_gry();
+    } else if(1 == swp.isFault()
+           && getControl()) {
+        return Icons::sqr_blu();
+    } else if(1 == swp.isFault()
+           && !getControl()) {
+        return Icons::sqr_blk_crs_blu();
+    } else if(((1 == swp.isAlarm()
+             || 1 == swp.isWasAlarm())
+            && !(getIsAutoDkInvolved()
+              && getDkInvolved()))
+           && 1 == swp.isOn()
+           && getControl()) {
+        return Icons::sqr_rd();
+    } else if(((1 == swp.isAlarm()
+             || 1 == swp.isWasAlarm())
+            && !(getIsAutoDkInvolved()
+              && getDkInvolved()))
+           && 1 == swp.isOn()
+           && !getControl()) {
+        return Icons::sqr_blk_crs_rd();
+    } else if(1 == swp.isNorm()
+           && getControl()) {
+        return Icons::sqr_grn();
+    } else if(1 == swp.isNorm()
+           && !getControl()) {
+        return Icons::sqr_blk_crs_grn();
+    } else if(getControl()) {
+        return Icons::sqr_grn();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_grn();
+    }
+    return QPixmap();
+}
+
+QPixmap UnitNode_TG::getPxm() const {
+    const SWPTGType0x31 swp31 = swpTGType0x31();
+    const SWPTGType0x32 swp32 = swpTGType0x32();
+    const SWPTGType0x33 swp33 = swpTGType0x33();
+    if(getControl() && swp31.isNull() && swp32.isNull() && swp33.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl() && swp31.isNull() && swp32.isNull() && swp33.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(!swp31.isNull() && (swp32.cdate() < swp31.cdate() && swp33.cdate() < swp31.cdate())) {
+        if(1 == swp31.isOff() && getControl()) {
+            return Icons::sqr_blk();
+        } else if(1 == swp31.isOff() && !getControl()) {
+            return Icons::sqr_blk_crs_gry();
+        } else if((((1 == swp31.isAlarm()
+                  || 1 == swp31.isInAlarm()
+                  || 1 == swp31.isOutAlarm())
+                 && !(getIsAutoDkInvolved()
+                   && getDkInvolved()))
+                 || 1 == swp31.isOpened()
+                 || 1 == swp31.isWasOpened()
+                 || 1 == swp31.isInOpened())
+                && getControl()) {
+            return Icons::sqr_rd();
+        } else if((((1 == swp31.isAlarm()
+                  || 1 == swp31.isInAlarm()
+                  || 1 == swp31.isOutAlarm())
+                 && !(getIsAutoDkInvolved()
+                   && getDkInvolved()))
+                 || 1 == swp31.isOpened()
+                 || 1 == swp31.isWasOpened()
+                 || 1 == swp31.isInOpened())
+                && !getControl()) {
+            return Icons::sqr_blk_crs_rd();
+        } else if(1 == swp31.isNorm() && getControl()) {
+            return Icons::sqr_grn();
+        } else if(1 == swp31.isNorm() && !getControl()) {
+            return Icons::sqr_blk_crs_grn();
+        } else if(getControl()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(!swp32.isNull() && (swp31.cdate() < swp32.cdate() && swp33.cdate() < swp32.cdate())) {
+        if(1 == swp32.C(getNum2()).isFault() && getControl()) {
+            return Icons::sqr_blu();
+        } else if(1 == swp32.C(getNum2()).isFault() && !getControl()) {
+            return Icons::sqr_blk_crs_blu();
+        } else if((((1 == swp32.C(getNum2()).isAlarm()
+                  || 1 == swp32.C(getNum2()).isOutAlarm()
+                  || 1 == swp32.C(getNum2()).isInAlarm())
+                 && !(getIsAutoDkInvolved()
+                   && getDkInvolved()))
+                 || 1 == swp32.C(getNum2()).isOpened()
+                 || 1 == swp32.C(getNum2()).isWasOpened()
+                 || 1 == swp32.C(getNum2()).isInOpened())
+                && getControl()) {
+            return Icons::sqr_rd();
+        } else if((((1 == swp32.C(getNum2()).isAlarm()
+                  || 1 == swp32.C(getNum2()).isOutAlarm()
+                  || 1 == swp32.C(getNum2()).isInAlarm())
+                 && !(getIsAutoDkInvolved()
+                   && getDkInvolved()))
+                 || 1 == swp32.C(getNum2()).isOpened()
+                 || 1 == swp32.C(getNum2()).isWasOpened()
+                 || 1 == swp32.C(getNum2()).isInOpened())
+                && !getControl()) {
+            return Icons::sqr_blk_crs_rd();
+        } else if(1 == swp32.C(getNum2()).isNorm() && getControl()) {
+            return Icons::sqr_grn();
+        } else if(1 == swp32.C(getNum2()).isNorm() && !getControl()) {
+            return Icons::sqr_blk_crs_grn();
+        } else if(getControl()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(!swp33.isNull() && (swp31.cdate() < swp33.cdate() && swp32.cdate() < swp33.cdate())) {
+        if(1 == swp33.C(getNum2()).isFault() && getControl()) {
+            return Icons::sqr_blu();
+        } else if(1 == swp33.C(getNum2()).isFault() && !getControl()) {
+            return Icons::sqr_blk_crs_blu();
+        } else if((((1 == swp33.C(getNum2()).isAlarm()
+                  || 1 == swp33.C(getNum2()).isInAlarm()
+                  || 1 == swp33.C(getNum2()).isOutAlarm())
+                 && !(getIsAutoDkInvolved()
+                   && getDkInvolved()))
+                 || 1 == swp33.C(getNum2()).isOpened()
+                 || 1 == swp33.C(getNum2()).isWasOpened()
+                 || 1 == swp33.C(getNum2()).isInOpened())
+                && getControl()) {
+            return Icons::sqr_rd();
+        } else if((((1 == swp33.C(getNum2()).isAlarm()
+                  || 1 == swp33.C(getNum2()).isInAlarm()
+                  || 1 == swp33.C(getNum2()).isOutAlarm())
+                 && !(getIsAutoDkInvolved()
+                   && getDkInvolved()))
+                 || 1 == swp33.C(getNum2()).isOpened()
+                 || 1 == swp33.C(getNum2()).isWasOpened()
+                 || 1 == swp33.C(getNum2()).isInOpened())
+                && !getControl()) {
+            return Icons::sqr_blk_crs_rd();
+        } else if(1 == swp33.C(getNum2()).isNorm() && getControl()) {
+            return Icons::sqr_grn();
+        } else if(1 == swp33.C(getNum2()).isNorm() && !getControl()) {
+            return Icons::sqr_blk_crs_grn();
+        } else if(getControl()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } /*else if(!swp34.isNull()) {
+
+    } */else if(getControl()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_ylw();
+    }
+    return QPixmap();
+}
+
+QPixmap UnitNode_SSOI_SD_BL_IP::getPxm() const
+{
+    if(13 == getPublishedState() && !(TypeUnitNodeEnum::SSOI_SD_BL_IP == getType() && 1 == getBazalt())) {
+        if(getControl()) {
+            return Icons::sqr_blu();
+        } else if(!getControl()) {
+            return Icons::sqr_blk_crs_blu();
+        }
+    } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == getType()) {
+        const SWPSSOISDBLIPType0x41 swp = swpSSOISDBLIPType0x41();
+        if(0 == getBazalt()) {
+            if(getControl()
+            && swp.isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()
+                   && swp.isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(9 == getNum2()
+                   && 1 == swp.isWasOpened()
+                   && getControl()) {
+                return Icons::sqr_rd();
+            } else if(9 == getNum2()
+                   && 1 == swp.isWasOpened()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(9 == getNum2()
+                   && 1 == swp.isInOpened()
+                   && getControl()) {
+                return Icons::sqr_rd();
+            } else if(9 == getNum2()
+                   && 1 == swp.isInOpened()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swp.isWasAlarm()
+                   && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swp.isWasAlarm()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swp.isInAlarm()
+                   && getControl()) {
+                return Icons::sqr_rd();
+            } else if(1 == swp.isInAlarm()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_rd();
+            } else if(1 == swp.isOff()
+                   && getControl()) {
+                return Icons::sqr_blk();
+            } else if(1 == swp.isOff()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_gry();
+            } else if(1 == swp.isNorm()
+                   && getControl()) {
+                return Icons::sqr_grn();
+            } else if(1 == swp.isNorm()
+                   && !getControl()) {
+                return Icons::sqr_blk_crs_grn();
+            } else if(getControl()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()) {
+                return Icons::sqr_blk_crs_ylw();
+            }
+        } else { // это узо
+            if(getControl()
+            && swp.isNull()) {
+                return Icons::sqr_ylw();
+            } else if(!getControl()
+                   && swp.isNull()) {
+                return Icons::sqr_blk_crs_ylw();
+            } else if(1 == swp.isOff()) {
+                return Icons::sqr_blk();
+            } else if(13 == getPublishedState()
+                   && 1 == swp.isInAlarm()) {
+                return Icons::sqr_blu_opn();
+            } else if(13 == getPublishedState()
+                   && 1 == swp.isInNorm()) {
+                return Icons::sqr_blu_cls();
+            } else if(1 == swp.isInAlarm()) {
+                return Icons::sqr_rd_opn();
+            } else if(1 == swp.isInNorm()) {
+                return Icons::sqr_grn_cls();
+            } else {
+                return Icons::sqr_ylw();
+            }
+        }
+    }
+
+    return QPixmap();
+}
+
+QPixmap UnitNode_SSOI_IU_BL_IP::getPxm() const
+{
+    const SWPSSOIIUBLIPType0x41 swp = swpSSOIIUBLIPType0x41();
+    if(swp.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(1 == swp.isOn()) {
+        return Icons::sqr_grn_crs2_rd();
+    } else if(1 == swp.isOff()) {
+        return Icons::sqr_grn_mns_gry();
+    } else
+        return Icons::sqr_ylw();
+    return QPixmap();
+}
+
+QPixmap UnitNode_BOD_T4K_M::getPxm() const
+{
+    const auto& swp32 = swpT4KBODType0x32();
+    const auto& swp33 = swpT4KBODType0x33();
+    if(getControl() && swp32.isNull() && swp33.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()
+           && swp32.isNull()
+           && swp33.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(!swp32.isNull()
+           && swp33.cdate() < swp32.cdate()) {
+        if(0 == swp32.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(!swp33.isNull() && swp32.cdate() < swp33.cdate()) {
+        if(0 == swp33.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(getControl()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_ylw();
+    }
+    return Icons::sqr_gry_qstn();
+}
+
+int UnitNode_BOD_T4K_M::calcDKStatus() const
+{
+    int result = getDkStatus();
+    const auto& swp32 = swpT4KBODType0x32();
+    const auto& swp33 = swpT4KBODType0x32();
+
+    for(const auto &y4 : {1,2,3,4}) {
+        if(swp32.isNull()
+        && swp32.isNull()) {
+            result = DKCiclStatus::DKWrong;
+            break;
+        } else if((!swp32.isNull()
+                && (swp32.cdate() > swp33.cdate()))
+               && (1 == swp32.isReady()
+                || 1 == swp32.y(y4).isInAlarm()
+                || 1 == swp32.y(y4).isWasAlarm())) {
+            result = DKCiclStatus::DKWasAlarm;
+        } else if((!swp33.isNull()
+                && (swp33.cdate() > swp32.cdate()))
+               && (1 == swp33.isReady()
+                || 1 == swp33.y(y4).isInAlarm()
+                || 1 == swp33.y(y4).isWasAlarm())) {
+            result = DKCiclStatus::DKWasAlarm;
+        } else if((!swp32.isNull()
+                && (swp32.cdate() > swp33.cdate()))
+               && (1 == swp32.isReady()
+                || 0 == swp32.y(y4).isWasAlarm())) {
+            result = DKCiclStatus::DKNorm;
+            break;
+        } else if((!swp33.isNull()
+                && (swp33.cdate() > swp32.cdate()))
+               && (1 == swp33.isReady()
+                || 0 == swp33.y(y4).isWasAlarm())) {
+            result = DKCiclStatus::DKNorm;
+            break;
+        } else {
+            return DKCiclStatus::DKWas;
+        }
+    }
+    if(DKCiclStatus::DKWasAlarm == result) {
+        return result;
+    }
+
+    for(const auto &y4 : {1,2,3,4}) {
+        if(swp32.isNull()
+        && swp32.isNull()) {
+            result = DKCiclStatus::DKWrong;
+            break;
+        } else if((!swp32.isNull()
+                && (swp32.cdate() > swp33.cdate()))
+               && (1 == swp32.isReady()
+                || 1 == swp32.y(y4).isInAlarm()
+                || 1 == swp32.y(y4).isWasAlarm())) {
+            result = DKCiclStatus::DKWasAlarm;
+            break;
+        } else if((!swp33.isNull()
+                && (swp33.cdate() > swp32.cdate()))
+               && (1 == swp33.isReady()
+                || 1 == swp33.y(y4).isInAlarm()
+                || 1 == swp33.y(y4).isWasAlarm())) {
+            result = DKCiclStatus::DKWasAlarm;
+            break;
+        } else if((!swp32.isNull()
+                && (swp32.cdate() > swp33.cdate()))
+               && (1 == swp32.isReady()
+                || 0 == swp32.y(y4).isWasAlarm())) {
+            result = DKCiclStatus::DKNorm;
+        } else if((!swp33.isNull()
+                && (swp33.cdate() > swp32.cdate()))
+               && (1 == swp33.isReady()
+                || 0 == swp33.y(y4).isWasAlarm())) {
+            result = DKCiclStatus::DKNorm;
+        } else {
+            return DKCiclStatus::DKWas;
+        }
+    }
+    if(DKCiclStatus::DKNorm == result) {
+        return result;
+    }
+
+    return result;
+}
+
+QPixmap UnitNode_Y4_T4K_M::getPxm() const
+{
+    const auto& swp32 = swpT4KBODType0x32();
+    const auto& swp33 = swpT4KBODType0x33();
+    if(getControl() && swp32.isNull() && swp33.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()
+           && swp32.isNull()
+           && swp33.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(!swp32.isNull()
+           && swp33.cdate() < swp32.cdate()) {
+        if(0 == swp32.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(!swp33.isNull() && swp32.cdate() < swp33.cdate()) {
+        if(0 == swp33.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(getControl()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_ylw();
+    }
+    return Icons::sqr_gry_qstn();
+}
+
+QPixmap UnitNode_DD_T4K_M::getPxm() const
+{
+    const auto& swp32 = swpT4KBODType0x32();
+    const auto& swp33 = swpT4KBODType0x33();
+    if(getControl() && swp32.isNull() && swp33.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()
+           && swp32.isNull()
+           && swp33.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(!swp32.isNull()
+           && swp33.cdate() < swp32.cdate()) {
+        if(0 == swp32.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && (12 == getPublishedState()
+                || 13 == getPublishedState())){
+            return Icons::sqr_blu();
+        } else if(!getControl()
+               && (12 == getPublishedState()
+                || 13 == getPublishedState())){
+            return Icons::sqr_blk_crs_blu();
+        } else if(getControl()
+            && (20 == getPublishedState()
+             || 21 == getPublishedState()
+             || 22 == getPublishedState()
+             || 23 == getPublishedState())){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && (20 == getPublishedState()
+                || 21 == getPublishedState()
+                || 22 == getPublishedState()
+                || 23 == getPublishedState())){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(!swp33.isNull() && swp32.cdate() < swp33.cdate()) {
+        if(0 == swp33.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && (12 == getPublishedState()
+                || 13 == getPublishedState())){
+            return Icons::sqr_blu();
+        } else if(!getControl()
+               && (12 == getPublishedState()
+                || 13 == getPublishedState())){
+               return Icons::sqr_blk_crs_blu();
+        } else if(getControl()
+               && (20 == getPublishedState()
+                || 21 == getPublishedState()
+                || 22 == getPublishedState()
+                || 23 == getPublishedState())){
+               return Icons::sqr_rd();
+        } else if(!getControl()
+               && (20 == getPublishedState()
+                || 21 == getPublishedState()
+                || 22 == getPublishedState()
+                || 23 == getPublishedState())){
+               return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+               return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+               return Icons::sqr_blk_crs_grn();
+        }
+    } else if(getControl()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_ylw();
+    }
+    return Icons::sqr_gry_qstn();
+
 }

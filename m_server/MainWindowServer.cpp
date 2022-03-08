@@ -3,9 +3,9 @@
 
 #include "ComboBoxDelegate.h"
 #include <QCloseEvent>
-#include <QMessageBox>
 #include <QNetworkDatagram>
 #include <QTimer>
+#include <QHeaderView>
 
 #include "Port.h"
 #include "SignalSlotCommutator.h"
@@ -13,17 +13,24 @@
 #include "ServerSettingUtils.h"
 #include "global.h"
 
-#include "SWPRLMType0x31.h"
-#include "SWPRLMCType0x31.h"
-#include "SWPSDBLIPType0x41.h"
-#include "SWPIUBLIPType0x41.h"
-#include "SWPTGType0x31.h"
+#include "swprlm/SWPRLMType0x31.h"
+#include "swprlmc/SWPRLMCType0x31.h"
+#include "swpblip/SWPSDBLIPType0x41.h"
+#include "swpblip/SWPIUBLIPType0x41.h"
+#include "swptg/SWPTGType0x31.h"
 #include "ServerTableModelJour.h"
+#include <IniFileService.h>
+#include <MessageBoxServer.h>
 #include <QScrollBar>
-#include "SWPTGSubType0x34.h"
-#include "SWPTGType0x34.h"
+#include "TopologyService.h"
+#include "swptg/SWPTGSubType0x34.h"
+#include "swptg/SWPTGType0x34.h"
+#include "swpssoiblip/SWPSSOISDBLIPType0x41.h"
+#include "swpssoiblip/SWPSSOIIUBLIPType0x41.h"
 
 #include "SoundAdjuster.h"
+
+#include "UnitNodeFactory.h"
 
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
@@ -53,7 +60,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 #endif
 
     QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
-    this->setWindowTitle(tr("Сервер") + " - " + buildPrefix + date.toString("dd.MM.yyyy"));
+    this->setWindowTitle(tr("Сервер") + " - " + buildPrefix + "." + date.toString("dd.MM.yyyy"));
 
 //    this->ruTranslator = new QTranslator(this);
 //    this->ruTranslator->load("app_ru");
@@ -77,6 +84,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     modelTreeUN = QSharedPointer<ServerTreeModelUnitNode>::create(this);
     modelJour->setFont(ui->tableView->font());
+    modelJour->setForegroundRoleFlag(SwitchOffCondition::RegularOn);
+    modelJour->setDecorationRoleFlag(SwitchOffCondition::RegularOn);
+    modelJour->setEnabledReasonMeasure(true);
 
     connect(ui->tableView->verticalScrollBar(),
             SIGNAL(valueChanged(int)),
@@ -135,6 +145,10 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             this,
             SLOT(startWaitProgressBar(int)));
     connect(&SignalSlotCommutator::instance(),
+            SIGNAL(startLockWait(int,int)),
+            this,
+            SLOT(startWaitProgressBar(int,int)));
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(stopLockWait()),
             this,
             SLOT(stopWaitProgressBar()));
@@ -150,9 +164,9 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SLOT(beatWaitProgressBar()));
 
     connect(&SignalSlotCommutator::instance(),
-            SIGNAL(changeSelectUN(QSharedPointer<UnitNode> )),
+            SIGNAL(changeSelectUN(QSharedPointer<UnitNode>)),
             this,
-            SLOT(changeSelectUN(QSharedPointer<UnitNode> )));
+            SLOT(changeSelectUN(QSharedPointer<UnitNode>)));
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(forcedNewDuty(bool)),
             this,
@@ -163,11 +177,14 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             this,
             SLOT(initLabelOperator()));
 
-    ui->treeView->resizeColumnToContents(0);
-    ui->treeView->resizeColumnToContents(1);
-    ui->treeView->setColumnWidth(0, 95);
 
-    ui->tableView->resizeColumnToContents(0);
+    ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->treeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+
+    ui->treeView->setStyleSheet("QTreeView::item{ height: 21px; margin: 0px 15px 0px 15px; padding: 0px; border-image: none;}");/*border:1px*/
+
+    if(!modelJour->getListJour().isEmpty())
+        ui->tableView->verticalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->tableView->resizeColumnToContents(1);
     ui->tableView->resizeColumnToContents(2);
     ui->tableView->resizeColumnToContents(3);
@@ -233,7 +250,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     connect(ui->comboBox_PointInput, SIGNAL(currentIndexChanged(int)), this, SLOT(fillPageTGAtPointInput(int)));
 
     connect(&SignalSlotCommutator::instance(),
-            SIGNAL(insNewJourMSG(const quint32)),
+            SIGNAL(insNewJourMSG(uint32_t)),
             this,
             SLOT(updateLabelCount()));
 
@@ -243,7 +260,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SLOT(updateLabelCount()));
 
     connect(&SignalSlotCommutator::instance(),
-            SIGNAL(updJourMSG(const quint32)),
+            SIGNAL(updJourMSG(uint32_t)),
             this,
             SLOT(updateLabelCount()));
 
@@ -272,7 +289,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     connect(
       ui->tableView->selectionModel(),
-      SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+      SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
       SLOT(tableView_selectionChanged())
      );    
     connect(
@@ -285,13 +302,36 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     statusBar()->addWidget(m_labelClientCounter.data());
     connect(&SignalSlotCommutator::instance(), SIGNAL(changeCountIntegrationAbonent(int)), this, SLOT(changLabelClientCounter(int)));
 
-    SoundAdjuster::init();
+//    SoundAdjuster::instance().init();
+
+
+    connect(ui->splitter_TreeVsCustomization,
+            SIGNAL(splitterMoved(int,int)),
+            SLOT(splitterMovedSlot()));
+
+    connect(ui->splitter_JourVsDiagnostics,
+            SIGNAL(splitterMoved(int,int)),
+            SLOT(splitterMovedSlot()));
+
+    connect(ui->treeView->selectionModel(),
+            SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+            this,
+            SLOT(treeView_selectionChanged(QItemSelection,QItemSelection)));
+
+
+    qDebug() << "ServerSettingUtils::checkAuditAdm -->" << ServerSettingUtils::checkAuditAdm();
+}
+
+void MainWindowServer::splitterMovedSlot(){
+    qDebug() << "Customization" << ui->groupBox_Customization->size();
+    qDebug() << "Diagnostic" << ui->tableWidget_Diagnostic->size() << ui->groupBox_Diagnostics->size();
 
 }
 
+
 MainWindowServer::~MainWindowServer()
 {
-    on_pushButtonAlarmReset_clicked();
+    on_pushButtonResetFlags_clicked();
 
     JourEntity msg;
     msg.setObject(tr("Оператор"));
@@ -314,11 +354,11 @@ void MainWindowServer::write()
     return;
 
     QByteArray Data;
-    Data.append(static_cast<quint8>(0xB5));
-    Data.append(static_cast<quint8>(0xFF));
+    Data.append(static_cast<uint8_t>(0xB5));
+    Data.append(static_cast<uint8_t>(0xFF));
     Data.append(static_cast<char>(0x00));
-    Data.append(static_cast<quint8>(0x22));
-    Data.append(static_cast<quint8>(0x21));
+    Data.append(static_cast<uint8_t>(0x22));
+    Data.append(static_cast<uint8_t>(0x21));
 
     DataQueueItem itm(Data, QHostAddress("192.168.0.254"), 4001, 0);
 
@@ -342,9 +382,9 @@ void MainWindowServer::updComboBox(QList<QString> lst, QComboBox * cmb) {
 
 void MainWindowServer::tuneDefaultNeededStateWordTypeSelectedlUN() const {
     if(!selUN.isNull()) {
-        if(TypeUnitNode::TG == selUN->getType() ||
-           TypeUnitNode::SD_BL_IP == selUN->getType() ||
-           TypeUnitNode::IU_BL_IP == selUN->getType()) {
+        if(TypeUnitNodeEnum::TG == selUN->getType() ||
+           TypeUnitNodeEnum::SD_BL_IP == selUN->getType() ||
+           TypeUnitNodeEnum::IU_BL_IP == selUN->getType()) {
             if(!selUN->getParentUN().isNull()) {
                 selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
                 selUN->getParentUN()->leftoversCounter.counter = 0;
@@ -360,11 +400,16 @@ void MainWindowServer::tuneDefaultNeededStateWordTypeSelectedlUN() const {
 
 void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
     if(!selUN.isNull()) {
-        if(TypeUnitNode::TG == selUN->getType() ||
-           TypeUnitNode::SD_BL_IP == selUN->getType() ||
-           TypeUnitNode::IU_BL_IP == selUN->getType()) {
+        if(TypeUnitNodeEnum::TG == selUN->getType()
+        || TypeUnitNodeEnum::SD_BL_IP == selUN->getType()
+        || TypeUnitNodeEnum::IU_BL_IP == selUN->getType()
+        || TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType()
+        || TypeUnitNodeEnum::SSOI_IU_BL_IP == selUN->getType()
+        || TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()
+        || TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()
+        || TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
             if(!selUN->getParentUN().isNull()) {
-                if(TypeUnitNode::TG_Base == selUN->getParentUN()->getType()) {
+                if(TypeUnitNodeEnum::TG_Base == selUN->getParentUN()->getType()) {
                     if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
                         selUN->getParentUN()->setNeededStateWordType(0x2A2C2E); // 32 & 34 & 33
                         selUN->getParentUN()->leftoversCounter.counter = 0;
@@ -387,7 +432,7 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                         selUN->getParentUN()->leftoversCounter.divider = 1;
                     }
 
-                } else if(TypeUnitNode::BL_IP == selUN->getParentUN()->getType()) {
+                } else if(TypeUnitNodeEnum::BL_IP == selUN->getParentUN()->getType()) {
                     if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
                         selUN->getParentUN()->setNeededStateWordType(0x2225); // 41 & 42
                         selUN->getParentUN()->leftoversCounter.counter = 0;
@@ -397,30 +442,110 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                         selUN->getParentUN()->leftoversCounter.counter = 0;
                         selUN->getParentUN()->leftoversCounter.divider = 1;
                     }
+                } else if(TypeUnitNodeEnum::SSOI_BL_IP == selUN->getParentUN()->getType()) {
+                    if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
+                        selUN->getParentUN()->setNeededStateWordType(0x2225); // 41 & 42
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 2;
+                    } else {
+                        selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                        selUN->getParentUN()->leftoversCounter.counter = 0;
+                        selUN->getParentUN()->leftoversCounter.divider = 1;
+                    }
+                } else if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()) {
+                    auto reciver = TopologyService::findReciver(selUN);
+                    reciver->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                    reciver->leftoversCounter.counter = 0;
+                    reciver->leftoversCounter.divider = 1;
+                 } else if(TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()) {
+                    auto reciver = TopologyService::findReciver(selUN);
+                    reciver->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                    reciver->leftoversCounter.counter = 0;
+                    reciver->leftoversCounter.divider = 1;
+                 } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
+                    auto reciver = TopologyService::findReciver(selUN);
+                    if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
+                        reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                        reciver->leftoversCounter.counter = 0;
+                        reciver->leftoversCounter.divider = 2;
+                        reciver->setInterrogationUN(selUN);
+                    } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
+                        reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                        reciver->leftoversCounter.counter = 0;
+                        reciver->leftoversCounter.divider = 2;
+                        reciver->setInterrogationUN(selUN);
+                    } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
+                        reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                        reciver->leftoversCounter.counter = 0;
+                        reciver->leftoversCounter.divider = 2;
+                        reciver->setInterrogationUN(selUN);
+                    } else {
+                        reciver->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                        reciver->leftoversCounter.counter = 0;
+                        reciver->leftoversCounter.divider = 1;
+                    }
                 } else {
                     selUN->getParentUN()->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
                     selUN->getParentUN()->leftoversCounter.counter = 0;
                     selUN->getParentUN()->leftoversCounter.divider = 1;
                 }
             }
-        } else if(TypeUnitNode::RLM_C == selUN->getType() ||
-                  TypeUnitNode::RLM_KRL == selUN->getType()) {
+        } else if(TypeUnitNodeEnum::RLM_C == selUN->getType() ||
+                  TypeUnitNodeEnum::RLM_KRL == selUN->getType()) {
             selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
             selUN->leftoversCounter.counter = 0;
             selUN->leftoversCounter.divider = 1;
+        } else if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType() ||
+                  TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()) {
+            auto reciver = TopologyService::findReciver(selUN);
+            selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
+            selUN->leftoversCounter.counter = 0;
+            selUN->leftoversCounter.divider = 1;
+            reciver->setInterrogationUN(QSharedPointer<UnitNode>(nullptr));
+        } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
+            auto reciver = TopologyService::findReciver(selUN);
+            if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
+                reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                reciver->leftoversCounter.counter = 0;
+                reciver->leftoversCounter.divider = 2;
+                reciver->setInterrogationUN(selUN);
+            } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
+                reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                reciver->leftoversCounter.counter = 0;
+                reciver->leftoversCounter.divider = 2;
+                reciver->setInterrogationUN(selUN);
+            } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
+                reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                reciver->leftoversCounter.counter = 0;
+                reciver->leftoversCounter.divider = 2;
+                reciver->setInterrogationUN(selUN);
+            } else {
+                reciver->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                reciver->leftoversCounter.counter = 0;
+                reciver->leftoversCounter.divider = 1;
+            }
         } else {
-            selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
-            selUN->leftoversCounter.counter = 0;
-            selUN->leftoversCounter.divider = 1;
-        }
+           selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
+           selUN->leftoversCounter.counter = 0;
+           selUN->leftoversCounter.divider = 1;
+       }
     }
 }
 
-void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
-{
-    QSharedPointer<UnitNode>  sel = this->modelTreeUN->clickedUN(index);
+void MainWindowServer::treeView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
+    QModelIndexList indexes = selected.indexes();
 
-    if(nullptr == sel) {
+    if(indexes.isEmpty()) {
+        ui->labelSelectedUN->clear();
+        ui->labelSelectedUN->setVisible(false);
+        return;
+    }
+
+    const QModelIndex &index = indexes.first();
+
+    QSharedPointer<UnitNode> sel = this->modelTreeUN->clickedUN(index);
+
+    if(sel.isNull()) {
         ui->labelSelectedUN->clear();
         ui->labelSelectedUN->setVisible(false);
         return;
@@ -435,22 +560,136 @@ void MainWindowServer::on_treeView_clicked(const QModelIndex &index)
     createDiagnosticTable();
     preparePageCustomization(selUN->getType());
 
-    if(TypeUnitNode::GROUP == selUN->getType()) {
+
+
+    if(TypeUnitNodeEnum::GROUP == selUN->getType()) {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + ": \"" + sel->getName() + "\"");
-    } else if(TypeUnitNode::SD_BL_IP == selUN->getType() && 1 == selUN->getBazalt()) {//БЛ-IP УЗ: СД:{Num2} + ИУ:{Num2} Кан:{UdpAdress}::{UdpPort}
-        ui->labelSelectedUN->setText(QString("БЛ-IP УЗ: СД:%1 + ИУ:%1").arg(sel->getNum2()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString());
-    } else if(TypeUnitNode::SD_BL_IP == selUN->getType()) {
-        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString());
-    } else if(TypeUnitNode::IU_BL_IP == selUN->getType()) {
+    } else if(TypeUnitNodeEnum::SD_BL_IP == selUN->getType() && 1 == selUN->getBazalt()) {//БЛ-IP УЗ: СД:{Num2} + ИУ:{Num2} Кан:{UdpAdress}::{UdpPort}
+        ui->labelSelectedUN->setText(QString("БЛ-IP УЗ:  СД:%1 + ИУ:%1").arg(sel->getNum2())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QVariant(sel->getUdpPort()).toString()
+                                     + QString(" %1").arg(Utils::outTypeToString(sel->getOutType())));
+    } else if(TypeUnitNodeEnum::SD_BL_IP == selUN->getType()) {
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QVariant(sel->getUdpPort()).toString()
+                                     + "  "
+                                     + Utils::typeUNToStr(sel->getType())
+                                     + ":"
+                                     + QVariant(sel->getNum2()).toString()
+                                     + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
+                                     );
+    } else if(TypeUnitNodeEnum::IU_BL_IP == selUN->getType()) {
         auto setUN = Utils::findeSetAutoOnOffUN(selUN);
         QString subStr;
         if(!setUN.isEmpty()) {
             subStr.append("(Авто %1с.)");
-            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(setUN.values().first()->getAdamOff()) / 1000);
+            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(as_const(setUN.values()).first()->getAdamOff()) / 1000);
         }
-        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType()) + " " + "Кан:" + sel->getUdpAdress() + "::" + QVariant(sel->getUdpPort()).toString() + " " + Utils::typeUNToStr(sel->getType()) + ":" + QVariant(sel->getNum2()).toString() + " " + subStr);
-    } else
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QVariant(sel->getUdpPort()).toString()
+                                     + "  "
+                                     + Utils::typeUNToStr(sel->getType())
+                                     + ":"
+                                     + QVariant(sel->getNum2()).toString()
+                                     + "  "
+                                     + subStr
+                                     );
+    } else if(TypeUnitNodeEnum::RLM_KRL == selUN->getType()) {
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType())
+                                     + ":"
+                                     + QString::number(sel->getNum1())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QString::number(sel->getUdpPort())
+                                     + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
+                                     );
+    } else if(TypeUnitNodeEnum::RLM_C == selUN->getType()) {
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType())
+                                     + ":"
+                                     + QString::number(sel->getNum1())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QString::number(sel->getUdpPort())
+                                     + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
+                                     );
+    } else if(TypeUnitNodeEnum::TG == selUN->getType()) {
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType())
+                                     + ":" + QString::number(sel->getNum1())
+                                     + "  "
+                                     + "ЧЭ:"
+                                     + QString::number(sel->getNum2())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QString::number(sel->getUdpPort())
+                                     + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
+                                     );
+    } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType() && 1 == selUN->getBazalt()) {//БЛ-IP УЗ: СД:{Num2} + ИУ:{Num2} Кан:{UdpAdress}::{UdpPort}
+        ui->labelSelectedUN->setText(QString("ССОИ БЛ-IP УЗ:  СД:%1 + ИУ:%1").arg(sel->getNum2())
+                                     + "  "
+                                     + QString("Адрес:%1").arg(sel->getNum1())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QVariant(sel->getUdpPort()).toString()
+                                     + QString(" %1").arg(Utils::outTypeToString(sel->getOutType())));
+    } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType()) {
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType())
+                                     + "  "
+                                     + QString("Адрес:%1").arg(sel->getNum1())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QVariant(sel->getUdpPort()).toString()
+                                     + "  "
+                                     + Utils::typeUNToStr(sel->getType())
+                                     + ":"
+                                     + QVariant(sel->getNum2()).toString()
+                                     + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
+                                     );
+    } else if(TypeUnitNodeEnum::SSOI_IU_BL_IP == selUN->getType()) {
+        auto setUN = Utils::findeSetAutoOnOffUN(selUN);
+        QString subStr;
+        if(!setUN.isEmpty()) {
+            subStr.append("(Авто %1с.)");
+            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(as_const(setUN.values()).first()->getAdamOff()) / 1000);
+        }
+        ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType())
+                                     + "  "
+                                     + QString("Адрес:%1").arg(sel->getNum1())
+                                     + "  "
+                                     + "Кан:"
+                                     + sel->getUdpAdress()
+                                     + "::"
+                                     + QVariant(sel->getUdpPort()).toString()
+                                     + "  "
+                                     + Utils::typeUNToStr(sel->getType())
+                                     + ":"
+                                     + QVariant(sel->getNum2()).toString()
+                                     + "  "
+                                     + subStr
+                                     );
+    } else {
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getType()) + "\t" + sel->getName());
+    }
     ui->labelSelectedUN->setVisible(true);
 
 }
@@ -537,14 +776,14 @@ void MainWindowServer::on_toolButtonReason_clicked()
     tableView_saveSelection();
 
     QSet<int> setId;
-    for(const auto &j : as_const(listSelMsg)) {
+    for(const auto& j : as_const(listSelMsg)) {
         setId.insert(j.getId());
     }
     DataBaseManager::updateJourMsgFieldById("reason", ui->comboBoxReason->currentText(), setId);
     if(1 < setId.size()) {
         modelJour->updateAllRecords();
     } else {
-        for(const auto &id : as_const(setId)) {
+        for(const auto& id : as_const(setId)) {
             SignalSlotCommutator::emitUpdJourMSG(id);
         }
     }
@@ -559,14 +798,14 @@ void MainWindowServer::on_toolButtonTakenMeasures_clicked()
     tableView_saveSelection();
 
     QSet<int> setId;
-    for(const auto &j : as_const(listSelMsg)) {
+    for(const auto& j : as_const(listSelMsg)) {
         setId.insert(j.getId());
     }
     DataBaseManager::updateJourMsgFieldById("measures", ui->comboBoxTakenMeasures->currentText(), setId);
     if(1 < setId.size()) {
         modelJour->updateAllRecords();
     } else {
-        for(const auto &id : as_const(setId)) {
+        for(const auto& id : as_const(setId)) {
             SignalSlotCommutator::emitUpdJourMSG(id);
         }
     }
@@ -601,66 +840,127 @@ void MainWindowServer::createDiagnosticTable()
 
     ui->groupBox_Diagnostics->setVisible(ui->actionDiagnostics->isChecked());
 
-    if(!ui->groupBox_Diagnostics->isVisible())
+    if(!ui->groupBox_Diagnostics->isVisible()) {
+        ui->groupBox_Diagnostics->setMinimumSize(0,0);
+        ui->groupBox_Diagnostics->setMaximumSize(16777215,16777215);
         return;
+    }
 
-    if(nullptr == this->selUN)
+    if(nullptr == this->selUN) {
+        ui->groupBox_Diagnostics->setMinimumSize(0,0);
+        ui->groupBox_Diagnostics->setMaximumSize(16777215,16777215);
         return;
+    }
 
-    if(TypeUnitNode::IU_BL_IP == selUN->getType() ||
-            TypeUnitNode::SD_BL_IP == selUN->getType() ||
-            TypeUnitNode::RLM_KRL == selUN->getType() ||
-            TypeUnitNode::RLM_C == selUN->getType() ||
-            TypeUnitNode::TG == selUN->getType() ||
-            TypeUnitNode::DD_T4K_M == selUN->getType() ||
-            TypeUnitNode::DD_SOTA == selUN->getType() ||
-            TypeUnitNode::Y4_SOTA == selUN->getType() ||
-            TypeUnitNode::BOD_SOTA == selUN->getType() ||
-            TypeUnitNode::BOD_T4K_M == selUN->getType() ||
-            TypeUnitNode::Y4_T4K_M == selUN->getType())
+    if(TypeUnitNodeEnum::IU_BL_IP == selUN->getType()
+    || TypeUnitNodeEnum::SD_BL_IP == selUN->getType()
+    || TypeUnitNodeEnum::SSOI_IU_BL_IP == selUN->getType()
+    || TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType()
+    || TypeUnitNodeEnum::RLM_KRL == selUN->getType()
+    || TypeUnitNodeEnum::RLM_C == selUN->getType()
+    || TypeUnitNodeEnum::TG == selUN->getType()
+    || TypeUnitNodeEnum::DD_T4K_M == selUN->getType()
+    || TypeUnitNodeEnum::DD_SOTA == selUN->getType()
+    || TypeUnitNodeEnum::Y4_SOTA == selUN->getType()
+    || TypeUnitNodeEnum::BOD_SOTA == selUN->getType()
+    || TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()
+    || TypeUnitNodeEnum::Y4_T4K_M == selUN->getType())
         ui->groupBox_Diagnostics->setVisible(true);
     else
         ui->groupBox_Diagnostics->setVisible(false);
 
-    if(!ui->groupBox_Diagnostics->isVisible())
+    if(!ui->groupBox_Diagnostics->isVisible()) {
+        ui->groupBox_Diagnostics->setMinimumSize(0,0);
+        ui->groupBox_Diagnostics->setMaximumSize(16777215,16777215);
         return;
+    }
 
 //    ui->tableWidget->clear();
     ui->tableWidget_Diagnostic->verticalHeader()->hide();
     ui->tableWidget_Diagnostic->horizontalHeader()->hide();
 
-    if(TypeUnitNode::RLM_KRL == selUN->getType())
-        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: РИФ-РЛМ(КРП),Трасса"));
-    else if(TypeUnitNode::RLM_C == selUN->getType())
-        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: РИФ-РЛМ-С"));
-    else if(TypeUnitNode::TG == selUN->getType()) {
-        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: Точка/Гарда"));
-    } else if(TypeUnitNode::DD_SOTA == selUN->getType() || TypeUnitNode::DD_T4K_M == selUN->getType())
-        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
-    else if(TypeUnitNode::Y4_SOTA == selUN->getType() || TypeUnitNode::BOD_SOTA == selUN->getType())
-        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: Сота/Сота-М"));
-    else if(TypeUnitNode::BOD_T4K_M == selUN->getType() || TypeUnitNode::Y4_T4K_M == selUN->getType())
-        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: Точка-М/Гарда-М"));
-    else if(TypeUnitNode::SD_BL_IP == selUN->getType() || TypeUnitNode::IU_BL_IP == selUN->getType())
-        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: БЛ-IP"));
+    QString titleDiagnostic = "";
+    if(TypeUnitNodeEnum::RLM_KRL == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: РИФ-РЛМ(КРП),Трасса");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: РИФ-РЛМ(КРП),Трасса"));
+        ui->groupBox_Diagnostics->setMaximumHeight(315);
+    } else if(TypeUnitNodeEnum::RLM_C == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: РИФ-РЛМ-С");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: РИФ-РЛМ-С"));
+        ui->groupBox_Diagnostics->setMaximumHeight(435);
+    } else if(TypeUnitNodeEnum::TG == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: Точка/Гарда");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: Точка/Гарда"));
+        ui->groupBox_Diagnostics->setMaximumHeight(765);
+    } else if(TypeUnitNodeEnum::DD_SOTA == selUN->getType()
+           || TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: ДД Точка-М/Гарда, ДД Сота");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
+        ui->groupBox_Diagnostics->setMaximumHeight(465);
+    } else if(TypeUnitNodeEnum::Y4_SOTA == selUN->getType()
+           || TypeUnitNodeEnum::BOD_SOTA == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: Сота/Сота-М");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: Сота/Сота-М"));
+        ui->groupBox_Diagnostics->setMaximumHeight(645);
+    } else if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()
+           || TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: Точка-М/Гарда-М");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: Точка-М/Гарда-М"));
+        ui->groupBox_Diagnostics->setMaximumHeight(705);
+    } else if(TypeUnitNodeEnum::SD_BL_IP == selUN->getType()
+           || TypeUnitNodeEnum::IU_BL_IP == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: БЛ-IP");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: БЛ-IP"));
+        ui->groupBox_Diagnostics->setMaximumHeight(495);
+    } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType()
+           || TypeUnitNodeEnum::SSOI_IU_BL_IP == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: ССОИ БЛ-IP");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: ССОИ БЛ-IP"));
+        ui->groupBox_Diagnostics->setMaximumHeight(525);
+    }
+
+#ifdef QT_DEBUG
+    QTime time;
+    for(const auto& sw : selUN->getStateWords()) {
+        time = qMax(time, sw.second.getCdate().time());
+    }
+    titleDiagnostic += time.toString("hh:mm:ss.zzz");
+#endif
+
+    ui->groupBox_Diagnostics->setTitle(titleDiagnostic);
 
     Utils::fillDiagnosticTable(ui->tableWidget_Diagnostic, this->selUN);
 
+//    if(0 < ui->tableWidget_Diagnostic->rowCount() && 0 < ui->tableWidget_Diagnostic->columnCount()) {
+//        ui->tableWidget_Diagnostic->resizeColumnsToContents();
+//        ui->tableWidget_Diagnostic->resizeRowsToContents();
+//        qDebug() << "tableWidget_Diagnostic -->";
+//        for(auto i = 0; i < ui->tableWidget_Diagnostic->columnCount(); i++) {
+//            qDebug() << "c" << i << "s" <<  ui->tableWidget_Diagnostic->columnWidth(i);
+//        }
+//        qDebug() << "tableWidget_Diagnostic <--";
+//    }
+
+
     auto contentSize = Utils::getQTableWidgetContentSize(ui->tableWidget_Diagnostic);
 //    ui->tableWidget_Diagnostic->setMinimumSize(contentSize);
-    ui->tableWidget_Diagnostic->setMaximumHeight(contentSize.height());
+//    ui->tableWidget_Diagnostic->setMaximumHeight(contentSize.height() + 15);
 }
 
-void MainWindowServer::on_pushButtonAlarmReset_clicked()
+void MainWindowServer::on_pushButtonResetFlags_clicked()
 {
 
     if(0 != checkNecessarilyReasonMeasureFill()) {
-        QMessageBox::warning(this, tr("Ошибка"),
-                             tr("Не заполнены все обязательные поля в базе данных!"));
+        MessageBoxServer::infoAllRequiredFieldsInTheDatabaseAreNotFilledIn();
         return;
     }
 
-    this->m_portManager->requestAlarmReset();
+    const auto& tmpSet = TopologyService::getSortedMetaRealUnitNodes();
+    for(const auto& un : tmpSet) {
+        un->resetClearedAlarm();
+    }
+
+    this->m_portManager->requestResetFlags();
 //    {
 //        JourEntity msgOn;
 //        msgOn.setObject(tr("Оператор"));
@@ -720,7 +1020,40 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 
     if(selUN.isNull()) {
         return;
-    } else if(TypeUnitNode::SD_BL_IP == sel->getType()) {
+    } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == sel->getType()) {
+        if(sel->isEditableControl() && 1 != sel->getBazalt()) {
+            menu->addAction(ui->actionControl);
+            menu->addSeparator();
+        }
+
+//        if(isDebug) { //! debug
+//            menu->addAction(ui->actionUNOff);
+//            menu->addAction(ui->actionUNOn);
+//        } else if(sel->isEditableOnOff() && 1 == sel->swpSSOISDBLIPType0x41().isOn() && 1 != sel->getBazalt() && 9 > sel->getNum2()) {
+//            menu->addAction(ui->actionUNOff);
+//        } else if(sel->isEditableOnOff() && 1 == sel->swpSSOISDBLIPType0x41().isOff() && 1 != sel->getBazalt() && 9 > sel->getNum2()) {
+//            menu->addAction(ui->actionUNOn);
+//        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionClose);
+            menu->addAction(ui->actionOpen);
+            menu->addSeparator();
+        } else if(0 != sel->getBazalt() && 1 == sel->swpSSOISDBLIPType0x41().isInAlarm() && 9 > sel->getNum2()) {
+            menu->addAction(ui->actionClose);
+            menu->addSeparator();
+        } else if(0 != sel->getBazalt() && 1 == sel->swpSSOISDBLIPType0x41().isInNorm() && 9 > sel->getNum2()) {
+            menu->addAction(ui->actionOpen);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionDK);
+        } else if(0 == sel->getBazalt() && 0 != sel->getDK() && 9 > sel->getNum2()) {
+            menu->addAction(ui->actionDK);
+        }
+
+    } else if(TypeUnitNodeEnum::SD_BL_IP == sel->getType()) {
 
         if(sel->isEditableControl() && 1 != sel->getBazalt()) {
             menu->addAction(ui->actionControl);
@@ -754,7 +1087,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionDK);
         }
 
-    } else if(TypeUnitNode::IU_BL_IP == sel->getType()) {
+    } else if(TypeUnitNodeEnum::IU_BL_IP == sel->getType()) {
 
         if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
@@ -779,7 +1112,32 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
             menu->addAction(ui->actionDK);
         }
 
-    } else if(TypeUnitNode::RLM_C == sel->getType()) {
+    } else if(TypeUnitNodeEnum::SSOI_IU_BL_IP == sel->getType()) {
+
+        if(sel->isEditableControl()) {
+            menu->addAction(ui->actionControl);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+            menu->addSeparator();
+        } else if(sel->isEditableOnOff() && 1 == sel->swpSSOIIUBLIPType0x41().isOn()) {
+            menu->addAction(ui->actionUNOff);
+            menu->addSeparator();
+        } else if(sel->isEditableOnOff() && 1 == sel->swpSSOIIUBLIPType0x41().isOff()) {
+            menu->addAction(ui->actionUNOn);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionDK);
+        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
+            menu->addAction(ui->actionDK);
+        }
+
+    } else if(TypeUnitNodeEnum::RLM_C == sel->getType()) {
 
         if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
@@ -800,7 +1158,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 
         menu->addAction(ui->actionDK);
 
-    } else if(TypeUnitNode::RLM_KRL == sel->getType()) {
+    } else if(TypeUnitNodeEnum::RLM_KRL == sel->getType()) {
 
         if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
@@ -821,7 +1179,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 
         menu->addAction(ui->actionDK);
 
-    } else if(TypeUnitNode::TG == sel->getType()) {
+    } else if(TypeUnitNodeEnum::TG == sel->getType()) {
 
         if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
@@ -842,11 +1200,97 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 
         menu->addAction(ui->actionDK);
 
+    } else if(TypeUnitNodeEnum::BOD_T4K_M == sel->getType()
+           || TypeUnitNodeEnum::BOD_SOTA == sel->getType()) {
+
+        if(sel->isEditableControl() && 1 != sel->getBazalt()) {
+            menu->addAction(ui->actionControl);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionClose);
+            menu->addAction(ui->actionOpen);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionDK);
+        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
+            menu->addAction(ui->actionDK);
+        }
+
+    } else if(TypeUnitNodeEnum::Y4_T4K_M == sel->getType()
+              || TypeUnitNodeEnum::Y4_SOTA == sel->getType()) {
+
+        if(sel->isEditableControl() && 1 != sel->getBazalt()) {
+            menu->addAction(ui->actionControl);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionClose);
+            menu->addAction(ui->actionOpen);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionDK);
+        }
+
+    } else if(TypeUnitNodeEnum::DD_T4K_M == sel->getType()
+              || TypeUnitNodeEnum::DD_SOTA == sel->getType()) {
+
+        if(sel->isEditableControl() && 1 != sel->getBazalt()) {
+            menu->addAction(ui->actionControl);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionUNOff);
+            menu->addAction(ui->actionUNOn);
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionClose);
+            menu->addAction(ui->actionOpen);
+            menu->addSeparator();
+        }
+
+        if(isDebug) { //! debug
+            menu->addAction(ui->actionDK);
+        }
+
     }
 
-    if(!sel->getName().isEmpty() && !(TypeUnitNode::SYSTEM == sel->getType() || TypeUnitNode::GROUP == sel->getType())) {
+    if(!sel->getName().isEmpty() && !(TypeUnitNodeEnum::SYSTEM == sel->getType() || TypeUnitNodeEnum::GROUP == sel->getType())) {
         menu->addAction(ui->actionUNSqlSelect);
         setUnSqlSelect(QString("SELECT id, cdate, mdate, objectid, object, comment, reason, measures, operator, operatorid, status, direction, type, flag, d1, d2, d3, d4, objecttype FROM public.jour where object = \'%1\' ORDER BY id").arg(sel->getName()));
+
+        setUnArgSelect(QStringList({
+                                       QString("-type %1").arg(sel->getType())
+                                     , QString("-num1 %1").arg(sel->getNum1())
+                                     , QString("-num2 %1").arg(sel->getNum2())
+                                     , QString("-num3 %1").arg(sel->getNum3())
+                                     , QString("-outType %1").arg(sel->getOutType())
+                                     , QString("-adamOff %1").arg(sel->getAdamOff())
+                                     , QString("-bazalt %1").arg(sel->getBazalt())
+                                     , QString("-ip %1").arg(sel->getUdpAdress())
+                                     , QString("-databasename %1").arg(DataBaseManager::getHostName())
+                                     , QString("-username %1").arg(DataBaseManager::getUserName())
+                                     , QString("-password %1").arg(DataBaseManager::getPassword())
+                                     , QString("-port %1").arg(DataBaseManager::getPort())
+                                   }).join(" "));
     }
 
     /* Call the context menu */
@@ -855,9 +1299,32 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 #ifdef QT_DEBUG
     auto action = new QAction("Alarm To IU", this);
     connect(action, &QAction::triggered, this,  [sel](){
-        for(const auto& iuun : as_const(ServerSettingUtils::getLinkedUI(sel))) {
-            qDebug() << "Alarm To " <<iuun->toString() << "IU From " << sel->toString();
-            SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+
+        QSet<QSharedPointer<UnitNode>> tmpSet;
+        if(TypeUnitNodeEnum::TG == sel->getType()
+        || TypeUnitNodeEnum::RLM_C == sel->getType()
+        || TypeUnitNodeEnum::RLM_KRL == sel->getType()
+        || (TypeUnitNodeEnum::SD_BL_IP == sel->getType() && 1 != sel->getBazalt())
+        || (TypeUnitNodeEnum::SSOI_SD_BL_IP == sel->getType() && 1 != sel->getBazalt())
+                ) {
+            tmpSet.insert(sel);
+        }
+        for(const auto& un : as_const(sel->listTreeChilds())) {
+            const auto un1 = qSharedPointerCast<UnitNode>(un);
+            if(TypeUnitNodeEnum::TG == un1->getType()
+            || TypeUnitNodeEnum::RLM_C == un1->getType()
+            || TypeUnitNodeEnum::RLM_KRL == un1->getType()
+            || (TypeUnitNodeEnum::SD_BL_IP == un1->getType() && 1 != un1->getBazalt())
+            || (TypeUnitNodeEnum::SSOI_SD_BL_IP == un1->getType() && 1 != un1->getBazalt())
+                    ) {
+                tmpSet.insert(qSharedPointerCast<UnitNode>(un));
+            }
+        }
+        for(const auto& un : tmpSet) {
+            for(const auto& iuun : as_const(TopologyService::getLinkedUI(un))) {
+                qDebug() << "Alarm To " <<iuun->toString() << "IU From " << un->toString();
+                SignalSlotCommutator::emitAutoOnOffIU(true, false, qSharedPointerCast<UnitNode>(iuun));
+            }
         }
     });
     menu->addAction(action);
@@ -869,10 +1336,12 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 void MainWindowServer::on_actionDK_triggered()
 {
     this->m_portManager->requestDK(false, false, this->selUN);
+    ui->treeView->resizeColumnToContents(0);
 }
 
 void MainWindowServer::stopWaitProgressBar()
 {
+    qDebug() << "MainWindowServer::stopWaitProgressBar()";
     quasiProgressBeat.stop();
     ui->progressBarDKWait->setValue(0);
     waitIntervalProgressBar = 0;
@@ -885,24 +1354,47 @@ void MainWindowServer::beatWaitProgressBar()
     wasIntervalProgressBar += 100.0;
     float val = (( wasIntervalProgressBar / (float)waitIntervalProgressBar) * 100.0);
     ui->progressBarDKWait->setValue((int)val % 101);
-    if(100 == ui->progressBarDKWait->value() || 0 == ui->progressBarDKWait->value())
+    if(0 == ui->progressBarDKWait->value()) {
         ui->progressBarDKWait->setVisible(false);
-    else
+    } else if(100 == ui->progressBarDKWait->value()) {
+            ui->progressBarDKWait->setVisible(false);
+            quasiProgressBeat.stop();
+    } else {
         ui->progressBarDKWait->setVisible(true);
+    }
 }
 
 void MainWindowServer::startWaitProgressBar(int interval)
 {
     stopWaitProgressBar();
+    qDebug() << "MainWindowServer::startWaitProgressBar(" << interval << ")";
     waitIntervalProgressBar = interval;
     wasIntervalProgressBar = 0.0;
     quasiProgressBeat.start(100);
     ui->progressBarDKWait->setVisible(false);
 }
 
+void MainWindowServer::startWaitProgressBar(int interval, int startInterval)
+{
+    qDebug() << "MainWindowServer::startWaitProgressBar(" << interval << "," << startInterval << ")";
+    quasiProgressBeat.stop();
+    waitIntervalProgressBar = interval;
+    wasIntervalProgressBar = startInterval;
+    float val = (( wasIntervalProgressBar / (float)waitIntervalProgressBar) * 100.0);
+    ui->progressBarDKWait->setValue((int)val % 101);
+    if(100 == ui->progressBarDKWait->value() || 0 == ui->progressBarDKWait->value())
+        ui->progressBarDKWait->setVisible(false);
+    else
+        ui->progressBarDKWait->setVisible(true);
+    quasiProgressBeat.start(100);
+}
+
 void MainWindowServer::on_actionRifDKOverall_triggered()
 {
     this->m_portManager->requestDK(false, false);
+    if(!TopologyService::getSystemUnitNodes().isNull())
+        TopologyService::getSystemUnitNodes()->setDkInvolved(true);
+    ui->treeView->resizeColumnToContents(0);
 }
 
 void MainWindowServer::on_actionExpandUNTree_triggered()
@@ -938,11 +1430,20 @@ void MainWindowServer::on_actionUNOn_triggered()
     if(selUN.isNull())
         return;
 
+    if((TypeUnitNodeEnum::SD_BL_IP == selUN->getType() && 1 != selUN->getBazalt()) ||
+       (TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType() && 1 != selUN->getBazalt()) ||
+       TypeUnitNodeEnum::RLM_C == selUN->getType() ||
+       TypeUnitNodeEnum::RLM_KRL == selUN->getType() ||
+       TypeUnitNodeEnum::TG == selUN->getType()) {
+        if(!ServerSettingUtils::checkDialogAuditAdm())
+            return;
+    }
+
     const auto& setUn = Utils::findeSetAutoOnOffUN(selUN);
     if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, false, selUN, true);
     else {
-        auto un = setUn.values().first();
+        const auto& un = as_const(setUn.values()).first();
         this->m_portManager->requestAutoOnOffIUCommand(false, false, un);
     }
 }
@@ -951,13 +1452,20 @@ void MainWindowServer::on_actionUNOff_triggered()
 {
     if(selUN.isNull())
         return;
-    if(TypeUnitNode::RLM_C == selUN->getType() ||
-       TypeUnitNode::RLM_KRL == selUN->getType() ||
-       TypeUnitNode::TG == selUN->getType()) {
-        int ret = QMessageBox::question(this, tr("Предупреждение"),
-                                       tr("Вы действительно хотите отключить устройство?"),
-                                       QMessageBox::Ok | QMessageBox::Cancel,
-                                       QMessageBox::Ok);
+
+    if((TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType() && 1 != selUN->getBazalt()) ||
+       (TypeUnitNodeEnum::SD_BL_IP == selUN->getType() && 1 != selUN->getBazalt()) ||
+       TypeUnitNodeEnum::RLM_C == selUN->getType() ||
+       TypeUnitNodeEnum::RLM_KRL == selUN->getType() ||
+       TypeUnitNodeEnum::TG == selUN->getType()) {
+        if(!ServerSettingUtils::checkDialogAuditAdm())
+            return;
+    }
+
+    if(TypeUnitNodeEnum::RLM_C == selUN->getType() ||
+       TypeUnitNodeEnum::RLM_KRL == selUN->getType() ||
+       TypeUnitNodeEnum::TG == selUN->getType()) {
+        int ret = MessageBoxServer::questionDoYouReallyWantToDisconnectTheDevice();
 
         if(QMessageBox::Ok != ret) {
             return;
@@ -975,16 +1483,12 @@ void MainWindowServer::on_actionControl_triggered()
     if(!selUN->isEditableControl())
         return;
 
-    QString strQuestion;
+//    QString strQuestion;
+    int ret = 0;
     if(selUN->getControl())
-        strQuestion = tr("Убрать контроль?");
+        ret = MessageBoxServer::questionRemoveTheControl();
     else
-        strQuestion = tr("Восстановить контроль?");
-
-    int ret = QMessageBox::question(this, tr("Предупреждение"),
-                                   strQuestion,
-                                   QMessageBox::Ok | QMessageBox::Cancel,
-                                   QMessageBox::Ok);
+        ret = MessageBoxServer::questionRestoreControl();
 
     if(QMessageBox::Ok == ret) {
         selUN->setControl(!selUN->getControl());
@@ -995,9 +1499,25 @@ void MainWindowServer::on_actionControl_triggered()
         msgOn.setD1(selUN->getNum1());
         msgOn.setD2(selUN->getNum2());
         msgOn.setD3(selUN->getNum3());
+        msgOn.setD4(selUN->getOutType());
         msgOn.setDirection(selUN->getDirection());
         msgOn.setType((selUN->getControl() ? 137 : 136));
         msgOn.setComment(tr("Контроль ") + (selUN->getControl() ? tr("Вкл") : tr("Выкл")));
+        msgOn.setParams(selUN->makeJson());
+
+        if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()
+                || TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()
+                || TypeUnitNodeEnum::BOD_SOTA == selUN->getType()
+                || TypeUnitNodeEnum::Y4_SOTA == selUN->getType()) {
+            for(const auto &un : as_const(TopologyService::findChild(selUN))) {
+                un->setControl(!un->getControl());
+                if(un->getControl()) {
+                    un->setPublishedState(-1);
+                }
+                un->updDoubl();
+            }
+        }
+
         if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
             DataBaseManager::insertJourMsg_wS(msgOn);
             GraphTerminal::sendAbonentEventsAndStates(selUN, msgOn);
@@ -1006,21 +1526,17 @@ void MainWindowServer::on_actionControl_triggered()
         if(selUN->getControl()) {
             GraphTerminal::sendAbonentEventsAndStates(selUN);
             selUN->setPublishedState(-1);
-            selUN->updDoubl();
         }
+        selUN->updDoubl();
     }
 }
 
 void MainWindowServer::closeEvent(QCloseEvent * event)
 {
-    int ret = QMessageBox::warning(this, tr("Предупреждение"),
-                                   tr("Завершить работу и выйти из программы?"),
-                                   QMessageBox::Ok | QMessageBox::Cancel,
-                                   QMessageBox::Ok);
+    int ret = MessageBoxServer::questionShutDownAndExitTheProgram();
 
     if(0 != checkNecessarilyReasonMeasureFill()) {
-        QMessageBox::warning(this, tr("Ошибка"),
-                             tr("Не заполнены все обязательные поля в базе данных!"));
+        MessageBoxServer::infoAllRequiredFieldsInTheDatabaseAreNotFilledIn();
         event->ignore();
         return;
     }
@@ -1031,6 +1547,16 @@ void MainWindowServer::closeEvent(QCloseEvent * event)
         event->ignore();
     }
     //Здесь код
+}
+
+const QString &MainWindowServer::getUnArgSelect() const
+{
+    return unArgSelect;
+}
+
+void MainWindowServer::setUnArgSelect(const QString &newUnArgSelect)
+{
+    unArgSelect = newUnArgSelect;
 }
 
 QString MainWindowServer::getUnSqlSelect() const
@@ -1060,15 +1586,15 @@ void MainWindowServer::updateLabelCount()
     if(modelJour.isNull())
         return;
 
-    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
-    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+    int needReason = IniFileService::getValueBySectionKey("PostgresSQL", "P1", "0").toInt();
+    int needMeasure = IniFileService::getValueBySectionKey("PostgresSQL", "P2", "0").toInt();
     if(0 != needReason || 0 != needMeasure) {
 
         int countReason = 0;
         int countMeasure = 0;
 
         auto listJour = modelJour->getListJour();
-        for(auto ji : as_const(listJour)) {
+        for(const auto& ji : as_const(listJour)) {
             if(0 != needReason && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getReason().isEmpty()) {
                 countReason++;
             }
@@ -1134,8 +1660,8 @@ void MainWindowServer::on_actionIncrease_triggered()
     ui->tableView->verticalHeader()->setMinimumHeight(fontSize.at(currentIndexFont + 1).second);
     ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont + 1).second);
 
-    ui->treeView->resizeColumnToContents(0);
-    ui->treeView->resizeColumnToContents(1);
+    ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->treeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
 
 
     ui->tableView->resizeColumnToContents(0);
@@ -1167,10 +1693,11 @@ void MainWindowServer::on_actionReduce_triggered()
     ui->tableView->verticalHeader()->setMinimumHeight(fontSize.at(currentIndexFont - 1).second);
     ui->tableView->verticalHeader()->setDefaultSectionSize(fontSize.at(currentIndexFont - 1).second);
 
-    ui->treeView->resizeColumnToContents(0);
-    ui->treeView->resizeColumnToContents(1);
+    ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->treeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
 
-    ui->tableView->resizeColumnToContents(0);
+    ui->tableView->verticalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+//    ui->tableView->resizeColumnToContents(0);
     ui->tableView->resizeColumnToContents(1);
     ui->tableView->resizeColumnToContents(2);
     ui->tableView->resizeColumnToContents(3);
@@ -1185,15 +1712,15 @@ int MainWindowServer::checkNecessarilyReasonMeasureFill() {
     if(modelJour.isNull())
         return -1;
 
-    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
-    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+    int needReason = IniFileService::getValueBySectionKey("PostgresSQL", "P1", "0").toInt();
+    int needMeasure = IniFileService::getValueBySectionKey("PostgresSQL", "P2", "0").toInt();
     if(0 != needReason || 0 != needMeasure) {
 
         int countReason = 0;
         int countMeasure = 0;
 
         auto listJour = modelJour->getListJour();
-        for(const auto &ji : as_const(listJour)) {
+        for(const auto& ji : as_const(listJour)) {
             if(0 != needReason && ServerSettingUtils::getPriorityJoutTyper().contains(ji.getType()) && ji.getReason().isEmpty()) {
                 countReason++;
             }
@@ -1203,8 +1730,7 @@ int MainWindowServer::checkNecessarilyReasonMeasureFill() {
         }
 
         if ((0 != needReason && 0 != countReason) || (0 != needMeasure && 0 != countMeasure)) {
-//            QMessageBox::warning(this, tr("Ошибка"),
-//                                 tr("Не заполнены все обязательные поля в базе данных!"));
+//            MessageBoxServer::infoAllRequiredFieldsInTheDatabaseAreNotFilledIn();
             return countReason + countMeasure;
         }
 
@@ -1215,24 +1741,19 @@ int MainWindowServer::checkNecessarilyReasonMeasureFill() {
 
 void MainWindowServer::on_actionNewScheme_triggered()
 {
-    int ret = QMessageBox::question(this, tr("Предупреждение"),
-                                   tr("Начать новую смену?"),
-                                   QMessageBox::Ok | QMessageBox::Cancel,
-                                   QMessageBox::Ok);
+    int ret = MessageBoxServer::questionStartANewShift();
 
     if(QMessageBox::Ok == ret) {
 
         if(0 != checkNecessarilyReasonMeasureFill()) {
-            QMessageBox::warning(this, tr("Ошибка"),
-                                 tr("Не заполнены все обязательные поля в базе данных!"));
+            MessageBoxServer::infoAllRequiredFieldsInTheDatabaseAreNotFilledIn();
             return;
         }
 
         AuthenticationDialog ad;
         if(0 != ad.getInitialResult()) {
             if(QDialog::Accepted != ad.exec()) {
-                QMessageBox::warning(this, QObject::tr("Ошибка"),
-                                     QObject::tr("Ошибка выбора оператора комплекса!"));
+                MessageBoxServer::infoErrorInSelectingTheOperatorOfTheComplex();
                 return;
             }
         }
@@ -1310,7 +1831,29 @@ void MainWindowServer::on_actionUNSqlSelect_triggered()
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
 //    codec->fromUnicode("-sql");
 //    codec->fromUnicode("\"" + getUnSqlSelect() + "\"");
-    process->start(file, QStringList() << codec->fromUnicode("-sql") << codec->fromUnicode("\"" + getUnSqlSelect() + "\""));
+    if(!selUN.isNull() && !selUN->getName().isEmpty() && !(TypeUnitNodeEnum::SYSTEM == selUN->getType() || TypeUnitNodeEnum::GROUP == selUN->getType())) {
+        QStringList sl({
+                                       codec->fromUnicode(QString("-type")), codec->fromUnicode(QString::number(selUN->getType()))
+                                     , codec->fromUnicode(QString("-num1")), codec->fromUnicode(QString::number(selUN->getNum1()))
+                                     , codec->fromUnicode(QString("-num2")), codec->fromUnicode(QString::number(selUN->getNum2()))
+                                     , codec->fromUnicode(QString("-num3")), codec->fromUnicode(QString::number(selUN->getNum3()))
+                                     , codec->fromUnicode(QString("-outType")), codec->fromUnicode(QString::number(selUN->getOutType()))
+                                     , codec->fromUnicode(QString("-adamOff")), codec->fromUnicode(QString::number(selUN->getAdamOff()))
+                                     , codec->fromUnicode(QString("-bazalt")), codec->fromUnicode(QString::number(selUN->getBazalt()))
+                                     , codec->fromUnicode(QString("-ip")), codec->fromUnicode(QString(selUN->getDirection()))
+                                     , codec->fromUnicode(QString("-databasename")), codec->fromUnicode(QString(DataBaseManager::getHostName()))
+                                     , codec->fromUnicode(QString("-username")), codec->fromUnicode(QString(DataBaseManager::getUserName()))
+                                     , codec->fromUnicode(QString("-password")), codec->fromUnicode(QString(DataBaseManager::getPassword()))
+                                     , codec->fromUnicode(QString("-port")), codec->fromUnicode(QString(DataBaseManager::getPort()))
+                                   });
+        process->start(file, QStringList() << sl);
+        return;
+
+    }
+
+    process->start(file, QStringList() << codec->fromUnicode(getUnArgSelect()));
+
+//    process->start(file, QStringList() << codec->fromUnicode("-sql") << codec->fromUnicode("\"" + getUnSqlSelect() + "\""));
 }
 
 void MainWindowServer::changeSelectUN(QSharedPointer<UnitNode> un)
@@ -1323,37 +1866,60 @@ void MainWindowServer::changeSelectUN(QSharedPointer<UnitNode> un)
 
 void MainWindowServer::preparePageCustomization(int /*typeUN*/)
 {
-    ui->groupBox_Customization->setVisible(false);
 
-    if(!ui->actionCustomization->isChecked())
+    if(!ui->actionCustomization->isChecked()) {
+        ui->groupBox_Customization->setVisible(false);
+        ui->groupBox_Customization->setMinimumSize(0,0);
+        ui->groupBox_Customization->setMaximumSize(16777215,16777215);
         return;
+    }
 
-    if(selUN.isNull())
+    if(selUN.isNull()) {
+        ui->groupBox_Customization->setVisible(false);
+        ui->groupBox_Customization->setMinimumSize(0,0);
+        ui->groupBox_Customization->setMaximumSize(16777215,16777215);
         return;
+    }
+
+    if(!ServerSettingUtils::checkDialogAuditAdm()) {
+        ui->actionCustomization->setChecked(false);
+        on_actionCustomization_triggered();
+        return;
+    }
 
     switch (selUN->getType()) {
-    case TypeUnitNode::RLM_KRL:
-    case TypeUnitNode::RLM_C:
+    case TypeUnitNodeEnum::RLM_KRL:
+    case TypeUnitNodeEnum::RLM_C:
         preparePageRLM(selUN);
         ui->stackedWidget->setCurrentIndex(0);
-        ui->stackedWidget->setMaximumHeight(140);
+        ui->groupBox_Customization->setMinimumWidth(345);
+        ui->groupBox_Customization->setMaximumHeight(140);
+        ui->groupBox_Customization->setMinimumHeight(140);
         break;
-    case TypeUnitNode::TG:
+    case TypeUnitNodeEnum::TG:
         preparePagePoint(selUN->getType());
         ui->stackedWidget->setCurrentIndex(3);
-        ui->stackedWidget->setMaximumHeight(185);
+        ui->groupBox_Customization->setMinimumWidth(310);
+        ui->groupBox_Customization->setMaximumHeight(165);
+        ui->groupBox_Customization->setMinimumHeight(165);
         break;
-    case TypeUnitNode::DD_SOTA:
+    case TypeUnitNodeEnum::DD_SOTA:
         preparePageSota1(selUN->getType());
         ui->stackedWidget->setCurrentIndex(1);
-        ui->stackedWidget->setMaximumHeight(200);
+        ui->groupBox_Customization->setMinimumWidth(330);
+        ui->groupBox_Customization->setMaximumHeight(265);
+        ui->groupBox_Customization->setMinimumHeight(265);
         break;
-    case TypeUnitNode::DD_T4K_M:
+    case TypeUnitNodeEnum::DD_T4K_M:
         preparePageSota2(selUN->getType());
         ui->stackedWidget->setCurrentIndex(2);
-        ui->stackedWidget->setMaximumHeight(200);
+        ui->groupBox_Customization->setMinimumWidth(330);
+        ui->groupBox_Customization->setMaximumHeight(560);
+        ui->groupBox_Customization->setMinimumHeight(310);
         break;
     default:
+        ui->groupBox_Customization->setMinimumSize(0,0);
+        ui->groupBox_Customization->setMaximumSize(16777215,16777215);
         ui->groupBox_Customization->setVisible(false);
         return;
     }
@@ -1368,30 +1934,30 @@ void MainWindowServer::preparePageRLM(const QSharedPointer<UnitNode>  un)
     ui->comboBox_RLMTactPeriod->setEditable(false);
     ui->comboBox_RLMTactPeriod->addItem(tr("Неопределено"), -1);
 
-    if(TypeUnitNode::RLM_C == un->getType()) {
+    if(TypeUnitNodeEnum::RLM_C == un->getType()) {
         for(int i = 0, n = 5; i < n; i++) {
             ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
         }
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
               (0 == un->getAdamOff() ||
                1 == un->getAdamOff())) {
         for(int i = 0, n = 4; i < n; i++) {
             ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
         }
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
               (3 == un->getAdamOff() ||
               2 == un->getAdamOff())) {
         for(int i = 0, n = 2; i < n; i++) {
             ui->comboBox_RLMTactPeriod->addItem(QString(tr("Такт") + " %1").arg(i + 1), i);
         }
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
               4 == un->getAdamOff()) {
         for(int i = 0, n = 4; i < n; i++) {
             ui->comboBox_RLMTactPeriod->addItem(QString(tr("УШ") + " %1").arg(i + 1), i);
         }
     }
 
-    if(TypeUnitNode::RLM_KRL == un->getType() &&
+    if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
        5 == un->getAdamOff()) {
         ui->comboBox_RLMTactPeriod->setEnabled(false);
         ui->comboBox_RLMTactPeriod->setItemData(0, 0);
@@ -1404,27 +1970,27 @@ void MainWindowServer::preparePageRLM(const QSharedPointer<UnitNode>  un)
     ui->comboBox_RLMCondition->setEnabled(false);
     ui->comboBox_RLMCondition->setEditable(false);
     ui->comboBox_RLMCondition->addItem(tr("Неопределено"), -1);
-    if(TypeUnitNode::RLM_C == un->getType() ||
-       (TypeUnitNode::RLM_KRL == un->getType() &&
+    if(TypeUnitNodeEnum::RLM_C == un->getType() ||
+       (TypeUnitNodeEnum::RLM_KRL == un->getType() &&
         (0 == un->getAdamOff() ||
          1 == un->getAdamOff() ||
          2 == un->getAdamOff()))) {
         ui->comboBox_RLMCondition->addItem(tr("Основной"), 0);
         ui->comboBox_RLMCondition->addItem(tr("Дополнительный"), 1);
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
                3 == un->getAdamOff()) {
         ui->comboBox_RLMCondition->addItem(tr("Нормальный"), 0);
         ui->comboBox_RLMCondition->addItem(tr("Помехозащищенный"), 1);
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
                4 == un->getAdamOff()) {
         ui->comboBox_RLMCondition->addItem(tr("Настройка"), 0);
         ui->comboBox_RLMCondition->addItem(tr("Работа"), 1);
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
               5 == un->getAdamOff()) {
         ui->comboBox_RLMCondition->addItem(tr("Медленный"), 0);
         ui->comboBox_RLMCondition->addItem(tr("Быстрый"), 1);
     }
-    if(TypeUnitNode::RLM_C == un->getType()) {
+    if(TypeUnitNodeEnum::RLM_C == un->getType()) {
         ui->comboBox_RLMCondition->addItem(tr("Ползущий (Плз)"), 2);
         ui->comboBox_RLMCondition->addItem(tr("2-й ярус (2Яр)"), 3);
     }
@@ -1434,7 +2000,7 @@ void MainWindowServer::preparePageRLM(const QSharedPointer<UnitNode>  un)
     ui->comboBox_RLMEdge->setEnabled(false);
     ui->comboBox_RLMEdge->setEditable(false);
     ui->comboBox_RLMEdge->addItem(tr("Неопределено"));
-    if(TypeUnitNode::RLM_C == un->getType()) {
+    if(TypeUnitNodeEnum::RLM_C == un->getType()) {
         for(int i = 0, n = 6; i < n; i++) {
             if(0 == i) {
                 ui->comboBox_RLMEdge->addItem(QString(".%1 (" + tr("самый груб.") + ")").arg(i + 1), (float)(((float)i + 1.0)/10.0));
@@ -1451,7 +2017,7 @@ void MainWindowServer::preparePageRLM(const QSharedPointer<UnitNode>  un)
                 ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
             }
         }
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
               1 == un->getAdamOff()) {
         for(int i = 0, n = 6; i < n; i++) {
             if(0 == i) {
@@ -1469,7 +2035,7 @@ void MainWindowServer::preparePageRLM(const QSharedPointer<UnitNode>  un)
                 ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
             }
         }
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
               (0 == un->getAdamOff() ||
                2 == un->getAdamOff() ||
                4 == un->getAdamOff() ||
@@ -1486,7 +2052,7 @@ void MainWindowServer::preparePageRLM(const QSharedPointer<UnitNode>  un)
                 ui->comboBox_RLMEdge->addItem(QString("%1").arg(i + 1, 2, 10, QLatin1Char('0')), (float)((float)i + 1.0));
             }
         }
-    } else if(TypeUnitNode::RLM_KRL == un->getType() &&
+    } else if(TypeUnitNodeEnum::RLM_KRL == un->getType() &&
               3 == un->getAdamOff()) {
         for(int i = 0, n = 6; i < n; i++) {
             ui->comboBox_RLMEdge->addItem(tr("01 (груб.) (Режим Линейный)"), (float)(((float)i + 1.0)/10.0));
@@ -1801,9 +2367,9 @@ void MainWindowServer::fillPageRLM()
 {
     if(selUN.isNull())
         return;
-    if(TypeUnitNode::RLM_C != selUN->getType() && TypeUnitNode::RLM_KRL != selUN->getType())
+    if(TypeUnitNodeEnum::RLM_C != selUN->getType() && TypeUnitNodeEnum::RLM_KRL != selUN->getType())
         return;
-    else if(TypeUnitNode::RLM_C == selUN->getType()) {
+    else if(TypeUnitNodeEnum::RLM_C == selUN->getType()) {
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
         qDebug() << "StateWord " << selUN->getStateWord(0x31u).getByteWord().toHex();
         qDebug() << "clockPeriod " << selUN->swpRLMCType0x31().clockPeriod();
@@ -1822,7 +2388,7 @@ void MainWindowServer::fillPageRLM()
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") <--";
 
         return;
-    } else if(TypeUnitNode::RLM_KRL == selUN->getType()) {
+    } else if(TypeUnitNodeEnum::RLM_KRL == selUN->getType()) {
         qDebug() << "MainWindowServer::fillPageRLM(" << selUN->toString() << ") -->";
         qDebug() << "StateWord " << selUN->getStateWord(0x31u).getByteWord().toHex();
         qDebug() << "clockPeriod " << selUN->swpRLMType0x31().clockPeriod();
@@ -1850,7 +2416,7 @@ void MainWindowServer::fillPageTG()
 {
     if(selUN.isNull())
         return;
-    if(TypeUnitNode::TG != selUN->getType() && TypeUnitNode::TG_Base != selUN->getType())
+    if(TypeUnitNodeEnum::TG != selUN->getType() && TypeUnitNodeEnum::TG_Base != selUN->getType())
         return;
 
     int ci = selUN->getNum2();
@@ -1900,15 +2466,15 @@ void MainWindowServer::fillPageTGAtPointInput(int ci)
     ci++;
     if(selUN.isNull())
         return;
-    if(TypeUnitNode::TG != selUN->getType() && TypeUnitNode::TG_Base != selUN->getType())
+    if(TypeUnitNodeEnum::TG != selUN->getType() && TypeUnitNodeEnum::TG_Base != selUN->getType())
         return;
     if(1 > ci || 4 < ci)
         return;
 
     QSharedPointer<UnitNode> target;
-    const QList<QSharedPointer<UnitNode> > tmpSet = ServerSettingUtils::sortMetaRealUnitNodes();
-    for(QSharedPointer<UnitNode>  un : tmpSet) {
-        if(TypeUnitNode::TG == un->getType() &&
+    const QList<QSharedPointer<UnitNode> > tmpSet = TopologyService::getSortedMetaRealUnitNodes();
+    for(const auto&  un : tmpSet) {
+        if(TypeUnitNodeEnum::TG == un->getType() &&
            un->getUdpAdress() == selUN->getUdpAdress() &&
            un->getUdpPort() == selUN->getUdpPort() &&
            un->getNum1() == selUN->getNum1() &&
@@ -1969,6 +2535,11 @@ void MainWindowServer::fillPageSota2(int /*typeUN*/)
 void MainWindowServer::on_actionCustomization_triggered()
 {
     ui->actionCustomization->setChecked(ui->actionCustomization->isChecked());
+
+    if(ui->actionCustomization->isChecked()) {
+        if(!ServerSettingUtils::checkDialogAuditAdm())
+            return;
+    }
     preparePageCustomization(-1);
 
     tuneNeededStateWordTypeSelectedlUN();
@@ -1984,17 +2555,17 @@ void MainWindowServer::on_pushButton_ReadCustomization_clicked()
         return;
 
     switch (selUN->getType()) {
-    case TypeUnitNode::RLM_KRL:
-    case TypeUnitNode::RLM_C:
+    case TypeUnitNodeEnum::RLM_KRL:
+    case TypeUnitNodeEnum::RLM_C:
         fillPageRLM(); //CurrentIndex(0);
         break;
-    case TypeUnitNode::TG:
+    case TypeUnitNodeEnum::TG:
         fillPageTG(); //setCurrentIndex(3);
         break;
-    case TypeUnitNode::DD_SOTA:
+    case TypeUnitNodeEnum::DD_SOTA:
         fillPageSota1(selUN->getType()); //CurrentIndex(1);
         break;
-    case TypeUnitNode::DD_T4K_M:
+    case TypeUnitNodeEnum::DD_T4K_M:
         fillPageSota2(selUN->getType()); //CurrentIndex(2);
         break;
     default:
@@ -2018,8 +2589,11 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         return;
     }
 
+    if(!ServerSettingUtils::checkDialogAuditAdm())
+        return;
+
     switch (selUN->getType()) {
-    case TypeUnitNode::RLM_KRL: {
+    case TypeUnitNodeEnum::RLM_KRL: {
         auto newStateWord = selUN->getStateWord(0x31u).getByteWord();
         if(newStateWord.isEmpty()) {
 //            //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
@@ -2042,62 +2616,66 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 
 //        //qDebug() << "original newStateWord " << newStateWord.toHex();
 
-        newStateWord[0] = static_cast<quint8>(0x00);
+        newStateWord[0] = static_cast<uint8_t>(0x00);
 //        //qDebug() << "prepare newStateWord " << newStateWord.toHex();
 
         {
-            quint8 cp = clockPeriod;
+            uint8_t cp = clockPeriod;
             cp = Utils::reverseBits(cp);
             cp = cp >> 6;
             clockPeriod = cp;
         }
 
-        newStateWord[0] = static_cast<quint8>(newStateWord[0]) | (static_cast<quint8>(clockPeriod) << 5);
+        newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | (static_cast<uint8_t>(clockPeriod) << 5);
 //        //qDebug() << "clockPeriod newStateWord " << newStateWord.toHex();
 
         if(Utils::treatAsEqual(10.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(0);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(0);
         } else if(Utils::treatAsEqual(09.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(1);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(1);
         } else if(Utils::treatAsEqual(08.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(2);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(2);
         } else if(Utils::treatAsEqual(07.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(3);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(3);
         } else if(Utils::treatAsEqual(06.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(4);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(4);
         } else if(Utils::treatAsEqual(05.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(5);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(5);
         } else if(Utils::treatAsEqual(04.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(6);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(6);
         } else if(Utils::treatAsEqual(03.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(7);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(7);
         } else if(Utils::treatAsEqual(02.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(8);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(8);
         } else if(Utils::treatAsEqual(01.0, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(9);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(9);
         } else if(Utils::treatAsEqual(00.6, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(10);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(10);
         } else if(Utils::treatAsEqual(00.5, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(11);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(11);
         } else if(Utils::treatAsEqual(00.4, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(12);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(12);
         } else if(Utils::treatAsEqual(00.3, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(13);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(13);
         } else if(Utils::treatAsEqual(00.2, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(14);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(14);
         } else if(Utils::treatAsEqual(00.1, threshold)) {
-            newStateWord[0] = static_cast<quint8>(newStateWord[0]) | static_cast<quint8>(15);
+            newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | static_cast<uint8_t>(15);
         }
 //        //qDebug() << "threshold newStateWord " << newStateWord.toHex();
 
-        newStateWord[0] = static_cast<quint8>(newStateWord[0]) | (static_cast<quint8>(modeProcessing) << 4);
+        newStateWord[0] = static_cast<uint8_t>(newStateWord[0]) | (static_cast<uint8_t>(modeProcessing) << 4);
 //        //qDebug() << "modeProcessing newStateWord " << newStateWord.toHex();
 
-        m_portManager->requestModeSensor(selUN, newStateWord);
+        auto copyUN = UnitNodeFactory::makeShare(*selUN);
+        copyUN->setStateWord(0x31u, newStateWord);
+        m_portManager->requestModeSensor(copyUN);
+
+//        m_portManager->requestModeSensor(selUN, newStateWord);
 
         break;
     }
-    case TypeUnitNode::RLM_C: {
+    case TypeUnitNodeEnum::RLM_C: {
         auto newStateWord = selUN->getStateWord(0x31u).getByteWord();
         if(newStateWord.isEmpty()) {
 //            //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
@@ -2113,54 +2691,58 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
             return;
         }
 
-        newStateWord[2] = static_cast<quint8>(0x00);
-        newStateWord[3] = static_cast<quint8>(0x00);
+        newStateWord[2] = static_cast<uint8_t>(0x00);
+        newStateWord[3] = static_cast<uint8_t>(0x00);
 
-        newStateWord[2] = static_cast<quint8>(newStateWord[2]) | (static_cast<quint8>(clockPeriod) << 4);
+        newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | (static_cast<uint8_t>(clockPeriod) << 4);
 
         if(Utils::treatAsEqual(10.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(0);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(0);
         } else if(Utils::treatAsEqual(09.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(1);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(1);
         } else if(Utils::treatAsEqual(08.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(2);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(2);
         } else if(Utils::treatAsEqual(07.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(3);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(3);
         } else if(Utils::treatAsEqual(06.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(4);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(4);
         } else if(Utils::treatAsEqual(05.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(5);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(5);
         } else if(Utils::treatAsEqual(04.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(6);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(6);
         } else if(Utils::treatAsEqual(03.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(7);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(7);
         } else if(Utils::treatAsEqual(02.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(8);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(8);
         } else if(Utils::treatAsEqual(01.0, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(9);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(9);
         } else if(Utils::treatAsEqual(00.6, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(10);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(10);
         } else if(Utils::treatAsEqual(00.5, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(11);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(11);
         } else if(Utils::treatAsEqual(00.4, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(12);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(12);
         } else if(Utils::treatAsEqual(00.3, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(13);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(13);
         } else if(Utils::treatAsEqual(00.2, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(14);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(14);
         } else if(Utils::treatAsEqual(00.1, threshold)) {
-            newStateWord[2] = static_cast<quint8>(newStateWord[2]) | static_cast<quint8>(15);
+            newStateWord[2] = static_cast<uint8_t>(newStateWord[2]) | static_cast<uint8_t>(15);
         }
 
-        newStateWord[3] = static_cast<quint8>(newStateWord[3]) | static_cast<quint8>(modeProcessing);
+        newStateWord[3] = static_cast<uint8_t>(newStateWord[3]) | static_cast<uint8_t>(modeProcessing);
 
-        m_portManager->requestModeSensor(selUN, newStateWord);
+        auto copyUN = UnitNodeFactory::makeShare(*selUN);
+        copyUN->setStateWord(0x31u, newStateWord);
+        m_portManager->requestModeSensor(copyUN);
+
+//        m_portManager->requestModeSensor(selUN, newStateWord);
 
         break;
     }
-    case TypeUnitNode::TG: {
+    case TypeUnitNodeEnum::TG: {
 
-        auto ci = static_cast<quint8>(ui->comboBox_PointInput->currentText().toInt() - 1);
+        auto ci = static_cast<uint8_t>(ui->comboBox_PointInput->currentText().toInt() - 1);
 
         if(0 <= ci && 3 >= ci)
             ci = 0x00;
@@ -2184,23 +2766,29 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         if(ui->checkBox_PointFlt3->isChecked())
             newStateWord[0] = newStateWord.at(0) | 0x10;
 
-        newStateWord[1] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt1Edge->value() & 0x0000FF00) >> 8);
-        newStateWord[2] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt1Edge->value() & 0x000000FF));
+        newStateWord[1] = static_cast<uint8_t>(static_cast<uint16_t>(ui->spinBox_PointFlt1Edge->value() & 0x0000FF00) >> 8);
+        newStateWord[2] = static_cast<uint8_t>(static_cast<uint16_t>(ui->spinBox_PointFlt1Edge->value() & 0x000000FF));
 
-        newStateWord[3] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt2Edge->value() & 0x0000FF00) >> 8);
-        newStateWord[4] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt2Edge->value() & 0x000000FF));
+        newStateWord[3] = static_cast<uint8_t>(static_cast<uint16_t>(ui->spinBox_PointFlt2Edge->value() & 0x0000FF00) >> 8);
+        newStateWord[4] = static_cast<uint8_t>(static_cast<uint16_t>(ui->spinBox_PointFlt2Edge->value() & 0x000000FF));
 
-        newStateWord[5] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt3Edge->value() & 0x0000FF00) >> 8);
-        newStateWord[6] = static_cast<quint8>(static_cast<quint16>(ui->spinBox_PointFlt3Edge->value() & 0x000000FF));
+        newStateWord[5] = static_cast<uint8_t>(static_cast<uint16_t>(ui->spinBox_PointFlt3Edge->value() & 0x0000FF00) >> 8);
+        newStateWord[6] = static_cast<uint8_t>(static_cast<uint16_t>(ui->spinBox_PointFlt3Edge->value() & 0x000000FF));
 
-        m_portManager->requestModeSensor(selUN, newStateWord);
+        auto copyUN = UnitNodeFactory::makeShare(*selUN);
+        auto sw = copyUN->swpTGType0x34().byteWord();
+        sw = sw.replace(7 * ci, 7, newStateWord);
+        copyUN->setStateWord(0x34u, sw);
+        m_portManager->requestModeSensor(copyUN);
+
+//        m_portManager->requestModeSensor(selUN, newStateWord);
 
         break;
     }
-    case TypeUnitNode::DD_SOTA:
+    case TypeUnitNodeEnum::DD_SOTA:
         fillPageSota1(selUN->getType()); //CurrentIndex(1);
         break;
-    case TypeUnitNode::DD_T4K_M:
+    case TypeUnitNodeEnum::DD_T4K_M:
         fillPageSota2(selUN->getType()); //CurrentIndex(2);
         break;
     default:
@@ -2249,7 +2837,6 @@ void MainWindowServer::verticalScrollBarJourValueChanged(int value)
 void MainWindowServer::on_pushButtonSoundAlarm_clicked()
 {
     SoundAdjuster::playAlarm();
-
 
     JourEntity msg;
     msg.setObject(tr("Оператор"));

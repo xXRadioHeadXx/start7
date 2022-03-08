@@ -41,6 +41,11 @@ QPixmap Icons::accept_reason_measure_cv() { return QPixmap(":icons/AcceptReasonM
 QPixmap Icons::accept_reason_measure_v() { return QPixmap(":icons/AcceptReasonMeasure_v_20_20.png"); }
 QPixmap Icons::accept_reason_measure_vv() { return QPixmap(":icons/AcceptReasonMeasure_vv_20_20.png"); }
 
+QPixmap Icons::crs2_grn() { return QPixmap(":icons/cross2_green_20_20.png"); }
+
+QPixmap Icons::sqr_gry_qstn() { return QPixmap(":icons/square_gray_question_20_20.png"); }
+QPixmap Icons::ln_rd() { return QPixmap(":icons/line_red_20_20.png"); }
+
 Icons::Icons()
 {
 

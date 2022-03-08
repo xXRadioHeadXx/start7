@@ -51,5 +51,7 @@
         <file>sound/alarm2.wav</file>
         <file>sound/ringin.wav</file>
         <file>sound/ringout.wav</file>
+        <file>icons/cross2_green_20_20.png</file>
+        <file>icons/line_red_20_20.png</file>
     </qresource>
 </RCC>

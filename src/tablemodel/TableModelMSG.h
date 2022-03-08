@@ -10,8 +10,8 @@ class TableModelMSG : public QAbstractTableModel
     Q_OBJECT
 
     static QList<JourEntity> m_listMSG;
-    quint32 newRecordMSG;
-    quint32 updRecordMSG;
+    uint32_t newRecordMSG;
+    uint32_t updRecordMSG;
     bool needScroll;
     QFont font;
 
@@ -68,8 +68,8 @@ public slots:
     void castomUpdateListRecords(QString sql);
     void updateAllRecords();
     void updateListRecords();
-    void updateListRecords(const quint32 idMSG);
-    void updateRecord(const quint32 idMSG);
+    void updateListRecords(const uint32_t idMSG);
+    void updateRecord(const uint32_t idMSG);
     void setNeedScroll(bool value);
     void emitNeedScrollToBottom();
     void needResetModel();

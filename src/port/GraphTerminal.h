@@ -40,6 +40,10 @@ private:
     static QDomElement makeJourRecord(const JourEntity &jour, QDomElement &joursDom);
     static QDomDocument makeListJourRecord(const QList<JourEntity> &jourList);
 
+    static int typeStuffing(const int &type);
+    static int typeReStuffing(const int &type);
+
+
 public:
     explicit GraphTerminal(int nPort, QObject *parent = nullptr);
 

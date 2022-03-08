@@ -50,14 +50,23 @@ public:
     static QList<QString> getReasonGroup();
     static QList<QString> getMeasuresGroup();
     static QList<QString> getDirectionGroup();
+    static QList<QString> getD1Group();
+    static QList<QString> getD2Group();
+    static QList<QString> getD3Group();
+    static QList<QString> getD4Group();
 
     void loadSettings(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
     static QString dateFlt(QDate from, QDate to);
-    static QString objectFlt(JourEntity::TypeObject oType, int d1 = 0, int d2 = 0, int d3 = 0);
+    static QString objectFlt(JourEntity::TypeObject oType/*, int d1 = 0, int d2 = 0, int d3 = 0*/);
     static QString eventFlt(JourEntity::TypeEvent eType, JourEntity::TypeObject oType);
     static QString connectObjectFlt(JourEntity::TypeConnectObject coType);
     static QString directionFlt(QString direction);
+    static QString num1Flt(const QString &num1);
+    static QString num2Flt(const QString &num2);
+    static QString num3Flt(const QString &num3);
+    static QString outFlt(const int &out);
+    static QString adamOff(const int &adamOff);
 
 
     static qint64 getIdStartLastDuty();

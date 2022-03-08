@@ -28,6 +28,8 @@ public:
     QSharedPointer<UnitNode> nextTrackedUN() const;
 
     int optimalTimeIntervalRequest(QSharedPointer<UnitNode> un) const;
+    void incrementAllTrackedUNTimeStatusConnectRequesterWaitAnswer(int incrementDelay);
+
 
 private slots:
     virtual void specialReserveSlot() const override;

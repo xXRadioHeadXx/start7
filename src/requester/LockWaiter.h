@@ -24,9 +24,9 @@ public:
 
     virtual void init() override;
 
-    QSharedPointer<UnitNode> getUnReciverIuBlIp() const;
+    QSharedPointer<UnitNode> getUnReciverIuBlIp();
     void setUnReciverIuBlIp(QSharedPointer<UnitNode> value);
-    QSharedPointer<UnitNode> getUnReciverSdBlIp() const;
+    QSharedPointer<UnitNode> getUnReciverSdBlIp();
     void setUnReciverSdBlIp(QSharedPointer<UnitNode> value);
     int getInitVarianrt() const;
     void setInitVarianrt(int value);

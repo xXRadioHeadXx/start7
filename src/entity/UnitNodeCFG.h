@@ -4,12 +4,14 @@
 #include <QObject>
 #include <QSharedPointer>
 
-enum TypeUnitNode {
+enum TypeUnitNodeEnum {
     SYSTEM = -1, //Система
     GROUP = 0, //Группа
     KL = 2, //Концентратор КЛ1
     SD_BL_IP = 11,//СД БЛ-IP
-    IU_BL_IP = 12,//ИУ БЛ-IP 
+    IU_BL_IP = 12,//ИУ БЛ-IP
+    SSOI_SD_BL_IP = 44,//ССОИ СД БЛ-IP
+    SSOI_IU_BL_IP = 45,//ССОИ ИУ БЛ-IP
     TG_Base = 110,      //Точка/Гарда родитель рессивер
     TG = 10,      //Точка/Гарда
     RLM_KRL = 1, //РИФ-РЛМ/КРЛ/Трасса
@@ -23,7 +25,8 @@ enum TypeUnitNode {
     Y4_SOTA = 30,//Участок Сота
     DD_SOTA = 31,//ДД Сота
     NET_DEV = 200,//Сетевое устройство
-    BL_IP = 0xFF, //БЛ IP
+    BL_IP = 255, //БЛ IP
+    SSOI_BL_IP = 254, //ССОИ БЛ IP
 
     SSOI_SD = 3, //ССОИ СД
     SSOI_IU = 4, //ССОИ ИУ
@@ -34,11 +37,12 @@ enum TypeUnitNode {
     INFO_TABLO = 71 //информационное табло
 };
 
+class QJsonDocument;
 class UnitNodeCFG : public QObject
 {
     Q_OBJECT
 private:
-    int Type=TypeUnitNode::SYSTEM;
+    int Type=TypeUnitNodeEnum::SYSTEM;
     int Num1=0;
     int Num2=0;
     int Num3=0;
@@ -88,6 +92,8 @@ public:
     explicit UnitNodeCFG(const UnitNodeCFG* parent = nullptr);
     explicit UnitNodeCFG(const UnitNodeCFG & parent);
     virtual ~UnitNodeCFG();
+
+    virtual QJsonDocument makeJson();
 
     virtual UnitNodeCFG & operator=(const UnitNodeCFG& );
 

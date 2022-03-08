@@ -28,8 +28,6 @@ private:
     QList<DataQueueItem> overallReadQueue;
     QList<DataQueueItem> overallWriteQueue;
 
-    static QList<QSharedPointer<AbstractRequester> > lsSCR;
-    static QList<QSharedPointer<AbstractRequester> > lsWaiter;
 
     QTimer timerFirstWakeUp;
 
@@ -39,36 +37,7 @@ private:
     static GraphTerminal * loadPortsTcpGraphTerminal(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
     static QList<AbstractPort *> loadPortsUdpObj(QString fileName = QString( QCoreApplication::applicationDirPath() + "/rifx.ini" ));
 
-    static DataQueueItem parcingStatusWord0x41(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procUzoBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procIUBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procSDBLIPStatusWord0x41(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-
-    static DataQueueItem parcingStatusWord0x42(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkBLIPStatusWord0x42(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procSDBLIPStatusWord0x42(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-
-    static DataQueueItem parcingStatusWord0x31(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procRlmStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procRlmCStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procTgStatusWord0x31(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-
-    static DataQueueItem parcingStatusWord0x32(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procTgStatusWord0x32(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-
-
-    static DataQueueItem parcingStatusWord0x33(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkStatusWord0x33(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procTgStatusWord0x33(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-
-    static DataQueueItem parcingStatusWord0x34(DataQueueItem &item, DataQueueItem & resultRequest);
-    static bool procDkStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-    static bool procTgStatusWord0x34(const QSharedPointer<UnitNode> &currentUN, const StateWord &stateWord);
-
-    static void procDK(QSharedPointer<UnitNode>  current, QSharedPointer<UnitNode>  previous);
+    static void procDK(QSharedPointer<UnitNode> &current, const QSharedPointer<UnitNode> &previous);
 
     static QSharedPointer<ShedulerDK> shedulerDK;
 
@@ -131,13 +100,14 @@ public slots:
     void write(const QList<DataQueueItem> &data);
     void write(const DataQueueItem &data);
     void startStatusRequest();
-    void requestAlarmReset(QSharedPointer<UnitNode> selUN = nullptr);
+    void requestResetFlags(QSharedPointer<UnitNode> target = QSharedPointer<UnitNode>(nullptr));
     void requestDK(const bool isAuto = true, const bool fromAbonent = false, const QSharedPointer<UnitNode> unTarget = nullptr);
     void requestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue);
     void requestAutoOnOffIUCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget);
     void lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN, bool value);
     void lockOpenCloseCommand(QSharedPointer<UnitNode> selUN, bool value);
-    void requestModeSensor(QSharedPointer<UnitNode> selUN, QByteArray stateWord);
+    void requestModeSensor(QSharedPointer<UnitNode> selUN);
+//    void requestModeSensor(QSharedPointer<UnitNode> selUN, QByteArray stateWord);
 
 
     void manageOverallReadQueue();

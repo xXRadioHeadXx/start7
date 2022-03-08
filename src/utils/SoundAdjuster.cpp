@@ -1,17 +1,33 @@
 #include "SoundAdjuster.h"
 #include <QCoreApplication>
 #include <QDebug>
+#include <QWeakPointer>
 
-void SoundAdjuster::init()
+bool SoundAdjuster::getMute() const
 {
-    SoundAdjuster::instance().soundAlarm = QSharedPointer<QSound>::create(":sound/alarm.wav");
-    SoundAdjuster::instance().soundAlarm2 = QSharedPointer<QSound>::create(":sound/alarm2.wav");
-    SoundAdjuster::instance().soundRingin = QSharedPointer<QSound>::create(":sound/ringin.wav");
-    SoundAdjuster::instance().soundRingout = QSharedPointer<QSound>::create(":sound/ringout.wav");
+    return mute;
+}
+
+void SoundAdjuster::setMute(bool value)
+{
+    mute = value;
+}
+
+void SoundAdjuster::afterConstructInitializationImpl()
+{
+    SoundAdjuster::instance().soundAlarm = QPointer<QSound>(new QSound(":sound/alarm.wav"));
+    SoundAdjuster::instance().soundAlarm2 = QPointer<QSound>(new QSound(":sound/alarm2.wav"));
+    SoundAdjuster::instance().soundRingin = QPointer<QSound>(new QSound(":sound/ringin.wav"));
+    SoundAdjuster::instance().soundRingout = QPointer<QSound>(new QSound(":sound/ringout.wav"));
 }
 
 void SoundAdjuster::playAlarm(const int loops)
 {
+    if(SoundAdjuster::instance().getMute())
+        return;
+#ifdef QT_DEBUG
+        qDebug() << "SoundAdjuster::playAlarm( play )";
+#else
     if(SoundAdjuster::instance().soundAlarm.isNull())
         return;
     if(!SoundAdjuster::instance().soundAlarm->isFinished())
@@ -19,6 +35,8 @@ void SoundAdjuster::playAlarm(const int loops)
     SoundAdjuster::instance().soundAlarm->setLoops(loops);
 //    qDebug() << "SoundAdjuster::playAlarm(" << loops << ")" << soundAlarm.loopsRemaining() << soundAlarm.loops();
     SoundAdjuster::instance().soundAlarm->play();
+    SoundAdjuster::instance().soundAlarm->play();
+#endif
 }
 
 void SoundAdjuster::playAlarmOneTime()
@@ -28,12 +46,18 @@ void SoundAdjuster::playAlarmOneTime()
 
 void SoundAdjuster::playAlarm2(const int loops)
 {
+    if(SoundAdjuster::instance().getMute())
+        return;
+#ifdef QT_DEBUG
+    qDebug() << "SoundAdjuster::playAlarm2( play )";
+#else
     if(SoundAdjuster::instance().soundAlarm2.isNull())
         return;
     if(!SoundAdjuster::instance().soundAlarm2->isFinished())
         return;
     SoundAdjuster::instance().soundAlarm2->setLoops(loops);
     SoundAdjuster::instance().soundAlarm2->play();
+#endif
 }
 
 void SoundAdjuster::playAlarm2OneTime()
@@ -43,12 +67,18 @@ void SoundAdjuster::playAlarm2OneTime()
 
 void SoundAdjuster::playRingin(const int loops)
 {
+    if(SoundAdjuster::instance().getMute())
+        return;
+#ifdef QT_DEBUG
+    qDebug() << "SoundAdjuster::playRingin( play )";
+#else
     if(SoundAdjuster::instance().soundRingin.isNull())
         return;
     if(!SoundAdjuster::instance().soundRingin->isFinished())
         return;
     SoundAdjuster::instance().soundRingin->setLoops(loops);
     SoundAdjuster::instance().soundRingin->play();
+#endif
 }
 
 void SoundAdjuster::playRinginOneTime()
@@ -58,12 +88,18 @@ void SoundAdjuster::playRinginOneTime()
 
 void SoundAdjuster::playRingout(const int loops)
 {
+    if(SoundAdjuster::instance().getMute())
+        return;
+#ifdef QT_DEBUG
+    qDebug() << "SoundAdjuster::playRingout( play )";
+#else
     if(SoundAdjuster::instance().soundRingout.isNull())
         return;
     if(!SoundAdjuster::instance().soundRingout->isFinished())
         return;
     SoundAdjuster::instance().soundRingout->setLoops(loops);
     SoundAdjuster::instance().soundRingout->play();
+#endif
 }
 
 void SoundAdjuster::playRingoutOneTime()
@@ -73,6 +109,8 @@ void SoundAdjuster::playRingoutOneTime()
 
 void SoundAdjuster::stop()
 {
+    bool previousMuteValue =  SoundAdjuster::instance().getMute();
+    SoundAdjuster::instance().setMute(true);
     if(!SoundAdjuster::instance().soundAlarm.isNull())
         SoundAdjuster::instance().soundAlarm->stop();
     if(!SoundAdjuster::instance().soundAlarm2.isNull())
@@ -81,4 +119,5 @@ void SoundAdjuster::stop()
         SoundAdjuster::instance().soundRingin->stop();
     if(!SoundAdjuster::instance().soundRingout.isNull())
         SoundAdjuster::instance().soundRingout->stop();
+    SoundAdjuster::instance().setMute(previousMuteValue);
 }

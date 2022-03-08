@@ -2,6 +2,7 @@
 #include "SignalSlotCommutator.h"
 #include "Utils.h"
 #include "Operator.h"
+#include <IniFileService.h>
 #include <QTextCodec>
 #include "SimpleIni.h"
 #include "ServerSettingUtils.h"
@@ -31,7 +32,9 @@ QStringList DataBaseManager::fields = {
     "d2",
     "d3",
     "d4",
-    "objecttype"};
+    "objecttype",
+    "params"
+};
 
 uint constexpr qConstHash(const char *string)
 {
@@ -73,6 +76,9 @@ QMetaType::Type DataBaseManager::fieldType(QString field) {
     case qConstHash("cdate") :
     case qConstHash("mdate") : {
         return QMetaType::QDateTime;
+    }
+    case qConstHash("params") : {
+        return QMetaType::QJsonDocument;
     }
     default : {
         return QMetaType::UnknownType;
@@ -273,6 +279,14 @@ int DataBaseManager::insertJourMsg_wS(const JourEntity &msg) {
 
 int DataBaseManager::insertJourMsg(const JourEntity &msg)
 {
+    QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+
+    QString json = codec->toUnicode(msg.getParams().toJson(QJsonDocument::Compact));
+//    json = json.replace("\"", "\\\"");
+    if(json.isEmpty())
+        json = "{}";
+    json = "'" + json + "'";
+
 
     QString sql;
     sql = " INSERT INTO public.jour ( ";
@@ -280,12 +294,12 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
         sql += "cdate, ";
     if(msg.getMdate().isValid())
         sql += "mdate, ";
-    sql += "comment, object, reason, measures, operatorid, status, direction, d1, d2, d3, d4, type, objecttype, flag) VALUES ( ";
+    sql += "comment, object, reason, measures, operatorid, status, direction, d1, d2, d3, d4, type, objecttype, flag, params) VALUES ( ";
     if(msg.getCdate().isValid())
         sql += "to_timestamp(:vCdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
     if(msg.getMdate().isValid())
         sql += "to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
-    sql += ":vComment, :vObject, :vReason, :vMeasures, :vOperatorid, :vStatus, :vDirection, :vD1, :vD2, :vD3, :vD4, :vType, :vObjecttype, :vFlag); ";
+    sql += ":vComment, :vObject, :vReason, :vMeasures, :vOperatorid, :vStatus, :vDirection, :vD1, :vD2, :vD3, :vD4, :vType, :vObjecttype, :vFlag, " + json + " ); ";
 
     QSqlQuery query(m_db());
     query.prepare(sql);
@@ -310,6 +324,8 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     query.bindValue(":vObjecttype", msg.getObjecttype());
 //    query.bindValue(":vFlag", 1);
     query.bindValue(":vFlag", msg.getFlag());
+
+
 
     if(query.exec())
     {
@@ -338,8 +354,8 @@ int DataBaseManager::updateJourMsg_wS(JourEntity &msg) {
 
 int DataBaseManager::updateJourMsg(JourEntity &msg)
 {
-//    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
-//    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+//    int needReason = IniFileService::getValueBySectionKey("P1", "PostgresSQL").toInt();
+//    int needMeasure = IniFileService::getValueBySectionKey("P2", "PostgresSQL").toInt();
 
 //    if(1 == msg.getFlag()) {
 //        if(0 != needReason && 0 != needMeasure && !msg.getReason().isEmpty() && !msg.getMeasures().isEmpty()) {
@@ -427,6 +443,15 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
 
         break;
     }
+    case QMetaType::QJsonDocument: {
+        break;
+        sql =  " UPDATE public.jour \
+                 SET %1=to_timestamp(:value, 'YYYY-MM-DD HH24:MI:SS.MS'), \
+                     mdate = to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS') \
+                 WHERE id in %2";
+
+        break;
+    }
     default : {
         sql =  " UPDATE public.jour \
                  SET %1=:value, \
@@ -446,7 +471,7 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
     sqlId = "(" + sqlId + ")";
 
 
-    sql = sql.arg(field).arg(sqlId);
+    sql = sql.arg(field, sqlId);
 
     QSqlQuery query(m_db());
     query.prepare(sql);
@@ -481,8 +506,8 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
 }
 
 int DataBaseManager::checkNecessarilyReasonMeasureFill() {
-    int needReason = ServerSettingUtils::getValueSettings("P1", "PostgresSQL").toInt();
-    int needMeasure = ServerSettingUtils::getValueSettings("P2", "PostgresSQL").toInt();
+    int needReason = IniFileService::getValueBySectionKey("PostgresSQL", "P1", "0").toInt();
+    int needMeasure = IniFileService::getValueBySectionKey("PostgresSQL", "P2", "0").toInt();
 
     if(0 == needReason && 0 == needMeasure)
         return 0;
@@ -621,12 +646,13 @@ QList<JourEntity> DataBaseManager::getQueryMSGRecord(QSqlQuery query) {
             me.setType(rec.value("type").toInt());
             me.setObjecttype(rec.value("objecttype").toInt());
             me.setFlag(rec.value("flag").toInt());
+            me.setParams(QJsonDocument::fromJson(rec.value("params").toByteArray()));
 
             result.append(me);
         }
     }
 
-//    //qDebug() << "DataBaseManager::getQueryMSGRecord(" << query.lastQuery() << ")";
+//    qDebug() << "DataBaseManager::getQueryMSGRecord(" << query.lastQuery() << ")";
     return result;
 }
 
@@ -680,7 +706,7 @@ int DataBaseManager::executeQuery(QString sql)
 int DataBaseManager::executeQuery(QSqlQuery query)
 {
     if(query.exec()) {
-//        //qDebug() << "DataBaseManager::executeQuery(" << query.lastQuery() << ")";
+        qDebug() << "DataBaseManager::executeQuery(" << query.lastQuery() << ")";
         return 0;
     } else {
         qDebug() << query.lastError().text();
@@ -846,6 +872,106 @@ QList<QString> DataBaseManager::getDirectionGroup() {
     return result;
 }
 
+QList<QString> DataBaseManager::getD1Group() {
+    QList<QString> result;
+
+    QString sql;
+    sql = " SELECT d1 \
+            FROM public.jour \
+            WHERE d1 is not null \
+            group by d1 \
+            order by d1 ASC ";
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            QSqlRecord rec = query.record();
+            result.append(QString::number(rec.value("d1").toInt()));
+        }
+    }
+//    //qDebug() << "DataBaseManager::getD1Group(" << query.lastQuery() << ")";
+    return result;
+}
+
+QList<QString> DataBaseManager::getD2Group() {
+    QList<QString> result;
+
+    QString sql;
+    sql = " SELECT d2 \
+            FROM public.jour \
+            WHERE d2 is not null \
+            group by d2 \
+            order by d2 ASC ";
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            QSqlRecord rec = query.record();
+            result.append(QString::number(rec.value("d2").toInt()));
+        }
+    }
+//    //qDebug() << "DataBaseManager::getD2Group(" << query.lastQuery() << ")";
+    return result;
+}
+
+QList<QString> DataBaseManager::getD3Group() {
+    QList<QString> result;
+
+    QString sql;
+    sql = " SELECT d3 \
+            FROM public.jour \
+            WHERE d3 is not null \
+            group by d3 \
+            order by d3 ASC ";
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            QSqlRecord rec = query.record();
+            result.append(QString::number(rec.value("d3").toInt()));
+        }
+    }
+//    //qDebug() << "DataBaseManager::getD3Group(" << query.lastQuery() << ")";
+    return result;
+}
+
+QList<QString> DataBaseManager::getD4Group() {
+    QList<QString> result;
+
+    QString sql;
+    sql = " SELECT d4 \
+            FROM public.jour \
+            WHERE d4 is not null \
+            group by d4 \
+            order by d4 ASC ";
+
+    QSqlQuery query(m_db());
+    query.prepare(sql);
+
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            QSqlRecord rec = query.record();
+            result.append(QString::number(rec.value("d4").toInt()));
+        }
+    }
+//    //qDebug() << "DataBaseManager::getD4Group(" << query.lastQuery() << ")";
+    return result;
+}
+
 void DataBaseManager::loadSettings(QString fileName)
 {
     QSettings settings(fileName, QSettings::IniFormat);
@@ -978,14 +1104,54 @@ QString DataBaseManager::connectObjectFlt(JourEntity::TypeConnectObject coType) 
 
 QString DataBaseManager::directionFlt(QString direction)
 {
-    if(direction.isEmpty())
+    if(direction.isEmpty() || "-1" == direction)
         return "";
     QString sqlFlt;
-    sqlFlt += " (direction='" + direction + "') ";
+    sqlFlt += " (direction like ('" + direction + "%')) ";
     return sqlFlt;
 }
 
-QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2, int d3) {
+QString DataBaseManager::num1Flt(const QString &num1)
+{
+    if(num1.isEmpty() || "-1" == num1)
+        return "";
+    QString sqlFlt(" (d1=" + num1 + ") ");
+    return sqlFlt;
+}
+
+QString DataBaseManager::num2Flt(const QString &num2)
+{
+    if(num2.isEmpty() || "-1" == num2)
+        return "";
+    QString sqlFlt(" (d2=" + num2 + ") ");
+    return sqlFlt;
+}
+
+QString DataBaseManager::num3Flt(const QString &num3)
+{
+    if(num3.isEmpty() || "-1" == num3)
+        return "";
+    QString sqlFlt(" (d3=" + num3 + ") ");
+    return sqlFlt;
+}
+
+QString DataBaseManager::outFlt(const int &out)
+{
+    if(0 > out)
+        return "";
+    QString sqlFlt(" (d4=" + QString::number(out) + ") ");
+    return sqlFlt;
+}
+
+QString DataBaseManager::adamOff(const int &adamOff)
+{
+    if(0 > adamOff)
+        return "";
+    QString sqlFlt("(params ->> 'AdamOff' = 1)::integer = " + QString::number(adamOff) + ") ");
+    return sqlFlt;
+}
+
+QString DataBaseManager::objectFlt(JourEntity::TypeObject oType/*, int d1, int d2, int d3*/) {
     QString sqlFlt;
 
     switch( (JourEntity::TypeObject)oType ) {
@@ -994,22 +1160,10 @@ QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2,
 //    }
     case JourEntity::oSD: {
         sqlFlt += " (objecttype=3 OR objecttype=33)";  /* СД */
-        if(0 < d1)
-            sqlFlt += " AND d1=" + QString::number(d1);
-        if(0 < d2)
-            sqlFlt += " AND d2=" + QString::number(d2);
-        if(0 < d3)
-            sqlFlt += " AND d3=" + QString::number(d3);
         break;
     }
     case JourEntity::oIU: {
         sqlFlt += " (objecttype=4 OR objecttype=43)";  /* ИУ */
-        if(0 < d1)
-            sqlFlt += " AND d1=" + QString::number(d1);
-        if(0 < d2)
-            sqlFlt += " AND d2=" + QString::number(d2);
-        if(0 < d3)
-            sqlFlt += " AND d3=" + QString::number(d3);
         break;
     }
     case JourEntity::oRIFRLM: {
@@ -1075,8 +1229,17 @@ QString DataBaseManager::objectFlt(JourEntity::TypeObject oType, int d1, int d2,
         break;
     }
     default:
+        sqlFlt += " (1=1)";
         break;
     }
+
+//    if(0 < d1)
+//        sqlFlt += " AND d1=" + QString::number(d1);
+//    if(0 < d2)
+//        sqlFlt += " AND d2=" + QString::number(d2);
+//    if(0 < d3)
+//        sqlFlt += " AND d3=" + QString::number(d3);
+
     if(!sqlFlt.isEmpty())
         sqlFlt = "(" + sqlFlt + ")";
     return sqlFlt;

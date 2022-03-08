@@ -60,7 +60,7 @@ bool RunGuard::tryToRun()
         return false;
 
     memLock.acquire();
-    const bool result = sharedMem.create( sizeof( quint64 ) );
+    const bool result = sharedMem.create( sizeof( uint64_t ) );
     memLock.release();
     if ( !result )
     {

@@ -2,22 +2,46 @@
 #define SOUNDADJUSTER_H
 
 #include <QObject>
+#include <QPointer>
 #include <QSharedPointer>
 #include "template/SingletonTemplate.h"
-#include "QSound"
+#include <QSound>
 
-class SoundAdjuster : public QObject, public SingletonTemplate<SoundAdjuster>
+class SoundAdjuster : public QObject,  public AfterConstructInitialization, public SingletonTemplate<SoundAdjuster>
 {
     Q_OBJECT
-    QSharedPointer<QSound> soundAlarm;
-    QSharedPointer<QSound> soundAlarm2;
-    QSharedPointer<QSound> soundRingin;
-    QSharedPointer<QSound> soundRingout;
+    bool mute = false;
+    QPointer<QSound> soundAlarm;
+    QPointer<QSound> soundAlarm2;
+    QPointer<QSound> soundRingin;
+    QPointer<QSound> soundRingout;
 
 public:
-    virtual ~SoundAdjuster() {}
+    virtual ~SoundAdjuster() {
+        setMute(true);
+        if(!soundAlarm.isNull())
+            soundAlarm->stop();
+        if(!soundAlarm2.isNull())
+            soundAlarm2->stop();
+        if(!soundRingin.isNull())
+            soundRingin->stop();
+        if(!soundRingout.isNull())
+            soundRingout->stop();
 
-    static void init();
+        if(!soundAlarm.isNull())
+            soundAlarm->deleteLater();
+        if(!soundAlarm2.isNull())
+            soundAlarm2->deleteLater();
+        if(!soundRingin.isNull())
+            soundRingin->deleteLater();
+        if(!soundRingout.isNull())
+            soundRingout->deleteLater();
+    }
+
+    virtual void afterConstructInitializationImpl() override;
+
+    bool getMute() const;
+    void setMute(bool value);
 
 public slots:
     static void playAlarm(const int loops = QSound::Infinite);

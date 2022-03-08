@@ -8,7 +8,7 @@ class UnitNodeFactory
 public:
     UnitNodeFactory();
 
-    static QSharedPointer<UnitNode> makeShare(TypeUnitNode type, QSharedPointer<UnitNode> parent = QSharedPointer<UnitNode>(nullptr));
+    static QSharedPointer<UnitNode> makeShare(TypeUnitNodeEnum type, const QSharedPointer<UnitNode> parent = nullptr);
     static QSharedPointer<UnitNode> makeShare(const UnitNode & parent);
 
 };

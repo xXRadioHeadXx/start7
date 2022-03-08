@@ -3,18 +3,16 @@
 
 #include <QString>
 #include "AbstractPortFactory.h"
-#include "Port.h"
 
 class PortFactory : public AbstractPortFactory
 {
 public:
-    PortFactory(AbstractPort::Protocol protocol);
+    PortFactory(int protocol);
     virtual ~PortFactory();
-//    AbstractPort * create(const int index = 0, QObject *parent = nullptr);
-    AbstractPort * create(AbstractPort::Protocol protocol, const int index = 0, QObject *parent = nullptr) const override;
-    AbstractPort::Protocol getProtocol();
+    AbstractPort * create(int protocol, const int index = 0, QObject *parent = nullptr) const override;
+    int getProtocol();
 private:
-    AbstractPort::Protocol protocol;
+    int protocol;
 };
 
 #endif // PORTFACTORY_H

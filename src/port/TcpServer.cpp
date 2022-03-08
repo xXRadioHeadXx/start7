@@ -11,12 +11,6 @@ TcpServer::TcpServer(int nPort, QObject *parent) : QObject(parent), nPort(nPort)
  {
      m_ptrTcpServer = QSharedPointer<QTcpServer>::create(this);
      if (!m_ptrTcpServer->listen(QHostAddress::Any, nPort)) {
-//         QMessageBox::critical(0,
-//                               "Server Error",
-//                               "Unable to start the server:"
-//                               + m_ptrTcpServer->errorString()
-//                              );
-         //qDebug() << "TcpServer Error: Unable to start the server:" + m_ptrTcpServer->errorString();
          m_ptrTcpServer->close();
          m_ptrTcpServer.clear();
          return;
@@ -32,9 +26,10 @@ TcpServer::~TcpServer() {
 
 bool TcpServer::writeData(QString host, QByteArray data)
 {
-    for(const auto &socket : as_const(abonents.keys())) {
-        if(host == Utils::hostAddressToString(socket->peerAddress())) {
-            return writeData(socket, data);
+    for(auto it = abonents.begin(); it != abonents.end(); it++) {
+//    for(const auto& socket : as_const(abonents.keys())) {
+        if(host == Utils::hostAddressToString(it.key()->peerAddress())) {
+            return writeData(it.key(), data);
         }
     }
 
@@ -49,9 +44,9 @@ const QHash<QSharedPointer<QTcpSocket>, QSharedPointer<QByteArray> > TcpServer::
 QSharedPointer<QTcpSocket> TcpServer::connectToHost(QString host)
 {
     qDebug() << "TcpServer::connectToHost(" << "host" << ")";
-    for(const auto &socket : abonents.keys()) {
-        if(host == Utils::hostAddressToString(socket->peerAddress())) {
-            return socket;
+    for(auto it = abonents.begin(); it != abonents.end(); it++) {
+        if(host == Utils::hostAddressToString(it.key()->peerAddress())) {
+            return it.key();
         }
     }
 
@@ -104,22 +99,26 @@ void TcpServer::disconnected()
 {
     QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
 
-    for(const auto &key : abonents.keys()) {
-        if(key.data() == socket) {
-            abonents.remove(key);
+    for(auto it = abonents.begin(); it != abonents.end();) {
+        if(it.key().data() == socket) {
+            it = abonents.erase(it);
             qDebug() << "TcpServer::disconnected()" << abonents;
             return;
+        } else {
+            ++it;
         }
     }
 }
 
 void TcpServer::readyRead()
 {
-    QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
+    const auto& socket = dynamic_cast<QTcpSocket*>(sender());
+    if(nullptr == socket)
+        return;
     QSharedPointer<QByteArray> buffer;
-    for(const auto &key : abonents.keys()) {
-        if(key.data() == socket) {
-            buffer = abonents.value(key);
+    for(auto it = abonents.begin(); it != abonents.end(); it++) {
+        if(it.key().data() == socket) {
+            buffer = it.value();
             break;
         }
     }
@@ -175,6 +174,20 @@ void TcpServer::readyRead()
                     } else if(domStr.contains(QRegExp("<\\s*RIFPlusPacket\\s*type\\s*=\\s*\"Commands\"\\s*>\\s*<\\s*Commands>\\s*<Command\\s*id\\s*=\\s*\"\\d*\"\\s*name\\s*=\\s*\".*\"\\s*\\/>\\s*<\\s*device\\s*id\\s*=\\s*\"\\d*\"\\s*level\\s*=\\s*\"\\d*\"\\s*type\\s*=\\s*\"\\d*\"\\s*num1\\s*=\\s*\"\\d*\"\\s*num2\\s*=\\s*\"\\d*\"\\s*num3\\s*=\\s*\"\\d*\"\\s*>\\s*<\\/\\s*Commands\\s*>\\s*<\\/\\s*RIFPlusPacket\\s*>"))) {
                         //qDebug() << "TcpServer::(31) match";
                         domStr.insert(domStr.indexOf(QRegExp("<\/\s*Commands\s*>\s*<\/\s*RIFPlusPacket\s*>")), "</device>");
+                    } else if(domStr.contains(QRegExp("(<\\s*device\\s*(\\w*\\d*\\s*=\\s*\\\"((\\d*)|(\\w*))\\\"\\s*)*>\\s*<\\s*((^[\\w*])|(^[\\d*])|([^\\/])))|(<\\s*device\\s*(\\w*\\d*\\s*=\\s*\\\"((\\d*)|(\\w*))\\\"\\s*)*>\\s*<\\s*\\/[^device])"))) {
+//                        (<\s*device\s*(\w*\d*\s*=\s*"((\d*)|(\w*))"\s*)*>\s*<\s*((^[\w*])|(^[\d*])|([^\/])))|(<\s*device\s*(\w*\d*\s*=\s*"((\d*)|(\w*))"\s*)*>\s*<\s*\/[^device])
+                        while(true) {
+                            int indexBegin = domStr.indexOf(QRegExp("(<\\s*device\\s*(\\w*\\d*\\s*=\\s*\\\"((\\d*)|(\\w*))\\\"\\s*)*>\\s*<\\s*((^[\\w*])|(^[\\d*])|([^\\/])))|(<\\s*device\\s*(\\w*\\d*\\s*=\\s*\\\"((\\d*)|(\\w*))\\\"\\s*)*>\\s*<\\s*\\/[^device])"));
+                            if(-1 == indexBegin) {
+                                break;
+                            }
+                            int indexEnd = domStr.indexOf(">", indexBegin);
+                            if(-1 == indexEnd) {
+                                break;
+                            }
+                            domStr.insert(indexEnd + 1, "</device>");
+                        }
+//                        qWarning() << "DEVICE ERRRROR" << domStr;
                     }
 
                     if(doc.setContent(domStr)) {
@@ -185,6 +198,8 @@ void TcpServer::readyRead()
                         emit dataReceived(itm);
 
                         continue;
+                    } else {
+//                        qWarning() << "ERRRROR PROTOKOL RUKO >|< OP " << domStr;
                     }
                 }
             }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QVariant>
+#include <QJsonDocument>
 
 class JourEntity : public QObject
 {
@@ -30,6 +31,7 @@ private:
     int type = 0;
     int objecttype = 0;
     int flag = 1;
+    QJsonDocument params;
 
     static QMap<int, QString> mapTypeObject;
     static QMap<int, QString> mapTypeEvent;
@@ -39,23 +41,23 @@ public:
 
     enum TypeObject {
         oAllObject = 0,//"Все",
-        oSD = 1,//"СД",
-        oIU = 2,//"ИУ",
-        oRIFRLM = 3,//"РИФ-РЛМ(КРЛ), Трасса",
-        oSDCollector = 4,//"СД концентратора",
-        oToros = 5,//"Торос",
-        oNast = 6,//"Наст",
-        oRadar = 7,//"Радар",
-        oRazrivBO = 8,//"Разрыв БО",
-        oTochkaGard = 9,//"Точка/Гарда",
-        oAdam = 10,//"Адам-406x/4168",
+        oSD = 3,//"СД",
+        oIU = 4,//"ИУ",
+        oRIFRLM = 1,//"РИФ-РЛМ(КРЛ), Трасса",
+        oSDCollector = 2,//"СД концентратора",
+        oToros = 8,//"Торос",
+        oNast = 9,//"Наст",
+        oRadar = 91,//"Радар",
+        oRazrivBO = 21,//"Разрыв БО",
+        oTochkaGard = 10,//"Точка/Гарда",
+        oAdam = 7,//"Адам-406x/4168",
         oSDBLIP = 11,//"СД БЛ-IP",
         oIUBLIP = 12,//"ИУ БЛ-IP",
-        oRIFRLMS = 13,//"РИФ-РЛМ-С",
-        oBODTochkaM = 14,//"БОД Точка-М/Гарда-М",
-        oDDTochkaM = 15,//"ДД Точка-М/Гарда-М",
-        oBODSota = 16,//"БОД Сота/Сота-М",
-        oDDSota = 17//"ДД Сота/Сота-М"
+        oRIFRLMS = 111,//"РИФ-РЛМ-С",
+        oBODTochkaM = 26,//"БОД Точка-М/Гарда-М",
+        oDDTochkaM = 28,//"ДД Точка-М/Гарда-М",
+        oBODSota = 29,//"БОД Сота/Сота-М",
+        oDDSota = 31//"ДД Сота/Сота-М"
     };
 
     enum TypeEvent {
@@ -153,6 +155,9 @@ public:
     QPixmap getPxm() const;
     QColor getColor() const;
 
+
+    const QJsonDocument &getParams() const;
+    void setParams(const QJsonDocument &newParams);
 
 private:
 

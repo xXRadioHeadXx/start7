@@ -27,7 +27,7 @@ private:
     QList<DataQueueItem> localReadQueue;
     QList<DataQueueItem> localWriteQueue;
 
-    int timeIntervalProcDK = 11'000;
+    int timeIntervalProcDK = 20'000;
     QTimer timerBeatProcDK;
     bool procDK = false;
 

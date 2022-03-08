@@ -1,4 +1,4 @@
-QT       += core gui widgets network sql
+QT += core gui widgets network sql
 
 TARGET = m_server
 TEMPLATE = app
@@ -45,6 +45,7 @@ include(../src/database/database.pri)
 include(../src/requester/requester.pri)
 include(../src/template/template.pri)
 #include(../src/qcron/qcron.pri)
+#include(../src/handlerstateword/handlerstateword.pri)
 include(../src/global.pri)
 
 SOURCES += \

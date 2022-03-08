@@ -23,6 +23,7 @@ public:
     static QColor cellRed;
     static QColor cellGreen;
     static QColor cellGray;
+    static QColor cellLightGray;
     static QColor cellYellow;
     static QColor cellBlue;
 
@@ -47,7 +48,7 @@ public:
     static QHostAddress hostAddress(const QString ip);
     static QString strHostAddress(const QString ip);
     static QString hostAddressToString(const QHostAddress host);
-    static quint8 getByteSumm(QByteArray &ba, int bi = 1, int ei = -1);
+    static uint8_t getByteSumm(QByteArray &ba, int bi = 1, int ei = -1);
     static QString typeUNToStr(const int type);
     static QString baMsgToStr(const QByteArray ba = QByteArray());
     static bool isSavedMsg(const QByteArray ba);
@@ -61,6 +62,7 @@ public:
     static void setCellColor(QTableWidget * const table, const int row, const int column, const QColor color = cellGray);
     static void fillDiagnosticTable(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableBLIP(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
+    static void fillDiagnosticTableSSOIBLIP(QTableWidget * const table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableRLMKRL(QTableWidget * const table, const QSharedPointer<UnitNode> un);
     static void fillDiagnosticTableRLM_C(QTableWidget *table, const QSharedPointer<UnitNode> selUN);
     static void fillDiagnosticTableTG(QTableWidget *const table, const QSharedPointer<UnitNode> selUN);
@@ -71,6 +73,8 @@ public:
     static QSet<QSharedPointer<UnitNode> > findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un);
     static QSize getQTableWidgetContentSize(QTableWidget * const table);
 
+    static QString outTypeToString(const int &outType);
+
     static char reverseBits( char number );
 
     static QByteArray xorCrypt(const QByteArray in, const QByteArray key);
@@ -80,9 +84,9 @@ public:
     static QString XOR_Crypt(QString src);
 
     // пригодились)))
-    static const double randomNormalDistribution(const double mean, const double stddev);
-    static const double randomExponentialDistribution(const double mean);
-    static const bool randomBernoulliDistribution(const double meanTrue);
+    static double randomNormalDistribution(const double mean, const double stddev);
+    static double randomExponentialDistribution(const double mean);
+    static bool randomBernoulliDistribution(const double meanTrue);
 };
 
 #endif // UTILS_H

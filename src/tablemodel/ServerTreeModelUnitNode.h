@@ -19,7 +19,7 @@ public:
 
 
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
-    QSharedPointer<UnitNode> rootItemUN = QSharedPointer<UnitNode>(new UnitNode());
+    QSharedPointer<UnitNode> rootItemUN;// = QSharedPointer<UnitNode>(new UnitNode());
     QList<QSharedPointer<UnitNode> > listItemUN;
 
     QVariant data(const QModelIndex &index, int role) const override;

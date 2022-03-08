@@ -6,6 +6,8 @@
 #include "Utils.h"
 #include "global.h"
 
+#include "TopologyService.h"
+
 MultiUNStatusConnectRequester::MultiUNStatusConnectRequester(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {
 //    qDebug() << "MultiUNStatusConnectRequester::MultiUNStatusConnectRequester(" << this << ") -->";
@@ -30,7 +32,7 @@ void MultiUNStatusConnectRequester::setLsTrackedUN(const QList<QSharedPointer<Un
 void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  value)
 {
 //    qDebug() << "MultiUNStatusConnectRequester::addLsTrackedUN -->";
-    for(auto un : lsTrackedUN) {
+    for(const auto& un : as_const(lsTrackedUN)) {
         if(un->getType() == value->getType() &&
            un->getNum1() == value->getNum1() &&
            un->getUdpPort() == value->getUdpPort() &&
@@ -53,7 +55,7 @@ void MultiUNStatusConnectRequester::addLsTrackedUN(QSharedPointer<UnitNode>  val
 
 
     int sumUdpTimeout = 0;
-    for(auto uncld : as_const(getLsTrackedUN())) {
+    for(const auto& uncld : as_const(getLsTrackedUN())) {
         sumUdpTimeout += uncld->getUdpTimeout();
     }
 
@@ -75,13 +77,13 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::previousTrackedUN() cons
         auto index = getLsTrackedUN().indexOf(currentTrackedUN());
 
         if(0 > index - 1) {
-            return getLsTrackedUN().last();
+            return as_const(getLsTrackedUN()).last();
         }
 
         return getLsTrackedUN().at(index - 1);
 
     } else if(1 == getLsTrackedUN().size()) {
-        return getLsTrackedUN().first();
+        return as_const(getLsTrackedUN()).first();
     }
 
     return QSharedPointer<UnitNode>::create();
@@ -101,14 +103,14 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
 
         if(getLsTrackedUN().size() <= index + 1) {
 //            qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() first <--" << QString((getLsTrackedUN().first()->getDkInvolved() ? "DK! " : "")) << getLsTrackedUN().first()->toString();
-            return getLsTrackedUN().first();
+            return as_const(getLsTrackedUN()).first();
         }
 //        qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() at(" << (index + 1) << ") <--" << QString((getLsTrackedUN().at(index + 1)->getDkInvolved() ? "DK! " : "")) << getLsTrackedUN().at(index + 1)->toString();
         return getLsTrackedUN().at(index + 1);
 
     } else if(1 == getLsTrackedUN().size()) {
 //        qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() first <--" << QString((getLsTrackedUN().first()->getDkInvolved() ? "DK! " : "")) << getLsTrackedUN().first()->toString();
-        return getLsTrackedUN().first();
+        return as_const(getLsTrackedUN()).first();
     }
 //    qDebug() << "MultiUNStatusConnectRequester::nextTrackedUN() null <--";
     return QSharedPointer<UnitNode>::create();
@@ -117,25 +119,46 @@ QSharedPointer<UnitNode> MultiUNStatusConnectRequester::nextTrackedUN() const
 int MultiUNStatusConnectRequester::optimalTimeIntervalRequest(QSharedPointer<UnitNode> un) const
 {
     int udpTimeout = 50;
-    if(TypeUnitNode::BL_IP == un->getType()) {
-        for(auto i = 0, n = un->childCount(); i < n; i++) {
-            auto cun = un->child(i);
-            if(TypeUnitNode::SD_BL_IP == cun->getType() || TypeUnitNode::IU_BL_IP == cun->getType()) {
+    if(TypeUnitNodeEnum::SSOI_BL_IP == un->getType()) {
+        for(const auto& cun : as_const(TopologyService::findChild(un))) {
+            if(TypeUnitNodeEnum::SSOI_SD_BL_IP == cun->getType()
+            || TypeUnitNodeEnum::SSOI_IU_BL_IP == cun->getType()) {
                 udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
             }
         }
-    } else if(TypeUnitNode::TG_Base == un->getType()) {
-        for(auto i = 0, n = un->childCount(); i < n; i++) {
-            auto cun = un->child(i);
-            if(TypeUnitNode::TG == cun->getType()) {
+    } else if(TypeUnitNodeEnum::BL_IP == un->getType()) {
+        for(const auto& cun : as_const(TopologyService::findChild(un))) {
+            if(TypeUnitNodeEnum::SD_BL_IP == cun->getType()
+            || TypeUnitNodeEnum::IU_BL_IP == cun->getType()) {
                 udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
             }
+        }
+    } else if(TypeUnitNodeEnum::TG_Base == un->getType()) {
+        for(const auto& cun : as_const(TopologyService::findChild(un))) {
+            if(TypeUnitNodeEnum::TG == cun->getType()) {
+                udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
+            }
+        }
+    } else if(TypeUnitNodeEnum::BOD_T4K_M == un->getType()) {
+        for(const auto& cun : as_const(TopologyService::findChild(un))) {
+            udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
         }
     } else {
         udpTimeout = qMax(udpTimeout, un->getUdpTimeout());
     }
 
     return udpTimeout;
+}
+
+void MultiUNStatusConnectRequester::incrementAllTrackedUNTimeStatusConnectRequesterWaitAnswer(int incrementDelay)
+{
+    for(const auto& un : as_const(getLsTrackedUN())) {
+        un->incrementTimeStatusConnectRequesterWaitAnswer(incrementDelay);
+        if(delayDisconnectStatus <= un->getTimeStatusConnectRequesterWaitAnswer()) {
+            un->resetTimeStatusConnectRequesterWaitAnswer();
+            SignalSlotCommutator::emitLostedConnect(un);
+        }
+    }
 }
 
 void MultiUNStatusConnectRequester::specialReserveSlot() const
@@ -156,24 +179,45 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     if(currentTrackedUN()->getMaxCountStatusConnectRequesterWaitAnswer() <= currentTrackedUN()->getCountStatusConnectRequesterWaitAnswer()) {
 //        qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg() -- max:" << getUnReciver()->getMaxCountSCRWA() << "<= curr:" << getUnReciver()->getCountSCRWA() << " " << getUnReciver()->toString();
         currentTrackedUN()->resetCountStatusConnectRequesterWaitAnswer();
+//        SignalSlotCommutator::emitLostedConnect(getUnReciver());
+    }
+
+    if(delayDisconnectStatus <= currentTrackedUN()->getTimeStatusConnectRequesterWaitAnswer()) {
+//        qDebug() << "MultiUNStatusConnectRequester::makeFirstMsg() -- max:" << getUnReciver()->getMaxCountSCRWA() << "<= curr:" << getUnReciver()->getCountSCRWA() << " " << getUnReciver()->toString();
+        currentTrackedUN()->resetTimeStatusConnectRequesterWaitAnswer();
         SignalSlotCommutator::emitLostedConnect(getUnReciver());
     }
+
 
     result.setPort(currentTrackedUN()->getUdpPort());
     result.setAddress(Utils::hostAddress(currentTrackedUN()->getUdpAdress()));
     result.setPortIndex(Port::typeDefPort(getPtrPort())->getPortIndex());
 
-    if(TypeUnitNode::BL_IP == currentTrackedUN()->getType() ||
-//       TypeUnitNode::SD_BL_IP == currentTrackedUN()->getType() ||
-//       TypeUnitNode::IU_BL_IP == currentTrackedUN()->getType() ||
-       TypeUnitNode::RLM_C == currentTrackedUN()->getType() ||
-       TypeUnitNode::RLM_KRL == currentTrackedUN()->getType() ||
-//       TypeUnitNode::TG == currentTrackedUN()->getType() ||
-       TypeUnitNode::TG_Base == currentTrackedUN()->getType()) {
+    if(TypeUnitNodeEnum::BL_IP == currentTrackedUN()->getType()
+    || TypeUnitNodeEnum::SSOI_BL_IP == currentTrackedUN()->getType()
+//    || TypeUnitNode::SD_BL_IP == currentTrackedUN()->getType()
+//    || TypeUnitNode::IU_BL_IP == currentTrackedUN()->getType()
+    || TypeUnitNodeEnum::RLM_C == currentTrackedUN()->getType()
+    || TypeUnitNodeEnum::RLM_KRL == currentTrackedUN()->getType()
+//    || TypeUnitNode::TG == currentTrackedUN()->getType()
+    || TypeUnitNodeEnum::TG_Base == currentTrackedUN()->getType()
+    || TypeUnitNodeEnum::BOD_T4K_M == currentTrackedUN()->getType()) {
 
-        if(!currentTrackedUN()->getQueueManagersSingleMsg().isEmpty()) {
+        if(!currentTrackedUN()->getListManagersSingleMsg().isEmpty()) {
+            auto headMSMsg = currentTrackedUN()->getFirstManagerSingleMsg();
+            if(3 <= headMSMsg->getCountMaker()) {
+                const auto& msm = currentTrackedUN()->takeFirstManagerSingleMsg();
+                if(!msm.isNull()) {
+                    msm->callReject();
+                }
+            }
+        }
+
+        if(!currentTrackedUN()->getListManagersSingleMsg().isEmpty()
+        && !currentTrackedUN()->getNeedPostponeQueueMsg()) {
 //            qDebug() << "currentTrackedUN(" << currentTrackedUN()->toString() << ")->QueueManagersSingleMsg(" << currentTrackedUN()->getQueueManagersSingleMsg().size() << ")";
-            auto headMSMsg = currentTrackedUN()->getQueueManagersSingleMsg().head();
+            currentTrackedUN()->setNeedPostponeQueueMsg(true);
+            auto headMSMsg = currentTrackedUN()->getFirstManagerSingleMsg();
 
             result = headMSMsg->makeDatagram();
 
@@ -182,8 +226,9 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
             setBeatCount(getBeatCount() - 1);
             if(0 > getBeatCount())
                 resetBeatCount();
-        } else if(!currentTrackedUN()->getQueueMsg().isEmpty()) {
+        } else if(!currentTrackedUN()->getQueueMsg().isEmpty() && !currentTrackedUN()->getNeedPostponeQueueMsg()) {
 //            qDebug() << "currentTrackedUN(" << currentTrackedUN()->toString() << ")->queueMsg(" << currentTrackedUN()->queueMsg.size() << ")";
+            currentTrackedUN()->setNeedPostponeQueueMsg(true);
             result = currentTrackedUN()->pullQueueMsg();
 
             currentTrackedUN()->decrementCountStatusConnectRequesterWaitAnswer();
@@ -192,7 +237,12 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
             if(0 > getBeatCount())
                 resetBeatCount();
         } else {
+            currentTrackedUN()->setNeedPostponeQueueMsg(false);
             switch (currentTrackedUN()->getNeededStateWordType()) {
+                case 0x20: { // 30
+                    DataQueueItem::fillSpecifyingSettingsBOD0x20(result, currentTrackedUN());
+                    break;
+                }
                 case 0x22: { // 41 | 31
                     DataQueueItem::fillStatusRequest0x22(result, currentTrackedUN());
                     break;
@@ -239,6 +289,24 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                         }
                         default: {
                             DataQueueItem::fillStatusRequest0x22(result, currentTrackedUN());
+                            break;
+                        }
+                    }
+                    currentTrackedUN()->leftoversCounter.increment();
+                    break;
+                }
+                case 0x2E2D: {
+                    switch (currentTrackedUN()->leftoversCounter.mod()) {
+                        case 0: {
+                            DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
+                            break;
+                        }
+                        case 1: {
+                            DataQueueItem::fillStatusRequest0x2D(result, currentTrackedUN());
+                            break;
+                        }
+                        default: {
+                            DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
                             break;
                         }
                     }
@@ -296,14 +364,14 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     int currentSituationUdpTimeout = qMax(optimalTimeIntervalRequest(currentTrackedUN()) * result.getSpecialSkipTimeCount(), result.getSpecialSkipTimeInterval());
 
     int summaryUdpTimeout = currentSituationUdpTimeout;
-    for (const auto &otherUN : as_const(getLsTrackedUN())) {
+    for (const auto& otherUN : as_const(getLsTrackedUN())) {
         if(otherUN != currentTrackedUN())
             summaryUdpTimeout += optimalTimeIntervalRequest(otherUN);
     }
 //    qDebug() << "summaryUdpTimeout(" << summaryUdpTimeout << ")";
 
     setTimeIntervalRequest(currentSituationUdpTimeout);
-
+    incrementAllTrackedUNTimeStatusConnectRequesterWaitAnswer(currentSituationUdpTimeout);
     int maxBeatCount = (delayDisconnectStatus / summaryUdpTimeout) + 1;
     for(auto uncld : as_const(getLsTrackedUN())) {
         uncld->setMaxCountStatusConnectRequesterWaitAnswer(maxBeatCount);
@@ -337,7 +405,7 @@ DataQueueItem MultiUNStatusConnectRequester::makeEndMsg()
 
 void MultiUNStatusConnectRequester::init() {
     if(!getUnTarget().isNull()) {
-        setUnReciver(UnitNode::findReciver(getUnTarget()));
+        setUnReciver(TopologyService::findReciver(getUnTarget()));
     }
 
     if(getUnTarget().isNull() || getUnReciver().isNull())
@@ -363,6 +431,7 @@ void MultiUNStatusConnectRequester::init() {
 
     int udpTimeout = optimalTimeIntervalRequest(currentTrackedUN());
     setTimeIntervalRequest(udpTimeout);
+    incrementAllTrackedUNTimeStatusConnectRequesterWaitAnswer(udpTimeout);
 
     int maxBeatCount = 400;
     if(50 != udpTimeout) {

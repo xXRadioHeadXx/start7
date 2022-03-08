@@ -2,6 +2,10 @@
 
 #include "UnitNodeCFG.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QDebug>
+
 int UnitNodeCFG::getType() const
 {
     return Type;
@@ -439,6 +443,7 @@ UnitNodeCFG::UnitNodeCFG(const UnitNodeCFG* parent) :
         setNum1(parent->getNum1());
         setNum2(parent->getNum2());
         setNum3(parent->getNum3());
+        setOutType(parent->getOutType());
         setLevel(parent->getLevel());
         setName(parent->getName());
         setIconVisible(parent->getIconVisible());
@@ -529,6 +534,56 @@ UnitNodeCFG::UnitNodeCFG(const UnitNodeCFG & parent) :
 UnitNodeCFG::~UnitNodeCFG()
 {
 
+}
+
+QJsonDocument UnitNodeCFG::makeJson()
+{
+    QJsonObject unitNodeCFG;
+
+    unitNodeCFG.insert("Type", QJsonValue::fromVariant(Type));
+    unitNodeCFG.insert("Num1", QJsonValue::fromVariant(Num1));
+    unitNodeCFG.insert("Num2", QJsonValue::fromVariant(Num2));
+    unitNodeCFG.insert("Num3", QJsonValue::fromVariant(Num3));
+    unitNodeCFG.insert("Level", QJsonValue::fromVariant(Level));
+    unitNodeCFG.insert("Name", QJsonValue::fromVariant(Name));
+    unitNodeCFG.insert("IconVisible", QJsonValue::fromVariant(IconVisible));
+    unitNodeCFG.insert("X", QJsonValue::fromVariant(X));
+    unitNodeCFG.insert("Y", QJsonValue::fromVariant(Y));
+    unitNodeCFG.insert("DK", QJsonValue::fromVariant(DK));
+    unitNodeCFG.insert("Bazalt", QJsonValue::fromVariant(Bazalt));
+    unitNodeCFG.insert("Metka", QJsonValue::fromVariant(Metka));
+    unitNodeCFG.insert("Razriv", QJsonValue::fromVariant(Razriv));
+    unitNodeCFG.insert("AdamOff", QJsonValue::fromVariant(AdamOff));
+    unitNodeCFG.insert("AlarmMsgOn", QJsonValue::fromVariant(AlarmMsgOn));
+    unitNodeCFG.insert("ConnectBlock", QJsonValue::fromVariant(ConnectBlock));
+    unitNodeCFG.insert("OutType", QJsonValue::fromVariant(OutType));
+    unitNodeCFG.insert("asoosd_kk", QJsonValue::fromVariant(asoosd_kk));
+    unitNodeCFG.insert("asoosd_nn", QJsonValue::fromVariant(asoosd_nn));
+    unitNodeCFG.insert("Description", QJsonValue::fromVariant(Description));
+    unitNodeCFG.insert("lan", QJsonValue::fromVariant(lan));
+    unitNodeCFG.insert("lon", QJsonValue::fromVariant(lon));
+    unitNodeCFG.insert("UdpUse", QJsonValue::fromVariant(UdpUse));
+    unitNodeCFG.insert("UdpAdress", QJsonValue::fromVariant(UdpAdress));
+    unitNodeCFG.insert("UdpPort", QJsonValue::fromVariant(UdpPort));
+    unitNodeCFG.insert("UdpTimeout", QJsonValue::fromVariant(UdpTimeout));
+    unitNodeCFG.insert("Metka1Time_0", QJsonValue::fromVariant(Metka1Time_0));
+    unitNodeCFG.insert("Metka1Time_1", QJsonValue::fromVariant(Metka1Time_1));
+    unitNodeCFG.insert("Metka2Time_0", QJsonValue::fromVariant(Metka2Time_0));
+    unitNodeCFG.insert("Metka2Time_1", QJsonValue::fromVariant(Metka2Time_1));
+    unitNodeCFG.insert("Metka3Time_0", QJsonValue::fromVariant(Metka3Time_0));
+    unitNodeCFG.insert("Metka3Time_1", QJsonValue::fromVariant(Metka3Time_1));
+    unitNodeCFG.insert("Metka4Time_0", QJsonValue::fromVariant(Metka4Time_0));
+    unitNodeCFG.insert("Metka4Time_1", QJsonValue::fromVariant(Metka4Time_1));
+    unitNodeCFG.insert("MetkaDopuskTime_0", QJsonValue::fromVariant(MetkaDopuskTime_0));
+    unitNodeCFG.insert("MetkaDopuskTime_1", QJsonValue::fromVariant(MetkaDopuskTime_1));
+    unitNodeCFG.insert("Icon1Path", QJsonValue::fromVariant(Icon1Path));
+    unitNodeCFG.insert("Icon2Path", QJsonValue::fromVariant(Icon2Path));
+    unitNodeCFG.insert("Icon3Path", QJsonValue::fromVariant(Icon3Path));
+    unitNodeCFG.insert("Icon4Path", QJsonValue::fromVariant(Icon4Path));
+
+    QJsonDocument doc(unitNodeCFG);
+
+    return doc;
 }
 
 UnitNodeCFG & UnitNodeCFG::operator=(const UnitNodeCFG& c) {
@@ -627,6 +682,8 @@ QString UnitNodeCFG::toString() const
     case KL: result.append("Концентратор"); break; // 2,Концентратор КЛ1
     case SD_BL_IP: result.append("СД БЛ-IP"); break; // 11,СД БЛ-IP
     case IU_BL_IP: result.append("ИУ БЛ-IP"); break; // 12,ИУ БЛ-IP
+    case SSOI_SD_BL_IP: result.append("ССОИ СД БЛ-IP"); break; // 44,ССОИ СД БЛ-IP
+    case SSOI_IU_BL_IP: result.append("ССОИ ИУ БЛ-IP"); break; // 45,ССОИ ИУ БЛ-IP
     case TG: result.append("Точка/Гарда"); break; // 10,      //Точка/Гарда
     case TG_Base: result.append("Meta Точка/Гарда"); break; // 110,      //Точка/Гарда
     case RLM_KRL: result.append("РИФ-РЛМ/КРЛ/Трасса"); break; // 1, //РИФ-РЛМ/КРЛ/Трасса
@@ -641,6 +698,7 @@ QString UnitNodeCFG::toString() const
     case DD_SOTA: result.append("ДД Сота"); break; // 31,ДД Сота
     case NET_DEV: result.append("Сетевое устройство"); break; // 200,Сетевое устройство
     case BL_IP: result.append("БЛ-IP").append(getUdpAdress()).append(":").append(QString::number(getUdpPort())); break; // 0xFF,БЛ IP
+    case SSOI_BL_IP: result.append("ССОИ БЛ-IP").append(getUdpAdress()).append(":").append(QString::number(getUdpPort()).append(QString(" Адресс:%1").arg(getNum1()))); break; // 0xFF,БЛ IP
     default: result.append("UNKNOWEN"); break; //
     }
     result = result.append(" [" + getName() + "]").append(")").append(getDirection());

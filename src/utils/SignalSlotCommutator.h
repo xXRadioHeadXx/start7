@@ -11,12 +11,12 @@ class SignalSlotCommutator : public QObject, public SingletonTemplate<SignalSlot
 public:
 
 public slots:
-     static void emitInsNewCommandMSG(const quint32 id);
+     static void emitInsNewCommandMSG(const uint32_t id);
      static void emitInsNewCommandMSG();
-     static void emitInsNewJourMSG(const quint32 id);
+     static void emitInsNewJourMSG(const uint32_t id);
      static void emitInsNewJourMSG();
      static void emitUpdAllJourMSG();
-     static void emitUpdJourMSG(const quint32 id);
+     static void emitUpdJourMSG(const uint32_t id);
      static void emitUpdJourMSG();
      static void emitUpdUN();
      static void emitUpdDataTreeUN();
@@ -24,6 +24,7 @@ public slots:
      static void emitStopDKWait();
      static void emitEndDKWait();
      static void emitStartLockWait(int interval);
+     static void emitStartLockWait(int interval, int startInterval);
      static void emitStopLockWait();
      static void emitEndLockWait();
      static void emitAutoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget);
@@ -34,17 +35,17 @@ public slots:
      static void emitChangeSelectUN (QSharedPointer<UnitNode> );
      static void emitRequestDK (const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget);
      static void emitForcedNewDuty(bool out);
-     static void emitAlarmsReset(QSharedPointer<UnitNode>  un);
+     static void emitResetFlags(QSharedPointer<UnitNode>  un);
      static void emitUpdateLabelOperator();
      static void emitChangeCountIntegrationAbonent(int);
 
 signals:
-     void insNewCommandMSG(const quint32 id) const;
+     void insNewCommandMSG(const uint32_t id) const;
      void insNewCommandMSG() const;
-     void insNewJourMSG(const quint32 id) const;
+     void insNewJourMSG(const uint32_t id) const;
      void insNewJourMSG() const;
      void updAllJourMSG() const;
-     void updJourMSG(const quint32 id) const;
+     void updJourMSG(const uint32_t id) const;
      void updJourMSG() const;
      void updUN() const;
      void updDataTreeUN() const;
@@ -52,6 +53,7 @@ signals:
      void stopDKWait() const;
      void endDKWait() const;
      void startLockWait(int interval) const;
+     void startLockWait(int interval, int startInterval) const;
      void stopLockWait() const;
      void endLockWait() const;
      void autoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const;
@@ -61,7 +63,7 @@ signals:
      void changeSelectUN (QSharedPointer<UnitNode> ) const;
      void requestDK (const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) const;
      void forcedNewDuty(bool out) const;
-     void alarmsReset(QSharedPointer<UnitNode>  un) const;
+     void resetFlags(QSharedPointer<UnitNode>  un) const;
      void updateLabelOperator() const;
      void changeCountIntegrationAbonent(int) const;
 

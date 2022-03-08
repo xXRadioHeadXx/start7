@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>794</width>
-    <height>717</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,154 +15,81 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>1</number>
+    </property>
+    <property name="leftMargin">
+     <number>1</number>
+    </property>
+    <property name="topMargin">
+     <number>1</number>
+    </property>
+    <property name="rightMargin">
+     <number>1</number>
+    </property>
+    <property name="bottomMargin">
+     <number>1</number>
+    </property>
     <item>
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
        <string>Выбор данных</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="14" column="0" colspan="6">
-        <widget class="QComboBox" name="comboBox_9"/>
-       </item>
-       <item row="18" column="0" colspan="6">
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="text">
-          <string>Печать</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="4" colspan="2">
-        <widget class="QDateEdit" name="dateEdit_2">
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="0" colspan="6">
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string>Выбрать</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0" colspan="6">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>Предварительный просмотр</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="6">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>IP-Адрес </string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="2" colspan="3">
-        <widget class="QComboBox" name="comboBox_7"/>
-       </item>
-       <item row="3" column="0" colspan="3">
-        <widget class="QDateEdit" name="dateEdit">
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0" colspan="6">
-        <widget class="QComboBox" name="comboBox_3"/>
-       </item>
-       <item row="2" column="4">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>по</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="2">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Событие</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="5">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>СД</string>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="5">
-        <widget class="QToolButton" name="toolButtonRemoveTakenMeasures">
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="1">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>1</number>
+       </property>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="label_cmbTypeSearch">
+         <property name="minimumSize">
           <size>
-           <width>20</width>
-           <height>48</height>
+           <width>0</width>
+           <height>18</height>
           </size>
          </property>
-        </spacer>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
          <property name="text">
           <string>Тип данных</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="QComboBox" name="comboBox_6"/>
-       </item>
-       <item row="8" column="2" colspan="2">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>БЛ</string>
+       <item>
+        <widget class="QComboBox" name="comboBox_TypeSearch">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
          </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Объект</string>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
          </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Период с</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Канал</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0" colspan="6">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Тип бъекта, подключаемого к СД</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="6">
-        <widget class="QComboBox" name="comboBox_2"/>
-       </item>
-       <item row="1" column="0" colspan="6">
-        <widget class="QComboBox" name="comboBox">
          <item>
           <property name="text">
            <string>Все смены</string>
@@ -175,74 +102,718 @@
          </item>
         </widget>
        </item>
-       <item row="23" column="4">
-        <widget class="QToolButton" name="toolButtonAddTakenMeasures">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="spacing">
+          <number>1</number>
+         </property>
+         <item row="1" column="0">
+          <widget class="QDateEdit" name="dateEdit_From">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDateEdit" name="dateEdit_To">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Период с</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_3">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>по</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_cmbTypeUN">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
          <property name="text">
-          <string>...</string>
+          <string>Объект</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="5">
-        <widget class="QComboBox" name="comboBox_8"/>
-       </item>
-       <item row="21" column="4">
-        <widget class="QToolButton" name="toolButtonAddReason">
-         <property name="text">
-          <string>...</string>
+       <item>
+        <widget class="QComboBox" name="comboBox_TypeUN">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="7" column="0" colspan="6">
-        <widget class="QComboBox" name="comboBox_4">
+       <item>
+        <widget class="QLabel" name="label_cmbIPAddress">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>IP-Адрес </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_IPAddress">
          <property name="enabled">
           <bool>true</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
          </property>
          <property name="editable">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="21" column="5">
-        <widget class="QToolButton" name="toolButtonRemoveReason">
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="spacing">
+          <number>1</number>
+         </property>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_cmbNum2">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Num 2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_cmbNum3">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Num 3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QComboBox" name="comboBox_AdamOff">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="acceptDrops">
+            <bool>false</bool>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QComboBox" name="comboBox_Num3">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="comboBox_Num2">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_cmbNum1">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Num 1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="label_cmbAdamOff">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>AdamOff</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QComboBox" name="comboBox_Num1">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_cmbTypeEvent">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
          <property name="text">
-          <string>...</string>
+          <string>Событие</string>
          </property>
         </widget>
        </item>
-       <item row="19" column="0" colspan="6">
+       <item>
+        <widget class="QComboBox" name="comboBox_TypeEvent">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_cmbTypeOutUN">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Тип объекта, подключаемого к СД</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_TypeOutUN">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>48</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_UpdSelections">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Выбрать</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Предварительный просмотр</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Печать</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_4">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>22</height>
+          </size>
+         </property>
          <property name="text">
           <string>Печать PDF</string>
          </property>
         </widget>
        </item>
-       <item row="20" column="0" colspan="2">
+       <item>
         <widget class="QLabel" name="label_6">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
          <property name="text">
           <string>Причины</string>
          </property>
         </widget>
        </item>
-       <item row="21" column="0" colspan="4">
-        <widget class="QComboBox" name="comboBoxReason">
-         <property name="editable">
-          <bool>true</bool>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <property name="leftMargin">
+          <number>1</number>
          </property>
-        </widget>
+         <property name="topMargin">
+          <number>1</number>
+         </property>
+         <property name="rightMargin">
+          <number>1</number>
+         </property>
+         <property name="bottomMargin">
+          <number>1</number>
+         </property>
+         <property name="spacing">
+          <number>1</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QComboBox" name="comboBoxReason">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QToolButton" name="toolButtonAddReason">
+           <property name="minimumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resource.qrc">
+             <normaloff>:/icons/cross2_green_20_20.png</normaloff>:/icons/cross2_green_20_20.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QToolButton" name="toolButtonRemoveReason">
+           <property name="minimumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resource.qrc">
+             <normaloff>:/icons/line_red_20_20.png</normaloff>:/icons/line_red_20_20.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
-       <item row="22" column="0" colspan="2">
+       <item>
         <widget class="QLabel" name="label_7">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>18</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>18</height>
+          </size>
+         </property>
          <property name="text">
           <string>Принятые меры</string>
          </property>
         </widget>
        </item>
-       <item row="23" column="0" colspan="4">
-        <widget class="QComboBox" name="comboBoxTakenMeasures">
-         <property name="editable">
-          <bool>true</bool>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <property name="leftMargin">
+          <number>1</number>
          </property>
-        </widget>
+         <property name="topMargin">
+          <number>1</number>
+         </property>
+         <property name="rightMargin">
+          <number>1</number>
+         </property>
+         <property name="bottomMargin">
+          <number>1</number>
+         </property>
+         <property name="spacing">
+          <number>1</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QComboBox" name="comboBoxTakenMeasures">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QToolButton" name="toolButtonAddTakenMeasures">
+           <property name="minimumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resource.qrc">
+             <normaloff>:/icons/cross2_green_20_20.png</normaloff>:/icons/cross2_green_20_20.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QToolButton" name="toolButtonRemoveTakenMeasures">
+           <property name="minimumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resource.qrc">
+             <normaloff>:/icons/line_red_20_20.png</normaloff>:/icons/line_red_20_20.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -253,6 +824,21 @@
        <string>База данных</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>1</number>
+       </property>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
        <item>
         <widget class="QTableView" name="tableView">
          <property name="editTriggers">
@@ -264,6 +850,15 @@
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
          </property>
+         <attribute name="horizontalHeaderMinimumSectionSize">
+          <number>43</number>
+         </attribute>
+         <attribute name="verticalHeaderMinimumSectionSize">
+          <number>18</number>
+         </attribute>
+         <attribute name="verticalHeaderDefaultSectionSize">
+          <number>18</number>
+         </attribute>
         </widget>
        </item>
       </layout>
@@ -295,167 +890,8 @@
    </property>
   </action>
  </widget>
- <resources/>
- <connections>
-  <connection>
-   <sender>comboBox</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>142</x>
-     <y>79</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>dateEdit</sender>
-   <signal>dateChanged(QDate)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>75</x>
-     <y>124</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>dateEdit_2</sender>
-   <signal>dateChanged(QDate)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>213</x>
-     <y>124</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_2</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>142</x>
-     <y>169</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_6</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>62</x>
-     <y>214</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_7</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>148</x>
-     <y>214</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_8</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>228</x>
-     <y>214</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_3</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>142</x>
-     <y>259</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_9</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>142</x>
-     <y>304</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>427</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_4</sender>
-   <signal>currentTextChanged(QString)</signal>
-   <receiver>pushButton</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>142</x>
-     <y>214</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>398</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
+ <connections/>
 </ui>

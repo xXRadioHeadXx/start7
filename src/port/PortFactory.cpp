@@ -1,7 +1,7 @@
 #include "Port.h"
 #include "PortFactory.h"
 
-PortFactory::PortFactory(AbstractPort::Protocol protocol) : AbstractPortFactory()
+PortFactory::PortFactory(int protocol) : AbstractPortFactory()
 {
     this->protocol = protocol;
 }
@@ -11,14 +11,7 @@ PortFactory::~PortFactory()
 
 }
 
-//AbstractPort * PortFactory::create(const int index, QObject *parent) {
-//    if(AbstractPort::UDP == getProtocol())
-//        return new Port(AbstractPort::UDP, parent, index);
-//    else
-//        nullptr;
-//}
-
-AbstractPort * PortFactory::create(AbstractPort::Protocol protocol, const int index, QObject *parent) const {
+AbstractPort * PortFactory::create(int protocol, const int index, QObject *parent) const {
     if(AbstractPort::UDP == protocol)
         return new Port(AbstractPort::UDP, parent, index);
     else if(AbstractPort::TCP == protocol)
@@ -27,6 +20,6 @@ AbstractPort * PortFactory::create(AbstractPort::Protocol protocol, const int in
         return nullptr;
 }
 
-AbstractPort::Protocol PortFactory::getProtocol() {
+int PortFactory::getProtocol() {
     return protocol;
 }

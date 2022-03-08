@@ -30,6 +30,9 @@ public:
 
     void tuneNeededStateWordTypeSelectedlUN() const;
     void tuneDefaultNeededStateWordTypeSelectedlUN() const;
+    const QString &getUnArgSelect() const;
+    void setUnArgSelect(const QString &newUnArgSelect);
+
 public slots:
     void write();
     void updComboBoxReason();
@@ -39,7 +42,7 @@ public slots:
 
     void fillPageTGAtPointInput(int ci);
 private slots:
-    void on_treeView_clicked(const QModelIndex &index);
+    void treeView_selectionChanged(const QItemSelection &selected = QItemSelection(), const QItemSelection &deselected = QItemSelection());
 
 //    void on_tableView_clicked(const QModelIndex &index);
 
@@ -49,13 +52,15 @@ private slots:
 
 //    void on_pushButton_clicked();
 
-    void on_pushButtonAlarmReset_clicked();
+    void on_pushButtonResetFlags_clicked();
 
     void treeUNCustomMenuRequested(QPoint pos);
 
     void on_actionDK_triggered();
 
     void startWaitProgressBar(int interval);
+
+    void startWaitProgressBar(int interval, int startInterval);
 
     void beatWaitProgressBar();
 
@@ -135,6 +140,8 @@ private slots:
 
     void on_pushButtonSoundReset_clicked();
 
+    void splitterMovedSlot();
+
 protected:
     void closeEvent(QCloseEvent * event);
 
@@ -165,6 +172,7 @@ private:
     QList<QPair<int, int> > fontSize = {{8, 18}, {10, 20}, {12, 21}, {14, 29}, {16, 30}, {18, 31}};
 
     QString unSqlSelect;
+    QString unArgSelect;
     int beginSelectRow = 2147483647, endSelectRow = -1;
 
     QString getUnSqlSelect() const;

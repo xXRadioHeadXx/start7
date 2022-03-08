@@ -2,7 +2,7 @@
 #include <QSharedPointer>
 //#include <QDebug>
 
-void SignalSlotCommutator::emitInsNewCommandMSG(const quint32 id) {
+void SignalSlotCommutator::emitInsNewCommandMSG(const uint32_t id) {
     emit SignalSlotCommutator::instance().insNewCommandMSG(id);
 }
 
@@ -10,7 +10,7 @@ void SignalSlotCommutator::emitInsNewCommandMSG() {
     emit SignalSlotCommutator::instance().insNewCommandMSG();
 }
 
-void SignalSlotCommutator::emitInsNewJourMSG(const quint32 id) {
+void SignalSlotCommutator::emitInsNewJourMSG(const uint32_t id) {
     emit SignalSlotCommutator::instance().insNewJourMSG(id);
 }
 
@@ -22,7 +22,7 @@ void SignalSlotCommutator::emitUpdAllJourMSG() {
     emit SignalSlotCommutator::instance().updAllJourMSG();
 }
 
-void SignalSlotCommutator::emitUpdJourMSG(const quint32 id) {
+void SignalSlotCommutator::emitUpdJourMSG(const uint32_t id) {
     emit SignalSlotCommutator::instance().updJourMSG(id);
 }
 
@@ -52,6 +52,10 @@ void SignalSlotCommutator::emitEndDKWait() {
 
 void SignalSlotCommutator::emitStartLockWait(int interval) {
     emit SignalSlotCommutator::instance().startLockWait(interval);
+}
+
+void SignalSlotCommutator::emitStartLockWait(int interval, int startInterval) {
+    emit SignalSlotCommutator::instance().startLockWait(interval, startInterval);
 }
 
 void SignalSlotCommutator::emitStopLockWait() {
@@ -94,8 +98,8 @@ void SignalSlotCommutator::emitForcedNewDuty(bool out) {
     emit SignalSlotCommutator::instance().forcedNewDuty(out);
 }
 
-void SignalSlotCommutator::emitAlarmsReset(QSharedPointer<UnitNode> un) {
-    emit SignalSlotCommutator::instance().alarmsReset(un);
+void SignalSlotCommutator::emitResetFlags(QSharedPointer<UnitNode> un) {
+    emit SignalSlotCommutator::instance().resetFlags(un);
 }
 
 void SignalSlotCommutator::emitUpdateLabelOperator() {
