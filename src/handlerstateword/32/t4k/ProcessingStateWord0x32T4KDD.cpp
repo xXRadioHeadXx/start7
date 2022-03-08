@@ -27,7 +27,7 @@ ProcessingStateWord0x32T4KDD::~ProcessingStateWord0x32T4KDD()
 
 bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-    qDebug() << "PortManager::procT4KMDDStatusWord0x32() -->";
+//    qDebug() << "PortManager::procT4KMDDStatusWord0x32() -->";
     if(TypeUnitNodeEnum::DD_T4K_M != currentUN->getType()
     || currentUN->getDkInvolved()) {
 //        qDebug() << "PortManager::procT4KMDDStatusWord0x32(1) <--";
@@ -395,6 +395,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
 //    qDebug() << "cT4KM_DD: " << currentUN->toString() << currentUN->getPublishedState();
 //    qDebug() << "состояние T4KM_DD <--";
 
-    qDebug() << "PortManager::procT4KMDDStatusWord0x32(X) <--";
+//    qDebug() << "PortManager::procT4KMDDStatusWord0x32(X) <--";
     return true;
 }

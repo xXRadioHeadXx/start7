@@ -28,10 +28,10 @@ ProcessingStateWord0x33T4KBOD::~ProcessingStateWord0x33T4KBOD()
 
 bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -->";
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -->";
     if(TypeUnitNodeEnum::BOD_T4K_M != currentUN->getType()
     || currentUN->getDkInvolved()) {
-        qDebug() << "PortManager::procT4KMBODStatusWord0x33(1) <--";
+//        qDebug() << "PortManager::procT4KMBODStatusWord0x33(1) <--";
         return false;
     }
 
@@ -41,7 +41,7 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-        qDebug() << "PortManager::procT4KMBODStatusWord0x33(2) <--";
+//        qDebug() << "PortManager::procT4KMBODStatusWord0x33(2) <--";
 
         return false;
     }
@@ -63,7 +63,7 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-        qDebug() << "PortManager::procT4KMBODStatusWord0x33(5) <--";
+//        qDebug() << "PortManager::procT4KMBODStatusWord0x33(5) <--";
         return true;
     }
 
@@ -91,10 +91,10 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
          || 1 == swpPrevious.y3().isWasAlarm()
          || 1 == swpPrevious.y4().isWasAlarm();
 
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- swpCurrentYIsInAlarm " << swpCurrentYIsInAlarm;
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- swpPreviousYIsInAlarm " << swpPreviousYIsInAlarm;
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- swpCurrentYIsWasAlarm " << swpCurrentYIsWasAlarm;
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- swpPreviousYIsWasAlarm " << swpPreviousYIsWasAlarm;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- swpCurrentYIsInAlarm " << swpCurrentYIsInAlarm;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- swpPreviousYIsInAlarm " << swpPreviousYIsInAlarm;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- swpCurrentYIsWasAlarm " << swpCurrentYIsWasAlarm;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- swpPreviousYIsWasAlarm " << swpPreviousYIsWasAlarm;
 
     auto isChangedStatus = false;
     if(swpCurrent.isReady() != swpPrevious.isReady()
@@ -106,7 +106,7 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
         // состояние не зменилось - что-то пропускаем
         isChangedStatus = true;
     }
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- isChangedStatus " << isChangedStatus;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- isChangedStatus " << isChangedStatus;
 
     auto isSwitchReady = false;
     if(1 == swpCurrent.isReady()
@@ -114,14 +114,14 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
         // состояние не зменилось - что-то пропускаем
         isSwitchReady = true;
     }
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- isSwitchReady " << isSwitchReady;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- isSwitchReady " << isSwitchReady;
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(-1 == currentUN->getPublishedState() || -1 == reciverBOD->getPublishedState()) {
         isFirstWakeUp = true;
     }
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- isFirstWakeUp " << isFirstWakeUp;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- isFirstWakeUp " << isFirstWakeUp;
 
 
     auto isWakeUp = false;
@@ -129,7 +129,7 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
     if(10 == currentUN->getPublishedState() || 10 == reciverBOD->getPublishedState()) {
         isWakeUp = true;
     }
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- isWakeUp " << isWakeUp;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
     auto needResetFlags0x24 = false;
@@ -139,14 +139,14 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
      || 1 == swpCurrentYIsWasAlarm)) { // сброс тревоги
         needResetFlags0x24 = true;
     }
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- needResetFlags0x24" << needResetFlags0x24;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- needResetFlags0x24" << needResetFlags0x24;
     if(needResetFlags0x24) {
         auto msMsg = QSharedPointer<ManagerSingleMsg>::create(currentUN,
                                                               DataQueueItem::makeResetFlags0x24);
         reciverBOD->pushBackUniqManagerSingleMsg(msMsg);
         makedResetFlags0x24 = true;
     }
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- makedResetFlags0x24" << makedResetFlags0x24;
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33() -- makedResetFlags0x24" << makedResetFlags0x24;
 
     JourEntity prepareMsg;
     // заполняем поля сообщения за отправителя
@@ -162,9 +162,9 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
     int typeMsg = -1;
     QString commentMsg;
 
-    qDebug() << "состояние T4KM_BOD -->" << commentMsg;
-    qDebug() << "pT4KM_BOD: " << previousUN->toString() << swpPrevious.byteWord().toHex();
-    qDebug() << "cT4KM_BOD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
+//    qDebug() << "состояние T4KM_BOD -->" << commentMsg;
+//    qDebug() << "pT4KM_BOD: " << previousUN->toString() << swpPrevious.byteWord().toHex();
+//    qDebug() << "cT4KM_BOD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
 
 //    bool iniState = false;
     // запись тревога/норма/неисправность ЧЭ1 -->
@@ -238,12 +238,12 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();
 
-    qDebug() << "typeMsg:" << typeMsg << "commentMsg:" << commentMsg;
-    qDebug() << "pT4KM_BOD: " << previousUN->toString() << previousUN->getPublishedState();
-    qDebug() << "cT4KM_BOD: " << currentUN->toString() << currentUN->getPublishedState();
-    qDebug() << "состояние T4KM_BOD <--";
+//    qDebug() << "typeMsg:" << typeMsg << "commentMsg:" << commentMsg;
+//    qDebug() << "pT4KM_BOD: " << previousUN->toString() << previousUN->getPublishedState();
+//    qDebug() << "cT4KM_BOD: " << currentUN->toString() << currentUN->getPublishedState();
+//    qDebug() << "состояние T4KM_BOD <--";
 
 
-    qDebug() << "PortManager::procT4KMBODStatusWord0x33(X) <--";
+//    qDebug() << "PortManager::procT4KMBODStatusWord0x33(X) <--";
     return true;
 }

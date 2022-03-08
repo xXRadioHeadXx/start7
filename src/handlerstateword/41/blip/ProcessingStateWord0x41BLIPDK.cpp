@@ -21,14 +21,14 @@ ProcessingStateWord0x41BLIPDK::~ProcessingStateWord0x41BLIPDK()
 
 bool ProcessingStateWord0x41BLIPDK::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-    qDebug() << "PortManager::procDkBLIPStatusWord0x41() -->";
+//    qDebug() << "PortManager::procDkBLIPStatusWord0x41() -->";
     if(0 == currentUN->getDK()
     || TypeUnitNodeEnum::SD_BL_IP != currentUN->getType()
     || DKCiclStatus::DKIgnore == currentUN->getDkStatus()
     || DKCiclStatus::DKWrong == currentUN->getDkStatus()
     || DKCiclStatus::DKDone == currentUN->getDkStatus()
     || !currentUN->getDkInvolved()) {
-        qDebug() << "PortManager::procDkBLIPStatusWord0x41(1) <--";
+//        qDebug() << "PortManager::procDkBLIPStatusWord0x41(1) <--";
         return false;
     }
 

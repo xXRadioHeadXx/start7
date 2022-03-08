@@ -725,6 +725,7 @@ QList<JourEntity> DataBaseManager::getOneMSGRecord(const int &id) //const
 }
 
 QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const int &id) {
+    qDebug() << QTime::currentTime() << "DataBaseManager::getFltMSGRecordAfter("<< flt << ", " << id << ") -->";
     QList<JourEntity> result;
     QString sql;
     sql = "SELECT * FROM public.jour ";
@@ -748,20 +749,26 @@ QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const
     QSqlQuery query(m_db());
     query.prepare(sql);
 
+    sql.replace(":id", QString::number(id));
     query.bindValue(":id", id);
     if(-1 != DataBaseManager::getIdStartLastDuty()) {
         query.bindValue(":idMin", DataBaseManager::getIdStartLastDuty());
+        sql.replace(":idMin", QString::number(DataBaseManager::getIdStartLastDuty()));
     }
+
+    qDebug() << QTime::currentTime() << "DataBaseManager::getFltMSGRecordAfter("<< flt << ", " << id << ") -- sql " << sql;
 
     result = DataBaseManager::getQueryMSGRecord(query);
 //    //qDebug() << "DataBaseManager::getFltMSGRecordAfter(" << flt << ", " << id << ")";
-
+    qDebug() << QTime::currentTime() << "DataBaseManager::getFltMSGRecordAfter("<< flt << ", " << id << ") <--";
     return result;
 }
 
 
 
 QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const int &id) {
+    qDebug() << QTime::currentTime() << "DataBaseManager::getFltOneMSGRecord("<< flt << ", " << id << ") -->";
+
     QList<JourEntity> result;
     QString sql;
     sql = "SELECT * FROM public.jour ";
@@ -769,30 +776,25 @@ QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const i
         sql += " WHERE ";
         if(id > 0)
             sql += " id = :id ";
-        if(-1 != DataBaseManager::getIdStartLastDuty()) {
-            if(id > 0)
-                sql += " AND ";
-            sql += " id >= :idMin ";
-        }
+        sql.replace(":id", QString::number(id));
         if(!flt.isEmpty()) {
             if(id > 0 || -1 != DataBaseManager::getIdStartLastDuty())
                 sql += " AND ";
             sql += " ( " + flt + " ) ";
         }
     }
-    sql += " ORDER BY id ";
 
     QSqlQuery query(m_db());
     query.prepare(sql);
 
     query.bindValue(":id", id);
-    if(-1 != DataBaseManager::getIdStartLastDuty()) {
-        query.bindValue(":idMin", DataBaseManager::getIdStartLastDuty());
-    }
+
+    qDebug() << QTime::currentTime() << "DataBaseManager::getFltOneMSGRecord("<< flt << ", " << id << ") -- sql " << sql;
 
     result = DataBaseManager::getQueryMSGRecord(query);
 //    qDebug() << "DataBaseManager::getFltOneMSGRecord" << query.lastQuery() << id << DataBaseManager::getIdStartLastDuty();
 //    //qDebug() << "DataBaseManager::getFltOneMSGRecord(" << flt << ", " << id << ")";
+    qDebug() << QTime::currentTime() << "DataBaseManager::getFltOneMSGRecord("<< flt << ", " << id << ") <--";
 
     return result;
 }

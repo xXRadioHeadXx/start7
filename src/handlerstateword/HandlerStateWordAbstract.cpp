@@ -21,7 +21,7 @@ const DataQueueItem &HandlerStateWordAbstract::getDataItem() const
 
 void HandlerStateWordAbstract::handl(const DataQueueItem &data) const
 {
-    qDebug() << "Utils::HandlerStateWordAbstract() -->";
+//    qDebug() << "Utils::HandlerStateWordAbstract() -->";
     const StateWord &newStateWord(data.data().mid(5, data.data().at(3)));
 
     const auto& sortedMetaRealUnitNodes = TopologyService::getSortedMetaRealUnitNodes();
@@ -38,14 +38,14 @@ void HandlerStateWordAbstract::handl(const DataQueueItem &data) const
             reciver->resetTimeStatusConnectRequesterWaitAnswer();
             reciver->setStateWord(static_cast<uint8_t>(data.data().at(4)) ,newStateWord);
         } else {
-            qDebug() << "PortManager::HandlerStateWordAbstract --x match";
+//            qDebug() << "PortManager::HandlerStateWordAbstract --x match";
             continue;
         }
 
         onHandler(newStateWord, un);
     }
 
-    qDebug() << "Utils::HandlerStateWordAbstract() <--";
+//    qDebug() << "Utils::HandlerStateWordAbstract() <--";
 }
 
 void HandlerStateWordAbstract::handl()
