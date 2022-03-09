@@ -1203,7 +1203,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
     } else if(TypeUnitNodeEnum::BOD_T4K_M == sel->getType()
            || TypeUnitNodeEnum::BOD_SOTA == sel->getType()) {
 
-        if(sel->isEditableControl() && 1 != sel->getBazalt()) {
+        if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
             menu->addSeparator();
         }
@@ -1228,7 +1228,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
     } else if(TypeUnitNodeEnum::Y4_T4K_M == sel->getType()
               || TypeUnitNodeEnum::Y4_SOTA == sel->getType()) {
 
-        if(sel->isEditableControl() && 1 != sel->getBazalt()) {
+        if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
             menu->addSeparator();
         }
@@ -1251,7 +1251,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
     } else if(TypeUnitNodeEnum::DD_T4K_M == sel->getType()
               || TypeUnitNodeEnum::DD_SOTA == sel->getType()) {
 
-        if(sel->isEditableControl() && 1 != sel->getBazalt()) {
+        if(sel->isEditableControl()) {
             menu->addAction(ui->actionControl);
             menu->addSeparator();
         }
