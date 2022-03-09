@@ -2,110 +2,187 @@
 #include <QSharedPointer>
 //#include <QDebug>
 
+auto & SignalSlotCommutator::self()
+{
+    return SignalSlotCommutator::instance();
+}
+
+bool SignalSlotCommutator::getLocalBlockUpdJourMSG() const
+{
+    return blockUpdJourMSG;
+}
+
+void SignalSlotCommutator::setLocalBlockUpdJourMSG(bool newBlockUpdJourMSG)
+{
+    blockUpdJourMSG = newBlockUpdJourMSG;
+}
+
+bool SignalSlotCommutator::getLocalBlockUpdAllJourMSG() const
+{
+    return blockUpdAllJourMSG;
+}
+
+void SignalSlotCommutator::setLocalBlockUpdAllJourMSG(bool newBlockUpdAllJourMSG)
+{
+    blockUpdAllJourMSG = newBlockUpdAllJourMSG;
+}
+
+bool SignalSlotCommutator::getLocalBlockInsNewJourMSG() const
+{
+    return blockInsNewJourMSG;
+}
+
+void SignalSlotCommutator::setLocalBlockInsNewJourMSG(bool newBlockInsNewJourMSG)
+{
+    blockInsNewJourMSG = newBlockInsNewJourMSG;
+}
+
+bool SignalSlotCommutator::getBlockUpdAllJourMSG()
+{
+    return self().getLocalBlockUpdAllJourMSG();
+}
+
+void SignalSlotCommutator::setBlockUpdAllJourMSG(bool newBlockUpdAllJourMSG)
+{
+    self().setLocalBlockUpdAllJourMSG(newBlockUpdAllJourMSG);
+}
+
+bool SignalSlotCommutator::getBlockUpdJourMSG()
+{
+    return self().getLocalBlockUpdJourMSG();
+}
+
+void SignalSlotCommutator::setBlockUpdJourMSG(bool newBlockUpdJourMSG)
+{
+    self().setLocalBlockUpdJourMSG(newBlockUpdJourMSG);
+}
+
+bool SignalSlotCommutator::getBlockInsNewJourMSG()
+{
+    return self().getLocalBlockInsNewJourMSG();
+}
+
+void SignalSlotCommutator::setBlockInsNewJourMSG(bool newBlockInsNewJourMSG)
+{
+    self().setLocalBlockInsNewJourMSG(newBlockInsNewJourMSG);
+}
+
 void SignalSlotCommutator::emitInsNewCommandMSG(const uint32_t id) {
-    emit SignalSlotCommutator::instance().insNewCommandMSG(id);
+    emit self().insNewCommandMSG(id);
 }
 
 void SignalSlotCommutator::emitInsNewCommandMSG() {
-    emit SignalSlotCommutator::instance().insNewCommandMSG();
+    emit self().insNewCommandMSG();
 }
 
 void SignalSlotCommutator::emitInsNewJourMSG(const uint32_t id) {
-    emit SignalSlotCommutator::instance().insNewJourMSG(id);
+    if(self().getLocalBlockInsNewJourMSG())
+        return;
+    emit self().insNewJourMSG(id);
 }
 
 void SignalSlotCommutator::emitInsNewJourMSG() {
-    emit SignalSlotCommutator::instance().insNewJourMSG();
+    if(self().getLocalBlockInsNewJourMSG())
+        return;
+    emit self().insNewJourMSG();
 }
 
 void SignalSlotCommutator::emitUpdAllJourMSG() {
-    emit SignalSlotCommutator::instance().updAllJourMSG();
+    if(self().getLocalBlockUpdAllJourMSG())
+        return;
+    emit self().updAllJourMSG();
 }
 
 void SignalSlotCommutator::emitUpdJourMSG(const uint32_t id) {
-    emit SignalSlotCommutator::instance().updJourMSG(id);
+    if(self().getLocalBlockUpdAllJourMSG())
+        return;
+    emit self().updJourMSG(id);
 }
 
 void SignalSlotCommutator::emitUpdJourMSG() {
-    emit SignalSlotCommutator::instance().updJourMSG();
+    if(self().getLocalBlockUpdJourMSG())
+        return;
+    emit self().updJourMSG();
 }
 
 void SignalSlotCommutator::emitUpdUN() {
-    emit SignalSlotCommutator::instance().updUN();
+    if(self().getLocalBlockUpdJourMSG())
+        return;
+    emit self().updUN();
 }
 
 void SignalSlotCommutator::emitUpdDataTreeUN() {
-    emit SignalSlotCommutator::instance().updDataTreeUN();
+    emit self().updDataTreeUN();
 }
 
 void SignalSlotCommutator::emitStartDKWait(int interval) {
-    emit SignalSlotCommutator::instance().startDKWait(interval);
+    emit self().startDKWait(interval);
 }
 
 void SignalSlotCommutator::emitStopDKWait() {
-    emit SignalSlotCommutator::instance().stopDKWait();
+    emit self().stopDKWait();
 }
 
 void SignalSlotCommutator::emitEndDKWait() {
-    emit SignalSlotCommutator::instance().endDKWait();
+    emit self().endDKWait();
 }
 
 void SignalSlotCommutator::emitStartLockWait(int interval) {
-    emit SignalSlotCommutator::instance().startLockWait(interval);
+    emit self().startLockWait(interval);
 }
 
 void SignalSlotCommutator::emitStartLockWait(int interval, int startInterval) {
-    emit SignalSlotCommutator::instance().startLockWait(interval, startInterval);
+    emit self().startLockWait(interval, startInterval);
 }
 
 void SignalSlotCommutator::emitStopLockWait() {
-    emit SignalSlotCommutator::instance().stopLockWait();
+    emit self().stopLockWait();
 }
 
 void SignalSlotCommutator::emitEndLockWait() {
-    emit SignalSlotCommutator::instance().endLockWait();
+    emit self().endLockWait();
 }
 
 void SignalSlotCommutator::emitAutoOnOffIU(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) {
-    emit SignalSlotCommutator::instance().autoOnOffIU(isAuto, fromAbonent, unTarget);
+    emit self().autoOnOffIU(isAuto, fromAbonent, unTarget);
 }
 
 void SignalSlotCommutator::emitLostedConnect(QSharedPointer<UnitNode>  un) {
-    emit SignalSlotCommutator::instance().lostConnect(un);
+    emit self().lostConnect(un);
 }
 
 void SignalSlotCommutator::emitRequestOnOffCommand(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget, const bool onOffValue) {
-    emit SignalSlotCommutator::instance().requestOnOffCommand(isAuto, fromAbonent, unTarget, onOffValue);
+    emit self().requestOnOffCommand(isAuto, fromAbonent, unTarget, onOffValue);
 }
 
 void SignalSlotCommutator::emitLockOpenCloseCommand(bool out, QSharedPointer<UnitNode>  un, bool value) {
-    emit SignalSlotCommutator::instance().lockOpenCloseCommand(out, un, value);
+    emit self().lockOpenCloseCommand(out, un, value);
 }
 
 void SignalSlotCommutator::emitLockOpenCloseCommand(QSharedPointer<UnitNode>  un, bool value) {
-    emit SignalSlotCommutator::instance().lockOpenCloseCommand(false, un, value);
+    emit self().lockOpenCloseCommand(false, un, value);
 }
 
 void SignalSlotCommutator::emitChangeSelectUN(QSharedPointer<UnitNode>  un) {
-    emit SignalSlotCommutator::instance().changeSelectUN(un);
+    emit self().changeSelectUN(un);
 }
 
 void SignalSlotCommutator::emitRequestDK(const bool isAuto, const bool fromAbonent, const QSharedPointer<UnitNode> unTarget) {
-    emit SignalSlotCommutator::instance().requestDK(isAuto, fromAbonent, unTarget);
+    emit self().requestDK(isAuto, fromAbonent, unTarget);
 }
 
 void SignalSlotCommutator::emitForcedNewDuty(bool out) {
-    emit SignalSlotCommutator::instance().forcedNewDuty(out);
+    emit self().forcedNewDuty(out);
 }
 
 void SignalSlotCommutator::emitResetFlags(QSharedPointer<UnitNode> un) {
-    emit SignalSlotCommutator::instance().resetFlags(un);
+    emit self().resetFlags(un);
 }
 
 void SignalSlotCommutator::emitUpdateLabelOperator() {
-    emit SignalSlotCommutator::instance().updateLabelOperator();
+    emit self().updateLabelOperator();
 }
 
 void SignalSlotCommutator::emitChangeCountIntegrationAbonent(int value) {
-    emit SignalSlotCommutator::instance().changeCountIntegrationAbonent(value);
+    emit self().changeCountIntegrationAbonent(value);
 }

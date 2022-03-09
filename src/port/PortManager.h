@@ -30,6 +30,7 @@ private:
 
 
     QTimer timerFirstWakeUp;
+    QTimer timerBlockJourMSG;
 
     void setupPort(const int index = 0);
     void setupPort(AbstractPort *port);

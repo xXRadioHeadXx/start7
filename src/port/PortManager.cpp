@@ -87,6 +87,10 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
 
     m_udpPortsVector.reserve(MAX_COUNT_PORTS);
 
+    SignalSlotCommutator::setBlockInsNewJourMSG(true);
+    SignalSlotCommutator::setBlockUpdAllJourMSG(true);
+    SignalSlotCommutator::setBlockUpdJourMSG(true);
+
     connect(&SignalSlotCommutator::instance(), SIGNAL(requestOnOffCommand(bool,bool,QSharedPointer<UnitNode>,bool)), this, SLOT(requestOnOffCommand(bool,bool,QSharedPointer<UnitNode>,bool)));
     connect(&SignalSlotCommutator::instance(), SIGNAL(lockOpenCloseCommand(bool,QSharedPointer<UnitNode>,bool)), this, SLOT(lockOpenCloseCommand(bool,QSharedPointer<UnitNode>,bool)));
     connect(&SignalSlotCommutator::instance(), SIGNAL(autoOnOffIU(bool,bool,QSharedPointer<UnitNode>)),this, SLOT(requestAutoOnOffIUCommand(bool,bool,QSharedPointer<UnitNode>)));
@@ -108,6 +112,12 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
             shedulerDK->start();
         }
     }
+
+    timerBlockJourMSG.singleShot(15'000, nullptr, [](){
+        SignalSlotCommutator::setBlockInsNewJourMSG(false);
+        SignalSlotCommutator::setBlockUpdAllJourMSG(false);
+        SignalSlotCommutator::setBlockUpdJourMSG(false);
+    });
 
     timerFirstWakeUp.singleShot(20'000, nullptr, [](){
         const auto& list = TopologyService::getSortedMetaRealUnitNodes();

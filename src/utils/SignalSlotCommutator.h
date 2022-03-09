@@ -8,7 +8,34 @@ class UnitNode;
 class SignalSlotCommutator : public QObject, public SingletonTemplate<SignalSlotCommutator>
 {
     Q_OBJECT
+
+    bool blockInsNewJourMSG = false;
+    bool blockUpdAllJourMSG = false;
+    bool blockUpdJourMSG = false;
+
+    bool getLocalBlockInsNewJourMSG() const;
+    void setLocalBlockInsNewJourMSG(bool newBlockInsNewJourMSG);
+
+    bool getLocalBlockUpdAllJourMSG() const;
+    void setLocalBlockUpdAllJourMSG(bool newBlockUpdAllJourMSG);
+
+    bool getLocalBlockUpdJourMSG() const;
+    void setLocalBlockUpdJourMSG(bool newBlockUpdJourMSG);
+
+    static auto & self();
+
 public:
+
+
+
+    static bool getBlockInsNewJourMSG();
+    static void setBlockInsNewJourMSG(bool newBlockInsNewJourMSG);
+
+    static bool getBlockUpdAllJourMSG();
+    static void setBlockUpdAllJourMSG(bool newBlockUpdAllJourMSG);
+
+    static bool getBlockUpdJourMSG();
+    static void setBlockUpdJourMSG(bool newBlockUpdJourMSG);
 
 public slots:
      static void emitInsNewCommandMSG(const uint32_t id);
