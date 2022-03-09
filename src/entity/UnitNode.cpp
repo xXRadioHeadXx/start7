@@ -1904,33 +1904,31 @@ int UnitNode_BOD_T4K_M::calcDKStatus() const
     const auto& swp32 = swpT4KBODType0x32();
     const auto& swp33 = swpT4KBODType0x32();
 
-    for(const auto &y4 : {1,2,3,4}) {
+    for(const auto &y4 : {/*1,*/2,3,4}) {
         if(swp32.isNull()
         && swp32.isNull()) {
             result = DKCiclStatus::DKWrong;
             break;
-        } else if((!swp32.isNull()
-                && (swp32.cdate() > swp33.cdate()))
-               && (1 == swp32.isReady()
-                || 1 == swp32.y(y4).isInAlarm()
-                || 1 == swp32.y(y4).isWasAlarm())) {
+        } else if(!swp32.isNull()
+               && (swp32.cdate() > swp33.cdate() || swp33.isNull())
+               && 1 == swp32.isReady()
+               && 1 == swp32.y(y4).isWasAlarm()) {
             result = DKCiclStatus::DKWasAlarm;
-        } else if((!swp33.isNull()
-                && (swp33.cdate() > swp32.cdate()))
-               && (1 == swp33.isReady()
-                || 1 == swp33.y(y4).isInAlarm()
-                || 1 == swp33.y(y4).isWasAlarm())) {
+        } else if(!swp33.isNull()
+               && (swp33.cdate() > swp32.cdate() || swp32.isNull())
+               && 1 == swp33.isReady()
+               && 1 == swp33.y(y4).isWasAlarm()) {
             result = DKCiclStatus::DKWasAlarm;
-        } else if((!swp32.isNull()
-                && (swp32.cdate() > swp33.cdate()))
-               && (1 == swp32.isReady()
-                || 0 == swp32.y(y4).isWasAlarm())) {
+        } else if(!swp32.isNull()
+               && (swp32.cdate() > swp33.cdate() || swp33.isNull())
+               && 1 == swp32.isReady()
+               && 0 == swp32.y(y4).isWasAlarm()) {
             result = DKCiclStatus::DKNorm;
             break;
-        } else if((!swp33.isNull()
-                && (swp33.cdate() > swp32.cdate()))
-               && (1 == swp33.isReady()
-                || 0 == swp33.y(y4).isWasAlarm())) {
+        } else if(!swp33.isNull()
+               && (swp33.cdate() > swp32.cdate() || swp32.isNull())
+               && 1 == swp33.isReady()
+               && 0 == swp33.y(y4).isWasAlarm()) {
             result = DKCiclStatus::DKNorm;
             break;
         } else {
@@ -1941,34 +1939,32 @@ int UnitNode_BOD_T4K_M::calcDKStatus() const
         return result;
     }
 
-    for(const auto &y4 : {1,2,3,4}) {
+    for(const auto &y4 : {/*1,*/2,3,4}) {
         if(swp32.isNull()
         && swp32.isNull()) {
             result = DKCiclStatus::DKWrong;
             break;
-        } else if((!swp32.isNull()
-                && (swp32.cdate() > swp33.cdate()))
-               && (1 == swp32.isReady()
-                || 1 == swp32.y(y4).isInAlarm()
-                || 1 == swp32.y(y4).isWasAlarm())) {
+        } else if(!swp32.isNull()
+               && (swp32.cdate() > swp33.cdate() || swp33.isNull())
+               && 1 == swp32.isReady()
+               && 1 == swp32.y(y4).isWasAlarm()) {
             result = DKCiclStatus::DKWasAlarm;
             break;
-        } else if((!swp33.isNull()
-                && (swp33.cdate() > swp32.cdate()))
-               && (1 == swp33.isReady()
-                || 1 == swp33.y(y4).isInAlarm()
-                || 1 == swp33.y(y4).isWasAlarm())) {
+        } else if(!swp33.isNull()
+               && (swp33.cdate() > swp32.cdate() || swp32.isNull())
+               && 1 == swp33.isReady()
+               && 1 == swp33.y(y4).isWasAlarm()) {
             result = DKCiclStatus::DKWasAlarm;
             break;
-        } else if((!swp32.isNull()
-                && (swp32.cdate() > swp33.cdate()))
-               && (1 == swp32.isReady()
-                || 0 == swp32.y(y4).isWasAlarm())) {
+        } else if(!swp32.isNull()
+               && (swp32.cdate() > swp33.cdate() || swp33.isNull())
+               && 1 == swp32.isReady()
+               && 0 == swp32.y(y4).isWasAlarm()) {
             result = DKCiclStatus::DKNorm;
-        } else if((!swp33.isNull()
-                && (swp33.cdate() > swp32.cdate()))
-               && (1 == swp33.isReady()
-                || 0 == swp33.y(y4).isWasAlarm())) {
+        } else if(!swp33.isNull()
+               && (swp33.cdate() > swp32.cdate() || swp32.isNull())
+               && 1 == swp33.isReady()
+               && 0 == swp33.y(y4).isWasAlarm()) {
             result = DKCiclStatus::DKNorm;
         } else {
             return DKCiclStatus::DKWas;

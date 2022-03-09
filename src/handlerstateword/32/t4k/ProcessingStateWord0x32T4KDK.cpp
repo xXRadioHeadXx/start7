@@ -25,8 +25,10 @@ ProcessingStateWord0x32T4KDK::~ProcessingStateWord0x32T4KDK()
 
 bool ProcessingStateWord0x32T4KDK::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
+    qDebug() << "PortManager::procDkStatusWord0x31 -->";
+
     if(!currentUN->getDkInvolved()
-    || TypeUnitNodeEnum::BOD_T4K_M == currentUN->getType()) {
+    || TypeUnitNodeEnum::BOD_T4K_M != currentUN->getType()) {
         return false;
     }
 
@@ -114,7 +116,8 @@ bool ProcessingStateWord0x32T4KDK::processing(const StateWord &data, const QShar
     || 1 == swpCurrent.y(3).isWasAlarm()
 
     || 1 == swpCurrent.y(4).isInAlarm()
-    || 1 == swpCurrent.y(4).isWasAlarm()) {
+    || 1 == swpCurrent.y(4).isWasAlarm()
+            ) {
         //нужен сброс
         auto reciver = TopologyService::findReciver(currentUN);
         if(reciver.isNull()) {
@@ -128,7 +131,10 @@ bool ProcessingStateWord0x32T4KDK::processing(const StateWord &data, const QShar
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();
 
-    return true;}
+    qDebug() << "PortManager::procDkStatusWord0x31 <--";
+
+    return true;
+}
 
 void ProcessingStateWord0x32T4KDK::finishDKWaiter(QSharedPointer<AbstractRequester> ar) const {
     if(RequesterType::DKWaiter == ar->getRequesterType()) {
@@ -194,7 +200,7 @@ void ProcessingStateWord0x32T4KDK::finishDKWaiter(QSharedPointer<AbstractRequest
 }
 
 void ProcessingStateWord0x32T4KDK::procDK(const QSharedPointer<UnitNode> &current, const QSharedPointer<UnitNode> &previous) const {
-//    qDebug() << "DkStatus --> " << current->toString();
+    qDebug() << "DkStatus --> " << current->toString();
     if(current.isNull() || previous.isNull())
         return;
 
@@ -213,8 +219,8 @@ void ProcessingStateWord0x32T4KDK::procDK(const QSharedPointer<UnitNode> &curren
        DKCiclStatus::DKDone != previous->getDkStatus() &&
        current->getDkInvolved()) {
         int unCalcDkStatus = current->calcDKStatus();
-//        qDebug() << "DkStatus -- unCalcDkStatus " << mapDKCiclStatus.value(unCalcDkStatus);
-//        qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
+        qDebug() << "DkStatus -- unCalcDkStatus " << mapDKCiclStatus.value(unCalcDkStatus);
+        qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
         if(DKCiclStatus::DKReady == previous->getDkStatus() &&
                 DKCiclStatus::DKNorm == unCalcDkStatus) {
             current->setDkStatus(DKCiclStatus::DKNorm);
@@ -237,6 +243,6 @@ void ProcessingStateWord0x32T4KDK::procDK(const QSharedPointer<UnitNode> &curren
         }
         current->updDoubl();
     }
-//    qDebug() << "DkStatus -- unNewDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
-//    qDebug() << "DkStatus <--";
+    qDebug() << "DkStatus -- unNewDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
+    qDebug() << "DkStatus <--";
 }
