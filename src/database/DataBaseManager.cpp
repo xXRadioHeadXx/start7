@@ -9,6 +9,7 @@
 
 qint64 DataBaseManager::idStartLastDuty = -1;
 
+QSqlDatabase DataBaseManager::db = QSqlDatabase();
 
 QSharedPointer<ShedulerNewDuty> DataBaseManager::shedulerNewDuty;
 
@@ -168,39 +169,46 @@ DataBaseManager::DataBaseManager(QObject *parent) noexcept :
     QObject(parent)
 {
 //    qDebug() << "DataBaseManager::DataBaseManager()";
+    if(m_db().isValid() || m_db().isOpen())
+    {
+        m_db().close();
+    }
 
 //    loadSettings();
+    m_db();
 }
 
-QSqlDatabase DataBaseManager::m_db() {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
+QSqlDatabase& DataBaseManager::m_db()
+{
+    if (!db.isValid()) {
+        db = QSqlDatabase::addDatabase("QPSQL");
 
-    if(getHostName().isEmpty() || getDatabaseName().isEmpty() || getUserName().isEmpty() || getPassword().isEmpty() || getPort().isEmpty()) {
-        QString hostName;
-        QString databaseName;
-        QString userName;
-        QString password;
-        QString port;
+        if(getHostName().isEmpty() || getDatabaseName().isEmpty() || getUserName().isEmpty() || getPassword().isEmpty() || getPort().isEmpty()) {
+            QString hostName;
+            QString databaseName;
+            QString userName;
+            QString password;
+            QString port;
 
-        CSimpleIniA ini;
-        QString filePath = QCoreApplication::applicationDirPath() + "/rifx.ini";
-        ini.LoadFile(filePath.toStdString().c_str());
+            CSimpleIniA ini;
+            QString filePath = QCoreApplication::applicationDirPath() + "/rifx.ini";
+            ini.LoadFile(filePath.toStdString().c_str());
 
-        QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+            QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
 
-        hostName = codec->toUnicode(ini.GetValue("PostgresSQL", "Host"));
-        databaseName = codec->toUnicode(ini.GetValue("PostgresSQL", "DbName"));
-        userName = codec->toUnicode(ini.GetValue("PostgresSQL", "Login"));
-        port = codec->toUnicode(ini.GetValue("PostgresSQL", "Port"));
+            hostName = codec->toUnicode(ini.GetValue("PostgresSQL", "Host"));
+            databaseName = codec->toUnicode(ini.GetValue("PostgresSQL", "DbName"));
+            userName = codec->toUnicode(ini.GetValue("PostgresSQL", "Login"));
+            port = codec->toUnicode(ini.GetValue("PostgresSQL", "Port"));
 
-        const char * criptPasswordChar = ini.GetValue("PostgresSQL", "Password");
-        QString criptPassword = QString::fromLatin1(criptPasswordChar);
-        qDebug() << "Crypt -- " << criptPassword;
-        QString key = "start7";
-        QString decriptPassword = Utils::xorCrypt(criptPassword, key);
-        decriptPassword = codec->toUnicode(decriptPassword.toStdString().c_str());
-        qDebug() << "DeCrypt -- " << decriptPassword;
-        password = decriptPassword;
+            const char * criptPasswordChar = ini.GetValue("PostgresSQL", "Password");
+            QString criptPassword = QString::fromLatin1(criptPasswordChar);
+            qDebug() << "Crypt -- " << criptPassword;
+            QString key = "start7";
+            QString decriptPassword = Utils::xorCrypt(criptPassword, key);
+            decriptPassword = codec->toUnicode(decriptPassword.toStdString().c_str());
+            qDebug() << "DeCrypt -- " << decriptPassword;
+            password = decriptPassword;
 
 //            qDebug()<<"==SQL===";
 //            qDebug()<<hostName;
@@ -210,38 +218,44 @@ QSqlDatabase DataBaseManager::m_db() {
 //            qDebug()<<port;
 //            qDebug()<<"========";
 
-        setHostName(hostName);
-        setDatabaseName(databaseName);
-        setUserName(userName);
-        setPassword(password);
-        setPort(port);
-        //qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
+            setHostName(hostName);
+            setDatabaseName(databaseName);
+            setUserName(userName);
+            setPassword(password);
+            setPort(port);
+            //qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
 
-        auto autoNewDuty = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStart"));
-        auto hour = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStartHour"));
-        auto minute = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStartMinute"));
+            auto autoNewDuty = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStart"));
+            auto hour = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStartHour"));
+            auto minute = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStartMinute"));
 
-        if(1 == autoNewDuty.toInt()) {
-            shedulerNewDuty = QSharedPointer<ShedulerNewDuty>::create(QTime(hour.toInt(), minute.toInt()));
-            shedulerNewDuty->start();
+            if(1 == autoNewDuty.toInt()) {
+                shedulerNewDuty = QSharedPointer<ShedulerNewDuty>::create(QTime(hour.toInt(), minute.toInt()));
+                shedulerNewDuty->start();
+            }
         }
-    }
 
-    db.setHostName(getHostName());
-    db.setDatabaseName(getDatabaseName());
-    db.setUserName(getUserName());
-    db.setPassword(getPassword());
-    db.setPort(getPort().toUInt());
-    db.open(getUserName(), getPassword());
+        db.setHostName(getHostName());
+        db.setDatabaseName(getDatabaseName());
+        db.setUserName(getUserName());
+        db.setPassword(getPassword());
+        db.setPort(getPort().toUInt());
+        db.open(getUserName(), getPassword());
 
 
-    if (!db.isOpen())
-    {
-        qDebug() << "Cannot open database: Error: " << db.lastError();
-    }
-    else
-    {
+        if (!db.isOpen())
+        {
+            qDebug() << "Cannot open database: Error: " << db.lastError();
+        }
+        else
+        {
+            //qDebug()<<"Opened database: " << db.connectOptions();
+        }
+    } else if(db.open(getUserName(), getPassword())) {
+        return db;
         //qDebug()<<"Opened database: " << db.connectOptions();
+    } else {
+        qDebug() << "Cannot open database: Error: " << db.lastError();
     }
 
     return db;
