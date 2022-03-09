@@ -12,7 +12,6 @@ class DataBaseManager : public QObject
     Q_OBJECT
 
     static qint64 idStartLastDuty;
-    static QSqlDatabase db;
 
     static QSharedPointer<ShedulerNewDuty> shedulerNewDuty;
     static QStringList fields;
@@ -22,7 +21,7 @@ public:
     explicit DataBaseManager(QObject *parent = nullptr) noexcept;
     ~DataBaseManager() noexcept;
 
-    static QSqlDatabase& m_db();
+    static QSqlDatabase m_db();
 
 //    static int insertCommandMsg_wS(const MessageEntity &msg);
 //    static int insertCommandMsg(const MessageEntity &msg);
