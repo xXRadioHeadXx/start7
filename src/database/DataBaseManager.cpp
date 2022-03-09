@@ -730,18 +730,16 @@ QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const
     QString sql;
     sql = "SELECT * FROM public.jour ";
     if(id > 0 || !flt.isEmpty()) {
-        sql += " WHERE ";
+        sql += " WHERE true ";
         if(id > 0)
-            sql += " id > :id ";
+            sql += " AND id > :id ";
         if(-1 != DataBaseManager::getIdStartLastDuty()) {
-            if(id > 0)
-                sql += " AND ";
-            sql += " id >= :idMin ";
+            sql += " AND id >= :idMin ";
         }
         if(!flt.isEmpty()) {
             if(id > 0 || -1 != DataBaseManager::getIdStartLastDuty())
                 sql += " AND ";
-            sql += " ( " + flt + " ) ";
+            sql += " AND ( " + flt + " ) ";
         }
     }
     sql += " ORDER BY id ";
@@ -749,12 +747,12 @@ QList<JourEntity> DataBaseManager::getFltMSGRecordAfter(const QString flt, const
     QSqlQuery query(m_db());
     query.prepare(sql);
 
-    sql.replace(":id", QString::number(id));
     query.bindValue(":id", id);
     if(-1 != DataBaseManager::getIdStartLastDuty()) {
         query.bindValue(":idMin", DataBaseManager::getIdStartLastDuty());
         sql.replace(":idMin", QString::number(DataBaseManager::getIdStartLastDuty()));
     }
+    sql.replace(":id", QString::number(id));
 
     qDebug() << QTime::currentTime() << "DataBaseManager::getFltMSGRecordAfter("<< flt << ", " << id << ") -- sql " << sql;
 
@@ -773,14 +771,12 @@ QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const i
     QString sql;
     sql = "SELECT * FROM public.jour ";
     if(id > 0 || !flt.isEmpty() || -1 != DataBaseManager::getIdStartLastDuty()) {
-        sql += " WHERE ";
+        sql += " WHERE true ";
         if(id > 0)
-            sql += " id = :id ";
+            sql += " AND id = :id ";
         sql.replace(":id", QString::number(id));
         if(!flt.isEmpty()) {
-            if(id > 0 || -1 != DataBaseManager::getIdStartLastDuty())
-                sql += " AND ";
-            sql += " ( " + flt + " ) ";
+            sql += " AND ( " + flt + " ) ";
         }
     }
 
@@ -788,6 +784,7 @@ QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const i
     query.prepare(sql);
 
     query.bindValue(":id", id);
+    sql.replace(":id", QString::number(id));
 
     qDebug() << QTime::currentTime() << "DataBaseManager::getFltOneMSGRecord("<< flt << ", " << id << ") -- sql " << sql;
 

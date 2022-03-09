@@ -328,12 +328,6 @@ QByteArray DataQueueItem::makeDK0x21(const QSharedPointer<UnitNode> un)
 {
     QByteArray data0x21;
 
-    data0x21.append(static_cast<uint8_t>(0xB5));      //<SB>
-    data0x21.append(static_cast<uint8_t>(0xFF));      //<ADDR>
-    data0x21.append(static_cast<uint8_t>(0xFE));      //<ADDR>
-    data0x21.append(static_cast<char>(0x00));        //<NBB> 0x00
-    data0x21.append(static_cast<uint8_t>(0x21));      //<CMD> 0x21
-
     if(!un.isNull()) {
         if(TypeUnitNodeEnum::BL_IP == un->getType()
         || TypeUnitNodeEnum::SD_BL_IP == un->getType()
@@ -372,6 +366,7 @@ QByteArray DataQueueItem::makeDK0x21(const QSharedPointer<UnitNode> un)
     }
     data0x21.append(Utils::getByteSumm(data0x21)); //<CHKS>
 
+    qDebug() << "DataQueueItem::makeDK0x21(" << un->toString() << ")" << data0x21.toHex();
     return data0x21;
 }
 
