@@ -47,6 +47,8 @@ include(../src/template/template.pri)
 #include(../src/qcron/qcron.pri)
 #include(../src/handlerstateword/handlerstateword.pri)
 include(../src/global.pri)
+include(../src/ctpl/ctpl.pri)
+
 
 SOURCES += \
     AuthenticationDialog.cpp \

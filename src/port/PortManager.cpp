@@ -77,7 +77,7 @@
 //#include "swpt4k/SWPT4KDDCFType0x33.h"
 #include "ManagerSingleMsg.h"
 #include "ContainerRequesters.h"
-
+#include "ctpl/ThreadPool.h"
 QSharedPointer<ShedulerDK> PortManager::shedulerDK;
 
 PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) : QObject(parent), MAX_COUNT_PORTS(1), m_dbm(dbm)
@@ -1222,7 +1222,8 @@ void PortManager::manageOverallReadQueue()
 //                DataQueueItem request;
 //                parcingStatusWord0x41(itm, request);
 
-                HandlerStateWord0x41(itm).handl();
+                ThreadPool::instance().push([itm](int id){HandlerStateWord0x41(itm).handl();});
+//                HandlerStateWord0x41(itm).handl();
 //
                 break;
             }
@@ -1237,7 +1238,8 @@ void PortManager::manageOverallReadQueue()
                 }
                 DataQueueItem request;
 //                parcingStatusWord0x42(itm, request);
-                HandlerStateWord0x42(itm).handl();
+                ThreadPool::instance().push([itm](int id){HandlerStateWord0x42(itm).handl();});
+//                HandlerStateWord0x42(itm).handl();
 
                 break;
             }
@@ -1255,7 +1257,8 @@ void PortManager::manageOverallReadQueue()
                 }
 //                DataQueueItem request;
 //                parcingStatusWord0x31(itm, request);
-                HandlerStateWord0x31(itm).handl();
+                ThreadPool::instance().push([itm](int id){HandlerStateWord0x31(itm).handl();});
+//                HandlerStateWord0x31(itm).handl();
 
                 break;
             }
@@ -1271,7 +1274,8 @@ void PortManager::manageOverallReadQueue()
                 }
 //                DataQueueItem request;
 //                parcingStatusWord0x32(itm, request);
-                HandlerStateWord0x32(itm).handl();
+                ThreadPool::instance().push([itm](int id){HandlerStateWord0x32(itm).handl();});
+//                HandlerStateWord0x32(itm).handl();
 
 
                 break;
@@ -1290,7 +1294,8 @@ void PortManager::manageOverallReadQueue()
                 }
 //                DataQueueItem request;
 //                parcingStatusWord0x33(itm, request);
-                HandlerStateWord0x33(itm).handl();
+                ThreadPool::instance().push([itm](int id){HandlerStateWord0x33(itm).handl();});
+//                HandlerStateWord0x33(itm).handl();
 
                 break;
             }
@@ -1306,7 +1311,8 @@ void PortManager::manageOverallReadQueue()
                 }
 //                DataQueueItem request;
 //                parcingStatusWord0x34(itm, request);
-                HandlerStateWord0x34(itm).handl();
+                ThreadPool::instance().push([itm](int id){HandlerStateWord0x34(itm).handl();});
+//                HandlerStateWord0x34(itm).handl();
 
                 break;
             }
