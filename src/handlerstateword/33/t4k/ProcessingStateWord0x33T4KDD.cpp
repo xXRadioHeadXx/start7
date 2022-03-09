@@ -64,13 +64,13 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
     }
     auto y4 = currentUN->getNum2() / 100;
     if(y4 > 2 && SWPT4KBODType0x33(data).getY4() < 1) {
-        qDebug() << "PortManager::procT4KMDDStatusWord0x33(32) <--";
+//        qDebug() << "PortManager::procT4KMDDStatusWord0x33(32) <--";
         return false;
     }
 
     auto ddNum = currentUN->getNum2() % 100;
     if(ddNum != SWPT4KBODType0x33(data).getDd()) {
-        qDebug() << "PortManager::procT4KMDDStatusWord0x33(32) <--";
+//        qDebug() << "PortManager::procT4KMDDStatusWord0x33(32) <--";
         return false;
     }
 

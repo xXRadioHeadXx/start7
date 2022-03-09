@@ -55,11 +55,11 @@ bool ProcessingStateWord0x41BLIPDK::processing(const StateWord &data, const QSha
         {-1,"DKWrong"}
     };
 
-    qDebug() << "DkStatus --> " << currentUN->toString();
+//    qDebug() << "DkStatus --> " << currentUN->toString();
     auto unCalcDkStatus = currentUN->calcDKStatus();
-    qDebug() << "DkStatus -- unCalcDkStatus " << mapDKCiclStatus.value(unCalcDkStatus);
-    qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(currentUN->getDkStatus());
-    qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(previousUN->getDkStatus());
+//    qDebug() << "DkStatus -- unCalcDkStatus " << mapDKCiclStatus.value(unCalcDkStatus);
+//    qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(currentUN->getDkStatus());
+//    qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(previousUN->getDkStatus());
     if(DKCiclStatus::DKReady == previousUN->getDkStatus() &&
             DKCiclStatus::DKNorm == unCalcDkStatus)
         currentUN->setDkStatus(DKCiclStatus::DKNorm);
@@ -79,12 +79,12 @@ bool ProcessingStateWord0x41BLIPDK::processing(const StateWord &data, const QSha
         currentUN->setDkStatus(previousUN->getDkStatus());
     else
         currentUN->setDkStatus(DKCiclStatus::DKWrong);
-    qDebug() << "DkStatus -- unNewDkStatus " << mapDKCiclStatus.value(currentUN->getDkStatus());
+//    qDebug() << "DkStatus -- unNewDkStatus " << mapDKCiclStatus.value(currentUN->getDkStatus());
 
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();
 
-    qDebug() << "DkStatus <--";
-    qDebug() << "PortManager::procDkBLIPStatusWord0x41(2) <--";
+//    qDebug() << "DkStatus <--";
+//    qDebug() << "PortManager::procDkBLIPStatusWord0x41(2) <--";
     return true;
 }

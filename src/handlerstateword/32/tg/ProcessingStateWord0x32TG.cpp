@@ -55,7 +55,7 @@ bool ProcessingStateWord0x32TG::processing(const StateWord &data, const QSharedP
                                                                   DataQueueItem::makeResetFlags0x24);
             reciver->pushBackUniqManagerSingleMsg(msMsg);
         }
-        qDebug() << "PortManager::procTgStatusWord0x32(5) <--";
+//        qDebug() << "PortManager::procTgStatusWord0x32(5) <--";
         return true;
     }
 

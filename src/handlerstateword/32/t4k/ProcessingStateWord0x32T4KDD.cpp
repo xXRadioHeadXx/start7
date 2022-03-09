@@ -39,7 +39,7 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-        qDebug() << "PortManager::procT4KMDDStatusWord0x32(3) <--";
+//        qDebug() << "PortManager::procT4KMDDStatusWord0x32(3) <--";
 
         return false;
     }
@@ -49,7 +49,7 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-        qDebug() << "PortManager::procT4KMDDStatusWord0x32(31) <--";
+//        qDebug() << "PortManager::procT4KMDDStatusWord0x32(31) <--";
 
         return false;
     }
@@ -57,7 +57,7 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-        qDebug() << "PortManager::procT4KMDDStatusWord0x32(32) <--";
+//        qDebug() << "PortManager::procT4KMDDStatusWord0x32(32) <--";
 
         return false;
     }
@@ -79,7 +79,7 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-        qDebug() << "PortManager::procT4KMDDStatusWord0x32(4) <--";
+//        qDebug() << "PortManager::procT4KMDDStatusWord0x32(4) <--";
         return true;
     }
 

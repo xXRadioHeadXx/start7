@@ -43,7 +43,7 @@ bool ProcessingStateWord0x32TGDK::processing(const StateWord &data, const QShare
                  auto dwWaiter = ar.dynamicCast<ProcessDKWaiter>();
                  if(dwWaiter->getLsTrackedUN().contains(currentUN)) {
                      finishDKWaiter(dwWaiter);
-                     qDebug() << "PortManager::procDkStatusWord0x32 remove dwWaiter";
+//                     qDebug() << "PortManager::procDkStatusWord0x32 remove dwWaiter";
                      return true;
                  }
              }
@@ -62,7 +62,7 @@ bool ProcessingStateWord0x32TGDK::processing(const StateWord &data, const QShare
                              ContainerRequesters::removeLsWaiter(dwWaiter);
                              SignalSlotCommutator::emitStopDKWait();
                          }
-                         qDebug() << "PortManager::removeLsTrackedUN(" << currentUN->toString() << ")";
+//                         qDebug() << "PortManager::removeLsTrackedUN(" << currentUN->toString() << ")";
                          break;
                      }
                  }
@@ -170,7 +170,7 @@ void ProcessingStateWord0x32TGDK::finishDKWaiter(QSharedPointer<AbstractRequeste
 }
 
 void ProcessingStateWord0x32TGDK::procDK(const QSharedPointer<UnitNode> &current, const QSharedPointer<UnitNode> &previous) const {
-    qDebug() << "DkStatus --> " << current->toString();
+//    qDebug() << "DkStatus --> " << current->toString();
     if(current.isNull() || previous.isNull())
         return;
 
@@ -189,8 +189,8 @@ void ProcessingStateWord0x32TGDK::procDK(const QSharedPointer<UnitNode> &current
        DKCiclStatus::DKDone != previous->getDkStatus() &&
        current->getDkInvolved()) {
         int unCalcDkStatus = current->calcDKStatus();
-        qDebug() << "DkStatus -- unCalcDkStatus " << mapDKCiclStatus.value(unCalcDkStatus);
-        qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
+//        qDebug() << "DkStatus -- unCalcDkStatus " << mapDKCiclStatus.value(unCalcDkStatus);
+//        qDebug() << "DkStatus -- unDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
         if(DKCiclStatus::DKReady == previous->getDkStatus() &&
                 DKCiclStatus::DKNorm == unCalcDkStatus) {
             current->setDkStatus(DKCiclStatus::DKNorm);
@@ -213,7 +213,7 @@ void ProcessingStateWord0x32TGDK::procDK(const QSharedPointer<UnitNode> &current
         }
         current->updDoubl();
     }
-    qDebug() << "DkStatus -- unNewDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
-    qDebug() << "DkStatus <--";
+//    qDebug() << "DkStatus -- unNewDkStatus " << mapDKCiclStatus.value(current->getDkStatus());
+//    qDebug() << "DkStatus <--";
 }
 

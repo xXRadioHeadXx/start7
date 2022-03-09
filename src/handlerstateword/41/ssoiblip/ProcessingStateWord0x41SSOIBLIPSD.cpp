@@ -62,7 +62,7 @@ bool ProcessingStateWord0x41SSOIBLIPSD::processing(const StateWord &data, const 
                                                                   DataQueueItem::makeResetFlags0x24);
             reciver->pushBackUniqManagerSingleMsg(msMsg);
         }
-        qDebug() << "PortManager::procSDBLIPStatusWord0x41(5) <--";
+//        qDebug() << "PortManager::procSDBLIPStatusWord0x41(5) <--";
         return true;
     }
 

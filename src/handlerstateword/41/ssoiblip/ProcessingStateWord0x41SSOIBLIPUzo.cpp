@@ -96,7 +96,7 @@ bool ProcessingStateWord0x41SSOIBLIPUzo::processing(const StateWord &data, const
                                                                   DataQueueItem::makeResetFlags0x24);
             reciver->pushBackUniqManagerSingleMsg(msMsg);
         }
-        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(5) <--";
+//        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(5) <--";
         return true;
     }
 
