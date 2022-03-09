@@ -1221,7 +1221,7 @@ void MainWindowServer::treeUNCustomMenuRequested(QPoint pos)
 
         if(isDebug) { //! debug
             menu->addAction(ui->actionDK);
-        } else if(0 == sel->getBazalt() && 0 != sel->getDK()) {
+        } else if(0 != sel->getDK()) {
             menu->addAction(ui->actionDK);
         }
 

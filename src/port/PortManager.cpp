@@ -87,9 +87,9 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
 
     m_udpPortsVector.reserve(MAX_COUNT_PORTS);
 
-    SignalSlotCommutator::setBlockInsNewJourMSG(true);
-    SignalSlotCommutator::setBlockUpdAllJourMSG(true);
-    SignalSlotCommutator::setBlockUpdJourMSG(true);
+//    SignalSlotCommutator::setBlockInsNewJourMSG(true);
+//    SignalSlotCommutator::setBlockUpdAllJourMSG(true);
+//    SignalSlotCommutator::setBlockUpdJourMSG(true);
 
     connect(&SignalSlotCommutator::instance(), SIGNAL(requestOnOffCommand(bool,bool,QSharedPointer<UnitNode>,bool)), this, SLOT(requestOnOffCommand(bool,bool,QSharedPointer<UnitNode>,bool)));
     connect(&SignalSlotCommutator::instance(), SIGNAL(lockOpenCloseCommand(bool,QSharedPointer<UnitNode>,bool)), this, SLOT(lockOpenCloseCommand(bool,QSharedPointer<UnitNode>,bool)));
@@ -113,7 +113,7 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
         }
     }
 
-    timerBlockJourMSG.singleShot(15'000, nullptr, [](){
+    timerBlockJourMSG.singleShot(10'000, nullptr, [](){
         SignalSlotCommutator::setBlockInsNewJourMSG(false);
         SignalSlotCommutator::setBlockUpdAllJourMSG(false);
         SignalSlotCommutator::setBlockUpdJourMSG(false);
