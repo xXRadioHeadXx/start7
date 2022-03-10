@@ -162,7 +162,7 @@ bool ProcessingStateWord0x41BLIPSD::processing(const StateWord &data, const QSha
         // заполняем поля сообщения
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
-
+                currentUN->done=true;
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     } else {
@@ -226,7 +226,7 @@ bool ProcessingStateWord0x41BLIPSD::processing(const StateWord &data, const QSha
         // заполняем поля сообщения
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
-
+                currentUN->done=true;
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         wasSendAbonentEventsAndStates = false;
@@ -247,7 +247,7 @@ bool ProcessingStateWord0x41BLIPSD::processing(const StateWord &data, const QSha
             // заполняем поля сообщения
             msg.setComment(commentMsg);
             msg.setType(typeMsg);
-
+                currentUN->done=true;
             SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             wasSendAbonentEventsAndStates = false;

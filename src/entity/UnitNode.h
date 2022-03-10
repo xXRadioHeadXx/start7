@@ -162,6 +162,8 @@ public:
 
     void deleteAll();
 
+
+
     static int adamOffToMs(int adamOff);
 
     StateWord getStateWord(const uint8_t key) const;
@@ -484,6 +486,8 @@ public:
 
 
 public:
+
+    bool done;
 
     const QList<QSharedPointer<ManagerSingleMsg>> &getListManagersSingleMsg();
     bool pushBackUniqManagerSingleMsg(const QSharedPointer<ManagerSingleMsg> &mngr);

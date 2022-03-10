@@ -96,6 +96,7 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
     connect(&SignalSlotCommutator::instance(), SIGNAL(autoOnOffIU(bool,bool,QSharedPointer<UnitNode>)),this, SLOT(requestAutoOnOffIUCommand(bool,bool,QSharedPointer<UnitNode>)));
     connect(&SignalSlotCommutator::instance(), SIGNAL(requestDK(bool,bool,QSharedPointer<UnitNode>)),this, SLOT(requestDK(bool,bool,QSharedPointer<UnitNode>)));
     connect(&SignalSlotCommutator::instance(), SIGNAL(resetFlags(QSharedPointer<UnitNode>)), this, SLOT(requestResetFlags(QSharedPointer<UnitNode>)));
+    connect(&this->controlTimer, SIGNAL(timeout()), this, SLOT(controlSlot()));
 
     {
         CSimpleIniA ini;
@@ -370,6 +371,7 @@ void PortManager::pushOverallWriteQueue(const DataQueueItem &value){
 
 void PortManager::startStatusRequest(){
 //    qDebug() << "PortManager::startStatusRequest() -->";
+    controlTimer.start(100);
     disconnect(&SignalSlotCommutator::instance(), SIGNAL(lostConnect(QSharedPointer<UnitNode> )), this, SLOT(unLostedConnect(QSharedPointer<UnitNode> )));
 
     ContainerRequesters::clearLsSCR();
@@ -690,6 +692,7 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> target) {
         msg.setType(134);
         msg.setParams(target->makeJson());
         if((target->getControl() || TypeUnitNodeEnum::IU_BL_IP == target->getType()) && !target->getName().isEmpty() && 1 != target->getMetaEntity()) {
+                            target->done=true;
             SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(target, msg);
         }
@@ -728,6 +731,31 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> target) {
     msMsg->setReject(reject);
     reciver->pushBackUniqManagerSingleMsg(msMsg);
     return;
+}
+
+void PortManager::controlSlot()
+{
+    bool res=true;
+    for(const auto& un : as_const(TopologyService::getListTreeUnitNodes())) {
+
+        if(un->getType()==TypeUnitNodeEnum::SD_BL_IP){
+        qDebug()<<un->getName()<<" "<<un->done;
+
+        if(un->done==false)
+            res=false;
+        }
+    }
+
+    qDebug()<<" ";
+    if(res==true){
+        qDebug()<<" ";
+        qDebug()<<"Первичный опрос закончен !!!";
+        qDebug()<<" ";
+        controlTimer.stop();
+        SignalSlotCommutator::emit_enable_updateListRecords();
+        // enable_updateListRecords
+    }else
+    controlTimer.start(3000);
 }
 
 void PortManager::lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN, bool value)

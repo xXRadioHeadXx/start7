@@ -130,7 +130,7 @@ bool ProcessingStateWord0x41SSOIBLIPIU::processing(const StateWord &data, const 
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
         msg.setParams(currentUN->makeJson());
-
+                currentUN->done=true;
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     }

@@ -65,6 +65,7 @@ public slots:
      static void emitResetFlags(QSharedPointer<UnitNode>  un);
      static void emitUpdateLabelOperator();
      static void emitChangeCountIntegrationAbonent(int);
+     static void emit_enable_updateListRecords();
 
 signals:
      void insNewCommandMSG(const uint32_t id) const;
@@ -93,7 +94,7 @@ signals:
      void resetFlags(QSharedPointer<UnitNode>  un) const;
      void updateLabelOperator() const;
      void changeCountIntegrationAbonent(int) const;
-
+     void enable_updateListRecords();
 };
 
 #endif // SIGNALSLOTCOMMUTATOR_H

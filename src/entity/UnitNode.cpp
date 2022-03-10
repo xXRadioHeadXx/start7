@@ -942,6 +942,7 @@ UnitNode::UnitNode(const QSharedPointer<UnitNode> parent) :
     /*UnitNodeCFG(static_cast<UnitNodeCFG*>(parent.data()))
   , */UnitNodeTreeItem(parent)
 {
+    this->done=false;
     this->parentUN = parent;
 }
 
@@ -1024,6 +1025,7 @@ UnitNode::UnitNode(const UnitNode & parent) :
     waitAutoCommand(parent.waitAutoCommand),
     publishedState(parent.publishedState)
 {
+    this->done=false;
     UnitNodeCFG::operator=(parent);
     TreeItem::operator=(parent);
     setStateWords(parent.getStateWords());

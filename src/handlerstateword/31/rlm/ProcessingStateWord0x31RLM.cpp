@@ -149,7 +149,7 @@ bool ProcessingStateWord0x31RLM::processing(const StateWord &data, const QShared
         // заполняем поля сообщения
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
-
+                currentUN->done=true;
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     } else {
@@ -228,7 +228,7 @@ bool ProcessingStateWord0x31RLM::processing(const StateWord &data, const QShared
         // заполняем поля сообщения
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
-
+                currentUN->done=true;
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         wasSendAbonentEventsAndStates = false;
@@ -251,7 +251,7 @@ bool ProcessingStateWord0x31RLM::processing(const StateWord &data, const QShared
             // заполняем поля сообщения
             msg.setComment(commentMsg);
             msg.setType(typeMsg);
-
+                currentUN->done=true;
             SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             wasSendAbonentEventsAndStates = false;
