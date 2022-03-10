@@ -774,6 +774,9 @@ QList<JourEntity> DataBaseManager::getFltOneMSGRecord(const QString flt, const i
         sql += " WHERE true ";
         if(id > 0)
             sql += " AND id = :id ";
+        else if(id < 0) {
+            sql += " AND id >= COALESCE((SELECT max(j2.id) FROM public.jour j2 WHERE j2.type in (902,1902)), 0) ";
+        }
         sql.replace(":id", QString::number(id));
         if(!flt.isEmpty()) {
             sql += " AND ( " + flt + " ) ";
