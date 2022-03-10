@@ -249,8 +249,12 @@ QSqlDatabase& DataBaseManager::m_db()
         }
         else
         {
+            QSqlDriver* driver  = db.driver();
+            qDebug() << "QSqlDriver::Transactions " << driver->hasFeature( QSqlDriver::Transactions ) ;
             //qDebug()<<"Opened database: " << db.connectOptions();
         }
+    } else if (db.isOpen()) {
+        return db;
     } else if(db.open(getUserName(), getPassword())) {
         return db;
         //qDebug()<<"Opened database: " << db.connectOptions();
@@ -301,6 +305,7 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
         sql += "to_timestamp(:vMdate, 'YYYY-MM-DD HH24:MI:SS.MS'), ";
     sql += ":vComment, :vObject, :vReason, :vMeasures, :vOperatorid, :vStatus, :vDirection, :vD1, :vD2, :vD3, :vD4, :vType, :vObjecttype, :vFlag, " + json + " ); ";
 
+    m_db().transaction();
     QSqlQuery query(m_db());
     query.prepare(sql);
 
@@ -329,6 +334,7 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
 
     if(query.exec())
     {
+        m_db().commit();
 //        //qDebug() << "DataBaseManager::addNewMsg :" << query.lastInsertId().toUInt();
         return query.lastInsertId().toUInt();
     }
@@ -337,9 +343,11 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
         qDebug() << "DataBaseManager::addNewMsg Error :" << query.lastError().text();
         qDebug() << query.lastQuery();
         qDebug() << query.boundValues();
+        m_db().rollback();
         return 0;
     }
 
+    m_db().rollback();
     return 0;
 }
 
@@ -388,11 +396,10 @@ int DataBaseManager::updateJourMsg(JourEntity &msg)
              flag=:vFlag \
              WHERE id = :vId ";
 
+
+    m_db().transaction();
     QSqlQuery query(m_db());
     query.prepare(sql);
-
-
-
 
     query.bindValue(":vComment", msg.getComment());
     query.bindValue(":vObject", msg.getObject());
@@ -416,6 +423,7 @@ int DataBaseManager::updateJourMsg(JourEntity &msg)
     {
 //        //qDebug() << "DataBaseManager::updMsg :" << msg.getId();
 //        emit this->updateMSG(msg.getId());
+        m_db().commit();
         return msg.getId();
     }
     else
@@ -423,8 +431,11 @@ int DataBaseManager::updateJourMsg(JourEntity &msg)
         qDebug() << "DataBaseManager::updMsg Error :" << query.lastError().text();
         qDebug() << query.lastQuery();
         qDebug() << query.boundValues();
+        m_db().rollback();
         return 0;
     }
+    m_db().rollback();
+    return 0;
 }
 
 int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant value, const QSet<int> setId)
@@ -473,6 +484,7 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
 
     sql = sql.arg(field, sqlId);
 
+    m_db().transaction();
     QSqlQuery query(m_db());
     query.prepare(sql);
 
@@ -496,12 +508,14 @@ int DataBaseManager::updateJourMsgFieldById(const QString field, const QVariant 
     if(query.exec())
     {
 //        //qDebug() << "DataBaseManager::updateJourMsgFieldById ";
+        m_db().commit();
         return listId.size();
     }
 
     qDebug() << "DataBaseManager::updateJourMsgFieldById Error :" << query.lastError().text();
     qDebug() << query.lastQuery();
     qDebug() << query.boundValues();
+    m_db().rollback();
     return 0;
 }
 
@@ -590,12 +604,14 @@ void DataBaseManager::resetAllFlags()
              SET flag = 0 \
              WHERE flag != 0 ";
 
+    m_db().transaction();
     QSqlQuery query(m_db());
     query.prepare(sql);
 
     if(query.exec())
     {
 //        //qDebug() << "DataBaseManager::resetAllFlags ";
+        m_db().commit();
         return;
     }
     else
@@ -603,6 +619,7 @@ void DataBaseManager::resetAllFlags()
         qDebug() << "DataBaseManager::resetAllFlags Error :" << query.lastError().text();
         qDebug() << query.lastQuery();
         qDebug() << query.boundValues();
+        m_db().rollback();
         return;
     }
 }
