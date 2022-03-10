@@ -66,6 +66,8 @@ bool ServerTableModelJour::enable_updateListRecords()
             SIGNAL(insNewJourMSG(uint32_t)),
             this,
             SLOT(updateListRecords(uint32_t)));
+
+    updateListRecords();
 }
 
 ServerTableModelJour::ServerTableModelJour(QObject *parent, bool firstLoad) :
