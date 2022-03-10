@@ -170,6 +170,23 @@ void GraphTerminal::manageOverallReadQueue()
             procCommands(itm);
             continue;
         } else if("KeepAlive" == type) {
+            const auto &hostSender = QHostAddress(itm.address());
+            const quint16 &portSender = itm.port();
+            const auto buffers = m_tcpServer->getAbonents();
+
+            for(const auto& socket : as_const(buffers.keys())) {
+                if(socket->peerAddress().isEqual(hostSender) && socket->peerPort() == portSender) {
+                    QByteArray buf;
+                    QTextStream ts(&buf);
+                    auto cw51 = QTextCodec::codecForName("windows-1251");
+
+                    ts.setCodec(cw51);
+                    ts << "<RIFPlusPacket type=\"KeepAlive\" />";
+                    ts.flush();
+
+                    this->m_tcpServer->writeData(socket, buf);
+                }
+            }
             continue;
         } else if("InitialStatus" == type) {
             continue;
