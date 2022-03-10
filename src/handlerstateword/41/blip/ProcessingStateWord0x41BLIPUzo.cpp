@@ -222,6 +222,7 @@ bool ProcessingStateWord0x41BLIPUzo::processing(const StateWord &data, const QSh
     int typeMsg = -1;
     QString commentMsg;
 
+
     auto tmpPublishedStateSd = unLockSdBlIp->getPublishedState();
     auto tmpPublishedStateIu = unLockIuBlIp->getPublishedState();
     //
