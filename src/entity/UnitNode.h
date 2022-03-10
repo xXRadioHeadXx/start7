@@ -48,6 +48,7 @@ class SWPTGType0x33;
 class SWPTGType0x32;
 class SWPT4KBODType0x32;
 class SWPT4KBODType0x33;
+class SWPT4KBODType0x34;
 class DataQueueItem;
 
 class UnitNode :
@@ -211,6 +212,7 @@ public:
     const SWPTGType0x32 swpTGType0x32() const; // {return SWPTGType0x32(getStateWord(0x32u));}
     const SWPT4KBODType0x32 swpT4KBODType0x32() const;// {return SWPT4KBODType0x32(getStateWord(0x32u));}
     const SWPT4KBODType0x33 swpT4KBODType0x33() const;// {return SWPT4KBODType0x33(getStateWord(0x33u));}
+    const SWPT4KBODType0x34 swpT4KBODType0x34() const;// {return SWPT4KBODType0x34(getStateWord(0x34u));}
 
 
     virtual bool operator<(const UnitNode &rhs) const final{

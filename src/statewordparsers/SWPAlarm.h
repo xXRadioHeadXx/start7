@@ -2,6 +2,7 @@
 #define SWPALARM_H
 
 class SWPAlarm {
+public:
     virtual ~SWPAlarm() {}
     virtual int isAlarm() const = 0;
 };

@@ -15,6 +15,7 @@
 #include "swpblip/SWPIUBLIPType0x41.h"
 #include "swpt4k/SWPT4KBODType0x32.h"
 #include "swpt4k/SWPT4KBODType0x33.h"
+#include "swpt4k/SWPT4KDDType0x34.h"
 #include "swptg/SWPTGType0x31.h"
 #include "swptg/SWPTGType0x34.h"
 #include "swptg/SWPTGType0x33.h"
@@ -25,12 +26,17 @@
 #include "swpt4k/SWPT4KY4Type0x32.h"
 #include "swpt4k/SWPT4KBODType0x33.h"
 #include "swpt4k/SWPT4KY4Type0x33.h"
+#include "swpt4k/SWPT4KBODType0x33.h"
+#include "swpt4k/SWPT4KBODType0x34.h"
+
 
 
 #include "DataQueueItem.h"
 
 #include "swpssoiblip/SWPSSOIBLIPType0x41.h"
 #include "swpssoiblip/SWPSSOIBLIPType0x42.h"
+
+#include <swpt4k/SWPT4KDDType0x34.h>
 
 QSet<QString> UnitNode::getMetaNames() const
 {
@@ -964,6 +970,7 @@ const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getSta
 const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWord(0x32u));}
 const SWPT4KBODType0x32 UnitNode::swpT4KBODType0x32() const {return SWPT4KBODType0x32(getStateWord(0x32u));}
 const SWPT4KBODType0x33 UnitNode::swpT4KBODType0x33() const {return SWPT4KBODType0x33(getStateWord(0x33u));}
+const SWPT4KBODType0x34 UnitNode::swpT4KBODType0x34() const {return SWPT4KBODType0x34(getStateWord(0x34u));}
 
 const QList<QSharedPointer<ManagerSingleMsg>> &UnitNode::getListManagersSingleMsg()
 {

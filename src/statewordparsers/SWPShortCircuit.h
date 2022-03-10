@@ -2,6 +2,7 @@
 #define SWPSHORTCIRCUIT_H
 
 class SWPShortCircuit {
+public:
     virtual ~SWPShortCircuit() {}
     virtual int isShortCircuit() const = 0;
 };

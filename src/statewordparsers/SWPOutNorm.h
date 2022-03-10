@@ -2,6 +2,7 @@
 #define SWPOUTNORM_H
 
 class SWPOutNorm {
+public:
     virtual ~SWPOutNorm() {}
     virtual int isOutNorm() const = 0;
 };

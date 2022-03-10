@@ -2,6 +2,7 @@
 #define SWPOFF_H
 
 class SWPOff {
+public:
     virtual ~SWPOff() {}
     virtual int isOff() const = 0;
 };

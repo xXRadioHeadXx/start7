@@ -6,7 +6,7 @@ CONFIG += c++14 -std=gnu++14 -std=c++14
 #include(./rlmc/rlmc.pri)
 #include(./sota/sota.pri)
 #include(./ssoiblip/ssoiblip.pri)
-#include(./t4k/t4k.pri)
+include(./t4k/t4k.pri)
 include(./tg/tg.pri)
 
 INCLUDEPATH += $$PWD/

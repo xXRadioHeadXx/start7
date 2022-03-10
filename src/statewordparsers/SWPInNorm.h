@@ -2,6 +2,7 @@
 #define SWPINNORM_H
 
 class SWPInNorm {
+public:
     virtual ~SWPInNorm() {}
     virtual int isInNorm() const = 0;
 };

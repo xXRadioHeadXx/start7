@@ -874,6 +874,7 @@ QByteArray DataQueueItem::makeStatusRequest0x2C(const QSharedPointer<UnitNode> u
                || TypeUnitNodeEnum::DD_SOTA == un->getType()) {
                data0x2C.append(static_cast<uint8_t>(0xB5));      //<SB>
                data0x2C.append(static_cast<uint8_t>(un->getNum1()));      //<ADDR>
+               data0x2C.append(static_cast<uint8_t>(0xFE));      //<ADDR>
                data0x2C.append(static_cast<char>(0x01));        //<NBB> 0x00
                data0x2C.append(static_cast<uint8_t>(0x2C));      //<CMD> 0x2C
 
@@ -887,7 +888,12 @@ QByteArray DataQueueItem::makeStatusRequest0x2C(const QSharedPointer<UnitNode> u
                    return static_cast<uint8_t>(num2 % 100);
                };
 
-               uint8_t d1 = ((2 < getY4(un)) ? 0b10000000 : 0b00000000) | (0b01111111 & getDDNum(un));
+               uint8_t d1 = 0x00;
+               if(un->getInterrogationUN().isNull()) {
+                   d1 = ((2 < getY4(un)) ? 0b10000000 : 0b00000000) | (0b01111111 & getDDNum(un));
+               } else {
+                   d1 = ((2 < getY4(un->getInterrogationUN())) ? 0b10000000 : 0b00000000) | (0b01111111 & getDDNum(un->getInterrogationUN()));
+               }
 
                data0x2C.append(d1);      //<D1>
            }
