@@ -151,6 +151,9 @@ void MessageBoxServer::showAttentionJourMsg(const JourEntity &jour)
 
     msgBox->connect(msgBox, &QDialog::finished, msgBox, &QMessageBox::deleteLater);
 
+
+    msgBox->move(400,250);
+
     msgBox->show();
     return;
 }

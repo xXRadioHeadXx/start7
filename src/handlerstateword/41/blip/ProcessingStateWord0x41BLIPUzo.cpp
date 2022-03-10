@@ -230,7 +230,7 @@ bool ProcessingStateWord0x41BLIPUzo::processing(const StateWord &data, const QSh
     && swpCurrentIU.isOn() == swpPreviousIU.isOn()
     && swpCurrentSD.isAlarm() != swpPreviousSD.isAlarm()) {
         //Открыто
-        commentMsg = QObject::tr("Открыто ключём");
+        commentMsg = QObject::tr("Открыто ключом");
         typeMsg = 113;
         tmpPublishedStateSd = 113;
         if(1 == swpCurrentIU.isOn()) {
@@ -243,7 +243,7 @@ bool ProcessingStateWord0x41BLIPUzo::processing(const StateWord &data, const QSh
            && swpCurrentIU.isOn() == swpPreviousIU.isOn()
            && swpCurrentSD.isAlarm() != swpPreviousSD.isAlarm()) {
         //Закрыто
-        commentMsg = QObject::tr("Закрыто ключём");
+        commentMsg = QObject::tr("Закрыто ключом");
         typeMsg = 112;
         tmpPublishedStateSd = 112;
         if(1 == swpCurrentIU.isOn()) {
