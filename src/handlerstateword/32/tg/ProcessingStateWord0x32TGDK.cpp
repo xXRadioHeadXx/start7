@@ -29,10 +29,19 @@ bool ProcessingStateWord0x32TGDK::processing(const StateWord &data, const QShare
         return false;
     }
 
+    const auto& reciver = TopologyService::findReciver(currentUN);
+    if(reciver.isNull()) {
+
+//        qDebug() << "PortManager::procT4KMBODStatusWord0x33(2) <--";
+
+        return false;
+    }
+
     const auto& isAutoDK = currentUN->getIsAutoDkInvolved();
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x32u, data);
+    reciver->setStateWord(0x32u, data);
 
 //    const auto& swpCurrent = currentUN->swpTGType0x32().C(currentUN->getNum2());
 

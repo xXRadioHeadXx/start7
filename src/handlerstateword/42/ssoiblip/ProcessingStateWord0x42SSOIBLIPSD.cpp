@@ -36,6 +36,7 @@ bool ProcessingStateWord0x42SSOIBLIPSD::processing(const StateWord &data, const 
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x42u, data);
+    reciver->setStateWord(0x42u, data);
 
     if(reciver->getDkInvolved()) {
 //        qDebug() << "PortManager::procSSOISDBLIPStatusWord0x42(2.1) <--";

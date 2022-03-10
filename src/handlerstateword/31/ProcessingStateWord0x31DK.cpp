@@ -31,10 +31,17 @@ bool ProcessingStateWord0x31DK::processing(const StateWord &data, const QSharedP
         return false;
     }
 
+    auto reciver = TopologyService::findReciver(currentUN);
+    if(reciver.isNull()) {
+//        qDebug() << "PortManager::procRlmStatusWord0x31(2) <--";
+        return false;
+    }
+
     const auto& isAutoDK = currentUN->getIsAutoDkInvolved();
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x31u, data);
+    reciver->setStateWord(0x31u, data);
 
     if((TypeUnitNodeEnum::RLM_C == currentUN->getType()
      && (1 == currentUN->swpRLMCType0x31().isOff()

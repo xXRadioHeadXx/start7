@@ -36,7 +36,7 @@ void HandlerStateWordAbstract::handl(const DataQueueItem &data) const
         if(!reciver.isNull()) {
             reciver->resetCountStatusConnectRequesterWaitAnswer();
             reciver->resetTimeStatusConnectRequesterWaitAnswer();
-            reciver->setStateWord(static_cast<uint8_t>(data.data().at(4)) ,newStateWord);
+//            reciver->setStateWord(static_cast<uint8_t>(data.data().at(4)) ,newStateWord);
         } else {
 //            qDebug() << "PortManager::HandlerStateWordAbstract --x match";
             continue;

@@ -46,6 +46,7 @@ bool ProcessingStateWord0x41SSOIBLIPUzo::processing(const StateWord &data, const
 //        qDebug() << "PortManager::procUzoBLIPStatusWord0x41(2) <--";
         return false;
     }
+    reciver->setStateWord(0x41u, data);
 
 
     QSharedPointer<UnitNode> previousCopyUNLockSdBlIp, previousCopyUNLockIuBlIp;

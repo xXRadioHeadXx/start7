@@ -3,6 +3,7 @@
 #include "UnitNode.h"
 #include "UnitNodeFactory.h"
 #include "SignalSlotCommutator.h"
+#include "TopologyService.h"
 
 ProcessingStateWord0x42BLIPDK::ProcessingStateWord0x42BLIPDK(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un) {
@@ -25,8 +26,15 @@ bool ProcessingStateWord0x42BLIPDK::processing(const StateWord &data, const QSha
         return false;
     }
 
+    auto reciver = TopologyService::findReciver(currentUN);
+    if(reciver.isNull()) {
+//        qDebug() << "PortManager::procSDBLIPStatusWord0x42(2) <--";
+        return false;
+    }
+
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x42u, data);
+    reciver->setStateWord(0x42u, data);
 
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();

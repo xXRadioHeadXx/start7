@@ -44,6 +44,7 @@ bool ProcessingStateWord0x41BLIPSD::processing(const StateWord &data, const QSha
 
     const auto& previousUN = UnitNodeFactory::makeShare(*currentUN).dynamicCast<UnitNode_SD_BL_IP>();
     currentUN->setStateWord(0x41u, data);
+    reciver->setStateWord(0x41u, data);
     if(reciver->getDkInvolved()) {
 //        qDebug() << "PortManager::procSDBLIPStatusWord0x41(2.1) <--";
         currentUN->updDoubl();

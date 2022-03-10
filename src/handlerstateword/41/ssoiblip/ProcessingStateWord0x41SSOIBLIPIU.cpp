@@ -44,6 +44,7 @@ bool ProcessingStateWord0x41SSOIBLIPIU::processing(const StateWord &data, const 
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x41u, data);
+    reciver->setStateWord(0x41u, data);
     if(reciver->getDkInvolved()) {
 //        qDebug() << "PortManager::procIUBLIPStatusWord0x41(2.1) <--";
         currentUN->updDoubl();

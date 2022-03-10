@@ -3,6 +3,8 @@
 #include "UnitNode.h"
 #include "SignalSlotCommutator.h"
 
+#include "TopologyService.h"
+
 ProcessingStateWord0x34TGDK::ProcessingStateWord0x34TGDK(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)
 {
@@ -25,7 +27,14 @@ bool ProcessingStateWord0x34TGDK::processing(const StateWord &data, const QShare
 
 //    const auto& isAutoDK = currentUN->getIsAutoDkInvolved();
 
+    auto reciver = TopologyService::findReciver(currentUN);
+    if(reciver.isNull()) {
+//        qDebug() << "PortManager::procIUBLIPStatusWord0x41(2) <--";
+        return false;
+    }
+
     currentUN->setStateWord(0x34u, data);
+    reciver->setStateWord(0x34u, data);
 
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();

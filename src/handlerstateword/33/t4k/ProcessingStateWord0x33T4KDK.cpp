@@ -30,10 +30,21 @@ bool ProcessingStateWord0x33T4KDK::processing(const StateWord &data, const QShar
         return false;
     }
 
+    const auto& reciverBOD = TopologyService::findReciver(currentUN);
+    if(reciverBOD.isNull()) {
+        currentUN->updDoubl();
+        SignalSlotCommutator::emitUpdUN();
+
+//        qDebug() << "PortManager::procT4KMY4StatusWord0x33(2) <--";
+
+        return false;
+    }
+
     const auto& isAutoDK = currentUN->getIsAutoDkInvolved();
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x33u, data);
+    reciverBOD->setStateWord(0x33u, data);
 
     const auto &swpCurrent = currentUN->swpT4KBODType0x33();
 

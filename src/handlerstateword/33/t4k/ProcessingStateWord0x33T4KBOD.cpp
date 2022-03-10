@@ -48,6 +48,7 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x33u, data);
+    reciverBOD->setStateWord(0x33u, data);
 
     const auto& swpCurrent = currentUN->swpT4KBODType0x33(),
                &swpPrevious = previousUN->swpT4KBODType0x33();

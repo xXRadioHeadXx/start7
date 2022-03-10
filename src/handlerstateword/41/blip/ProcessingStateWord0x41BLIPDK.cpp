@@ -1,6 +1,7 @@
 #include "ProcessingStateWord0x41BLIPDK.h"
 
 #include <QDebug>
+#include "TopologyService.h"
 #include "UnitNode.h"
 #include "swpblip/SWPSDBLIPType0x41.h"
 #include "UnitNodeFactory.h"
@@ -32,8 +33,15 @@ bool ProcessingStateWord0x41BLIPDK::processing(const StateWord &data, const QSha
         return false;
     }
 
+    auto reciver = TopologyService::findReciver(currentUN);
+    if(reciver.isNull()) {
+//        qDebug() << "PortManager::procIUBLIPStatusWord0x41(2) <--";
+        return false;
+    }
+
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x41u, data);
+    reciver->setStateWord(0x41u, data);
 
     auto swpCurrent = currentUN->swpSDBLIPType0x41();
     if(1 == swpCurrent.isOff()) {

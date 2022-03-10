@@ -31,6 +31,7 @@ bool ProcessingStateWord0x34TG::processing(const StateWord &data, const QSharedP
     }
 
     currentUN->setStateWord(0x34u, data);
+    reciver->setStateWord(0x34u, data);
 
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();

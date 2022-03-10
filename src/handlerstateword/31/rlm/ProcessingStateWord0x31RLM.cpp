@@ -41,6 +41,7 @@ bool ProcessingStateWord0x31RLM::processing(const StateWord &data, const QShared
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x31u, data);
+    reciver->setStateWord(0x31u, data);
 
     const auto& swpCurrent = currentUN->swpRLMType0x31(),
                &swpPrevious = previousUN->swpRLMType0x31();

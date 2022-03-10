@@ -40,6 +40,7 @@ bool ProcessingStateWord0x33TG::processing(const StateWord &data, const QSharedP
 
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x33u, data);
+    reciver->setStateWord(0x33u, data);
 
     const auto& swpCurrent = currentUN->swpTGType0x33(),
                &swpPrevious = previousUN->swpTGType0x33();
