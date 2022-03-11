@@ -368,6 +368,7 @@ bool UnitWidget::line_is_busy(UnitNode *unit)
                      return true;
                  }
 
+                 if((un->getType()!=TypeUnitNode::KL)||(unit->getType()!=TypeUnitNode::KL))
                  if((un->getNum1()==unit->getNum1())){
 
 
@@ -397,6 +398,7 @@ bool UnitWidget::line_is_busy(UnitNode *unit)
                          return true;
                      }
 
+                 if((un->getType()!=TypeUnitNode::KL)||(unit->getType()!=TypeUnitNode::KL))
                      if((un->getNum1()==unit->getNum1())){
                          QMessageBox::critical(0,"Ошибка","Адрес занят");
                          this->double_unit_index=modelTreeUN->findeIndexUN(un);
