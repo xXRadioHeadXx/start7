@@ -188,7 +188,7 @@ QString Widget_SSOI_SD::get_string(UnitNode *unit)
     }else{
 
     str+=" СД";
-    str+=QString::number(unit->getNum2());
+    str+=QString::number(unit->getNum3());
     }
 
     if(unit->getBazalt()==1)
