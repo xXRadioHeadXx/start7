@@ -474,17 +474,17 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                  } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
                     auto reciver = TopologyService::findReciver(selUN);
                     if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
-                        reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                        reciver->setNeededStateWordType(0x2C2D2E); // 32 & 33
                         reciver->leftoversCounter.counter = 0;
                         reciver->leftoversCounter.divider = 2;
                         reciver->setInterrogationUN(selUN);
                     } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
-                        reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                        reciver->setNeededStateWordType(0x2C2D); // 32 & 33
                         reciver->leftoversCounter.counter = 0;
                         reciver->leftoversCounter.divider = 2;
                         reciver->setInterrogationUN(selUN);
                     } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
-                        reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                        reciver->setNeededStateWordType(0x2D2E); // 32 & 33
                         reciver->leftoversCounter.counter = 0;
                         reciver->leftoversCounter.divider = 2;
                         reciver->setInterrogationUN(selUN);
@@ -514,17 +514,17 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
         } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
             auto reciver = TopologyService::findReciver(selUN);
             if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
-                reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                reciver->setNeededStateWordType(0x2C2D2E); // 32 & 33
                 reciver->leftoversCounter.counter = 0;
                 reciver->leftoversCounter.divider = 2;
                 reciver->setInterrogationUN(selUN);
             } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
-                reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                reciver->setNeededStateWordType(0x2C2D); // 32 & 33
                 reciver->leftoversCounter.counter = 0;
                 reciver->leftoversCounter.divider = 2;
                 reciver->setInterrogationUN(selUN);
             } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
-                reciver->setNeededStateWordType(0x2E2D); // 32 & 33
+                reciver->setNeededStateWordType(0x2D2E); // 32 & 33
                 reciver->leftoversCounter.counter = 0;
                 reciver->leftoversCounter.divider = 2;
                 reciver->setInterrogationUN(selUN);

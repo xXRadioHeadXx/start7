@@ -255,6 +255,10 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                     DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
                     break;
                 }
+                case 0x2D: { // 33
+                    DataQueueItem::fillStatusRequest0x2D(result, currentTrackedUN());
+                    break;
+                }
                 case 0x2E: { // 33
                     DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
                     break;
@@ -295,7 +299,25 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                     currentTrackedUN()->leftoversCounter.increment();
                     break;
                 }
-                case 0x2E2D: {
+            case 0x2C2D: {
+                switch (currentTrackedUN()->leftoversCounter.mod()) {
+                    case 0: {
+                        DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                        break;
+                    }
+                    case 1: {
+                        DataQueueItem::fillStatusRequest0x2D(result, currentTrackedUN());
+                        break;
+                    }
+                    default: {
+                        DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
+                        break;
+                    }
+                }
+                currentTrackedUN()->leftoversCounter.increment();
+                break;
+            }
+                case 0x2D2E: {
                     switch (currentTrackedUN()->leftoversCounter.mod()) {
                         case 0: {
                             DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
@@ -347,6 +369,28 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                         }
                         default: {
                             DataQueueItem::fillStatusRequest0x22(result, currentTrackedUN());
+                            break;
+                        }
+                    }
+                    currentTrackedUN()->leftoversCounter.increment();
+                    break;
+                }
+                case 0x2C2D2E: { // 32 & 34 & 33
+                    switch (currentTrackedUN()->leftoversCounter.mod()) {
+                        case 0: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 1: {
+                            DataQueueItem::fillStatusRequest0x2D(result, currentTrackedUN());
+                            break;
+                        }
+                        case 2: {
+                            DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
+                            break;
+                        }
+                        default: {
+                            DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
                             break;
                         }
                     }
