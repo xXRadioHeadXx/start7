@@ -16,6 +16,7 @@
 #include "swpt4k/SWPT4KBODType0x32.h"
 #include "swpt4k/SWPT4KBODType0x33.h"
 #include "swpt4k/SWPT4KDDType0x34.h"
+#include "swpsota/SWPSOTABODType0x32.h"
 #include "swptg/SWPTGType0x31.h"
 #include "swptg/SWPTGType0x34.h"
 #include "swptg/SWPTGType0x33.h"
@@ -969,6 +970,7 @@ const SWPTGType0x34 UnitNode::swpTGType0x34() const {return SWPTGType0x34(getSta
 const SWPTGType0x33 UnitNode::swpTGType0x33() const {return SWPTGType0x33(getStateWord(0x33u));}
 const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getStateWord(0x32u));}
 const SWPT4KBODType0x32 UnitNode::swpT4KBODType0x32() const {return SWPT4KBODType0x32(getStateWord(0x32u));}
+const SWPSOTABODType0x32 UnitNode::swpSOTABODType0x32() const {return SWPSOTABODType0x32(getStateWord(0x32u));}
 const SWPT4KBODType0x33 UnitNode::swpT4KBODType0x33() const {return SWPT4KBODType0x33(getStateWord(0x33u));}
 const SWPT4KBODType0x34 UnitNode::swpT4KBODType0x34() const {return SWPT4KBODType0x34(getStateWord(0x34u));}
 

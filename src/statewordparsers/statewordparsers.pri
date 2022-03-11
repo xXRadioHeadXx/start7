@@ -12,6 +12,9 @@ SOURCES += \
     $$PWD/swprlm/SWPRLMType0x31.cpp \
     $$PWD/swpblip/SWPSDBLIPType0x41.cpp \
     $$PWD/swpblip/SWPSDBLIPType0x42.cpp \
+    $$PWD/swpsota/SWPSOTABODType0x32.cpp \
+    $$PWD/swpsota/SWPSOTADDType0x32.cpp \
+    $$PWD/swpsota/SWPSOTAY4Type0x32.cpp \
     $$PWD/swpssoiblip/SWPSSOIBLIPType0x41.cpp \
     $$PWD/swpssoiblip/SWPSSOIBLIPType0x42.cpp \
     $$PWD/swpssoiblip/SWPSSOIIUBLIPType0x41.cpp \
@@ -81,6 +84,9 @@ HEADERS += \
     $$PWD/swprlm/SWPRLMType0x31.h \
     $$PWD/swpblip/SWPSDBLIPType0x41.h \
     $$PWD/swpblip/SWPSDBLIPType0x42.h \
+    $$PWD/swpsota/SWPSOTABODType0x32.h \
+    $$PWD/swpsota/SWPSOTADDType0x32.h \
+    $$PWD/swpsota/SWPSOTAY4Type0x32.h \
     $$PWD/swpssoiblip/SWPSSOIBLIPType0x41.h \
     $$PWD/swpssoiblip/SWPSSOIBLIPType0x42.h \
     $$PWD/swpssoiblip/SWPSSOIIUBLIPType0x41.h \
