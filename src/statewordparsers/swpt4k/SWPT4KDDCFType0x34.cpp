@@ -96,6 +96,28 @@ int SWPT4KDDCFType0x34::durationOvercoming() const
     return static_cast<uint8_t>(byteWord().at(index));
 }
 
+int SWPT4KDDCFType0x34::isOff() const
+{
+    int ison = isOn();
+    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
+}
+
+int SWPT4KDDCFType0x34::isOn() const
+{
+    if(byteWord().isEmpty())
+        return -1;
+    if(1 == getC() && 1 == getF()) {
+        return static_cast<uint16_t>(byteWord().at(1)) & 0b10000000;
+    } else if(1 == getC() && 2 == getF()) {
+        return static_cast<uint16_t>(byteWord().at(1)) & 0b01000000;
+    } else if(2 == getC() && 1 == getF()) {
+        return static_cast<uint16_t>(byteWord().at(12)) & 0b10000000;
+    } else if(2 == getC() && 2 == getF()) {
+        return static_cast<uint16_t>(byteWord().at(12)) & 0b01000000;
+    }
+    return -1;
+}
+
 SWPT4KDDCFType0x34::SWPT4KDDCFType0x34(const StateWord &stateWord, const int y4, const int dd, const int c, const int f) :
     SWP(stateWord)
   , y4(y4)

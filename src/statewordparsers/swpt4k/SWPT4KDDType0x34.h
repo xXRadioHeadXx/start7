@@ -8,7 +8,6 @@
 
 class SWPT4KDDType0x34 :
         public SWP
-      , public SWPWeakening<int>
 {
     int y4;
     int dd;
@@ -23,7 +22,6 @@ public:
 
     virtual ~SWPT4KDDType0x34();
 
-    int weakening() const override;
     int getY4() const;
     int getDd() const;
 

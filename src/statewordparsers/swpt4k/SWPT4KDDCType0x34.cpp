@@ -16,20 +16,14 @@ int SWPT4KDDCType0x34::getC() const
     return c;
 }
 
-int SWPT4KDDCType0x34::isOff() const
-{
-    int ison = isOn();
-    return ((0 == ison) ? 1 : ((1 == ison) ? 0 : ison));
-}
-
-int SWPT4KDDCType0x34::isOn() const
+int SWPT4KDDCType0x34::weakening() const
 {
     if(byteWord().isEmpty())
         return -1;
     if(1 == getC()) {
-        return static_cast<uint16_t>(byteWord().at(1)) & 0b10000000;
+        return static_cast<uint16_t>(byteWord().at(1)) & static_cast<uint16_t>(0x0F);
     } else if(2 == getC()) {
-        return static_cast<uint16_t>(byteWord().at(1)) & 0b01000000;
+        return static_cast<uint16_t>(byteWord().at(12)) & static_cast<uint16_t>(0x0F);
     }
     return -1;
 }

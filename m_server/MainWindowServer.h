@@ -108,12 +108,12 @@ private slots:
     void preparePageRLM(QSharedPointer<UnitNode> un);
     void preparePagePoint(int typeUN);
     void preparePageSota1(int typeUN);
-    void preparePageSota2(int typeUN);
+    void preparePageT4KDD(int typeUN);
 
     void fillPageRLM();
     void fillPageTG();
     void fillPageSota1(int typeUN);
-    void fillPageSota2(int typeUN);
+    void fillPageT4KDD(int typeUN);
 
     void on_actionCustomization_triggered();
 

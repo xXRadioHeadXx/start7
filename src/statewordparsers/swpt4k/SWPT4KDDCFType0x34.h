@@ -5,10 +5,14 @@
 #include "SWPDurationOvercoming.h"
 #include "SWPTimeImpact.h"
 #include "SWPThreshold.h"
+#include <SWPOff.h>
+#include <SWPOn.h>
 #include "SWP.h"
 
 class SWPT4KDDCFType0x34 :
         public SWP
+      , public SWPOff
+      , public SWPOn
       , public SWPThreshold<int>
       , public SWPTimeImpact<float>
       , public SWPCountImpact<int>
@@ -36,6 +40,8 @@ public:
     float timeImpact() const override;
     int countImpact() const override;
     int durationOvercoming() const override;
+    int isOff() const override;
+    int isOn() const override;
 };
 
 #endif // SWPT4KDDCFTYPE0X34_H

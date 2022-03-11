@@ -27,6 +27,11 @@
 #include "swptg/SWPTGType0x34.h"
 #include "swpssoiblip/SWPSSOISDBLIPType0x41.h"
 #include "swpssoiblip/SWPSSOIIUBLIPType0x41.h"
+#include "swpt4k/SWPT4KBODType0x34.h"
+#include "swpt4k/SWPT4KDDType0x34.h"
+#include "swpt4k/SWPT4KDDCType0x34.h"
+#include "swpt4k/SWPT4KDDCFType0x34.h"
+
 
 #include "SoundAdjuster.h"
 
@@ -1915,7 +1920,7 @@ void MainWindowServer::preparePageCustomization(int /*typeUN*/)
         ui->groupBox_Customization->setMinimumHeight(265);
         break;
     case TypeUnitNodeEnum::DD_T4K_M:
-        preparePageSota2(selUN->getType());
+        preparePageT4KDD(selUN->getType());
         ui->stackedWidget->setCurrentIndex(2);
         ui->groupBox_Customization->setMinimumWidth(330);
         ui->groupBox_Customization->setMaximumHeight(560);
@@ -2197,174 +2202,178 @@ void MainWindowServer::preparePageSota1(int typeUN)
     ui->spinBox_Sota1DurationF2->setEnabled(true);
 }
 
-void MainWindowServer::preparePageSota2(int typeUN)
+void MainWindowServer::preparePageT4KDD(int typeUN)
 {
     if(0 == typeUN)
         return;
 
     //C1
-    ui->comboBox_Sota2C1F1->clear();
-    ui->comboBox_Sota2C1F1->setEnabled(false);
-    ui->comboBox_Sota2C1F1->setEditable(false);
-    ui->comboBox_Sota2C1F1->addItems({tr("Выкл"), tr("Вкл")});
-    ui->comboBox_Sota2C1F1->setEnabled(true);
+    ui->comboBox_T4KDDC1F1OnOff->clear();
+    ui->comboBox_T4KDDC1F1OnOff->setEnabled(false);
+    ui->comboBox_T4KDDC1F1OnOff->setEditable(false);
+    ui->comboBox_T4KDDC1F1OnOff->addItem(tr("Выкл"), 0);
+    ui->comboBox_T4KDDC1F1OnOff->addItem(tr("Вкл"), 1);
+    ui->comboBox_T4KDDC1F1OnOff->setEnabled(true);
 
-    ui->comboBox_Sota2C1F2->clear();
-    ui->comboBox_Sota2C1F2->setEnabled(false);
-    ui->comboBox_Sota2C1F2->setEditable(false);
-    ui->comboBox_Sota2C1F2->addItems({tr("Выкл"), tr("Вкл")});
-    ui->comboBox_Sota2C1F2->setEnabled(true);
+    ui->comboBox_T4KDDC1F2OnOff->clear();
+    ui->comboBox_T4KDDC1F2OnOff->setEnabled(false);
+    ui->comboBox_T4KDDC1F2OnOff->setEditable(false);
+    ui->comboBox_T4KDDC1F2OnOff->addItem(tr("Выкл"), 0);
+    ui->comboBox_T4KDDC1F2OnOff->addItem(tr("Вкл"), 1);
+    ui->comboBox_T4KDDC1F2OnOff->setEnabled(true);
 
-    ui->spinBox_Sota2EdgeC1F1->clear();
-    ui->spinBox_Sota2EdgeC1F1->setEnabled(false);
-    ui->spinBox_Sota2EdgeC1F1->setValue(0);
-    ui->spinBox_Sota2EdgeC1F1->setMaximum(65535);
-    ui->spinBox_Sota2EdgeC1F1->setMinimum(0);
-    ui->spinBox_Sota2EdgeC1F1->setEnabled(true);
+    ui->spinBox_T4KDDC1F1Threshold->clear();
+    ui->spinBox_T4KDDC1F1Threshold->setEnabled(false);
+    ui->spinBox_T4KDDC1F1Threshold->setValue(0);
+    ui->spinBox_T4KDDC1F1Threshold->setMaximum(65535);
+    ui->spinBox_T4KDDC1F1Threshold->setMinimum(0);
+    ui->spinBox_T4KDDC1F1Threshold->setEnabled(true);
 
-    ui->spinBox_Sota2EdgeC1F2->clear();
-    ui->spinBox_Sota2EdgeC1F2->setEnabled(false);
-    ui->spinBox_Sota2EdgeC1F2->setValue(0);
-    ui->spinBox_Sota2EdgeC1F2->setMaximum(65535);
-    ui->spinBox_Sota2EdgeC1F2->setMinimum(0);
-    ui->spinBox_Sota2EdgeC1F2->setEnabled(true);
+    ui->spinBox_T4KDDC1F2Threshold->clear();
+    ui->spinBox_T4KDDC1F2Threshold->setEnabled(false);
+    ui->spinBox_T4KDDC1F2Threshold->setValue(0);
+    ui->spinBox_T4KDDC1F2Threshold->setMaximum(65535);
+    ui->spinBox_T4KDDC1F2Threshold->setMinimum(0);
+    ui->spinBox_T4KDDC1F2Threshold->setEnabled(true);
 
-    ui->comboBox_Sota2TimeAffectC1F1->clear();
-    ui->comboBox_Sota2TimeAffectC1F1->setEnabled(false);
-    ui->comboBox_Sota2TimeAffectC1F1->setEditable(false);
+    ui->comboBox_T4KDDC1F1TimeImpact->clear();
+    ui->comboBox_T4KDDC1F1TimeImpact->setEnabled(false);
+    ui->comboBox_T4KDDC1F1TimeImpact->setEditable(false);
     for(int i = 0, n = 40; i < n; i++) {
-        ui->comboBox_Sota2TimeAffectC1F1->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+        ui->comboBox_T4KDDC1F1TimeImpact->addItem(QString::number((float)(i + 1.0f) * 0.1f, 'f', 1), (float)(i + 1.0f) * 0.1f);
     }
-    ui->comboBox_Sota2TimeAffectC1F1->setEnabled(true);
+    ui->comboBox_T4KDDC1F1TimeImpact->setEnabled(true);
 
-    ui->comboBox_Sota2TimeAffectC1F2->clear();
-    ui->comboBox_Sota2TimeAffectC1F2->setEnabled(false);
-    ui->comboBox_Sota2TimeAffectC1F2->setEditable(false);
+    ui->comboBox_T4KDDC1F2TimeImpact->clear();
+    ui->comboBox_T4KDDC1F2TimeImpact->setEnabled(false);
+    ui->comboBox_T4KDDC1F2TimeImpact->setEditable(false);
     for(int i = 0, n = 40; i < n; i++) {
-        ui->comboBox_Sota2TimeAffectC1F2->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+        ui->comboBox_T4KDDC1F2TimeImpact->addItem(QString::number((float)(i + 1.0f) * 0.1f, 'f', 1), (float)(i + 1.0f) * 0.1f);
     }
-    ui->comboBox_Sota2TimeAffectC1F2->setEnabled(true);
+    ui->comboBox_T4KDDC1F2TimeImpact->setEnabled(true);
 
 
-    ui->comboBox_Sota2CountAffectC1F1->clear();
-    ui->comboBox_Sota2CountAffectC1F1->setEnabled(false);
-    ui->comboBox_Sota2CountAffectC1F1->setEditable(false);
+    ui->comboBox_T4KDDC1F1CountImpact->clear();
+    ui->comboBox_T4KDDC1F1CountImpact->setEnabled(false);
+    ui->comboBox_T4KDDC1F1CountImpact->setEditable(false);
     for(int i = 0, n = 10; i < n; i++) {
-        ui->comboBox_Sota2CountAffectC1F1->addItem(QString("%1").arg(i + 1));
+        ui->comboBox_T4KDDC1F1CountImpact->addItem(QString("%1").arg(i + 1), i + 1);
     }
-    ui->comboBox_Sota2CountAffectC1F1->setEnabled(true);
+    ui->comboBox_T4KDDC1F1CountImpact->setEnabled(true);
 
-    ui->comboBox_Sota2CountAffectC1F2->clear();
-    ui->comboBox_Sota2CountAffectC1F2->setEnabled(false);
-    ui->comboBox_Sota2CountAffectC1F2->setEditable(false);
+    ui->comboBox_T4KDDC1F2CountImpact->clear();
+    ui->comboBox_T4KDDC1F2CountImpact->setEnabled(false);
+    ui->comboBox_T4KDDC1F2CountImpact->setEditable(false);
     for(int i = 0, n = 10; i < n; i++) {
-        ui->comboBox_Sota2CountAffectC1F2->addItem(QString("%1").arg(i + 1));
+        ui->comboBox_T4KDDC1F2CountImpact->addItem(QString("%1").arg(i + 1), i + 1);
     }
-    ui->comboBox_Sota2CountAffectC1F2->setEnabled(true);
+    ui->comboBox_T4KDDC1F2CountImpact->setEnabled(true);
 
-    ui->spinBox_Sota2DurationC1F1->clear();
-    ui->spinBox_Sota2DurationC1F1->setEnabled(false);
-    ui->spinBox_Sota2DurationC1F1->setValue(0);
-    ui->spinBox_Sota2DurationC1F1->setMaximum(100);
-    ui->spinBox_Sota2DurationC1F1->setMinimum(0);
-    ui->spinBox_Sota2DurationC1F1->setEnabled(true);
+    ui->spinBox_T4KDDC1F1DurationOvercoming->clear();
+    ui->spinBox_T4KDDC1F1DurationOvercoming->setEnabled(false);
+    ui->spinBox_T4KDDC1F1DurationOvercoming->setValue(0);
+    ui->spinBox_T4KDDC1F1DurationOvercoming->setMaximum(100);
+    ui->spinBox_T4KDDC1F1DurationOvercoming->setMinimum(0);
+    ui->spinBox_T4KDDC1F1DurationOvercoming->setEnabled(true);
 
-    ui->spinBox_Sota2DurationC1F2->clear();
-    ui->spinBox_Sota2DurationC1F2->setEnabled(false);
-    ui->spinBox_Sota2DurationC1F2->setValue(0);
-    ui->spinBox_Sota2DurationC1F2->setMaximum(100);
-    ui->spinBox_Sota2DurationC1F2->setMinimum(0);
-    ui->spinBox_Sota2DurationC1F2->setEnabled(true);
+    ui->spinBox_T4KDDC1F2DurationOvercoming->clear();
+    ui->spinBox_T4KDDC1F2DurationOvercoming->setEnabled(false);
+    ui->spinBox_T4KDDC1F2DurationOvercoming->setValue(0);
+    ui->spinBox_T4KDDC1F2DurationOvercoming->setMaximum(100);
+    ui->spinBox_T4KDDC1F2DurationOvercoming->setMinimum(0);
+    ui->spinBox_T4KDDC1F2DurationOvercoming->setEnabled(true);
 
-    ui->comboBox_Sota2WeakeningC1->clear();
-    ui->comboBox_Sota2WeakeningC1->setEnabled(false);
-    ui->comboBox_Sota2WeakeningC1->setEditable(false);
+    ui->comboBox_T4KDDWeakeningC1->clear();
+    ui->comboBox_T4KDDWeakeningC1->setEnabled(false);
+    ui->comboBox_T4KDDWeakeningC1->setEditable(false);
     for(int i = 0, n = 10; i < n; i++) {
-        ui->comboBox_Sota2WeakeningC1->addItem(QString("%1").arg(i + 1));
+        ui->comboBox_T4KDDWeakeningC1->addItem(QString("%1").arg(i + 1), i + 1);
     }
-    ui->comboBox_Sota2WeakeningC1->setEnabled(true);
+    ui->comboBox_T4KDDWeakeningC1->setEnabled(true);
 
     //C2
-    ui->comboBox_Sota2C2F1->clear();
-    ui->comboBox_Sota2C2F1->setEnabled(false);
-    ui->comboBox_Sota2C2F1->setEditable(false);
-    ui->comboBox_Sota2C2F1->addItems({tr("Выкл"), tr("Вкл")});
-    ui->comboBox_Sota2C2F1->setEnabled(true);
+    ui->comboBox_T4KDDC2F1OnOff->clear();
+    ui->comboBox_T4KDDC2F1OnOff->setEnabled(false);
+    ui->comboBox_T4KDDC2F1OnOff->setEditable(false);
+    ui->comboBox_T4KDDC2F1OnOff->addItem(tr("Выкл"), 0);
+    ui->comboBox_T4KDDC2F1OnOff->addItem(tr("Вкл"), 1);
+    ui->comboBox_T4KDDC2F1OnOff->setEnabled(true);
 
-    ui->comboBox_Sota2C2F2->clear();
-    ui->comboBox_Sota2C2F2->setEnabled(false);
-    ui->comboBox_Sota2C2F2->setEditable(false);
-    ui->comboBox_Sota2C2F2->addItems({tr("Выкл"), tr("Вкл")});
-    ui->comboBox_Sota2C2F2->setEnabled(true);
+    ui->comboBox_T4KDDC2F2OnOff->clear();
+    ui->comboBox_T4KDDC2F2OnOff->setEnabled(false);
+    ui->comboBox_T4KDDC2F2OnOff->setEditable(false);
+    ui->comboBox_T4KDDC2F2OnOff->addItem(tr("Выкл"), 0);
+    ui->comboBox_T4KDDC2F2OnOff->addItem(tr("Вкл"), 1);
+    ui->comboBox_T4KDDC2F2OnOff->setEnabled(true);
 
-    ui->spinBox_Sota2EdgeC2F1->clear();
-    ui->spinBox_Sota2EdgeC2F1->setEnabled(false);
-    ui->spinBox_Sota2EdgeC2F1->setValue(0);
-    ui->spinBox_Sota2EdgeC2F1->setMaximum(65535);
-    ui->spinBox_Sota2EdgeC2F1->setMinimum(0);
-    ui->spinBox_Sota2EdgeC2F1->setEnabled(true);
+    ui->spinBox_T4KDDC2F1Threshold->clear();
+    ui->spinBox_T4KDDC2F1Threshold->setEnabled(false);
+    ui->spinBox_T4KDDC2F1Threshold->setValue(0);
+    ui->spinBox_T4KDDC2F1Threshold->setMaximum(65535);
+    ui->spinBox_T4KDDC2F1Threshold->setMinimum(0);
+    ui->spinBox_T4KDDC2F1Threshold->setEnabled(true);
 
-    ui->spinBox_Sota2EdgeC2F2->clear();
-    ui->spinBox_Sota2EdgeC2F2->setEnabled(false);
-    ui->spinBox_Sota2EdgeC2F2->setValue(0);
-    ui->spinBox_Sota2EdgeC2F2->setMaximum(65535);
-    ui->spinBox_Sota2EdgeC2F2->setMinimum(0);
-    ui->spinBox_Sota2EdgeC2F2->setEnabled(true);
+    ui->spinBox_T4KDDC2F2Threshold->clear();
+    ui->spinBox_T4KDDC2F2Threshold->setEnabled(false);
+    ui->spinBox_T4KDDC2F2Threshold->setValue(0);
+    ui->spinBox_T4KDDC2F2Threshold->setMaximum(65535);
+    ui->spinBox_T4KDDC2F2Threshold->setMinimum(0);
+    ui->spinBox_T4KDDC2F2Threshold->setEnabled(true);
 
-    ui->comboBox_Sota2TimeAffectC2F1->clear();
-    ui->comboBox_Sota2TimeAffectC2F1->setEnabled(false);
-    ui->comboBox_Sota2TimeAffectC2F1->setEditable(false);
+    ui->comboBox_T4KDDC2F1TimeImpact->clear();
+    ui->comboBox_T4KDDC2F1TimeImpact->setEnabled(false);
+    ui->comboBox_T4KDDC2F1TimeImpact->setEditable(false);
     for(int i = 0, n = 40; i < n; i++) {
-        ui->comboBox_Sota2TimeAffectC2F1->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+        ui->comboBox_T4KDDC2F1TimeImpact->addItem(QString::number((float)(i + 1.0f) * 0.1f, 'f', 1), (float)(i + 1.0f) * 0.1f);
     }
-    ui->comboBox_Sota2TimeAffectC2F1->setEnabled(true);
+    ui->comboBox_T4KDDC2F1TimeImpact->setEnabled(true);
 
-    ui->comboBox_Sota2TimeAffectC2F2->clear();
-    ui->comboBox_Sota2TimeAffectC2F2->setEnabled(false);
-    ui->comboBox_Sota2TimeAffectC2F2->setEditable(false);
+    ui->comboBox_T4KDDC2F2TimeImpact->clear();
+    ui->comboBox_T4KDDC2F2TimeImpact->setEnabled(false);
+    ui->comboBox_T4KDDC2F2TimeImpact->setEditable(false);
     for(int i = 0, n = 40; i < n; i++) {
-        ui->comboBox_Sota2TimeAffectC2F2->addItem(QString::number((double)(i + 1.0) * 0.1, 'f', 1));
+        ui->comboBox_T4KDDC2F2TimeImpact->addItem(QString::number((float)(i + 1.0f) * 0.1f, 'f', 1), (float)(i + 1.0f) * 0.1f);
     }
-    ui->comboBox_Sota2TimeAffectC2F2->setEnabled(true);
+    ui->comboBox_T4KDDC2F2TimeImpact->setEnabled(true);
 
 
-    ui->comboBox_Sota2CountAffectC2F1->clear();
-    ui->comboBox_Sota2CountAffectC2F1->setEnabled(false);
-    ui->comboBox_Sota2CountAffectC2F1->setEditable(false);
+    ui->comboBox_T4KDDC2F1CountImpact->clear();
+    ui->comboBox_T4KDDC2F1CountImpact->setEnabled(false);
+    ui->comboBox_T4KDDC2F1CountImpact->setEditable(false);
     for(int i = 0, n = 10; i < n; i++) {
-        ui->comboBox_Sota2CountAffectC2F1->addItem(QString("%1").arg(i + 1));
+        ui->comboBox_T4KDDC2F1CountImpact->addItem(QString("%1").arg(i + 1), i + 1);
     }
-    ui->comboBox_Sota2CountAffectC2F1->setEnabled(true);
+    ui->comboBox_T4KDDC2F1CountImpact->setEnabled(true);
 
-    ui->comboBox_Sota2CountAffectC2F2->clear();
-    ui->comboBox_Sota2CountAffectC2F2->setEnabled(false);
-    ui->comboBox_Sota2CountAffectC2F2->setEditable(false);
+    ui->comboBox_T4KDDC2F2CountImpact->clear();
+    ui->comboBox_T4KDDC2F2CountImpact->setEnabled(false);
+    ui->comboBox_T4KDDC2F2CountImpact->setEditable(false);
     for(int i = 0, n = 10; i < n; i++) {
-        ui->comboBox_Sota2CountAffectC2F2->addItem(QString("%1").arg(i + 1));
+        ui->comboBox_T4KDDC2F2CountImpact->addItem(QString("%1").arg(i + 1), i + 1);
     }
-    ui->comboBox_Sota2CountAffectC2F2->setEnabled(true);
+    ui->comboBox_T4KDDC2F2CountImpact->setEnabled(true);
 
-    ui->spinBox_Sota2DurationC2F1->clear();
-    ui->spinBox_Sota2DurationC2F1->setEnabled(false);
-    ui->spinBox_Sota2DurationC2F1->setValue(0);
-    ui->spinBox_Sota2DurationC2F1->setMaximum(100);
-    ui->spinBox_Sota2DurationC2F1->setMinimum(0);
-    ui->spinBox_Sota2DurationC2F1->setEnabled(true);
+    ui->spinBox_T4KDDC2F1DurationOvercoming->clear();
+    ui->spinBox_T4KDDC2F1DurationOvercoming->setEnabled(false);
+    ui->spinBox_T4KDDC2F1DurationOvercoming->setValue(0);
+    ui->spinBox_T4KDDC2F1DurationOvercoming->setMaximum(100);
+    ui->spinBox_T4KDDC2F1DurationOvercoming->setMinimum(0);
+    ui->spinBox_T4KDDC2F1DurationOvercoming->setEnabled(true);
 
-    ui->spinBox_Sota2DurationC2F2->clear();
-    ui->spinBox_Sota2DurationC2F2->setEnabled(false);
-    ui->spinBox_Sota2DurationC2F2->setValue(0);
-    ui->spinBox_Sota2DurationC2F2->setMaximum(100);
-    ui->spinBox_Sota2DurationC2F2->setMinimum(0);
-    ui->spinBox_Sota2DurationC2F2->setEnabled(true);
+    ui->spinBox_T4KDDC2F2DurationOvercoming->clear();
+    ui->spinBox_T4KDDC2F2DurationOvercoming->setEnabled(false);
+    ui->spinBox_T4KDDC2F2DurationOvercoming->setValue(0);
+    ui->spinBox_T4KDDC2F2DurationOvercoming->setMaximum(100);
+    ui->spinBox_T4KDDC2F2DurationOvercoming->setMinimum(0);
+    ui->spinBox_T4KDDC2F2DurationOvercoming->setEnabled(true);
 
-    ui->comboBox_Sota2WeakeningC2->clear();
-    ui->comboBox_Sota2WeakeningC2->setEnabled(false);
-    ui->comboBox_Sota2WeakeningC2->setEditable(false);
+    ui->comboBox_T4KDDWeakeningC2->clear();
+    ui->comboBox_T4KDDWeakeningC2->setEnabled(false);
+    ui->comboBox_T4KDDWeakeningC2->setEditable(false);
     for(int i = 0, n = 10; i < n; i++) {
-        ui->comboBox_Sota2WeakeningC2->addItem(QString("%1").arg(i + 1));
+        ui->comboBox_T4KDDWeakeningC2->addItem(QString("%1").arg(i + 1), i + 1);
     }
-    ui->comboBox_Sota2WeakeningC2->setEnabled(true);
+    ui->comboBox_T4KDDWeakeningC2->setEnabled(true);
 }
 
 void MainWindowServer::fillPageRLM()
@@ -2531,9 +2540,68 @@ void MainWindowServer::fillPageSota1(int /*typeUN*/)
 
 }
 
-void MainWindowServer::fillPageSota2(int /*typeUN*/)
+void MainWindowServer::fillPageT4KDD(int /*typeUN*/)
 {
+    if(selUN.isNull())
+        return;
+    if(TypeUnitNodeEnum::DD_T4K_M != selUN->getType())
+        return;
 
+    const auto &swp = selUN->swpT4KBODType0x34();
+
+    auto index = ui->comboBox_T4KDDC1F1OnOff->findData(swp.dd().c(1).f(1).isOn());
+    ui->comboBox_T4KDDC1F1OnOff->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC1F2OnOff->findData(swp.dd().c(1).f(1).isOn());
+    ui->comboBox_T4KDDC1F2OnOff->setCurrentIndex(index);
+
+    ui->spinBox_T4KDDC1F1Threshold->setValue(swp.dd().c(1).f(1).threshold());
+    ui->spinBox_T4KDDC1F2Threshold->setValue(swp.dd().c(1).f(2).threshold());
+
+    index = ui->comboBox_T4KDDC1F1TimeImpact->findData(swp.dd().c(1).f(1).timeImpact());
+    ui->comboBox_T4KDDC1F1TimeImpact->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC1F2TimeImpact->findData(swp.dd().c(1).f(2).timeImpact());
+    ui->comboBox_T4KDDC1F2TimeImpact->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC1F1CountImpact->findData(swp.dd().c(1).f(1).countImpact());
+    ui->comboBox_T4KDDC1F1CountImpact->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC1F2CountImpact->findData(swp.dd().c(1).f(2).countImpact());
+    ui->comboBox_T4KDDC1F2CountImpact->setCurrentIndex(index);
+
+    ui->spinBox_T4KDDC1F1DurationOvercoming->setValue(swp.dd().c(1).f(1).durationOvercoming());
+    ui->spinBox_T4KDDC1F2DurationOvercoming->setValue(swp.dd().c(1).f(2).durationOvercoming());
+
+    index = ui->comboBox_T4KDDWeakeningC1->findData(swp.dd().c(1).weakening());
+    ui->comboBox_T4KDDWeakeningC1->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC2F1OnOff->findData(swp.dd().c(2).f(1).isOn());
+    ui->comboBox_T4KDDC2F1OnOff->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC2F2OnOff->findData(swp.dd().c(2).f(1).isOn());
+    ui->comboBox_T4KDDC2F2OnOff->setCurrentIndex(index);
+
+    ui->spinBox_T4KDDC2F1Threshold->setValue(swp.dd().c(2).f(1).threshold());
+    ui->spinBox_T4KDDC2F2Threshold->setValue(swp.dd().c(2).f(2).threshold());
+
+    index = ui->comboBox_T4KDDC2F1TimeImpact->findData(swp.dd().c(2).f(1).timeImpact());
+    ui->comboBox_T4KDDC2F1TimeImpact->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC2F2TimeImpact->findData(swp.dd().c(2).f(2).timeImpact());
+    ui->comboBox_T4KDDC2F2TimeImpact->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC2F1CountImpact->findData(swp.dd().c(2).f(1).countImpact());
+    ui->comboBox_T4KDDC2F1CountImpact->setCurrentIndex(index);
+
+    index = ui->comboBox_T4KDDC2F2CountImpact->findData(swp.dd().c(2).f(2).countImpact());
+    ui->comboBox_T4KDDC2F2CountImpact->setCurrentIndex(index);
+
+    ui->spinBox_T4KDDC2F1DurationOvercoming->setValue(swp.dd().c(2).f(1).durationOvercoming());
+    ui->spinBox_T4KDDC2F2DurationOvercoming->setValue(swp.dd().c(2).f(2).durationOvercoming());
+
+    index = ui->comboBox_T4KDDWeakeningC2->findData(swp.dd().c(2).weakening());
+    ui->comboBox_T4KDDWeakeningC2->setCurrentIndex(index);
 }
 
 void MainWindowServer::on_actionCustomization_triggered()
@@ -2570,7 +2638,7 @@ void MainWindowServer::on_pushButton_ReadCustomization_clicked()
         fillPageSota1(selUN->getType()); //CurrentIndex(1);
         break;
     case TypeUnitNodeEnum::DD_T4K_M:
-        fillPageSota2(selUN->getType()); //CurrentIndex(2);
+        fillPageT4KDD(selUN->getType()); //CurrentIndex(2);
         break;
     default:
         return;
@@ -2793,7 +2861,7 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         fillPageSota1(selUN->getType()); //CurrentIndex(1);
         break;
     case TypeUnitNodeEnum::DD_T4K_M:
-        fillPageSota2(selUN->getType()); //CurrentIndex(2);
+        fillPageT4KDD(selUN->getType()); //CurrentIndex(2);
         break;
     default:
 //        //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";

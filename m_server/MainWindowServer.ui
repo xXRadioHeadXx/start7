@@ -945,7 +945,7 @@
                   <number>1</number>
                  </property>
                  <item row="5" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota2TimeAffectC1F1">
+                  <widget class="QComboBox" name="comboBox_T4KDDC1F1TimeImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -961,7 +961,7 @@
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QSpinBox" name="spinBox_Sota2EdgeC1F2">
+                  <widget class="QSpinBox" name="spinBox_T4KDDC1F2Threshold">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -977,7 +977,7 @@
                   </widget>
                  </item>
                  <item row="11" column="0" colspan="2">
-                  <widget class="QComboBox" name="comboBox_Sota2WeakeningC1">
+                  <widget class="QComboBox" name="comboBox_T4KDDWeakeningC1">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1012,7 +1012,7 @@
                   </widget>
                  </item>
                  <item row="7" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota2CountAffectC1F2">
+                  <widget class="QComboBox" name="comboBox_T4KDDC1F2CountImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1066,7 +1066,7 @@
                   </widget>
                  </item>
                  <item row="15" column="1">
-                  <widget class="QSpinBox" name="spinBox_Sota2EdgeC2F2">
+                  <widget class="QSpinBox" name="spinBox_T4KDDC2F2Threshold">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1139,7 +1139,7 @@
                   </widget>
                  </item>
                  <item row="9" column="0">
-                  <widget class="QSpinBox" name="spinBox_Sota2DurationC1F1">
+                  <widget class="QSpinBox" name="spinBox_T4KDDC1F1DurationOvercoming">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1174,7 +1174,7 @@
                   </widget>
                  </item>
                  <item row="5" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota2TimeAffectC1F2">
+                  <widget class="QComboBox" name="comboBox_T4KDDC1F2TimeImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1247,7 +1247,7 @@
                   </widget>
                  </item>
                  <item row="7" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota2CountAffectC1F1">
+                  <widget class="QComboBox" name="comboBox_T4KDDC1F1CountImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1263,7 +1263,7 @@
                   </widget>
                  </item>
                  <item row="13" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota2C2F1">
+                  <widget class="QComboBox" name="comboBox_T4KDDC2F1OnOff">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1279,7 +1279,7 @@
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota2C1F1">
+                  <widget class="QComboBox" name="comboBox_T4KDDC1F1OnOff">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1295,7 +1295,7 @@
                   </widget>
                  </item>
                  <item row="21" column="0">
-                  <widget class="QSpinBox" name="spinBox_Sota2DurationC2F1">
+                  <widget class="QSpinBox" name="spinBox_T4KDDC2F1DurationOvercoming">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1330,7 +1330,7 @@
                   </widget>
                  </item>
                  <item row="13" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota2C2F2">
+                  <widget class="QComboBox" name="comboBox_T4KDDC2F2OnOff">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1441,7 +1441,7 @@
                   </widget>
                  </item>
                  <item row="21" column="1">
-                  <widget class="QSpinBox" name="spinBox_Sota2DurationC2F2">
+                  <widget class="QSpinBox" name="spinBox_T4KDDC2F2DurationOvercoming">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1457,7 +1457,7 @@
                   </widget>
                  </item>
                  <item row="17" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota2TimeAffectC2F1">
+                  <widget class="QComboBox" name="comboBox_T4KDDC2F1TimeImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1473,7 +1473,7 @@
                   </widget>
                  </item>
                  <item row="9" column="1">
-                  <widget class="QSpinBox" name="spinBox_Sota2DurationC1F2">
+                  <widget class="QSpinBox" name="spinBox_T4KDDC1F2DurationOvercoming">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1489,7 +1489,7 @@
                   </widget>
                  </item>
                  <item row="19" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota2CountAffectC2F1">
+                  <widget class="QComboBox" name="comboBox_T4KDDC2F1CountImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1524,7 +1524,7 @@
                   </widget>
                  </item>
                  <item row="23" column="0" colspan="2">
-                  <widget class="QComboBox" name="comboBox_Sota2WeakeningC2">
+                  <widget class="QComboBox" name="comboBox_T4KDDWeakeningC2">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1578,7 +1578,7 @@
                   </widget>
                  </item>
                  <item row="15" column="0">
-                  <widget class="QSpinBox" name="spinBox_Sota2EdgeC2F1">
+                  <widget class="QSpinBox" name="spinBox_T4KDDC2F1Threshold">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1594,7 +1594,7 @@
                   </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QSpinBox" name="spinBox_Sota2EdgeC1F1">
+                  <widget class="QSpinBox" name="spinBox_T4KDDC1F1Threshold">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1610,7 +1610,7 @@
                   </widget>
                  </item>
                  <item row="19" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota2CountAffectC2F2">
+                  <widget class="QComboBox" name="comboBox_T4KDDC2F2CountImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1645,7 +1645,7 @@
                   </widget>
                  </item>
                  <item row="17" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota2TimeAffectC2F2">
+                  <widget class="QComboBox" name="comboBox_T4KDDC2F2TimeImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1680,7 +1680,7 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota2C1F2">
+                  <widget class="QComboBox" name="comboBox_T4KDDC1F2OnOff">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>

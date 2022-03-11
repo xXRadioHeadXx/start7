@@ -24,13 +24,6 @@ SWPT4KDDType0x34::~SWPT4KDDType0x34()
 
 }
 
-int SWPT4KDDType0x34::weakening() const
-{
-    if(byteWord().isEmpty())
-        return -1;
-    return static_cast<uint16_t>(byteWord().at(1)) & static_cast<uint16_t>(0x0F);
-}
-
 SWPT4KDDCType0x34 SWPT4KDDType0x34::c(int num)
 {
     return SWPT4KDDCType0x34(getStateWord(), getY4(), getDd(), num);

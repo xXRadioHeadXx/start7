@@ -2,14 +2,12 @@
 #define SWPT4KDDCTYPE0X34_H
 
 #include <SWP.h>
-#include <SWPOff.h>
-#include <SWPOn.h>
+#include "SWPWeakening.h"
 
 class SWPT4KDDCFType0x34;
 class SWPT4KDDCType0x34 :
         public SWP
-      , public SWPOff
-      , public SWPOn
+      , public SWPWeakening<int>
 {
     int y4;
     int dd;
@@ -29,10 +27,7 @@ public:
 
     SWPT4KDDCFType0x34 f(int num);
 
-    int isOff() const override;
-    int isOn() const override;
-
-
+    int weakening() const override;
 };
 
 #endif // SWPT4KDDCTYPE0X34_H
