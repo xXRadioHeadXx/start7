@@ -14,9 +14,12 @@ SOURCES += \
     $$PWD/swpblip/SWPSDBLIPType0x42.cpp \
     $$PWD/swpsota/SWPSOTABODType0x32.cpp \
     $$PWD/swpsota/SWPSOTABODType0x33.cpp \
+    $$PWD/swpsota/SWPSOTABODType0x34.cpp \
     $$PWD/swpsota/SWPSOTADDFType0x33.cpp \
+    $$PWD/swpsota/SWPSOTADDFType0x34.cpp \
     $$PWD/swpsota/SWPSOTADDType0x32.cpp \
     $$PWD/swpsota/SWPSOTADDType0x33.cpp \
+    $$PWD/swpsota/SWPSOTADDType0x34.cpp \
     $$PWD/swpsota/SWPSOTAY4Type0x32.cpp \
     $$PWD/swpsota/SWPSOTAY4Type0x33.cpp \
     $$PWD/swpssoiblip/SWPSSOIBLIPType0x41.cpp \
@@ -90,9 +93,12 @@ HEADERS += \
     $$PWD/swpblip/SWPSDBLIPType0x42.h \
     $$PWD/swpsota/SWPSOTABODType0x32.h \
     $$PWD/swpsota/SWPSOTABODType0x33.h \
+    $$PWD/swpsota/SWPSOTABODType0x34.h \
     $$PWD/swpsota/SWPSOTADDFType0x33.h \
+    $$PWD/swpsota/SWPSOTADDFType0x34.h \
     $$PWD/swpsota/SWPSOTADDType0x32.h \
     $$PWD/swpsota/SWPSOTADDType0x33.h \
+    $$PWD/swpsota/SWPSOTADDType0x34.h \
     $$PWD/swpsota/SWPSOTAY4Type0x32.h \
     $$PWD/swpsota/SWPSOTAY4Type0x33.h \
     $$PWD/swpssoiblip/SWPSSOIBLIPType0x41.h \
