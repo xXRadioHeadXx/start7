@@ -113,7 +113,7 @@ private slots:
     void fillPageRLM();
     void fillPageTG();
     void fillPageSota1(int typeUN);
-    void fillPageT4KDD(int typeUN);
+    void fillPageT4KDD();
 
     void on_actionCustomization_triggered();
 

@@ -49,7 +49,9 @@ class SWPTGType0x32;
 class SWPT4KBODType0x32;
 class SWPSOTABODType0x32;
 class SWPT4KBODType0x33;
+class SWPSOTABODType0x33;
 class SWPT4KBODType0x34;
+class SWPSOTABODType0x34;
 class DataQueueItem;
 
 class UnitNode :
@@ -214,7 +216,9 @@ public:
     const SWPT4KBODType0x32 swpT4KBODType0x32() const;// {return SWPT4KBODType0x32(getStateWord(0x32u));}
     const SWPSOTABODType0x32 swpSOTABODType0x32() const;// {return SWPSOTABODType0x32(getStateWord(0x32u));}
     const SWPT4KBODType0x33 swpT4KBODType0x33() const;// {return SWPT4KBODType0x33(getStateWord(0x33u));}
+    const SWPSOTABODType0x33 swpSOTABODType0x33() const;// {return SWPT4KBODType0x33(getStateWord(0x33u));}
     const SWPT4KBODType0x34 swpT4KBODType0x34() const;// {return SWPT4KBODType0x34(getStateWord(0x34u));}
+    const SWPSOTABODType0x34 swpSOTABODType0x34() const;// {return SWPT4KBODType0x34(getStateWord(0x34u));}
 
 
     virtual bool operator<(const UnitNode &rhs) const final{
@@ -686,6 +690,7 @@ public:
         setNeededStateWordType(getDefaultNeededStateWordType());
     }
     virtual ~UnitNode_BOD_SOTA() {}
+    virtual QPixmap getPxm() const final;
 };
 
 class UnitNode_Y4_SOTA : public UnitNode {
@@ -693,6 +698,7 @@ public:
     explicit UnitNode_Y4_SOTA(const QSharedPointer<UnitNode> parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_Y4_SOTA(const UnitNode & parent) : UnitNode(parent) {}
     virtual ~UnitNode_Y4_SOTA() {}
+    virtual QPixmap getPxm() const final;
 };
 
 class UnitNode_DD_SOTA : public UnitNode {
@@ -700,6 +706,7 @@ public:
     explicit UnitNode_DD_SOTA(const QSharedPointer<UnitNode> parent = nullptr) : UnitNode(parent) {}
     explicit UnitNode_DD_SOTA(const UnitNode & parent) : UnitNode(parent) {}
     virtual ~UnitNode_DD_SOTA() {}
+    virtual QPixmap getPxm() const final;
 };
 
 class UnitNode_BL_IP : public UnitNode {

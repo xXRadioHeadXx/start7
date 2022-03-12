@@ -17,6 +17,8 @@
 #include "swpt4k/SWPT4KBODType0x33.h"
 #include "swpt4k/SWPT4KDDType0x34.h"
 #include "swpsota/SWPSOTABODType0x32.h"
+#include "swpsota/SWPSOTABODType0x33.h"
+#include "swpsota/SWPSOTABODType0x34.h"
 #include "swptg/SWPTGType0x31.h"
 #include "swptg/SWPTGType0x34.h"
 #include "swptg/SWPTGType0x33.h"
@@ -972,7 +974,9 @@ const SWPTGType0x32 UnitNode::swpTGType0x32() const {return SWPTGType0x32(getSta
 const SWPT4KBODType0x32 UnitNode::swpT4KBODType0x32() const {return SWPT4KBODType0x32(getStateWord(0x32u));}
 const SWPSOTABODType0x32 UnitNode::swpSOTABODType0x32() const {return SWPSOTABODType0x32(getStateWord(0x32u));}
 const SWPT4KBODType0x33 UnitNode::swpT4KBODType0x33() const {return SWPT4KBODType0x33(getStateWord(0x33u));}
+const SWPSOTABODType0x33 UnitNode::swpSOTABODType0x33() const {return SWPSOTABODType0x33(getStateWord(0x33u));}
 const SWPT4KBODType0x34 UnitNode::swpT4KBODType0x34() const {return SWPT4KBODType0x34(getStateWord(0x34u));}
+const SWPSOTABODType0x34 UnitNode::swpSOTABODType0x34() const {return SWPSOTABODType0x34(getStateWord(0x34u));}
 
 const QList<QSharedPointer<ManagerSingleMsg>> &UnitNode::getListManagersSingleMsg()
 {
@@ -1909,6 +1913,58 @@ QPixmap UnitNode_BOD_T4K_M::getPxm() const
     return Icons::sqr_gry_qstn();
 }
 
+QPixmap UnitNode_BOD_SOTA::getPxm() const
+{
+    const auto& swp32 = swpT4KBODType0x32();
+    const auto& swp33 = swpT4KBODType0x33();
+    if(getControl() && swp32.isNull() && swp33.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()
+           && swp32.isNull()
+           && swp33.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(!swp32.isNull()
+           && swp33.cdate() < swp32.cdate()) {
+        if(0 == swp32.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(!swp33.isNull() && swp32.cdate() < swp33.cdate()) {
+        if(0 == swp33.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(getControl()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_ylw();
+    }
+    return Icons::sqr_gry_qstn();
+}
+
+
 int UnitNode_BOD_T4K_M::calcDKStatus() const
 {
     int result = getDkStatus();
@@ -2040,6 +2096,137 @@ QPixmap UnitNode_Y4_T4K_M::getPxm() const
 }
 
 QPixmap UnitNode_DD_T4K_M::getPxm() const
+{
+    const auto& swp32 = swpT4KBODType0x32();
+    const auto& swp33 = swpT4KBODType0x33();
+    if(getControl() && swp32.isNull() && swp33.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()
+           && swp32.isNull()
+           && swp33.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(!swp32.isNull()
+           && swp33.cdate() < swp32.cdate()) {
+        if(0 == swp32.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && (12 == getPublishedState()
+                || 13 == getPublishedState())){
+            return Icons::sqr_blu();
+        } else if(!getControl()
+               && (12 == getPublishedState()
+                || 13 == getPublishedState())){
+            return Icons::sqr_blk_crs_blu();
+        } else if(getControl()
+            && (20 == getPublishedState()
+             || 21 == getPublishedState()
+             || 22 == getPublishedState()
+             || 23 == getPublishedState())){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && (20 == getPublishedState()
+                || 21 == getPublishedState()
+                || 22 == getPublishedState()
+                || 23 == getPublishedState())){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(!swp33.isNull() && swp32.cdate() < swp33.cdate()) {
+        if(0 == swp33.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && (12 == getPublishedState()
+                || 13 == getPublishedState())){
+            return Icons::sqr_blu();
+        } else if(!getControl()
+               && (12 == getPublishedState()
+                || 13 == getPublishedState())){
+               return Icons::sqr_blk_crs_blu();
+        } else if(getControl()
+               && (20 == getPublishedState()
+                || 21 == getPublishedState()
+                || 22 == getPublishedState()
+                || 23 == getPublishedState())){
+               return Icons::sqr_rd();
+        } else if(!getControl()
+               && (20 == getPublishedState()
+                || 21 == getPublishedState()
+                || 22 == getPublishedState()
+                || 23 == getPublishedState())){
+               return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+               return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+               return Icons::sqr_blk_crs_grn();
+        }
+    } else if(getControl()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_ylw();
+    }
+    return Icons::sqr_gry_qstn();
+
+}
+
+QPixmap UnitNode_Y4_SOTA::getPxm() const
+{
+    const auto& swp32 = swpT4KBODType0x32();
+    const auto& swp33 = swpT4KBODType0x33();
+    if(getControl() && swp32.isNull() && swp33.isNull()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()
+           && swp32.isNull()
+           && swp33.isNull()) {
+        return Icons::sqr_blk_crs_ylw();
+    } else if(!swp32.isNull()
+           && swp33.cdate() < swp32.cdate()) {
+        if(0 == swp32.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(!swp33.isNull() && swp32.cdate() < swp33.cdate()) {
+        if(0 == swp33.isReady()) {
+            return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_rd();
+        } else if(!getControl()
+               && !isClearedAlarm()){
+            return Icons::sqr_blk_crs_rd();
+        } else if(getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_grn();
+        } else if(!getControl()
+               && isClearedAlarm()) {
+            return Icons::sqr_blk_crs_grn();
+        }
+    } else if(getControl()) {
+        return Icons::sqr_ylw();
+    } else if(!getControl()) {
+        return Icons::sqr_blk_crs_ylw();
+    }
+    return Icons::sqr_gry_qstn();
+}
+
+QPixmap UnitNode_DD_SOTA::getPxm() const
 {
     const auto& swp32 = swpT4KBODType0x32();
     const auto& swp33 = swpT4KBODType0x33();

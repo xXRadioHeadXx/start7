@@ -2540,7 +2540,7 @@ void MainWindowServer::fillPageSota1(int /*typeUN*/)
 
 }
 
-void MainWindowServer::fillPageT4KDD(int /*typeUN*/)
+void MainWindowServer::fillPageT4KDD()
 {
     if(selUN.isNull())
         return;
@@ -2638,7 +2638,7 @@ void MainWindowServer::on_pushButton_ReadCustomization_clicked()
         fillPageSota1(selUN->getType()); //CurrentIndex(1);
         break;
     case TypeUnitNodeEnum::DD_T4K_M:
-        fillPageT4KDD(selUN->getType()); //CurrentIndex(2);
+        fillPageT4KDD(); //CurrentIndex(2);
         break;
     default:
         return;
@@ -2861,7 +2861,7 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
         fillPageSota1(selUN->getType()); //CurrentIndex(1);
         break;
     case TypeUnitNodeEnum::DD_T4K_M:
-        fillPageT4KDD(selUN->getType()); //CurrentIndex(2);
+        fillPageT4KDD(); //CurrentIndex(2);
         break;
     default:
 //        //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
