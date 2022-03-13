@@ -27,23 +27,21 @@ ProcessingStateWord0x32SOTAY4::~ProcessingStateWord0x32SOTAY4()
 
 bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-//    qDebug() << "PortManager::procSOTAMY4StatusWord0x32() -->";
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing() -->";
     if(TypeUnitNodeEnum::Y4_SOTA != currentUN->getType()) {
-//        qDebug() << "PortManager::procSOTAMY4StatusWord0x32(1) <--";
+//        qDebug() << "ProcessingStateWord0x32SOTAY4::processing(1) <--";
         return false;
     }
 
     if(currentUN->getDkInvolved()) {
-//        qDebug() << "PortManager::procSOTAMY4StatusWord0x32(1) <--";
+//        qDebug() << "ProcessingStateWord0x32SOTAY4::processing(1) <--";
         return false;
     }
 
     const auto& reciverBOD = TopologyService::findReciver(currentUN);
     if(reciverBOD.isNull()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
-//        qDebug() << "PortManager::procSOTAMY4StatusWord0x32(2) <--";
+//        qDebug() << "ProcessingStateWord0x32SOTAY4::processing(2) <--";
 
         return false;
     }
@@ -66,7 +64,7 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-//        qDebug() << "PortManager::procSOTAMY4StatusWord0x32(5) <--";
+//        qDebug() << "ProcessingStateWord0x32SOTAY4::processing(5) <--";
         return true;
     }
 
@@ -79,7 +77,7 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
         // состояние не зменилось - что-то пропускаем
         isChangedStatus = true;
     }
-//    qDebug() << "PortManager::procSOTAMY4StatusWord0x32() -- isChangedStatus " << isChangedStatus;
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing() -- isChangedStatus " << isChangedStatus;
 
     auto isSwitchReady = false;
     if(1 == swpCurrent.isReady()
@@ -87,14 +85,14 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
         // состояние не зменилось - что-то пропускаем
         isSwitchReady = true;
     }
-//    qDebug() << "PortManager::procSOTAMY4StatusWord0x32() -- isSwitchReady " << isSwitchReady;
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing() -- isSwitchReady " << isSwitchReady;
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(-1 == currentUN->getPublishedState() || -1 == reciverBOD->getPublishedState()) {
         isFirstWakeUp = true;
     }
-//    qDebug() << "PortManager::procSOTAMY4StatusWord0x32() -- isFirstWakeUp " << isFirstWakeUp;
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing() -- isFirstWakeUp " << isFirstWakeUp;
 
 
     auto isWakeUp = false;
@@ -102,7 +100,7 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
     if(10 == currentUN->getPublishedState() || 10 == reciverBOD->getPublishedState()) {
         isWakeUp = true;
     }
-//    qDebug() << "PortManager::procSOTAMY4StatusWord0x32() -- isWakeUp " << isWakeUp;
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
     auto needResetFlags0x24 = false;
@@ -112,14 +110,14 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
     && 1 == swpCurrent.y(y4).isWasAlarm()) { // сброс тревоги
         needResetFlags0x24 = true;
     }
-//    qDebug() << "PortManager::procSOTAMY4StatusWord0x32 -- needResetFlags0x24 y4("<< y4 <<")" << needResetFlags0x24;
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing -- needResetFlags0x24 y4("<< y4 <<")" << needResetFlags0x24;
     if(needResetFlags0x24) {
         auto msMsg = QSharedPointer<ManagerSingleMsg>::create(currentUN,
                                                               DataQueueItem::makeResetFlags0x24);
         reciverBOD->pushBackUniqManagerSingleMsg(msMsg);
         makedResetFlags0x24 = true;
     }
-//    qDebug() << "PortManager::procSOTAMY4StatusWord0x32 -- makedResetFlags0x24 y4("<< y4 <<")" << makedResetFlags0x24;
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing -- makedResetFlags0x24 y4("<< y4 <<")" << makedResetFlags0x24;
 
     JourEntity prepareMsg;
     // заполняем поля сообщения за отправителя
@@ -209,6 +207,6 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
 //    qDebug() << "cSOTAM_Y4: " << currentUN->toString() << currentUN->getPublishedState();
 //    qDebug() << "состояние SOTAM_Y4 <--";
 
-//    qDebug() << "PortManager::procSOTAMY4StatusWord0x32(X) <--";
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing(X) <--";
     return true;
 }

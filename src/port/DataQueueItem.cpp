@@ -830,7 +830,7 @@ DataQueueItem DataQueueItem::fillStatusRequest0x2C(DataQueueItem &item, const QS
     item.setData(DataQueueItem::makeStatusRequest0x2C(un));
     if(nullptr != un && un->isNeedsPreamble())
         item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
-    item.setSpecialSkipTimeInterval(300);
+    item.setSpecialSkipTimeInterval(1000);
     item.setSpecialSkipTimeCount(2);
     return item;
 }

@@ -44,6 +44,9 @@ bool ProcessingStateWord0x32T4KDK::processing(const StateWord &data, const QShar
     QSharedPointer<UnitNode> previousUN = UnitNodeFactory::makeShare(*currentUN);
     currentUN->setStateWord(0x32u, data);
     reciverBOD->setStateWord(0x32u, data);
+    for(const auto &un : TopologyService::findChild(reciverBOD)) {
+        un->setStateWord(0x32u, data);
+    }
 
     const auto &swpCurrent = currentUN->swpT4KBODType0x32();
 

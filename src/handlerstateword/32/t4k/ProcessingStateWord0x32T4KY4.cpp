@@ -27,23 +27,22 @@ ProcessingStateWord0x32T4KY4::~ProcessingStateWord0x32T4KY4()
 
 bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x32() -->";
     if(TypeUnitNodeEnum::Y4_T4K_M != currentUN->getType()) {
-//        qDebug() << "PortManager::procT4KMY4StatusWord0x32(1) <--";
         return false;
     }
 
     if(currentUN->getDkInvolved()) {
-//        qDebug() << "PortManager::procT4KMY4StatusWord0x32(1) <--";
         return false;
     }
+
+//    qDebug() << "ProcessingStateWord0x32T4KY4::processing() -->";
 
     const auto& reciverBOD = TopologyService::findReciver(currentUN);
     if(reciverBOD.isNull()) {
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-//        qDebug() << "PortManager::procT4KMY4StatusWord0x32(2) <--";
+//        qDebug() << "ProcessingStateWord0x32T4KY4::processing(2) <--";
 
         return false;
     }
@@ -66,7 +65,7 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-//        qDebug() << "PortManager::procT4KMY4StatusWord0x32(5) <--";
+//        qDebug() << "ProcessingStateWord0x32T4KY4::processing(5) <--";
         return true;
     }
 
@@ -79,7 +78,7 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
         // состояние не зменилось - что-то пропускаем
         isChangedStatus = true;
     }
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x32() -- isChangedStatus " << isChangedStatus;
+//    qDebug() << "ProcessingStateWord0x32T4KY4::processing() -- isChangedStatus " << isChangedStatus;
 
     auto isSwitchReady = false;
     if(1 == swpCurrent.isReady()
@@ -87,14 +86,14 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
         // состояние не зменилось - что-то пропускаем
         isSwitchReady = true;
     }
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x32() -- isSwitchReady " << isSwitchReady;
+//    qDebug() << "ProcessingStateWord0x32T4KY4::processing() -- isSwitchReady " << isSwitchReady;
 
     auto isFirstWakeUp = false;
     // устройство очнулось (после потери связи например)
     if(-1 == currentUN->getPublishedState() || -1 == reciverBOD->getPublishedState()) {
         isFirstWakeUp = true;
     }
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x32() -- isFirstWakeUp " << isFirstWakeUp;
+//    qDebug() << "ProcessingStateWord0x32T4KY4::processing() -- isFirstWakeUp " << isFirstWakeUp;
 
 
     auto isWakeUp = false;
@@ -102,7 +101,7 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
     if(10 == currentUN->getPublishedState() || 10 == reciverBOD->getPublishedState()) {
         isWakeUp = true;
     }
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x32() -- isWakeUp " << isWakeUp;
+//    qDebug() << "ProcessingStateWord0x32T4KY4::processing() -- isWakeUp " << isWakeUp;
 
     // даём сброс тревоги если нужен
     auto needResetFlags0x24 = false;
@@ -112,14 +111,14 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
     && 1 == swpCurrent.y(y4).isWasAlarm()) { // сброс тревоги
         needResetFlags0x24 = true;
     }
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x32 -- needResetFlags0x24 y4("<< y4 <<")" << needResetFlags0x24;
+//    qDebug() << "ProcessingStateWord0x32T4KY4::processing -- needResetFlags0x24 y4("<< y4 <<")" << needResetFlags0x24;
     if(needResetFlags0x24) {
         auto msMsg = QSharedPointer<ManagerSingleMsg>::create(currentUN,
                                                               DataQueueItem::makeResetFlags0x24);
         reciverBOD->pushBackUniqManagerSingleMsg(msMsg);
         makedResetFlags0x24 = true;
     }
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x32 -- makedResetFlags0x24 y4("<< y4 <<")" << makedResetFlags0x24;
+//    qDebug() << "ProcessingStateWord0x32T4KY4::processing -- makedResetFlags0x24 y4("<< y4 <<")" << makedResetFlags0x24;
 
     JourEntity prepareMsg;
     // заполняем поля сообщения за отправителя
@@ -145,8 +144,8 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
     && 1 == swpCurrent.y(y4).isWasAlarm()
     && (swpCurrent.y(y4).isWasAlarm() != swpPrevious.y(y4).isWasAlarm()
      || isSwitchReady)) {
-        commentMsg = QObject::tr("Тревога - Сработка");
-        typeMsg = 20;
+//        commentMsg = QObject::tr("Тревога - Сработка");
+//        typeMsg = 20;
         currentUN->setPublishedState(20);
 
         reciverBOD->setClearedAlarm(20);
@@ -155,12 +154,12 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
            && 0 == swpCurrent.y(y4).isWasAlarm()
            && (swpCurrent.y(y4).isWasAlarm() != swpPrevious.y(y4).isWasAlarm()
             || isSwitchReady)) {
-        commentMsg = QObject::tr("Норма");
-        typeMsg = 1;
+//        commentMsg = QObject::tr("Норма");
+//        typeMsg = 1;
         currentUN->setPublishedState(1);
     } else if(0 == swpCurrent.isReady()) {
-        commentMsg = QObject::tr("Неопределенное состояние");
-        typeMsg = 0;
+//        commentMsg = QObject::tr("Неопределенное состояние");
+//        typeMsg = 0;
         currentUN->setPublishedState(0);
     }
     if(isWakeUp || isFirstWakeUp) {
@@ -209,6 +208,6 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
 //    qDebug() << "cT4KM_Y4: " << currentUN->toString() << currentUN->getPublishedState();
 //    qDebug() << "состояние T4KM_Y4 <--";
 
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x32(X) <--";
+//    qDebug() << "ProcessingStateWord0x32T4KY4::processing(X) <--";
     return true;
 }
