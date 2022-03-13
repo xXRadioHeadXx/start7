@@ -1967,11 +1967,12 @@ QPixmap UnitNode_BOD_SOTA::getPxm() const
 
 int UnitNode_BOD_T4K_M::calcDKStatus() const
 {
+//    qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -->";
     int result = getDkStatus();
     const auto& swp32 = swpT4KBODType0x32();
-    const auto& swp33 = swpT4KBODType0x32();
+    const auto& swp33 = swpT4KBODType0x33();
 
-    for(const auto &y4 : {/*1,*/2,3,4}) {
+    for(const auto &y4 : {1,2,3,4}) {
         if(swp32.isNull()
         && swp32.isNull()) {
             result = DKCiclStatus::DKWrong;
@@ -1980,33 +1981,39 @@ int UnitNode_BOD_T4K_M::calcDKStatus() const
                && (swp32.cdate() > swp33.cdate() || swp33.isNull())
                && 1 == swp32.isReady()
                && 1 == swp32.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKWasAlarm";
             result = DKCiclStatus::DKWasAlarm;
         } else if(!swp33.isNull()
                && (swp33.cdate() > swp32.cdate() || swp32.isNull())
                && 1 == swp33.isReady()
                && 1 == swp33.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKWasAlarm";
             result = DKCiclStatus::DKWasAlarm;
         } else if(!swp32.isNull()
                && (swp32.cdate() > swp33.cdate() || swp33.isNull())
                && 1 == swp32.isReady()
                && 0 == swp32.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKNorm";
             result = DKCiclStatus::DKNorm;
             break;
         } else if(!swp33.isNull()
                && (swp33.cdate() > swp32.cdate() || swp32.isNull())
                && 1 == swp33.isReady()
                && 0 == swp33.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKNorm";
             result = DKCiclStatus::DKNorm;
             break;
         } else {
-            return DKCiclStatus::DKWas;
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus(" << getDkStatus() << ") <-- getDkStatus";
+            return getDkStatus();
         }
     }
     if(DKCiclStatus::DKWasAlarm == result) {
+//        qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus(" << result << ") <-- result";
         return result;
     }
 
-    for(const auto &y4 : {/*1,*/2,3,4}) {
+    for(const auto &y4 : {1,2,3,4}) {
         if(swp32.isNull()
         && swp32.isNull()) {
             result = DKCiclStatus::DKWrong;
@@ -2015,33 +2022,40 @@ int UnitNode_BOD_T4K_M::calcDKStatus() const
                && (swp32.cdate() > swp33.cdate() || swp33.isNull())
                && 1 == swp32.isReady()
                && 1 == swp32.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKWasAlarm";
             result = DKCiclStatus::DKWasAlarm;
             break;
         } else if(!swp33.isNull()
                && (swp33.cdate() > swp32.cdate() || swp32.isNull())
                && 1 == swp33.isReady()
                && 1 == swp33.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKWasAlarm";
             result = DKCiclStatus::DKWasAlarm;
             break;
         } else if(!swp32.isNull()
                && (swp32.cdate() > swp33.cdate() || swp33.isNull())
                && 1 == swp32.isReady()
                && 0 == swp32.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKNorm";
             result = DKCiclStatus::DKNorm;
         } else if(!swp33.isNull()
                && (swp33.cdate() > swp32.cdate() || swp32.isNull())
                && 1 == swp33.isReady()
                && 0 == swp33.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKNorm";
             result = DKCiclStatus::DKNorm;
         } else {
-            return DKCiclStatus::DKWas;
+//            qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus(" << getDkStatus() << ") <-- getDkStatus";
+            return getDkStatus();
         }
     }
     if(DKCiclStatus::DKNorm == result) {
+//        qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus(" << result << ") <-- result";
         return result;
     }
 
-    return result;
+//    qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus(" << getDkStatus() << ") <-- getDkStatus";
+    return getDkStatus();
 }
 
 QPixmap UnitNode_Y4_T4K_M::getPxm() const
