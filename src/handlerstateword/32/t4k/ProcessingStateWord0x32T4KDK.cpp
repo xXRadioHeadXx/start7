@@ -25,7 +25,7 @@ ProcessingStateWord0x32T4KDK::~ProcessingStateWord0x32T4KDK()
 
 bool ProcessingStateWord0x32T4KDK::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-    qDebug() << "PortManager::procDkStatusWord0x31 -->";
+//    qDebug() << "PortManager::procDkStatusWord0x31 -->";
 
     if(!currentUN->getDkInvolved()
     || TypeUnitNodeEnum::BOD_T4K_M != currentUN->getType()) {
@@ -141,7 +141,7 @@ bool ProcessingStateWord0x32T4KDK::processing(const StateWord &data, const QShar
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();
 
-    qDebug() << "PortManager::procDkStatusWord0x31 <--";
+//    qDebug() << "PortManager::procDkStatusWord0x31 <--";
 
     return true;
 }

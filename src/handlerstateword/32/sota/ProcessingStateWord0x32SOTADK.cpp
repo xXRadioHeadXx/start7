@@ -25,7 +25,7 @@ ProcessingStateWord0x32SOTADK::~ProcessingStateWord0x32SOTADK()
 
 bool ProcessingStateWord0x32SOTADK::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-    qDebug() << "PortManager::procDkStatusWord0x31 -->";
+//    qDebug() << "PortManager::procDkStatusWord0x31 -->";
 
     if(!currentUN->getDkInvolved()
     || TypeUnitNodeEnum::BOD_SOTA != currentUN->getType()) {
@@ -141,7 +141,7 @@ bool ProcessingStateWord0x32SOTADK::processing(const StateWord &data, const QSha
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();
 
-    qDebug() << "PortManager::procDkStatusWord0x31 <--";
+//    qDebug() << "PortManager::procDkStatusWord0x31 <--";
 
     return true;
 }

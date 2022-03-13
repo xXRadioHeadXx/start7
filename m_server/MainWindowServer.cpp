@@ -479,7 +479,7 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                         reciver->leftoversCounter.divider = 2;
                         reciver->setInterrogationUN(selUN);
                     } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
-                        reciver->setNeededStateWordType(0x2C2D); // 32 & 33
+                        reciver->setNeededStateWordType(0x2C2E); // 32 & 33
                         reciver->leftoversCounter.counter = 0;
                         reciver->leftoversCounter.divider = 2;
                         reciver->setInterrogationUN(selUN);

@@ -59,7 +59,7 @@ bool ProcessingStateWord0x31DK::processing(const StateWord &data, const QSharedP
                  auto dwWaiter = ar.dynamicCast<ProcessDKWaiter>();
                  if(dwWaiter->getLsTrackedUN().contains(currentUN)) {
                      finishDKWaiter(dwWaiter);
-                     qDebug() << "PortManager::procDkStatusWord0x31 remove dwWaiter";
+//                     qDebug() << "PortManager::procDkStatusWord0x31 remove dwWaiter";
                      break;
                  }
              }
