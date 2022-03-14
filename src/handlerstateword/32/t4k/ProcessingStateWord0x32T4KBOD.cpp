@@ -60,6 +60,7 @@ bool ProcessingStateWord0x32T4KBOD::processing(const StateWord &data, const QSha
         && 1 == swpCurrent.y(2).isWasAlarm()
         && 1 == swpCurrent.y(3).isWasAlarm()
         && 1 == swpCurrent.y(4).isWasAlarm()
+        && 1 != currentUN->getPublishedState()
                 ) {
             const auto &commentMsg = QObject::tr("Норма");
             const auto &typeMsg = 1;
@@ -290,4 +291,3 @@ bool ProcessingStateWord0x32T4KBOD::processing(const StateWord &data, const QSha
 //    qDebug() << "ProcessingStateWord0x32T4KBOD::processing(X) <--";
     return true;
 }
-

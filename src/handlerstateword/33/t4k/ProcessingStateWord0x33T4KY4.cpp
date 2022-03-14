@@ -28,21 +28,18 @@ ProcessingStateWord0x33T4KY4::~ProcessingStateWord0x33T4KY4()
 
 bool ProcessingStateWord0x33T4KY4::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-//    qDebug() << "PortManager::procT4KMY4StatusWord0x33() -->";
     if(TypeUnitNodeEnum::Y4_T4K_M != currentUN->getType()) {
-//        qDebug() << "PortManager::procT4KMY4StatusWord0x33(1) <--";
         return false;
     }
 
     if(currentUN->getDkInvolved()) {
-//        qDebug() << "PortManager::procT4KMY4StatusWord0x33(1) <--";
         return false;
     }
 
+//    qDebug() << "PortManager::procT4KMY4StatusWord0x33() -->";
+
     const auto& reciverBOD = TopologyService::findReciver(currentUN);
     if(reciverBOD.isNull()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
 //        qDebug() << "PortManager::procT4KMY4StatusWord0x33(2) <--";
 
@@ -147,20 +144,21 @@ bool ProcessingStateWord0x33T4KY4::processing(const StateWord &data, const QShar
     && 1 == swpCurrent.y(y4).isWasAlarm()
     && (swpCurrent.y(y4).isWasAlarm() != swpPrevious.y(y4).isWasAlarm()
      || isSwitchReady)) {
-        commentMsg = QObject::tr("Тревога - Сработка");
-        typeMsg = 20;
+//        commentMsg = QObject::tr("Тревога - Сработка");
+//        typeMsg = 20;
         currentUN->setPublishedState(20);
         reciverBOD->setClearedAlarm(20);
+        currentUN->setClearedAlarm(20);
     } else if(1 == swpCurrent.isReady()
            && 0 == swpCurrent.y(y4).isWasAlarm()
            && (swpCurrent.y(y4).isWasAlarm() != swpPrevious.y(y4).isWasAlarm()
             || isSwitchReady)) {
-        commentMsg = QObject::tr("Норма");
-        typeMsg = 1;
+//        commentMsg = QObject::tr("Норма");
+//        typeMsg = 1;
         currentUN->setPublishedState(1);
     } else if(0 == swpCurrent.isReady()) {
-        commentMsg = QObject::tr("Неопределенное состояние");
-        typeMsg = 0;
+//        commentMsg = QObject::tr("Неопределенное состояние");
+//        typeMsg = 0;
         currentUN->setPublishedState(0);
     }
     if(isWakeUp || isFirstWakeUp) {

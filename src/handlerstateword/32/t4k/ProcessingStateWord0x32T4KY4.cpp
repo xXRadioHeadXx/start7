@@ -39,8 +39,6 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
 
     const auto& reciverBOD = TopologyService::findReciver(currentUN);
     if(reciverBOD.isNull()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
 //        qDebug() << "ProcessingStateWord0x32T4KY4::processing(2) <--";
 
@@ -147,7 +145,6 @@ bool ProcessingStateWord0x32T4KY4::processing(const StateWord &data, const QShar
 //        commentMsg = QObject::tr("Тревога - Сработка");
 //        typeMsg = 20;
         currentUN->setPublishedState(20);
-
         reciverBOD->setClearedAlarm(20);
         currentUN->setClearedAlarm(20);
     } else if(1 == swpCurrent.isReady()

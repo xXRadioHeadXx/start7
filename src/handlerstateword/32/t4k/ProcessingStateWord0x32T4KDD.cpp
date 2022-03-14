@@ -182,7 +182,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
         commentMsg = QObject::tr("Тревога - Вскрытие");
         typeMsg = 21;
         currentUN->setPublishedState(21);
-
         reciverBOD->setClearedAlarm(21);
         reciverY4->setClearedAlarm(21);
 //    } else if(1 == swpCurrent.isReady()
@@ -213,7 +212,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 commentMsgC1 = QObject::tr("Тревога - Сработка по ЧЭ1");
                 typeMsgC1 = 22;
                 currentUN->setPublishedState(22);
-
                 reciverBOD->setClearedAlarm(22);
                 reciverY4->setClearedAlarm(22);
             } else if(1 == swpCurrent.isReady()
