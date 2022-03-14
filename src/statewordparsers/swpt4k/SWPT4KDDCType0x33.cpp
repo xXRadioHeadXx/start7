@@ -68,7 +68,7 @@ int SWPT4KDDCType0x33::level() const
     if(byteWord().isEmpty())
         return -1;
     uint8_t index = (1 < getC()) ? 5 : 3;
-    int level = (static_cast<uint16_t>(byteWord().at(index)) << 8) & (static_cast<uint16_t>(byteWord().at(index + 1)) & 0x00FF);
+    int level = (static_cast<uint16_t>(byteWord().at(index)) << 8) | (static_cast<uint16_t>(byteWord().at(index + 1)) & 0x00FF);
     return level;
 }
 
