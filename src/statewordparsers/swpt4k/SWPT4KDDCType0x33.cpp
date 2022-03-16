@@ -34,7 +34,12 @@ int SWPT4KDDCType0x33::isWasAlarm() const
 {
     if(byteWord().isEmpty())
         return -1;
-    uint8_t mask = (1 < getC()) ? static_cast<uint8_t>(0x02) : static_cast<uint8_t>(0x01);
+    uint8_t mask =  static_cast<uint8_t>(0x00);
+    if(1 == getC()) {
+        mask = static_cast<uint8_t>(0x01);
+    } else if(2 == getC()) {
+        mask = static_cast<uint8_t>(0x02);
+    }
     if(static_cast<uint8_t>(byteWord().at(7)) & mask)
         return 1; //Status::Exist;
     else
@@ -45,7 +50,12 @@ int SWPT4KDDCType0x33::isClosure() const
 {
     if(byteWord().isEmpty())
         return -1;
-    uint8_t mask = (1 < getC()) ? static_cast<uint8_t>(0x20) : static_cast<uint8_t>(0x04);
+    uint8_t mask =  static_cast<uint8_t>(0x00);
+    if(1 == getC()) {
+        mask = static_cast<uint8_t>(0x04);
+    } else if(2 == getC()) {
+        mask = static_cast<uint8_t>(0x20);
+    }
     if(static_cast<uint8_t>(byteWord().at(7)) & mask)
         return 1; //Status::Exist;
     else
@@ -56,7 +66,12 @@ int SWPT4KDDCType0x33::isCliff() const
 {
     if(byteWord().isEmpty())
         return -1;
-    uint8_t mask = (1 < getC()) ? static_cast<uint8_t>(0x10) : static_cast<uint8_t>(0x02);
+    uint8_t mask =  static_cast<uint8_t>(0x00);
+    if(1 == getC()) {
+        mask = static_cast<uint8_t>(0x02);
+    } else if(2 == getC()) {
+        mask = static_cast<uint8_t>(0x10);
+    }
     if(static_cast<uint8_t>(byteWord().at(7)) & mask)
         return 1; //Status::Exist;
     else
@@ -67,7 +82,12 @@ int SWPT4KDDCType0x33::level() const
 {
     if(byteWord().isEmpty())
         return -1;
-    uint8_t index = (1 < getC()) ? 5 : 3;
+    uint8_t index =  0;
+    if(1 == getC()) {
+        index = 3;
+    } else if(2 == getC()) {
+        index = 5;
+    }
     int level = (static_cast<uint16_t>(byteWord().at(index)) << 8) | (static_cast<uint16_t>(byteWord().at(index + 1)) & 0x00FF);
     return level;
 }
