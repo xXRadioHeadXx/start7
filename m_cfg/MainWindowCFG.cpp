@@ -2630,7 +2630,12 @@ bool MainWindowCFG::add_unit()
     unit->setIconVisible(0);
     unit->setX(0);
     unit->setY(0);
+
+    if(type==TypeUnitNode::SSOI_SD)
+    unit->setDK(1);
+    else
     unit->setDK(0);
+
     unit->setBazalt(0);
     unit->setMetka(0);
     unit->setRazriv(0);
