@@ -52,7 +52,7 @@ int SWPT4KDDCType0x33::isClosure() const
         return -1;
     uint8_t mask =  static_cast<uint8_t>(0x00);
     if(1 == getC()) {
-        mask = static_cast<uint8_t>(0x04);
+        mask = static_cast<uint8_t>(0x08);
     } else if(2 == getC()) {
         mask = static_cast<uint8_t>(0x20);
     }
@@ -68,7 +68,7 @@ int SWPT4KDDCType0x33::isCliff() const
         return -1;
     uint8_t mask =  static_cast<uint8_t>(0x00);
     if(1 == getC()) {
-        mask = static_cast<uint8_t>(0x02);
+        mask = static_cast<uint8_t>(0x04);
     } else if(2 == getC()) {
         mask = static_cast<uint8_t>(0x10);
     }
