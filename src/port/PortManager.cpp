@@ -146,7 +146,12 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
             if(target.isNull())
                 continue;
 
-            if((target->getControl() || TypeUnitNodeEnum::IU_BL_IP == target->getType())) {
+            if((target->getControl()
+             || TypeUnitNodeEnum::IU_BL_IP == target->getType())
+            && TypeUnitNodeEnum::Y4_T4K_M != target->getType()
+            && TypeUnitNodeEnum::DD_T4K_M != target->getType()
+            && TypeUnitNodeEnum::Y4_SOTA != target->getType()
+            && TypeUnitNodeEnum::DD_SOTA != target->getType()) {
                 JourEntity msg;
                 msg.setObject(target->getName());
                 msg.setType(10);
@@ -1591,7 +1596,11 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un)
          || TypeUnitNodeEnum::IU_BL_IP == un->getType()
          || TypeUnitNodeEnum::SSOI_IU_BL_IP == un->getType())
         && !un->getName().isEmpty()
-        && 1 != un->getMetaEntity()) {
+        && 1 != un->getMetaEntity()
+        && TypeUnitNodeEnum::Y4_T4K_M != un->getType()
+        && TypeUnitNodeEnum::DD_T4K_M != un->getType()
+        && TypeUnitNodeEnum::Y4_SOTA != un->getType()
+        && TypeUnitNodeEnum::DD_SOTA != un->getType()) {
             JourEntity msg;
             msg.setObject(un->getName());
             msg.setType(10);
