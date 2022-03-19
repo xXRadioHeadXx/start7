@@ -27,8 +27,13 @@
 #include "swptg/SWPTGSubType0x33.h"
 #include "swpt4k/SWPT4KBODType0x32.h"
 #include "swpt4k/SWPT4KY4Type0x32.h"
+#include "swpt4k/SWPT4KDDType0x32.h"
+#include "swpt4k/SWPT4KDDCType0x32.h"
 #include "swpt4k/SWPT4KBODType0x33.h"
 #include "swpt4k/SWPT4KY4Type0x33.h"
+#include "swpt4k/SWPT4KDDType0x33.h"
+#include "swpt4k/SWPT4KDDCType0x33.h"
+#include "swpt4k/SWPT4KDDCFType0x33.h"
 #include "swpt4k/SWPT4KBODType0x33.h"
 #include "swpt4k/SWPT4KBODType0x34.h"
 
@@ -2111,6 +2116,8 @@ QPixmap UnitNode_Y4_T4K_M::getPxm() const
 
 QPixmap UnitNode_DD_T4K_M::getPxm() const
 {
+    auto y4 = getNum2() / 100;
+    auto ddNum = getNum2() % 100;
     const auto& swp32 = swpT4KBODType0x32();
     const auto& swp33 = swpT4KBODType0x33();
     if(getControl() && swp32.isNull() && swp33.isNull()) {
@@ -2124,24 +2131,22 @@ QPixmap UnitNode_DD_T4K_M::getPxm() const
         if(0 == swp32.isReady()) {
             return Icons::sqr_gry_qstn();
         } else if(getControl()
-               && (12 == getPublishedState()
-                || 13 == getPublishedState())){
+               && (1 == swp32.y(y4).dd(ddNum).c(1).isFault()
+                || 1 == swp32.y(y4).dd(ddNum).c(2).isFault())){
             return Icons::sqr_blu();
         } else if(!getControl()
-               && (12 == getPublishedState()
-                || 13 == getPublishedState())){
+               && (1 == swp32.y(y4).dd(ddNum).c(1).isFault()
+                || 1 == swp32.y(y4).dd(ddNum).c(2).isFault())){
             return Icons::sqr_blk_crs_blu();
         } else if(getControl()
-            && (20 == getPublishedState()
-             || 21 == getPublishedState()
-             || 22 == getPublishedState()
-             || 23 == getPublishedState())){
+            && (swp32.y(y4).dd(ddNum).isWasOpened()
+             || swp32.y(y4).dd(ddNum).c(1).isWasAlarm()
+             || swp32.y(y4).dd(ddNum).c(2).isWasAlarm())) {
             return Icons::sqr_rd();
         } else if(!getControl()
-               && (20 == getPublishedState()
-                || 21 == getPublishedState()
-                || 22 == getPublishedState()
-                || 23 == getPublishedState())){
+               && (swp32.y(y4).dd(ddNum).isWasOpened()
+                || swp32.y(y4).dd(ddNum).c(1).isWasAlarm()
+                || swp32.y(y4).dd(ddNum).c(2).isWasAlarm())){
             return Icons::sqr_blk_crs_rd();
         } else if(getControl()
                && isClearedAlarm()) {
@@ -2154,24 +2159,36 @@ QPixmap UnitNode_DD_T4K_M::getPxm() const
         if(0 == swp33.isReady()) {
             return Icons::sqr_gry_qstn();
         } else if(getControl()
-               && (12 == getPublishedState()
-                || 13 == getPublishedState())){
+               && (swp33.dd().isFault()
+                || swp33.dd().c(1).isCliff()
+                || swp33.dd().c(1).isClosure()
+                || swp33.dd().c(2).isCliff()
+                || swp33.dd().c(2).isClosure())){
             return Icons::sqr_blu();
         } else if(!getControl()
-               && (12 == getPublishedState()
-                || 13 == getPublishedState())){
+               && (swp33.dd().isFault()
+                || swp33.dd().c(1).isCliff()
+                || swp33.dd().c(1).isClosure()
+                || swp33.dd().c(2).isCliff()
+                || swp33.dd().c(2).isClosure())){
                return Icons::sqr_blk_crs_blu();
         } else if(getControl()
-               && (20 == getPublishedState()
-                || 21 == getPublishedState()
-                || 22 == getPublishedState()
-                || 23 == getPublishedState())){
+               && (swp33.dd().isWasOpened()
+                || swp33.dd().c(1).isWasAlarm()
+                || swp33.dd().c(2).isWasAlarm()
+                || swp33.dd().c(1).f(1).isWasAlarm()
+                || swp33.dd().c(1).f(2).isWasAlarm()
+                || swp33.dd().c(2).f(1).isWasAlarm()
+                || swp33.dd().c(2).f(2).isWasAlarm())){
                return Icons::sqr_rd();
         } else if(!getControl()
-               && (20 == getPublishedState()
-                || 21 == getPublishedState()
-                || 22 == getPublishedState()
-                || 23 == getPublishedState())){
+               && (swp33.dd().isWasOpened()
+                || swp33.dd().c(1).isWasAlarm()
+                || swp33.dd().c(2).isWasAlarm()
+                || swp33.dd().c(1).f(1).isWasAlarm()
+                || swp33.dd().c(1).f(2).isWasAlarm()
+                || swp33.dd().c(2).f(1).isWasAlarm()
+                || swp33.dd().c(2).f(2).isWasAlarm())){
                return Icons::sqr_blk_crs_rd();
         } else if(getControl()
                && isClearedAlarm()) {

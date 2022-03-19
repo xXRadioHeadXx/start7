@@ -63,6 +63,25 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
     const auto& swpCurrent = currentUN->swpT4KBODType0x32(),
                &swpPrevious = previousUN->swpT4KBODType0x32();
 
+    bool previouPublishedStateIsNorm = false;
+    if(1 == previousUN->getPublishedState()
+    || 5 == previousUN->getPublishedState()
+    || 6 == previousUN->getPublishedState()) {
+        previouPublishedStateIsNorm = true;
+    }
+
+//    if(!reciverBOD->getInterrogationUN().isNull()) {
+//        if(reciverBOD->getInterrogationUN()->equale(currentUN)
+//        && (0x2C2D2E == reciverBOD->getNeededStateWordType()
+//         || 0x2D2E == reciverBOD->getNeededStateWordType())) {
+//            currentUN->updDoubl();
+//            SignalSlotCommutator::emitUpdUN();
+
+////        qDebug() << "ProcessingStateWord0x32T4KDD::processing(4) <--";
+//            return true;
+//        }
+//    }
+
     if(1 == swpCurrent.isExistDK()
     || 1 == swpCurrent.isWasDK()
     || 1 == swpPrevious.isExistDK()
@@ -170,11 +189,22 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
 
     int typeMsg = -1;
     QString commentMsg;
+    bool currentPublishedStateIsNorm = false;
 
 //    qDebug() << "состояние T4KM_DD -->" << commentMsg;
 //    qDebug() << "pT4KM_DD: " << previousUN->toString() << swpPrevious.byteWord().toHex();
 //    qDebug() << "cT4KM_DD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
 
+//    if(1 == swpCurrent.isReady()
+//    && 1 == swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak()
+//    && (swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak() == swpPrevious.y(y4).dd(ddNum).isWasCommunicationBreak()
+//     || isSwitchReady)) {
+//        commentMsg = QObject::tr("Неисправность");
+//        typeMsg = 21;
+//        currentUN->setPublishedState(21);
+//        reciverBOD->setClearedAlarm(21);
+//        reciverY4->setClearedAlarm(21);
+//    } else if(1 == swpCurrent.isReady()
     if(1 == swpCurrent.isReady()
     && 1 == swpCurrent.y(y4).dd(ddNum).isWasOpened()
     && (swpCurrent.y(y4).dd(ddNum).isWasOpened() == swpPrevious.y(y4).dd(ddNum).isWasOpened()
@@ -184,13 +214,7 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
         currentUN->setPublishedState(21);
         reciverBOD->setClearedAlarm(21);
         reciverY4->setClearedAlarm(21);
-//    } else if(1 == swpCurrent.isReady()
-//           && 1 == swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak()
-//           && (swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak() == swpPrevious.y(y4).dd(ddNum).isWasCommunicationBreak()
-//            || isSwitchReady)) {
-//        commentMsg = QObject::tr("Обрыв связи");
-//        typeMsg = 12;
-//        currentUN->setPublishedState(12);
+
     } else if(1 == swpCurrent.isReady()
            || isSwitchReady) {
         //    bool iniState = false;
@@ -230,8 +254,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
             if((isWakeUp
              || isFirstWakeUp
              || isSwitchReady
-             || 12 == currentUN->getPublishedState()
-             || 22 == currentUN->getPublishedState()
              || currentUN->getPublishedState() != previousUN->getPublishedState())
             && (isChangedStatusC1
              || isSwitchReady)
@@ -297,8 +319,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
             if((isWakeUp
              || isFirstWakeUp
              || isSwitchReady
-             || 13 == currentUN->getPublishedState()
-             || 23 == currentUN->getPublishedState()
              || currentUN->getPublishedState() != previousUN->getPublishedState())
             && (isChangedStatusC2
              || isSwitchReady)
@@ -331,6 +351,7 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
             && 6 == typeMsgC2) {
                 commentMsg = QObject::tr("Норма");
                 typeMsg = 1;
+                currentPublishedStateIsNorm = true;
             }
     } else if(0 == swpCurrent.isReady()) {
         commentMsg = QObject::tr("Неопределенное состояние");
@@ -346,8 +367,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
     if((isWakeUp
      || isFirstWakeUp
      || isSwitchReady
-     || 12 == currentUN->getPublishedState()
-     || 22 == currentUN->getPublishedState()
      || currentUN->getPublishedState() != previousUN->getPublishedState())
     && (isChangedStatus
      || isSwitchReady)

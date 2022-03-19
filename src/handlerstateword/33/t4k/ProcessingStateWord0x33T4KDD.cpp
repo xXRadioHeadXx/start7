@@ -75,6 +75,13 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
     const auto& swpCurrent = currentUN->swpT4KBODType0x33(),
                &swpPrevious = previousUN->swpT4KBODType0x33();
 
+    bool previouPublishedStateIsNorm = false;
+    if(1 == previousUN->getPublishedState()
+    || 5 == previousUN->getPublishedState()
+    || 6 == previousUN->getPublishedState()) {
+        previouPublishedStateIsNorm = true;
+    }
+
     if(1 == swpCurrent.isExistDK()
     || 1 == swpCurrent.isWasDK()
     || 1 == swpPrevious.isExistDK()
@@ -143,11 +150,11 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
 
 
     auto isSwitchReady = false;
-    if(1 == swpCurrent.isReady()
-    && swpCurrent.isReady() != swpPrevious.isReady()) {
-        // состояние не зменилось - что-то пропускаем
-        isSwitchReady = true;
-    }
+//    if(1 == swpCurrent.isReady()
+//    && swpCurrent.isReady() != swpPrevious.isReady()) {
+//        // состояние не зменилось - что-то пропускаем
+//        isSwitchReady = true;
+//    }
 //    qDebug() << "PortManager::procT4KMDDStatusWord0x33() -- isSwitchReady " << isSwitchReady;
 
     auto isFirstWakeUp = false;
@@ -210,6 +217,7 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
 
     int typeMsg = -1;
     QString commentMsg;
+    bool currentPublishedStateIsNorm = false;
 
 //    qDebug() << "состояние T4KM_DD -->" << commentMsg;
 //    qDebug() << "pT4KM_DD: " << previousUN->toString() << swpPrevious.byteWord().toHex();
@@ -224,6 +232,15 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
         currentUN->setPublishedState(12);
         reciverBOD->setClearedAlarm(12);
         reciverY4->setClearedAlarm(12);
+//    } else if(1 == swpCurrent.isReady()
+//           && 1 == swpCurrent.dd().isWasCommunicationBreak()
+//           && (swpCurrent.dd().isWasCommunicationBreak() == swpPrevious.dd().isWasCommunicationBreak()
+//            || isSwitchReady)) {
+//        commentMsg = QObject::tr("Неисправность");
+//        typeMsg = 12;
+//        currentUN->setPublishedState(12);
+//        reciverBOD->setClearedAlarm(12);
+//        reciverY4->setClearedAlarm(12);
     } else if(1 == swpCurrent.isReady()
            && 0 == swpCurrent.dd().isFault()
            && 1 == swpCurrent.dd().isWasOpened()
@@ -234,13 +251,6 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
         currentUN->setPublishedState(21);
         reciverBOD->setClearedAlarm(21);
         reciverY4->setClearedAlarm(21);
-//    } else if(1 == swpCurrent.isReady()
-//           && 1 == swpCurrent.dd().isWasCommunicationBreak()
-//           && (swpCurrent.dd().isWasCommunicationBreak() == swpPrevious.dd().isWasCommunicationBreak()
-//            || isSwitchReady)) {
-//        commentMsg = QObject::tr("Обрыв связи");
-//        typeMsg = 12;
-//        currentUN->setPublishedState(12);
     } else if(1 == swpCurrent.isReady()
            || isSwitchReady) {
         //    bool iniState = false;
@@ -248,122 +258,147 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
 
         int typeMsgC1 = -1;
         QString commentMsgC1;
-            if(1 == swpCurrent.isReady()
-            && 1 == swpCurrent.dd().c(1).isWasAlarm()) {
-                commentMsgC1 = QObject::tr("Тревога - Сработка по ЧЭ1");
-                typeMsgC1 = 22;
-                currentUN->setPublishedState(22);
-                reciverBOD->setClearedAlarm(22);
-                reciverY4->setClearedAlarm(22);
-            } else if(1 == swpCurrent.isReady()
-                   && 0 == swpCurrent.dd().c(1).isWasAlarm()) {
-                commentMsgC1 = QObject::tr("Норма по ЧЭ1");
-                typeMsgC1 = 5;
-                currentUN->setPublishedState(5);
-            }
-            if(isWakeUp || isFirstWakeUp) {
-                commentMsgC1 += " (начальное состояние)";
-            }
+        if(1 == swpCurrent.isReady()
+        && 1 == swpCurrent.dd().c(1).isCliff()) {
+            commentMsgC1 = QObject::tr("Неисправность по ЧЭ1");
+            typeMsgC1 = 12;
+            currentUN->setPublishedState(12);
+            reciverBOD->setClearedAlarm(12);
+            reciverY4->setClearedAlarm(12);
+        } else if(1 == swpCurrent.isReady()
+               && 1 == swpCurrent.dd().c(1).isClosure()) {
+            commentMsgC1 = QObject::tr("Неисправность по ЧЭ1");
+            typeMsgC1 = 12;
+            currentUN->setPublishedState(12);
+            reciverBOD->setClearedAlarm(12);
+            reciverY4->setClearedAlarm(12);
+        } else if(1 == swpCurrent.isReady()
+               && 1 == swpCurrent.dd().c(1).isWasAlarm()) {
+            commentMsgC1 = QObject::tr("Тревога - Сработка по ЧЭ1");
+            typeMsgC1 = 22;
+            currentUN->setPublishedState(22);
+            reciverBOD->setClearedAlarm(22);
+            reciverY4->setClearedAlarm(22);
+        } else if(1 == swpCurrent.isReady()
+               && 0 == swpCurrent.dd().c(1).isWasAlarm()) {
+            commentMsgC1 = QObject::tr("Норма по ЧЭ1");
+            typeMsgC1 = 5;
+            currentUN->setPublishedState(5);
+        }
+        if(isWakeUp || isFirstWakeUp) {
+            commentMsgC1 += " (начальное состояние)";
+        }
 
-            bool wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
-            Q_UNUSED(wasSendAbonentEventsAndStates)
-            if((isWakeUp
-            || isFirstWakeUp
-            || isSwitchReady
-            || 12 == currentUN->getPublishedState()
-            || 22 == currentUN->getPublishedState()
-            || currentUN->getPublishedState() != previousUN->getPublishedState())
-           && (isChangedStatusC1
-            || isSwitchReady)
-           && 1 != currentUN->getMetaEntity()
-           && -1 != typeMsgC1
-           && 5 != typeMsgC1
-           && currentUN->getControl()) {
-                JourEntity msg = prepareMsg;
-                // следует записать сообщение
-                // заполняем поля сообщения
-                msg.setComment(commentMsgC1);
-                msg.setType(typeMsgC1);
-                currentUN->done=true;
-                SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
-                wasSendAbonentEventsAndStates = false;
+        bool wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
+        Q_UNUSED(wasSendAbonentEventsAndStates)
+        if((isWakeUp
+         || isFirstWakeUp
+         || isSwitchReady
+         || currentUN->getPublishedState() != previousUN->getPublishedState())
+        && (isChangedStatusC1
+         || isSwitchReady)
+        && 1 != currentUN->getMetaEntity()
+        && -1 != typeMsgC1
+        && 5 != typeMsgC1
+        && currentUN->getControl()) {
+            JourEntity msg = prepareMsg;
+            // следует записать сообщение
+            // заполняем поля сообщения
+            msg.setComment(commentMsgC1);
+            msg.setType(typeMsgC1);
+            currentUN->done=true;
+            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+            wasSendAbonentEventsAndStates = false;
 
-                if(22 == typeMsgC1) {
-                    SoundAdjuster::playAlarm();
-                }
-
-                if(1 == currentUN->getAlarmMsgOn() && (12 == msg.getType() || 22 == msg.getType())) {
-                    MessageBoxServer::showAttentionJourMsg(msg);
-                }
-
-            }
-
-            // запись тревога/норма/неисправность ЧЭ1 <--
-
-            // запись тревога/норма/неисправность ЧЭ2 -->
-            int typeMsgC2 = -1;
-            QString commentMsgC2 = "";
-            if(1 == swpCurrent.isReady()
-                   && 1 == swpCurrent.dd().c(2).isWasAlarm()) {
-                commentMsgC2 = QObject::tr("Тревога - Сработка по ЧЭ2");
-                typeMsgC2 = 23;
-                currentUN->setPublishedState(23);
-
-                reciverBOD->setClearedAlarm(23);
-                reciverY4->setClearedAlarm(23);
-            } else if(1 == swpCurrent.isReady()
-                   && 0 == swpCurrent.dd().c(2).isWasAlarm()) {
-                commentMsgC2 = QObject::tr("Норма по ЧЭ2");
-                typeMsgC2 = 6;
-                currentUN->setPublishedState(6);
-            }
-            if(isWakeUp || isFirstWakeUp) {
-                commentMsgC2 += " (начальное состояние)";
+            if(22 == typeMsgC1) {
+                SoundAdjuster::playAlarm();
             }
 
-            wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
-            if((isWakeUp
-                || isFirstWakeUp
-                || isSwitchReady
-                || 13 == currentUN->getPublishedState()
-                || 23 == currentUN->getPublishedState()
-                || currentUN->getPublishedState() != previousUN->getPublishedState())
-               && (isChangedStatusC2
-                || isSwitchReady)
-               && 1 != currentUN->getMetaEntity()
-               && -1 != typeMsgC2
-               && 6 != typeMsgC2
-               && currentUN->getControl()) {
-                JourEntity msg = prepareMsg;
-                // следует записать сообщение
-                // заполняем поля сообщения
-                msg.setComment(commentMsgC2);
-                msg.setType(typeMsgC2);
-                currentUN->done=true;
-                SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
-                GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
-                wasSendAbonentEventsAndStates = false;
-
-                if(23 == typeMsgC2) {
-                    SoundAdjuster::playAlarm();
-                }
-
-                if(1 == currentUN->getAlarmMsgOn() && (13 == msg.getType() || 23 == msg.getType())) {
-                    MessageBoxServer::showAttentionJourMsg(msg);
-                }
+            if(1 == currentUN->getAlarmMsgOn() && (12 == msg.getType() || 22 == msg.getType())) {
+                MessageBoxServer::showAttentionJourMsg(msg);
             }
-            // запись тревога/норма/неисправность ЧЭ2 <--
 
-            if(5 == typeMsgC1
-            && 6 == typeMsgC2) {
-                commentMsg = QObject::tr("Норма");
-                typeMsg = 1;
+        }
+
+        // запись тревога/норма/неисправность ЧЭ1 <--
+
+        // запись тревога/норма/неисправность ЧЭ2 -->
+        int typeMsgC2 = -1;
+        QString commentMsgC2 = "";
+        if(1 == swpCurrent.isReady()
+        && 1 == swpCurrent.dd().c(2).isCliff()) {
+            commentMsgC2 = QObject::tr("Неисправность по ЧЭ2");
+            typeMsgC2 = 13;
+            currentUN->setPublishedState(13);
+            reciverBOD->setClearedAlarm(13);
+            reciverY4->setClearedAlarm(13);
+        } else if(1 == swpCurrent.isReady()
+               && 1 == swpCurrent.dd().c(2).isClosure()) {
+            commentMsgC2 = QObject::tr("Неисправность по ЧЭ2");
+            typeMsgC2 = 13;
+            currentUN->setPublishedState(13);
+            reciverBOD->setClearedAlarm(13);
+            reciverY4->setClearedAlarm(13);
+        } else if(1 == swpCurrent.isReady()
+               && 1 == swpCurrent.dd().c(2).isWasAlarm()) {
+            commentMsgC2 = QObject::tr("Тревога - Сработка по ЧЭ2");
+            typeMsgC2 = 23;
+            currentUN->setPublishedState(23);
+
+            reciverBOD->setClearedAlarm(23);
+            reciverY4->setClearedAlarm(23);
+        } else if(1 == swpCurrent.isReady()
+               && 0 == swpCurrent.dd().c(2).isWasAlarm()) {
+            commentMsgC2 = QObject::tr("Норма по ЧЭ2");
+            typeMsgC2 = 6;
+            currentUN->setPublishedState(6);
+        }
+        if(isWakeUp || isFirstWakeUp) {
+            commentMsgC2 += " (начальное состояние)";
+        }
+
+        wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
+        if((isWakeUp
+         || isFirstWakeUp
+         || isSwitchReady
+         || currentUN->getPublishedState() != previousUN->getPublishedState())
+        && (isChangedStatusC2
+         || isSwitchReady)
+        && 1 != currentUN->getMetaEntity()
+        && -1 != typeMsgC2
+        && 6 != typeMsgC2
+        && currentUN->getControl()) {
+            JourEntity msg = prepareMsg;
+            // следует записать сообщение
+            // заполняем поля сообщения
+            msg.setComment(commentMsgC2);
+            msg.setType(typeMsgC2);
+            currentUN->done=true;
+            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+            wasSendAbonentEventsAndStates = false;
+
+            if(23 == typeMsgC2) {
+                SoundAdjuster::playAlarm();
             }
+
+            if(1 == currentUN->getAlarmMsgOn() && (13 == msg.getType() || 23 == msg.getType())) {
+                MessageBoxServer::showAttentionJourMsg(msg);
+            }
+        }
+        // запись тревога/норма/неисправность ЧЭ2 <--
+
+        if(5 == typeMsgC1
+        && 6 == typeMsgC2) {
+            commentMsg = QObject::tr("Норма");
+            typeMsg = 1;
+            currentPublishedStateIsNorm = true;
+        }
     } else if(0 == swpCurrent.isReady()) {
         commentMsg = QObject::tr("Неопределенное состояние");
         typeMsg = 0;
-        currentUN->setPublishedState(0);
+//        currentUN->setPublishedState(0);
     }
     if(isWakeUp || isFirstWakeUp) {
         commentMsg += " (начальное состояние)";
@@ -374,10 +409,6 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
     if((isWakeUp
      || isFirstWakeUp
      || isSwitchReady
-        || 12 == currentUN->getPublishedState()
-        || 13 == currentUN->getPublishedState()
-        || 22 == currentUN->getPublishedState()
-        || 23 == currentUN->getPublishedState()
      || currentUN->getPublishedState() != previousUN->getPublishedState())
     && (isChangedStatus
      || isSwitchReady)

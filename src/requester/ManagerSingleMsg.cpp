@@ -17,7 +17,9 @@ void ManagerSingleMsg::setAccept(const std::function<void ()> &value)
 
 void ManagerSingleMsg::callAccept()
 {
-    if(13 == target->getPublishedState()) {
+    if(13 == target->getPublishedState()
+    && TypeUnitNodeEnum::DD_SOTA != target->getType()
+    && TypeUnitNodeEnum::DD_T4K_M != target->getType()) {
         target->setPublishedState(0);
         target->updDoubl();
     }

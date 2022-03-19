@@ -230,12 +230,19 @@ bool ProcessingStateWord0x32T4KBOD::processing(const StateWord &data, const QSha
         currentUN->setPublishedState(20);
         currentUN->setClearedAlarm(20);
     } else if(1 == swpCurrent.isReady()
-           && !swpCurrentYIsWasAlarm
-           && (swpCurrentYIsWasAlarm != swpPreviousYIsWasAlarm
-            || isSwitchReady)) {
-//        commentMsg = QObject::tr("Норма");
-//        typeMsg = 1;
+              && 0 == swpCurrent.isWasOpened()
+              && (swpCurrent.isWasOpened() != swpPrevious.isWasOpened()
+               || isSwitchReady)) {
+        commentMsg = QObject::tr("Норма");
+        typeMsg = 1;
         currentUN->setPublishedState(1);
+//    } else if(1 == swpCurrent.isReady()
+//           && !swpCurrentYIsWasAlarm
+//           && (swpCurrentYIsWasAlarm != swpPreviousYIsWasAlarm
+//            || isSwitchReady)) {
+////        commentMsg = QObject::tr("Норма");
+////        typeMsg = 1;
+//        currentUN->setPublishedState(1);
     } else if(0 == swpCurrent.isReady()) {
 //        commentMsg = QObject::tr("Неопределенное состояние");
 //        typeMsg = 0;

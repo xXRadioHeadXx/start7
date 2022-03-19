@@ -463,12 +463,12 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                     }
                 } else if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()) {
                     auto reciver = TopologyService::findReciver(selUN);
-                    reciver->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                    reciver->setNeededStateWordType(reciver->getDefaultNeededStateWordType());
                     reciver->leftoversCounter.counter = 0;
                     reciver->leftoversCounter.divider = 1;
                  } else if(TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()) {
                     auto reciver = TopologyService::findReciver(selUN);
-                    reciver->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                    reciver->setNeededStateWordType(reciver->getDefaultNeededStateWordType());
                     reciver->leftoversCounter.counter = 0;
                     reciver->leftoversCounter.divider = 1;
                  } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
@@ -489,7 +489,7 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                         reciver->leftoversCounter.divider = 2;
                         reciver->setInterrogationUN(selUN);
                     } else {
-                        reciver->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                        reciver->setNeededStateWordType(reciver->getDefaultNeededStateWordType());
                         reciver->leftoversCounter.counter = 0;
                         reciver->leftoversCounter.divider = 1;
                     }
@@ -529,7 +529,7 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                 reciver->leftoversCounter.divider = 2;
                 reciver->setInterrogationUN(selUN);
             } else {
-                reciver->setNeededStateWordType(selUN->getParentUN()->getDefaultNeededStateWordType());
+                reciver->setNeededStateWordType(reciver->getDefaultNeededStateWordType());
                 reciver->leftoversCounter.counter = 0;
                 reciver->leftoversCounter.divider = 1;
             }
