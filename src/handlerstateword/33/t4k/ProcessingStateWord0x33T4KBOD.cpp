@@ -232,6 +232,7 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
         currentUN->setPublishedState(20);
         reciverBOD->setClearedAlarm(20);
     } else if(1 == swpCurrent.isReady()
+           && 1 != currentUN->getPublishedState()
            && 0 == swpCurrent.isWasOpened()
            && (swpCurrent.isWasOpened() != swpPrevious.isWasOpened()
             || isSwitchReady)) {

@@ -1404,21 +1404,21 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
     if(1 == swp.isReady()) {
         setCellTextBackgroundColorForegroundBold( table, 1, 1, "Да <1>", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isReady()) {
-        setCellTextBackgroundColorForegroundBold( table, 1, 1, "Нет [0]", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        setCellTextBackgroundColorForegroundBold( table, 1, 1, "Нет [0]", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    for(int i = 0, n = 4; i < n; i++) {
+    for(int i = 1, n = 4; i <= n; i++) {
         //"Вход \"Тревога Уч.%1\""
         if(1 == swp.y(i).isInAlarm()) {
-            setCellTextBackgroundColorForegroundBold( table, 2 + i, 1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+            setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         } else if(0 == swp.y(i).isInAlarm()) {
-            setCellTextBackgroundColorForegroundBold( table, 2 + i, 1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+            setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         }
         //"Тревога Уч.%1 было"
         if(1 == swp.y(i).isWasAlarm()) {
-            setCellTextBackgroundColorForegroundBold( table, 6 + i, 1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+            setCellTextBackgroundColorForegroundBold( table, 5 + i, 1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         } else if(0 == swp.y(i).isWasAlarm()) {
-            setCellTextBackgroundColorForegroundBold( table, 6 + i, 1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+            setCellTextBackgroundColorForegroundBold( table, 5 + i, 1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         }
     }
 
@@ -1788,7 +1788,7 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
     if(1 == swp.isReady()) {
         setCellTextBackgroundColorForegroundBold( table, 1, 1, "<1>", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isReady()) {
-        setCellTextBackgroundColorForegroundBold( table, 1, 1, "[0]", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        setCellTextBackgroundColorForegroundBold( table, 1, 1, "[0]", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
     for(int i = 1, n = 4; i <= n; i++) {

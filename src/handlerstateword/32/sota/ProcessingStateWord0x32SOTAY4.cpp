@@ -157,8 +157,8 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
         typeMsg = 1;
         currentUN->setPublishedState(1);
     } else if(0 == swpCurrent.isReady()) {
-        commentMsg = QObject::tr("Неопределенное состояние");
-        typeMsg = 0;
+//        commentMsg = QObject::tr("Неопределенное состояние");
+//        typeMsg = 0;
         currentUN->setPublishedState(0);
     }
 //    if(isWakeUp || isFirstWakeUp) {

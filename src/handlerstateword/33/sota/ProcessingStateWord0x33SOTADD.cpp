@@ -335,8 +335,8 @@ bool ProcessingStateWord0x33SOTADD::processing(const StateWord &data, const QSha
             commentMsg = "";
             // запись тревога/норма/неисправность Ф2 <--
     } else if(0 == swpCurrent.isReady()) {
-        commentMsg = QObject::tr("Неопределенное состояние");
-        typeMsg = 0;
+//        commentMsg = QObject::tr("Неопределенное состояние");
+//        typeMsg = 0;
         currentUN->setPublishedState(0);
     }
 //    if(isWakeUp || isFirstWakeUp) {
