@@ -426,7 +426,8 @@ public:
         && TypeUnitNodeEnum::RLM_C != getType()
         && TypeUnitNodeEnum::RLM_KRL != getType()
         && TypeUnitNodeEnum::TG_Base != getType()
-        && TypeUnitNodeEnum::BOD_T4K_M != getType())
+        && TypeUnitNodeEnum::BOD_T4K_M != getType()
+        && TypeUnitNodeEnum::BOD_SOTA != getType())
             return false;
 
         const auto& hostSender = QHostAddress(udpAddress);

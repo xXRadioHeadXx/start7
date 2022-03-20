@@ -143,6 +143,10 @@ int MultiUNStatusConnectRequester::optimalTimeIntervalRequest(QSharedPointer<Uni
         for(const auto& cun : as_const(TopologyService::findChild(un))) {
             udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
         }
+    } else if(TypeUnitNodeEnum::BOD_SOTA == un->getType()) {
+        for(const auto& cun : as_const(TopologyService::findChild(un))) {
+            udpTimeout = qMax(udpTimeout, cun->getUdpTimeout());
+        }
     } else {
         udpTimeout = qMax(udpTimeout, un->getUdpTimeout());
     }
@@ -201,7 +205,8 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
     || TypeUnitNodeEnum::RLM_KRL == currentTrackedUN()->getType()
 //    || TypeUnitNode::TG == currentTrackedUN()->getType()
     || TypeUnitNodeEnum::TG_Base == currentTrackedUN()->getType()
-    || TypeUnitNodeEnum::BOD_T4K_M == currentTrackedUN()->getType()) {
+    || TypeUnitNodeEnum::BOD_T4K_M == currentTrackedUN()->getType()
+    || TypeUnitNodeEnum::BOD_SOTA == currentTrackedUN()->getType()) {
 
         if(!currentTrackedUN()->getListManagersSingleMsg().isEmpty()) {
             auto headMSMsg = currentTrackedUN()->getFirstManagerSingleMsg();

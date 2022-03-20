@@ -58,6 +58,7 @@ DataQueueItem::DataQueueItem(const QByteArray data
 DataQueueItem::DataQueueItem(const DataQueueItem &parent)
 {
     m_data = parent.data();
+    m_preamble = parent.preamble();
     m_portIndex = parent.portIndex();
     m_address = parent.address();
     m_port = parent.port();
@@ -66,6 +67,7 @@ DataQueueItem::DataQueueItem(const DataQueueItem &parent)
 DataQueueItem::DataQueueItem(DataQueueItem &&parent)
 {
     m_data = parent.data();
+    m_preamble = parent.preamble();
     m_portIndex = parent.portIndex();
     m_address = parent.address();
     m_port = parent.port();
@@ -93,6 +95,7 @@ bool DataQueueItem::isValid() {return !data().isEmpty() && !address().isNull() &
 
 DataQueueItem& DataQueueItem::operator=(const DataQueueItem &right) {
     m_data = right.data();
+    m_preamble = right.preamble();
     m_portIndex = right.portIndex();
     m_address = right.address();
     m_port = right.port();
@@ -102,6 +105,7 @@ DataQueueItem& DataQueueItem::operator=(const DataQueueItem &right) {
 
 DataQueueItem& DataQueueItem::operator=(DataQueueItem&& right) {
     m_data = right.data();
+    m_preamble = right.preamble();
     m_portIndex = right.portIndex();
     m_address = right.address();
     m_port = right.port();
@@ -1030,9 +1034,9 @@ DataQueueItem DataQueueItem::fillSpecifyingSettingsBOD0x20(DataQueueItem &item, 
     item.setData(DataQueueItem::makeSpecifyingSettingsBOD0x20(un));
     if(!un.isNull()
     && un->isNeedsPreamble()) {
-        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 3));
+        item.setPreamble(QByteArray().fill(static_cast<uint8_t>(0xFF), 5));
     }
-    item.setSpecialSkipTimeInterval(300);
+    item.setSpecialSkipTimeInterval(500);
     item.setSpecialSkipTimeCount(2);
     return item;
 }
@@ -1134,16 +1138,22 @@ QByteArray DataQueueItem::makeSpecifyingSettingsBOD0x20(const QSharedPointer<Uni
 
     uint8_t ddNumY4_2 = static_cast<uint8_t>(0x00);
     uint8_t ddNumY4_4 = static_cast<uint8_t>(0x00);
-    for(const auto& un : as_const(TopologyService::findChildByType(TypeUnitNodeEnum::DD_T4K_M, bod))) {
+
+    int targetTypeDD = 0;
+    if(TypeUnitNodeEnum::BOD_T4K_M == bod->getType()) {
+        targetTypeDD = TypeUnitNodeEnum::DD_T4K_M;
+    } else if(TypeUnitNodeEnum::BOD_SOTA == bod->getType()) {
+        targetTypeDD = TypeUnitNodeEnum::DD_SOTA;
+    }
+
+    for(const auto& un : as_const(TopologyService::findChildByType(targetTypeDD, bod))) {
         const auto index = makeIndex(un) + (makeDisplacement(un) * makeDisplacementCoefficient(un)) + 6;
         data[index] = static_cast<uint8_t>(data.at(index)) | makeByteMask(un);
-        if(static_cast<uint8_t>(0x00) == ddNumY4_2
-        && 2 == getY4(un)) {
-            ddNumY4_2 = getDDNum(un);
+        if(2 == getY4(un)) {
+            ddNumY4_2 = (0 == ddNumY4_2) ? getDDNum(un) : std::min(ddNumY4_2, getDDNum(un));
         }
-        if(static_cast<uint8_t>(0x00) == ddNumY4_4
-        && 4 == getY4(un)) {
-            ddNumY4_4 = getDDNum(un);
+        if(4 == getY4(un)) {
+            ddNumY4_4 = (0 == ddNumY4_4) ? getDDNum(un) : std::min(ddNumY4_4, getDDNum(un));
         }
     }
 

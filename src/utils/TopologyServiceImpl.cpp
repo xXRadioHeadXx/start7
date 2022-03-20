@@ -104,6 +104,15 @@ void TopologyServiceImpl::loadTreeUnitNodes()
                 } else if(tmpUN->getDoubles().isEmpty()
                        && TypeUnitNodeEnum::DD_T4K_M == tmpUN->getType()) {
                     inclusiveDD_T4K_M(tmpUN);
+                } else if(tmpUN->getDoubles().isEmpty()
+                       && TypeUnitNodeEnum::BOD_SOTA == tmpUN->getType()) {
+                    inclusiveBOD_SOTA(tmpUN);
+                } else if(tmpUN->getDoubles().isEmpty()
+                       && TypeUnitNodeEnum::Y4_SOTA == tmpUN->getType()) {
+                    inclusiveY4_SOTA(tmpUN);
+                } else if(tmpUN->getDoubles().isEmpty()
+                       && TypeUnitNodeEnum::DD_SOTA == tmpUN->getType()) {
+                    inclusiveDD_SOTA(tmpUN);
                 } else {
 //                    qDebug() << "TopologyServiceImpl::loadTreeUnitNodes -- " << strGroup << " not insert " << tmpUN->toString();
                 }
@@ -561,6 +570,81 @@ void TopologyServiceImpl::inclusiveDD_T4K_M(QSharedPointer<UnitNode> un) {
         tmpParentUN->setPublishedState(10);
 
         inclusiveY4_T4K_M(tmpParentUN);
+    }
+
+    tmpParentUN->addChild(un);
+    un->setParentUN(tmpParentUN);
+    insertMetaRealUnitNodes(un);
+}
+
+void TopologyServiceImpl::inclusiveBOD_SOTA(QSharedPointer<UnitNode> un) {
+    un->setParentUN(un);
+    insertMetaRealUnitNodes(un);
+    linkDoubles(un);
+}
+
+void TopologyServiceImpl::inclusiveY4_SOTA(QSharedPointer<UnitNode> un) {
+    QSharedPointer<UnitNode> tmpParentUN;
+    // find reciver in meta set
+    for(auto& parentUN : as_const(listMetaRealUnitNodes)) {
+        if(parentUN->getType() == TypeUnitNodeEnum::BOD_SOTA &&
+           parentUN->getUdpAdress() == un->getUdpAdress() &&
+           parentUN->getUdpPort() == un->getUdpPort() &&
+           parentUN->getNum1() == un->getNum1()) {
+            tmpParentUN = parentUN;
+            break;
+        }
+    }
+    // create reciver
+    if(tmpParentUN.isNull()){
+        tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNodeEnum::BOD_SOTA);
+        tmpParentUN->setType(TypeUnitNodeEnum::BOD_SOTA);
+        tmpParentUN->setUdpAdress(un->getUdpAdress());
+        tmpParentUN->setUdpPort(un->getUdpPort());
+        tmpParentUN->setName("MetaBOD_SOTA_" + QString::number(un->getNum1()));
+        tmpParentUN->setNum1(un->getNum1());
+        tmpParentUN->setControl(false);
+        tmpParentUN->setMetaEntity(1);
+
+        tmpParentUN->setPublishedState(10);
+
+        inclusiveBOD_SOTA(tmpParentUN);
+    }
+
+    tmpParentUN->addChild(un);
+    un->setParentUN(tmpParentUN);
+    insertMetaRealUnitNodes(un);
+    linkDoubles(un);
+}
+
+void TopologyServiceImpl::inclusiveDD_SOTA(QSharedPointer<UnitNode> un) {
+    QSharedPointer<UnitNode> tmpParentUN;
+    // find reciver in meta set
+    for(auto& parentUN : as_const(listMetaRealUnitNodes)) {
+        if(parentUN->getType() == TypeUnitNodeEnum::Y4_SOTA &&
+           parentUN->getUdpAdress() == un->getUdpAdress() &&
+           parentUN->getUdpPort() == un->getUdpPort() &&
+           parentUN->getNum1() == un->getNum1() &&
+           (parentUN->getNum2() / 100) == (un->getNum2() / 100)) {
+            tmpParentUN = parentUN;
+            break;
+        }
+    }
+    // create reciver
+    if(tmpParentUN.isNull()) {
+        tmpParentUN = UnitNodeFactory::makeShare(TypeUnitNodeEnum::Y4_SOTA);
+        tmpParentUN->setType(TypeUnitNodeEnum::Y4_SOTA);
+        tmpParentUN->setUdpAdress(un->getUdpAdress());
+        tmpParentUN->setUdpPort(un->getUdpPort());
+        tmpParentUN->setName("MetaY4_SOTA_" + QString::number(un->getNum1()) + "_" + QString::number(un->getNum2()));
+        tmpParentUN->setNum1(un->getNum1());
+        tmpParentUN->setNum2((un->getNum2() / 100) * 100);
+        tmpParentUN->setControl(false);
+        tmpParentUN->setMetaEntity(1);
+
+        tmpParentUN->setPublishedState(10);
+
+        inclusiveY4_SOTA(tmpParentUN);
     }
 
     tmpParentUN->addChild(un);

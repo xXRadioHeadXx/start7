@@ -161,9 +161,9 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
         typeMsg = 0;
         currentUN->setPublishedState(0);
     }
-    if(isWakeUp || isFirstWakeUp) {
-        commentMsg += " (начальное состояние)";
-    }
+//    if(isWakeUp || isFirstWakeUp) {
+//        commentMsg += " (начальное состояние)";
+//    }
 
     bool wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
     Q_UNUSED(wasSendAbonentEventsAndStates)

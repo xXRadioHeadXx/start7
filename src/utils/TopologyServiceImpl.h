@@ -19,6 +19,10 @@ private:
     void inclusiveBOD_T4K_M(QSharedPointer<UnitNode> un);
     void inclusiveY4_T4K_M(QSharedPointer<UnitNode> un);
     void inclusiveDD_T4K_M(QSharedPointer<UnitNode> un);
+    void inclusiveBOD_SOTA(QSharedPointer<UnitNode> un);
+    void inclusiveY4_SOTA(QSharedPointer<UnitNode> un);
+    void inclusiveDD_SOTA(QSharedPointer<UnitNode> un);
+
 
     bool inclusiveMetaBLIP();
     bool inclusiveMetaBLIPSD();

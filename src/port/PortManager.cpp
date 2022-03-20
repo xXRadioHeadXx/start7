@@ -389,7 +389,8 @@ void PortManager::startStatusRequest(){
         || TypeUnitNodeEnum::RLM_C == un->getType()
         || TypeUnitNodeEnum::RLM_KRL == un->getType()
         || TypeUnitNodeEnum::TG_Base == un->getType()
-        || TypeUnitNodeEnum::BOD_T4K_M == un->getType())) {
+        || TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+        || TypeUnitNodeEnum::BOD_SOTA == un->getType())) {
             tmpSet.insert(un);
         } else {
             auto rcvr = TopologyService::findReciver(un);
@@ -399,7 +400,8 @@ void PortManager::startStatusRequest(){
             || TypeUnitNodeEnum::RLM_C == rcvr->getType()
             || TypeUnitNodeEnum::RLM_KRL == rcvr->getType()
             || TypeUnitNodeEnum::TG_Base == rcvr->getType()
-            || TypeUnitNodeEnum::BOD_T4K_M == rcvr->getType())) {
+            || TypeUnitNodeEnum::BOD_T4K_M == rcvr->getType()
+            || TypeUnitNodeEnum::BOD_SOTA == un->getType())) {
                 tmpSet.insert(rcvr);
             }
         }
@@ -415,7 +417,8 @@ void PortManager::startStatusRequest(){
         || TypeUnitNodeEnum::RLM_C == un->getType()
         || TypeUnitNodeEnum::RLM_KRL == un->getType()
         || TypeUnitNodeEnum::TG_Base == un->getType()
-        || TypeUnitNodeEnum::BOD_T4K_M == un->getType()) {
+        || TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+        || TypeUnitNodeEnum::BOD_SOTA == un->getType()) {
 //            qDebug() << "PortManager::startStatusRequest() -- un" << un->toString();
             AbstractPort * ptrPort = nullptr;
             QPair<QString, QString> unIpPort(un->getUdpAdress(), QString::number(un->getUdpPort()));
@@ -468,7 +471,8 @@ void PortManager::requestResetFlags(QSharedPointer<UnitNode>  target) {
             || TypeUnitNodeEnum::RLM_C == un->getType()
             || TypeUnitNodeEnum::RLM_KRL == un->getType()
             || TypeUnitNodeEnum::TG_Base == un->getType()
-            || TypeUnitNodeEnum::BOD_T4K_M == un->getType())
+            || TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+            || TypeUnitNodeEnum::BOD_SOTA == un->getType())
                 lsTmp.insert(un);
         }
     } else if(!target.isNull()) {
@@ -497,6 +501,7 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
             || TypeUnitNodeEnum::RLM_KRL == un->getType()
             || TypeUnitNodeEnum::TG_Base == un->getType()
             || TypeUnitNodeEnum::BOD_T4K_M == un->getType()
+            || TypeUnitNodeEnum::BOD_SOTA == un->getType()
                     /* или датчик */) {
                 if(isAuto && !fromAbonent && 10 == un->getPublishedState())
                     continue;
@@ -1280,7 +1285,8 @@ void PortManager::manageOverallReadQueue()
                        (TypeUnitNodeEnum::TG_Base == static_cast<uint8_t>(scr->getUnReciver()->getType())
                      || TypeUnitNodeEnum::RLM_C == static_cast<uint8_t>(scr->getUnReciver()->getType())
                      || TypeUnitNodeEnum::RLM_KRL == static_cast<uint8_t>(scr->getUnReciver()->getType())
-                     || TypeUnitNodeEnum::BOD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType()))
+                     || TypeUnitNodeEnum::BOD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType())
+                     || TypeUnitNodeEnum::BOD_SOTA == static_cast<uint8_t>(scr->getUnReciver()->getType()))
                     && static_cast<uint8_t>(scr->getUnReciver()->getNum1()) == static_cast<uint8_t>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
@@ -1296,7 +1302,8 @@ void PortManager::manageOverallReadQueue()
                 for(auto scr : as_const(ContainerRequesters::getLsSCR())) {
                     if(scr->getIpPort() == tmpPair
                     && (TypeUnitNodeEnum::TG_Base == static_cast<uint8_t>(scr->getUnReciver()->getType())
-                     || TypeUnitNodeEnum::BOD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType()))
+                     || TypeUnitNodeEnum::BOD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType())
+                     || TypeUnitNodeEnum::BOD_SOTA == static_cast<uint8_t>(scr->getUnReciver()->getType()))
                     && static_cast<uint8_t>(scr->getUnReciver()->getNum1()) == static_cast<uint8_t>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
@@ -1315,7 +1322,10 @@ void PortManager::manageOverallReadQueue()
                     && (TypeUnitNodeEnum::TG_Base == static_cast<uint8_t>(scr->getUnReciver()->getType())
                      || TypeUnitNodeEnum::BOD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType())
                      || TypeUnitNodeEnum::Y4_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType())
-                     || TypeUnitNodeEnum::DD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType()))
+                     || TypeUnitNodeEnum::DD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType())
+                     || TypeUnitNodeEnum::BOD_SOTA == static_cast<uint8_t>(scr->getUnReciver()->getType())
+                     || TypeUnitNodeEnum::Y4_SOTA == static_cast<uint8_t>(scr->getUnReciver()->getType())
+                     || TypeUnitNodeEnum::DD_SOTA == static_cast<uint8_t>(scr->getUnReciver()->getType()))
                     && static_cast<uint8_t>(scr->getUnReciver()->getNum1()) == static_cast<uint8_t>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
@@ -1331,7 +1341,8 @@ void PortManager::manageOverallReadQueue()
                 for(auto scr : as_const(ContainerRequesters::getLsSCR())) {
                     if(scr->getIpPort() == tmpPair
                     && (TypeUnitNodeEnum::TG_Base == static_cast<uint8_t>(scr->getUnReciver()->getType())
-                     || TypeUnitNodeEnum::BOD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType()))
+                     || TypeUnitNodeEnum::BOD_T4K_M == static_cast<uint8_t>(scr->getUnReciver()->getType())
+                     || TypeUnitNodeEnum::BOD_SOTA == static_cast<uint8_t>(scr->getUnReciver()->getType()))
                     && static_cast<uint8_t>(scr->getUnReciver()->getNum1()) == static_cast<uint8_t>(itm.data().at(2))) {
                         scr->resetBeatCount();
                         break;
@@ -1490,7 +1501,8 @@ void PortManager::manageOverallReadQueue()
                 for(auto& sender : TopologyService::getSortedMetaRealUnitNodes()) {
                     if(sender->equale(hostSender, num1Sender)) {
                         auto reciver = TopologyService::findReciver(sender);
-                        if(TypeUnitNodeEnum::BOD_T4K_M == reciver->getType()
+                        if((TypeUnitNodeEnum::BOD_T4K_M == reciver->getType()
+                         || TypeUnitNodeEnum::BOD_SOTA == reciver->getType())
                         && 0x20 == reciver->getNeededStateWordType()) {
                             reciver->setDefaultNeededStateWordType(0x2E);
                             reciver->setNeededStateWordType(0x2E);

@@ -416,7 +416,10 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
         || TypeUnitNodeEnum::SSOI_IU_BL_IP == selUN->getType()
         || TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()
         || TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()
-        || TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
+        || TypeUnitNodeEnum::DD_T4K_M == selUN->getType()
+        || TypeUnitNodeEnum::BOD_SOTA == selUN->getType()
+        || TypeUnitNodeEnum::Y4_SOTA == selUN->getType()
+        || TypeUnitNodeEnum::DD_SOTA == selUN->getType()) {
             if(!selUN->getParentUN().isNull()) {
                 if(TypeUnitNodeEnum::TG_Base == selUN->getParentUN()->getType()) {
                     if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
@@ -461,17 +464,20 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                         selUN->getParentUN()->leftoversCounter.counter = 0;
                         selUN->getParentUN()->leftoversCounter.divider = 1;
                     }
-                } else if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()) {
+                } else if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()
+                       || TypeUnitNodeEnum::BOD_SOTA == selUN->getType()) {
                     auto reciver = TopologyService::findReciver(selUN);
                     reciver->setNeededStateWordType(reciver->getDefaultNeededStateWordType());
                     reciver->leftoversCounter.counter = 0;
                     reciver->leftoversCounter.divider = 1;
-                 } else if(TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()) {
+                 } else if(TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()
+                        || TypeUnitNodeEnum::Y4_SOTA == selUN->getType()) {
                     auto reciver = TopologyService::findReciver(selUN);
                     reciver->setNeededStateWordType(reciver->getDefaultNeededStateWordType());
                     reciver->leftoversCounter.counter = 0;
                     reciver->leftoversCounter.divider = 1;
-                 } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
+                 } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()
+                        || TypeUnitNodeEnum::DD_SOTA == selUN->getType()) {
                     auto reciver = TopologyService::findReciver(selUN);
                     if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
                         reciver->setNeededStateWordType(0x2C2D2E); // 32 & 33
@@ -504,14 +510,17 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
             selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
             selUN->leftoversCounter.counter = 0;
             selUN->leftoversCounter.divider = 1;
-        } else if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType() ||
-                  TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()) {
+        } else if(TypeUnitNodeEnum::BOD_T4K_M == selUN->getType()
+               || TypeUnitNodeEnum::Y4_T4K_M == selUN->getType()
+               || TypeUnitNodeEnum::BOD_SOTA == selUN->getType()
+               || TypeUnitNodeEnum::Y4_SOTA == selUN->getType()) {
             auto reciver = TopologyService::findReciver(selUN);
             selUN->setNeededStateWordType(selUN->getDefaultNeededStateWordType());
             selUN->leftoversCounter.counter = 0;
             selUN->leftoversCounter.divider = 1;
             reciver->setInterrogationUN(QSharedPointer<UnitNode>(nullptr));
-        } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
+        } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()
+               || TypeUnitNodeEnum::DD_SOTA == selUN->getType()) {
             auto reciver = TopologyService::findReciver(selUN);
             if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
                 reciver->setNeededStateWordType(0x2C2D2E); // 32 & 33

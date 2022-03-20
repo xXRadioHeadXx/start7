@@ -228,6 +228,44 @@ void ProcessDKWaiter::init() {
         addLsTrackedUN(getUnReciver());
         getUnReciver()->setIsAutoDkInvolved(isAuto);
         getUnReciver()->setDkInvolved(true);
+    } else if(TypeUnitNodeEnum::BOD_SOTA == getUnReciver()->getType()) {
+        const auto& swp32 = getUnReciver()->swpT4KBODType0x32();
+        const auto& swp33 = getUnReciver()->swpT4KBODType0x32();
+
+        for(const auto &y4 : {1,2,3,4}) {
+            if(swp32.isNull()
+            && swp32.isNull()) {
+                getUnReciver()->setDkStatus(DKCiclStatus::DKWrong);
+                qDebug() << "DKCiclStatus::DKWrong ";
+                break;
+            } else if((!swp32.isNull()
+                    && (swp32.cdate() > swp33.cdate()))
+                   && (0 == swp32.isReady()
+                     || 1 == swp32.isInOpened()
+                     || 1 == swp32.isWasOpened()
+                     || 1 == swp32.y(y4).isInAlarm()
+                     || 1 == swp32.y(y4).isWasAlarm())) {
+                getUnReciver()->setDkStatus(DKCiclStatus::DKWrong);
+                qDebug() << "DKCiclStatus::DKWrong 32 " << swp32.byteWord().toHex();
+                break;
+            } else if((!swp33.isNull()
+                    && (swp33.cdate() > swp32.cdate()))
+                   && (0 == swp33.isReady()
+                    || 1 == swp33.isInOpened()
+                    || 1 == swp33.isWasOpened()
+                    || 1 == swp33.y(y4).isInAlarm()
+                    || 1 == swp33.y(y4).isWasAlarm())) {
+                getUnReciver()->setDkStatus(DKCiclStatus::DKWrong);
+                qDebug() << "DKCiclStatus::DKWrong 33 " << swp33.byteWord().toHex();
+                break;
+            } else {
+                getUnReciver()->setDkStatus(DKCiclStatus::DKReady);
+            }
+        }
+
+        addLsTrackedUN(getUnReciver());
+        getUnReciver()->setIsAutoDkInvolved(isAuto);
+        getUnReciver()->setDkInvolved(true);
     }
 
     setTimeIntervalWaiteFirst(20'000);
