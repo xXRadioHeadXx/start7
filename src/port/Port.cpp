@@ -99,7 +99,7 @@ void Port::write(const DataQueueItem &data, bool /*dbIns*/) {
     switch (getProtocol()) {
     case AbstractPort::UDP:
         if (m_ptrSocket) {
-//            //qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
+            qDebug() << "write i(" << data.portIndex() << ") s(" << data.dataToWrite().size() << ") " << data.address()  << ":" << data.port() << " " << data.dataToWrite().toHex();
             const auto& socket = dynamic_cast<QUdpSocket *>(m_ptrSocket.data());
             if(nullptr != socket)
                 socket->writeDatagram(data.dataToWrite(), data.address(), data.port());
@@ -108,7 +108,7 @@ void Port::write(const DataQueueItem &data, bool /*dbIns*/) {
         break;
     case AbstractPort::TCP:
         if (m_ptrSocket) {
-//            //qDebug() << "write i(" << data.portIndex() << ") s(" << data.data().size() << ") " << data.data().toHex();
+//            //qDebug() << "write i(" << data.portIndex() << ") s(" << data.dataToWrite().size() << ") " << data.dataToWrite().toHex();
             const auto& socket = dynamic_cast<QTcpSocket *>(m_ptrSocket.data());
             if(nullptr != socket)
                 socket->write(data.dataToWrite());
