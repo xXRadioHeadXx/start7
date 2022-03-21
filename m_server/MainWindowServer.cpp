@@ -659,6 +659,11 @@ void MainWindowServer::treeView_selectionChanged(const QItemSelection &selected,
                                      + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
                                      );
     } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType() && 1 == selUN->getBazalt()) {//БЛ-IP УЗ: СД:{Num2} + ИУ:{Num2} Кан:{UdpAdress}::{UdpPort}
+
+
+
+
+
         ui->labelSelectedUN->setText(QString("ССОИ БЛ-IP УЗ:  СД:%1 + ИУ:%1").arg(sel->getNum2())
                                      + "  "
                                      + QString("Адрес:%1").arg(sel->getNum1())
@@ -669,6 +674,13 @@ void MainWindowServer::treeView_selectionChanged(const QItemSelection &selected,
                                      + QVariant(sel->getUdpPort()).toString()
                                      + QString(" %1").arg(Utils::outTypeToString(sel->getOutType())));
     } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType()) {
+
+        QString sd=QVariant(sel->getNum2()).toString();
+        if(sel->getNum2()==9)
+            sd="Вскрытие";
+        else
+            sd=QVariant(sel->getNum2()).toString();
+
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType())
                                      + "  "
                                      + QString("Адрес:%1").arg(sel->getNum1())
@@ -680,7 +692,7 @@ void MainWindowServer::treeView_selectionChanged(const QItemSelection &selected,
                                      + "  "
                                      + Utils::typeUNToStr(sel->getType())
                                      + ":"
-                                     + QVariant(sel->getNum2()).toString()
+                                     + sd
                                      + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
                                      );
     } else if(TypeUnitNodeEnum::SSOI_IU_BL_IP == selUN->getType()) {
