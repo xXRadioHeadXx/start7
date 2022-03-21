@@ -19,10 +19,16 @@
 #include "swptg/SWPTGType0x34.h"
 #include "swptg/SWPTGSubType0x34.h"
 #include "swpblip/SWPBLIPType0x42.h"
+
 #include "swpt4k/SWPT4KBODType0x32.h"
 #include "swpt4k/SWPT4KY4Type0x32.h"
 #include "swpt4k/SWPT4KDDType0x32.h"
 #include "swpt4k/SWPT4KDDCType0x32.h"
+
+#include "swpsota/SWPSOTABODType0x32.h"
+#include "swpsota/SWPSOTAY4Type0x32.h"
+#include "swpsota/SWPSOTADDType0x32.h"
+#include "swpsota/SWPSOTADDCType0x32.h"
 
 #include "swpt4k/SWPT4KBODType0x33.h"
 #include "swpt4k/SWPT4KY4Type0x33.h"
@@ -1624,7 +1630,7 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
     // fill <--
 }
 
-void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
+void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     // prepare -->
     table->setRowCount(20);
@@ -1647,24 +1653,13 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
     table->setColumnWidth(2, 190);
     table->setColumnWidth(3, 90);
 
-
-    for(int j = 4, m = 53; j < m; j++) {
-        table->horizontalHeader()->setSectionResizeMode(j, QHeaderView::Fixed);
-        table->setColumnWidth(j, 50);
-    }
-
-    for(int j = 0, m = 53; j < m; j++) {
-        for(int i = 0, n = 20; i < n; i++) {
-            setCellColor( table, i, j, cellGray);
-            setCellTextWithForeground( table, i, j, "");
-        }
-    }
-
     setCellTextBackgroundColorForegroundBold( table, 0,0, (QObject::tr("Параметр")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 0,1, (QObject::tr("Значение")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 0,1, (QObject::tr("Зн-е")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table, 0,2, (QObject::tr("Параметр")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     for(int j = 3, m = table->columnCount(); j < m; j++) {
         setCellTextBackgroundColorForegroundBold( table, 0,j, (QObject::tr("")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+        table->horizontalHeader()->setSectionResizeMode(j, QHeaderView::Fixed);
+        table->setColumnWidth(j, 10);
     }
 
     setCellTextBackgroundColorForegroundBold( table, 1,0, (QObject::tr("Готовность БОД")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
@@ -1702,6 +1697,153 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
     // prepare <--
 
     // fill -->
+    const auto& swp = selUN->swpSOTABODType0x32();
+
+    //"Готовность БОД"
+    if(1 == swp.isReady()) {
+        setCellTextBackgroundColorForegroundBold( table, 1, 1, "<1>", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isReady()) {
+        setCellTextBackgroundColorForegroundBold( table, 1, 1, "[0]", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    for(int i = 1, n = 4; i <= n; i++) {
+        //"Вход \"Тревога Уч.%1\""
+        if(1 == swp.y(i).isInAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(i).isInAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+        //"Тревога Уч.%1 было"
+        if(1 == swp.y(i).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 5 + i, 1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(i).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 5 + i, 1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+    }
+
+    //"Выход \"ДК\""
+    if(1 == swp.isExistDK()) {
+        setCellTextBackgroundColorForegroundBold( table, 10,1, "<1>", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isExistDK()) {
+        setCellTextBackgroundColorForegroundBold( table, 10,1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Состояние \"ДК\" было"
+    if(1 == swp.isWasDK()) {
+        setCellTextBackgroundColorForegroundBold( table, 11,1, "<1>", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isWasDK()) {
+        setCellTextBackgroundColorForegroundBold( table, 11,1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Выход \"Вскрытие БО\""
+    if(1 == swp.isInOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 12,1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isInOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 12,1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Вскрытие БО было"
+    if(1 == swp.isWasOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 13,1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isWasOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 13,1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    for(int dd = 1, nDd = 50; dd < nDd; dd++) {
+        //Уч 1-2 ДД 1-50 -->
+        //"Сработка ДД было"
+        if(1 == swp.y(1).dd(dd).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 3, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(1).dd(dd).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 3, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+
+        //"Обрыв связи с ДД есть"
+        if(1 == swp.y(1).dd(dd).isInCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 4, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(1).dd(dd).isInCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 4, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+
+        //"Обрыв связи с ДД был"
+        if(1 == swp.y(1).dd(dd).isWasCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 5, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(1).dd(dd).isWasCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 5, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+        //Уч 1-2 ДД 1-50 <--
+
+        //Уч 1-2 ДД 51-100 -->
+        //"Сработка ДД было"
+        if(1 == swp.y(1).dd(dd + 50).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 7, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(1).dd(dd + 50).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 7, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+
+        //"Обрыв связи с ДД есть"
+        if(1 == swp.y(1).dd(dd + 50).isInCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 8, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(1).dd(dd + 50).isInCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 8, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+
+        //"Обрыв связи с ДД был"
+        if(1 == swp.y(1).dd(dd + 50).isWasCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 9, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(1).dd(dd + 50).isWasCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 9, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+        //Уч 1-2 ДД 51-100 <--
+
+        //Уч 3-4 ДД 1-50 -->
+        //"Сработка ДД было"
+        if(1 == swp.y(3).dd(dd).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 13, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(3).dd(dd).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 13, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+
+        //"Обрыв связи с ДД есть"
+        if(1 == swp.y(3).dd(dd).isInCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 14, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(3).dd(dd).isInCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 14, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+
+        //"Обрыв связи с ДД был"
+        if(1 == swp.y(3).dd(dd).isWasCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 15, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(3).dd(dd).isWasCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 15, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+        //Уч 3-4 ДД 1-50 <--
+
+        //Уч 3-4 ДД 51-100 -->
+        //"Сработка ДД было"
+        if(1 == swp.y(3).dd(dd + 50).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 17, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(3).dd(dd + 50).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 17, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+
+        //"Обрыв связи с ДД есть"
+        if(1 == swp.y(3).dd(dd + 50).isInCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 18, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(3).dd(dd + 50).isInCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 18, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+
+        //"Обрыв связи с ДД был"
+        if(1 == swp.y(3).dd(dd + 50).isWasCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 19, dd + 2, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(3).dd(dd + 50).isWasCommunicationBreak()) {
+            setCellTextBackgroundColorForegroundBold( table, 19, dd + 2, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+        //Уч 3-4 ДД 51-100 <--
+    }
+
+
     // fill <--
 }
 
@@ -1729,15 +1871,19 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
         }
     }
 
-    setCellTextBackgroundColorForegroundBold( table, 0,0, (QObject::tr("Параметр")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 0,1, (QObject::tr("Зн-е")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 0,2, (QObject::tr("Параметр")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
     table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
     table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
-    table->setColumnWidth(0, 180);
-    table->setColumnWidth(1, 10);
-    table->setColumnWidth(2, 220);
+    table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
+
+    table->setColumnWidth(0, 185);
+    table->setColumnWidth(1, 90);
+    table->setColumnWidth(2, 190);
+    table->setColumnWidth(3, 90);
+
+    setCellTextBackgroundColorForegroundBold( table, 0,0, (QObject::tr("Параметр")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 0,1, (QObject::tr("Зн-е")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 0,2, (QObject::tr("Параметр")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     for(int j = 3, m = table->columnCount(); j < m; j++) {
         setCellTextBackgroundColorForegroundBold( table, 0,j, (QObject::tr("")), cellLightGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
         table->horizontalHeader()->setSectionResizeMode(j, QHeaderView::Fixed);
@@ -1745,7 +1891,6 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
     }
 
     setCellTextBackgroundColorForegroundBold( table, 1,0, (QObject::tr("Готовность БОД")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-
 
     for(int i = 0, n = 4; i < n; i++) {
         setCellTextBackgroundColorForegroundBold( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
