@@ -36,6 +36,10 @@
 #include "swpt4k/SWPT4KDDCType0x33.h"
 #include "swpt4k/SWPT4KDDCFType0x33.h"
 
+#include "swpsota/SWPSOTABODType0x33.h"
+#include "swpsota/SWPSOTAY4Type0x33.h"
+#include "swpsota/SWPSOTADDType0x33.h"
+#include "swpsota/SWPSOTADDFType0x33.h"
 
 Utils::Utils()
 {
@@ -1546,7 +1550,7 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
     // fill <--
 }
 
-void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> /*selUN*/)
+void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QSharedPointer<UnitNode> selUN)
 {
     // prepare -->
     table->setRowCount(14);
@@ -1578,6 +1582,8 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
     for(int i = 0, n = 14; i < n; i++) {
         for(int j = 0, m = 4; j < m; j++) {
             setCellColor( table, i, j, cellGray);
+            if(10 <= i && 3 == j)
+                continue;
             if(0 != i && 0 != j && 2 != j)
                 setCellTextWithForeground( table, i, j, "?", QBrush(QColor(0xFF, 0xFF, 0xFF)));
         }
@@ -1594,9 +1600,9 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
     setCellTextBackgroundColorForegroundBold( table, 1,0, (QObject::tr("Готовность БОД")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
 
 
-    for(int i = 0, n = 5; i < n; i++) {
-        setCellTextBackgroundColorForegroundBold( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-        setCellTextBackgroundColorForegroundBold( table, 6 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    for(int i = 1, n = 4; i <= n; i++) {
+        setCellTextBackgroundColorForegroundBold( table, 1 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+        setCellTextBackgroundColorForegroundBold( table, 5 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     }
 
     setCellTextBackgroundColorForegroundBold( table, 10,0, (QObject::tr("Выход \"ДК\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
@@ -1610,7 +1616,7 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
     setCellTextBackgroundColorForegroundBold( table,  4,2, (QObject::tr("Вскрытие ДД есть")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table,  5,2, (QObject::tr("Неисправность ДД есть")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table,  6,2, (QObject::tr("Тревога по Ф1 есть")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table,  7,2, (QObject::tr("Тревога поФ2 есть")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table,  7,2, (QObject::tr("Тревога по Ф2 есть")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table,  8,2, (QObject::tr("Опрос ДД")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table,  9,2, (QObject::tr("Уровень Сигнала")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
 
@@ -1626,7 +1632,121 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
 
 
     // prepare <--
+
     // fill -->
+    const auto& swp = selUN->swpSOTABODType0x33();
+
+    //"Готовность БОД"
+    if(1 == swp.isReady()) {
+        setCellTextBackgroundColorForegroundBold( table, 1, 1, "Да <1>", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isReady()) {
+        setCellTextBackgroundColorForegroundBold( table, 1, 1, "Нет [0]", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    for(int i = 1, n = 4; i <= n; i++) {
+        //"Вход \"Тревога Уч.%1\""
+        if(1 == swp.y(i).isInAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(i).isInAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+        //"Тревога Уч.%1 было"
+        if(1 == swp.y(i).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 5 + i, 1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        } else if(0 == swp.y(i).isWasAlarm()) {
+            setCellTextBackgroundColorForegroundBold( table, 5 + i, 1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        }
+    }
+
+    //"Выход \"ДК\""
+    if(1 == swp.isExistDK()) {
+        setCellTextBackgroundColorForegroundBold( table, 10,1, "Да <1>", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isExistDK()) {
+        setCellTextBackgroundColorForegroundBold( table, 10,1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Состояние \"ДК\" было"
+    if(1 == swp.isWasDK()) {
+        setCellTextBackgroundColorForegroundBold( table, 11,1, "Да <1>", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isWasDK()) {
+        setCellTextBackgroundColorForegroundBold( table, 11,1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Выход \"Вскрытие БО\""
+    if(1 == swp.isInOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 12,1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isInOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 12,1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Вскрытие БО было"
+    if(1 == swp.isWasOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 13,1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.isWasOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 13,1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Сработка было"
+    if(1 == swp.dd().isWasAlarm()) {
+        setCellTextBackgroundColorForegroundBold( table, 1, 3, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.dd().isWasAlarm()) {
+        setCellTextBackgroundColorForegroundBold( table, 1, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Обрыв связи с ДД есть"
+    if(1 == swp.dd().isInCommunicationBreak()) {
+        setCellTextBackgroundColorForegroundBold( table, 2, 3, "Да {1}", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.dd().isInCommunicationBreak()) {
+        setCellTextBackgroundColorForegroundBold( table, 2, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Обрыв связи с ДД был"
+    if(1 == swp.dd().isWasCommunicationBreak()) {
+        setCellTextBackgroundColorForegroundBold( table, 3, 3, "Да {1}", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.dd().isWasCommunicationBreak()) {
+        setCellTextBackgroundColorForegroundBold( table, 3, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Вскрытие ДД есть"
+    if(1 == swp.dd().isWasOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 4, 3, "Да {1}", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.dd().isWasOpened()) {
+        setCellTextBackgroundColorForegroundBold( table, 4, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Неисправность ДД есть"
+    if(1 == swp.dd().isFault()) {
+        setCellTextBackgroundColorForegroundBold( table, 5, 3, "Да {1}", cellBlue, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.dd().isFault()) {
+        setCellTextBackgroundColorForegroundBold( table, 5, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Тревога по Ф1 есть"
+    if(1 == swp.dd().f(1).isWasAlarm()) {
+        setCellTextBackgroundColorForegroundBold( table, 6, 3, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.dd().f(1).isWasAlarm()) {
+        setCellTextBackgroundColorForegroundBold( table, 6, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Тревога по Ф2 есть"
+    if(1 == swp.dd().f(2).isWasAlarm()) {
+        setCellTextBackgroundColorForegroundBold( table, 7, 3, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.dd().f(2).isWasAlarm()) {
+        setCellTextBackgroundColorForegroundBold( table, 7, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Опрос ДД"
+    if(1 == swp.dd().isInterrogation()) {
+        setCellTextBackgroundColorForegroundBold( table, 8, 3, "Да {1}", cellYellow, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    } else if(0 == swp.dd().isInterrogation()) {
+        setCellTextBackgroundColorForegroundBold( table, 8, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+    }
+
+    //"Уровень Сигнала"
+    if(-1 != swp.dd().level()) {
+        setCellTextBackgroundColorForegroundBold( table, 9, 3, (QString::number(swp.dd().level())), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), false);
+    }
+
     // fill <--
 }
 

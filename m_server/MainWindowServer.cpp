@@ -910,9 +910,12 @@ void MainWindowServer::createDiagnosticTable()
         titleDiagnostic = tr("Диагностика: Точка/Гарда");
 //        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: Точка/Гарда"));
         ui->groupBox_Diagnostics->setMaximumHeight(765);
-    } else if(TypeUnitNodeEnum::DD_SOTA == selUN->getType()
-           || TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
-        titleDiagnostic = tr("Диагностика: ДД Точка-М/Гарда, ДД Сота");
+    } else if(TypeUnitNodeEnum::DD_SOTA == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: ДД Сота");
+//        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
+        ui->groupBox_Diagnostics->setMaximumHeight(465);
+    } else if(TypeUnitNodeEnum::DD_T4K_M == selUN->getType()) {
+        titleDiagnostic = tr("Диагностика: ДД Точка-М/Гарда");
 //        ui->groupBox_Diagnostics->setTitle(tr("Диагностика: ДД Точка-М/Гарда, ДД Сота"));
         ui->groupBox_Diagnostics->setMaximumHeight(465);
     } else if(TypeUnitNodeEnum::Y4_SOTA == selUN->getType()
