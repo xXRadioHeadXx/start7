@@ -299,6 +299,9 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
     map_PARAMS_AutoStart.insert(0,"Ручной");
     map_PARAMS_AutoStart.insert(1,"Автозагрузка");
 
+    for(int i=0;i<map_PARAMS_AutoStart.count();i++)
+     this->ui->PARAMS_AutoStart_comboBox->addItem(map_PARAMS_AutoStart.value(i));
+
 
 
 
