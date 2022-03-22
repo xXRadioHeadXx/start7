@@ -1383,7 +1383,7 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
 
 
     for(int i = 0, n = 4; i < n; i++) {
-        setCellTextBackgroundColorForegroundBold( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+        setCellTextBackgroundColorForegroundBold( table, 2 + i,0, (QObject::tr("Выход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
         setCellTextBackgroundColorForegroundBold( table, 6 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     }
 
@@ -1418,7 +1418,7 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
     }
 
     for(int i = 1, n = 4; i <= n; i++) {
-        //"Вход \"Тревога Уч.%1\""
+        //"Выход \"Тревога Уч.%1\""
         if(1 == swp.y(i).isInAlarm()) {
             setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         } else if(0 == swp.y(i).isInAlarm()) {
@@ -1483,7 +1483,7 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
 
     //"Замыкание по ЧЭ1 есть"
     if(1 == swp.dd().c(1).isClosure()) {
-        setCellTextBackgroundColorForegroundBold( table, 4, 3, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        setCellTextBackgroundColorForegroundBold( table, 4, 3, "Да <1>", cellBlue, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.dd().c(1).isClosure()) {
         setCellTextBackgroundColorForegroundBold( table, 4, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
@@ -1497,7 +1497,7 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
 
     //"Замыкание по ЧЭ2 есть"
     if(1 == swp.dd().c(2).isClosure()) {
-        setCellTextBackgroundColorForegroundBold( table, 6, 3, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
+        setCellTextBackgroundColorForegroundBold( table, 6, 3, "Да <1>", cellBlue, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.dd().c(2).isClosure()) {
         setCellTextBackgroundColorForegroundBold( table, 6, 3, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
@@ -1601,7 +1601,7 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
 
 
     for(int i = 1, n = 4; i <= n; i++) {
-        setCellTextBackgroundColorForegroundBold( table, 1 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+        setCellTextBackgroundColorForegroundBold( table, 1 + i,0, (QObject::tr("Выход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
         setCellTextBackgroundColorForegroundBold( table, 5 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     }
 
@@ -1644,7 +1644,7 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
     }
 
     for(int i = 1, n = 4; i <= n; i++) {
-        //"Вход \"Тревога Уч.%1\""
+        //"Выход \"Тревога Уч.%1\""
         if(1 == swp.y(i).isInAlarm()) {
             setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         } else if(0 == swp.y(i).isInAlarm()) {
@@ -1786,7 +1786,7 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
 
 
     for(int i = 0, n = 4; i < n; i++) {
-        setCellTextBackgroundColorForegroundBold( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+        setCellTextBackgroundColorForegroundBold( table, 2 + i,0, (QObject::tr("Выход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
         setCellTextBackgroundColorForegroundBold( table, 6 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     }
 
@@ -1827,7 +1827,7 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
     }
 
     for(int i = 1, n = 4; i <= n; i++) {
-        //"Вход \"Тревога Уч.%1\""
+        //"Выход \"Тревога Уч.%1\""
         if(1 == swp.y(i).isInAlarm()) {
             setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         } else if(0 == swp.y(i).isInAlarm()) {
@@ -2013,7 +2013,7 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
     setCellTextBackgroundColorForegroundBold( table, 1,0, (QObject::tr("Готовность БОД")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
 
     for(int i = 0, n = 4; i < n; i++) {
-        setCellTextBackgroundColorForegroundBold( table, 2 + i,0, (QObject::tr("Вход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+        setCellTextBackgroundColorForegroundBold( table, 2 + i,0, (QObject::tr("Выход \"Тревога Уч.%1\"").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
         setCellTextBackgroundColorForegroundBold( table, 6 + i,0, (QObject::tr("Тревога Уч.%1 было").arg(1 + i)), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     }
 
@@ -2057,7 +2057,7 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
     }
 
     for(int i = 1, n = 4; i <= n; i++) {
-        //"Вход \"Тревога Уч.%1\""
+        //"Выход \"Тревога Уч.%1\""
         if(1 == swp.y(i).isInAlarm()) {
             setCellTextBackgroundColorForegroundBold( table, 1 + i, 1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
         } else if(0 == swp.y(i).isInAlarm()) {
