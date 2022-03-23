@@ -191,7 +191,8 @@ ui->stackedWidget_3->setCurrentWidget(ui->find_button_page_0);
 QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1String("MMM d yyyy"));
         if(str_system==str_system_RIF)
         {
-         this->setWindowTitle("Настройка комплекса РИФ+ r." + date.toString("dd.MM.yyyy"));
+     //    this->setWindowTitle("Настройка комплекса РИФ+ r." + date.toString("dd.MM.yyyy"));
+          this->setWindowTitle("Настройка комплекса РИФ+ r.21.02.2022");
         }
         if(str_system==str_system_SSOI)
         {
@@ -205,8 +206,8 @@ QDate date = QLocale(QLocale::C).toDate(QString(__DATE__).simplified(), QLatin1S
          //  this->ui->Subsystem_RIF->setVisible(false);
          //   this->ui->Subsystem_ADAM->setVisible(false);
             this->ui->DevLine_groupbox->setVisible(false);
-            this->setWindowTitle("Настройка комплекса ССОИ-М r." + date.toString("dd.MM.yyyy"));
-
+      //      this->setWindowTitle("Настройка комплекса ССОИ-М r." + date.toString("dd.MM.yyyy"));
+           this->setWindowTitle("Настройка комплекса ССОИ-М r.r.21.02.2022");
 
         }
 

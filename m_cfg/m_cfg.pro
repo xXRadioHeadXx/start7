@@ -83,14 +83,14 @@ HEADERS += \
     comport.h \
     dbform.h \
     delegate.h \
-    delegate_unit_finder.h \
+#    delegate_unit_finder.h \
     edit_unit_widget.h \
     findunitform.h \
     first_dialog.h \
     group.h \
     adm_aud_combobox.h \
     model_unit_params.h \
-    my_config.h \
+#    my_config.h \
     my_doublespinbox.h \
     my_settings.h \
     my_treeview.h \
