@@ -53,6 +53,15 @@ if(unit){
 
         ui->udpAdress->setCurrentText(unit->getUdpAdress());
         ui->udpPort->setValue(unit->getUdpPort());
+
+
+        if(ID!=TypeUnitNode::SSOI_IP_IU)
+        if(ID!=TypeUnitNode::SSOI_IP_SD)
+        this->ui->udpTimeout->setMinimum(timeouts.value(ID));
+
+
+
+
         ui->udpTimeout->setValue(unit->getUdpTimeout());
 
         ui->Num3->setCurrentText(QString::number(unit->getNum3()));
