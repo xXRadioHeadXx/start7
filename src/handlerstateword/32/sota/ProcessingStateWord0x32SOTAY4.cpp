@@ -27,16 +27,15 @@ ProcessingStateWord0x32SOTAY4::~ProcessingStateWord0x32SOTAY4()
 
 bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing() -->";
     if(TypeUnitNodeEnum::Y4_SOTA != currentUN->getType()) {
-//        qDebug() << "ProcessingStateWord0x32SOTAY4::processing(1) <--";
         return false;
     }
 
     if(currentUN->getDkInvolved()) {
-//        qDebug() << "ProcessingStateWord0x32SOTAY4::processing(1) <--";
         return false;
     }
+
+//    qDebug() << "ProcessingStateWord0x32SOTAY4::processing() -->";
 
     const auto& reciverBOD = TopologyService::findReciver(currentUN);
     if(reciverBOD.isNull()) {
@@ -133,9 +132,9 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
     int typeMsg = -1;
     QString commentMsg;
 
-//    qDebug() << "состояние SOTAM_Y4 -->" << commentMsg;
-//    qDebug() << "pSOTAM_Y4: " << previousUN->toString() << swpPrevious.byteWord().toHex();
-//    qDebug() << "cSOTAM_Y4: " << currentUN->toString() << swpCurrent.byteWord().toHex();
+//    qDebug() << "состояние SOTA_Y4 -->" << commentMsg;
+//    qDebug() << "pSOTA_Y4: " << previousUN->toString() << swpPrevious.byteWord().toHex();
+//    qDebug() << "cSOTA_Y4: " << currentUN->toString() << swpCurrent.byteWord().toHex();
 
     //bool iniState = false;
     // запись тревога/норма/неисправность ЧЭ1 -->
@@ -143,18 +142,17 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
     && 1 == swpCurrent.y(y4).isWasAlarm()
     && (swpCurrent.y(y4).isWasAlarm() != swpPrevious.y(y4).isWasAlarm()
      || isSwitchReady)) {
-        commentMsg = QObject::tr("Тревога - Сработка");
-        typeMsg = 20;
+//        commentMsg = QObject::tr("Тревога - Сработка");
+//        typeMsg = 20;
         currentUN->setPublishedState(20);
-
         reciverBOD->setClearedAlarm(20);
         currentUN->setClearedAlarm(20);
     } else if(1 == swpCurrent.isReady()
            && 0 == swpCurrent.y(y4).isWasAlarm()
            && (swpCurrent.y(y4).isWasAlarm() != swpPrevious.y(y4).isWasAlarm()
             || isSwitchReady)) {
-        commentMsg = QObject::tr("Норма");
-        typeMsg = 1;
+//        commentMsg = QObject::tr("Норма");
+//        typeMsg = 1;
         currentUN->setPublishedState(1);
     } else if(0 == swpCurrent.isReady()) {
 //        commentMsg = QObject::tr("Неопределенное состояние");
@@ -203,9 +201,9 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
     SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "typeMsg:" << typeMsg << "commentMsg:" << commentMsg;
-//    qDebug() << "pSOTAM_Y4: " << previousUN->toString() << previousUN->getPublishedState();
-//    qDebug() << "cSOTAM_Y4: " << currentUN->toString() << currentUN->getPublishedState();
-//    qDebug() << "состояние SOTAM_Y4 <--";
+//    qDebug() << "pSOTA_Y4: " << previousUN->toString() << previousUN->getPublishedState();
+//    qDebug() << "cSOTA_Y4: " << currentUN->toString() << currentUN->getPublishedState();
+//    qDebug() << "состояние SOTA_Y4 <--";
 
 //    qDebug() << "ProcessingStateWord0x32SOTAY4::processing(X) <--";
     return true;

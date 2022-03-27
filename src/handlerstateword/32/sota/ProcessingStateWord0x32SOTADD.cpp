@@ -27,37 +27,31 @@ ProcessingStateWord0x32SOTADD::~ProcessingStateWord0x32SOTADD()
 
 bool ProcessingStateWord0x32SOTADD::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-//    qDebug() << "PortManager::procSOTAMDDStatusWord0x32() -->";
     if(TypeUnitNodeEnum::DD_SOTA != currentUN->getType()
     || currentUN->getDkInvolved()) {
-//        qDebug() << "PortManager::procSOTAMDDStatusWord0x32(1) <--";
         return false;
     }
 
+//    qDebug() << "ProcessingStateWord0x32SOTADD::processing() -->";
+
     const auto& reciverBOD = TopologyService::findReciver(currentUN);
     if(reciverBOD.isNull()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
-//        qDebug() << "PortManager::procSOTAMDDStatusWord0x32(3) <--";
+//        qDebug() << "ProcessingStateWord0x32SOTADD::processing(3) <--";
 
         return false;
     }
 
     const auto& reciverY4 = TopologyService::findParentByType(TypeUnitNodeEnum::Y4_SOTA, currentUN);
     if(reciverY4.isNull()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
-//        qDebug() << "PortManager::procSOTAMDDStatusWord0x32(31) <--";
+//        qDebug() << "ProcessingStateWord0x32SOTADD::processing(31) <--";
 
         return false;
     }
     if(TypeUnitNodeEnum::Y4_SOTA != reciverY4->getType()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
-//        qDebug() << "PortManager::procSOTAMDDStatusWord0x32(32) <--";
+//        qDebug() << "ProcessingStateWord0x32SOTADD::processing(32) <--";
 
         return false;
     }
@@ -158,8 +152,21 @@ bool ProcessingStateWord0x32SOTADD::processing(const StateWord &data, const QSha
 //    qDebug() << "cSOTAM_DD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
 
     if(1 == swpCurrent.isReady()
-    && 1 == swpCurrent.y(y4).dd(ddNum).isFault()
-    && (swpCurrent.y(y4).dd(ddNum).isFault() == swpPrevious.y(y4).dd(ddNum).isFault()
+    && 1 == swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak()
+    && (swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak() == swpPrevious.y(y4).dd(ddNum).isWasCommunicationBreak()
+     || isSwitchReady)) {
+        commentMsg = QObject::tr("Нет связи");
+        typeMsg = 10;
+        currentUN->setPublishedState(10);
+
+        reciverBOD->setClearedAlarm(12);
+        reciverY4->setClearedAlarm(12);
+    } else if(1 == swpCurrent.isReady()
+           && 1 == swpCurrent.y(y4).dd(ddNum).isInCommunicationBreak()) {
+        currentUN->setPublishedState(10);
+    } else if(1 == swpCurrent.isReady()
+           && 1 == swpCurrent.y(y4).dd(ddNum).isFault()
+           && (swpCurrent.y(y4).dd(ddNum).isFault() == swpPrevious.y(y4).dd(ddNum).isFault()
      || isSwitchReady)) {
         commentMsg = QObject::tr("Неисправность");
         typeMsg = 12;
@@ -191,8 +198,8 @@ bool ProcessingStateWord0x32SOTADD::processing(const StateWord &data, const QSha
                || swpCurrent.y(y4).dd(ddNum).isWasAlarm() != swpPrevious.y(y4).dd(ddNum).isWasAlarm()
                || isSwitchReady)) {
         commentMsg = QObject::tr("Норма");
-        typeMsg = 5;
-        currentUN->setPublishedState(5);
+        typeMsg = 1;
+        currentUN->setPublishedState(1);
     } else if(0 == swpCurrent.isReady()) {
 //        commentMsg = QObject::tr("Неопределенное состояние");
 //        typeMsg = 0;

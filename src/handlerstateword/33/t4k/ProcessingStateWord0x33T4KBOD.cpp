@@ -57,10 +57,15 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
         // запись норма BOD -->
         if(1 == swpCurrent.isReady()
         && 0 == swpCurrent.isWasOpened()
-        && 1 == swpCurrent.y(1).isWasAlarm()
-        && 1 == swpCurrent.y(2).isWasAlarm()
-        && 1 == swpCurrent.y(3).isWasAlarm()
-        && 1 == swpCurrent.y(4).isWasAlarm()
+//        && 0 == swpCurrent.y(1).isWasAlarm()
+//        && 0 == swpCurrent.y(2).isWasAlarm()
+//        && 0 == swpCurrent.y(3).isWasAlarm()
+//        && 0 == swpCurrent.y(4).isWasAlarm()
+        && 0 == swpCurrent.isInOpened()
+//        && 0 == swpCurrent.y(1).isInAlarm()
+//        && 0 == swpCurrent.y(2).isInAlarm()
+//        && 0 == swpCurrent.y(3).isInAlarm()
+//        && 0 == swpCurrent.y(4).isInAlarm()
         && 1 != currentUN->getPublishedState()
                 ) {
             const auto &commentMsg = QObject::tr("Норма");
@@ -234,8 +239,16 @@ bool ProcessingStateWord0x33T4KBOD::processing(const StateWord &data, const QSha
     } else if(1 == swpCurrent.isReady()
            && 1 != currentUN->getPublishedState()
            && 0 == swpCurrent.isWasOpened()
-           && (swpCurrent.isWasOpened() != swpPrevious.isWasOpened()
-            || isSwitchReady)) {
+//           && 0 == swpCurrent.y(1).isWasAlarm()
+//           && 0 == swpCurrent.y(2).isWasAlarm()
+//           && 0 == swpCurrent.y(3).isWasAlarm()
+//           && 0 == swpCurrent.y(4).isWasAlarm()
+           && 0 == swpCurrent.isInOpened()
+//           && 0 == swpCurrent.y(1).isInAlarm()
+//           && 0 == swpCurrent.y(2).isInAlarm()
+//           && 0 == swpCurrent.y(3).isInAlarm()
+//           && 0 == swpCurrent.y(4).isInAlarm()
+              ) {
         commentMsg = QObject::tr("Норма");
         typeMsg = 1;
         currentUN->setPublishedState(1);

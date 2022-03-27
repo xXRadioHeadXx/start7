@@ -280,7 +280,16 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
             reciverBOD->setClearedAlarm(22);
             reciverY4->setClearedAlarm(22);
         } else if(1 == swpCurrent.isReady()
-               && 0 == swpCurrent.dd().c(1).isWasAlarm()) {
+               && 0 == swpCurrent.dd().c(1).isWasAlarm()
+               && 0 == swpCurrent.dd().c(1).isCliff()
+               && 0 == swpCurrent.dd().c(1).isClosure()
+               && 0 == swpCurrent.dd().c(1).f(1).isWasAlarm()
+               && 0 == swpCurrent.dd().c(1).f(2).isWasAlarm()
+               && 0 == swpCurrent.dd().isWasOpened()
+               && 0 == swpCurrent.dd().isInOpened()
+               && 0 == swpCurrent.dd().isFault()
+               && 0 == swpCurrent.dd().isInCommunicationBreak()
+               && 0 == swpCurrent.dd().isWasCommunicationBreak()) {
             commentMsgC1 = QObject::tr("Норма по ЧЭ1");
             typeMsgC1 = 5;
             currentUN->setPublishedState(5);
@@ -349,7 +358,16 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
             reciverBOD->setClearedAlarm(23);
             reciverY4->setClearedAlarm(23);
         } else if(1 == swpCurrent.isReady()
-               && 0 == swpCurrent.dd().c(2).isWasAlarm()) {
+               && 0 == swpCurrent.dd().c(2).isWasAlarm()
+               && 0 == swpCurrent.dd().c(2).isCliff()
+               && 0 == swpCurrent.dd().c(2).isClosure()
+               && 0 == swpCurrent.dd().c(2).f(1).isWasAlarm()
+               && 0 == swpCurrent.dd().c(2).f(2).isWasAlarm()
+               && 0 == swpCurrent.dd().isWasOpened()
+               && 0 == swpCurrent.dd().isInOpened()
+               && 0 == swpCurrent.dd().isFault()
+               && 0 == swpCurrent.dd().isInCommunicationBreak()
+               && 0 == swpCurrent.dd().isWasCommunicationBreak()) {
             commentMsgC2 = QObject::tr("Норма по ЧЭ2");
             typeMsgC2 = 6;
             currentUN->setPublishedState(6);

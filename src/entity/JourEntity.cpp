@@ -140,6 +140,8 @@ QPixmap JourEntity::getPxm() const
     {
        case   1:
        case   2:
+       case   5:
+       case   6:
        case   7:
        case 101:
        case 111:
@@ -170,8 +172,6 @@ QPixmap JourEntity::getPxm() const
        case 900:
        case 901:
         return Icons::chck_grn();
-       case   5:
-       case   6:
        case  10:
        case 200:
         return Icons::crcl_ylw();
@@ -210,6 +210,8 @@ QColor JourEntity::getColor() const
     {
        case   1:
        case   2:
+       case   5:
+       case   6:
        case   7:
        case 101:
        case 111:
@@ -242,8 +244,6 @@ QColor JourEntity::getColor() const
        case 901:
         return QColor(0, 150, 64);
 //        return Icons::chck_grn();
-       case   5:
-       case   6:
        case  10:
        case 200:
         return QColor(243, 146, 0);

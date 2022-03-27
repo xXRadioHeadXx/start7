@@ -36,8 +36,16 @@
 #include "swpt4k/SWPT4KDDCFType0x33.h"
 #include "swpt4k/SWPT4KBODType0x33.h"
 #include "swpt4k/SWPT4KBODType0x34.h"
-
-
+#include "swpsota/SWPSOTABODType0x32.h"
+#include "swpsota/SWPSOTAY4Type0x32.h"
+#include "swpsota/SWPSOTADDType0x32.h"
+#include "swpsota/SWPSOTADDCType0x32.h"
+#include "swpsota/SWPSOTABODType0x33.h"
+#include "swpsota/SWPSOTAY4Type0x33.h"
+#include "swpsota/SWPSOTADDType0x33.h"
+#include "swpsota/SWPSOTADDFType0x33.h"
+#include "swpsota/SWPSOTABODType0x33.h"
+#include "swpsota/SWPSOTABODType0x34.h"
 
 #include "DataQueueItem.h"
 
@@ -1920,8 +1928,8 @@ QPixmap UnitNode_BOD_T4K_M::getPxm() const
 
 QPixmap UnitNode_BOD_SOTA::getPxm() const
 {
-    const auto& swp32 = swpT4KBODType0x32();
-    const auto& swp33 = swpT4KBODType0x33();
+    const auto& swp32 = swpSOTABODType0x32();
+    const auto& swp33 = swpSOTABODType0x33();
     if(getControl() && swp32.isNull() && swp33.isNull()) {
         return Icons::sqr_ylw();
     } else if(!getControl()
@@ -2060,6 +2068,99 @@ int UnitNode_BOD_T4K_M::calcDKStatus() const
     }
 
 //    qDebug() << "UnitNode_BOD_T4K_M::calcDKStatus(" << getDkStatus() << ") <-- getDkStatus";
+    return getDkStatus();
+}
+
+int UnitNode_BOD_SOTA::calcDKStatus() const
+{
+//    qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -->";
+    int result = getDkStatus();
+    const auto& swp32 = swpSOTABODType0x32();
+    const auto& swp33 = swpSOTABODType0x33();
+
+    for(const auto &y4 : {1,2,3,4}) {
+        if(swp32.isNull()
+        && swp32.isNull()) {
+            result = DKCiclStatus::DKWrong;
+            break;
+        } else if(!swp32.isNull()
+               && (swp32.cdate() > swp33.cdate() || swp33.isNull())
+               && 1 == swp32.isReady()
+               && 1 == swp32.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKWasAlarm";
+            result = DKCiclStatus::DKWasAlarm;
+        } else if(!swp33.isNull()
+               && (swp33.cdate() > swp32.cdate() || swp32.isNull())
+               && 1 == swp33.isReady()
+               && 1 == swp33.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKWasAlarm";
+            result = DKCiclStatus::DKWasAlarm;
+        } else if(!swp32.isNull()
+               && (swp32.cdate() > swp33.cdate() || swp33.isNull())
+               && 1 == swp32.isReady()
+               && 0 == swp32.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKNorm";
+            result = DKCiclStatus::DKNorm;
+            break;
+        } else if(!swp33.isNull()
+               && (swp33.cdate() > swp32.cdate() || swp32.isNull())
+               && 1 == swp33.isReady()
+               && 0 == swp33.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKNorm";
+            result = DKCiclStatus::DKNorm;
+            break;
+        } else {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus(" << getDkStatus() << ") <-- getDkStatus";
+            return getDkStatus();
+        }
+    }
+    if(DKCiclStatus::DKWasAlarm == result) {
+//        qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus(" << result << ") <-- result";
+        return result;
+    }
+
+    for(const auto &y4 : {1,2,3,4}) {
+        if(swp32.isNull()
+        && swp32.isNull()) {
+            result = DKCiclStatus::DKWrong;
+            break;
+        } else if(!swp32.isNull()
+               && (swp32.cdate() > swp33.cdate() || swp33.isNull())
+               && 1 == swp32.isReady()
+               && 1 == swp32.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKWasAlarm";
+            result = DKCiclStatus::DKWasAlarm;
+            break;
+        } else if(!swp33.isNull()
+               && (swp33.cdate() > swp32.cdate() || swp32.isNull())
+               && 1 == swp33.isReady()
+               && 1 == swp33.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKWasAlarm";
+            result = DKCiclStatus::DKWasAlarm;
+            break;
+        } else if(!swp32.isNull()
+               && (swp32.cdate() > swp33.cdate() || swp33.isNull())
+               && 1 == swp32.isReady()
+               && 0 == swp32.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKNorm";
+            result = DKCiclStatus::DKNorm;
+        } else if(!swp33.isNull()
+               && (swp33.cdate() > swp32.cdate() || swp32.isNull())
+               && 1 == swp33.isReady()
+               && 0 == swp33.y(y4).isWasAlarm()) {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus() -- y4(" << y4 << ") DKCiclStatus::DKNorm";
+            result = DKCiclStatus::DKNorm;
+        } else {
+//            qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus(" << getDkStatus() << ") <-- getDkStatus";
+            return getDkStatus();
+        }
+    }
+    if(DKCiclStatus::DKNorm == result) {
+//        qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus(" << result << ") <-- result";
+        return result;
+    }
+
+//    qDebug() << "UnitNode_BOD_SOTA_M::calcDKStatus(" << getDkStatus() << ") <-- getDkStatus";
     return getDkStatus();
 }
 
@@ -2208,8 +2309,8 @@ QPixmap UnitNode_DD_T4K_M::getPxm() const
 
 QPixmap UnitNode_Y4_SOTA::getPxm() const
 {
-    const auto& swp32 = swpT4KBODType0x32();
-    const auto& swp33 = swpT4KBODType0x33();
+    const auto& swp32 = swpSOTABODType0x32();
+    const auto& swp33 = swpSOTABODType0x33();
     if(getControl() && swp32.isNull() && swp33.isNull()) {
         return Icons::sqr_ylw();
     } else if(!getControl()
@@ -2259,8 +2360,10 @@ QPixmap UnitNode_Y4_SOTA::getPxm() const
 
 QPixmap UnitNode_DD_SOTA::getPxm() const
 {
-    const auto& swp32 = swpT4KBODType0x32();
-    const auto& swp33 = swpT4KBODType0x33();
+    auto y4 = getNum2() / 100;
+    auto ddNum = getNum2() % 100;
+    const auto& swp32 = swpSOTABODType0x32();
+    const auto& swp33 = swpSOTABODType0x33();
     if(getControl() && swp32.isNull() && swp33.isNull()) {
         return Icons::sqr_ylw();
     } else if(!getControl()
@@ -2272,24 +2375,16 @@ QPixmap UnitNode_DD_SOTA::getPxm() const
         if(0 == swp32.isReady()) {
             return Icons::sqr_gry_qstn();
         } else if(getControl()
-               && (12 == getPublishedState()
-                || 13 == getPublishedState())){
+               && 1 == swp32.y(y4).dd(ddNum).isFault()){
             return Icons::sqr_blu();
         } else if(!getControl()
-               && (12 == getPublishedState()
-                || 13 == getPublishedState())){
+               && 1 == swp32.y(y4).dd(ddNum).isFault()){
             return Icons::sqr_blk_crs_blu();
         } else if(getControl()
-            && (20 == getPublishedState()
-             || 21 == getPublishedState()
-             || 22 == getPublishedState()
-             || 23 == getPublishedState())){
+            && swp32.y(y4).dd(ddNum).isWasAlarm()) {
             return Icons::sqr_rd();
         } else if(!getControl()
-               && (20 == getPublishedState()
-                || 21 == getPublishedState()
-                || 22 == getPublishedState()
-                || 23 == getPublishedState())){
+               && swp32.y(y4).dd(ddNum).isWasAlarm()){
             return Icons::sqr_blk_crs_rd();
         } else if(getControl()
                && isClearedAlarm()) {
@@ -2302,24 +2397,24 @@ QPixmap UnitNode_DD_SOTA::getPxm() const
         if(0 == swp33.isReady()) {
             return Icons::sqr_gry_qstn();
         } else if(getControl()
-               && (12 == getPublishedState()
-                || 13 == getPublishedState())){
+               && swp33.dd().isFault()){
             return Icons::sqr_blu();
         } else if(!getControl()
-               && (12 == getPublishedState()
-                || 13 == getPublishedState())){
+               && swp33.dd().isFault()){
                return Icons::sqr_blk_crs_blu();
         } else if(getControl()
-               && (20 == getPublishedState()
-                || 21 == getPublishedState()
-                || 22 == getPublishedState()
-                || 23 == getPublishedState())){
+               && (swp33.dd().isWasOpened()
+                || swp33.dd().isWasAlarm()
+                || swp33.dd().isWasAlarm()
+                || swp33.dd().f(1).isWasAlarm()
+                || swp33.dd().f(2).isWasAlarm())){
                return Icons::sqr_rd();
         } else if(!getControl()
-               && (20 == getPublishedState()
-                || 21 == getPublishedState()
-                || 22 == getPublishedState()
-                || 23 == getPublishedState())){
+               && (swp33.dd().isWasOpened()
+                || swp33.dd().isWasAlarm()
+                || swp33.dd().isWasAlarm()
+                || swp33.dd().f(1).isWasAlarm()
+                || swp33.dd().f(2).isWasAlarm())){
                return Icons::sqr_blk_crs_rd();
         } else if(getControl()
                && isClearedAlarm()) {

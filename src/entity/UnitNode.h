@@ -691,6 +691,7 @@ public:
         setNeededStateWordType(getDefaultNeededStateWordType());
     }
     virtual ~UnitNode_BOD_SOTA() {}
+    virtual int calcDKStatus() const override;
     virtual QPixmap getPxm() const final;
 };
 

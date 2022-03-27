@@ -27,16 +27,14 @@ ProcessingStateWord0x32SOTABOD::~ProcessingStateWord0x32SOTABOD()
 
 bool ProcessingStateWord0x32SOTABOD::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
+//    qDebug() << "ProcessingStateWord0x32SOTABOD::processing() -->";
     if(TypeUnitNodeEnum::BOD_SOTA != currentUN->getType()
     || currentUN->getDkInvolved()) {
+//        qDebug() << "ProcessingStateWord0x32SOTABOD::processing(1) <--";
         return false;
     }
-//    qDebug() << "ProcessingStateWord0x32SOTABOD::processing() -->";
 
     auto reciver = TopologyService::findReciver(currentUN);
-    while(reciver != TopologyService::findReciver(reciver)) {
-        reciver = TopologyService::findReciver(reciver);
-    }
     if(reciver.isNull()) {
 
 //        qDebug() << "ProcessingStateWord0x32SOTABOD::processing(2) <--";
@@ -51,10 +49,54 @@ bool ProcessingStateWord0x32SOTABOD::processing(const StateWord &data, const QSh
     const auto& swpCurrent = currentUN->swpSOTABODType0x32(),
                &swpPrevious = previousUN->swpSOTABODType0x32();
 
-    if(1 == swpCurrent.isExistDK()
-    || 1 == swpCurrent.isWasDK()
-    || 1 == swpPrevious.isExistDK()
-    || 1 == swpPrevious.isWasDK()) {
+    if(0 == swpCurrent.isExistDK()
+    && 0 == swpCurrent.isWasDK()
+    && (1 == swpPrevious.isExistDK()
+     || 1 == swpPrevious.isWasDK())) {
+        // запись норма BOD -->
+        if(1 == swpCurrent.isReady()
+        && 0 == swpCurrent.isWasOpened()
+//        && 0 == swpCurrent.y(1).isWasAlarm()
+//        && 0 == swpCurrent.y(2).isWasAlarm()
+//        && 0 == swpCurrent.y(3).isWasAlarm()
+//        && 0 == swpCurrent.y(4).isWasAlarm()
+        && 0 == swpCurrent.isInOpened()
+//        && 0 == swpCurrent.y(1).isInAlarm()
+//        && 0 == swpCurrent.y(2).isInAlarm()
+//        && 0 == swpCurrent.y(3).isInAlarm()
+//        && 0 == swpCurrent.y(4).isInAlarm()
+        && 1 != currentUN->getPublishedState()
+                ) {
+            const auto &commentMsg = QObject::tr("Норма");
+            const auto &typeMsg = 1;
+            currentUN->setPublishedState(1);
+            currentUN->setClearedAlarm(1);
+
+            JourEntity prepareMsg;
+            // заполняем поля сообщения за отправителя
+            prepareMsg.setObject(currentUN->getName());
+            prepareMsg.setObjecttype(currentUN->getType());
+            prepareMsg.setD1(currentUN->getNum1());
+            prepareMsg.setD2(currentUN->getNum2());
+            prepareMsg.setD3(currentUN->getNum3());
+            prepareMsg.setD4(currentUN->getOutType());
+            prepareMsg.setDirection(currentUN->getDirection());
+            prepareMsg.setParams(currentUN->makeJson());
+
+            JourEntity msg = prepareMsg;
+            // следует записать сообщение
+            // заполняем поля сообщения
+            msg.setComment(commentMsg);
+            msg.setType(typeMsg);
+
+            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
+        }
+        // запись норма BOD <--
+    } else if(1 == swpCurrent.isExistDK()
+           || 1 == swpCurrent.isWasDK()
+           || 1 == swpPrevious.isExistDK()
+           || 1 == swpPrevious.isWasDK()) {
         auto msMsg = QSharedPointer<ManagerSingleMsg>::create(currentUN,
                                                               DataQueueItem::makeResetFlags0x24);
         reciver->pushBackUniqManagerSingleMsg(msMsg);
@@ -67,28 +109,28 @@ bool ProcessingStateWord0x32SOTABOD::processing(const StateWord &data, const QSh
     }
 
     auto swpCurrentYIsInAlarm =
-            1 == swpCurrent.y1().isInAlarm()
-         || 1 == swpCurrent.y2().isInAlarm()
-         || 1 == swpCurrent.y3().isInAlarm()
-         || 1 == swpCurrent.y4().isInAlarm();
+            1 == swpCurrent.y(1).isInAlarm()
+         || 1 == swpCurrent.y(2).isInAlarm()
+         || 1 == swpCurrent.y(3).isInAlarm()
+         || 1 == swpCurrent.y(4).isInAlarm();
 
     auto swpPreviousYIsInAlarm =
-            1 == swpPrevious.y1().isInAlarm()
-         || 1 == swpPrevious.y2().isInAlarm()
-         || 1 == swpPrevious.y3().isInAlarm()
-         || 1 == swpPrevious.y4().isInAlarm();
+            1 == swpPrevious.y(1).isInAlarm()
+         || 1 == swpPrevious.y(2).isInAlarm()
+         || 1 == swpPrevious.y(3).isInAlarm()
+         || 1 == swpPrevious.y(4).isInAlarm();
 
     auto swpCurrentYIsWasAlarm =
-            1 == swpCurrent.y1().isWasAlarm()
-         || 1 == swpCurrent.y2().isWasAlarm()
-         || 1 == swpCurrent.y3().isWasAlarm()
-         || 1 == swpCurrent.y4().isWasAlarm();
+            1 == swpCurrent.y(1).isWasAlarm()
+         || 1 == swpCurrent.y(2).isWasAlarm()
+         || 1 == swpCurrent.y(3).isWasAlarm()
+         || 1 == swpCurrent.y(4).isWasAlarm();
 
     auto swpPreviousYIsWasAlarm =
-            1 == swpPrevious.y1().isWasAlarm()
-         || 1 == swpPrevious.y2().isWasAlarm()
-         || 1 == swpPrevious.y3().isWasAlarm()
-         || 1 == swpPrevious.y4().isWasAlarm();
+            1 == swpPrevious.y(1).isWasAlarm()
+         || 1 == swpPrevious.y(2).isWasAlarm()
+         || 1 == swpPrevious.y(3).isWasAlarm()
+         || 1 == swpPrevious.y(4).isWasAlarm();
 
 //    qDebug() << "ProcessingStateWord0x32SOTABOD::processing() -- swpCurrentYIsInAlarm " << swpCurrentYIsInAlarm;
 //    qDebug() << "ProcessingStateWord0x32SOTABOD::processing() -- swpPreviousYIsInAlarm " << swpPreviousYIsInAlarm;
@@ -99,8 +141,16 @@ bool ProcessingStateWord0x32SOTABOD::processing(const StateWord &data, const QSh
     if(swpCurrent.isReady() != swpPrevious.isReady()
     || swpCurrent.isInOpened() != swpPrevious.isInOpened()
     || swpCurrent.isWasOpened() != swpPrevious.isWasOpened()
-    || swpCurrentYIsInAlarm != swpPreviousYIsInAlarm
-    || swpCurrentYIsWasAlarm != swpPreviousYIsWasAlarm
+
+    || swpCurrent.y(1).isInAlarm() != swpPrevious.y(1).isInAlarm()
+    || swpCurrent.y(2).isInAlarm() != swpPrevious.y(2).isInAlarm()
+    || swpCurrent.y(3).isInAlarm() != swpPrevious.y(3).isInAlarm()
+    || swpCurrent.y(4).isInAlarm() != swpPrevious.y(4).isInAlarm()
+
+    || swpCurrent.y(1).isWasAlarm() != swpPrevious.y(1).isWasAlarm()
+    || swpCurrent.y(2).isWasAlarm() != swpPrevious.y(2).isWasAlarm()
+    || swpCurrent.y(3).isWasAlarm() != swpPrevious.y(3).isWasAlarm()
+    || swpCurrent.y(4).isWasAlarm() != swpPrevious.y(4).isWasAlarm()
       ) {
         // состояние не зменилось - что-то пропускаем
         isChangedStatus = true;
@@ -162,12 +212,12 @@ bool ProcessingStateWord0x32SOTABOD::processing(const StateWord &data, const QSh
     int typeMsg = -1;
     QString commentMsg;
 
-//    qDebug() << "состояние SOTAM_BOD -->" << commentMsg;
-//    qDebug() << "pSOTAM_BOD: " << previousUN->toString() << swpPrevious.byteWord().toHex();
-//    qDebug() << "cSOTAM_BOD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
+//    qDebug() << "состояние SOTA_BOD -->" << commentMsg;
+//    qDebug() << "pSOTA_BOD: " << previousUN->toString() << swpPrevious.byteWord().toHex();
+//    qDebug() << "cSOTA_BOD: " << currentUN->toString() << swpCurrent.byteWord().toHex();
 
 //    bool iniState = false;
-    // запись тревога/норма/неисправность ЧЭ1 -->
+    // запись тревога/норма/неисправность BOD -->
     if(1 == swpCurrent.isReady()
     && 1 == swpCurrent.isWasOpened()
     && (swpCurrent.isWasOpened() != swpPrevious.isWasOpened()
@@ -180,17 +230,33 @@ bool ProcessingStateWord0x32SOTABOD::processing(const StateWord &data, const QSh
            && swpCurrentYIsWasAlarm
            && (swpCurrentYIsWasAlarm != swpPreviousYIsWasAlarm
             || isSwitchReady)) {
-        commentMsg = QObject::tr("Тревога - Сработка");
-        typeMsg = 20;
+//        commentMsg = QObject::tr("Тревога - Сработка");
+//        typeMsg = 20;
         currentUN->setPublishedState(20);
         currentUN->setClearedAlarm(20);
     } else if(1 == swpCurrent.isReady()
-           && !swpCurrentYIsWasAlarm
-           && (swpCurrentYIsWasAlarm != swpPreviousYIsWasAlarm
-            || isSwitchReady)) {
+              && 1 != currentUN->getPublishedState()
+              && 0 == swpCurrent.isWasOpened()
+//              && 0 == swpCurrent.y(1).isWasAlarm()
+//              && 0 == swpCurrent.y(2).isWasAlarm()
+//              && 0 == swpCurrent.y(3).isWasAlarm()
+//              && 0 == swpCurrent.y(4).isWasAlarm()
+              && 0 == swpCurrent.isInOpened()
+//              && 0 == swpCurrent.y(1).isInAlarm()
+//              && 0 == swpCurrent.y(2).isInAlarm()
+//              && 0 == swpCurrent.y(3).isInAlarm()
+//              && 0 == swpCurrent.y(4).isInAlarm()
+              ) {
         commentMsg = QObject::tr("Норма");
         typeMsg = 1;
         currentUN->setPublishedState(1);
+//    } else if(1 == swpCurrent.isReady()
+//           && !swpCurrentYIsWasAlarm
+//           && (swpCurrentYIsWasAlarm != swpPreviousYIsWasAlarm
+//            || isSwitchReady)) {
+////        commentMsg = QObject::tr("Норма");
+////        typeMsg = 1;
+//        currentUN->setPublishedState(1);
     } else if(0 == swpCurrent.isReady()) {
 //        commentMsg = QObject::tr("Неопределенное состояние");
 //        typeMsg = 0;
@@ -232,18 +298,17 @@ bool ProcessingStateWord0x32SOTABOD::processing(const StateWord &data, const QSh
         }
 
     }
-    // запись тревога/норма/неисправность ЧЭ1 <--
+    // запись тревога/норма/неисправность BOD <--
 
     currentUN->updDoubl();
     SignalSlotCommutator::emitUpdUN();
 
 //    qDebug() << "typeMsg:" << typeMsg << "commentMsg:" << commentMsg;
-//    qDebug() << "pSOTAM_BOD: " << previousUN->toString() << previousUN->getPublishedState();
-//    qDebug() << "cSOTAM_BOD: " << currentUN->toString() << currentUN->getPublishedState();
-//    qDebug() << "состояние SOTAM_BOD <--";
+//    qDebug() << "pSOTA_BOD: " << previousUN->toString() << previousUN->getPublishedState();
+//    qDebug() << "cSOTA_BOD: " << currentUN->toString() << currentUN->getPublishedState();
+//    qDebug() << "состояние SOTA_BOD <--";
 
 
 //    qDebug() << "ProcessingStateWord0x32SOTABOD::processing(X) <--";
     return true;
 }
-

@@ -27,17 +27,15 @@ ProcessingStateWord0x33SOTADD::~ProcessingStateWord0x33SOTADD()
 
 bool ProcessingStateWord0x33SOTADD::processing(const StateWord &data, const QSharedPointer<UnitNode> &currentUN) const
 {
-//    qDebug() << "PortManager::procSOTAMDDStatusWord0x33() -->";
     if(TypeUnitNodeEnum::DD_SOTA != currentUN->getType()
     || currentUN->getDkInvolved()) {
-//        qDebug() << "PortManager::procSOTAMDDStatusWord0x33(1) <--";
         return false;
     }
 
+//    qDebug() << "PortManager::procSOTAMDDStatusWord0x33() -->";
+
     const auto& reciverBOD = TopologyService::findReciver(currentUN);
     if(reciverBOD.isNull()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
 //        qDebug() << "PortManager::procSOTAMDDStatusWord0x33(3) <--";
 
@@ -46,16 +44,12 @@ bool ProcessingStateWord0x33SOTADD::processing(const StateWord &data, const QSha
 
     const auto& reciverY4 = TopologyService::findParentByType(TypeUnitNodeEnum::Y4_SOTA, currentUN);
     if(reciverY4.isNull()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
 //        qDebug() << "PortManager::procSOTAMDDStatusWord0x33(31) <--";
 
         return false;
     }
     if(TypeUnitNodeEnum::Y4_SOTA != reciverY4->getType()) {
-        currentUN->updDoubl();
-        SignalSlotCommutator::emitUpdUN();
 
 //        qDebug() << "PortManager::procSOTAMDDStatusWord0x33(32) <--";
 

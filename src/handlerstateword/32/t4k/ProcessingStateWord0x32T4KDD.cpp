@@ -206,16 +206,28 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
 //        reciverY4->setClearedAlarm(21);
 //    } else if(1 == swpCurrent.isReady()
     if(1 == swpCurrent.isReady()
-    && 1 == swpCurrent.y(y4).dd(ddNum).isWasOpened()
-    && (swpCurrent.y(y4).dd(ddNum).isWasOpened() == swpPrevious.y(y4).dd(ddNum).isWasOpened()
+    && 1 == swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak()
+    && (swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak() == swpPrevious.y(y4).dd(ddNum).isWasCommunicationBreak()
      || isSwitchReady)) {
+        commentMsg = QObject::tr("Нет связи");
+        typeMsg = 10;
+        currentUN->setPublishedState(10);
+    } else if(1 == swpCurrent.isReady()
+           && 1 == swpCurrent.y(y4).dd(ddNum).isInCommunicationBreak()) {
+        currentUN->setPublishedState(10);
+    } else if(1 == swpCurrent.isReady()
+           && 0 == swpCurrent.y(y4).dd(ddNum).isInCommunicationBreak()
+           && 1 == swpCurrent.y(y4).dd(ddNum).isWasOpened()
+           && (swpCurrent.y(y4).dd(ddNum).isWasOpened() == swpPrevious.y(y4).dd(ddNum).isWasOpened()
+            || isSwitchReady)) {
         commentMsg = QObject::tr("Тревога - Вскрытие");
         typeMsg = 21;
         currentUN->setPublishedState(21);
         reciverBOD->setClearedAlarm(21);
         reciverY4->setClearedAlarm(21);
 
-    } else if(1 == swpCurrent.isReady()
+    } else if((1 == swpCurrent.isReady()
+            && 0 == swpCurrent.y(y4).dd(ddNum).isInCommunicationBreak())
            || isSwitchReady) {
         //    bool iniState = false;
             // запись тревога/норма/неисправность ЧЭ1 -->
@@ -240,7 +252,11 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 reciverY4->setClearedAlarm(22);
             } else if(1 == swpCurrent.isReady()
                    && 0 == swpCurrent.y(y4).dd(ddNum).c(1).isFault()
-                   && 0 == swpCurrent.y(y4).dd(ddNum).c(1).isWasAlarm()) {
+                   && 0 == swpCurrent.y(y4).dd(ddNum).c(1).isWasAlarm()
+                   && 0 == swpCurrent.y(y4).dd(ddNum).isInOpened()
+                   && 0 == swpCurrent.y(y4).dd(ddNum).isWasOpened()
+                   && 0 == swpCurrent.y(y4).dd(ddNum).isInCommunicationBreak()
+                   && 0 == swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak()) {
                 commentMsgC1 = QObject::tr("Норма по ЧЭ1");
                 typeMsgC1 = 5;
                 currentUN->setPublishedState(5);
@@ -306,7 +322,11 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 reciverY4->setClearedAlarm(23);
             } else if(1 == swpCurrent.isReady()
                    && 0 == swpCurrent.y(y4).dd(ddNum).c(2).isFault()
-                   && 0 == swpCurrent.y(y4).dd(ddNum).c(2).isWasAlarm()) {
+                   && 0 == swpCurrent.y(y4).dd(ddNum).c(2).isWasAlarm()
+                   && 0 == swpCurrent.y(y4).dd(ddNum).isInOpened()
+                   && 0 == swpCurrent.y(y4).dd(ddNum).isWasOpened()
+                   && 0 == swpCurrent.y(y4).dd(ddNum).isInCommunicationBreak()
+                   && 0 == swpCurrent.y(y4).dd(ddNum).isWasCommunicationBreak()) {
                 commentMsgC2 = QObject::tr("Норма по ЧЭ2");
                 typeMsgC2 = 6;
                 currentUN->setPublishedState(6);

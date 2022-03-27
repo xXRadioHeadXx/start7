@@ -35,7 +35,7 @@ bool ProcessingStateWord0x33SOTADK::processing(const StateWord &data, const QSha
         currentUN->updDoubl();
         SignalSlotCommutator::emitUpdUN();
 
-//        qDebug() << "PortManager::procSOTAMY4StatusWord0x33(2) <--";
+//        qDebug() << "PortManager::procSOTAY4StatusWord0x33(2) <--";
 
         return false;
     }
