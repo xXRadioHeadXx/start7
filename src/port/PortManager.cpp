@@ -749,7 +749,7 @@ void PortManager::controlSlot()
     for(const auto& un : as_const(TopologyService::getListTreeUnitNodes())) {
 
         if(un->getType()==TypeUnitNodeEnum::SD_BL_IP){
-        qDebug()<<un->getName()<<" "<<un->done;
+//        qDebug()<<"PortManager::controlSlot()" << un->getName() << un->done;
 
         if(un->done==false)
             res=false;
@@ -1021,7 +1021,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
                                                     }
         //                                            MessageBoxServer::infoErrorExecutingTheLockOpeningCommand();
                                                 };
-    } else if (TypeUnitNodeEnum::IU_BL_IP != target->getType()) {
+    } else if (TypeUnitNodeEnum::IU_BL_IP == target->getType()) {
         updateStateConditionReactor = [un = target, isAuto = isAuto, fromAbonent = fromAbonent, onOff = onOffValue](){
                                                     const auto& swpIU = un->swpIUBLIPType0x41();
                                                     if(1 == swpIU.isOff() && !onOff) // выкл

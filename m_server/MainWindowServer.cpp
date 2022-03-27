@@ -1476,7 +1476,7 @@ void MainWindowServer::on_actionUNOn_triggered()
     if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, false, selUN, true);
     else {
-        const auto& un = as_const(setUn.values()).first();
+        const auto& un = setUn.values().first();
         this->m_portManager->requestAutoOnOffIUCommand(false, false, un);
     }
 }

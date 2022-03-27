@@ -77,13 +77,13 @@ ServerTableModelJour::ServerTableModelJour(QObject *parent, bool firstLoad) :
     if(firstLoad)
         m_listJour = DataBaseManager::getOneMSGRecord();
 
-    /*
+
 
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG(uint32_t)),
             this,
             SLOT(updateListRecords(uint32_t)));
-    */
+
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG()),
             this,

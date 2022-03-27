@@ -25,26 +25,26 @@ HandlerStateWord0x33::~HandlerStateWord0x33()
 void HandlerStateWord0x33::onHandler(const StateWord &data, const QSharedPointer<UnitNode> &un) const
 {
     if( ProcessingStateWord0x33T4KDK(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33T4KDK()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33T4KDK()::processing() --x";
     } else if( ProcessingStateWord0x33SOTADK(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33SOTADK()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33SOTADK()::processing() --x";
     } else if( ProcessingStateWord0x33TGDK(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33TGDK()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33TGDK()::processing() --x";
     } else if( ProcessingStateWord0x33T4KBOD(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33T4KBOD()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33T4KBOD()::processing() --x";
     } else if( ProcessingStateWord0x33SOTABOD(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33SOTABOD()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33SOTABOD()::processing() --x";
     } else if( ProcessingStateWord0x33T4KY4(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33T4KY4()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33T4KY4()::processing() --x";
     } else if( ProcessingStateWord0x33SOTAY4(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33SOTAY4()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33SOTAY4()::processing() --x";
     } else if( ProcessingStateWord0x33T4KDD(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33T4KDD()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33T4KDD()::processing() --x";
     } else if( ProcessingStateWord0x33SOTADD(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33SOTADD()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33SOTADD()::processing() --x";
     } else if( ProcessingStateWord0x33TG(data, un).ProcessingStateWordAbstract::processing() ) {
-        qDebug() << "ProcessingStateWord0x33TG()::processing() --x";
+//        qDebug() << "ProcessingStateWord0x33TG()::processing() --x";
     } else {
-        qDebug() << "HandlerStateWord0x33()::onHandler() --x";
+//        qDebug() << "HandlerStateWord0x33()::onHandler() --x";
     }
 }
