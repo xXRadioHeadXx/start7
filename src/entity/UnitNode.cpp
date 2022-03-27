@@ -2232,6 +2232,14 @@ QPixmap UnitNode_DD_T4K_M::getPxm() const
         if(0 == swp32.isReady()) {
             return Icons::sqr_gry_qstn();
         } else if(getControl()
+               && (1 == swp32.y(y4).dd(ddNum).isInCommunicationBreak()
+                || 1 == swp32.y(y4).dd(ddNum).isWasCommunicationBreak())){
+            return Icons::sqr_ylw();
+        } else if(!getControl()
+               && (1 == swp32.y(y4).dd(ddNum).isInCommunicationBreak()
+                || 1 == swp32.y(y4).dd(ddNum).isWasCommunicationBreak())){
+            return Icons::sqr_blk_crs_ylw();
+        } else if(getControl()
                && (1 == swp32.y(y4).dd(ddNum).c(1).isFault()
                 || 1 == swp32.y(y4).dd(ddNum).c(2).isFault())){
             return Icons::sqr_blu();
@@ -2241,11 +2249,13 @@ QPixmap UnitNode_DD_T4K_M::getPxm() const
             return Icons::sqr_blk_crs_blu();
         } else if(getControl()
             && (swp32.y(y4).dd(ddNum).isWasOpened()
+             || swp32.y(y4).dd(ddNum).isInOpened()
              || swp32.y(y4).dd(ddNum).c(1).isWasAlarm()
              || swp32.y(y4).dd(ddNum).c(2).isWasAlarm())) {
             return Icons::sqr_rd();
         } else if(!getControl()
                && (swp32.y(y4).dd(ddNum).isWasOpened()
+                || swp32.y(y4).dd(ddNum).isInOpened()
                 || swp32.y(y4).dd(ddNum).c(1).isWasAlarm()
                 || swp32.y(y4).dd(ddNum).c(2).isWasAlarm())){
             return Icons::sqr_blk_crs_rd();
@@ -2259,6 +2269,14 @@ QPixmap UnitNode_DD_T4K_M::getPxm() const
     } else if(!swp33.isNull() && swp32.cdate() < swp33.cdate()) {
         if(0 == swp33.isReady()) {
             return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && (1 == swp33.dd().isInCommunicationBreak()
+                || 1 == swp33.dd().isWasCommunicationBreak())){
+            return Icons::sqr_ylw();
+        } else if(!getControl()
+               && (1 == swp33.dd().isInCommunicationBreak()
+                || 1 == swp33.dd().isWasCommunicationBreak())){
+            return Icons::sqr_blk_crs_ylw();
         } else if(getControl()
                && (swp33.dd().isFault()
                 || swp33.dd().c(1).isCliff()
@@ -2275,6 +2293,7 @@ QPixmap UnitNode_DD_T4K_M::getPxm() const
                return Icons::sqr_blk_crs_blu();
         } else if(getControl()
                && (swp33.dd().isWasOpened()
+                || swp33.dd().isInOpened()
                 || swp33.dd().c(1).isWasAlarm()
                 || swp33.dd().c(2).isWasAlarm()
                 || swp33.dd().c(1).f(1).isWasAlarm()
@@ -2284,6 +2303,7 @@ QPixmap UnitNode_DD_T4K_M::getPxm() const
                return Icons::sqr_rd();
         } else if(!getControl()
                && (swp33.dd().isWasOpened()
+                || swp33.dd().isInOpened()
                 || swp33.dd().c(1).isWasAlarm()
                 || swp33.dd().c(2).isWasAlarm()
                 || swp33.dd().c(1).f(1).isWasAlarm()
@@ -2364,7 +2384,9 @@ QPixmap UnitNode_DD_SOTA::getPxm() const
     auto ddNum = getNum2() % 100;
     const auto& swp32 = swpSOTABODType0x32();
     const auto& swp33 = swpSOTABODType0x33();
-    if(getControl() && swp32.isNull() && swp33.isNull()) {
+    if(getControl()
+    && swp32.isNull()
+    && swp33.isNull()) {
         return Icons::sqr_ylw();
     } else if(!getControl()
            && swp32.isNull()
@@ -2374,6 +2396,14 @@ QPixmap UnitNode_DD_SOTA::getPxm() const
            && swp33.cdate() < swp32.cdate()) {
         if(0 == swp32.isReady()) {
             return Icons::sqr_gry_qstn();
+        } else if(getControl()
+               && (1 == swp32.y(y4).dd(ddNum).isInCommunicationBreak()
+                || 1 == swp32.y(y4).dd(ddNum).isWasCommunicationBreak())){
+            return Icons::sqr_ylw();
+        } else if(!getControl()
+               && (1 == swp32.y(y4).dd(ddNum).isInCommunicationBreak()
+                || 1 == swp32.y(y4).dd(ddNum).isWasCommunicationBreak())){
+            return Icons::sqr_blk_crs_ylw();
         } else if(getControl()
                && 1 == swp32.y(y4).dd(ddNum).isFault()){
             return Icons::sqr_blu();
@@ -2397,6 +2427,14 @@ QPixmap UnitNode_DD_SOTA::getPxm() const
         if(0 == swp33.isReady()) {
             return Icons::sqr_gry_qstn();
         } else if(getControl()
+               && (1 == swp33.dd().isInCommunicationBreak()
+                || 1 == swp33.dd().isWasCommunicationBreak())){
+            return Icons::sqr_ylw();
+        } else if(!getControl()
+               && (1 == swp33.dd().isInCommunicationBreak()
+                || 1 == swp33.dd().isWasCommunicationBreak())){
+            return Icons::sqr_blk_crs_ylw();
+        } else if(getControl()
                && swp33.dd().isFault()){
             return Icons::sqr_blu();
         } else if(!getControl()
@@ -2405,13 +2443,11 @@ QPixmap UnitNode_DD_SOTA::getPxm() const
         } else if(getControl()
                && (swp33.dd().isWasOpened()
                 || swp33.dd().isWasAlarm()
-                || swp33.dd().isWasAlarm()
                 || swp33.dd().f(1).isWasAlarm()
                 || swp33.dd().f(2).isWasAlarm())){
                return Icons::sqr_rd();
         } else if(!getControl()
                && (swp33.dd().isWasOpened()
-                || swp33.dd().isWasAlarm()
                 || swp33.dd().isWasAlarm()
                 || swp33.dd().f(1).isWasAlarm()
                 || swp33.dd().f(2).isWasAlarm())){
