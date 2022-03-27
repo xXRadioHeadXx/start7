@@ -1243,7 +1243,7 @@ void PortManager::manageOverallReadQueue()
     for (const auto &itm : tmpQueue) {
         QPair<QString, QString> tmpPair(Utils::hostAddressToString(itm.address()), QVariant(itm.port()).toString());
 //        AbstractPort * pt = m_udpPortsVector.value(itm.portIndex(), nullptr);
-        if(DataQueueItem::isValideDirectionI(itm)) {
+        if(true /*DataQueueItem::isValideDirectionI(itm)*/) {
             uint8_t num1Sender = itm.data().at(2);
             uint8_t CMD = itm.data().at(4);
             QString hostSender = Utils::hostAddressToString(itm.address());
