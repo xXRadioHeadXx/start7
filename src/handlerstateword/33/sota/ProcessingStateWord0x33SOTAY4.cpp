@@ -160,9 +160,6 @@ bool ProcessingStateWord0x33SOTAY4::processing(const StateWord &data, const QSha
 //        typeMsg = 0;
         currentUN->setPublishedState(0);
     }
-//    if(isWakeUp || isFirstWakeUp) {
-//        commentMsg += " (начальное состояние)";
-//    }
 
     bool wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
     Q_UNUSED(wasSendAbonentEventsAndStates)
@@ -180,6 +177,9 @@ bool ProcessingStateWord0x33SOTAY4::processing(const StateWord &data, const QSha
         JourEntity msg = prepareMsg;
         // следует записать сообщение
         // заполняем поля сообщения
+        if(isWakeUp || isFirstWakeUp || isSwitchReady) {
+            commentMsg += " (начальное состояние)";
+        }
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
                 currentUN->done=true;

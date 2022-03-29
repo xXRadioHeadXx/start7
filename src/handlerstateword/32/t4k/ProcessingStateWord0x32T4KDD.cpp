@@ -261,9 +261,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 typeMsgC1 = 5;
                 currentUN->setPublishedState(5);
             }
-//            if(isWakeUp || isFirstWakeUp) {
-//                commentMsgC1 += " (начальное состояние)";
-//            }
 
             bool wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
             Q_UNUSED(wasSendAbonentEventsAndStates)
@@ -280,6 +277,9 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 JourEntity msg = prepareMsg;
                 // следует записать сообщение
                 // заполняем поля сообщения
+                if(isWakeUp || isFirstWakeUp || isSwitchReady) {
+                    commentMsgC1 += " (начальное состояние)";
+                }
                 currentUN->done=true;
                 msg.setComment(commentMsgC1);
                 msg.setType(typeMsgC1);
@@ -331,9 +331,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 typeMsgC2 = 6;
                 currentUN->setPublishedState(6);
             }
-//            if(isWakeUp || isFirstWakeUp) {
-//                commentMsgC2 += " (начальное состояние)";
-//            }
 
             wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
             if((isWakeUp
@@ -349,6 +346,9 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 JourEntity msg = prepareMsg;
                 // следует записать сообщение
                 // заполняем поля сообщения
+                if(isWakeUp || isFirstWakeUp || isSwitchReady) {
+                    commentMsgC2 += " (начальное состояние)";
+                }
                 currentUN->done=true;
                 msg.setComment(commentMsgC2);
                 msg.setType(typeMsgC2);
@@ -382,9 +382,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
 //        typeMsg = 0;
         currentUN->setPublishedState(0);
     }
-//    if(isWakeUp || isFirstWakeUp) {
-//        commentMsg += " (начальное состояние)";
-//    }
 
     bool wasSendAbonentEventsAndStates = false || isWakeUp || isFirstWakeUp;
     Q_UNUSED(wasSendAbonentEventsAndStates)
@@ -400,6 +397,9 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
         JourEntity msg = prepareMsg;
         // следует записать сообщение
         // заполняем поля сообщения
+        if(isWakeUp || isFirstWakeUp || isSwitchReady) {
+            commentMsg += " (начальное состояние)";
+        }
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
