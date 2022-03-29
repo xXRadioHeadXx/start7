@@ -343,11 +343,27 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                 case 0x2C2E: { // 34 & 33
                     switch (currentTrackedUN()->leftoversCounter.mod()) {
                         case 0: {
-                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
                             break;
                         }
                         case 1: {
-                            DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 2: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 3: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 4: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 5: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
                             break;
                         }
                         default: {
@@ -383,15 +399,31 @@ DataQueueItem MultiUNStatusConnectRequester::makeFirstMsg() {
                 case 0x2C2D2E: { // 32 & 34 & 33
                     switch (currentTrackedUN()->leftoversCounter.mod()) {
                         case 0: {
-                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
-                            break;
-                        }
-                        case 1: {
                             DataQueueItem::fillStatusRequest0x2D(result, currentTrackedUN());
                             break;
                         }
-                        case 2: {
+                        case 1: {
                             DataQueueItem::fillStatusRequest0x2E(result, currentTrackedUN());
+                            break;
+                        }
+                        case 2: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 3: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 4: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 5: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
+                            break;
+                        }
+                        case 6: {
+                            DataQueueItem::fillStatusRequest0x2C(result, currentTrackedUN());
                             break;
                         }
                         default: {

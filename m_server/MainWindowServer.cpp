@@ -482,12 +482,12 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
                     if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
                         reciver->setNeededStateWordType(0x2C2D2E); // 32 & 33
                         reciver->leftoversCounter.counter = 0;
-                        reciver->leftoversCounter.divider = 2;
+                        reciver->leftoversCounter.divider = 7;
                         reciver->setInterrogationUN(selUN);
                     } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
                         reciver->setNeededStateWordType(0x2C2E); // 32 & 33
                         reciver->leftoversCounter.counter = 0;
-                        reciver->leftoversCounter.divider = 2;
+                        reciver->leftoversCounter.divider = 6;
                         reciver->setInterrogationUN(selUN);
                     } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
                         reciver->setNeededStateWordType(0x2D2E); // 32 & 33
@@ -525,12 +525,12 @@ void MainWindowServer::tuneNeededStateWordTypeSelectedlUN() const {
             if(ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // настройка диагностика
                 reciver->setNeededStateWordType(0x2C2D2E); // 32 & 33
                 reciver->leftoversCounter.counter = 0;
-                reciver->leftoversCounter.divider = 2;
+                reciver->leftoversCounter.divider = 7;
                 reciver->setInterrogationUN(selUN);
             } else if(ui->groupBox_Customization->isVisible() && !ui->groupBox_Diagnostics->isVisible()) { // настройка
                 reciver->setNeededStateWordType(0x2C2D); // 32 & 33
                 reciver->leftoversCounter.counter = 0;
-                reciver->leftoversCounter.divider = 2;
+                reciver->leftoversCounter.divider = 6;
                 reciver->setInterrogationUN(selUN);
             } else if(!ui->groupBox_Customization->isVisible() && ui->groupBox_Diagnostics->isVisible()) { // диагностика
                 reciver->setNeededStateWordType(0x2D2E); // 32 & 33
