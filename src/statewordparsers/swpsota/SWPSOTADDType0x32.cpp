@@ -15,7 +15,7 @@ int SWPSOTADDType0x32::getDd() const
 
 int SWPSOTADDType0x32::index() const
 {
-    int index = 0;
+    int index = 1;
     if(2 < getY4()) {
         index += 50;
     }

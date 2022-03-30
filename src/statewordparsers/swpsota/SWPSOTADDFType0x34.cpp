@@ -27,7 +27,7 @@ int SWPSOTADDFType0x34::threshold() const
     } else {
         return -1;
     }
-    return (static_cast<uint16_t>(byteWord().at(index)) << 8) & (static_cast<uint16_t>(byteWord().at(index + 1)) & 0x00FF);
+    return (static_cast<uint16_t>(byteWord().at(index)) << 8) | (static_cast<uint16_t>(byteWord().at(index + 1)) & 0x00FF);
 }
 
 float SWPSOTADDFType0x34::timeImpact() const
