@@ -1389,8 +1389,8 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
 
     setCellTextBackgroundColorForegroundBold( table, 10,0, (QObject::tr("Выход \"ДК\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table, 11,0, (QObject::tr("Состояние \"ДК\" было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 12,0, (QObject::tr("Выход \"Вскрытие БО\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 13,0, (QObject::tr("Вскрытие БО было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 12,0, (QObject::tr("Выход \"Вскрытие БОД\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 13,0, (QObject::tr("Вскрытие БОД было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
 
     setCellTextBackgroundColorForegroundBold( table, 1,2, (QObject::tr("Сработка по ЧЭ1 было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table, 2,2, (QObject::tr("Сработка по ЧЭ2 было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
@@ -1446,14 +1446,14 @@ void Utils::fillDiagnosticTableDD_T4K_M(QTableWidget * const table, const QShare
         setCellTextBackgroundColorForegroundBold( table, 11,1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    //"Выход \"Вскрытие БО\""
+    //"Выход \"Вскрытие БОД\""
     if(1 == swp.isInOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 12,1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isInOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 12,1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    //"Вскрытие БО было"
+    //"Вскрытие БОД было"
     if(1 == swp.isWasOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 13,1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isWasOpened()) {
@@ -1607,8 +1607,8 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
 
     setCellTextBackgroundColorForegroundBold( table, 10,0, (QObject::tr("Выход \"ДК\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table, 11,0, (QObject::tr("Состояние \"ДК\" было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 12,0, (QObject::tr("Выход \"Вскрытие БО\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 13,0, (QObject::tr("Вскрытие БО было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 12,0, (QObject::tr("Выход \"Вскрытие БОД\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 13,0, (QObject::tr("Вскрытие БОД было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
 
     setCellTextBackgroundColorForegroundBold( table,  1,2, (QObject::tr("Сработка было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table,  2,2, (QObject::tr("Обрыв связи с ДД есть")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
@@ -1672,14 +1672,14 @@ void Utils::fillDiagnosticTableDD_SOTA(QTableWidget * const table, const QShared
         setCellTextBackgroundColorForegroundBold( table, 11,1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    //"Выход \"Вскрытие БО\""
+    //"Выход \"Вскрытие БОД\""
     if(1 == swp.isInOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 12,1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isInOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 12,1, "Нет [0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    //"Вскрытие БО было"
+    //"Вскрытие БОД было"
     if(1 == swp.isWasOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 13,1, "Да <1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isWasOpened()) {
@@ -1792,8 +1792,8 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
 
     setCellTextBackgroundColorForegroundBold( table, 10,0, (QObject::tr("Выход \"ДК\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table, 11,0, (QObject::tr("Состояние \"ДК\" было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 12,0, (QObject::tr("Выход \"Вскрытие БО\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 13,0, (QObject::tr("Вскрытие БО было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 12,0, (QObject::tr("Выход \"Вскрытие БОД\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 13,0, (QObject::tr("Вскрытие БОД было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
 
     setCellTextBackgroundColorForegroundBold( table, 1,2, (QObject::tr("Участки 1-2")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table, 11,2, (QObject::tr("Участки 3-4")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
@@ -1855,14 +1855,14 @@ void Utils::fillDiagnosticTableY4_SOTA(QTableWidget * const table, const QShared
         setCellTextBackgroundColorForegroundBold( table, 11,1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    //"Выход \"Вскрытие БО\""
+    //"Выход \"Вскрытие БОД\""
     if(1 == swp.isInOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 12,1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isInOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 12,1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    //"Вскрытие БО было"
+    //"Вскрытие БОД было"
     if(1 == swp.isWasOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 13,1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isWasOpened()) {
@@ -2019,8 +2019,8 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
 
     setCellTextBackgroundColorForegroundBold( table, 10,0, (QObject::tr("Выход \"ДК\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table, 11,0, (QObject::tr("Состояние \"ДК\" было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 12,0, (QObject::tr("Выход \"Вскрытие БО\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
-    setCellTextBackgroundColorForegroundBold( table, 13,0, (QObject::tr("Вскрытие БО было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 12,0, (QObject::tr("Выход \"Вскрытие БОД\"")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
+    setCellTextBackgroundColorForegroundBold( table, 13,0, (QObject::tr("Вскрытие БОД было")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
 
     setCellTextBackgroundColorForegroundBold( table, 1,2, (QObject::tr("Участки 1-2")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
     setCellTextBackgroundColorForegroundBold( table, 12,2, (QObject::tr("Участки 3-4")), cellGray, QBrush(QColor(0x00, 0x00, 0x00)), true);
@@ -2085,14 +2085,14 @@ void Utils::fillDiagnosticTableY4_T4K_M(QTableWidget * const table, const QShare
         setCellTextBackgroundColorForegroundBold( table, 11,1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    //"Выход \"Вскрытие БО\""
+    //"Выход \"Вскрытие БОД\""
     if(1 == swp.isInOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 12,1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isInOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 12,1, "[0]", cellGreen, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     }
 
-    //"Вскрытие БО было"
+    //"Вскрытие БОД было"
     if(1 == swp.isWasOpened()) {
         setCellTextBackgroundColorForegroundBold( table, 13,1, "<1>", cellRed, QBrush(QColor(0xFF, 0xFF, 0xFF)), false);
     } else if(0 == swp.isWasOpened()) {
