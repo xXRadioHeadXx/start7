@@ -511,7 +511,7 @@
                   <number>1</number>
                  </property>
                  <item row="7" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota1CountAffectF1">
+                  <widget class="QComboBox" name="comboBox_SOTADDF1CountImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -546,7 +546,7 @@
                   </widget>
                  </item>
                  <item row="9" column="0">
-                  <widget class="QSpinBox" name="spinBox_Sota1DurationF1">
+                  <widget class="QSpinBox" name="spinBox_SOTADDF1DurationOvercoming">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -594,7 +594,7 @@
                   </spacer>
                  </item>
                  <item row="7" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota1CountAffectF2">
+                  <widget class="QComboBox" name="comboBox_SOTADDF2CountImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -667,7 +667,7 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota1F2">
+                  <widget class="QComboBox" name="comboBox_SOTADDF2OnOff">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -680,21 +680,6 @@
                      <height>22</height>
                     </size>
                    </property>
-                   <item>
-                    <property name="text">
-                     <string>Неопределено</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Основной</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Дополнительный</string>
-                    </property>
-                   </item>
                   </widget>
                  </item>
                  <item row="4" column="0">
@@ -717,7 +702,7 @@
                   </widget>
                  </item>
                  <item row="5" column="1">
-                  <widget class="QComboBox" name="comboBox_Sota1TimeAffectF2">
+                  <widget class="QComboBox" name="comboBox_SOTADDF2TimeImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -752,7 +737,7 @@
                   </widget>
                  </item>
                  <item row="5" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota1TimeAffectF1">
+                  <widget class="QComboBox" name="comboBox_SOTADDF1TimeImpact">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -768,7 +753,7 @@
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QComboBox" name="comboBox_Sota1F1">
+                  <widget class="QComboBox" name="comboBox_SOTADDF1OnOff">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -841,7 +826,7 @@
                   </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QSpinBox" name="spinBox_Sota1EdgeF1">
+                  <widget class="QSpinBox" name="spinBox_SOTADDF1Threshold">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -857,7 +842,7 @@
                   </widget>
                  </item>
                  <item row="9" column="1">
-                  <widget class="QSpinBox" name="spinBox_Sota1DurationF2">
+                  <widget class="QSpinBox" name="spinBox_SOTADDF2DurationOvercoming">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -873,7 +858,7 @@
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QSpinBox" name="spinBox_Sota1EdgeF2">
+                  <widget class="QSpinBox" name="spinBox_SOTADDF2Threshold">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
