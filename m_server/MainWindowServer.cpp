@@ -2576,7 +2576,7 @@ void MainWindowServer::fillPageT4KDD()
     auto index = ui->comboBox_T4KDDC1F1OnOff->findData(swp.dd().c(1).f(1).isOn());
     ui->comboBox_T4KDDC1F1OnOff->setCurrentIndex(index);
 
-    index = ui->comboBox_T4KDDC1F2OnOff->findData(swp.dd().c(1).f(1).isOn());
+    index = ui->comboBox_T4KDDC1F2OnOff->findData(swp.dd().c(1).f(2).isOn());
     ui->comboBox_T4KDDC1F2OnOff->setCurrentIndex(index);
 
     ui->spinBox_T4KDDC1F1Threshold->setValue(swp.dd().c(1).f(1).threshold());
@@ -2603,7 +2603,7 @@ void MainWindowServer::fillPageT4KDD()
     index = ui->comboBox_T4KDDC2F1OnOff->findData(swp.dd().c(2).f(1).isOn());
     ui->comboBox_T4KDDC2F1OnOff->setCurrentIndex(index);
 
-    index = ui->comboBox_T4KDDC2F2OnOff->findData(swp.dd().c(2).f(1).isOn());
+    index = ui->comboBox_T4KDDC2F2OnOff->findData(swp.dd().c(2).f(2).isOn());
     ui->comboBox_T4KDDC2F2OnOff->setCurrentIndex(index);
 
     ui->spinBox_T4KDDC2F1Threshold->setValue(swp.dd().c(2).f(1).threshold());
