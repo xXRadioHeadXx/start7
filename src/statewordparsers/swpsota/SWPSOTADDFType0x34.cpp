@@ -86,9 +86,9 @@ int SWPSOTADDFType0x34::isOn() const
     if(byteWord().isEmpty())
         return -1;
     if(1 == getF()) {
-        return static_cast<uint16_t>(byteWord().at(1)) & 0b10000000;
+        return (static_cast<uint16_t>(byteWord().at(1)) & 0b10000000) ? 1 : 0;
     } else if(2 == getF()) {
-        return static_cast<uint16_t>(byteWord().at(1)) & 0b01000000;
+        return (static_cast<uint16_t>(byteWord().at(1)) & 0b01000000) ? 1 : 0;
     }
     return -1;
 }
