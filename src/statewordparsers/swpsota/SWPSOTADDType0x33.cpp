@@ -90,7 +90,7 @@ int SWPSOTADDType0x33::level() const
 {
     if(byteWord().isEmpty())
         return -1;
-    return (static_cast<uint16_t>(byteWord().at(3)) << 8) & (static_cast<uint16_t>(byteWord().at(4)) & 0x00FF);
+    return (static_cast<uint16_t>(byteWord().at(3)) << 8) | (static_cast<uint16_t>(byteWord().at(4)) & 0x00FF);
 }
 
 SWPSOTADDFType0x33 SWPSOTADDType0x33::f(int num)
