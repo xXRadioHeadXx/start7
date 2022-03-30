@@ -210,7 +210,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     GraphTerminal::sendAbonentEventsAndStates(msg);
 
-    preparePageCustomization(-1);
+    preparePageCustomization();
 
     m_alarmSwitchOffLogger->start();
 
@@ -579,7 +579,7 @@ void MainWindowServer::treeView_selectionChanged(const QItemSelection &selected,
     tuneNeededStateWordTypeSelectedlUN();
 
     createDiagnosticTable();
-    preparePageCustomization(selUN->getType());
+    preparePageCustomization();
 
 
 
@@ -1900,7 +1900,7 @@ void MainWindowServer::changeSelectUN(QSharedPointer<UnitNode> un)
     ui->treeView->setCurrentIndex(index);
 }
 
-void MainWindowServer::preparePageCustomization(int /*typeUN*/)
+void MainWindowServer::preparePageCustomization()
 {
 
     if(!ui->actionCustomization->isChecked()) {
@@ -1933,21 +1933,21 @@ void MainWindowServer::preparePageCustomization(int /*typeUN*/)
         ui->groupBox_Customization->setMinimumHeight(140);
         break;
     case TypeUnitNodeEnum::TG:
-        preparePagePoint(selUN->getType());
+        preparePagePoint();
         ui->stackedWidget->setCurrentIndex(3);
         ui->groupBox_Customization->setMinimumWidth(310);
         ui->groupBox_Customization->setMaximumHeight(165);
         ui->groupBox_Customization->setMinimumHeight(165);
         break;
     case TypeUnitNodeEnum::DD_SOTA:
-        preparePageSota1(selUN->getType());
+        preparePageSOTA();
         ui->stackedWidget->setCurrentIndex(1);
         ui->groupBox_Customization->setMinimumWidth(330);
-        ui->groupBox_Customization->setMaximumHeight(265);
-        ui->groupBox_Customization->setMinimumHeight(265);
+        ui->groupBox_Customization->setMaximumHeight(275);
+        ui->groupBox_Customization->setMinimumHeight(275);
         break;
     case TypeUnitNodeEnum::DD_T4K_M:
-        preparePageT4KDD(selUN->getType());
+        preparePageT4KDD();
         ui->stackedWidget->setCurrentIndex(2);
         ui->groupBox_Customization->setMinimumWidth(330);
         ui->groupBox_Customization->setMaximumHeight(560);
@@ -2112,7 +2112,7 @@ void MainWindowServer::preparePageRLM(const QSharedPointer<UnitNode>  un)
     fillPageRLM();
 }
 
-void MainWindowServer::preparePagePoint(int /*typeUN*/)
+void MainWindowServer::preparePagePoint()
 {
     ui->comboBox_PointInput->clear();
     ui->comboBox_PointInput->setEnabled(false);
@@ -2150,11 +2150,8 @@ void MainWindowServer::preparePagePoint(int /*typeUN*/)
     fillPageTG();
 }
 
-void MainWindowServer::preparePageSota1(int typeUN)
+void MainWindowServer::preparePageSOTA()
 {
-    if(0 == typeUN)
-        return;
-
     ui->comboBox_SOTADDF1OnOff->clear();
     ui->comboBox_SOTADDF1OnOff->setEnabled(false);
     ui->comboBox_SOTADDF1OnOff->setEditable(false);
@@ -2231,11 +2228,8 @@ void MainWindowServer::preparePageSota1(int typeUN)
     ui->spinBox_SOTADDF2DurationOvercoming->setEnabled(true);
 }
 
-void MainWindowServer::preparePageT4KDD(int typeUN)
+void MainWindowServer::preparePageT4KDD()
 {
-    if(0 == typeUN)
-        return;
-
     //C1
     ui->comboBox_T4KDDC1F1OnOff->clear();
     ui->comboBox_T4KDDC1F1OnOff->setEnabled(false);
@@ -2670,7 +2664,7 @@ void MainWindowServer::on_actionCustomization_triggered()
         if(!ServerSettingUtils::checkDialogAuditAdm())
             return;
     }
-    preparePageCustomization(-1);
+    preparePageCustomization();
 
     tuneNeededStateWordTypeSelectedlUN();
 }

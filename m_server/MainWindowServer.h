@@ -104,11 +104,11 @@ private slots:
 
     void changeSelectUN(QSharedPointer<UnitNode> un);
 
-    void preparePageCustomization(int typeUN);
+    void preparePageCustomization();
     void preparePageRLM(QSharedPointer<UnitNode> un);
-    void preparePagePoint(int typeUN);
-    void preparePageSota1(int typeUN);
-    void preparePageT4KDD(int typeUN);
+    void preparePagePoint();
+    void preparePageSOTA();
+    void preparePageT4KDD();
 
     void fillPageRLM();
     void fillPageTG();
