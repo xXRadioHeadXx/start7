@@ -2909,12 +2909,211 @@ void MainWindowServer::on_pushButton_WriteCustomization_clicked()
 
         break;
     }
-    case TypeUnitNodeEnum::DD_SOTA:
-        fillPageSOTADD(); //CurrentIndex(1);
+    case TypeUnitNodeEnum::DD_SOTA: {
+        auto newStateWord = selUN->getStateWord(0x34u).getByteWord();
+        if(newStateWord.isEmpty()) {
+//            //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
+            return;
+        }
+
+        //swp.dd().f(1).isOn()
+        if(1 == ui->comboBox_SOTADDF1OnOff->currentData().toInt()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b11111111);
+        } else if(0 == ui->comboBox_SOTADDF1OnOff->currentData().toInt()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b01111111);
+        }
+
+        //swp.dd().f(2).isOn()
+        if(1 == ui->comboBox_SOTADDF2OnOff->currentData().toInt()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b11111111);
+        } else if(0 == ui->comboBox_SOTADDF2OnOff->currentData().toInt()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b01111111);
+        }
+
+        //swp.dd().f(1).threshold()
+        if(0 <= ui->spinBox_SOTADDF1Threshold->value()) {
+            newStateWord[2] = (static_cast<uint16_t>(ui->spinBox_SOTADDF1Threshold->value()) >> 8);
+            newStateWord[3] = (static_cast<uint16_t>(ui->spinBox_SOTADDF1Threshold->value()) & 0x00FF);
+        }
+
+        //swp.dd().f(2).threshold()
+        if(0 <= ui->spinBox_SOTADDF2Threshold->value()) {
+            newStateWord[4] = (static_cast<uint16_t>(ui->spinBox_SOTADDF2Threshold->value()) >> 8);
+            newStateWord[5] = (static_cast<uint16_t>(ui->spinBox_SOTADDF2Threshold->value()) & 0x00FF);
+        }
+
+        //swp.dd().f(1).timeImpact()
+        if(0 <= ui->comboBox_SOTADDF1TimeImpact->currentData().toFloat()) {
+            newStateWord[6] = (static_cast<uint8_t>(ui->comboBox_SOTADDF1TimeImpact->currentData().toFloat() * 10.0f));
+        }
+
+        //swp.dd().f(2).timeImpact()
+        if(0 <= ui->comboBox_SOTADDF2TimeImpact->currentData().toFloat()) {
+            newStateWord[7] = (static_cast<uint8_t>(ui->comboBox_SOTADDF2TimeImpact->currentData().toFloat() * 10.0f));
+        }
+
+        //swp.dd().f(1).countImpact()
+        if(0 <= ui->comboBox_SOTADDF1CountImpact->currentData().toInt()) {
+            newStateWord[8] = (static_cast<uint8_t>(ui->comboBox_SOTADDF1CountImpact->currentData().toInt()));
+        }
+
+        //swp.dd().f(2).countImpact()
+        if(0 <= ui->comboBox_SOTADDF2CountImpact->currentData().toInt()) {
+            newStateWord[9] = (static_cast<uint8_t>(ui->comboBox_SOTADDF2CountImpact->currentData().toInt()));
+        }
+
+        //swp.dd().f(1).durationOvercoming()
+        if(0 <= ui->spinBox_SOTADDF1DurationOvercoming->value()) {
+            newStateWord[10] = (static_cast<uint8_t>(ui->spinBox_SOTADDF1DurationOvercoming->value()));
+        }
+
+        //swp.dd().f(2).durationOvercoming()
+        if(0 <= ui->spinBox_SOTADDF2DurationOvercoming->value()) {
+            newStateWord[11] = (static_cast<uint8_t>(ui->spinBox_SOTADDF2DurationOvercoming->value()));
+        }
+
+        auto copyUN = UnitNodeFactory::makeShare(*selUN);
+        copyUN->setStateWord(0x34u, newStateWord);
+        m_portManager->requestModeSensor(copyUN);
+
         break;
-    case TypeUnitNodeEnum::DD_T4K_M:
-        fillPageT4KDD(); //CurrentIndex(2);
+    }
+    case TypeUnitNodeEnum::DD_T4K_M: {
+        auto newStateWord = selUN->getStateWord(0x34u).getByteWord();
+        if(newStateWord.isEmpty()) {
+//            //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
+            return;
+        }
+
+        //swp.dd().c(1).f(1).isOn()
+        if(1 == ui->comboBox_T4KDDC1F1OnOff->currentData().toInt()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b11111111);
+        } else if(0 == ui->comboBox_T4KDDC1F1OnOff->currentData().toInt()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b01111111);
+        }
+
+        //swp.dd().c(1).f(2).isOn()
+        if(1 == ui->comboBox_T4KDDC1F2OnOff->currentData().toInt()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b11111111);
+        } else if(0 == ui->comboBox_T4KDDC1F2OnOff->currentData().toInt()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b10111111);
+        }
+
+        //swp.dd().c(1).f(1).threshold()
+        if(0 <= ui->spinBox_T4KDDC1F1Threshold->value()) {
+            newStateWord[2] = (static_cast<uint16_t>(ui->spinBox_T4KDDC1F1Threshold->value()) >> 8);
+            newStateWord[3] = (static_cast<uint16_t>(ui->spinBox_T4KDDC1F1Threshold->value()) & 0x00FF);
+        }
+
+        //swp.dd().c(1).f(2).threshold()
+        if(0 <= ui->spinBox_T4KDDC1F2Threshold->value()) {
+            newStateWord[4] = (static_cast<uint16_t>(ui->spinBox_T4KDDC1F2Threshold->value()) >> 8);
+            newStateWord[5] = (static_cast<uint16_t>(ui->spinBox_T4KDDC1F2Threshold->value()) & 0x00FF);
+        }
+
+        //swp.dd().c(1).f(1).timeImpact()
+        if(0 <= ui->comboBox_T4KDDC1F1TimeImpact->currentData().toFloat()) {
+            newStateWord[6] = (static_cast<uint8_t>(ui->comboBox_T4KDDC1F1TimeImpact->currentData().toFloat() * 10.0f));
+        }
+
+        //swp.dd().c(1).f(2).timeImpact()
+        if(0 <= ui->comboBox_T4KDDC1F2TimeImpact->currentData().toFloat()) {
+            newStateWord[7] = (static_cast<uint8_t>(ui->comboBox_T4KDDC1F2TimeImpact->currentData().toFloat() * 10.0f));
+        }
+
+        //swp.dd().c(1).f(1).countImpact()
+        if(0 <= ui->comboBox_T4KDDC1F1CountImpact->currentData().toInt()) {
+            newStateWord[8] = (static_cast<uint8_t>(ui->comboBox_T4KDDC1F1CountImpact->currentData().toInt()));
+        }
+
+        //swp.dd().c(1).f(2).countImpact()
+        if(0 <= ui->comboBox_T4KDDC1F2CountImpact->currentData().toInt()) {
+            newStateWord[9] = (static_cast<uint8_t>(ui->comboBox_T4KDDC1F2CountImpact->currentData().toInt()));
+        }
+
+        //swp.dd().c(1).f(1).durationOvercoming()
+        if(0 <= ui->spinBox_T4KDDC1F1DurationOvercoming->value()) {
+            newStateWord[10] = (static_cast<uint8_t>(ui->spinBox_T4KDDC1F1DurationOvercoming->value()));
+        }
+
+        //swp.dd().c(1).f(2).durationOvercoming()
+        if(0 <= ui->spinBox_T4KDDC1F2DurationOvercoming->value()) {
+            newStateWord[11] = (static_cast<uint8_t>(ui->spinBox_T4KDDC1F2DurationOvercoming->value()));
+        }
+
+        //swp.dd().c(1).weakening()
+        if(0 <= ui->comboBox_T4KDDWeakeningC1->currentData().toFloat()) {
+            newStateWord[1] = (static_cast<uint8_t>(newStateWord.at(1)) & static_cast<uint16_t>(0xF0)) | (static_cast<uint8_t>(ui->comboBox_T4KDDWeakeningC1->currentData().toInt()) & static_cast<uint16_t>(0x0F));
+        }
+
+        //swp.dd().c(2).f(1).isOn()
+        if(1 == ui->comboBox_T4KDDC2F1OnOff->currentData().toInt()) {
+            newStateWord[12] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b11111111);
+        } else if(0 == ui->comboBox_T4KDDC2F1OnOff->currentData().toInt()) {
+            newStateWord[12] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b01111111);
+        }
+
+        //swp.dd().c(2).f(2).isOn()
+        if(1 == ui->comboBox_T4KDDC2F2OnOff->currentData().toInt()) {
+            newStateWord[12] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b11111111);
+        } else if(0 == ui->comboBox_T4KDDC2F2OnOff->currentData().toInt()) {
+            newStateWord[12] = (static_cast<uint8_t>(newStateWord.at(1)) & 0b10111111);
+        }
+
+        //swp.dd().c(2).f(1).threshold()
+        if(0 <= ui->spinBox_T4KDDC2F1Threshold->value()) {
+            newStateWord[13] = (static_cast<uint16_t>(ui->spinBox_T4KDDC2F1Threshold->value()) >> 8);
+            newStateWord[14] = (static_cast<uint16_t>(ui->spinBox_T4KDDC2F1Threshold->value()) & 0x00FF);
+        }
+
+        //swp.dd().c(2).f(2).threshold()
+        if(0 <= ui->spinBox_T4KDDC2F2Threshold->value()) {
+            newStateWord[15] = (static_cast<uint16_t>(ui->spinBox_T4KDDC2F2Threshold->value()) >> 8);
+            newStateWord[16] = (static_cast<uint16_t>(ui->spinBox_T4KDDC2F2Threshold->value()) & 0x00FF);
+        }
+
+        //swp.dd().c(2).f(1).timeImpact()
+        if(0 <= ui->comboBox_T4KDDC2F1TimeImpact->currentData().toFloat()) {
+            newStateWord[17] = (static_cast<uint8_t>(ui->comboBox_T4KDDC2F1TimeImpact->currentData().toFloat() * 10.0f));
+        }
+
+        //swp.dd().c(2).f(2).timeImpact()
+        if(0 <= ui->comboBox_T4KDDC2F2TimeImpact->currentData().toFloat()) {
+            newStateWord[18] = (static_cast<uint8_t>(ui->comboBox_T4KDDC2F2TimeImpact->currentData().toFloat() * 10.0f));
+        }
+
+        //swp.dd().c(2).f(1).countImpact()
+        if(0 <= ui->comboBox_T4KDDC2F1CountImpact->currentData().toInt()) {
+            newStateWord[19] = (static_cast<uint8_t>(ui->comboBox_T4KDDC2F1CountImpact->currentData().toInt()));
+        }
+
+        //swp.dd().c(2).f(2).countImpact()
+        if(0 <= ui->comboBox_T4KDDC2F2CountImpact->currentData().toInt()) {
+            newStateWord[20] = (static_cast<uint8_t>(ui->comboBox_T4KDDC2F2CountImpact->currentData().toInt()));
+        }
+
+        //swp.dd().c(2).f(1).durationOvercoming()
+        if(0 <= ui->spinBox_T4KDDC2F1DurationOvercoming->value()) {
+            newStateWord[21] = (static_cast<uint8_t>(ui->spinBox_T4KDDC2F1DurationOvercoming->value()));
+        }
+
+        //swp.dd().c(2).f(2).durationOvercoming()
+        if(0 <= ui->spinBox_T4KDDC2F2DurationOvercoming->value()) {
+            newStateWord[22] = (static_cast<uint8_t>(ui->spinBox_T4KDDC2F2DurationOvercoming->value()));
+        }
+
+        //swp.dd().c(2).weakening()
+        if(0 <= ui->comboBox_T4KDDWeakeningC2->currentData().toFloat()) {
+            newStateWord[12] = (static_cast<uint8_t>(newStateWord.at(12)) & static_cast<uint16_t>(0xF0)) | (static_cast<uint8_t>(ui->comboBox_T4KDDWeakeningC2->currentData().toInt()) & static_cast<uint16_t>(0x0F));
+        }
+
+
+        auto copyUN = UnitNodeFactory::makeShare(*selUN);
+        copyUN->setStateWord(0x34u, newStateWord);
+        m_portManager->requestModeSensor(copyUN);
+
         break;
+    }
     default:
 //        //qDebug() << "MainWindowServer::on_pushButton_WriteCustomization_clicked(ERROR) <--";
         return;

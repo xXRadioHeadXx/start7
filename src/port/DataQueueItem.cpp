@@ -271,16 +271,14 @@ QByteArray DataQueueItem::makeOff0x20(const QSharedPointer<UnitNode> target)
 
 QByteArray DataQueueItem::makeMode0x20(const QSharedPointer<UnitNode> target)
 {
-    if(DataQueueItem::data0x20.isEmpty()) {
-        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xB5));      //<SB>
-        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<ADDR>
-        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x01));      //<NBB> 0x00
-        DataQueueItem::data0x20.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
-//        DataQueueItem::data0x20.append(static_cast<uint8_t>(0xFF));      //<D1>
-//        DataQueueItem::data0x20.append(Utils::getByteSumm(DataQueueItem::data0x20)); //<CHKS>
-    }
 
-    QByteArray out = DataQueueItem::data0x20;
+    QByteArray data0x20;
+    data0x20.append(static_cast<uint8_t>(0xB5));      //<SB>
+    data0x20.append(static_cast<uint8_t>(0xFF));      //<ADDR>
+    data0x20.append(static_cast<uint8_t>(0x01));      //<NBB> 0x00
+    data0x20.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
+
+    QByteArray out = data0x20;
     if(target.isNull()) {
         out.append(Utils::getByteSumm(out)); //<CHKS>
         return out;
@@ -308,6 +306,26 @@ QByteArray DataQueueItem::makeMode0x20(const QSharedPointer<UnitNode> target)
         out[2] = static_cast<uint8_t>(0x07);        //<NBB> 0x07
         out.append(QByteArray().fill(0x00, 7));
         out = out.replace(4, 7, stateWord);
+    } else if(TypeUnitNodeEnum::DD_T4K_M == target->getType()) {
+        stateWord = target->getStateWord(0x34u).getByteWord();
+        data0x20.clear();
+        data0x20.append(static_cast<uint8_t>(0xB5));      //<SB>
+        data0x20.append(static_cast<uint8_t>(target->getNum1())); //<ADDR>
+        data0x20.append(static_cast<uint8_t>(0xFE));      //<ADDR>
+        data0x20.append(static_cast<uint8_t>(23));      //<NBB> 0x00
+        data0x20.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
+        out = data0x20;
+        out.append(stateWord);
+    } else if(TypeUnitNodeEnum::DD_SOTA == target->getType()) {
+        stateWord = target->getStateWord(0x34u).getByteWord();
+        data0x20.clear();
+        data0x20.append(static_cast<uint8_t>(0xB5));      //<SB>
+        data0x20.append(static_cast<uint8_t>(target->getNum1())); //<ADDR>
+        data0x20.append(static_cast<uint8_t>(0xFE));      //<ADDR>
+        data0x20.append(static_cast<uint8_t>(12));      //<NBB> 0x00
+        data0x20.append(static_cast<uint8_t>(0x20));      //<CMD> 0x20
+        out = data0x20;
+        out.append(stateWord);
     }
 
     out.append(Utils::getByteSumm(out)); //<CHKS>
