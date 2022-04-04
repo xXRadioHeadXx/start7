@@ -5896,7 +5896,7 @@ void MainWindowCFG::create_db(QString db_name)
                QSqlDatabase current = QSqlDatabase::addDatabase("QPSQL");
                current.setHostName("localhost");
                current.setUserName("postgres");
-               current.setPassword("Start7");
+               current.setPassword(ui->SQL_password_lineEdit->text());
                current.setDatabaseName(db_name);
                if (!current.open())
                {
