@@ -267,6 +267,11 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             SLOT(updateLabelCount()));
 
     connect(&SignalSlotCommutator::instance(),
+            SIGNAL(insNewJourMSG(JourEntity)),
+            this,
+            SLOT(updateLabelCount()));
+
+    connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG()),
             this,
             SLOT(updateLabelCount()));

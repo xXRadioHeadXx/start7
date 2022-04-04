@@ -1,6 +1,6 @@
 #include "SignalSlotCommutator.h"
 #include <QSharedPointer>
-//#include <QDebug>
+#include <QDebug>
 
 auto & SignalSlotCommutator::self()
 {
@@ -79,6 +79,15 @@ void SignalSlotCommutator::emitInsNewJourMSG(const uint32_t id) {
     if(self().getLocalBlockInsNewJourMSG())
         return;
     emit self().insNewJourMSG(id);
+}
+
+void SignalSlotCommutator::emitInsNewJourMSG(JourEntity msg)
+{
+    qDebug()<<"SignalSlotCommutator::emitInsNewJourMSG(JourEntity msg)";
+
+    if(self().getLocalBlockInsNewJourMSG())
+        return;
+    emit self().insNewJourMSG(msg);
 }
 
 void SignalSlotCommutator::emitInsNewJourMSG() {

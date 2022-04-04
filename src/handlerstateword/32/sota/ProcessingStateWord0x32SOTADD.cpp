@@ -228,7 +228,7 @@ bool ProcessingStateWord0x32SOTADD::processing(const StateWord &data, const QSha
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
 
-        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         wasSendAbonentEventsAndStates = false;
 

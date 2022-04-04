@@ -146,7 +146,7 @@ bool ProcessingStateWord0x31TG::processing(const StateWord &data, const QSharedP
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
                 currentUN->done=true;
-        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     }
     typeMsg = -1;
@@ -212,7 +212,7 @@ bool ProcessingStateWord0x31TG::processing(const StateWord &data, const QSharedP
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
                 currentUN->done=true;
-        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         wasSendAbonentEventsAndStates = false;
 
@@ -236,7 +236,7 @@ bool ProcessingStateWord0x31TG::processing(const StateWord &data, const QSharedP
             msg.setComment(commentMsg);
             msg.setType(typeMsg);
                 currentUN->done=true;
-            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             wasSendAbonentEventsAndStates = false;
         }

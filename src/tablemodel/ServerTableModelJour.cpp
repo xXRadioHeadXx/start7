@@ -78,7 +78,7 @@ ServerTableModelJour::ServerTableModelJour(QObject *parent, bool firstLoad) :
         m_listJour = DataBaseManager::getOneMSGRecord();
 
 
-
+/*
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG(uint32_t)),
             this,
@@ -88,6 +88,14 @@ ServerTableModelJour::ServerTableModelJour(QObject *parent, bool firstLoad) :
             SIGNAL(insNewJourMSG()),
             this,
             SLOT(updateListRecords()));
+*/
+
+    connect(&SignalSlotCommutator::instance(),
+            SIGNAL(insNewJourMSG(JourEntity)),
+            this,
+            SLOT(updateListRecords(JourEntity)));
+
+
 
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(updJourMSG(uint32_t)),
@@ -316,6 +324,41 @@ bool ServerTableModelJour::insertRows(int row, int count, const QModelIndex &par
     return false;
 }
 
+bool ServerTableModelJour::insertRows(JourEntity msg, int row, int count, const QModelIndex &parent)
+{
+    qDebug()<<"ServerTableModelJour::insertRows(JourEntity msg, ...)";
+
+
+    if(1 == count)
+    {
+        if(m_listJour.count()>0)
+        msg.setId(m_listJour.last().getId()+1);
+        else
+        msg.setId(0);
+
+        qDebug()<<"                          ";
+
+        qDebug()<<"msg.getId(): "<<msg.getId();
+        qDebug()<<msg.getCdate();
+        qDebug()<<msg.getComment();
+        qDebug()<<msg.getDirection();
+        qDebug()<<msg.getReason();
+        qDebug()<<msg.getStatus();
+        qDebug()<<msg.getType();
+
+        this->beginInsertRows(parent, row, row);
+
+
+           m_listJour.insert(row, msg);
+
+
+        this->endInsertRows();
+        return true;
+    }
+
+    return false;
+}
+
 void ServerTableModelJour::castomUpdateListRecords(QString sql)
 {
 //    int lastRecordMSG = -1;
@@ -380,6 +423,17 @@ void ServerTableModelJour::updateListRecords()
     emitNeedScrollToBottom();
     qDebug() << QTime::currentTime() << "ServerTableModelJour::updateListRecords() <--";
 
+}
+
+void ServerTableModelJour::updateListRecords(JourEntity msg)
+{
+    //   newRecordMSG = idMSG;
+       qDebug() << QTime::currentTime() << "ServerTableModelJour::updateListRecords(JourEntity msg) -->";
+   //    QList<JourEntity> newRecords(DataBaseManager::getOneMSGRecord(idMSG));
+
+       this->insertRows(msg,this->rowCount());
+
+       emitNeedScrollToBottom();
 }
 
 void ServerTableModelJour::updateListRecords(const uint32_t idMSG)

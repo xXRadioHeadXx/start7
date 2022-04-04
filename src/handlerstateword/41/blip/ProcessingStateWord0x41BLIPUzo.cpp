@@ -313,7 +313,7 @@ bool ProcessingStateWord0x41BLIPUzo::processing(const StateWord &data, const QSh
         msg.setType(typeMsg);
         msg.setParams(sendetMsgUN->makeJson());
                 currentUN->done=true;
-        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
         GraphTerminal::sendAbonentEventsAndStates(sendetMsgUN, msg);
         if(113 == msg.getType()) {
             SoundAdjuster::playAlarm();

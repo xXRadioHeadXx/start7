@@ -189,6 +189,8 @@ QSqlDatabase& DataBaseManager::m_db()
             QString userName;
             QString password;
             QString port;
+   //         bool active;
+
 
             CSimpleIniA ini;
             QString filePath = QCoreApplication::applicationDirPath() + "/rifx.ini";
@@ -198,8 +200,22 @@ QSqlDatabase& DataBaseManager::m_db()
 
             hostName = codec->toUnicode(ini.GetValue("PostgresSQL", "Host"));
             databaseName = codec->toUnicode(ini.GetValue("PostgresSQL", "DbName"));
+            QString value=codec->toUnicode(ini.GetValue("PostgresSQL", "Use"));
+            /*
+            if(value=="1")
+                active=true;
+            else
+                active=false;
+            */
             userName = codec->toUnicode(ini.GetValue("PostgresSQL", "Login"));
             port = codec->toUnicode(ini.GetValue("PostgresSQL", "Port"));
+/*
+            QString value=codec->toUnicode(ini.GetValue("PostgresSQL", "Use"));
+            if(value=="1")
+                active=true;
+            else
+                active=false;
+*/
 
             const char * criptPasswordChar = ini.GetValue("PostgresSQL", "Password");
             QString criptPassword = QString::fromLatin1(criptPasswordChar);
@@ -223,6 +239,7 @@ QSqlDatabase& DataBaseManager::m_db()
             setUserName(userName);
             setPassword(password);
             setPort(port);
+    //        setActive(active);
             //qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
 
             auto autoNewDuty = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStart"));
@@ -283,6 +300,7 @@ int DataBaseManager::insertJourMsg_wS(const JourEntity &msg) {
 
 int DataBaseManager::insertJourMsg(const JourEntity &msg)
 {
+  //   if(DataBaseManager::getActive()){
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
 
     QString json = codec->toUnicode(msg.getParams().toJson(QJsonDocument::Compact));
@@ -348,7 +366,13 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     }
 
     m_db().rollback();
+
     return 0;
+ /*    }else{
+
+         return 0;
+     }
+     */
 }
 
 int DataBaseManager::updateJourMsg_wS(JourEntity &msg) {
@@ -590,6 +614,9 @@ int DataBaseManager::checkNecessarilyReasonMeasureFill() {
     qDebug() << query.boundValues();
     return 0;
 }
+
+
+
 
 void DataBaseManager::resetAllFlags_wS()
 {

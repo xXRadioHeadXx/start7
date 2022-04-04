@@ -87,7 +87,7 @@ bool ProcessingStateWord0x33TGDK::processing(const StateWord &data, const QShare
             msg.setParams(currentUN->makeJson());
             if(!isAutoDK) {
                 currentUN->done=true;
-                SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
                 GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             }
 

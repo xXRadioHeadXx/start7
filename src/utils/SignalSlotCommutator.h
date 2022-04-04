@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "template/SingletonTemplate.h"
+#include <JourEntity.h>
 
 class UnitNode;
 class SignalSlotCommutator : public QObject, public SingletonTemplate<SignalSlotCommutator>
@@ -41,6 +42,7 @@ public slots:
      static void emitInsNewCommandMSG(const uint32_t id);
      static void emitInsNewCommandMSG();
      static void emitInsNewJourMSG(const uint32_t id);
+     static void emitInsNewJourMSG(JourEntity msg);
      static void emitInsNewJourMSG();
      static void emitUpdAllJourMSG();
      static void emitUpdJourMSG(const uint32_t id);
@@ -71,6 +73,7 @@ signals:
      void insNewCommandMSG(const uint32_t id) const;
      void insNewCommandMSG() const;
      void insNewJourMSG(const uint32_t id) const;
+     void insNewJourMSG(JourEntity msg) const;
      void insNewJourMSG() const;
      void updAllJourMSG() const;
      void updJourMSG(const uint32_t id) const;

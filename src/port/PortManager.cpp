@@ -376,7 +376,7 @@ void PortManager::pushOverallWriteQueue(const DataQueueItem &value){
 
 void PortManager::startStatusRequest(){
 //    qDebug() << "PortManager::startStatusRequest() -->";
-    controlTimer.start(100);
+//    controlTimer.start(100);
     disconnect(&SignalSlotCommutator::instance(), SIGNAL(lostConnect(QSharedPointer<UnitNode> )), this, SLOT(unLostedConnect(QSharedPointer<UnitNode> )));
 
     ContainerRequesters::clearLsSCR();
@@ -703,7 +703,7 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> target) {
         msg.setParams(target->makeJson());
         if((target->getControl() || TypeUnitNodeEnum::IU_BL_IP == target->getType()) && !target->getName().isEmpty() && 1 != target->getMetaEntity()) {
                             target->done=true;
-            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
             GraphTerminal::sendAbonentEventsAndStates(target, msg);
         }
     });

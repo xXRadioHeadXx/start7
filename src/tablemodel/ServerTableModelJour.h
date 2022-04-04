@@ -46,6 +46,7 @@ public:
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
     // добавление новой строки
     virtual bool insertRows(int row, int count = 1, const QModelIndex &parent = QModelIndex());
+    virtual bool insertRows(JourEntity msg,int row, int count = 1, const QModelIndex &parent = QModelIndex());
 
     QFont getFont() const;
     void setFont(const QFont &value);
@@ -88,6 +89,7 @@ public slots:
     void castomUpdateListRecords(QString sql);
     void updateAllRecords();
     void updateListRecords();
+    void updateListRecords(JourEntity msg);
     void updateListRecords(const uint32_t idMSG);
     void updateRecord(const uint32_t idMSG);
     void setNeedScroll(bool value);

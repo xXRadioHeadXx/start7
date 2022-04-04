@@ -162,7 +162,7 @@ bool ProcessingStateWord0x41SSOIBLIPSD::processing(const StateWord &data, const 
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
                 currentUN->done=true;
-        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     } else {
         needRepeatActualState = false;
@@ -238,7 +238,7 @@ bool ProcessingStateWord0x41SSOIBLIPSD::processing(const StateWord &data, const 
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
                 currentUN->done=true;
-        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         wasSendAbonentEventsAndStates = false;
 
@@ -259,7 +259,7 @@ bool ProcessingStateWord0x41SSOIBLIPSD::processing(const StateWord &data, const 
             msg.setComment(commentMsg);
             msg.setType(typeMsg);
                 currentUN->done=true;
-            SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             wasSendAbonentEventsAndStates = false;
         }

@@ -182,7 +182,7 @@ bool ProcessingStateWord0x32SOTAY4::processing(const StateWord &data, const QSha
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
                 currentUN->done=true;
-        SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
+        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg(msg);
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         wasSendAbonentEventsAndStates = false;
 
