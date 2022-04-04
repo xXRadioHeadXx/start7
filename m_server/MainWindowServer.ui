@@ -310,8 +310,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>410</width>
-                  <height>243</height>
+                  <width>414</width>
+                  <height>244</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_9">
@@ -490,8 +490,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>410</width>
-                  <height>243</height>
+                  <width>201</width>
+                  <height>212</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_12">
@@ -909,7 +909,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>396</width>
+                  <width>258</width>
                   <height>505</height>
                  </rect>
                 </property>
@@ -1753,8 +1753,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>412</width>
-                  <height>245</height>
+                  <width>225</width>
+                  <height>113</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_14">
@@ -2486,6 +2486,8 @@
     <addaction name="actionDiagnostics"/>
     <addaction name="separator"/>
     <addaction name="actionCustomization"/>
+    <addaction name="actionMakeBackup"/>
+    <addaction name="actionRestoreBackup"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -2734,6 +2736,16 @@
   <action name="actionUNSqlSelect">
    <property name="text">
     <string>Показать в БД</string>
+   </property>
+  </action>
+  <action name="actionMakeBackup">
+   <property name="text">
+    <string>Создать бэкап</string>
+   </property>
+  </action>
+  <action name="actionRestoreBackup">
+   <property name="text">
+    <string>Восстановить</string>
    </property>
   </action>
  </widget>

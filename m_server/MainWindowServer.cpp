@@ -40,6 +40,8 @@
 
 #include "UnitNodeFactory.h"
 
+#include <cstdlib>
+
 MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowServer)
@@ -1609,6 +1611,21 @@ const QString &MainWindowServer::getUnArgSelect() const
 void MainWindowServer::setUnArgSelect(const QString &newUnArgSelect)
 {
     unArgSelect = newUnArgSelect;
+}
+
+void MainWindowServer::makeBackup()
+{
+    // /usr/bin/pg_dump --host 127.0.0.1 --port 5432 --username postgres --no-password --format custom --blobs --verbose --file backup_2 "rif_db0"
+
+    QString cmd="/usr/bin/pg_dump --host 127.0.0.1 --port 5432 --username postgres --no-password --format custom --blobs --verbose --file backup_2 rif_db0 ";
+    qDebug()<<cmd;
+   QProcess::execute(cmd);
+
+}
+
+void MainWindowServer::restoreBackup()
+{
+
 }
 
 QString MainWindowServer::getUnSqlSelect() const
@@ -3196,5 +3213,17 @@ void MainWindowServer::enable_updateListRecords()
     qDebug()<<"MainWindowServer::enable_updateListRecords()";
     qDebug()<<" ";
     modelJour->enable_updateListRecords();
+}
+
+
+void MainWindowServer::on_actionMakeBackup_triggered()
+{
+    makeBackup();
+}
+
+
+void MainWindowServer::on_actionRestoreBackup_triggered()
+{
+    restoreBackup();
 }
 

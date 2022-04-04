@@ -33,6 +33,9 @@ public:
     const QString &getUnArgSelect() const;
     void setUnArgSelect(const QString &newUnArgSelect);
 
+    void makeBackup();
+    void restoreBackup();
+
 public slots:
     void write();
     void updComboBoxReason();
@@ -143,6 +146,10 @@ private slots:
     void on_pushButtonSoundReset_clicked();
 
     void splitterMovedSlot();
+
+    void on_actionMakeBackup_triggered();
+
+    void on_actionRestoreBackup_triggered();
 
 protected:
     void closeEvent(QCloseEvent * event);
