@@ -662,11 +662,6 @@ void MainWindowServer::treeView_selectionChanged(const QItemSelection &selected,
                                      + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
                                      );
     } else if(TypeUnitNodeEnum::SSOI_SD_BL_IP == selUN->getType() && 1 == selUN->getBazalt()) {//БЛ-IP УЗ: СД:{Num2} + ИУ:{Num2} Кан:{UdpAdress}::{UdpPort}
-
-
-
-
-
         ui->labelSelectedUN->setText(QString("ССОИ БЛ-IP УЗ:  СД:%1 + ИУ:%1").arg(sel->getNum2())
                                      + "  "
                                      + QString("Адрес:%1").arg(sel->getNum1())
