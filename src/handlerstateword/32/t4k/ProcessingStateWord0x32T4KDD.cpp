@@ -280,7 +280,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 if(isWakeUp || isFirstWakeUp || isSwitchReady) {
                     commentMsgC1 += " (начальное состояние)";
                 }
-                currentUN->done=true;
                 msg.setComment(commentMsgC1);
                 msg.setType(typeMsgC1);
 
@@ -349,7 +348,6 @@ bool ProcessingStateWord0x32T4KDD::processing(const StateWord &data, const QShar
                 if(isWakeUp || isFirstWakeUp || isSwitchReady) {
                     commentMsgC2 += " (начальное состояние)";
                 }
-                currentUN->done=true;
                 msg.setComment(commentMsgC2);
                 msg.setType(typeMsgC2);
 

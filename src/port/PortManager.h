@@ -29,9 +29,6 @@ private:
     QList<DataQueueItem> overallWriteQueue;
 
 
-
-    QTimer controlTimer;
-
     QTimer timerFirstWakeUp;
     QTimer timerBlockJourMSG;
 
@@ -112,7 +109,7 @@ public slots:
     void lockOpenCloseCommand(QSharedPointer<UnitNode> selUN, bool value);
     void requestModeSensor(QSharedPointer<UnitNode> selUN);
 //    void requestModeSensor(QSharedPointer<UnitNode> selUN, QByteArray stateWord);
-    void controlSlot();
+
 
     void manageOverallReadQueue();
     static void unLostedConnect(QSharedPointer<UnitNode> un);

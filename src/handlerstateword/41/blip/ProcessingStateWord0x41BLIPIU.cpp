@@ -136,7 +136,7 @@ bool ProcessingStateWord0x41BLIPIU::processing(const StateWord &data, const QSha
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
         msg.setParams(currentUN->makeJson());
-                currentUN->done=true;
+
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
     }

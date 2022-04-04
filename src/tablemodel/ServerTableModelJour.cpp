@@ -60,22 +60,12 @@ void ServerTableModelJour::setEnabledReasonMeasure(bool newEnabledReasonMeasure)
     enabledReasonMeasure = newEnabledReasonMeasure;
 }
 
-bool ServerTableModelJour::enable_updateListRecords()
-{
-    connect(&SignalSlotCommutator::instance(),
-            SIGNAL(insNewJourMSG(uint32_t)),
-            this,
-            SLOT(updateListRecords(uint32_t)));
-}
-
 ServerTableModelJour::ServerTableModelJour(QObject *parent, bool firstLoad) :
     QAbstractTableModel(parent)
 {
     needScroll = true;
     if(firstLoad)
         m_listJour = DataBaseManager::getOneMSGRecord();
-
-
 
     connect(&SignalSlotCommutator::instance(),
             SIGNAL(insNewJourMSG(uint32_t)),

@@ -186,8 +186,3 @@ void SignalSlotCommutator::emitUpdateLabelOperator() {
 void SignalSlotCommutator::emitChangeCountIntegrationAbonent(int value) {
     emit self().changeCountIntegrationAbonent(value);
 }
-
-void SignalSlotCommutator::emit_enable_updateListRecords()
-{
-    emit self().enable_updateListRecords();
-}

@@ -41,8 +41,6 @@ public slots:
     void createDiagnosticTable();
 
     void fillPageTGAtPointInput(int ci);
-
-    void enable_updateListRecords();
 private slots:
     void treeView_selectionChanged(const QItemSelection &selected = QItemSelection(), const QItemSelection &deselected = QItemSelection());
 

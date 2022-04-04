@@ -72,7 +72,7 @@ public:
     QList<JourEntity> listIndexsToListJours(const QModelIndexList &listIndex) const;
     bool getEnabledReasonMeasure() const;
     void setEnabledReasonMeasure(bool newEnabledReasonMeasure);
-    bool enable_updateListRecords();
+
 signals:
     void needScrollToBottom();
     void selectedMsg(QList<JourEntity> listUN);

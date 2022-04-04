@@ -185,10 +185,6 @@ MainWindowServer::MainWindowServer(QWidget *parent)
             this,
             SLOT(initLabelOperator()));
 
-    connect(&SignalSlotCommutator::instance(),
-              SIGNAL(enable_updateListRecords()),
-              this,
-              SLOT(enable_updateListRecords()));
 
     ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->treeView->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
@@ -3167,13 +3163,5 @@ void MainWindowServer::on_pushButtonSoundAlarm_clicked()
 void MainWindowServer::on_pushButtonSoundReset_clicked()
 {
     SoundAdjuster::stop();
-}
-
-void MainWindowServer::enable_updateListRecords()
-{
-    qDebug()<<" ";
-    qDebug()<<"MainWindowServer::enable_updateListRecords()";
-    qDebug()<<" ";
-    modelJour->enable_updateListRecords();
 }
 

@@ -176,7 +176,7 @@ bool ProcessingStateWord0x33TG::processing(const StateWord &data, const QSharedP
         // заполняем поля сообщения
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
-                currentUN->done=true;
+
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         wasSendAbonentEventsAndStates = false;
