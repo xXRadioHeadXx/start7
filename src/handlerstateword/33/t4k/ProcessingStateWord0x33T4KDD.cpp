@@ -315,7 +315,7 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
             }
             msg.setComment(commentMsgC1);
             msg.setType(typeMsgC1);
-            currentUN->done=true;
+
             SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             wasSendAbonentEventsAndStates = false;
@@ -392,7 +392,7 @@ bool ProcessingStateWord0x33T4KDD::processing(const StateWord &data, const QShar
             }
             msg.setComment(commentMsgC2);
             msg.setType(typeMsgC2);
-            currentUN->done=true;
+
             SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
             GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
             wasSendAbonentEventsAndStates = false;

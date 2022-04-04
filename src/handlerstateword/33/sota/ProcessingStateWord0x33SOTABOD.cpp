@@ -285,7 +285,7 @@ bool ProcessingStateWord0x33SOTABOD::processing(const StateWord &data, const QSh
         }
         msg.setComment(commentMsg);
         msg.setType(typeMsg);
-                currentUN->done=true;
+
         SignalSlotCommutator::emitInsNewJourMSG(DataBaseManager::insertJourMsg(msg));
         GraphTerminal::sendAbonentEventsAndStates(currentUN, msg);
         wasSendAbonentEventsAndStates = false;
