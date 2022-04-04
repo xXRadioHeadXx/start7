@@ -5803,7 +5803,7 @@ void MainWindowCFG::on_SQL_connect_pushButton_clicked()
 void MainWindowCFG::create_db(QString db_name)
 {
 
-    //qDebug()<<"[create_db]";
+    qDebug()<<"[create_db]";
     if(this->ui->SQL_type_comboBox->currentText()=="MySQL")
     {
     //qDebug()<<"[mysql]";
@@ -5864,7 +5864,7 @@ void MainWindowCFG::create_db(QString db_name)
 
        db_psql.setHostName("localhost");
        db_psql.setUserName("postgres");
-       db_psql.setPassword("Start7");
+       db_psql.setPassword(ui->SQL_password_lineEdit->text());
        db_psql.setDatabaseName("postgres");
        if (!db_psql.open())
        {
