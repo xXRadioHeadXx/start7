@@ -24,6 +24,8 @@ public:
 
     static QSqlDatabase& m_db();
 
+    static void makeBackup();
+    static void restoreBackup();
 //    static int insertCommandMsg_wS(const MessageEntity &msg);
 //    static int insertCommandMsg(const MessageEntity &msg);
     static int insertJourMsg_wS(const JourEntity &msg);
@@ -96,6 +98,9 @@ public:
     static bool getActive();
     static void setActive(bool value);
 
+    static const QString &getBackupPath();
+    static void setBackupPath(const QString &newBackupPath);
+
 private:
     static QString HostName;//("127.0.0.1");
     static QString DatabaseName;//("postgres");
@@ -103,6 +108,8 @@ private:
     static QString Password;//("601275");
     static QString Port;//(5432);
     static bool active;
+
+    static QString BackupPath;//(5432);
 
 
 

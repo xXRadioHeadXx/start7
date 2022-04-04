@@ -1617,6 +1617,12 @@ void MainWindowServer::makeBackup()
 {
     // /usr/bin/pg_dump --host 127.0.0.1 --port 5432 --username postgres --no-password --format custom --blobs --verbose --file backup_2 "rif_db0"
 
+    QString path;
+    QString db;
+
+
+
+
     QString cmd="/usr/bin/pg_dump --host 127.0.0.1 --port 5432 --username postgres --no-password --format custom --blobs --verbose --file backup_2 rif_db0 ";
     qDebug()<<cmd;
    QProcess::execute(cmd);
@@ -3218,12 +3224,12 @@ void MainWindowServer::enable_updateListRecords()
 
 void MainWindowServer::on_actionMakeBackup_triggered()
 {
-    makeBackup();
+    DataBaseManager::makeBackup();
 }
 
 
 void MainWindowServer::on_actionRestoreBackup_triggered()
 {
-    restoreBackup();
+    DataBaseManager::restoreBackup();
 }
 

@@ -94,6 +94,7 @@ QString DataBaseManager::UserName = QString();
 QString DataBaseManager::Password = QString();
 QString DataBaseManager::Port = QString();
 bool DataBaseManager::active;
+QString DataBaseManager::BackupPath = QString();
 
 qint64 DataBaseManager::getIdStartLastDuty()
 {
@@ -191,6 +192,7 @@ QSqlDatabase& DataBaseManager::m_db()
             QString password;
             QString port;
             bool active;
+            QString BackupPath;
 
 
             CSimpleIniA ini;
@@ -211,6 +213,8 @@ QSqlDatabase& DataBaseManager::m_db()
                 active=true;
             else
                 active=false;
+
+            BackupPath=codec->toUnicode(ini.GetValue("BACKUP", "BackupPath"));
 
 
             const char * criptPasswordChar = ini.GetValue("PostgresSQL", "Password");
@@ -236,6 +240,7 @@ QSqlDatabase& DataBaseManager::m_db()
             setPassword(password);
             setPort(port);
             setActive(active);
+            setBackupPath(BackupPath);
             //qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
 
             auto autoNewDuty = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStart"));
@@ -276,6 +281,53 @@ QSqlDatabase& DataBaseManager::m_db()
     }
 
     return db;
+}
+
+void DataBaseManager::makeBackup()
+{
+
+
+    qDebug()<<"BackupPath  : "<<DataBaseManager::BackupPath;
+    qDebug()<<"DatabaseName: "<<DataBaseManager::DatabaseName;
+    qDebug()<<"HostName    : "<<DataBaseManager::HostName;
+    qDebug()<<"Password    : "<<DataBaseManager::Password;
+    qDebug()<<"Port        : "<<DataBaseManager::Port;
+    qDebug()<<"UserName    : "<<DataBaseManager::UserName;
+
+
+
+ //   QString cmd="/usr/bin/pg_dump --host 127.0.0.1 --port 5432 --username postgres --no-password --format custom --blobs --verbose --file backup_2 rif_db0 ";
+
+ QString cmd="/usr/bin/pg_dump --host 127.0.0.1 --port "+DataBaseManager::Port+
+             " --username "+ DataBaseManager::UserName+
+             " --no-password --format custom --blobs --verbose --file "+ DataBaseManager::BackupPath+"/backup "+ DataBaseManager::DatabaseName;
+    qDebug()<<cmd;
+   QProcess::execute(cmd);
+
+}
+
+void DataBaseManager::restoreBackup()
+{
+    qDebug()<<"BackupPath  : "<<DataBaseManager::BackupPath;
+    qDebug()<<"DatabaseName: "<<DataBaseManager::DatabaseName;
+    qDebug()<<"HostName    : "<<DataBaseManager::HostName;
+    qDebug()<<"Password    : "<<DataBaseManager::Password;
+    qDebug()<<"Port        : "<<DataBaseManager::Port;
+    qDebug()<<"UserName    : "<<DataBaseManager::UserName;
+
+
+
+ //   QString cmd="/usr/bin/pg_restore --host 127.0.0.1 --port 5432 --username "postgres" --dbname "rif_db3" --role "postgres" --no-password  --verbose "/home/administrator/Backup/backup"";
+
+ QString cmd="/usr/bin/pg_restore --host 127.0.0.1 --port "+DataBaseManager::Port+
+             " --username "+ DataBaseManager::UserName+
+             " --dbname "+DataBaseManager::DatabaseName+
+             " --role "+DataBaseManager::UserName+
+             "  --no-password  --verbose "+DataBaseManager::BackupPath+"/backup";
+
+    qDebug()<<cmd;
+//   QProcess::execute(cmd);
+
 }
 
 DataBaseManager::~DataBaseManager() noexcept
@@ -619,6 +671,16 @@ bool DataBaseManager::getActive()
 void DataBaseManager::setActive(bool value)
 {
     active = value;
+}
+
+const QString &DataBaseManager::getBackupPath()
+{
+    return BackupPath;
+}
+
+void DataBaseManager::setBackupPath(const QString &newBackupPath)
+{
+    BackupPath = newBackupPath;
 }
 
 
