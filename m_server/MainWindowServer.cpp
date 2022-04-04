@@ -195,14 +195,25 @@ MainWindowServer::MainWindowServer(QWidget *parent)
 
     ui->treeView->setStyleSheet("QTreeView::item{ height: 21px; margin: 0px 15px 0px 15px; padding: 0px; border-image: none;}");/*border:1px*/
 
-    if(!modelJour->getListJour().isEmpty())
-        ui->tableView->verticalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    ui->tableView->resizeColumnToContents(1);
-    ui->tableView->resizeColumnToContents(2);
-    ui->tableView->resizeColumnToContents(3);
-    ui->tableView->resizeColumnToContents(4);
-    ui->tableView->resizeColumnToContents(5);
-    ui->tableView->resizeColumnToContents(6);
+    //    ui->tableView->setColumnWidth(0,50);
+        ui->tableView->setColumnWidth(1,100);
+        ui->tableView->setColumnWidth(2,180);
+        ui->tableView->setColumnWidth(3,150);
+        ui->tableView->setColumnWidth(4,100);
+        ui->tableView->setColumnWidth(5,100);
+        ui->tableView->setColumnWidth(6,100);
+
+        if(!modelJour->getListJour().isEmpty())
+            ui->tableView->verticalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+        else
+        ui->tableView->setColumnWidth(0,50);
+     /*   ui->tableView->resizeColumnToContents(1);
+     ui->tableView->resizeColumnToContents(2);
+        ui->tableView->resizeColumnToContents(3);
+        ui->tableView->resizeColumnToContents(4);
+        ui->tableView->resizeColumnToContents(5);
+        ui->tableView->resizeColumnToContents(6);
+    */
 
     m_portManager->startStatusRequest();
 

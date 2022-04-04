@@ -93,13 +93,16 @@ public:
 
 
 
+    static bool getActive();
+    static void setActive(bool value);
+
 private:
     static QString HostName;//("127.0.0.1");
     static QString DatabaseName;//("postgres");
     static QString UserName;//("postgres");
     static QString Password;//("601275");
     static QString Port;//(5432);
-
+    static bool active;
 
 
 

@@ -93,6 +93,7 @@ QString DataBaseManager::DatabaseName = QString();
 QString DataBaseManager::UserName = QString();
 QString DataBaseManager::Password = QString();
 QString DataBaseManager::Port = QString();
+bool DataBaseManager::active;
 
 qint64 DataBaseManager::getIdStartLastDuty()
 {
@@ -189,7 +190,7 @@ QSqlDatabase& DataBaseManager::m_db()
             QString userName;
             QString password;
             QString port;
-   //         bool active;
+            bool active;
 
 
             CSimpleIniA ini;
@@ -200,22 +201,17 @@ QSqlDatabase& DataBaseManager::m_db()
 
             hostName = codec->toUnicode(ini.GetValue("PostgresSQL", "Host"));
             databaseName = codec->toUnicode(ini.GetValue("PostgresSQL", "DbName"));
-            QString value=codec->toUnicode(ini.GetValue("PostgresSQL", "Use"));
-            /*
-            if(value=="1")
-                active=true;
-            else
-                active=false;
-            */
+
+
             userName = codec->toUnicode(ini.GetValue("PostgresSQL", "Login"));
             port = codec->toUnicode(ini.GetValue("PostgresSQL", "Port"));
-/*
+
             QString value=codec->toUnicode(ini.GetValue("PostgresSQL", "Use"));
             if(value=="1")
                 active=true;
             else
                 active=false;
-*/
+
 
             const char * criptPasswordChar = ini.GetValue("PostgresSQL", "Password");
             QString criptPassword = QString::fromLatin1(criptPasswordChar);
@@ -239,7 +235,7 @@ QSqlDatabase& DataBaseManager::m_db()
             setUserName(userName);
             setPassword(password);
             setPort(port);
-    //        setActive(active);
+            setActive(active);
             //qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
 
             auto autoNewDuty = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStart"));
@@ -300,7 +296,7 @@ int DataBaseManager::insertJourMsg_wS(const JourEntity &msg) {
 
 int DataBaseManager::insertJourMsg(const JourEntity &msg)
 {
-  //   if(DataBaseManager::getActive()){
+    if(DataBaseManager::getActive()){
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
 
     QString json = codec->toUnicode(msg.getParams().toJson(QJsonDocument::Compact));
@@ -368,11 +364,11 @@ int DataBaseManager::insertJourMsg(const JourEntity &msg)
     m_db().rollback();
 
     return 0;
- /*    }else{
+     }else{
 
          return 0;
      }
-     */
+
 }
 
 int DataBaseManager::updateJourMsg_wS(JourEntity &msg) {
@@ -613,6 +609,16 @@ int DataBaseManager::checkNecessarilyReasonMeasureFill() {
     qDebug() << query.lastQuery();
     qDebug() << query.boundValues();
     return 0;
+}
+
+bool DataBaseManager::getActive()
+{
+    return active;
+}
+
+void DataBaseManager::setActive(bool value)
+{
+    active = value;
 }
 
 
