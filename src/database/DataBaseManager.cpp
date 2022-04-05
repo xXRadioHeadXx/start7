@@ -300,9 +300,27 @@ void DataBaseManager::makeBackup()
 
  QString cmd="/usr/bin/pg_dump --host 127.0.0.1 --port "+DataBaseManager::Port+
              " --username "+ DataBaseManager::UserName+
-             " --no-password --format custom --blobs --verbose --file "+ DataBaseManager::BackupPath+"/backup "+ DataBaseManager::DatabaseName;
+             " --no-password --format custom --blobs --verbose --file backup "+ DataBaseManager::DatabaseName;
     qDebug()<<cmd;
    QProcess::execute(cmd);
+
+
+    cmd="zip --password MY_SECRET secure.zip rifx.ini backup";
+    qDebug()<<cmd;
+    QProcess::execute(cmd);
+
+    cmd="cp secure.zip "+DataBaseManager::BackupPath;
+    qDebug()<<cmd;
+    QProcess::execute(cmd);
+
+    cmd="rm backup";
+    qDebug()<<cmd;
+    QProcess::execute(cmd);
+
+    cmd="rm secure.zip";
+    qDebug()<<cmd;
+    QProcess::execute(cmd);
+
 
 }
 
@@ -319,14 +337,33 @@ void DataBaseManager::restoreBackup()
 
  //   QString cmd="/usr/bin/pg_restore --host 127.0.0.1 --port 5432 --username "postgres" --dbname "rif_db3" --role "postgres" --no-password  --verbose "/home/administrator/Backup/backup"";
 
- QString cmd="/usr/bin/pg_restore --host 127.0.0.1 --port "+DataBaseManager::Port+
+    QString cmd="unzip -P MY_SECRET "+DataBaseManager::BackupPath+"/secure.zip -d "+DataBaseManager::BackupPath;
+    qDebug()<<cmd;
+    QProcess::execute(cmd);
+
+
+
+
+cmd="/usr/bin/pg_restore --host 127.0.0.1 --port "+DataBaseManager::Port+
              " --username "+ DataBaseManager::UserName+
              " --dbname "+DataBaseManager::DatabaseName+
              " --role "+DataBaseManager::UserName+
              "  --no-password  --verbose "+DataBaseManager::BackupPath+"/backup";
 
-    qDebug()<<cmd;
-//   QProcess::execute(cmd);
+  qDebug()<<cmd;
+  QProcess::execute(cmd);
+
+  cmd="cp "+DataBaseManager::BackupPath+"/rifx.ini rifx.ini ";
+  qDebug()<<cmd;
+  QProcess::execute(cmd);
+
+  cmd="rm "+DataBaseManager::BackupPath+"/backup";
+  qDebug()<<cmd;
+  QProcess::execute(cmd);
+
+  cmd="rm "+DataBaseManager::BackupPath+"/rifx.ini";
+  qDebug()<<cmd;
+  QProcess::execute(cmd);
 
 }
 
