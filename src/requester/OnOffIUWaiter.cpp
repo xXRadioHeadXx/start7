@@ -61,7 +61,7 @@ void OnOffIUWaiter::init()
         msg.setComment(comment);
         msg.setParams(target->makeJson());
         if(!target->getName().isEmpty() && 1 != target->getMetaEntity()) {
-            DataBaseManager::insertJourMsg_wS(msg);
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(target, msg);
         }
 
@@ -88,7 +88,7 @@ void OnOffIUWaiter::init()
                                                     msg.setType(13);
                                                     msg.setComment(tr("Ком. упр. не выполнена"));
                                                     msg.setParams(un->makeJson());
-                                                    DataBaseManager::insertJourMsg_wS(msg);
+                                                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                 }
                                                 if(10 != un->getPublishedState()) {
@@ -120,7 +120,7 @@ void OnOffIUWaiter::init()
                                                     msg.setType(13);
                                                     msg.setComment(tr("Ком. упр. не выполнена"));
                                                     msg.setParams(un->makeJson());
-                                                    DataBaseManager::insertJourMsg_wS(msg);
+                                                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                 }
                                                 if(10 != un->getPublishedState()) {
@@ -150,7 +150,7 @@ void OnOffIUWaiter::init()
                                                 msg.setType(13);
                                                 msg.setComment(tr("Ком. упр. не выполнена"));
                                                 msg.setParams(un->makeJson());
-                                                DataBaseManager::insertJourMsg_wS(msg);
+                                                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                 GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                             }
                                             if(10 != un->getPublishedState()) {
@@ -178,7 +178,7 @@ void OnOffIUWaiter::init()
                                                 msg.setType(13);
                                                 msg.setComment(tr("Ком. упр. не выполнена"));
                                                 msg.setParams(un->makeJson());
-                                                DataBaseManager::insertJourMsg_wS(msg);
+                                                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                 GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                             }
                                             if(10 != un->getPublishedState()) {
@@ -242,7 +242,7 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
 //        msg.setComment(comment);
 
 //        if(!getUnTarget()->getName().isEmpty() && 1 != getUnTarget()->getMetaEntity()) {
-//            DataBaseManager::insertJourMsg_wS(msg);
+//            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
 //            GraphTerminal::sendAbonentEventsAndStates(getUnTarget(), msg);
 //        }
 

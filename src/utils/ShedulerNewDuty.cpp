@@ -23,7 +23,7 @@ void ShedulerNewDuty::regularRun() const
     QString sql = " update public.jour set flag = 0 where flag != 0 ;";
     DataBaseManager::executeQuery(sql);
 
-    DataBaseManager::insertJourMsg_wS(msg);
+    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
     GraphTerminal::sendAbonentEventsAndStates(msg);
 
     DataBaseManager::setIdStartLastDuty();

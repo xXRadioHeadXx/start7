@@ -46,7 +46,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowServer)
 {
-    ui->setupUi(this);  
+    ui->setupUi(this);
 
 #ifdef QT_DEBUG
     auto action = new QPushButton("Read Pass", this);
@@ -321,7 +321,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
       ui->tableView->selectionModel(),
       SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
       SLOT(tableView_selectionChanged())
-     );    
+     );
     connect(
       modelJour.data(),
       SIGNAL(recalcSelectedMsg()),
@@ -1854,7 +1854,7 @@ void MainWindowServer::forcedNewDuty(bool out)
     QString sql = " update public.jour set flag = 0 where flag != 0 ;";
     DataBaseManager::executeQuery(sql);
 
-    DataBaseManager::insertJourMsg_wS(msg);
+    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
     GraphTerminal::sendAbonentEventsAndStates(msg);
 
     DataBaseManager::setIdStartLastDuty();
@@ -3204,7 +3204,7 @@ void MainWindowServer::on_pushButtonSoundAlarm_clicked()
     msg.setObject(tr("Оператор"));
     msg.setType(905);
     msg.setComment(tr("Включен режим Тревога"));
-    DataBaseManager::insertJourMsg_wS(msg);
+    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
 }
 
 

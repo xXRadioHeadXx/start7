@@ -288,7 +288,7 @@ void ProcessDKWaiter::init() {
             msg.setType(13);
             msg.setComment(tr("Ком. упр. не выполнена"));
             msg.setParams(un->makeJson());
-            DataBaseManager::insertJourMsg_wS(msg);
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
         }
         if(10 != un->getPublishedState()) {

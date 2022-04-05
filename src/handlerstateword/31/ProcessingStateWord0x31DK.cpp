@@ -163,7 +163,7 @@ void ProcessingStateWord0x31DK::finishDKWaiter(QSharedPointer<AbstractRequester>
                 msg.setComment(tr("Ком. ДК выполнена"));
                 msg.setType(3);
                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity() && !isAutoDK) {
-                    DataBaseManager::insertJourMsg_wS(msg);
+                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 }
                 needSendEventsAndStates = true;
@@ -174,7 +174,7 @@ void ProcessingStateWord0x31DK::finishDKWaiter(QSharedPointer<AbstractRequester>
                 msg.setComment(comment);
                 msg.setType(11);
                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
-                    DataBaseManager::insertJourMsg_wS(msg);
+                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     SoundAdjuster::playAlarm2();
                 }
