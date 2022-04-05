@@ -317,7 +317,7 @@ void DataBaseManager::makeBackup()
     qDebug()<<cmd;
     QProcess::execute(cmd);
 
-    cmd="rm secure.zip";
+    cmd="rm user.zip";
     qDebug()<<cmd;
     QProcess::execute(cmd);
 
@@ -388,7 +388,7 @@ void DataBaseManager::makeAutoBackup()
        qDebug()<<cmd;
        QProcess::execute(cmd);
 
-       cmd="rm secure.zip";
+       cmd="rm auto.zip";
        qDebug()<<cmd;
        QProcess::execute(cmd);
 }
