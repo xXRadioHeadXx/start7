@@ -3225,20 +3225,20 @@ void MainWindowServer::enable_updateListRecords()
 void MainWindowServer::on_actionMakeBackup_triggered()
 {
     if(ServerSettingUtils::checkDialogAuditAdm())
-    DataBaseManager::makeBackup();
+    DataBaseManager::makeBackup("userbackup");
 }
 
 
 void MainWindowServer::on_actionRestoreBackup_triggered()
 {
     if(ServerSettingUtils::checkDialogAuditAdm())
-    DataBaseManager::restoreAutoBackup();
+    DataBaseManager::restoreBackup("autobackup");
 }
 
 
 void MainWindowServer::on_action_triggered()
 {
     if(ServerSettingUtils::checkDialogAuditAdm())
-    DataBaseManager::restoreBackup();
+    DataBaseManager::restoreBackup("userbackup");
 }
 

@@ -24,11 +24,10 @@ public:
 
     static QSqlDatabase& m_db();
 
-    static void makeBackup();
-    static void restoreBackup();
+    static bool makeBackup(QString backup);
+    static bool restoreBackup(QString backup);
 
-    static void makeAutoBackup();
-    static void restoreAutoBackup();
+
 //    static int insertCommandMsg_wS(const MessageEntity &msg);
 //    static int insertCommandMsg(const MessageEntity &msg);
     static int insertJourMsg_wS(const JourEntity &msg);
