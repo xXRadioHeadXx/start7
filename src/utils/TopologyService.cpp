@@ -95,4 +95,9 @@ QSharedPointer<UnitNode> TopologyService::findParentByType(int type, QSharedPoin
     return TopologyService::self()->findParentByType(type, parent);
 }
 
+QSet<QSharedPointer<UnitNode> > TopologyService::findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un)
+{
+    return TopologyService::self()->findeSetAutoOnOffUN(un);
+}
+
 

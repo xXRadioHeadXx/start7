@@ -625,11 +625,11 @@ void MainWindowServer::treeView_selectionChanged(const QItemSelection &selected,
                                      + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
                                      );
     } else if(TypeUnitNodeEnum::IU_BL_IP == selUN->getType()) {
-        auto setUN = Utils::findeSetAutoOnOffUN(selUN);
+        auto setUN = TopologyService::findeSetAutoOnOffUN(selUN);
         QString subStr;
         if(!setUN.isEmpty()) {
             subStr.append("(Авто %1с.)");
-            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(as_const(setUN.values()).first()->getAdamOff()) / 1000);
+            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(setUN.values().first()->getAdamOff()) / 1000);
         }
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType())
                                      + "  "
@@ -717,11 +717,11 @@ void MainWindowServer::treeView_selectionChanged(const QItemSelection &selected,
                                      + QString(" %1").arg(Utils::outTypeToString(sel->getOutType()))
                                      );
     } else if(TypeUnitNodeEnum::SSOI_IU_BL_IP == selUN->getType()) {
-        auto setUN = Utils::findeSetAutoOnOffUN(selUN);
+        auto setUN = TopologyService::findeSetAutoOnOffUN(selUN);
         QString subStr;
         if(!setUN.isEmpty()) {
             subStr.append("(Авто %1с.)");
-            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(as_const(setUN.values()).first()->getAdamOff()) / 1000);
+            subStr = subStr.arg(UnitNodeCFG::adamOffToMs(setUN.values().first()->getAdamOff()) / 1000);
         }
         ui->labelSelectedUN->setText(Utils::typeUNToStr(sel->getParentUN()->getType())
                                      + "  "
@@ -1493,11 +1493,11 @@ void MainWindowServer::on_actionUNOn_triggered()
             return;
     }
 
-    const auto& setUn = Utils::findeSetAutoOnOffUN(selUN);
+    auto setUn = TopologyService::findeSetAutoOnOffUN(selUN);
     if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, false, selUN, true);
     else {
-        const auto& un = setUn.values().first();
+        auto un = setUn.values().first();
         this->m_portManager->requestAutoOnOffIUCommand(false, false, un);
     }
 }
@@ -1701,7 +1701,7 @@ void MainWindowServer::on_actionTest_triggered()
 {
     if(selUN.isNull())
         return;
-    Utils::findeSetAutoOnOffUN(selUN);
+    TopologyService::findeSetAutoOnOffUN(selUN);
 }
 
 void MainWindowServer::on_actionDiagnostics_triggered()

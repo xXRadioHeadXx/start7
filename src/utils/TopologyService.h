@@ -34,6 +34,7 @@ public:
     static QSet<QSharedPointer<UnitNode>> findChild(QSharedPointer<UnitNode> parent);
     static QSet<QSharedPointer<UnitNode>> findChildByType(int type, QSharedPointer<UnitNode> parent);
     static QSharedPointer<UnitNode> findParentByType(int type, QSharedPointer<UnitNode> parent);
+    static QSet<QSharedPointer<UnitNode> > findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un);
 
 };
 
