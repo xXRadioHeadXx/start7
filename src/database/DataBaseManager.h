@@ -26,6 +26,9 @@ public:
 
     static void makeBackup();
     static void restoreBackup();
+
+    static void makeAutoBackup();
+    static void restoreAutoBackup();
 //    static int insertCommandMsg_wS(const MessageEntity &msg);
 //    static int insertCommandMsg(const MessageEntity &msg);
     static int insertJourMsg_wS(const JourEntity &msg);

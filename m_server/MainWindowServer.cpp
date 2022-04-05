@@ -3230,6 +3230,12 @@ void MainWindowServer::on_actionMakeBackup_triggered()
 
 void MainWindowServer::on_actionRestoreBackup_triggered()
 {
+    DataBaseManager::restoreAutoBackup();
+}
+
+
+void MainWindowServer::on_action_triggered()
+{
     DataBaseManager::restoreBackup();
 }
 

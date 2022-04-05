@@ -2488,6 +2488,7 @@
     <addaction name="actionCustomization"/>
     <addaction name="actionMakeBackup"/>
     <addaction name="actionRestoreBackup"/>
+    <addaction name="action"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -2746,6 +2747,11 @@
   <action name="actionRestoreBackup">
    <property name="text">
     <string>Восстановить</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Востановить пользовательский бэкап</string>
    </property>
   </action>
  </widget>
