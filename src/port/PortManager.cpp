@@ -163,7 +163,7 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
                 msg.setDirection(target->getDirection());
                 msg.setComment(tr("Нет связи (начальное состояние)"));
                 msg.setParams(target->makeJson());
-                SignalSlotCommutator::emitInsNewJourMSG(msg);SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
+                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                 GraphTerminal::sendAbonentEventsAndStates(target, msg);
 
                 SoundAdjuster::playAlarm2();
