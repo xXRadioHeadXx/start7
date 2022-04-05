@@ -72,6 +72,7 @@ public:
     QSet<QSharedPointer<UnitNode>> findChild(QSharedPointer<UnitNode> parent) const;
     QSet<QSharedPointer<UnitNode>> findChildByType(int type, QSharedPointer<UnitNode> parent) const;
     QSharedPointer<UnitNode> findParentByType(int type, QSharedPointer<UnitNode> parent) const;
+    QSet<QSharedPointer<UnitNode> > findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un);
 
 
     virtual ~TopologyServiceImpl() {

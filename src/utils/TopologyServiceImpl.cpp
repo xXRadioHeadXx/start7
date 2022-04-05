@@ -1253,4 +1253,42 @@ QSharedPointer<UnitNode> TopologyServiceImpl::findParentByType(int type, QShared
     return parent;
 }
 
+QSet<QSharedPointer<UnitNode> > TopologyServiceImpl::findeSetAutoOnOffUN(const QSharedPointer<UnitNode> &un)
+{
+    QSet<QSharedPointer<UnitNode> > unSetTmp;
+    if(TypeUnitNodeEnum::IU_BL_IP != un->getType()
+    && TypeUnitNodeEnum::SSOI_IU_BL_IP != un->getType()) {
+        return unSetTmp;
+    }
+    unSetTmp.insert(un);
+    unSetTmp = unSetTmp + un->getDoubles();
+    for(auto it = unSetTmp.begin(); it != unSetTmp.end();) {
+        const auto& unDouble = *it;
+        //qDebug() << "itr :" << unSetTmp;
+        //qDebug() << "fnd :" << unDouble << unDouble->getMetaNames() << unDouble->getName();
+        if(!unDouble->treeParent().isNull()) {
+            if(TypeUnitNodeEnum::SD_BL_IP == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNodeEnum::SSOI_SD_BL_IP == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNodeEnum::RLM_KRL == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNodeEnum::RLM_C == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNodeEnum::TG == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNodeEnum::DD_SOTA == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()
+            || TypeUnitNodeEnum::DD_T4K_M == qSharedPointerCast<UnitNode>(unDouble->treeParent())->getType()) {
+                //qDebug() << "trg :"<< unDouble->getMetaNames() << unDouble->toString();
+                it++;
+                continue;
+            } else {
+                it = unSetTmp.erase(it);
+                continue;
+            }
+        } else {
+            it = unSetTmp.erase(it);
+            continue;
+        }
+        it++;
+    }
+//    //qDebug() << "res :" << unSetTmp;
+    return unSetTmp;
+}
+
 

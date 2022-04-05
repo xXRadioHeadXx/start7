@@ -365,14 +365,14 @@ void GraphTerminal::procCommands(DataQueueItem itm) {
                 } else if(0 != unTarget->getBazalt()) {
                     SignalSlotCommutator::emitLockOpenCloseCommand(true, unTarget, value);
                 } else if(unTarget->isEditableOnOff() && 1 == unTarget->swpIUBLIPType0x41().isOff() && "101" == idCommand.nodeValue()) {
-                    auto setUn = Utils::findeSetAutoOnOffUN(unTarget);
+                    auto setUn = TopologyService::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
                         SignalSlotCommutator::emitRequestOnOffCommand(false, true, unTarget, true);
                     } else {
                         SignalSlotCommutator::emitAutoOnOffIU(false, true, unTarget);
                     }
                 } else if(unTarget->isEditableOnOff() && "101" == idCommand.nodeValue()) {
-                    auto setUn = Utils::findeSetAutoOnOffUN(unTarget);
+                    auto setUn = TopologyService::findeSetAutoOnOffUN(unTarget);
                     if(setUn.isEmpty()) {
                         SignalSlotCommutator::emitRequestOnOffCommand(false, true, unTarget, true);
                     } else {
