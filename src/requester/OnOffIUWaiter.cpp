@@ -74,9 +74,13 @@ void OnOffIUWaiter::init()
                                                 const auto& swpIU = un->swpIUBLIPType0x41();
                                                 if(1 == swpIU.isOff()) // выкл
                                                 {
+                                                    qDebug()<<"!1!";
                                                     return;
                                                 }
+                                            /*
+                                                qDebug()<<"!2!";
                                                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
+                                                    qDebug()<<"!3!";
                                                     JourEntity msg;
                                                     msg.setObject(un->getName());
                                                     msg.setObjecttype(un->getType());
@@ -91,13 +95,17 @@ void OnOffIUWaiter::init()
                                                     SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                 }
+                                            */
                                                 if(10 != un->getPublishedState()) {
                                                     un->setPublishedState(13);
                                                     un->updDoubl();
                                                 }
+
+                                                /*
                                                 if((un->getAlarmMsgOn() || (!isAuto && !fromAbonent)) && !(isAuto || fromAbonent)) {
                                                     MessageBoxServer::infoTheOperationCannotBePerformedThereIsNoConnectionWithTheSensor(un->getName());
                                                 }
+                                                */
     //                                            MessageBoxServer::infoErrorExecutingTheLockOpeningCommand();
                                             };
 
