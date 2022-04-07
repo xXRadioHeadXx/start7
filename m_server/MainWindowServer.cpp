@@ -1497,7 +1497,8 @@ void MainWindowServer::on_actionUNOn_triggered()
     if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, false, selUN, true);
     else {
-        const auto& un = setUn.values().first();
+        const auto un = setUn.values().first();
+    //    qDebug()<<"un->getName() "<<un->getName()<<"; un->getMetaEntity()"<<un->getMetaEntity();
         this->m_portManager->requestAutoOnOffIUCommand(false, false, un);
     }
 }
