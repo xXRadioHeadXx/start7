@@ -163,7 +163,7 @@ PortManager::PortManager(QSharedPointer<DataBaseManager> dbm, QObject *parent) :
                 msg.setDirection(target->getDirection());
                 msg.setComment(tr("Нет связи (начальное состояние)"));
                 msg.setParams(target->makeJson());
-                DataBaseManager::insertJourMsg_wS(msg);
+                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                 GraphTerminal::sendAbonentEventsAndStates(target, msg);
 
                 SoundAdjuster::playAlarm2();
@@ -532,7 +532,7 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
             comment += tr(" (Авто)");
         msg.setComment(comment);
         if(!isAuto) {
-            DataBaseManager::insertJourMsg_wS(msg);
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(msg);
         }
     }
@@ -583,7 +583,7 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
                 msg.setParams(tmpUN->makeJson());
 
                 if(!isAuto) {
-                    DataBaseManager::insertJourMsg_wS(msg);
+                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(msg);
                 }
             }
@@ -612,7 +612,7 @@ void PortManager::requestDK(const bool isAuto, const bool fromAbonent, const QSh
         msg.setObject(unTarget->getName());
         msg.setParams(unTarget->makeJson());
         if(!isAuto && !unTarget->getName().isEmpty() && 1 != unTarget->getMetaEntity()) {
-            DataBaseManager::insertJourMsg_wS(msg);
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(unTarget, msg);
         }
     }
@@ -672,7 +672,7 @@ void PortManager::requestAutoOnOffIUCommand(const bool isAuto, const bool fromAb
 
                 if(!unTarget->getName().isEmpty()
                 && 1 != unTarget->getMetaEntity()) {
-                    DataBaseManager::insertJourMsg_wS(msg);
+                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(unTarget, msg);
                 }
             }
@@ -729,7 +729,7 @@ void PortManager::requestModeSensor(QSharedPointer<UnitNode> target) {
             msg.setType(13);
             msg.setComment(tr("Ком. упр. не выполнена"));
             msg.setParams(un->makeJson());
-            DataBaseManager::insertJourMsg_wS(msg);
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
         }
         if(10 != un->getPublishedState()) {
@@ -799,7 +799,7 @@ void PortManager::lockOpenCloseCommand(bool out, QSharedPointer<UnitNode> selUN,
         msg.setComment(tr("Послана ком. ") + (value ? tr("Открыть") : tr("Закрыть")));
     }
     if(!selUN->getName().isEmpty() && 1 != selUN->getMetaEntity()) {
-        DataBaseManager::insertJourMsg_wS(msg);
+        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
         GraphTerminal::sendAbonentEventsAndStates(selUN, msg);
     }
 
@@ -888,7 +888,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
             msg.setComment(comment);
 
             if(!target->getName().isEmpty() && 1 != target->getMetaEntity()) {
-                DataBaseManager::insertJourMsg_wS(msg);
+                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                 GraphTerminal::sendAbonentEventsAndStates(target, msg);
             }
     });
@@ -906,7 +906,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
             msg.setType(13);
             msg.setComment(tr("Ком. упр. не выполнена"));
             msg.setParams(un->makeJson());
-            DataBaseManager::insertJourMsg_wS(msg);
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
         }
         if(10 != un->getPublishedState()) {
@@ -941,7 +941,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
                                                         msg.setType(13);
                                                         msg.setComment(tr("Ком. упр. не выполнена"));
                                                         msg.setParams(un->makeJson());
-                                                        DataBaseManager::insertJourMsg_wS(msg);
+                                                        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                     }
                                                     if(10 != un->getPublishedState()) {
@@ -975,7 +975,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
                                                         msg.setType(13);
                                                         msg.setComment(tr("Ком. упр. не выполнена"));
                                                         msg.setParams(un->makeJson());
-                                                        DataBaseManager::insertJourMsg_wS(msg);
+                                                        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                     }
                                                     if(10 != un->getPublishedState()) {
@@ -1009,7 +1009,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
                                                         msg.setType(13);
                                                         msg.setComment(tr("Ком. упр. не выполнена"));
                                                         msg.setParams(un->makeJson());
-                                                        DataBaseManager::insertJourMsg_wS(msg);
+                                                        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                     }
                                                     if(10 != un->getPublishedState()) {
@@ -1043,7 +1043,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
                                                         msg.setType(13);
                                                         msg.setComment(tr("Ком. упр. не выполнена"));
                                                         msg.setParams(un->makeJson());
-                                                        DataBaseManager::insertJourMsg_wS(msg);
+                                                        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                     }
                                                     if(10 != un->getPublishedState()) {
@@ -1077,7 +1077,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
                                                         msg.setType(13);
                                                         msg.setComment(tr("Ком. упр. не выполнена"));
                                                         msg.setParams(un->makeJson());
-                                                        DataBaseManager::insertJourMsg_wS(msg);
+                                                        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                     }
                                                     if(10 != un->getPublishedState()) {
@@ -1111,7 +1111,7 @@ void PortManager::requestOnOffCommand(const bool isAuto, const bool fromAbonent,
                                                         msg.setType(13);
                                                         msg.setComment(tr("Ком. упр. не выполнена"));
                                                         msg.setParams(un->makeJson());
-                                                        DataBaseManager::insertJourMsg_wS(msg);
+                                                        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                         GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                     }
                                                     if(10 != un->getPublishedState()) {
@@ -1551,7 +1551,7 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
                 msg.setComment(tr("Ком. ДК выполнена"));
                 msg.setType(3);
                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity() && !isAutoDK) {
-                    DataBaseManager::insertJourMsg_wS(msg);
+                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                 }
                 needSendEventsAndStates = true;
@@ -1562,7 +1562,7 @@ void PortManager::finishDKWaiter(QSharedPointer<AbstractRequester> ar) {
                 msg.setComment(comment);
                 msg.setType(11);
                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
-                    DataBaseManager::insertJourMsg_wS(msg);
+                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                     SoundAdjuster::playAlarm2();
                 }
@@ -1624,7 +1624,7 @@ void PortManager::unLostedConnect(QSharedPointer<UnitNode> un)
             msg.setDirection(un->getDirection());
             msg.setComment(tr("Нет связи"));
             msg.setParams(un->makeJson());
-            DataBaseManager::insertJourMsg_wS(msg);
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(un, msg);
 
             if(20 == msg.getType()) {

@@ -151,6 +151,8 @@ private slots:
 
     void on_actionRestoreBackup_triggered();
 
+    void on_action_triggered();
+
 protected:
     void closeEvent(QCloseEvent * event);
 

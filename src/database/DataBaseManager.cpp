@@ -6,6 +6,7 @@
 #include <QTextCodec>
 #include "SimpleIni.h"
 #include "ServerSettingUtils.h"
+#include <QMessageBox>
 
 qint64 DataBaseManager::idStartLastDuty = -1;
 
@@ -94,6 +95,7 @@ QString DataBaseManager::UserName = QString();
 QString DataBaseManager::Password = QString();
 QString DataBaseManager::Port = QString();
 bool DataBaseManager::active;
+QString DataBaseManager::BackupPath = QString();
 
 qint64 DataBaseManager::getIdStartLastDuty()
 {
@@ -191,6 +193,7 @@ QSqlDatabase& DataBaseManager::m_db()
             QString password;
             QString port;
             bool active;
+            QString BackupPath;
 
 
             CSimpleIniA ini;
@@ -211,6 +214,8 @@ QSqlDatabase& DataBaseManager::m_db()
                 active=true;
             else
                 active=false;
+
+            BackupPath=codec->toUnicode(ini.GetValue("BACKUP", "BackupPath"));
 
 
             const char * criptPasswordChar = ini.GetValue("PostgresSQL", "Password");
@@ -236,6 +241,7 @@ QSqlDatabase& DataBaseManager::m_db()
             setPassword(password);
             setPort(port);
             setActive(active);
+            setBackupPath(BackupPath);
             //qDebug() << "DataBaseManager::m_db(first -> " <<getHostName() << " " << getDatabaseName() << " " << getUserName() << " " << getPassword() << " " << getPort() << ")";
 
             auto autoNewDuty = codec->toUnicode(ini.GetValue("PostgresSQL", "AutoDbStart"));
@@ -277,6 +283,209 @@ QSqlDatabase& DataBaseManager::m_db()
 
     return db;
 }
+
+bool DataBaseManager::makeBackup(QString backup)
+{
+
+    //Проверить указана ли папка для бэкапа
+    //Проверить есть ли физически эта папка
+
+    //Если нет вернуть false
+    if(!QDir(DataBaseManager::BackupPath).exists()){
+
+        QMessageBox msgBox;
+        msgBox.setText("Директория для бэкапа отсутствует");
+        msgBox.exec();
+
+        return false;
+    }
+
+    if(!QDir(DataBaseManager::BackupPath).exists()){
+
+        QMessageBox msgBox;
+        msgBox.setText("Директория для бэкапа отсутствует");
+        msgBox.exec();
+
+        return false;
+    }
+
+    qDebug()<<"BackupPath  : "<<DataBaseManager::BackupPath;
+    qDebug()<<"DatabaseName: "<<DataBaseManager::DatabaseName;
+    qDebug()<<"HostName    : "<<DataBaseManager::HostName;
+    qDebug()<<"Password    : "<<DataBaseManager::Password;
+    qDebug()<<"Port        : "<<DataBaseManager::Port;
+    qDebug()<<"UserName    : "<<DataBaseManager::UserName;
+
+    int res;
+
+ //   QString cmd="/usr/bin/pg_dump --host 127.0.0.1 --port 5432 --username postgres --no-password --format custom --blobs --verbose --file backup_2 rif_db0 ";
+
+ QString cmd="/usr/bin/pg_dump --host 127.0.0.1 --port "+DataBaseManager::Port+
+             " --username "+ DataBaseManager::UserName+
+             " --no-password --format custom --blobs --verbose --file backup "+ DataBaseManager::DatabaseName;
+    qDebug()<<cmd;
+    res=QProcess::execute(cmd);
+    qDebug()<<"res: "<<res;
+
+    if(res!=0){
+
+        QMessageBox msgBox;
+        msgBox.setText("Резервное копирование не выполнено!!");
+        msgBox.exec();
+        return false;
+    }
+
+    cmd="zip --password MY_SECRET "+backup+".zip rifx.ini backup";
+    qDebug()<<cmd;
+    res=QProcess::execute(cmd);
+    qDebug()<<"res: "<<res;
+
+    if(res!=0){
+
+        QMessageBox msgBox;
+        msgBox.setText("Резервное копирование не выполнено!!");
+        msgBox.exec();
+        return false;
+    }
+
+    cmd="cp "+backup+".zip "+DataBaseManager::BackupPath;
+    qDebug()<<cmd;
+    res=QProcess::execute(cmd);
+    qDebug()<<"res: "<<res;
+
+    if(res!=0){
+
+        QMessageBox msgBox;
+        msgBox.setText("Резервное копирование не выполнено!!");
+        msgBox.exec();
+        return false;
+    }
+
+    cmd="rm backup";
+    qDebug()<<cmd;
+    res=QProcess::execute(cmd);
+    qDebug()<<"res: "<<res;
+
+    if(res!=0){
+
+        QMessageBox msgBox;
+        msgBox.setText("Резервное копирование не выполнено!!");
+        msgBox.exec();
+        return false;
+    }
+
+    cmd="rm "+backup+".zip";
+    qDebug()<<cmd;
+    res=QProcess::execute(cmd);
+    qDebug()<<"res: "<<res;
+
+    if(res!=0){
+
+        QMessageBox msgBox;
+        msgBox.setText("Резервное копирование не выполнено!!");
+        msgBox.exec();
+        return false;
+    }
+
+    QMessageBox msgBox;
+    msgBox.setText("Резервное копирование завершено");
+    msgBox.exec();
+    return true;
+
+}
+
+bool DataBaseManager::restoreBackup(QString backup)
+{
+
+    //Проверить указана ли папка для бэкапа
+    //Проверить есть ли физически эта папка
+
+    //Проверить есть ли в ней этот архив
+
+    //Если нет вернуть false
+
+    qDebug()<<"BackupPath  : "<<DataBaseManager::BackupPath;
+    qDebug()<<"DatabaseName: "<<DataBaseManager::DatabaseName;
+    qDebug()<<"HostName    : "<<DataBaseManager::HostName;
+    qDebug()<<"Password    : "<<DataBaseManager::Password;
+    qDebug()<<"Port        : "<<DataBaseManager::Port;
+    qDebug()<<"UserName    : "<<DataBaseManager::UserName;
+
+
+int res;
+ //   QString cmd="/usr/bin/pg_restore --host 127.0.0.1 --port 5432 --username "postgres" --dbname "rif_db3" --role "postgres" --no-password  --verbose "/home/administrator/Backup/backup"";
+
+    QString cmd="unzip -P MY_SECRET "+DataBaseManager::BackupPath+"/"+backup+".zip -d "+DataBaseManager::BackupPath;
+    qDebug()<<cmd;
+    res=QProcess::execute(cmd);
+
+    if(res!=0){
+
+        QMessageBox msgBox;
+        msgBox.setText("Восстановление не выполнено!!");
+        msgBox.exec();
+        return false;
+    }
+
+
+cmd="/usr/bin/pg_restore --host 127.0.0.1 --port "+DataBaseManager::Port+
+             " --username "+ DataBaseManager::UserName+
+             " --dbname "+DataBaseManager::DatabaseName+
+             " --role "+DataBaseManager::UserName+
+             "  --no-password  --verbose "+DataBaseManager::BackupPath+"/backup";
+
+
+  qDebug()<<cmd;
+  res=QProcess::execute(cmd);
+  qDebug()<<"res: "<<res;
+  if((res!=0)&&(res!=1)){
+
+      cmd="rm "+DataBaseManager::BackupPath+"/backup";
+      res=QProcess::execute(cmd);
+
+      cmd="rm "+DataBaseManager::BackupPath+"/rifx.ini";
+      res=QProcess::execute(cmd);
+
+      QMessageBox msgBox;
+      msgBox.setText("Восстановление не выполнено!!");
+      msgBox.exec();
+      return false;
+  }
+
+  cmd="cp "+DataBaseManager::BackupPath+"/rifx.ini rifx.ini ";
+  qDebug()<<cmd;
+  res=QProcess::execute(cmd);
+  qDebug()<<"res: "<<res;
+  if(res!=0){
+
+      cmd="rm "+DataBaseManager::BackupPath+"/backup";
+      res=QProcess::execute(cmd);
+
+      cmd="rm "+DataBaseManager::BackupPath+"/rifx.ini";
+      res=QProcess::execute(cmd);
+
+      QMessageBox msgBox;
+      msgBox.setText("Восстановление не выполнено!!");
+      msgBox.exec();
+      return false;
+  }
+
+  cmd="rm "+DataBaseManager::BackupPath+"/backup";
+  res=QProcess::execute(cmd);
+
+  cmd="rm "+DataBaseManager::BackupPath+"/rifx.ini";
+  res=QProcess::execute(cmd);
+
+
+  QMessageBox msgBox;
+  msgBox.setText("Восстановление завершено.Перезапустите сервер.");
+  msgBox.exec();
+  return true;
+}
+
+
+
+
 
 DataBaseManager::~DataBaseManager() noexcept
 {
@@ -619,6 +828,16 @@ bool DataBaseManager::getActive()
 void DataBaseManager::setActive(bool value)
 {
     active = value;
+}
+
+const QString &DataBaseManager::getBackupPath()
+{
+    return BackupPath;
+}
+
+void DataBaseManager::setBackupPath(const QString &newBackupPath)
+{
+    BackupPath = newBackupPath;
 }
 
 

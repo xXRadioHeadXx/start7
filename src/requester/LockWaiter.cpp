@@ -204,7 +204,7 @@ void LockWaiter::init() {
                                                     msg.setType(13);
                                                     msg.setComment(tr("Ком. упр. не выполнена"));
                                                     msg.setParams(sd->makeJson());
-                                                    DataBaseManager::insertJourMsg_wS(msg);
+                                                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                     GraphTerminal::sendAbonentEventsAndStates(sd, msg);
                                                 }
                                                 if(10 != sd->getPublishedState()) {
@@ -240,7 +240,7 @@ void LockWaiter::init() {
                                                     msg.setType(13);
                                                     msg.setComment(tr("Ком. упр. не выполнена"));
                                                     msg.setParams(sd->makeJson());
-                                                    DataBaseManager::insertJourMsg_wS(msg);
+                                                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                     GraphTerminal::sendAbonentEventsAndStates(sd, msg);
                                                 }
                                                 if(10 != sd->getPublishedState()) {
@@ -279,7 +279,7 @@ void LockWaiter::init() {
                                                         msg.setType(13);
                                                         msg.setComment(tr("Ком. упр. не выполнена"));
                                                         msg.setParams(sd->makeJson());
-                                                        DataBaseManager::insertJourMsg_wS(msg);
+                                                        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                         GraphTerminal::sendAbonentEventsAndStates(sd, msg);
                                                     }
                                                     if(10 != sd->getPublishedState()) {
@@ -314,7 +314,7 @@ void LockWaiter::init() {
                                                         msg.setType(13);
                                                         msg.setComment(tr("Ком. упр. не выполнена"));
                                                         msg.setParams(sd->makeJson());
-                                                        DataBaseManager::insertJourMsg_wS(msg);
+                                                        SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                         GraphTerminal::sendAbonentEventsAndStates(sd, msg);
                                                     }
                                                     if(10 != sd->getPublishedState()) {
@@ -338,7 +338,7 @@ void LockWaiter::init() {
 //                                                msg.setDirection(un->getDirection());
 //                                                msg.setType(13);
 //                                                msg.setComment(tr("Ком. упр. не выполнена"));
-//                                                DataBaseManager::insertJourMsg_wS(msg);
+//                                                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
 //                                                GraphTerminal::sendAbonentEventsAndStates(un, msg);
 //                                            }
 //                                            un->setPublishedState(13);
@@ -359,7 +359,7 @@ void LockWaiter::init() {
 //                                                msg.setDirection(un->getDirection());
 //                                                msg.setType(13);
 //                                                msg.setComment(tr("Ком. упр. не выполнена"));
-//                                                DataBaseManager::insertJourMsg_wS(msg);
+//                                                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
 //                                                GraphTerminal::sendAbonentEventsAndStates(un, msg);
 //                                            }
 //                                            un->setPublishedState(13);

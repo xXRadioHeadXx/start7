@@ -46,7 +46,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindowServer)
 {
-    ui->setupUi(this);  
+    ui->setupUi(this);
 
 #ifdef QT_DEBUG
     auto action = new QPushButton("Read Pass", this);
@@ -321,7 +321,7 @@ MainWindowServer::MainWindowServer(QWidget *parent)
       ui->tableView->selectionModel(),
       SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
       SLOT(tableView_selectionChanged())
-     );    
+     );
     connect(
       modelJour.data(),
       SIGNAL(recalcSelectedMsg()),
@@ -1497,7 +1497,12 @@ void MainWindowServer::on_actionUNOn_triggered()
     if(setUn.isEmpty())
         this->m_portManager->requestOnOffCommand(false, false, selUN, true);
     else {
+<<<<<<< HEAD
         auto un = setUn.values().first();
+=======
+        const auto un = setUn.values().first();
+    //    qDebug()<<"un->getName() "<<un->getName()<<"; un->getMetaEntity()"<<un->getMetaEntity();
+>>>>>>> gleb
         this->m_portManager->requestAutoOnOffIUCommand(false, false, un);
     }
 }
@@ -1616,6 +1621,12 @@ void MainWindowServer::setUnArgSelect(const QString &newUnArgSelect)
 void MainWindowServer::makeBackup()
 {
     // /usr/bin/pg_dump --host 127.0.0.1 --port 5432 --username postgres --no-password --format custom --blobs --verbose --file backup_2 "rif_db0"
+
+    QString path;
+    QString db;
+
+
+
 
     QString cmd="/usr/bin/pg_dump --host 127.0.0.1 --port 5432 --username postgres --no-password --format custom --blobs --verbose --file backup_2 rif_db0 ";
     qDebug()<<cmd;
@@ -1848,7 +1859,7 @@ void MainWindowServer::forcedNewDuty(bool out)
     QString sql = " update public.jour set flag = 0 where flag != 0 ;";
     DataBaseManager::executeQuery(sql);
 
-    DataBaseManager::insertJourMsg_wS(msg);
+    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
     GraphTerminal::sendAbonentEventsAndStates(msg);
 
     DataBaseManager::setIdStartLastDuty();
@@ -3198,7 +3209,7 @@ void MainWindowServer::on_pushButtonSoundAlarm_clicked()
     msg.setObject(tr("Оператор"));
     msg.setType(905);
     msg.setComment(tr("Включен режим Тревога"));
-    DataBaseManager::insertJourMsg_wS(msg);
+    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
 }
 
 
@@ -3218,12 +3229,21 @@ void MainWindowServer::enable_updateListRecords()
 
 void MainWindowServer::on_actionMakeBackup_triggered()
 {
-    makeBackup();
+    if(ServerSettingUtils::checkDialogAuditAdm())
+    DataBaseManager::makeBackup("userbackup");
 }
 
 
 void MainWindowServer::on_actionRestoreBackup_triggered()
 {
-    restoreBackup();
+    if(ServerSettingUtils::checkDialogAuditAdm())
+    DataBaseManager::restoreBackup("autobackup");
+}
+
+
+void MainWindowServer::on_action_triggered()
+{
+    if(ServerSettingUtils::checkDialogAuditAdm())
+    DataBaseManager::restoreBackup("userbackup");
 }
 

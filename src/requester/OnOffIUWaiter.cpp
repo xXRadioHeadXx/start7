@@ -61,7 +61,7 @@ void OnOffIUWaiter::init()
         msg.setComment(comment);
         msg.setParams(target->makeJson());
         if(!target->getName().isEmpty() && 1 != target->getMetaEntity()) {
-            DataBaseManager::insertJourMsg_wS(msg);
+            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
             GraphTerminal::sendAbonentEventsAndStates(target, msg);
         }
 
@@ -74,9 +74,13 @@ void OnOffIUWaiter::init()
                                                 const auto& swpIU = un->swpIUBLIPType0x41();
                                                 if(1 == swpIU.isOff()) // выкл
                                                 {
+                                                    qDebug()<<"!1!";
                                                     return;
                                                 }
+                                            /*
+                                                qDebug()<<"!2!";
                                                 if(!un->getName().isEmpty() && 1 != un->getMetaEntity()) {
+                                                    qDebug()<<"!3!";
                                                     JourEntity msg;
                                                     msg.setObject(un->getName());
                                                     msg.setObjecttype(un->getType());
@@ -88,16 +92,20 @@ void OnOffIUWaiter::init()
                                                     msg.setType(13);
                                                     msg.setComment(tr("Ком. упр. не выполнена"));
                                                     msg.setParams(un->makeJson());
-                                                    DataBaseManager::insertJourMsg_wS(msg);
+                                                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                 }
+                                            */
                                                 if(10 != un->getPublishedState()) {
                                                     un->setPublishedState(13);
                                                     un->updDoubl();
                                                 }
+
+                                                /*
                                                 if((un->getAlarmMsgOn() || (!isAuto && !fromAbonent)) && !(isAuto || fromAbonent)) {
                                                     MessageBoxServer::infoTheOperationCannotBePerformedThereIsNoConnectionWithTheSensor(un->getName());
                                                 }
+                                                */
     //                                            MessageBoxServer::infoErrorExecutingTheLockOpeningCommand();
                                             };
 
@@ -120,7 +128,7 @@ void OnOffIUWaiter::init()
                                                     msg.setType(13);
                                                     msg.setComment(tr("Ком. упр. не выполнена"));
                                                     msg.setParams(un->makeJson());
-                                                    DataBaseManager::insertJourMsg_wS(msg);
+                                                    SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                     GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                                 }
                                                 if(10 != un->getPublishedState()) {
@@ -150,7 +158,7 @@ void OnOffIUWaiter::init()
                                                 msg.setType(13);
                                                 msg.setComment(tr("Ком. упр. не выполнена"));
                                                 msg.setParams(un->makeJson());
-                                                DataBaseManager::insertJourMsg_wS(msg);
+                                                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                 GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                             }
                                             if(10 != un->getPublishedState()) {
@@ -178,7 +186,7 @@ void OnOffIUWaiter::init()
                                                 msg.setType(13);
                                                 msg.setComment(tr("Ком. упр. не выполнена"));
                                                 msg.setParams(un->makeJson());
-                                                DataBaseManager::insertJourMsg_wS(msg);
+                                                SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
                                                 GraphTerminal::sendAbonentEventsAndStates(un, msg);
                                             }
                                             if(10 != un->getPublishedState()) {
@@ -242,7 +250,7 @@ DataQueueItem OnOffIUWaiter::makeSecondMsg() {
 //        msg.setComment(comment);
 
 //        if(!getUnTarget()->getName().isEmpty() && 1 != getUnTarget()->getMetaEntity()) {
-//            DataBaseManager::insertJourMsg_wS(msg);
+//            SignalSlotCommutator::emitInsNewJourMSG(msg);DataBaseManager::insertJourMsg_wS(msg);
 //            GraphTerminal::sendAbonentEventsAndStates(getUnTarget(), msg);
 //        }
 
