@@ -126,11 +126,17 @@ return l_Version.key(this->ui->Version->currentText());
 
 void ssoi_widget::set_SsoiM_PortNum1(int val)
 {
+if(this->get_Version()==1)
+this->ui->SSOI_Port_widget->set_SsoiM_PortNum(val);
+if(this->get_Version()==2)
 this->ui->SSOI_M_Port_widget_1->set_SsoiM_PortNum(val);
 }
 
 int ssoi_widget::get_SsoiM_PortNum1()
 {
+    if(this->get_Version()==1)
+return this->ui->SSOI_Port_widget->get_SsoiM_PortNum();
+
 return this->ui->SSOI_M_Port_widget_1->get_SsoiM_PortNum();
 }
 

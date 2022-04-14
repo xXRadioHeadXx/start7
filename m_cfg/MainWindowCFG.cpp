@@ -3797,7 +3797,11 @@ void MainWindowCFG::get_SSOI(QString filename)
     settings.beginGroup("SSOI");
 
     this->ui->SSOIwgt->set_Version(settings.value("Version",-1).toInt());
+
+
     this->ui->SSOIwgt->set_SsoiM_PortNum1(settings.value("SsoiM_PortNum1",-1).toInt());
+
+
     this->ui->SSOIwgt->set_SsoiM_Interval1(settings.value("SsoiM_Interval1",-1).toInt());
     this->ui->SSOIwgt->set_SsoiM_Interval_1(settings.value("SsoiM_Interval_1",-1).toInt());
     this->ui->SSOIwgt->set_SsoiM_MaxErrCnt1(settings.value("SsoiM_MaxErrCnt1",-1).toInt());
@@ -4848,6 +4852,8 @@ settings.setValue("Version",this->ui->SSOIwgt->get_Version());
 
 
 settings.setValue("SsoiM_PortNum1",this->ui->SSOIwgt->get_SsoiM_PortNum1());
+
+
 settings.setValue("SsoiM_Interval1",this->ui->SSOIwgt->get_SsoiM_Interval1());
 settings.setValue("SsoiM_Interval_1",this->ui->SSOIwgt->get_SsoiM_Interval_1());
 settings.setValue("SsoiM_MaxErrCnt1",this->ui->SSOIwgt->get_SsoiM_MaxErrCnt1());
