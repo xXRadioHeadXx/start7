@@ -346,6 +346,8 @@ bool UnitWidget::line_is_busy(UnitNode *unit)
             bool res=false;
             //Если тип связи RS-485, на одном порте не должно висеть двух юнитов с одинаковыми параметрами
 
+
+
            if(unit==un){
 
 
@@ -369,6 +371,8 @@ bool UnitWidget::line_is_busy(UnitNode *unit)
                  }
 
                  if((un->getType()!=TypeUnitNode::KL)||(unit->getType()!=TypeUnitNode::KL))
+                 if((un->getType()!=TypeUnitNode::SSOI_IU))
+                 if((un->getType()!=TypeUnitNode::SSOI_SD))
                  if((un->getNum1()==unit->getNum1())){
 
 
