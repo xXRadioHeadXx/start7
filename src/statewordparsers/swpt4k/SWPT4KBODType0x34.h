@@ -1,7 +1,7 @@
 #ifndef SWPT4KBODTYPE0X34_H
 #define SWPT4KBODTYPE0X34_H
 
-#include <SWP.h>
+#include "../src/statewordparsers/SWP.h"
 
 class SWPT4KDDType0x34;
 class SWPT4KBODType0x34 : public SWP

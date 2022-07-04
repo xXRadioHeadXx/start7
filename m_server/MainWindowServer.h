@@ -2,14 +2,14 @@
 #define MAINWINDOWSERVER_H
 
 #include <QMainWindow>
-#include "AlarmSwitchOffLogger.h"
+#include "../src/utils/AlarmSwitchOffLogger.h"
 //#include <QDebug>
 #include <QTableWidget>
 
-#include "ServerTreeModelUnitNode.h"
-#include "PortManager.h"
-#include "DataBaseManager.h"
-#include "ServerTableModelJour.h"
+#include "../src/tablemodel/ServerTreeModelUnitNode.h"
+#include "../src/port/PortManager.h"
+#include "../src/database/DataBaseManager.h"
+#include "../src/tablemodel/ServerTableModelJour.h"
 #include "AuthenticationDialog.h"
 
 QT_BEGIN_NAMESPACE

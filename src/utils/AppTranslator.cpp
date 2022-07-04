@@ -1,7 +1,7 @@
-#include <AppTranslator.h>
+#include "../src/utils/AppTranslator.h"
 
 AppTranslator::AppTranslator(QApplication *app,
-                             MainWindow *w,
+                             MainWindowServer *w,
                              QObject *parent) :
     QObject(parent),
     m_app(app),

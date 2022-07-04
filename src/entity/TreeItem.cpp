@@ -1,4 +1,4 @@
-#include "TreeItem.h"
+#include "../src/entity/TreeItem.h"
 
 #include <QVariant>
 

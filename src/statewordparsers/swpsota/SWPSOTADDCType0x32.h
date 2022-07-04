@@ -1,9 +1,9 @@
 #ifndef SWPSOTADDCTYPE0X32_H
 #define SWPSOTADDCTYPE0X32_H
 
-#include "SWP.h"
-#include "SWPFault.h"
-#include "SWPWasAlarm.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPFault.h"
+#include "../src/statewordparsers/SWPWasAlarm.h"
 
 class SWPSOTADDCType0x32 :
         public SWP

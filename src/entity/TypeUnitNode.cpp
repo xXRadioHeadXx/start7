@@ -1,4 +1,4 @@
-#include "TypeUnitNode.h"
+#include "../src/entity/TypeUnitNode.h"
 
 #include <QMap>
 #include <QSet>

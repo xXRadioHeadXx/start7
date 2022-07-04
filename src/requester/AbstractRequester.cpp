@@ -1,4 +1,4 @@
-#include "AbstractRequester.h"
+#include "../src/requester/AbstractRequester.h"
 
 QTime AbstractRequester::getLastPushTime() const
 {

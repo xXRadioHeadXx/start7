@@ -1,9 +1,9 @@
-#include "ComboBoxDelegate.h"
+#include "../src/tablemodel/ComboBoxDelegate.h"
 
-#include "JourEntity.h"
+#include "../src/entity/JourEntity.h"
 #include <QComboBox>
-#include "ServerSettingUtils.h"
-#include "ServerTableModelJour.h"
+#include "../src/utils/ServerSettingUtils.h"
+#include "../src/tablemodel/ServerTableModelJour.h"
 
 ComboBoxDelegate::ComboBoxDelegate(QString field, QObject *parent) : QItemDelegate(parent), field(field) { }
 

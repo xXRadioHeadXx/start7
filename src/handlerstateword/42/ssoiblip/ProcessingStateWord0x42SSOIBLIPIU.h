@@ -1,7 +1,7 @@
 #ifndef PROCESSINGSTATEWORD0X42SSOIBLIPIU_H
 #define PROCESSINGSTATEWORD0X42SSOIBLIPIU_H
 
-#include <ProcessingStateWordAbstract.h>
+#include "../src/handlerstateword/ProcessingStateWordAbstract.h"
 
 class ProcessingStateWord0x42SSOIBLIPIU : public ProcessingStateWordAbstract
 {

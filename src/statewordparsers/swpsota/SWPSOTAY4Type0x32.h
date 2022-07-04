@@ -1,9 +1,9 @@
 #ifndef SWPSOTAY4TYPE0X32_H
 #define SWPSOTAY4TYPE0X32_H
 
-#include "SWP.h"
-#include "SWPInAlarm.h"
-#include "SWPWasAlarm.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPInAlarm.h"
+#include "../src/statewordparsers/SWPWasAlarm.h"
 
 class SWPSOTADDType0x32;
 class SWPSOTAY4Type0x32 :

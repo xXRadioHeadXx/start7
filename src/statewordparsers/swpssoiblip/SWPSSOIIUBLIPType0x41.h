@@ -1,7 +1,7 @@
 #ifndef SWPSSOIIUBLIPTYPE0X41_H
 #define SWPSSOIIUBLIPTYPE0X41_H
 
-#include "SWP.h"
+#include "../src/statewordparsers/SWP.h"
 
 
 class SWPSSOIIUBLIPType0x41 : public SWP

@@ -1,4 +1,4 @@
-#include "SWPSOTAY4Type0x33.h"
+#include "../src/statewordparsers/swpsota/SWPSOTAY4Type0x33.h"
 
 
 SWPSOTAY4Type0x33::SWPSOTAY4Type0x33(const StateWord &stateWord, const int y4) :

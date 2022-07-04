@@ -1,7 +1,7 @@
 #ifndef MULTIUNSTATUSCONNECTREQUESTER_H
 #define MULTIUNSTATUSCONNECTREQUESTER_H
 
-#include "AbstractRequester.h"
+#include "../src/requester/AbstractRequester.h"
 
 class MultiUNStatusConnectRequester final : public AbstractRequester
 {

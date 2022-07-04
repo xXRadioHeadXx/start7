@@ -1,8 +1,8 @@
 #ifndef SWPBLIPTYPE0X42_H
 #define SWPBLIPTYPE0X42_H
 
-#include "SWP.h"
-#include "SWPSDBLIPType0x42.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPSDBLIPType0x42.h"
 
 class SWPBLIPType0x42 : public SWP
 {

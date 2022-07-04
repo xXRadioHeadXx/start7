@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QQueue>
-#include "ShedulerDK.h"
-#include "Port.h"
-#include "GraphTerminal.h"
+#include "../src/utils/ShedulerDK.h"
+#include "../src/port/Port.h"
+#include "../src/port/GraphTerminal.h"
 
 class UnitNode;
 class DataBaseManager;

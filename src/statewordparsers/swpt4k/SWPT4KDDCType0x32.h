@@ -1,9 +1,9 @@
 #ifndef SWPT4KDDCTYPE0X32_H
 #define SWPT4KDDCTYPE0X32_H
 
-#include "SWP.h"
-#include "SWPFault.h"
-#include "SWPWasAlarm.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPFault.h"
+#include "../src/statewordparsers/SWPWasAlarm.h"
 
 class SWPT4KDDCType0x32 :
         public SWP

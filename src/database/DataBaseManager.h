@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QtSql>
-#include "ShedulerNewDuty.h"
+#include "../src/utils/ShedulerNewDuty.h"
 
-#include "JourEntity.h"
+#include "../src/entity/JourEntity.h"
 
 class DataBaseManager : public QObject
 {

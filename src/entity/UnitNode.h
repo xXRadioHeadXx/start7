@@ -8,8 +8,8 @@
 #include <QHostAddress>
 #include "UnitNodeCFG.h"
 #include "UnitNodeTreeItem.h"
-#include "SWP.h"
-#include "ManagerSingleMsg.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/requester/ManagerSingleMsg.h"
 
 enum SubTypeApp {
     any = 0x00,

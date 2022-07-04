@@ -1,10 +1,10 @@
 #ifndef INIFILESERVICEIMPL_H
 #define INIFILESERVICEIMPL_H
-#include "SimpleIni.h"
+#include "../src/utils/SimpleIni.h"
 
 #include <QSharedPointer>
 
-#include <template/AfterConstructInitialization.h>
+#include "../src/template/AfterConstructInitialization.h"
 
 class QTextCodec;
 class UnitNode;

@@ -6,7 +6,7 @@
 #include <QSet>
 #include <QString>
 #include <QString>
-#include "template/SingletonTemplate.h"
+#include "../src/template/SingletonTemplate.h"
 #include "KeyGroup.h"
 
 

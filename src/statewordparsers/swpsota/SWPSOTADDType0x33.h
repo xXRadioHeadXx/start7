@@ -1,15 +1,15 @@
 #ifndef SWPSOTADDTYPE0X33_H
 #define SWPSOTADDTYPE0X33_H
 
-#include <SWP.h>
-#include "SWPWasOpened.h"
-#include "SWPInCommunicationBreak.h"
-#include "SWPWasCommunicationBreak.h"
-#include "SWPFault.h"
-#include "SWPInterrogation.h"
-#include "SWPFault.h"
-#include "SWPWasAlarm.h"
-#include "SWPLevel.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPWasOpened.h"
+#include "../src/statewordparsers/SWPInCommunicationBreak.h"
+#include "../src/statewordparsers/SWPWasCommunicationBreak.h"
+#include "../src/statewordparsers/SWPFault.h"
+#include "../src/statewordparsers/SWPInterrogation.h"
+#include "../src/statewordparsers/SWPFault.h"
+#include "../src/statewordparsers/SWPWasAlarm.h"
+#include "../src/statewordparsers/SWPLevel.h"
 
 
 class SWPSOTADDFType0x33;

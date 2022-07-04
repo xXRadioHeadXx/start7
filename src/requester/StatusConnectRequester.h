@@ -1,15 +1,16 @@
 #ifndef STATUSCONNECTREQUESTER_H
 #define STATUSCONNECTREQUESTER_H
 
-#include "AbstractPort.h"
-#include <AbstractRequester.h>
-#include "DataQueueItem.h"
+#include "../src/port/AbstractPort.h"
+#include "../src/requester/AbstractRequester.h"
+#include "../src/port/DataQueueItem.h"
 
-#include <AbstractRequester.h>
-#include <Utils.h>
+#include "../src/requester/AbstractRequester.h"
+#include "../src/utils/Utils.h"
 #include <QDebug>
 
-#include <UnitNode.h>
+#include "../src/entity/UnitNode.h"
+#include "../src/entity/TypeUnitNode.h"
 
 class StatusConnectRequester final : public AbstractRequester
 {

@@ -1,14 +1,14 @@
 #ifndef MANAGERSINGLEMSGALARMRESET_H
 #define MANAGERSINGLEMSGALARMRESET_H
 
-#include "ManagerSingleMsg.h"
+#include "../src/requester/ManagerSingleMsg.h"
 
-#include "DataQueueItem.h"
+#include "../src/port/DataQueueItem.h"
 
 class ManagerSingleMsgAlarmReset : public ManagerSingleMsg
 {
 public:
-    ManagerSingleMsgAlarmReset(const QSharedPointer<UnitNode> &target, QByteArray (*maker)(const QSharedPointer<UnitNode>) = DataQueueItem::makeAlarmReset0x24);
+    ManagerSingleMsgAlarmReset(const QSharedPointer<UnitNode> &target, QByteArray (*maker)(const QSharedPointer<UnitNode>) = DataQueueItem::makeResetFlags0x24);
 
 };
 

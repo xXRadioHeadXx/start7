@@ -1,7 +1,7 @@
 #include "ProcessingStateWordAbstract.h"
 
-#include "SWP.h"
-#include "UnitNode.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/entity/UnitNode.h"
 
 const StateWord &ProcessingStateWordAbstract::getData() const
 {

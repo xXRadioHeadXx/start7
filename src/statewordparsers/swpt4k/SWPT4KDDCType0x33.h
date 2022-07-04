@@ -1,12 +1,12 @@
 #ifndef SWPT4KDDCTYPE0X33_H
 #define SWPT4KDDCTYPE0X33_H
 
-#include <SWP.h>
-#include "SWPFault.h"
-#include "SWPWasAlarm.h"
-#include "SWPLevel.h"
-#include "SWPCliff.h"
-#include "SWPClosure.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPFault.h"
+#include "../src/statewordparsers/SWPWasAlarm.h"
+#include "../src/statewordparsers/SWPLevel.h"
+#include "../src/statewordparsers/SWPCliff.h"
+#include "../src/statewordparsers/SWPClosure.h"
 
 class SWPT4KDDCFType0x33;
 class SWPT4KDDCType0x33 :

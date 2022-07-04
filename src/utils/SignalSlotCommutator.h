@@ -2,8 +2,8 @@
 #define SIGNALSLOTCOMMUTATOR_H
 
 #include <QObject>
-#include "template/SingletonTemplate.h"
-#include <JourEntity.h>
+#include "../src/template/SingletonTemplate.h"
+#include "../src/entity/JourEntity.h"
 
 class UnitNode;
 class SignalSlotCommutator : public QObject, public SingletonTemplate<SignalSlotCommutator>

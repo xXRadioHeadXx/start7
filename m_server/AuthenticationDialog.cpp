@@ -2,10 +2,10 @@
 #include "ui_AuthenticationDialog.h"
 
 //#include <QDebug>
-#include "Utils.h"
+#include "../src/utils/Utils.h"
 #include <QTextCodec>
-#include "Utils.h"
-#include "SimpleIni.h"
+#include "../src/utils/Utils.h"
+#include "../src/utils/SimpleIni.h"
 
 AuthenticationDialog::AuthenticationDialog(QWidget *parent) :
     QDialog(parent),

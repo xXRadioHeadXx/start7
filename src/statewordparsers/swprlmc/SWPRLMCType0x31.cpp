@@ -1,4 +1,4 @@
-#include "swprlmc/SWPRLMCType0x31.h"
+#include "../src/statewordparsers/swprlmc/SWPRLMCType0x31.h"
 
 #include <QtMath>
 

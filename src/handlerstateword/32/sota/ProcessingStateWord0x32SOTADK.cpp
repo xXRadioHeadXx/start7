@@ -1,16 +1,16 @@
 #include "ProcessingStateWord0x32SOTADK.h"
 
-#include "UnitNode.h"
-#include "UnitNodeFactory.h"
-#include "swpsota/SWPSOTABODType0x32.h"
-#include "swpsota/SWPSOTAY4Type0x32.h"
-#include "ContainerRequesters.h"
-#include "global.h"
-#include "ProcessDKWaiter.h"
-#include "TopologyService.h"
-#include "SignalSlotCommutator.h"
-#include "GraphTerminal.h"
-#include "SoundAdjuster.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/statewordparsers/swpsota/SWPSOTABODType0x32.h"
+#include "../src/statewordparsers/swpsota/SWPSOTAY4Type0x32.h"
+#include "../src/port/ContainerRequesters.h"
+#include "../src/global.h"
+#include "../src/requester/ProcessDKWaiter.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/port/GraphTerminal.h"
+#include "../src/utils/SoundAdjuster.h"
 
 ProcessingStateWord0x32SOTADK::ProcessingStateWord0x32SOTADK(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

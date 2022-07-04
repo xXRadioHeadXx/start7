@@ -1,11 +1,11 @@
 #ifndef STATUSREQUESTER_H
 #define STATUSREQUESTER_H
 
-#include "AbstractRequester.h"
+#include "../src/requester/AbstractRequester.h"
 
-#include <DataQueueItem.h>
+#include "../src/port/DataQueueItem.h"
 #include <QObject>
-#include <Utils.h>
+#include "../src/utils/Utils.h"
 
 class StatusRequester : public QObject//, public AbstractRequester
 {

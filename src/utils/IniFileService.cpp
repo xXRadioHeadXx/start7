@@ -1,9 +1,9 @@
-#include "IniFileService.h"
+#include "../src/utils/IniFileService.h"
 
 #include <QCoreApplication>
 #include <QTextCodec>
-#include "SimpleIni.h"
-#include "UnitNodeFactory.h"
+#include "../src/utils/SimpleIni.h"
+#include "../src/entity/UnitNodeFactory.h"
 
 void IniFileService::afterConstructInitializationImpl()
 {

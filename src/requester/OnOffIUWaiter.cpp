@@ -1,14 +1,14 @@
-#include "OnOffIUWaiter.h"
-#include "SignalSlotCommutator.h"
+#include "../src/requester/OnOffIUWaiter.h"
+#include "../src/utils/SignalSlotCommutator.h"
 
-#include "PortManager.h"
-#include "Utils.h"
-#include "global.h"
-#include "swpblip/SWPIUBLIPType0x41.h"
-#include "swpssoiblip/SWPSSOIIUBLIPType0x41.h"
+#include "../src/port/PortManager.h"
+#include "../src/utils/Utils.h"
+#include "../src/global.h"
+#include "../src/statewordparsers/swpblip/SWPIUBLIPType0x41.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOIIUBLIPType0x41.h"
 
-#include <MessageBoxServer.h>
-#include "TopologyService.h"
+#include "../src/utils/MessageBoxServer.h"
+#include "../src/utils/TopologyService.h"
 
 OnOffIUWaiter::OnOffIUWaiter(const bool isAuto, const bool fromAbonent, QSharedPointer<UnitNode>  target, RequesterType requesterType) :
     AbstractRequester(target, requesterType),

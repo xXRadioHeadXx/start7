@@ -1,18 +1,18 @@
 #include "ProcessingStateWord0x41SSOIBLIPIU.h"
 
 #include <QDebug>
-#include "JourEntity.h"
-#include "UnitNode.h"
-#include "TopologyService.h"
-#include "swpssoiblip/SWPSSOIBLIPType0x41.h"
-#include "swpssoiblip/SWPSSOIIUBLIPType0x41.h"
-#include "swpssoiblip/SWPSSOISDBLIPType0x41.h"
-#include "swpblip/SWPBLIPType0x41.h"
-#include "UnitNodeFactory.h"
-#include "SignalSlotCommutator.h"
-#include "DataQueueItem.h"
-#include "DataBaseManager.h"
-#include "GraphTerminal.h"
+#include "../src/entity/JourEntity.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOIBLIPType0x41.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOIIUBLIPType0x41.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOISDBLIPType0x41.h"
+#include "../src/statewordparsers/swpblip/SWPBLIPType0x41.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/port/DataQueueItem.h"
+#include "../src/database/DataBaseManager.h"
+#include "../src/port/GraphTerminal.h"
 
 ProcessingStateWord0x41SSOIBLIPIU::ProcessingStateWord0x41SSOIBLIPIU(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

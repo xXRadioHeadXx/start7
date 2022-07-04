@@ -1,11 +1,11 @@
-#include <IniFileService.h>
+#include "../src/utils/IniFileService.h"
 #include <QByteArray>
 
-#include "ServerTableModelJour.h"
-#include "DataBaseManager.h"
-#include "SignalSlotCommutator.h"
-#include "Icons.h"
-#include "ServerSettingUtils.h"
+#include "../src/tablemodel/ServerTableModelJour.h"
+#include "../src/database/DataBaseManager.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/utils/Icons.h"
+#include "../src/utils/ServerSettingUtils.h"
 
 QList<JourEntity> ServerTableModelJour::m_listJour = QList<JourEntity>();
 

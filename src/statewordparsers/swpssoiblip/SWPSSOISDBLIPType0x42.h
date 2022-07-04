@@ -1,7 +1,7 @@
 #ifndef SWPSSOISDBLIPTYPE0X42_H
 #define SWPSSOISDBLIPTYPE0X42_H
 
-#include "SWP.h"
+#include "../src/statewordparsers/SWP.h"
 
 class SWPSSOISDBLIPType0x42 : public SWP
 {

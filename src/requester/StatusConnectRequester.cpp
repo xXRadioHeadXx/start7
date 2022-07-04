@@ -1,12 +1,15 @@
-#include "StatusConnectRequester.h"
+#include "../src/requester/StatusConnectRequester.h"
 
-#include "SignalSlotCommutator.h"
+#include "../src/requester/AbstractRequester.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/template/SingletonTemplate.h"
+#include "../src/entity/TypeUnitNode.h"
 
-#include <PortManager.h>
-#include <Utils.h>
-#include <global.h>
+#include "../src/port/PortManager.h"
+#include "../src/utils/Utils.h"
+#include "../src/global.h"
 
-StatusConnectRequester::StatusConnectRequester(UnitNode * target, RequesterType requesterType) : AbstractRequester(target, requesterType)
+StatusConnectRequester::StatusConnectRequester(UnitNode * target, RequesterType requesterType) : AbstractRequester(QSharedPointer<UnitNode>(target), requesterType)
 {
 //    //qDebug() << "StatusConnectRequester::StatusConnectRequester(" << this << ") -->";
 }
@@ -36,7 +39,7 @@ void StatusConnectRequester::specialReserveSlot() const
 {
 //    qDebug () << "StatusConnectRequester::specialReserveSlot(" << getUnReciver()->toString() << ")";
 
-    SignalSlotCommutator::getInstance()->emitLostedConnect(getUnReciver());
+    SignalSlotCommutator::instance().emitLostedConnect(getUnReciver());
 }
 
 

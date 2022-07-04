@@ -1,11 +1,11 @@
 #include "ProcessingStateWord0x41SSOIBLIPDK.h"
 
 #include <QDebug>
-#include "TopologyService.h"
-#include "UnitNode.h"
-#include "swpssoiblip/SWPSSOISDBLIPType0x41.h"
-#include "UnitNodeFactory.h"
-#include "SignalSlotCommutator.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOISDBLIPType0x41.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/utils/SignalSlotCommutator.h"
 
 ProcessingStateWord0x41SSOIBLIPDK::ProcessingStateWord0x41SSOIBLIPDK(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

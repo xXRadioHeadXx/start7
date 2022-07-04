@@ -1,6 +1,6 @@
-﻿#include <TreeModelUnitNode.h>
-#include <SettingUtils.h>
-#include <SignalSlotCommutator.h>
+﻿#include "../src/tablemodel/TreeModelUnitNode.h"
+#include "../src/utils/SettingUtils.h"
+#include "../src/utils/SignalSlotCommutator.h"
 #include <QPixmap>
 
 SubTypeApp TreeModelUnitNode::getTypeApp() const

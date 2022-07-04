@@ -1,7 +1,7 @@
-#include "SWPRLMType0x31.h"
+#include "../src/statewordparsers/SWPRLMType0x31.h"
 
-#include "Utils.h"
-#include "global.h"
+#include "../src/utils/Utils.h"
+#include "../src/global.h"
 
 SWPRLMType0x31::SWPRLMType0x31(const StateWord &stateWord) :
     SWP(stateWord)

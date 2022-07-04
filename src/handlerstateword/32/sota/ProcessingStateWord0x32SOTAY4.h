@@ -1,7 +1,7 @@
 #ifndef PROCESSINGSTATEWORD0X32SOTAY4_H
 #define PROCESSINGSTATEWORD0X32SOTAY4_H
 
-#include <ProcessingStateWordAbstract.h>
+#include "../src/handlerstateword/ProcessingStateWordAbstract.h"
 
 class ProcessingStateWord0x32SOTAY4 : public ProcessingStateWordAbstract
 {

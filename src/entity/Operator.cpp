@@ -1,4 +1,4 @@
-#include "Operator.h"
+#include "../src/entity/Operator.h"
 
 Operator Operator::approvedOperator = Operator();
 

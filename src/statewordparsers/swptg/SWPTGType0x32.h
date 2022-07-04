@@ -1,7 +1,7 @@
 #ifndef SWPTGTYPE0X32_H
 #define SWPTGTYPE0X32_H
 
-#include "SWP.h"
+#include "../src/statewordparsers/SWP.h"
 
 class SWPTGSubType0x32;
 class SWPTGType0x32 : public SWP

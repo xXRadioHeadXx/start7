@@ -2,8 +2,8 @@
 #define GRAPHTERMINAL_H
 
 #include <QObject>
-#include "JourEntity.h"
-#include "DataQueueItem.h"
+#include "../src/entity/JourEntity.h"
+#include "../src/port/DataQueueItem.h"
 
 class TcpServer;
 class QTcpSocket;

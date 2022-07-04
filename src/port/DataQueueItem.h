@@ -3,7 +3,7 @@
 
 #include <QByteArray>
 #include <QHostAddress>
-#include "Utils.h"
+#include "../src/utils/Utils.h"
 
 class UnitNode;
 class DataQueueItem

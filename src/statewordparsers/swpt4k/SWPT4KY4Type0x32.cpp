@@ -1,5 +1,5 @@
-#include "SWPT4KDDType0x32.h"
-#include "SWPT4KY4Type0x32.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDType0x32.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KY4Type0x32.h"
 
 SWPT4KY4Type0x32::SWPT4KY4Type0x32(const StateWord &stateWord, const int y4) :
     SWP(stateWord)

@@ -1,9 +1,9 @@
 #include "ShedulerNewDuty.h"
 
-#include "DataBaseManager.h"
-#include "GraphTerminal.h"
-#include "JourEntity.h"
-#include "SignalSlotCommutator.h"
+#include "../src/database/DataBaseManager.h"
+#include "../src/port/GraphTerminal.h"
+#include "../src/entity/JourEntity.h"
+#include "../src/utils/SignalSlotCommutator.h"
 
 ShedulerNewDuty::ShedulerNewDuty(QTime runTime) :
     Sheduler(runTime)

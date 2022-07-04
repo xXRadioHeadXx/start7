@@ -4,10 +4,10 @@
 #include <QByteArray>
 #include <QUdpSocket>
 
-#include "AbstractPort.h"
-#include "DataBaseManager.h"
+#include "../src/port/AbstractPort.h"
+#include "../src/database/DataBaseManager.h"
 
-#include "DataQueueItem.h"
+#include "../src/port/DataQueueItem.h"
 
 class Port :
         public AbstractPort

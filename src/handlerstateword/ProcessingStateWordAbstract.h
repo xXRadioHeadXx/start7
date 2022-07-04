@@ -1,7 +1,7 @@
 #ifndef PROCESSINGSTATEWORDABSTRACT_H
 #define PROCESSINGSTATEWORDABSTRACT_H
 
-#include "SWP.h"
+#include "../src/statewordparsers/SWP.h"
 #include <QSharedPointer>
 
 class UnitNode;

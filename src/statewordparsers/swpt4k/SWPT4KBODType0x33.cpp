@@ -1,6 +1,6 @@
-#include "SWPT4KBODType0x33.h"
-#include "SWPT4KDDType0x33.h"
-#include "SWPT4KY4Type0x33.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KBODType0x33.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDType0x33.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KY4Type0x33.h"
 
 SWPT4KBODType0x33::SWPT4KBODType0x33(const StateWord &stateWord) :
     SWP(stateWord)

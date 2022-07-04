@@ -1,6 +1,6 @@
-#include "SWPTGType0x33.h"
+#include "../src/statewordparsers/SWPTGType0x33.h"
 
-#include "SWPTGSubType0x33.h"
+#include "../src/statewordparsers/SWPTGSubType0x33.h"
 
 SWPTGType0x33::SWPTGType0x33(const StateWord &stateWord) :
     SWP(stateWord)

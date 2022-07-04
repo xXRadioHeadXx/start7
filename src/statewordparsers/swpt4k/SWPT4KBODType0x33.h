@@ -1,13 +1,13 @@
 #ifndef SWPT4KBODTYPE0X33_H
 #define SWPT4KBODTYPE0X33_H
 
-#include <SWP.h>
+#include "../src/statewordparsers/SWP.h"
 
-#include "SWPExistDK.h"
-#include "SWPInOpened.h"
-#include "SWPReady.h"
-#include "SWPWasDK.h"
-#include "SWPWasOpened.h"
+#include "../src/statewordparsers/SWPExistDK.h"
+#include "../src/statewordparsers/SWPInOpened.h"
+#include "../src/statewordparsers/SWPReady.h"
+#include "../src/statewordparsers/SWPWasDK.h"
+#include "../src/statewordparsers/SWPWasOpened.h"
 
 class SWPT4KY4Type0x33;
 class SWPT4KDDType0x33;

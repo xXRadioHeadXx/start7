@@ -1,7 +1,7 @@
 #ifndef PROCESSINGSTATEWORD0X41BLIPUZO_H
 #define PROCESSINGSTATEWORD0X41BLIPUZO_H
 
-#include <ProcessingStateWordAbstract.h>
+#include "../src/handlerstateword/ProcessingStateWordAbstract.h"
 
 class ProcessingStateWord0x41BLIPUzo : public ProcessingStateWordAbstract
 {

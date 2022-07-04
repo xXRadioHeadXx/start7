@@ -1,7 +1,7 @@
 #ifndef PROCESSINGSTATEWORD0X32SOTADK_H
 #define PROCESSINGSTATEWORD0X32SOTADK_H
 
-#include <ProcessingStateWordAbstract.h>
+#include "../src/handlerstateword/ProcessingStateWordAbstract.h"
 
 class AbstractRequester;
 class ProcessingStateWord0x32SOTADK : public ProcessingStateWordAbstract

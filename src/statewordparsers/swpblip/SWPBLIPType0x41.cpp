@@ -1,4 +1,4 @@
-#include "swpblip/SWPBLIPType0x41.h"
+#include "../src/statewordparsers/swpblip/SWPBLIPType0x41.h"
 
 const SWPSDBLIPType0x41 SWPBLIPType0x41::sd(int numSD) const
 {

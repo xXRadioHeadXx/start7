@@ -1,8 +1,8 @@
-#include "ManagerSingleMsg.h"
-#include "DataQueueItem.h"
-#include "UnitNode.h"
+#include "../src/requester/ManagerSingleMsg.h"
+#include "../src/port/DataQueueItem.h"
+#include "../src/entity/UnitNode.h"
 
-#include "TopologyService.h"
+#include "../src/utils/TopologyService.h"
 
 
 int ManagerSingleMsg::getCountMaker() const

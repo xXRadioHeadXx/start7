@@ -1,5 +1,5 @@
 #include "IntervalSheduler.h"
-#include "Utils.h"
+#include "../src/utils/Utils.h"
 
 IntervalSheduler::IntervalSheduler(const QTime time, const double mean) :
     QObject(nullptr),

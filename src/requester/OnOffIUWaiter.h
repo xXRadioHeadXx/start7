@@ -1,7 +1,7 @@
 #ifndef ONOFFIUWAITER_H
 #define ONOFFIUWAITER_H
 
-#include "AbstractRequester.h"
+#include "../src/requester/AbstractRequester.h"
 
 class OnOffIUWaiter final : public AbstractRequester
 {

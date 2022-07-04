@@ -1,7 +1,7 @@
 #ifndef TOPOLOGYSERVICEIMPL_H
 #define TOPOLOGYSERVICEIMPL_H
 
-#include <template/AfterConstructInitialization.h>
+#include "../src/template/AfterConstructInitialization.h"
 
 #include <QSet>
 #include <QSharedPointer>

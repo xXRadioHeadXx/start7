@@ -1,4 +1,4 @@
-#include "SWPSOTADDCType0x32.h"
+#include "../src/statewordparsers/swpsota/SWPSOTADDCType0x32.h"
 
 int SWPSOTADDCType0x32::getY4() const
 {

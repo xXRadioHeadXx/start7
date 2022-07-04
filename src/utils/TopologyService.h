@@ -1,8 +1,8 @@
 #ifndef TOPOLOGYSERVICE_H
 #define TOPOLOGYSERVICE_H
 
-#include "TopologyServiceImpl.h"
-#include <template/SingletonTemplate.h>
+#include "../src/utils/TopologyServiceImpl.h"
+#include "../src/template/SingletonTemplate.h"
 
 class TopologyService : public TopologyServiceImpl, public SingletonTemplate<TopologyService>
 {

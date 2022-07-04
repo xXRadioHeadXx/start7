@@ -1,7 +1,7 @@
 #ifndef SWPSOTABODTYPE0X34_H
 #define SWPSOTABODTYPE0X34_H
 
-#include <SWP.h>
+#include "../src/statewordparsers/SWP.h"
 
 class SWPSOTADDType0x34;
 class SWPSOTABODType0x34 : public SWP

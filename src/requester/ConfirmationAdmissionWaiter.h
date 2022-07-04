@@ -1,7 +1,7 @@
 #ifndef CONFIRMATIONADMISSIONWAITER_H
 #define CONFIRMATIONADMISSIONWAITER_H
 
-#include "AbstractRequester.h"
+#include "../src/requester/AbstractRequester.h"
 
 class ConfirmationAdmissionWaiter final : public AbstractRequester
 {

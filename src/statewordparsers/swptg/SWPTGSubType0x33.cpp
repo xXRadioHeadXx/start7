@@ -1,4 +1,4 @@
-#include "swptg/SWPTGSubType0x33.h"
+#include "../src/statewordparsers/swptg/SWPTGSubType0x33.h"
 
 int SWPTGSubType0x33::getFlang() const
 {

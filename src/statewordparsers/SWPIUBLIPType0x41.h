@@ -1,7 +1,7 @@
 #ifndef SWPIUBLIPTYPE0X41_H
 #define SWPIUBLIPTYPE0X41_H
 
-#include "SWP.h"
+#include "../src/statewordparsers/SWP.h"
 
 class SWPIUBLIPType0x41 : public SWP
 {

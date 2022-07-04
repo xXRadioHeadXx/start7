@@ -1,4 +1,4 @@
-#include "SWPSDBLIPType0x42.h"
+#include "../src/statewordparsers/SWPSDBLIPType0x42.h"
 
 quint8 SWPSDBLIPType0x42::mask() const
 {

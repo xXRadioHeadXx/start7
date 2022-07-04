@@ -1,9 +1,9 @@
 #ifndef SWPT4KY4TYPE0X32_H
 #define SWPT4KY4TYPE0X32_H
 
-#include "SWP.h"
-#include "SWPInAlarm.h"
-#include "SWPWasAlarm.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPInAlarm.h"
+#include "../src/statewordparsers/SWPWasAlarm.h"
 
 class SWPT4KDDType0x32;
 class SWPT4KY4Type0x32 :

@@ -1,11 +1,11 @@
-#include "DataQueueItem.h"
-#include "global.h"
-#include "UnitNode.h"
-#include "swpblip/SWPBLIPType0x41.h"
-#include "swptg/SWPTGType0x34.h"
-#include "swpssoiblip/SWPSSOIBLIPType0x41.h"
+#include "../src/port/DataQueueItem.h"
+#include "../src/global.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/statewordparsers/swpblip/SWPBLIPType0x41.h"
+#include "../src/statewordparsers/swptg/SWPTGType0x34.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOIBLIPType0x41.h"
 
-#include "TopologyService.h"
+#include "../src/utils/TopologyService.h"
 
 QByteArray DataQueueItem::preamble() const
 {

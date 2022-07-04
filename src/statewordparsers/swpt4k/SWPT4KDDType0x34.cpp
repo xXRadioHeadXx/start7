@@ -1,5 +1,5 @@
-#include "SWPT4KDDCType0x34.h"
-#include "SWPT4KDDType0x34.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDCType0x34.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDType0x34.h"
 
 int SWPT4KDDType0x34::getY4() const
 {

@@ -1,7 +1,7 @@
 #ifndef HANDLERSTATEWORDABSTRACT_H
 #define HANDLERSTATEWORDABSTRACT_H
 
-#include <DataQueueItem.h>
+#include "../src/port/DataQueueItem.h"
 #include <QSharedPointer>
 
 class DataQueueItem;

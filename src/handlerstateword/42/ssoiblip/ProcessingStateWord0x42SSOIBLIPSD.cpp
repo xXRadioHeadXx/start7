@@ -1,10 +1,10 @@
 #include "ProcessingStateWord0x42SSOIBLIPSD.h"
 
-#include "UnitNode.h"
-#include "UnitNodeFactory.h"
-#include "SignalSlotCommutator.h"
-#include "TopologyService.h"
-#include "swpssoiblip/SWPSSOISDBLIPType0x42.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOISDBLIPType0x42.h"
 
 
 ProcessingStateWord0x42SSOIBLIPSD::ProcessingStateWord0x42SSOIBLIPSD(const StateWord &data, const QSharedPointer<UnitNode> &un) :

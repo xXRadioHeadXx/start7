@@ -5,7 +5,7 @@
 #include <QtMath>
 #include <QBrush>
 
-#include "UnitNode.h"
+#include "../src/entity/UnitNode.h"
 
 
 class UnitNode;

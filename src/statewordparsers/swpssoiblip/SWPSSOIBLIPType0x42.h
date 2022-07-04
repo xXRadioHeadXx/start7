@@ -1,7 +1,7 @@
 #ifndef SWPSSOIBLIPTYPE0X42_H
 #define SWPSSOIBLIPTYPE0X42_H
 
-#include "swpssoiblip/SWPSSOISDBLIPType0x42.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOISDBLIPType0x42.h"
 
 
 

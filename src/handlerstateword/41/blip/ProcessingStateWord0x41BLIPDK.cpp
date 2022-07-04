@@ -1,11 +1,11 @@
 #include "ProcessingStateWord0x41BLIPDK.h"
 
 #include <QDebug>
-#include "TopologyService.h"
-#include "UnitNode.h"
-#include "swpblip/SWPSDBLIPType0x41.h"
-#include "UnitNodeFactory.h"
-#include "SignalSlotCommutator.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/statewordparsers/swpblip/SWPSDBLIPType0x41.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/utils/SignalSlotCommutator.h"
 
 
 

@@ -1,11 +1,11 @@
 #ifndef SWPT4KDDTYPE0X32_H
 #define SWPT4KDDTYPE0X32_H
 
-#include "SWP.h"
-#include "SWPInOpened.h"
-#include "SWPWasOpened.h"
-#include "SWPInCommunicationBreak.h"
-#include "SWPWasCommunicationBreak.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPInOpened.h"
+#include "../src/statewordparsers/SWPWasOpened.h"
+#include "../src/statewordparsers/SWPInCommunicationBreak.h"
+#include "../src/statewordparsers/SWPWasCommunicationBreak.h"
 
 class SWPT4KDDCType0x32;
 class SWPT4KDDType0x32 :

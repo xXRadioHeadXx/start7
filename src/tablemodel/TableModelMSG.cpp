@@ -1,9 +1,9 @@
 #include <QByteArray>
 
 #include "TableModelMSG.h"
-#include "DataBaseManager.h"
-#include "SignalSlotCommutator.h"
-#include "Icons.h"
+#include "../src/database/DataBaseManager.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/utils/Icons.h"
 
 QList<JourEntity> TableModelMSG::m_listMSG = QList<JourEntity>();
 

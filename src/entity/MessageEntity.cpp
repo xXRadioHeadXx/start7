@@ -1,6 +1,6 @@
-#include <MessageEntity.h>
+#include "../src/entity/MessageEntity.h"
 
-#include <Utils.h>
+#include "../src/utils/Utils.h"
 
 
 MessageEntity::MessageEntity(QObject *parent) : QObject(parent)

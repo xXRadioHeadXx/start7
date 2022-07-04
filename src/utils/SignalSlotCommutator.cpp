@@ -1,4 +1,4 @@
-#include "SignalSlotCommutator.h"
+#include "../src/utils/SignalSlotCommutator.h"
 #include <QSharedPointer>
 #include <QDebug>
 

@@ -1,4 +1,4 @@
-#include "swpblip/SWPSDBLIPType0x41.h"
+#include "../src/statewordparsers/swpblip/SWPSDBLIPType0x41.h"
 
 uint8_t SWPSDBLIPType0x41::mask() const
 {

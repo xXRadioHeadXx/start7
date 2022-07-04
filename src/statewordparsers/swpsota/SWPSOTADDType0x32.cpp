@@ -1,5 +1,5 @@
-#include "SWPSOTADDCType0x32.h"
-#include "SWPSOTADDType0x32.h"
+#include "../src/statewordparsers/swpsota/SWPSOTADDCType0x32.h"
+#include "../src/statewordparsers/swpsota/SWPSOTADDType0x32.h"
 
 int SWPSOTADDType0x32::getY4() const
 {

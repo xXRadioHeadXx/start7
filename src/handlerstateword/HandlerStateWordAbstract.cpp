@@ -1,7 +1,7 @@
-#include "HandlerStateWordAbstract.h"
+#include "../src/handlerstateword/HandlerStateWordAbstract.h"
 
-#include "DataQueueItem.h"
-#include "TopologyService.h"
+#include "../src/port/DataQueueItem.h"
+#include "../src/utils/TopologyService.h"
 
 HandlerStateWordAbstract::HandlerStateWordAbstract(const DataQueueItem &dataItem) :
     dataItem(dataItem)

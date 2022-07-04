@@ -2,7 +2,7 @@
 #define AUTHENTICATIONDIALOG_H
 
 #include <QDialog>
-#include "Operator.h"
+#include "../src/entity/Operator.h"
 #include <QCoreApplication>
 
 namespace Ui {

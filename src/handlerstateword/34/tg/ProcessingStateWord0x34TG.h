@@ -1,7 +1,7 @@
 #ifndef PROCESSINGSTATEWORD0X34TG_H
 #define PROCESSINGSTATEWORD0X34TG_H
 
-#include <ProcessingStateWordAbstract.h>
+#include "../src/handlerstateword/ProcessingStateWordAbstract.h"
 
 class ProcessingStateWord0x34TG : public ProcessingStateWordAbstract
 {

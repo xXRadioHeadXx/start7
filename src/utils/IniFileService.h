@@ -1,13 +1,13 @@
 #ifndef INIFILESERVICE_H
 #define INIFILESERVICE_H
 
-#include "template/SingletonTemplate.h"
+#include "../src/template/SingletonTemplate.h"
 
-#include "IniFileServiceImpl.h"
+#include "../src/utils/IniFileServiceImpl.h"
 
 #include <QSharedPointer>
-#include <UnitNode.h>
-#include "SimpleIni.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/utils/SimpleIni.h"
 
 
 class IniFileService : public IniFileServiceImpl, public SingletonTemplate<IniFileService>

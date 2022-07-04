@@ -1,9 +1,9 @@
 #ifndef THREADPOOL_H
 #define THREADPOOL_H
 
-#include "template/SingletonTemplate.h"
-#include "template/AfterConstructInitialization.h"
-#include "ctpl_stl.h"
+#include "../src/template/SingletonTemplate.h"
+#include "../src/template/AfterConstructInitialization.h"
+#include "../src/ctpl/ctpl_stl.h"
 
 
 class ThreadPool : public ctpl::thread_pool, public AfterConstructInitialization, public SingletonTemplate<ThreadPool>

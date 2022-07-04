@@ -1,9 +1,9 @@
 #include "ProcessingStateWord0x42SSOIBLIPDK.h"
 
-#include "UnitNode.h"
-#include "UnitNodeFactory.h"
-#include "SignalSlotCommutator.h"
-#include "TopologyService.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/utils/TopologyService.h"
 
 ProcessingStateWord0x42SSOIBLIPDK::ProcessingStateWord0x42SSOIBLIPDK(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

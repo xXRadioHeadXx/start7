@@ -1,8 +1,8 @@
 #include "HandlerStateWord0x34.h"
-#include "ProcessingStateWord0x34SOTADD.h"
-#include "ProcessingStateWord0x34T4KDD.h"
-#include "ProcessingStateWord0x34TG.h"
-#include "ProcessingStateWord0x34TGDK.h"
+#include "../src/handlerstateword/34/sota/ProcessingStateWord0x34SOTADD.h"
+#include "../src/handlerstateword/34/t4k/ProcessingStateWord0x34T4KDD.h"
+#include "../src/handlerstateword/34/tg/ProcessingStateWord0x34TG.h"
+#include "../src/handlerstateword/34/tg/ProcessingStateWord0x34TGDK.h"
 
 HandlerStateWord0x34::HandlerStateWord0x34(const DataQueueItem &dataItem) :
     HandlerStateWordAbstract(dataItem)

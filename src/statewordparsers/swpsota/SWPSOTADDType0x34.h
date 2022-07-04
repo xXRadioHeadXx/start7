@@ -1,8 +1,8 @@
 #ifndef SWPSOTADDTYPE0X34_H
 #define SWPSOTADDTYPE0X34_H
 
-#include <SWP.h>
-#include "SWPWeakening.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPWeakening.h"
 
 class SWPSOTADDFType0x34;
 class SWPSOTADDType0x34 :

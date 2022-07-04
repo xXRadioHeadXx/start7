@@ -1,19 +1,19 @@
-#include "LockWaiter.h"
-#include "SignalSlotCommutator.h"
+#include "../src/requester/LockWaiter.h"
+#include "../src/utils/SignalSlotCommutator.h"
 
-#include "PortManager.h"
-#include "UnitNodeFactory.h"
-#include "ServerSettingUtils.h"
-#include "Utils.h"
-#include "global.h"
-#include "swpblip/SWPSDBLIPType0x41.h"
-#include "swpblip/SWPIUBLIPType0x41.h"
-#include "swpssoiblip/SWPSSOISDBLIPType0x41.h"
-#include "swpssoiblip/SWPSSOIIUBLIPType0x41.h"
+#include "../src/port/PortManager.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/utils/ServerSettingUtils.h"
+#include "../src/utils/Utils.h"
+#include "../src/global.h"
+#include "../src/statewordparsers/swpblip/SWPSDBLIPType0x41.h"
+#include "../src/statewordparsers/swpblip/SWPIUBLIPType0x41.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOISDBLIPType0x41.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOIIUBLIPType0x41.h"
 
-#include "MessageBoxServer.h"
+#include "../src/utils/MessageBoxServer.h"
 
-#include "TopologyService.h"
+#include "../src/utils/TopologyService.h"
 
 LockWaiter::LockWaiter(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

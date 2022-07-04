@@ -1,12 +1,12 @@
-#include "MultiUNStatusConnectRequester.h"
+#include "../src/requester/MultiUNStatusConnectRequester.h"
 
-#include "SignalSlotCommutator.h"
+#include "../src/utils/SignalSlotCommutator.h"
 
-#include "PortManager.h"
-#include "Utils.h"
-#include "global.h"
+#include "../src/port/PortManager.h"
+#include "../src/utils/Utils.h"
+#include "../src/global.h"
 
-#include "TopologyService.h"
+#include "../src/utils/TopologyService.h"
 
 MultiUNStatusConnectRequester::MultiUNStatusConnectRequester(QSharedPointer<UnitNode>  target, RequesterType requesterType) : AbstractRequester(target, requesterType)
 {

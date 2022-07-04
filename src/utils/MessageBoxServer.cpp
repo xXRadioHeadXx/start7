@@ -1,6 +1,6 @@
-#include "MessageBoxServer.h"
+#include "../src/utils/MessageBoxServer.h"
 
-#include "JourEntity.h"
+#include "../src/entity/JourEntity.h"
 #include <QMessageBox>
 
 int MessageBoxServer::infoAllRequiredFieldsInTheDatabaseAreNotFilledIn()

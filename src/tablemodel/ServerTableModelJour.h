@@ -2,7 +2,7 @@
 #define SERVERTABLEMODELJOUR_H
 
 #include <QAbstractItemModel>
-#include "JourEntity.h"
+#include "../src/entity/JourEntity.h"
 #include <QFont>
 
 enum class SwitchOffCondition {

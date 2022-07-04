@@ -1,9 +1,9 @@
 #ifndef SWPT4KDDTYPE0X34_H
 #define SWPT4KDDTYPE0X34_H
 
-#include "SWP.h"
-#include "SWPT4KDDCType0x34.h"
-#include "SWPWeakening.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDCType0x34.h"
+#include "../src/statewordparsers/SWPWeakening.h"
 
 
 class SWPT4KDDType0x34 :

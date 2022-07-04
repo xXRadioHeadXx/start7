@@ -1,19 +1,19 @@
 #include "ProcessingStateWord0x41SSOIBLIPSD.h"
 
 #include <QDebug>
-#include "JourEntity.h"
-#include "UnitNode.h"
-#include "TopologyService.h"
-#include "global.h"
-#include "swpssoiblip/SWPSSOISDBLIPType0x41.h"
-#include "swpssoiblip/SWPSSOIBLIPType0x41.h"
-#include "UnitNodeFactory.h"
-#include "SignalSlotCommutator.h"
-#include "DataQueueItem.h"
-#include "DataBaseManager.h"
-#include "GraphTerminal.h"
-#include "SoundAdjuster.h"
-#include "MessageBoxServer.h"
+#include "../src/entity/JourEntity.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/global.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOISDBLIPType0x41.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOIBLIPType0x41.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/port/DataQueueItem.h"
+#include "../src/database/DataBaseManager.h"
+#include "../src/port/GraphTerminal.h"
+#include "../src/utils/SoundAdjuster.h"
+#include "../src/utils/MessageBoxServer.h"
 
 ProcessingStateWord0x41SSOIBLIPSD::ProcessingStateWord0x41SSOIBLIPSD(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

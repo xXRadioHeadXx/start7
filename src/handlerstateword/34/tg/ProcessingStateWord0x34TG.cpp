@@ -1,8 +1,8 @@
 #include "ProcessingStateWord0x34TG.h"
 
-#include "UnitNode.h"
-#include "TopologyService.h"
-#include "SignalSlotCommutator.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/utils/SignalSlotCommutator.h"
 
 ProcessingStateWord0x34TG::ProcessingStateWord0x34TG(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

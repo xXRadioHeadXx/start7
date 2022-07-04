@@ -1,7 +1,7 @@
 #ifndef MESSAGEBOXSERVER_H
 #define MESSAGEBOXSERVER_H
 
-#include "template/SingletonTemplate.h"
+#include "../template/SingletonTemplate.h"
 
 #include <QObject>
 #include <QString>

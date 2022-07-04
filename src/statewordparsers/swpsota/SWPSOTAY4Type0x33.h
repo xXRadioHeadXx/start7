@@ -1,9 +1,9 @@
 #ifndef SWPSOTAY4TYPE0X33_H
 #define SWPSOTAY4TYPE0X33_H
 
-#include <SWP.h>
-#include "SWPInAlarm.h"
-#include "SWPWasAlarm.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPInAlarm.h"
+#include "../src/statewordparsers/SWPWasAlarm.h"
 
 class SWPSOTAY4Type0x33 :
         public SWP

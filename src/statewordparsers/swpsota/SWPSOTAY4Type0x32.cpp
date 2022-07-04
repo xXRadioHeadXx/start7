@@ -1,5 +1,5 @@
-#include "SWPSOTADDType0x32.h"
-#include "SWPSOTAY4Type0x32.h"
+#include "../src/statewordparsers/swpsota/SWPSOTADDType0x32.h"
+#include "../src/statewordparsers/swpsota/SWPSOTAY4Type0x32.h"
 
 SWPSOTAY4Type0x32::SWPSOTAY4Type0x32(const StateWord &stateWord, const int y4) :
     SWP(stateWord)

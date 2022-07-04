@@ -1,11 +1,11 @@
-﻿#include "DataBaseManager.h"
-#include "SignalSlotCommutator.h"
-#include "Utils.h"
-#include "Operator.h"
-#include <IniFileService.h>
+﻿#include "../src/database/DataBaseManager.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/utils/Utils.h"
+#include "../src/entity/Operator.h"
+#include "../src/utils/IniFileService.h"
 #include <QTextCodec>
-#include "SimpleIni.h"
-#include "ServerSettingUtils.h"
+#include "../src/utils/SimpleIni.h"
+#include "../src/utils/ServerSettingUtils.h"
 #include <QMessageBox>
 
 qint64 DataBaseManager::idStartLastDuty = -1;

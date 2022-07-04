@@ -1,9 +1,9 @@
 #include "ProcessingStateWord0x42BLIPSD.h"
-#include "UnitNode.h"
-#include "TopologyService.h"
-#include "UnitNodeFactory.h"
-#include "SignalSlotCommutator.h"
-#include "swpblip/SWPSDBLIPType0x42.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/statewordparsers/swpblip/SWPSDBLIPType0x42.h"
 
 ProcessingStateWord0x42BLIPSD::ProcessingStateWord0x42BLIPSD(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

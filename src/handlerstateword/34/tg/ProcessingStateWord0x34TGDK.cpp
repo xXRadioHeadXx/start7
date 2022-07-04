@@ -1,9 +1,9 @@
 #include "ProcessingStateWord0x34TGDK.h"
 
-#include "UnitNode.h"
-#include "SignalSlotCommutator.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/utils/SignalSlotCommutator.h"
 
-#include "TopologyService.h"
+#include "../src/utils/TopologyService.h"
 
 ProcessingStateWord0x34TGDK::ProcessingStateWord0x34TGDK(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

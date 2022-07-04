@@ -1,7 +1,7 @@
 #include "TopologyServiceImpl.h"
-#include "IniFileService.h"
-#include "UnitNodeFactory.h"
-#include "global.h"
+#include "../src/utils/IniFileService.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/global.h"
 
 TopologyServiceImpl::TopologyServiceImpl() :
     AfterConstructInitialization()

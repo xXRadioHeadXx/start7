@@ -1,8 +1,8 @@
 ﻿#include "ServerTreeModelUnitNode.h"
-#include "ServerSettingUtils.h"
-#include "SignalSlotCommutator.h"
+#include "../src/utils/ServerSettingUtils.h"
+#include "../src/utils/SignalSlotCommutator.h"
 #include <QPixmap>
-#include "TopologyService.h"
+#include "../src/utils/TopologyService.h"
 
 SubTypeApp ServerTreeModelUnitNode::getTypeApp() const
 {

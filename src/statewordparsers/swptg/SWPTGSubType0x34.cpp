@@ -1,4 +1,4 @@
-#include "swptg/SWPTGSubType0x34.h"
+#include "../src/statewordparsers/swptg/SWPTGSubType0x34.h"
 
 SWPTGSubType0x34::SWPTGSubType0x34(const StateWord &stateWord) :
     SWP(stateWord)

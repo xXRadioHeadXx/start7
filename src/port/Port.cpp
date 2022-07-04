@@ -5,10 +5,10 @@
 #include <QTcpSocket>
 #include <QTcpSocket>
 
-#include "DataQueueItem.h"
-#include "Port.h"
-#include "Utils.h"
-#include "global.h"
+#include "../src/port/DataQueueItem.h"
+#include "../src/port/Port.h"
+#include "../src/utils/Utils.h"
+#include "../src/global.h"
 
 void Port::setDbm(QSharedPointer<DataBaseManager> dbm)
 {

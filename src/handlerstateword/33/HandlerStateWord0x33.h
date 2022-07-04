@@ -1,7 +1,7 @@
 #ifndef HANDLERSTATEWORD0X33_H
 #define HANDLERSTATEWORD0X33_H
 
-#include <HandlerStateWordAbstract.h>
+#include "../src/handlerstateword/HandlerStateWordAbstract.h"
 
 class HandlerStateWord0x33 : public HandlerStateWordAbstract
 {

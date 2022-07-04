@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QSharedPointer>
-#include "template/SingletonTemplate.h"
+#include "../src/template/SingletonTemplate.h"
 #include <QSound>
 
 class SoundAdjuster : public QObject,  public AfterConstructInitialization, public SingletonTemplate<SoundAdjuster>

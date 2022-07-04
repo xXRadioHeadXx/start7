@@ -1,11 +1,11 @@
 #ifndef SWPSOTADDTYPE0X32_H
 #define SWPSOTADDTYPE0X32_H
 
-#include "SWP.h"
-#include "SWPWasAlarm.h"
-#include "SWPFault.h"
-#include "SWPInCommunicationBreak.h"
-#include "SWPWasCommunicationBreak.h"
+#include "../src/statewordparsers/SWP.h"
+#include "../src/statewordparsers/SWPWasAlarm.h"
+#include "../src/statewordparsers/SWPFault.h"
+#include "../src/statewordparsers/SWPInCommunicationBreak.h"
+#include "../src/statewordparsers/SWPWasCommunicationBreak.h"
 
 class SWPSOTADDCType0x32;
 class SWPSOTADDType0x32 :

@@ -1,4 +1,4 @@
-#include "SWP.h"
+#include "../src/statewordparsers/SWP.h"
 
 const StateWord &SWP::getStateWord() const
 {

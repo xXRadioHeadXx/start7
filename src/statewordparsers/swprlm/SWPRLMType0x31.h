@@ -1,7 +1,7 @@
 #ifndef SWPRLMTYPE0X31_H
 #define SWPRLMTYPE0X31_H
 
-#include "SWP.h"
+#include "../src/statewordparsers/SWP.h"
 
 class SWPRLMType0x31 : public SWP
 {

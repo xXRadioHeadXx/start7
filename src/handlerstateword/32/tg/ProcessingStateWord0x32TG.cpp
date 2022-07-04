@@ -1,16 +1,16 @@
 #include "ProcessingStateWord0x32TG.h"
 
-#include "UnitNode.h"
-#include "UnitNodeFactory.h"
-#include "swptg/SWPTGType0x32.h"
-#include "swptg/SWPTGSubType0x32.h"
-#include "global.h"
-#include "DataBaseManager.h"
-#include "TopologyService.h"
-#include "SignalSlotCommutator.h"
-#include "GraphTerminal.h"
-#include "SoundAdjuster.h"
-#include "MessageBoxServer.h"
+#include "../src/entity/UnitNode.h"
+#include "../src/entity/UnitNodeFactory.h"
+#include "../src/statewordparsers/swptg/SWPTGType0x32.h"
+#include "../src/statewordparsers/swptg/SWPTGSubType0x32.h"
+#include "../src/global.h"
+#include "../src/database/DataBaseManager.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/port/GraphTerminal.h"
+#include "../src/utils/SoundAdjuster.h"
+#include "../src/utils/MessageBoxServer.h"
 
 ProcessingStateWord0x32TG::ProcessingStateWord0x32TG(const StateWord &data, const QSharedPointer<UnitNode> &un) :
     ProcessingStateWordAbstract(data, un)

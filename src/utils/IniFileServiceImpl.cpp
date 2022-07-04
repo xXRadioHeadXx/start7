@@ -1,7 +1,7 @@
-#include "IniFileServiceImpl.h"
+#include "../src/utils/IniFileServiceImpl.h"
 
 #include <QTextCodec>
-#include "UnitNodeFactory.h"
+#include "../src/entity/UnitNodeFactory.h"
 
 QSharedPointer<UnitNode> IniFileServiceImpl::makeSharedUnitNodeBySection(const QString section)
 {

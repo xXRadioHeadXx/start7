@@ -3,8 +3,8 @@
 #include <QSettings>
 #include <QDebug>
 #include <UnitNodeCFG.h>
-#include <Utils.h>
-#include <global.h>
+#include "../src/utils/Utils.h"
+#include "../src/global.h"
 #include <QTextCodec>
 
 SettingUtils::SettingUtils()

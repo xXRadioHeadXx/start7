@@ -1,13 +1,13 @@
 #ifndef SWPSOTABODTYPE0X32_H
 #define SWPSOTABODTYPE0X32_H
 
-#include "SWP.h"
+#include "../src/statewordparsers/SWP.h"
 
-#include "SWPExistDK.h"
-#include "SWPInOpened.h"
-#include "SWPReady.h"
-#include "SWPWasDK.h"
-#include "SWPWasOpened.h"
+#include "../src/statewordparsers/SWPExistDK.h"
+#include "../src/statewordparsers/SWPInOpened.h"
+#include "../src/statewordparsers/SWPReady.h"
+#include "../src/statewordparsers/SWPWasDK.h"
+#include "../src/statewordparsers/SWPWasOpened.h"
 
 class SWPSOTAY4Type0x32;
 class SWPSOTABODType0x32 :

@@ -1,13 +1,13 @@
 #ifndef SWPSOTADDFTYPE0X34_H
 #define SWPSOTADDFTYPE0X34_H
 
-#include "SWPCountImpact.h"
-#include "SWPDurationOvercoming.h"
-#include "SWPTimeImpact.h"
-#include "SWPThreshold.h"
-#include <SWPOff.h>
-#include <SWPOn.h>
-#include "SWP.h"
+#include "../src/statewordparsers/SWPCountImpact.h"
+#include "../src/statewordparsers/SWPDurationOvercoming.h"
+#include "../src/statewordparsers/SWPTimeImpact.h"
+#include "../src/statewordparsers/SWPThreshold.h"
+#include "../src/statewordparsers/SWPOff.h"
+#include "../src/statewordparsers/SWPOn.h"
+#include "../src/statewordparsers/SWP.h"
 
 class SWPSOTADDFType0x34 :
         public SWP

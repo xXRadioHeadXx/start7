@@ -1,4 +1,4 @@
-#include "SWPT4KDDCType0x32.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDCType0x32.h"
 
 int SWPT4KDDCType0x32::getY4() const
 {

@@ -1,4 +1,4 @@
-#include "SoundAdjuster.h"
+#include "../src/utils/SoundAdjuster.h"
 #include <QCoreApplication>
 #include <QDebug>
 #include <QWeakPointer>

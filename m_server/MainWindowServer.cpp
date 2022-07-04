@@ -1,44 +1,44 @@
 #include "MainWindowServer.h"
 #include "ui_MainWindowServer.h"
 
-#include "ComboBoxDelegate.h"
+#include "../src/tablemodel/ComboBoxDelegate.h"
 #include <QCloseEvent>
 #include <QNetworkDatagram>
 #include <QTimer>
 #include <QHeaderView>
 
-#include "Port.h"
-#include "SignalSlotCommutator.h"
-#include "Utils.h"
-#include "ServerSettingUtils.h"
-#include "global.h"
+#include "../src/port/Port.h"
+#include "../src/utils/SignalSlotCommutator.h"
+#include "../src/utils/Utils.h"
+#include "../src/utils/ServerSettingUtils.h"
+#include "../src/global.h"
 
-#include "swprlm/SWPRLMType0x31.h"
-#include "swprlmc/SWPRLMCType0x31.h"
-#include "swpblip/SWPSDBLIPType0x41.h"
-#include "swpblip/SWPIUBLIPType0x41.h"
-#include "swptg/SWPTGType0x31.h"
-#include "ServerTableModelJour.h"
-#include <IniFileService.h>
-#include <MessageBoxServer.h>
+#include "../src/statewordparsers/swprlm/SWPRLMType0x31.h"
+#include "../src/statewordparsers/swprlmc/SWPRLMCType0x31.h"
+#include "../src/statewordparsers/swpblip/SWPSDBLIPType0x41.h"
+#include "../src/statewordparsers/swpblip/SWPIUBLIPType0x41.h"
+#include "../src/statewordparsers/swptg/SWPTGType0x31.h"
+#include "../src/tablemodel/ServerTableModelJour.h"
+#include "../src/utils/IniFileService.h"
+#include "../src/utils/MessageBoxServer.h"
 #include <QScrollBar>
-#include "TopologyService.h"
-#include "swptg/SWPTGSubType0x34.h"
-#include "swptg/SWPTGType0x34.h"
-#include "swpssoiblip/SWPSSOISDBLIPType0x41.h"
-#include "swpssoiblip/SWPSSOIIUBLIPType0x41.h"
-#include "swpt4k/SWPT4KBODType0x34.h"
-#include "swpt4k/SWPT4KDDType0x34.h"
-#include "swpt4k/SWPT4KDDCType0x34.h"
-#include "swpt4k/SWPT4KDDCFType0x34.h"
-#include "swpsota/SWPSOTABODType0x34.h"
-#include "swpsota/SWPSOTADDType0x34.h"
-#include "swpsota/SWPSOTADDFType0x34.h"
+#include "../src/utils/TopologyService.h"
+#include "../src/statewordparsers/swptg/SWPTGSubType0x34.h"
+#include "../src/statewordparsers/swptg/SWPTGType0x34.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOISDBLIPType0x41.h"
+#include "../src/statewordparsers/swpssoiblip/SWPSSOIIUBLIPType0x41.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KBODType0x34.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDType0x34.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDCType0x34.h"
+#include "../src/statewordparsers/swpt4k/SWPT4KDDCFType0x34.h"
+#include "../src/statewordparsers/swpsota/SWPSOTABODType0x34.h"
+#include "../src/statewordparsers/swpsota/SWPSOTADDType0x34.h"
+#include "../src/statewordparsers/swpsota/SWPSOTADDFType0x34.h"
 
 
-#include "SoundAdjuster.h"
+#include "../src/utils/SoundAdjuster.h"
 
-#include "UnitNodeFactory.h"
+#include "../src/entity/UnitNodeFactory.h"
 
 #include <cstdlib>
 

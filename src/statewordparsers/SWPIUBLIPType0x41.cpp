@@ -1,4 +1,4 @@
-#include "SWPIUBLIPType0x41.h"
+#include "../src/statewordparsers/SWPIUBLIPType0x41.h"
 
 quint8 SWPIUBLIPType0x41::mask() const
 {

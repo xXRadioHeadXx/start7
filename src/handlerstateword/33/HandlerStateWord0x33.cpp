@@ -1,15 +1,15 @@
 #include "HandlerStateWord0x33.h"
 
-#include "ProcessingStateWord0x33SOTABOD.h"
-#include "ProcessingStateWord0x33SOTADD.h"
-#include "ProcessingStateWord0x33SOTADK.h"
-#include "ProcessingStateWord0x33SOTAY4.h"
-#include "ProcessingStateWord0x33T4KBOD.h"
-#include "ProcessingStateWord0x33T4KDD.h"
-#include "ProcessingStateWord0x33T4KDK.h"
-#include "ProcessingStateWord0x33TG.h"
-#include "ProcessingStateWord0x33TGDK.h"
-#include "ProcessingStateWord0x33T4KY4.h"
+#include "../src/handlerstateword/33/sota/ProcessingStateWord0x33SOTABOD.h"
+#include "../src/handlerstateword/33/sota/ProcessingStateWord0x33SOTADD.h"
+#include "../src/handlerstateword/33/sota/ProcessingStateWord0x33SOTADK.h"
+#include "../src/handlerstateword/33/sota/ProcessingStateWord0x33SOTAY4.h"
+#include "../src/handlerstateword/33/t4k/ProcessingStateWord0x33T4KBOD.h"
+#include "../src/handlerstateword/33/t4k/ProcessingStateWord0x33T4KDD.h"
+#include "../src/handlerstateword/33/t4k/ProcessingStateWord0x33T4KDK.h"
+#include "../src/handlerstateword/33/tg/ProcessingStateWord0x33TG.h"
+#include "../src/handlerstateword/33/tg/ProcessingStateWord0x33TGDK.h"
+#include "../src/handlerstateword/33/t4k/ProcessingStateWord0x33T4KY4.h"
 
 HandlerStateWord0x33::HandlerStateWord0x33(const DataQueueItem &dataItem) :
     HandlerStateWordAbstract(dataItem)

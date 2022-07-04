@@ -3,7 +3,7 @@
 
 #include <QMap>
 #include <QObject>
-#include "template/SingletonTemplate.h"
+#include "../src/template/SingletonTemplate.h"
 
 class ContextArgMap : public QObject, public SingletonTemplate<ContextArgMap>
 {
